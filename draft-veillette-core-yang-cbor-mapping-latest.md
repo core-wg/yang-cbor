@@ -79,20 +79,20 @@ author:
   email: consultancy@vanderstok.org
   uri: http://www.vanderstok.org/
 normative:
-  RFC2119: 
-  RFC6020: 
-  RFC7049: 
-  RFC7159: 
+  RFC2119:
+  RFC6020:
+  RFC7049:
+  RFC7159:
 informative:
-  RFC7223: 
-  RFC7277: 
-  RFC7317: 
+  RFC7223:
+  RFC7277:
+  RFC7317:
 
 --- abstract
 
 This document defines encoding rules for representing configuration, state
 data, RPC input and output parameters, and notifications defined using YANG
-as Concise Binary Object Representation (CBOR) .
+as Concise Binary Object Representation (CBOR, RFC 7049).
 
 --- middle
 
@@ -130,45 +130,18 @@ Object Representation (CBOR) as defined by {{RFC7049}}. Within this document, th
 textual form. This textual form is used strictly for documentation purposes
 and is never transmitted as such.
 
-
-~~~~
-+----------+------+--------------------------+-----------+----------+
-| CBOR     | CBOR | Text representation      | Example   | CBOR     |
-| content  | type |                          |           | encoding |
-+----------+------+--------------------------+-----------+----------+
-| Unsigned | 0    | Decimal digits           | 123       | 18 7b    |
-| integer  |      |                          |           |          |
-|          |      |                          |           |          |
-| Negative | 1    | Decimal digits prefixed  | -123      | 38 7a    |
-| integer  |      | by a minus sign.         |           |          |
-|          |      |                          |           |          |
-| Byte     | 2    | Hexadecimal value        | h' f15c'  | 42 f15c  |
-| string   |      | enclosed between single  |           |          |
-|          |      | quotes and prefixed by   |           |          |
-|          |      | an 'h'.                  |           |          |
-|          |      |                          |           |          |
-| Text     | 3    | String of Unicode        | "txt"     | 63       |
-| string   |      | characters enclosed      |           | 747874   |
-|          |      | between double quotes    |           |          |
-|          |      |                          |           |          |
-| Array    | 4    | Comma separated list     | [ 1, 2 ]  | 82 01 02 |
-|          |      | of values within         |           |          |
-|          |      | square brackets.         |           |          |
-|          |      |                          |           |          |
-| Map      | 5    | Comma separated list     | {         | a2       |
-|          |      | of name/value pair       |   1: 123, |  01187b  |
-|          |      | within curly braces.     |   2: 456  |  021901c8|
-|          |      |                          | }         |          |
-|          |      |                          |           |          |
-| Boolean  | 7/20 | false                    | false     | f4       |
-|          | 7/21 | true                     | true      | f5       |
-|          |      |                          |           |          |
-| Null     | 7/22 | null                     | null      | f6       |
-|          |      |                          |           |          |
-| Not      | 7/23 | undefined                | undefined | f7       |
-| assigned |      |                          |           |          |
-+----------+------+--------------------------+-----------+----------+
-~~~~
+| CBOR content     | CBOR type | Text representation                                                     | Example            | CBOR encoding      |
+|------------------+-----------+-------------------------------------------------------------------------+--------------------+--------------------|
+| Unsigned integer |         0 | Decimal digits                                                          | 123                | 18 7b              |
+| Negative integer |         1 | Decimal digits prefixed by a minus sign                                 | -123               | 38 7a              |
+| Byte string      |         2 | Hexadecimal value enclosed between single quotes and prefixed by an 'h' | h'f15c'            | 42 f15c            |
+| Text string      |         3 | String of Unicode characters enclosed between double quotes             | "txt"              | 63 747874          |
+| Array            |         4 | Comma separated list of values within square brackets                   | [ 1, 2 ]           | 82 01 02           |
+| Map              |         5 | Comma separated list of name/value pair within curly braces             | { 1: 123, 2: 456 } | a2 01187b 021901c8 |
+| Boolean          |      7/20 | false                                                                   | false              | f4                 |
+|                  |      7/21 | true                                                                    | true               | f5                 |
+| Null             |      7/22 | null                                                                    | null               | f6                 |
+| Not assigned     |      7/23 | undefined                                                               | undefined          | f7                 |
 {: align="left"}
 
 
@@ -187,8 +160,9 @@ subsections describe the encoding of different leaf types.
 Leafs of type binary MUST be encoded using a CBOR byte string data item (major
 type 2).
 
+Definition example:
 
-~~~~
+~~~~ YANG
 leaf aes128-key {
   type binary {
     length 16;
@@ -209,8 +183,9 @@ type 2). Bits position 0 to 7 are assigned to the first byte within the byte
 string, bits 8 to 15 to the second byte, and subsequent bytes are assigned
 similarly. Within each byte, bits are assigned from least to most significant.
 
+Definition example [RFC6020]:
 
-~~~~
+~~~~ YANG
 leaf mybits {
   type bits {
     bit disable-nagle {
@@ -232,14 +207,15 @@ Textual form: h'05' (Represents bits disable-nagle and 10-Mb-only set)
 CBOR encoding: 41 05
 
 
-### YANG type: boolean 
+### YANG type: boolean
 
 Leafs of type boolean MUST be encoded using a CBOR true (major type 7, additional
 information 21) or false data item (major type 7, additional information
 20).
 
+Definition example [RFC7317]:
 
-~~~~
+~~~~ YANG
 leaf enabled {
   type boolean;
 }
@@ -251,14 +227,15 @@ Textual form: true
 CBOR encoding: f5
 
 
-### YANG type: decimal64 
+### YANG type: decimal64
 
 Leafs of type decimal64 MUST be encoded using either CBOR unsigned integer
 (major type 0) or CBOR signed integer (major type 1), depending on the actual
 value.
 
+Definition example [RFC7317]:
 
-~~~~
+~~~~ YANG
 leaf my-decimal {
   type decimal64 {
     fraction-digits 2;
@@ -273,13 +250,14 @@ Textual form: 257 (Represents decimal value 2.57)
 CBOR encoding: 19 0101
 
 
-### YANG type: empty 
+### YANG type: empty
 
 Leafs of type empty MUST be encoded using the CBOR null value (major type
 7, additional information 22).
 
+Definition example [RFC7277]:
 
-~~~~
+~~~~ YANG
 leaf is-router {
   type empty;
 }
@@ -291,13 +269,14 @@ Textual form: null
 CBOR encoding: f6
 
 
-### YANG type: enumeration 
+### YANG type: enumeration
 
 Leafs of type enumeration MUST be encoded using a CBOR unsigned integer data
 item (major type 0).
 
+Definition example [RFC7317]:
 
-~~~~
+~~~~ YANG
 leaf oper-status {
   type enumeration {
     enum up { value 1; }
@@ -317,7 +296,7 @@ Textual form: 3 (Represents enumeration value "testing")
 CBOR encoding: 03
 
 
-### YANG type: identityref 
+### YANG type: identityref
 
 Leafs of type identityref MUST be encoded using a CBOR text string data item
 (major type 3). Unlike XML, CBOR does not support namespaces. To overcome
@@ -325,8 +304,9 @@ this limitation, identities are encoded using a concatenation of the identity
 name(s) of the referenced identities, excluding the base identity and separated
 by dot(s).
 
+Definition example [RFC7223]:
 
-~~~~
+~~~~ YANG
 identity interface-type {
 }
 
@@ -358,8 +338,9 @@ data node (data node not part of a list), its value MUST be encoded using
 a CBOR unsigned integer data item (major type 0) containing the targeted
 data node ID.
 
+Definition example [RFC7317]:
 
-~~~~
+~~~~ YANG
 container system {
 
   leaf contact {
@@ -393,9 +374,9 @@ to identify the instance of the targeted data node. These keys MUST be ordered
 as defined in the "key" YANG statement, starting from top level list, and
 follow by each of the subordinate list(s).
 
+Definition example [RFC7317]:
 
-
-~~~~
+~~~~ YANG
 list user {
   key name;
 
@@ -431,14 +412,15 @@ ietf-system module, associated with user name "bob" and authorized-key name
 "admin". Assuming module ID = 68 and data node ID = 47.
 
 
-### YANG type: int8, int16, int32, int64 
+### YANG type: int8, int16, int32, int64
 
 Leafs of type int8, int16, int32 and int64 MUST be encoded using either CBOR
 unsigned integer (major type 0) or CBOR signed integer (major type 1), depending
 on the actual value.
 
+Definition example [RFC7317]:
 
-~~~~
+~~~~ YANG
 leaf timezone-utc-offset {
   type int16 {
     range "-1500 .. 1500";
@@ -452,13 +434,14 @@ Textual form: -300
 CBOR encoding: 39 012b
 
 
-### YANG type: leafref 
+### YANG type: leafref
 
 Leafs of type leafref MUST be encoded using the rules of the data node referenced
 by the "path" YANG statement.
 
+Definition example [RFC7223]:
 
-~~~~
+~~~~ YANG
 typedef interface-state-ref {
   type leafref {
     path "/interfaces-state/interface/name";
@@ -484,13 +467,14 @@ Textual form: "eth1.10"
 CBOR encoding: 67 657468312e3130
 
 
-### YANG type: string 
+### YANG type: string
 
 Leafs of type string MUST be encoded using a CBOR text string data item (major
 type 3).
 
+Definition example [RFC7223]:
 
-~~~~
+~~~~ YANG
 leaf name {
   type string;
 }
@@ -502,13 +486,14 @@ Textual form: "eth0"
 CBOR encoding: 64 65746830
 
 
-### YANG type: uint8, uint16, uint32, uint64 
+### YANG type: uint8, uint16, uint32, uint64
 
 Leafs of type uint8, uint16, uint32 and uint64 MUST be encoded using a CBOR
 unsigned integer data item (major type 0).
 
+Definition example [RFC7277]:
 
-~~~~
+~~~~ YANG
 leaf mtu {
   type uint16 {
     range "68..max";
@@ -522,13 +507,14 @@ Textual form: 1280
 CBOR encoding: 19 0500
 
 
-### YANG type: union 
+### YANG type: union
 
 Leafs of type union MUST be encoded using the rules associated with one of
 the type listed.
 
+Definition example [RFC7317]:
 
-~~~~
+~~~~ YANG
 typedef ipv4-address {
   type string {
   pattern '(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}
@@ -566,13 +552,14 @@ Textual form: "[2001:db8:0:1]:80"
 CBOR encoding: 71 5b323030313a6462383a303a315d3a3830
 
 
-### YANG type: anyxml 
+### YANG type: anyxml
 
 The "anyxml" statement represents an unknown data node. The encoding of this
 data node MUST follow the rules of one of the YANG statements listed in {{yang_cbor_mapping}}.
 
+Definition example [RFC6020]:
 
-~~~~
+~~~~ YANG
 anyxml data;
 ~~~~
 {: align="left"}
@@ -581,8 +568,9 @@ Textual form: 123
 
 CBOR encoding: 18 7b
 
+Alternate value:
 
-~~~~
+~~~~ CBORdiag
 {
   1 : 2,
   2 : 55
@@ -605,8 +593,9 @@ ID as the current data node.
 CBOR map values MUST be encoded using the rules associated with the data
 node type.
 
+Definition example [RFC7317]:
 
-~~~~
+~~~~ YANG
 typedef date-and-time {
   type string {
     pattern '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[\+\-]
@@ -626,8 +615,9 @@ container clock {
 ~~~~
 {: align="left"}
 
+Textual form:
 
-~~~~
+~~~~ CBORdiag
 {
   69667 : {
     36 : "2015-10-02T14:47:24Z-05:00",
@@ -637,8 +627,9 @@ container clock {
 ~~~~
 {: align="left"}
 
+CBOR encoding:
 
-~~~~
+~~~~ CBORbytes
 a1
   1a 00011023
   a2
@@ -653,13 +644,14 @@ In this example, we assume that the module ID = 68, data node IDs clock =
 35, current-datetime = 36 and boot-datetime 37.
 
 
-### YANG type: leaf-list 
+### YANG type: leaf-list
 
 A leaf-list MUST be encoded using a CBOR array data item (major type 4).
 Each entry MUST be encoded using the rules defined by the type specified.
 
+Definition example [RFC7317]:
 
-~~~~
+~~~~ YANG
 typedef domain-name {
   type string {
     length "1..253";
@@ -681,14 +673,15 @@ Textual form: [ "ietf.org", "ieee.org" ]
 CBOR encoding: 82  68 696574662e6f7267  68 696565652e6f7267
 
 
-### YANG type: list 
+### YANG type: list
 
 A list MUST be encoded using a CBOR array data item (major type 4). Each
 entry of this array is encoded using a CBOR map data item (major type 5)
 following the same rules as a YANG container.
 
+Definition example [RFC7317]:
 
-~~~~
+~~~~ YANG
 list server {
   key name;
 
@@ -728,8 +721,9 @@ list server {
 ~~~~
 {: align="left"}
 
+Textual form:
 
-~~~~
+~~~~ CBORdiag
 {
   69642 : [
     {
@@ -753,8 +747,9 @@ list server {
 ~~~~
 {: align="left"}
 
+CBOR encoding:
 
-~~~~
+~~~~ CBORbytes
 a1
    1a 0001100a
    82
@@ -778,14 +773,15 @@ In this example, we assume that the module ID = 68, data node IDs server
 iburst = 16, prefer = 17.
 
 
-### YANG type: choice 
+### YANG type: choice
 
 YANG allows the data model to segregate incompatible nodes into distinct
 choices using the "choice" and "case" statements. Encoded payload MUST carry
 data nodes defined in only one of the possible cases.
 
+Definition example [RFC7317]:
 
-~~~~
+~~~~ YANG
 typedef timezone-name {
   type string;
 }
@@ -808,16 +804,18 @@ choice timezone {
 ~~~~
 {: align="left"}
 
+Textual form:
 
-~~~~
+~~~~ CBORdiag
 {
   69638 : "Europe/Stockholm"
 }
 ~~~~
 {: align="left"}
 
+CBOR encoding:
 
-~~~~
+~~~~ CBORbytes
 a1
    1a 00011006
    70
