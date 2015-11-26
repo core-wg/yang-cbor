@@ -123,12 +123,9 @@ what is being identified from all other things within its scope of identificatio
 
 
 
-# Textual representation of CBOR contents
+# CBOR diagnostic notation
 
-CoOL encodes payloads and the "Fields" CoAP option using the Concise Binary
-Object Representation (CBOR) as defined by {{RFC7049}}. Within this document, this binary encoding is represented using an equivalent
-textual form. This textual form is used strictly for documentation purposes
-and is never transmitted as such.
+Within this document, CBOR binary contents are represented using an equivalent textual form called CBOR diagnostic notation. This notation is used strictly for documentation purposes and is never transmitted as such.
 
 | CBOR content     | CBOR type | Text representation                                                     | Example            | CBOR encoding      |
 |------------------+-----------+-------------------------------------------------------------------------+--------------------+--------------------|
@@ -171,7 +168,7 @@ leaf aes128-key {
 ~~~~
 {: align="left"}
 
-Textual form: h'1f1ce6a3f42660d888d92a4d8030476e'
+CBOR diagnostic notation: h'1f1ce6a3f42660d888d92a4d8030476e'
 
 CBOR encoding: 50 1f1ce6a3f42660d888d92a4d8030476e
 
@@ -202,7 +199,7 @@ leaf mybits {
 ~~~~
 {: align="left"}
 
-Textual form: h'05' (Represents bits disable-nagle and 10-Mb-only set)
+CBOR diagnostic notation: h'05' (Represents bits disable-nagle and 10-Mb-only set)
 
 CBOR encoding: 41 05
 
@@ -222,7 +219,7 @@ leaf enabled {
 ~~~~
 {: align="left"}
 
-Textual form: true
+CBOR diagnostic notation: true
 
 CBOR encoding: f5
 
@@ -245,7 +242,7 @@ leaf my-decimal {
 ~~~~
 {: align="left"}
 
-Textual form: 257 (Represents decimal value 2.57)
+CBOR diagnostic notation: 257 (Represents decimal value 2.57)
 
 CBOR encoding: 19 0101
 
@@ -264,7 +261,7 @@ leaf is-router {
 ~~~~
 {: align="left"}
 
-Textual form: null
+CBOR diagnostic notation: null
 
 CBOR encoding: f6
 
@@ -291,7 +288,7 @@ leaf oper-status {
 ~~~~
 {: align="left"}
 
-Textual form: 3 (Represents enumeration value "testing")
+CBOR diagnostic notation: 3 (Represents enumeration value "testing")
 
 CBOR encoding: 03
 
@@ -326,7 +323,7 @@ leaf type {
 ~~~~
 {: align="left"}
 
-Textual form: "iana-interface-type.ethernetCsmacd"
+CBOR diagnostic notation: "iana-interface-type.ethernetCsmacd"
 
 CBOR encoding: 78 22 69616e612d696e746572666163652d747970652e65746865726e657443736d616364
 
@@ -354,7 +351,7 @@ container system {
 ~~~~
 {: align="left"}
 
-Textual form: 69635
+CBOR diagnostic notation: 69635
 
 CBOR encoding: 1a 00011003
 
@@ -403,7 +400,7 @@ list user {
 ~~~~
 {: align="left"}
 
-Textual form: [69679, ["bob", "admin"]]
+CBOR diagnostic notation: [69679, ["bob", "admin"]]
 
 CBOR encoding: 82  1a 0001102f  82  63 626f62  65 61646d696e
 
@@ -429,7 +426,7 @@ leaf timezone-utc-offset {
 ~~~~
 {: align="left"}
 
-Textual form: -300
+CBOR diagnostic notation: -300
 
 CBOR encoding: 39 012b
 
@@ -462,7 +459,7 @@ container interfaces-state {
 ~~~~
 {: align="left"}
 
-Textual form: "eth1.10"
+CBOR diagnostic notation: "eth1.10"
 
 CBOR encoding: 67 657468312e3130
 
@@ -481,7 +478,7 @@ leaf name {
 ~~~~
 {: align="left"}
 
-Textual form: "eth0"
+CBOR diagnostic notation: "eth0"
 
 CBOR encoding: 64 65746830
 
@@ -502,7 +499,7 @@ leaf mtu {
 ~~~~
 {: align="left"}
 
-Textual form: 1280
+CBOR diagnostic notation: 1280
 
 CBOR encoding: 19 0500
 
@@ -547,7 +544,7 @@ leaf address {
 ~~~~
 {: align="left"}
 
-Textual form: "[2001:db8:0:1]:80"
+CBOR diagnostic notation: "[2001:db8:0:1]:80"
 
 CBOR encoding: 71 5b323030313a6462383a303a315d3a3830
 
@@ -564,7 +561,7 @@ anyxml data;
 ~~~~
 {: align="left"}
 
-Textual form: 123
+CBOR diagnostic notation: 123
 
 CBOR encoding: 18 7b
 
@@ -615,7 +612,7 @@ container clock {
 ~~~~
 {: align="left"}
 
-Textual form:
+CBOR diagnostic notation:
 
 ~~~~ CBORdiag
 {
@@ -668,7 +665,7 @@ leaf-list search {
 ~~~~
 {: align="left"}
 
-Textual form: [ "ietf.org", "ieee.org" ]
+CBOR diagnostic notation: [ "ietf.org", "ieee.org" ]
 
 CBOR encoding: 82  68 696574662e6f7267  68 696565652e6f7267
 
@@ -721,7 +718,7 @@ list server {
 ~~~~
 {: align="left"}
 
-Textual form:
+CBOR diagnostic notation:
 
 ~~~~ CBORdiag
 {
@@ -804,7 +801,7 @@ choice timezone {
 ~~~~
 {: align="left"}
 
-Textual form:
+CBOR diagnostic notation:
 
 ~~~~ CBORdiag
 {
