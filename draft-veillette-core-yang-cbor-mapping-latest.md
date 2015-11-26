@@ -134,7 +134,7 @@ Within this document, CBOR binary contents are represented using an equivalent t
 | Byte string      |         2 | Hexadecimal value enclosed between single quotes and prefixed by an 'h' | h'f15c'            | 42 f15c            |
 | Text string      |         3 | String of Unicode characters enclosed between double quotes             | "txt"              | 63 747874          |
 | Array            |         4 | Comma separated list of values within square brackets                   | [ 1, 2 ]           | 82 01 02           |
-| Map              |         5 | Comma separated list of name/value pair within curly braces             | { 1: 123, 2: 456 } | a2 01187b 021901c8 |
+| Map              |         5 | Comma separated list of name/value pairs within curly braces            | { 1: 123, 2: 456 } | a2 01187b 021901c8 |
 | Boolean          |      7/20 | false                                                                   | false              | f4                 |
 |                  |      7/21 | true                                                                    | true               | f5                 |
 | Null             |      7/22 | null                                                                    | null               | f6                 |
