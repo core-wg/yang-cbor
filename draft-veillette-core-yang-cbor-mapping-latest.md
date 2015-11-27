@@ -108,7 +108,7 @@ be interpreted as described in {{RFC2119}}.
 
 This specification makes use of the following terminology:
 
-* Data node: A node in the YANG schema that can be instantiated in a Datastore.
+* Data node: A node in the YANG schema that can be instantiated in a datastore.
 One of container, leaf, leaf-list, list, or anyxml.
 
 * Child data node: A data node defined within a container or a list is a child
