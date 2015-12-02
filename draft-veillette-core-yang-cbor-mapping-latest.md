@@ -87,18 +87,26 @@ informative:
   RFC7223:
   RFC7277:
   RFC7317:
+  RFC7159:
+  RFC7228:
+  I-D.ietf-netmod-rfc6020bis:
+  I-D.draft-ietf-netmod-yang-json:
 
 --- abstract
 
 This document defines encoding rules for representing configuration, state
 data, RPC input and output parameters, and notifications defined using YANG
-as Concise Binary Object Representation (CBOR, RFC 7049).
+as Concise Binary Object Representation (CBOR) [RFC7049].
 
 --- middle
 
 # Introduction
 
-TO DO.
+The specification of YANG 1.1 data modelling language [I-D.ietf-netmod-rfc6020bis] defines only XML encoding for data instances, i.e. contents of configuration datastores, state data, RPC operation or action input and output parameters, and event notifications.
+
+A new set of encoding rules has been defined to allow the use of the same data models in environments based on the JavaScript Object Notation (JSON) Data Interchange Format [RFC7159]. This is accomplished in the JSON Encoding of Data Modeled with YANG specification [I-D.draft-ietf-netmod-yang-json].
+
+The aim of this document is to define a set of encoding rules for the Concise Binary Object Representation (CBOR) [RFC7049]. The resulting encoding is more compact compared to XML and JSON and more suitable of Constrained Nodes and/or Constrained Networks as defined by [RFC7228].
 
 ## Terminology
 
@@ -821,16 +829,11 @@ a1
 {: align="left"}
 
 
-
-
 # Security Considerations
 
-TO DO.
+This document defines an alternative encoding for data modeled in the YANG data modeling language. As such, this encoding doesn’t contribute any new security issues in addition of those identified for the specific protocol or context for which it is used.
 
-
-# IANA Considerations
-
-TO DO.
+To minimize security risks, software on the receiving side SHOULD reject all messages that do not comply to the rules of this document and reply with an appropriate error message to the sender.
 
 
 --- back
