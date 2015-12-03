@@ -90,7 +90,7 @@ informative:
   RFC7159:
   RFC7228:
   I-D.ietf-netmod-rfc6020bis:
-  I-D.draft-ietf-netmod-yang-json:
+  I-D.ietf-netmod-yang-json:
 
 --- abstract
 
@@ -104,7 +104,7 @@ as Concise Binary Object Representation (CBOR) [RFC7049].
 
 The specification of YANG 1.1 data modelling language [I-D.ietf-netmod-rfc6020bis] defines only XML encoding for data instances, i.e. contents of configuration datastores, state data, RPC operation or action input and output parameters, and event notifications.
 
-A new set of encoding rules has been defined to allow the use of the same data models in environments based on the JavaScript Object Notation (JSON) Data Interchange Format [RFC7159]. This is accomplished in the JSON Encoding of Data Modeled with YANG specification [I-D.draft-ietf-netmod-yang-json].
+A new set of encoding rules has been defined to allow the use of the same data models in environments based on the JavaScript Object Notation (JSON) Data Interchange Format [RFC7159]. This is accomplished in the JSON Encoding of Data Modeled with YANG specification [I-D.ietf-netmod-yang-json].
 
 The aim of this document is to define a set of encoding rules for the Concise Binary Object Representation (CBOR) [RFC7049]. The resulting encoding is more compact compared to XML and JSON and more suitable of Constrained Nodes and/or Constrained Networks as defined by [RFC7228].
 
