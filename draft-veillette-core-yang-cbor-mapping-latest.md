@@ -82,7 +82,6 @@ normative:
   RFC2119:
   RFC6020:
   RFC7049:
-  RFC7159:
 informative:
   RFC7223:
   RFC7277:
