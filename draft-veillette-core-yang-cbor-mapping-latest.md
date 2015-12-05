@@ -95,7 +95,7 @@ informative:
 
 This document defines encoding rules for representing configuration, state
 data, RPC input and output parameters, and notifications defined using YANG
-as Concise Binary Object Representation (CBOR) [RFC7049].
+as Concise Binary Object Representation (CBOR, RFC7049).
 
 --- middle
 
