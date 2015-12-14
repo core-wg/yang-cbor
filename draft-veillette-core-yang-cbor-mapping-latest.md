@@ -61,23 +61,16 @@ author:
   phone: "++16782581292"
   email: randy.turner@landisgyr.com
   uri: http://www.landisgyr.com/
-- ins: A. B. Bierman
-  name: Andy Bierman
-  org: YumaWorks
-  street:
-  - 685 Cochran St.
-  - 'Suite #160'
-  code: '93065'
-  city: Simi Valley
-  region: CA
-  country: US
-  email: andy@yumaworks.com
-- ins: P. V. van der Stok
-  name: Peter van der Stok
-  org: Consultant
-  phone: "+31-492474673 (Netherlands), +33-966015248 (France)"
-  email: consultancy@vanderstok.org
-  uri: http://www.vanderstok.org/
+- ins: A. M.  Minaburo
+  name: Ana Minaburo
+  org: Acklio
+  street: 2 rue de la châtaigneraie
+  code: '35510'
+  city: Cesson-Sévigné
+  region: Bretagne
+  country: France
+  phone: "+33299127026"
+  email: ana@ackl.io
 normative:
   RFC2119:
   RFC6020:
@@ -107,7 +100,7 @@ A new set of encoding rules has been defined to allow the use of the same data m
 
 The aim of this document is to define a set of encoding rules for the Concise Binary Object Representation (CBOR) [RFC7049]. The resulting encoding is more compact compared to XML and JSON and more suitable of Constrained Nodes and/or Constrained Networks as defined by [RFC7228].
 
-## Terminology
+# Terminology and Notation
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
 "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to
@@ -127,10 +120,7 @@ what is being identified from all other things within its scope of identificatio
 
 * Parent data node: See Child data node.
 
-
-
-
-# CBOR diagnostic notation
+## CBOR diagnostic notation
 
 Within this document, CBOR binary contents are represented using an equivalent textual form called CBOR diagnostic notation. This notation is used strictly for documentation purposes and is never transmitted as such.
 
@@ -148,444 +138,24 @@ Within this document, CBOR binary contents are represented using an equivalent t
 | Not assigned     |      7/23 | undefined                                                               | undefined          | f7                 |
 {: align="left"}
 
+# Properties of the CBOR Encoding
 
-# YANG to CBOR mapping {#yang_cbor_mapping}
+TO DO
+
+# Structured IDentifiers (SID)
+
+TO DO
+
+# Encoding of YANG Data Node Instances
 
 Objects defined using the YANG modeling language are encoded using CBOR {{RFC7049}} based on the rules defined in this section. We assume that the reader is
 already familiar with both YANG {{RFC6020}} and CBOR {{RFC7049}}.
 
-## YANG leaf
+## The "leaf" Data Node 
 
-The leaf statement defines a data node associated with a value. The following
-subsections describe the encoding of different leaf types.
+TO DO
 
-### YANG type: binary
-
-Leafs of type binary MUST be encoded using a CBOR byte string data item (major
-type 2).
-
-Definition example:
-
-~~~~ YANG
-leaf aes128-key {
-  type binary {
-    length 16;
-  }
-}
-~~~~
-{: align="left"}
-
-CBOR diagnostic notation: h'1f1ce6a3f42660d888d92a4d8030476e'
-
-CBOR encoding: 50 1f1ce6a3f42660d888d92a4d8030476e
-
-
-### YANG type: bits
-
-Leafs of type bits MUST be encoded using a CBOR byte string data item (major
-type 2). Bits position 0 to 7 are assigned to the first byte within the byte
-string, bits 8 to 15 to the second byte, and subsequent bytes are assigned
-similarly. Within each byte, bits are assigned from least to most significant.
-
-Definition example [RFC6020]:
-
-~~~~ YANG
-leaf mybits {
-  type bits {
-    bit disable-nagle {
-      position 0;
-    }
-    bit auto-sense-speed {
-      position 1;
-    }
-    bit 10-Mb-only {
-      position 2;
-    }
-  }
-}
-~~~~
-{: align="left"}
-
-CBOR diagnostic notation: h'05' (Represents bits disable-nagle and 10-Mb-only set)
-
-CBOR encoding: 41 05
-
-
-### YANG type: boolean
-
-Leafs of type boolean MUST be encoded using a CBOR true (major type 7, additional
-information 21) or false data item (major type 7, additional information
-20).
-
-Definition example [RFC7317]:
-
-~~~~ YANG
-leaf enabled {
-  type boolean;
-}
-~~~~
-{: align="left"}
-
-CBOR diagnostic notation: true
-
-CBOR encoding: f5
-
-
-### YANG type: decimal64
-
-Leafs of type decimal64 MUST be encoded using either CBOR unsigned integer
-(major type 0) or CBOR signed integer (major type 1), depending on the actual
-value.
-
-Definition example [RFC7317]:
-
-~~~~ YANG
-leaf my-decimal {
-  type decimal64 {
-    fraction-digits 2;
-    range "1 .. 3.14 | 10 | 20..max";
-  }
-}
-~~~~
-{: align="left"}
-
-CBOR diagnostic notation: 257 (Represents decimal value 2.57)
-
-CBOR encoding: 19 0101
-
-
-### YANG type: empty
-
-Leafs of type empty MUST be encoded using the CBOR null value (major type
-7, additional information 22).
-
-Definition example [RFC7277]:
-
-~~~~ YANG
-leaf is-router {
-  type empty;
-}
-~~~~
-{: align="left"}
-
-CBOR diagnostic notation: null
-
-CBOR encoding: f6
-
-
-### YANG type: enumeration
-
-Leafs of type enumeration MUST be encoded using a CBOR unsigned integer data
-item (major type 0).
-
-Definition example [RFC7317]:
-
-~~~~ YANG
-leaf oper-status {
-  type enumeration {
-    enum up { value 1; }
-    enum down { value 2; }
-    enum testing { value 3; }
-    enum unknown { value 4; }
-    enum dormant { value 5; }
-    enum not-present { value 6; }
-    enum lower-layer-down { value 7; }
-  }
-}
-~~~~
-{: align="left"}
-
-CBOR diagnostic notation: 3 (Represents enumeration value "testing")
-
-CBOR encoding: 03
-
-
-### YANG type: identityref
-
-Leafs of type identityref MUST be encoded using a CBOR text string data item
-(major type 3). Unlike XML, CBOR does not support namespaces. To overcome
-this limitation, identities are encoded using a concatenation of the identity
-name(s) of the referenced identities, excluding the base identity and separated
-by dot(s).
-
-Definition example [RFC7223]:
-
-~~~~ YANG
-identity interface-type {
-}
-
-identity iana-interface-type {
-  base interface-type;
-}
-
-identity ethernetCsmacd {
-  base iana-interface-type;
-}
-
-leaf type {
-  type identityref {
-    base interface-type;
-  }
-}
-~~~~
-{: align="left"}
-
-CBOR diagnostic notation: "iana-interface-type.ethernetCsmacd"
-
-CBOR encoding: 78 22 69616e612d696e746572666163652d747970652e65746865726e657443736d616364
-
-
-### YANG type: instance-identifier
-
-When a leaf node of type instance-identifier identifies a single instance
-data node (data node not part of a list), its value MUST be encoded using
-a CBOR unsigned integer data item (major type 0) containing the targeted
-data node ID.
-
-Definition example [RFC7317]:
-
-~~~~ YANG
-container system {
-
-  leaf contact {
-    type string;
-  }
-
-  leaf hostname {
-    type inet:domain-name;
-  }
-}
-~~~~
-{: align="left"}
-
-CBOR diagnostic notation: 69635
-
-CBOR encoding: 1a 00011003
-
-In this example, the value 69635 identifies the instance of the data node
-"hostname" within the ietf-system module. Assuming module ID = 68 and data
-node ID = 3.
-
-When a leaf node of type instance-identifier identifies a data node supporting
-multiple instances (data node part of a list), its value MUST be encoded
-using a CBOR array data item (major type 4) containing the following entries:
-
-* a CBOR unsigned integer data item (major type 0) containing the fully-qualified
-data node ID of the targeted data node.
-
-* a CBOR array data item (major type 4) containing the value of each key required
-to identify the instance of the targeted data node. These keys MUST be ordered
-as defined in the "key" YANG statement, starting from top level list, and
-follow by each of the subordinate list(s).
-
-Definition example [RFC7317]:
-
-~~~~ YANG
-list user {
-  key name;
-
-  leaf name {
-    type string;
-  }
-  leaf password {
-    type ianach:crypt-hash;
-  }
-
-  list authorized-key {
-    key name;
-
-    leaf name {
-      type string;
-    }
-    leaf algorithm {
-      type string;
-    }
-    leaf key-data {
-      type binary;
-  }
-}
-~~~~
-{: align="left"}
-
-CBOR diagnostic notation: [69679, ["bob", "admin"]]
-
-CBOR encoding: 82  1a 0001102f  82  63 626f62  65 61646d696e
-
-This example identifies the instance of the data node "key-data" within the
-ietf-system module, associated with user name "bob" and authorized-key name
-"admin". Assuming module ID = 68 and data node ID = 47.
-
-
-### YANG type: int8, int16, int32, int64
-
-Leafs of type int8, int16, int32 and int64 MUST be encoded using either CBOR
-unsigned integer (major type 0) or CBOR signed integer (major type 1), depending
-on the actual value.
-
-Definition example [RFC7317]:
-
-~~~~ YANG
-leaf timezone-utc-offset {
-  type int16 {
-    range "-1500 .. 1500";
-  }
-}
-~~~~
-{: align="left"}
-
-CBOR diagnostic notation: -300
-
-CBOR encoding: 39 012b
-
-
-### YANG type: leafref
-
-Leafs of type leafref MUST be encoded using the rules of the data node referenced
-by the "path" YANG statement.
-
-Definition example [RFC7223]:
-
-~~~~ YANG
-typedef interface-state-ref {
-  type leafref {
-    path "/interfaces-state/interface/name";
-  }
-}
-
-container interfaces-state {
-  list interface {
-    key "name";
-    leaf name {
-      type string;
-    }
-    leaf-list higher-layer-if {
-      type interface-state-ref;
-    }
-  }
-}
-~~~~
-{: align="left"}
-
-CBOR diagnostic notation: "eth1.10"
-
-CBOR encoding: 67 657468312e3130
-
-
-### YANG type: string
-
-Leafs of type string MUST be encoded using a CBOR text string data item (major
-type 3).
-
-Definition example [RFC7223]:
-
-~~~~ YANG
-leaf name {
-  type string;
-}
-~~~~
-{: align="left"}
-
-CBOR diagnostic notation: "eth0"
-
-CBOR encoding: 64 65746830
-
-
-### YANG type: uint8, uint16, uint32, uint64
-
-Leafs of type uint8, uint16, uint32 and uint64 MUST be encoded using a CBOR
-unsigned integer data item (major type 0).
-
-Definition example [RFC7277]:
-
-~~~~ YANG
-leaf mtu {
-  type uint16 {
-    range "68..max";
-  }
-}
-~~~~
-{: align="left"}
-
-CBOR diagnostic notation: 1280
-
-CBOR encoding: 19 0500
-
-
-### YANG type: union
-
-Leafs of type union MUST be encoded using the rules associated with one of
-the type listed.
-
-Definition example [RFC7317]:
-
-~~~~ YANG
-typedef ipv4-address {
-  type string {
-  pattern '(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}
-           ([0-9][1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(%[\p{N}
-           \p{L}]+)?';
-  }
-}
-
-typedef ipv6-address {
-  type string {
-    pattern '((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}((([0-9a
-             -fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|(((25[0-5]|2[0-4][0
-             -9]|[01]?[0-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0
-             -9]?[0-9])))(%[\p{N}\p{L}]+)?';
-    pattern '(([^:]+:){6}(([^:]+:[^:]+)|(.*\..*)))|((([^:]+:)*[^:]+)
-             ?::(([^:]+:)*[^:]+)?)(%.+)?';
-  }
-}
-
-typedef ip-address {
-  type union {
-    type ipv4-address;
-    type ipv6-address;
-  }
-}
-
-leaf address {
-  type inet:ip-address;
-}
-~~~~
-{: align="left"}
-
-CBOR diagnostic notation: "[2001:db8:0:1]:80"
-
-CBOR encoding: 71 5b323030313a6462383a303a315d3a3830
-
-
-### YANG type: anyxml
-
-The "anyxml" statement represents an unknown data node. The encoding of this
-data node MUST follow the rules of one of the YANG statements listed in {{yang_cbor_mapping}}.
-
-Definition example [RFC6020]:
-
-~~~~ YANG
-anyxml data;
-~~~~
-{: align="left"}
-
-CBOR diagnostic notation: 123
-
-CBOR encoding: 18 7b
-
-Alternate value:
-
-~~~~ CBORdiag
-{
-  1 : 2,
-  2 : 55
-}
-~~~~
-{: align="left"}
-
-CBOR encoding: a2 01 02 02 18 37
-
-
-### YANG type: container
+## The "container" Data Node
 
 A container MUST be encoded using a CBOR map data item (major type 5). A
 map is comprised of pairs of data items, with each data item consisting of
@@ -647,8 +217,7 @@ a1
 In this example, we assume that the module ID = 68, data node IDs clock =
 35, current-datetime = 36 and boot-datetime 37.
 
-
-### YANG type: leaf-list
+## The "leaf-list" Data Node
 
 A leaf-list MUST be encoded using a CBOR array data item (major type 4).
 Each entry MUST be encoded using the rules defined by the type specified.
@@ -676,8 +245,7 @@ CBOR diagnostic notation: [ "ietf.org", "ieee.org" ]
 
 CBOR encoding: 82  68 696574662e6f7267  68 696565652e6f7267
 
-
-### YANG type: list
+## The "list" Data Node 
 
 A list MUST be encoded using a CBOR array data item (major type 4). Each
 entry of this array is encoded using a CBOR map data item (major type 5)
@@ -776,8 +344,401 @@ In this example, we assume that the module ID = 68, data node IDs server
 = 10, name = 11,  udp = 12, address = 13, port = 14, association-type = 15,
 iburst = 16, prefer = 17.
 
+## The "anydata" Data Node
 
-### YANG type: choice
+TO DO
+
+## The "anyxml" Data Node  
+
+TO DO
+
+# Representing YANG Data Types in CBOR {#data_types_mapping}
+
+## The unsigned interger Types
+
+Leafs of type uint8, uint16, uint32 and uint64 MUST be encoded using a CBOR
+unsigned integer data item (major type 0).
+
+Definition example [RFC7277]:
+
+~~~~ YANG
+leaf mtu {
+  type uint16 {
+    range "68..max";
+  }
+}
+~~~~
+{: align="left"}
+
+CBOR diagnostic notation: 1280
+
+CBOR encoding: 19 0500
+
+## The integer Types
+
+Leafs of type int8, int16, int32 and int64 MUST be encoded using either CBOR
+unsigned integer (major type 0) or CBOR signed integer (major type 1), depending
+on the actual value.
+
+Definition example [RFC7317]:
+
+~~~~ YANG
+leaf timezone-utc-offset {
+  type int16 {
+    range "-1500 .. 1500";
+  }
+}
+~~~~
+{: align="left"}
+
+CBOR diagnostic notation: -300
+
+CBOR encoding: 39 012b
+
+## The "decimal64" Type 
+
+Leafs of type decimal64 MUST be encoded using either CBOR unsigned integer
+(major type 0) or CBOR signed integer (major type 1), depending on the actual
+value.
+
+Definition example [RFC7317]:
+
+~~~~ YANG
+leaf my-decimal {
+  type decimal64 {
+    fraction-digits 2;
+    range "1 .. 3.14 | 10 | 20..max";
+  }
+}
+~~~~
+{: align="left"}
+
+CBOR diagnostic notation: 257 (Represents decimal value 2.57)
+
+CBOR encoding: 19 0101
+
+## The "string" Type 
+
+Leafs of type string MUST be encoded using a CBOR text string data item (major
+type 3).
+
+Definition example [RFC7223]:
+
+~~~~ YANG
+leaf name {
+  type string;
+}
+~~~~
+{: align="left"}
+
+CBOR diagnostic notation: "eth0"
+
+CBOR encoding: 64 65746830
+
+## The "boolean" Type  
+
+Leafs of type boolean MUST be encoded using a CBOR true (major type 7, additional
+information 21) or false data item (major type 7, additional information
+20).
+
+Definition example [RFC7317]:
+
+~~~~ YANG
+leaf enabled {
+  type boolean;
+}
+~~~~
+{: align="left"}
+
+CBOR diagnostic notation: true
+
+CBOR encoding: f5
+
+## The "enumeration" Type  
+
+Leafs of type enumeration MUST be encoded using a CBOR unsigned integer data
+item (major type 0).
+
+Definition example [RFC7317]:
+
+~~~~ YANG
+leaf oper-status {
+  type enumeration {
+    enum up { value 1; }
+    enum down { value 2; }
+    enum testing { value 3; }
+    enum unknown { value 4; }
+    enum dormant { value 5; }
+    enum not-present { value 6; }
+    enum lower-layer-down { value 7; }
+  }
+}
+~~~~
+{: align="left"}
+
+CBOR diagnostic notation: 3 (Represents enumeration value "testing")
+
+CBOR encoding: 03
+
+## The "bits" Type 
+
+Leafs of type bits MUST be encoded using a CBOR byte string data item (major
+type 2). Bits position 0 to 7 are assigned to the first byte within the byte
+string, bits 8 to 15 to the second byte, and subsequent bytes are assigned
+similarly. Within each byte, bits are assigned from least to most significant.
+
+Definition example [RFC6020]:
+
+~~~~ YANG
+leaf mybits {
+  type bits {
+    bit disable-nagle {
+      position 0;
+    }
+    bit auto-sense-speed {
+      position 1;
+    }
+    bit 10-Mb-only {
+      position 2;
+    }
+  }
+}
+~~~~
+{: align="left"}
+
+CBOR diagnostic notation: h'05' (Represents bits disable-nagle and 10-Mb-only set)
+
+CBOR encoding: 41 05
+
+## The "binary" Type 
+
+Leafs of type binary MUST be encoded using a CBOR byte string data item (major
+type 2).
+
+Definition example:
+
+~~~~ YANG
+leaf aes128-key {
+  type binary {
+    length 16;
+  }
+}
+~~~~
+{: align="left"}
+
+CBOR diagnostic notation: h'1f1ce6a3f42660d888d92a4d8030476e'
+
+CBOR encoding: 50 1f1ce6a3f42660d888d92a4d8030476e
+
+## The "leafref" Type  
+
+Leafs of type leafref MUST be encoded using the rules of the data node referenced
+by the "path" YANG statement.
+
+Definition example [RFC7223]:
+
+~~~~ YANG
+typedef interface-state-ref {
+  type leafref {
+    path "/interfaces-state/interface/name";
+  }
+}
+
+container interfaces-state {
+  list interface {
+    key "name";
+    leaf name {
+      type string;
+    }
+    leaf-list higher-layer-if {
+      type interface-state-ref;
+    }
+  }
+}
+~~~~
+{: align="left"}
+
+CBOR diagnostic notation: "eth1.10"
+
+CBOR encoding: 67 657468312e3130
+
+## The "identityref" Type  
+
+Leafs of type identityref MUST be encoded using a CBOR text string data item
+(major type 3). Unlike XML, CBOR does not support namespaces. To overcome
+this limitation, identities are encoded using a concatenation of the identity
+name(s) of the referenced identities, excluding the base identity and separated
+by dot(s).
+
+Definition example [RFC7223]:
+
+~~~~ YANG
+identity interface-type {
+}
+
+identity iana-interface-type {
+  base interface-type;
+}
+
+identity ethernetCsmacd {
+  base iana-interface-type;
+}
+
+leaf type {
+  type identityref {
+    base interface-type;
+  }
+}
+~~~~
+{: align="left"}
+
+CBOR diagnostic notation: "iana-interface-type.ethernetCsmacd"
+
+CBOR encoding: 78 22 69616e612d696e746572666163652d747970652e65746865726e657443736d616364
+
+## The "empty" Type  
+
+Leafs of type empty MUST be encoded using the CBOR null value (major type
+7, additional information 22).
+
+Definition example [RFC7277]:
+
+~~~~ YANG
+leaf is-router {
+  type empty;
+}
+~~~~
+{: align="left"}
+
+CBOR diagnostic notation: null
+
+CBOR encoding: f6
+
+## The "union" Type  
+
+Leafs of type union MUST be encoded using the rules associated with one of
+the type listed.
+
+Definition example [RFC7317]:
+
+~~~~ YANG
+typedef ipv4-address {
+  type string {
+  pattern '(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}
+           ([0-9][1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(%[\p{N}
+           \p{L}]+)?';
+  }
+}
+
+typedef ipv6-address {
+  type string {
+    pattern '((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}((([0-9a
+             -fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|(((25[0-5]|2[0-4][0
+             -9]|[01]?[0-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0
+             -9]?[0-9])))(%[\p{N}\p{L}]+)?';
+    pattern '(([^:]+:){6}(([^:]+:[^:]+)|(.*\..*)))|((([^:]+:)*[^:]+)
+             ?::(([^:]+:)*[^:]+)?)(%.+)?';
+  }
+}
+
+typedef ip-address {
+  type union {
+    type ipv4-address;
+    type ipv6-address;
+  }
+}
+
+leaf address {
+  type inet:ip-address;
+}
+~~~~
+{: align="left"}
+
+CBOR diagnostic notation: "[2001:db8:0:1]:80"
+
+CBOR encoding: 71 5b323030313a6462383a303a315d3a3830
+
+## The "instance-identifier" Type  
+
+When a leaf node of type instance-identifier identifies a single instance
+data node (data node not part of a list), its value MUST be encoded using
+a CBOR unsigned integer data item (major type 0) containing the targeted
+data node ID.
+
+Definition example [RFC7317]:
+
+~~~~ YANG
+container system {
+
+  leaf contact {
+    type string;
+  }
+
+  leaf hostname {
+    type inet:domain-name;
+  }
+}
+~~~~
+{: align="left"}
+
+CBOR diagnostic notation: 69635
+
+CBOR encoding: 1a 00011003
+
+In this example, the value 69635 identifies the instance of the data node
+"hostname" within the ietf-system module. Assuming module ID = 68 and data
+node ID = 3.
+
+When a leaf node of type instance-identifier identifies a data node supporting
+multiple instances (data node part of a list), its value MUST be encoded
+using a CBOR array data item (major type 4) containing the following entries:
+
+* a CBOR unsigned integer data item (major type 0) containing the fully-qualified
+data node ID of the targeted data node.
+
+* a CBOR array data item (major type 4) containing the value of each key required
+to identify the instance of the targeted data node. These keys MUST be ordered
+as defined in the "key" YANG statement, starting from top level list, and
+follow by each of the subordinate list(s).
+
+Definition example [RFC7317]:
+
+~~~~ YANG
+list user {
+  key name;
+
+  leaf name {
+    type string;
+  }
+  leaf password {
+    type ianach:crypt-hash;
+  }
+
+  list authorized-key {
+    key name;
+
+    leaf name {
+      type string;
+    }
+    leaf algorithm {
+      type string;
+    }
+    leaf key-data {
+      type binary;
+  }
+}
+~~~~
+{: align="left"}
+
+CBOR diagnostic notation: [69679, ["bob", "admin"]]
+
+CBOR encoding: 82  1a 0001102f  82  63 626f62  65 61646d696e
+
+This example identifies the instance of the data node "key-data" within the
+ietf-system module, associated with user name "bob" and authorized-key name
+"admin". Assuming module ID = 68 and data node ID = 47.
+
+## The "choice" Statement
 
 YANG allows the data model to segregate incompatible nodes into distinct
 choices using the "choice" and "case" statements. Encoded payload MUST carry
@@ -827,12 +788,14 @@ a1
 ~~~~
 {: align="left"}
 
+# CBOR Compliance
+
+TO DO
 
 # Security Considerations
 
 This document defines an alternative encoding for data modeled in the YANG data modeling language. As such, this encoding doesn’t contribute any new security issues in addition of those identified for the specific protocol or context for which it is used.
 
 To minimize security risks, software on the receiving side SHOULD reject all messages that do not comply to the rules of this document and reply with an appropriate error message to the sender.
-
 
 --- back
