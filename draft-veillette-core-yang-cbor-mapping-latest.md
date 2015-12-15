@@ -344,9 +344,60 @@ In this example, we assume that the module ID = 68, data node IDs server
 = 10, name = 11,  udp = 12, address = 13, port = 14, association-type = 15,
 iburst = 16, prefer = 17.
 
+## The "choice" Statement
+
+YANG allows the data model to segregate incompatible nodes into distinct
+choices using the "choice" and "case" statements. Encoded payload MUST carry
+data nodes defined in only one of the possible cases.
+
+Definition example [RFC7317]:
+
+~~~~ YANG
+typedef timezone-name {
+  type string;
+}
+
+choice timezone {
+  case timezone-name {
+    leaf timezone-name {
+      type timezone-name;
+    }
+  }
+  case timezone-utc-offset {
+    leaf timezone-utc-offset {
+      type int16 {
+        range "-1500 .. 1500";
+      }
+      units "minutes";
+    }
+  }
+}
+~~~~
+{: align="left"}
+
+CBOR diagnostic notation:
+
+~~~~ CBORdiag
+{
+  69638 : "Europe/Stockholm"
+}
+~~~~
+{: align="left"}
+
+CBOR encoding:
+
+~~~~ CBORbytes
+a1
+   1a 00011006
+   70
+      4575726f70652f53746f636b686f6c6d
+~~~~
+{: align="left"}
+
 ## The "anydata" Data Node
 
 TO DO
+
 
 ## The "anyxml" Data Node  
 
@@ -354,7 +405,7 @@ TO DO
 
 # Representing YANG Data Types in CBOR {#data_types_mapping}
 
-## The unsigned interger Types
+## The unsigned integer Types
 
 Leafs of type uint8, uint16, uint32 and uint64 MUST be encoded using a CBOR
 unsigned integer data item (major type 0).
@@ -738,56 +789,6 @@ This example identifies the instance of the data node "key-data" within the
 ietf-system module, associated with user name "bob" and authorized-key name
 "admin". Assuming module ID = 68 and data node ID = 47.
 
-## The "choice" Statement
-
-YANG allows the data model to segregate incompatible nodes into distinct
-choices using the "choice" and "case" statements. Encoded payload MUST carry
-data nodes defined in only one of the possible cases.
-
-Definition example [RFC7317]:
-
-~~~~ YANG
-typedef timezone-name {
-  type string;
-}
-
-choice timezone {
-  case timezone-name {
-    leaf timezone-name {
-      type timezone-name;
-    }
-  }
-  case timezone-utc-offset {
-    leaf timezone-utc-offset {
-      type int16 {
-        range "-1500 .. 1500";
-      }
-      units "minutes";
-    }
-  }
-}
-~~~~
-{: align="left"}
-
-CBOR diagnostic notation:
-
-~~~~ CBORdiag
-{
-  69638 : "Europe/Stockholm"
-}
-~~~~
-{: align="left"}
-
-CBOR encoding:
-
-~~~~ CBORbytes
-a1
-   1a 00011006
-   70
-      4575726f70652f53746f636b686f6c6d
-~~~~
-{: align="left"}
-
 # CBOR Compliance
 
 TO DO
@@ -797,5 +798,9 @@ TO DO
 This document defines an alternative encoding for data modeled in the YANG data modeling language. As such, this encoding doesn’t contribute any new security issues in addition of those identified for the specific protocol or context for which it is used.
 
 To minimize security risks, software on the receiving side SHOULD reject all messages that do not comply to the rules of this document and reply with an appropriate error message to the sender.
+
+* Acknowledgments
+
+The authors would like to acknowledge the review, feedback, and comments from Andy Bierman, Ladislav Lhotka, Juergen Schoenwaelder, Peter van der Stok.
 
 --- back
