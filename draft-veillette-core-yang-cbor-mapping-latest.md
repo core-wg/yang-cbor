@@ -799,7 +799,7 @@ This document defines an alternative encoding for data modeled in the YANG data 
 
 To minimize security risks, software on the receiving side SHOULD reject all messages that do not comply to the rules of this document and reply with an appropriate error message to the sender.
 
-* Acknowledgments
+# Acknowledgments
 
 The authors would like to acknowledge the review, feedback, and comments from Andy Bierman, Ladislav Lhotka, Juergen Schoenwaelder, Peter van der Stok.
 
