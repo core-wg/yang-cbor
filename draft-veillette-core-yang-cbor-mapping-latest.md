@@ -801,6 +801,8 @@ To minimize security risks, software on the receiving side SHOULD reject all mes
 
 # Acknowledgments
 
-The authors would like to acknowledge the review, feedback, and comments from Andy Bierman, Ladislav Lhotka, Juergen Schoenwaelder, Peter van der Stok.
+This document have been largely inspired by the extensive works done by Andy Bierman and Peter van der Stok on [ID.vanderstok-core-comi]. [I-D. ietf-netmod-yang-json] have also been a critical reference for our work. The authors would like to thank the authors and contributors to these two important drafts.
+
+The authors would also like to acknowledge the review, feedback, and comments from Ladislav Lhotka and Juergen Schoenwaelder.
 
 --- back
