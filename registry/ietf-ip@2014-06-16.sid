@@ -1,0 +1,306 @@
+{
+  "assigment-ranges": [
+    {
+      "entry-point": 900,
+      "size": 100
+    }
+  ],
+  "module-name": "ietf-ip",
+  "module-revision": "2014-06-16",
+  "things": [
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces-state/interface/ipv4",
+      "sid": 900
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces-state/interface/ipv4/address",
+      "sid": 901
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces-state/interface/ipv4/address/ip",
+      "sid": 902
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces-state/interface/ipv4/address/origin",
+      "sid": 903
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces-state/interface/ipv4/forwarding",
+      "sid": 904
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces-state/interface/ipv4/mtu",
+      "sid": 905
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces-state/interface/ipv4/neighbor",
+      "sid": 906
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces-state/interface/ipv4/neighbor/ip",
+      "sid": 907
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces-state/interface/ipv4/neighbor/link-layer-address",
+      "sid": 908
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces-state/interface/ipv4/neighbor/origin",
+      "sid": 909
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces-state/interface/ipv6",
+      "sid": 910
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces-state/interface/ipv6/address",
+      "sid": 911
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces-state/interface/ipv6/address/ip",
+      "sid": 912
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces-state/interface/ipv6/address/origin",
+      "sid": 913
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces-state/interface/ipv6/address/prefix-length",
+      "sid": 914
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces-state/interface/ipv6/address/status",
+      "sid": 915
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces-state/interface/ipv6/forwarding",
+      "sid": 916
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces-state/interface/ipv6/mtu",
+      "sid": 917
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces-state/interface/ipv6/neighbor",
+      "sid": 918
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces-state/interface/ipv6/neighbor/ip",
+      "sid": 919
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces-state/interface/ipv6/neighbor/is-router",
+      "sid": 920
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces-state/interface/ipv6/neighbor/link-layer-address",
+      "sid": 921
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces-state/interface/ipv6/neighbor/origin",
+      "sid": 922
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces-state/interface/ipv6/neighbor/state",
+      "sid": 923
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces/interface/ipv4",
+      "sid": 924
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces/interface/ipv4/address",
+      "sid": 925
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces/interface/ipv4/address/ip",
+      "sid": 926
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces/interface/ipv4/enabled",
+      "sid": 927
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces/interface/ipv4/forwarding",
+      "sid": 928
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces/interface/ipv4/mtu",
+      "sid": 929
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces/interface/ipv4/neighbor",
+      "sid": 930
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces/interface/ipv4/neighbor/ip",
+      "sid": 931
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces/interface/ipv4/neighbor/link-layer-address",
+      "sid": 932
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces/interface/ipv6",
+      "sid": 933
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces/interface/ipv6/address",
+      "sid": 934
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces/interface/ipv6/address/ip",
+      "sid": 935
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces/interface/ipv6/address/prefix-length",
+      "sid": 936
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces/interface/ipv6/autoconf",
+      "sid": 937
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces/interface/ipv6/autoconf/create-global-addresses",
+      "sid": 938
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces/interface/ipv6/autoconf/create-temporary-addresses",
+      "sid": 939
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces/interface/ipv6/autoconf/temporary-preferred-lifetime",
+      "sid": 940
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces/interface/ipv6/autoconf/temporary-valid-lifetime",
+      "sid": 941
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces/interface/ipv6/dup-addr-detect-transmits",
+      "sid": 942
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces/interface/ipv6/enabled",
+      "sid": 943
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces/interface/ipv6/forwarding",
+      "sid": 944
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces/interface/ipv6/mtu",
+      "sid": 945
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces/interface/ipv6/neighbor",
+      "sid": 946
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces/interface/ipv6/neighbor/ip",
+      "sid": 947
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:17Z",
+      "label": "/interfaces/interface/ipv6/neighbor/link-layer-address",
+      "sid": 948
+    }
+  ]
+}

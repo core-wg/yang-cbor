@@ -1,0 +1,14 @@
+[{
+	"entry-point": 80000,
+	"size": 2000,
+	"owner": "Trilliant Network ins.",
+	"contacts": [{
+		"name": "Michel Veillette",
+		"email": "michel.veillette@trilliantinc.com",
+		"phone": "450.375.0556"
+	}, {
+		"name": "Rick Enns",
+		"email": "rick.enns@trilliantinc.com",
+		"phone": "650.204.5131"
+	}]
+}]

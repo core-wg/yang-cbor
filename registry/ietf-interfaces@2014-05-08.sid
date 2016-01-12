@@ -1,0 +1,222 @@
+{
+  "assigment-ranges": [
+    {
+      "entry-point": 800,
+      "size": 100
+    }
+  ],
+  "module-name": "ietf-interfaces",
+  "module-revision": "2014-05-08",
+  "things": [
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "ietf-interfaces:interface-type",
+      "sid": 800
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces",
+      "sid": 800
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces-state",
+      "sid": 801
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces-state/interface",
+      "sid": 802
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces-state/interface/admin-status",
+      "sid": 803
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces-state/interface/higher-layer-if",
+      "sid": 804
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces-state/interface/if-index",
+      "sid": 805
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces-state/interface/last-change",
+      "sid": 806
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces-state/interface/lower-layer-if",
+      "sid": 807
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces-state/interface/name",
+      "sid": 808
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces-state/interface/oper-status",
+      "sid": 809
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces-state/interface/phys-address",
+      "sid": 810
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces-state/interface/speed",
+      "sid": 811
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces-state/interface/statistics",
+      "sid": 812
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces-state/interface/statistics/discontinuity-time",
+      "sid": 813
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces-state/interface/statistics/in-broadcast-pkts",
+      "sid": 814
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces-state/interface/statistics/in-discards",
+      "sid": 815
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces-state/interface/statistics/in-errors",
+      "sid": 816
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces-state/interface/statistics/in-multicast-pkts",
+      "sid": 817
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces-state/interface/statistics/in-octets",
+      "sid": 818
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces-state/interface/statistics/in-unicast-pkts",
+      "sid": 819
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces-state/interface/statistics/in-unknown-protos",
+      "sid": 820
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces-state/interface/statistics/out-broadcast-pkts",
+      "sid": 821
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces-state/interface/statistics/out-discards",
+      "sid": 822
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces-state/interface/statistics/out-errors",
+      "sid": 823
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces-state/interface/statistics/out-multicast-pkts",
+      "sid": 824
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces-state/interface/statistics/out-octets",
+      "sid": 825
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces-state/interface/statistics/out-unicast-pkts",
+      "sid": 826
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces-state/interface/type",
+      "sid": 827
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces/interface",
+      "sid": 828
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces/interface/description",
+      "sid": 829
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces/interface/enabled",
+      "sid": 830
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces/interface/link-up-down-trap-enable",
+      "sid": 831
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces/interface/name",
+      "sid": 832
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:07:11Z",
+      "label": "/interfaces/interface/type",
+      "sid": 833
+    }
+  ]
+}

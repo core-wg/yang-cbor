@@ -1,0 +1,336 @@
+{
+  "assigment-ranges": [
+    {
+      "entry-point": 1000,
+      "size": 100
+    }
+  ],
+  "module-name": "ietf-system",
+  "module-revision": "2014-08-06",
+  "things": [
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "ietf-system:authentication-method",
+      "sid": 1000
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "ietf-system:local-users",
+      "sid": 1001
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "ietf-system:radius",
+      "sid": 1002
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "ietf-system:radius-authentication-type",
+      "sid": 1003
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "ietf-system:radius-chap",
+      "sid": 1004
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "ietf-system:radius-pap",
+      "sid": 1005
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system",
+      "sid": 1000
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system-state",
+      "sid": 1001
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system-state/clock",
+      "sid": 1002
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system-state/clock/boot-datetime",
+      "sid": 1003
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system-state/clock/current-datetime",
+      "sid": 1004
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system-state/platform",
+      "sid": 1005
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system-state/platform/machine",
+      "sid": 1006
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system-state/platform/os-name",
+      "sid": 1007
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system-state/platform/os-release",
+      "sid": 1008
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system-state/platform/os-version",
+      "sid": 1009
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/authentication",
+      "sid": 1010
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/authentication/user",
+      "sid": 1011
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/authentication/user-authentication-order",
+      "sid": 1012
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/authentication/user/authorized-key",
+      "sid": 1013
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/authentication/user/authorized-key/algorithm",
+      "sid": 1014
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/authentication/user/authorized-key/key-data",
+      "sid": 1015
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/authentication/user/authorized-key/name",
+      "sid": 1016
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/authentication/user/name",
+      "sid": 1017
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/authentication/user/password",
+      "sid": 1018
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/clock",
+      "sid": 1019
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/contact",
+      "sid": 1020
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/dns-resolver",
+      "sid": 1021
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/dns-resolver/options",
+      "sid": 1022
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/dns-resolver/options/attempts",
+      "sid": 1023
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/dns-resolver/options/timeout",
+      "sid": 1024
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/dns-resolver/search",
+      "sid": 1025
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/dns-resolver/server",
+      "sid": 1026
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/dns-resolver/server/name",
+      "sid": 1027
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/hostname",
+      "sid": 1028
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/location",
+      "sid": 1029
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/ntp",
+      "sid": 1030
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/ntp/enabled",
+      "sid": 1031
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/ntp/server",
+      "sid": 1032
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/ntp/server/association-type",
+      "sid": 1033
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/ntp/server/iburst",
+      "sid": 1034
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/ntp/server/name",
+      "sid": 1035
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/ntp/server/prefer",
+      "sid": 1036
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/radius",
+      "sid": 1037
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/radius/options",
+      "sid": 1038
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/radius/options/attempts",
+      "sid": 1039
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/radius/options/timeout",
+      "sid": 1040
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/radius/server",
+      "sid": 1041
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/radius/server/authentication-type",
+      "sid": 1042
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/system/radius/server/name",
+      "sid": 1043
+    },
+    {
+      "type": "rpc",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "set-current-datetime",
+      "sid": 1000
+    },
+    {
+      "type": "rpc",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "system-restart",
+      "sid": 1001
+    },
+    {
+      "type": "rpc",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "system-shutdown",
+      "sid": 1002
+    },
+    {
+      "type": "rpc-input set-current-datetime",
+      "assigned": "2016-01-12T19:17:21Z",
+      "label": "/current-datetime",
+      "sid": 1000
+    }
+  ]
+}

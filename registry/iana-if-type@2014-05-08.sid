@@ -1,0 +1,1650 @@
+{
+  "assigment-ranges": [
+    {
+      "entry-point": 300,
+      "size": 500
+    }
+  ],
+  "module-name": "iana-if-type",
+  "module-revision": "2014-05-08",
+  "things": [
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:a12MppSwitch",
+      "sid": 300
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:aal2",
+      "sid": 301
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:aal5",
+      "sid": 302
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:actelisMetaLOOP",
+      "sid": 303
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:adsl",
+      "sid": 304
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:adsl2",
+      "sid": 305
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:adsl2plus",
+      "sid": 306
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:aflane8023",
+      "sid": 307
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:aflane8025",
+      "sid": 308
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:aluELP",
+      "sid": 309
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:aluEpon",
+      "sid": 310
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:aluEponLogicalLink",
+      "sid": 311
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:aluEponOnu",
+      "sid": 312
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:aluEponPhysicalUni",
+      "sid": 313
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:aluGponOnu",
+      "sid": 314
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:aluGponPhysicalUni",
+      "sid": 315
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:arap",
+      "sid": 316
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:arcnet",
+      "sid": 317
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:arcnetPlus",
+      "sid": 318
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:async",
+      "sid": 319
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:atm",
+      "sid": 320
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:atmDxi",
+      "sid": 321
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:atmFuni",
+      "sid": 322
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:atmIma",
+      "sid": 323
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:atmLogical",
+      "sid": 324
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:atmRadio",
+      "sid": 325
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:atmSubInterface",
+      "sid": 326
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:atmVciEndPt",
+      "sid": 327
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:atmVirtual",
+      "sid": 328
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:atmbond",
+      "sid": 329
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:aviciOpticalEther",
+      "sid": 330
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:basicISDN",
+      "sid": 331
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:bgppolicyaccounting",
+      "sid": 332
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:bits",
+      "sid": 333
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:bridge",
+      "sid": 334
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:bsc",
+      "sid": 335
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:cableDownstreamRfPort",
+      "sid": 336
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:capwapDot11Bss",
+      "sid": 337
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:capwapDot11Profile",
+      "sid": 338
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:capwapWtpVirtualRadio",
+      "sid": 339
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:cblVectaStar",
+      "sid": 340
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:cctEmul",
+      "sid": 341
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:ces",
+      "sid": 342
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:channel",
+      "sid": 343
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:ciscoISLvlan",
+      "sid": 344
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:cnr",
+      "sid": 345
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:coffee",
+      "sid": 346
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:compositeLink",
+      "sid": 347
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:dcn",
+      "sid": 348
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:ddnX25",
+      "sid": 349
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:digitalPowerline",
+      "sid": 350
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:digitalWrapperOverheadChannel",
+      "sid": 351
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:dlsw",
+      "sid": 352
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:docsCableDownstream",
+      "sid": 353
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:docsCableMCmtsDownstream",
+      "sid": 354
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:docsCableMaclayer",
+      "sid": 355
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:docsCableUpstream",
+      "sid": 356
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:docsCableUpstreamChannel",
+      "sid": 357
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:docsCableUpstreamRfPort",
+      "sid": 358
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:ds0",
+      "sid": 359
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:ds0Bundle",
+      "sid": 360
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:ds1",
+      "sid": 361
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:ds1FDL",
+      "sid": 362
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:ds3",
+      "sid": 363
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:dtm",
+      "sid": 364
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:dvbAsiIn",
+      "sid": 365
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:dvbAsiOut",
+      "sid": 366
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:dvbRccDownstream",
+      "sid": 367
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:dvbRccMacLayer",
+      "sid": 368
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:dvbRccUpstream",
+      "sid": 369
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:dvbRcsMacLayer",
+      "sid": 370
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:dvbRcsTdma",
+      "sid": 371
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:dvbTdm",
+      "sid": 372
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:e1",
+      "sid": 373
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:econet",
+      "sid": 374
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:eon",
+      "sid": 375
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:eplrs",
+      "sid": 376
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:escon",
+      "sid": 377
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:ethernet3Mbit",
+      "sid": 378
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:ethernetCsmacd",
+      "sid": 379
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:fast",
+      "sid": 380
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:fastEther",
+      "sid": 381
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:fastEtherFX",
+      "sid": 382
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:fcipLink",
+      "sid": 383
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:fddi",
+      "sid": 384
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:fibreChannel",
+      "sid": 385
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:frDlciEndPt",
+      "sid": 386
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:frForward",
+      "sid": 387
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:frameRelay",
+      "sid": 388
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:frameRelayInterconnect",
+      "sid": 389
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:frameRelayMPI",
+      "sid": 390
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:frameRelayService",
+      "sid": 391
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:frf16MfrBundle",
+      "sid": 392
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:g703at2mb",
+      "sid": 393
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:g703at64k",
+      "sid": 394
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:g9981",
+      "sid": 395
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:g9982",
+      "sid": 396
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:g9983",
+      "sid": 397
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:gfp",
+      "sid": 398
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:gigabitEthernet",
+      "sid": 399
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:gpon",
+      "sid": 400
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:gr303IDT",
+      "sid": 401
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:gr303RDT",
+      "sid": 402
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:gtp",
+      "sid": 403
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:h323Gatekeeper",
+      "sid": 404
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:h323Proxy",
+      "sid": 405
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:hdh1822",
+      "sid": 406
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:hdlc",
+      "sid": 407
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:hdsl2",
+      "sid": 408
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:hiperlan2",
+      "sid": 409
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:hippi",
+      "sid": 410
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:hippiInterface",
+      "sid": 411
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:homepna",
+      "sid": 412
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:hostPad",
+      "sid": 413
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:hssi",
+      "sid": 414
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:hyperchannel",
+      "sid": 415
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:iana-interface-type",
+      "sid": 416
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:ibm370parChan",
+      "sid": 417
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:idsl",
+      "sid": 418
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:ieee1394",
+      "sid": 419
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:ieee80211",
+      "sid": 420
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:ieee80212",
+      "sid": 421
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:ieee802154",
+      "sid": 422
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:ieee80216WMAN",
+      "sid": 423
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:ieee8023adLag",
+      "sid": 424
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:if-gsn",
+      "sid": 425
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:ifPwType",
+      "sid": 426
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:ifVfiType",
+      "sid": 427
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:ilan",
+      "sid": 428
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:imt",
+      "sid": 429
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:infiniband",
+      "sid": 430
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:interleave",
+      "sid": 431
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:ip",
+      "sid": 432
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:ipForward",
+      "sid": 433
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:ipOverAtm",
+      "sid": 434
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:ipOverCdlc",
+      "sid": 435
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:ipOverClaw",
+      "sid": 436
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:ipSwitch",
+      "sid": 437
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:isdn",
+      "sid": 438
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:isdns",
+      "sid": 439
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:isdnu",
+      "sid": 440
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:iso88022llc",
+      "sid": 441
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:iso88023Csmacd",
+      "sid": 442
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:iso88024TokenBus",
+      "sid": 443
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:iso88025CRFPInt",
+      "sid": 444
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:iso88025Dtr",
+      "sid": 445
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:iso88025Fiber",
+      "sid": 446
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:iso88025TokenRing",
+      "sid": 447
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:iso88026Man",
+      "sid": 448
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:isup",
+      "sid": 449
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:l2vlan",
+      "sid": 450
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:l3ipvlan",
+      "sid": 451
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:l3ipxvlan",
+      "sid": 452
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:lapb",
+      "sid": 453
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:lapd",
+      "sid": 454
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:lapf",
+      "sid": 455
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:linegroup",
+      "sid": 456
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:lmp",
+      "sid": 457
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:localTalk",
+      "sid": 458
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:macSecControlledIF",
+      "sid": 459
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:macSecUncontrolledIF",
+      "sid": 460
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:mediaMailOverIp",
+      "sid": 461
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:mfSigLink",
+      "sid": 462
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:miox25",
+      "sid": 463
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:mocaVersion1",
+      "sid": 464
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:modem",
+      "sid": 465
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:mpc",
+      "sid": 466
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:mpegTransport",
+      "sid": 467
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:mpls",
+      "sid": 468
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:mplsTunnel",
+      "sid": 469
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:msdsl",
+      "sid": 470
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:mvl",
+      "sid": 471
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:myrinet",
+      "sid": 472
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:nfas",
+      "sid": 473
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:nsip",
+      "sid": 474
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:opticalChannel",
+      "sid": 475
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:opticalChannelGroup",
+      "sid": 476
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:opticalTransport",
+      "sid": 477
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:other",
+      "sid": 478
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:otnOdu",
+      "sid": 479
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:otnOtu",
+      "sid": 480
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:para",
+      "sid": 481
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:pdnEtherLoop1",
+      "sid": 482
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:pdnEtherLoop2",
+      "sid": 483
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:pip",
+      "sid": 484
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:plc",
+      "sid": 485
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:pon155",
+      "sid": 486
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:pon622",
+      "sid": 487
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:pos",
+      "sid": 488
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:ppp",
+      "sid": 489
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:pppMultilinkBundle",
+      "sid": 490
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:primaryISDN",
+      "sid": 491
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:propAtm",
+      "sid": 492
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:propBWAp2Mp",
+      "sid": 493
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:propCnls",
+      "sid": 494
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:propDocsWirelessDownstream",
+      "sid": 495
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:propDocsWirelessMaclayer",
+      "sid": 496
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:propDocsWirelessUpstream",
+      "sid": 497
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:propMultiplexor",
+      "sid": 498
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:propPointToPointSerial",
+      "sid": 499
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:propVirtual",
+      "sid": 500
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:propWirelessP2P",
+      "sid": 501
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:proteon10Mbit",
+      "sid": 502
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:proteon80Mbit",
+      "sid": 503
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:q2931",
+      "sid": 504
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:qam",
+      "sid": 505
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:qllc",
+      "sid": 506
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:radioMAC",
+      "sid": 507
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:radsl",
+      "sid": 508
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:reachDSL",
+      "sid": 509
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:regular1822",
+      "sid": 510
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:rfc1483",
+      "sid": 511
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:rfc877x25",
+      "sid": 512
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:rpr",
+      "sid": 513
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:rs232",
+      "sid": 514
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:rsrb",
+      "sid": 515
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:sdlc",
+      "sid": 516
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:sdsl",
+      "sid": 517
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:shdsl",
+      "sid": 518
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:sip",
+      "sid": 519
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:sipSig",
+      "sid": 520
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:sipTg",
+      "sid": 521
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:sixToFour",
+      "sid": 522
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:slip",
+      "sid": 523
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:smdsDxi",
+      "sid": 524
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:smdsIcip",
+      "sid": 525
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:softwareLoopback",
+      "sid": 526
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:sonet",
+      "sid": 527
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:sonetOverheadChannel",
+      "sid": 528
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:sonetPath",
+      "sid": 529
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:sonetVT",
+      "sid": 530
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:srp",
+      "sid": 531
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:ss7SigLink",
+      "sid": 532
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:stackToStack",
+      "sid": 533
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:starLan",
+      "sid": 534
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:tdlc",
+      "sid": 535
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:teLink",
+      "sid": 536
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:termPad",
+      "sid": 537
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:tr008",
+      "sid": 538
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:transpHdlc",
+      "sid": 539
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:tunnel",
+      "sid": 540
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:ultra",
+      "sid": 541
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:usb",
+      "sid": 542
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:v11",
+      "sid": 543
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:v35",
+      "sid": 544
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:v36",
+      "sid": 545
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:v37",
+      "sid": 546
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:vdsl",
+      "sid": 547
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:vdsl2",
+      "sid": 548
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:virtualIpAddress",
+      "sid": 549
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:virtualTg",
+      "sid": 550
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:vmwareNicTeam",
+      "sid": 551
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:vmwareVirtualNic",
+      "sid": 552
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:voiceDID",
+      "sid": 553
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:voiceEBS",
+      "sid": 554
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:voiceEM",
+      "sid": 555
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:voiceEMFGD",
+      "sid": 556
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:voiceEncap",
+      "sid": 557
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:voiceFGDEANA",
+      "sid": 558
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:voiceFGDOS",
+      "sid": 559
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:voiceFXO",
+      "sid": 560
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:voiceFXS",
+      "sid": 561
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:voiceOverAtm",
+      "sid": 562
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:voiceOverCable",
+      "sid": 563
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:voiceOverFrameRelay",
+      "sid": 564
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:voiceOverIp",
+      "sid": 565
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:wwanPP",
+      "sid": 566
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:wwanPP2",
+      "sid": 567
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:x213",
+      "sid": 568
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:x25huntGroup",
+      "sid": 569
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:x25mlp",
+      "sid": 570
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:x25ple",
+      "sid": 571
+    },
+    {
+      "type": "identity",
+      "assigned": "2016-01-12T17:21:37Z",
+      "label": "iana-if-type:x86Laps",
+      "sid": 572
+    }
+  ]
+}

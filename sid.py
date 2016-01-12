@@ -66,6 +66,7 @@ class SidPlugin(plugin.PyangPlugin):
 
         if ctx.opts.generate_sid_file is not None:
             sid_file.range = ctx.opts.generate_sid_file
+            sid_file.is_consistent = False
 
         if ctx.opts.update_sid_file is not None:
             sid_file.input_file_name = ctx.opts.update_sid_file
@@ -153,6 +154,10 @@ class SidFile:
         self.list_content = False
         self.input_file_name = None
         self.range = None
+        self.node_highest_sid = 0
+        self.identity_highest_sid = 0
+        self.rpc_highest_sid = 0
+        self.notification_highest_sid = 0
 
     def process_sid_file(self, module):
         self.module_name = module.i_modulename
@@ -188,7 +193,6 @@ class SidFile:
         if self.list_content:
             print("SIDs assigned to module '%s', revision '%s':\n" % (self.module_name, self.module_revision))
             self.list_things()
-            print("\nDone")
             return
 
         self.list_deleted_things()
@@ -197,7 +201,7 @@ class SidFile:
         else:
             print("Generating %s ..." % self.output_file_name)
             self.generate_file()
-            print("Done")
+            self.print_statistic()
 
     ########################################################
     def set_initial_range(self, range):
@@ -425,9 +429,19 @@ class SidFile:
             if self.content['things'][i]['type'] != last_type:
                 sid = self.get_hihest_sid(i)
                 last_type = self.content['things'][i]['type']
+
             if self.content['things'][i]['sid'] == -1:
                 self.content['things'][i]['sid'] = sid
                 sid = self.get_next_sid(sid)
+
+            if self.content['things'][i]['type'] == "node" and sid > self.node_highest_sid:
+                self.node_highest_sid = sid
+            if self.content['things'][i]['type'] == "identity" and sid > self.identity_highest_sid:
+                self.identity_highest_sid = sid
+            if self.content['things'][i]['type'] == "rpc" and sid > self.rpc_highest_sid:
+                self.rpc_highest_sid = sid
+            if self.content['things'][i]['type'] == "notification" and sid > self.notification_highest_sid:
+                self.notification_highest_sid = sid
 
     def get_hihest_sid(self, i):
         current_type = self.content['things'][i]['type']
@@ -487,3 +501,27 @@ class SidFile:
         with open(self.output_file_name, 'w') as outfile:
             json.dump(self.content, outfile, indent=2)
 
+    ########################################################
+    def number_of_SIDs(self):
+        size = 0
+        for range in self.content['assigment-ranges']:
+            size += range['size']
+        return size
+
+    def number_of_SIDs_used(self, highest_sid):
+        if highest_sid == 0:
+            return 0
+
+        used = 0
+        for range in self.content['assigment-ranges']:
+            if highest_sid < ( range['entry-point'] + range['size'] ):
+                    return highest_sid - range['entry-point'] + used
+            used += range['size']
+        return used
+
+    def print_statistic(self):
+        print ("Number of SIDs available : %d" % self.number_of_SIDs())
+        print ("Number of data nodes assigned : %d" % self.number_of_SIDs_used(self.node_highest_sid))
+        print ("Number of identities assigned : %d" % self.number_of_SIDs_used(self.identity_highest_sid))
+        print ("Number of RPCs assigned : %d" % self.number_of_SIDs_used(self.rpc_highest_sid))
+        print ("Number of notifications assigned : %d" % self.number_of_SIDs_used(self.notification_highest_sid))

@@ -1,0 +1,11 @@
+{
+  "assigment-ranges": [
+    {
+      "entry-point": 330,
+      "size": 100
+    }
+  ],
+  "module-name": "ietf-yang-types",
+  "module-revision": "2013-07-15",
+  "things": []
+}

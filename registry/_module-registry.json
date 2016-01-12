@@ -1,0 +1,6 @@
+[
+	{ "entry-point" : 300, "size" : 500, "module-name" : "iana-if-type", "module-revision" : "2014-05-08", "reference" : "RFC 7224"},
+	{ "entry-point" : 800, "size" : 100, "module-name" : "ietf-interfaces", "module-revision" : "2014-05-08", "reference" : "RFC 7223"},
+	{ "entry-point" : 900, "size" : 100, "module-name" : "ietf-ip", "module-revision" : "2014-06-16", "reference" : "RFC 7277"},
+	{ "entry-point" : 1000, "size" : 100, "module-name" : "ietf-system", "module-revision" : "2014-08-06", "reference" : "RFC 7317"}
+]
