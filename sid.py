@@ -359,6 +359,9 @@ class SidFile:
                 self.merge_thing('node', "/%s" % children.arg)
                 self.collect_inner_data_nodes(children.i_children, 'node', "/%s/" % children.arg)
 
+            if children.keyword == 'choice' or children.keyword == 'case':
+                self.collect_inner_data_nodes(children.i_children, 'node', "/%s/" % children.arg)
+
             if children.keyword == 'rpc':
                 self.merge_thing('rpc', "%s" % children.arg)
                 self.collect_rpc_input_and_output(children.i_children, children.arg, "/")
@@ -381,6 +384,9 @@ class SidFile:
 
             if statement.keyword == 'container' or statement.keyword == 'list':
                 self.merge_thing(type, "%s%s" % (label, statement.arg))
+                self.collect_inner_data_nodes(statement.i_children, type, "%s%s/" % (label, statement.arg))
+
+            if statement.keyword == 'choice' or statement.keyword == 'case':
                 self.collect_inner_data_nodes(statement.i_children, type, "%s%s/" % (label, statement.arg))
 
     def collect_rpc_input_and_output(self, children, rpc_name, label):
