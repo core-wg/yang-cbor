@@ -1,23 +1,7 @@
 [{
 	"entry-point": 1000,
-	"size": 500,
+	"size": 9000,
 	"owner": "IETF",
-	"reference": "RFC 7224"
-}, {
-	"entry-point": 1500,
-	"size": 100,
-	"owner": "IETF",
-	"reference": "RFC 7223"
-}, {
-	"entry-point": 1600,
-	"size": 100,
-	"owner": "IETF",
-	"reference": "RFC 7277"
-}, {
-	"entry-point": 1700,
-	"size": 100,
-	"owner": "IETF",
-	"reference": "RFC 7317"
 }, {
 	"entry-point": 100000,
 	"size": 2000,
