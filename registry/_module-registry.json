@@ -1,6 +1,12 @@
 [{
 	"entry-point": 1000,
-	"size": 500,
+	"size": 100,
+	"module-name": "ietf-cool",
+	"module-revision": "2016-01-01",
+	"reference": "I.D-veillette-core-cool"
+}, {
+	"entry-point": 1100,
+	"size": 400,
 	"module-name": "iana-if-type",
 	"module-revision": "2014-05-08",
 	"reference": "RFC 7224"

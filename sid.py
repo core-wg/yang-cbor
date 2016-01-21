@@ -451,7 +451,11 @@ class SidFile:
 
     def get_hihest_sid(self, i):
         current_type = self.content['things'][i]['type']
-        sid = self.content['assigment-ranges'][0]['entry-point']
+        
+        if current_type.startswith('rpc-') or current_type.startswith('notification-parameter'):
+            sid = 10
+        else:
+            sid = self.content['assigment-ranges'][0]['entry-point']
 
         for j in range(i, len(self.content['things'])):
             if (self.content['things'][j]['type'] != current_type):

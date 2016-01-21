@@ -1,0 +1,223 @@
+   module ietf-cool {
+     namespace "urn:ietf:ns:cool";
+     prefix cool;
+
+     organization
+       "IETF Core Working Group";
+
+     contact
+       "Michel Veillette
+        <mailto:michel.veillette@trilliantinc.com>
+
+        Randy Turner
+        <mailto:Randy.Turner@landisgyr.com>
+
+        Alexander Pelov
+        <mailto:a@ackl.io>
+
+        Abhinav Somaraju
+        <mailto:abhinav.somaraju@tridonic.com>";
+
+     description
+       "This module contains the different definitions required
+        by the CoOL protocol.";
+
+     revision 2016-01-01 {
+       description
+         "Initial revision.";
+       reference
+         "draft-veillette-core-cool";
+     }
+
+     typedef status-code {
+       type enumeration {
+         enum ok {
+           value 0;
+           description "The requested edit have been performed
+                        successfully.";
+         }
+
+         enum error {
+           value 1;
+           description "Unspecified error.";
+         }
+
+         enum malformed {
+           value 2;
+           description "Malformed CBOR payload.";
+         }
+
+         enum invalid {
+           value 3;
+           description "The value specified in the request can't be
+                        apply to the target data node.";
+         }
+
+         enum doesNotExist {
+           value 4;
+           description "The target data node instance specified in the 
+                        request don't exist.";
+         }
+
+         enum alreadyExist {
+           value 5;
+           description "The target data node instance specified in the 
+                        request already exist.";
+         }
+
+         enum readOnly {
+           value 6;
+           description "Attempt to update a read-only data node.";
+         }
+       }
+     }
+
+     container error-info {
+       description "Optional payload of a client error (CoAP response
+                    4.xx) or server error (CoAP response 5.xx).";
+
+       leaf error-code {
+         mandatory true;
+         type status-code;
+       }
+
+       leaf error-text {
+         mandatory false;
+         type string;
+         description "Textual descriptions of the error.";
+       }
+     }
+
+     list patch-request {
+       key "edit-id";
+
+       description
+         "This list represents the payload of a patch request message.
+          It carry a sequence of edits on a datastore. Each edit MUST
+          be applied in ascending order, and all edits MUST be applied.
+          If any errors occur, then the target datastore SOULD NOT be
+          changed by the patch operation.";
+
+       leaf edit-id {
+         mandatory true;
+         type uint8;
+
+         description
+           "Error messages returned by the server pertaining to
+            a specific edit will be identified by this value.";
+       }
+
+       leaf operation {
+         mandatory true;
+         type enumeration {
+           enum "create" {
+             value 0;
+             description
+               "The target data node instance is created using the
+                supplied value, only if it does not already exist.";
+           }
+           enum "delete" {
+             value 1;
+             description
+               "Delete the target instance, only if the instance
+                currently exists, otherwise return an error.";
+           }
+           enum "merge" {
+             value 2;
+             description
+               "The supplied value is merged with the target
+                data node instance.";
+           }
+           enum "replace" {
+             value 3;
+             description
+               "The supplied value is used to replace the target
+                data node instance.";
+           }
+           enum "remove" {
+             value 4;
+             description
+               "Delete the target node instance if it currently exists.";
+           }
+           enum insert-first {
+             value 5;
+             description
+               "Insert the supplied value at the beginning of an
+                user-ordered-list.";
+           }
+           enum insert-last {
+             value 6;
+             description
+               "Insert the supplied value at the end of an
+                user-ordered-list.";
+           }
+           enum insert-before {
+             value 7;
+             description
+               "Insert the supplied value in a user-ordered-list
+                just before the entry identified by 'list-instance'
+                parameter.";
+           }
+           enum insert-after {
+             value 8;
+             description
+               "Insert the supplied value in a user-ordered-list
+                just after the entry identified by 'list-instance'
+                parameter.";
+           }
+         }
+       }
+
+       leaf list-instance {
+         when
+           "(../operation = 'delete' or ../operation = 'remove' or" +
+           " ../operation = 'insert-before' or" +
+           " ../operation = 'insert-after' )";
+         type binary;
+         mandatory true;
+         description
+           "CBOR array containing an 'instance-identifier' used to
+            identify an instance within a list.";
+       }
+
+       anyxml value {
+         when
+           "(../operation = 'create' or ../operation = 'merge' or" +
+           " ../operation = 'replace' or " +
+           " ../operation = 'insert-first' or" +
+           " ../operation = 'insert-last' or" +
+           " ../operation = 'insert-before' or" +
+           " ../operation = 'insert-after')";
+         description
+           "CBOR map containing the tag and value used for this
+            edit operation.";
+       }
+     }
+
+     list patch-response {
+       key "edit-id";
+       description
+         "This list represents the payload of a patch request response.
+          Each entry contain the status of an operation included in
+          the corresponding request message.";
+
+       leaf edit-id {
+         mandatory true;
+         type uint8;
+         description
+           "This value is used to match this entry with the
+            corresponding entry in the patch-request list";
+       }
+
+       leaf edit-status {
+         mandatory true;
+         type status-code;
+       }
+
+       leaf error-text {
+         mandatory false;
+         type string;
+         description "Textual descriptions of the error.";
+       }
+     }
+   }

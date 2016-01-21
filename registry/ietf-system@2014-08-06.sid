@@ -402,7 +402,7 @@
       "type": "rpc-input set-current-datetime",
       "assigned": "2016-01-13T21:00:19Z",
       "label": "/current-datetime",
-      "sid": 1700
+      "sid": 10
     }
   ]
 }

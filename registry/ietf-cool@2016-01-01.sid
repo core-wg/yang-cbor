@@ -1,0 +1,84 @@
+{
+  "assigment-ranges": [
+    {
+      "entry-point": 1000,
+      "size": 100
+    }
+  ],
+  "module-name": "ietf-cool",
+  "module-revision": "2016-01-01",
+  "things": [
+    {
+      "type": "node",
+      "assigned": "2016-01-19T21:38:30Z",
+      "label": "/error-info",
+      "sid": 1000
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-19T21:38:30Z",
+      "label": "/error-info/error-code",
+      "sid": 1001
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-19T21:38:30Z",
+      "label": "/error-info/error-text",
+      "sid": 1002
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-19T21:38:30Z",
+      "label": "/patch-request",
+      "sid": 1003
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-19T21:38:30Z",
+      "label": "/patch-request/edit-id",
+      "sid": 1004
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-19T21:38:30Z",
+      "label": "/patch-request/list-instance",
+      "sid": 1005
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-19T21:38:30Z",
+      "label": "/patch-request/operation",
+      "sid": 1006
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-19T21:38:30Z",
+      "label": "/patch-request/value",
+      "sid": 1007
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-19T21:38:30Z",
+      "label": "/patch-response",
+      "sid": 1008
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-19T21:38:30Z",
+      "label": "/patch-response/edit-id",
+      "sid": 1009
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-19T21:38:30Z",
+      "label": "/patch-response/edit-status",
+      "sid": 1010
+    },
+    {
+      "type": "node",
+      "assigned": "2016-01-19T21:38:30Z",
+      "label": "/patch-response/error-text",
+      "sid": 1011
+    }
+  ]
+}
