@@ -162,7 +162,7 @@ class SidFile:
     def process_sid_file(self, module):
         self.module_name = module.i_modulename
         self.module_revision = self.get_module_revision(module)
-        self.assigment_time = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
+        self.assignment_time = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
         self.output_file_name = '%s@%s.sid' % (self.module_name, self.module_revision)
 
         if self.range is not None:
@@ -209,8 +209,8 @@ class SidFile:
         if len(components) != 2 or not re.match(r'\d+:\d+', range):
             raise SidParcingError("invalid range in argument, must be '<entry-point>:<size>'.")
 
-        self.content = OrderedDict([('assigment-ranges', [])])
-        self.content['assigment-ranges'].append(OrderedDict([('entry-point', int(components[0])), ('size', int(components[1]))]))
+        self.content = OrderedDict([('assignment-ranges', [])])
+        self.content['assignment-ranges'].append(OrderedDict([('entry-point', int(components[0])), ('size', int(components[1]))]))
 
     ########################################################
     # Retrieve the module revision from the pyang context
@@ -248,9 +248,9 @@ class SidFile:
     def validate_key_and_value(self):
         for key in self.content:
 
-            if key == 'assigment-ranges':
+            if key == 'assignment-ranges':
                 if type(self.content[key]) != list:
-                    raise SidFileError("key 'assigment-ranges', invalid  value.")
+                    raise SidFileError("key 'assignment-ranges', invalid  value.")
                 self.validate_ranges(self.content[key])
                 continue
 
@@ -311,15 +311,15 @@ class SidFile:
     ########################################################
     # Sort the range list by 'entry-point'
     def sort_ranges(self):
-        if 'assigment-ranges' in self.content:
-            self.content['assigment-ranges'].sort(key=lambda range:range['entry-point'])
+        if 'assignment-ranges' in self.content:
+            self.content['assignment-ranges'].sort(key=lambda range:range['entry-point'])
 
     ########################################################
     # Verify if each range defined in the .sid file is distinct
     def validate_ovelaping_ranges(self):
-        if 'assigment-ranges' in self.content:
+        if 'assignment-ranges' in self.content:
             last_highest_sid = 0
-            for range in self.content['assigment-ranges']:
+            for range in self.content['assignment-ranges']:
                 if range['entry-point'] < last_highest_sid:
                     raise SidFileError("overlapping ranges are not allowed.")
                 last_highest_sid += range['entry-point'] + range['size']
@@ -330,14 +330,18 @@ class SidFile:
         self.content['things'].sort(key=lambda thing:thing['sid'])
         last_sid = -1
         for thing in self.content['things']:
-            if self.out_of_ranges(thing['sid']):
-                raise SidFileError("'sid' %d not within 'assigment-ranges'" % thing['sid'])
+            if thing['type'].startswith('rpc-') or thing['type'].startswith('notification-'):
+                if thing['sid'] < 10:
+                    raise SidFileError("'sid' %d is invalid" % thing['sid'])
+            else:
+                if self.out_of_ranges(thing['sid']):
+                    raise SidFileError("'sid' %d not within 'assignment-ranges'" % thing['sid'])
             if thing['sid'] == last_sid:
                 raise SidFileError("duplicated 'sid' value %d " % thing['sid'])
                 last_sid = thing['sid']
 
     def out_of_ranges(self, sid):
-        for range in self.content['assigment-ranges']:
+        for range in self.content['assignment-ranges']:
             if sid >= range['entry-point'] and sid < range['entry-point'] + range['size']:
                 return False
         return True
@@ -417,7 +421,7 @@ class SidFile:
             if (type == thing['type'] and label == thing['label']):
                 thing['status'] = 'o' # Thing already assigned
                 return
-        self.content['things'].append(OrderedDict([('type', type),('assigned', self.assigment_time), ('label', label), ('sid', -1), ('status', 'n')]))
+        self.content['things'].append(OrderedDict([('type', type),('assigned', self.assignment_time), ('label', label), ('sid', -1), ('status', 'n')]))
         self.is_consistent = False
 
     ########################################################
@@ -452,10 +456,10 @@ class SidFile:
     def get_hihest_sid(self, i):
         current_type = self.content['things'][i]['type']
         
-        if current_type.startswith('rpc-') or current_type.startswith('notification-parameter'):
+        if current_type.startswith('rpc-') or current_type.startswith('notification-'):
             sid = 10
         else:
-            sid = self.content['assigment-ranges'][0]['entry-point']
+            sid = self.content['assignment-ranges'][0]['entry-point']
 
         for j in range(i, len(self.content['things'])):
             if (self.content['things'][j]['type'] != current_type):
@@ -468,25 +472,38 @@ class SidFile:
 
     def get_next_sid(self, sid):
         sid += 1
-        for i in range(len(self.content['assigment-ranges'])):
-            if sid < self.content['assigment-ranges'][i]['entry-point'] + self.content['assigment-ranges'][i]['size']:
+        for i in range(len(self.content['assignment-ranges'])):
+            if sid < self.content['assignment-ranges'][i]['entry-point'] + self.content['assignment-ranges'][i]['size']:
                 return sid
             else:
-                if i + 1 < len(self.content['assigment-ranges']):
-                    if sid < self.content['assigment-ranges'][i+1]['entry-point']:
-                        return self.content['assigment-ranges'][i+1]['entry-point']
+                if i + 1 < len(self.content['assignment-ranges']):
+                    if sid < self.content['assignment-ranges'][i+1]['entry-point']:
+                        return self.content['assignment-ranges'][i+1]['entry-point']
 
         raise SidParcingError("SID range(s) exhausted, extend the allocation range or add a new one.")
 
     ########################################################
     def list_things(self):
+        print("SID        Assigned to")
+        print("---------  --------------------------------------------------")
+        for thing in self.content['things']:
+            if thing['status'] == 'o':
+                if thing['type'].startswith('rpc-i'):
+                    print("%-9s  rpc %s input %s" % (thing['sid'], thing['type'][10:], thing['label']))
+                else:
+                    if thing['type'].startswith('rpc-o'):
+                        print("%-9s  rpc %s output %s" % (thing['sid'], thing['type'][11:], thing['label']))
+                    else:
+                        if thing['type'].startswith('notification-'):
+                            print("%-9s  notification %s parameter %s" % (thing['sid'], thing['type'][23:], thing['label']))
+                        else:
+                            print("%-9s  %s %s" % (thing['sid'], thing['type'], thing['label']))
+
         for thing in self.content['things']:
             if thing['status'] == 'd':
                 print("WARNING, thing '%s' have been deleted form the .yang files, it should be reintroduced with a 'deprecated' or 'obsolete' status." % thing['label'])
             if thing['status'] == 'n':
                 print("WARNING, thing '%s' is not defined in the .sid file." % thing['label'])
-            if thing['status'] == 'o':
-                print("%s assigned to %s '%s'" % (thing['sid'], thing['type'], thing['label']))
 
     ########################################################
     def list_deleted_things(self):
@@ -514,7 +531,7 @@ class SidFile:
     ########################################################
     def number_of_SIDs(self):
         size = 0
-        for range in self.content['assigment-ranges']:
+        for range in self.content['assignment-ranges']:
             size += range['size']
         return size
 
@@ -523,7 +540,7 @@ class SidFile:
             return 0
 
         used = 0
-        for range in self.content['assigment-ranges']:
+        for range in self.content['assignment-ranges']:
             if highest_sid < ( range['entry-point'] + range['size'] ):
                     return highest_sid - range['entry-point'] + used
             used += range['size']
