@@ -62,6 +62,10 @@ class SidPlugin(plugin.PyangPlugin):
         if ctx.opts.generate_sid_file is None and ctx.opts.update_sid_file is None and ctx.opts.check_sid_file is None and ctx.opts.list_sid_file is None:
             return
 
+        if ctx.errors != []:
+            print("Invalid YANG module, .sid file processing aborted.")
+            return
+
         sid_file = SidFile()
 
         if ctx.opts.generate_sid_file is not None:
