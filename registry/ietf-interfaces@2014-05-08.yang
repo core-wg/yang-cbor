@@ -276,10 +276,6 @@ module ietf-interfaces {
     list interface {
       key "name";
 
-
-
-
-
       description
         "The list of interfaces on the device.
 
@@ -325,9 +321,6 @@ module ietf-interfaces {
             description
               "Not ready to pass packets and not in some test mode.";
           }
-
-
-
           enum testing {
             value 3;
             description
@@ -464,14 +457,6 @@ module ietf-interfaces {
                      ifSpeed, ifHighSpeed";
       }
 
-
-
-
-
-
-
-
-
       container statistics {
         description
           "A collection of interface-related statistics objects.";
@@ -516,9 +501,6 @@ module ietf-interfaces {
           reference
             "RFC 2863: The Interfaces Group MIB - ifHCInUcastPkts";
         }
-
-
-
 
         leaf in-broadcast-pkts {
           type yang:counter64;
@@ -566,8 +548,6 @@ module ietf-interfaces {
              at re-initialization of the management system, and at
              other times as indicated by the value of
              'discontinuity-time'.";
-
-
           reference
             "RFC 2863: The Interfaces Group MIB - ifInDiscards";
         }
@@ -611,10 +591,6 @@ module ietf-interfaces {
           reference
             "RFC 2863: The Interfaces Group MIB - ifInUnknownProtos";
         }
-
-
-
-
 
         leaf out-octets {
           type yang:counter64;
@@ -663,7 +639,6 @@ module ietf-interfaces {
                        ifHCOutBroadcastPkts";
         }
 
-
         leaf out-multicast-pkts {
           type yang:counter64;
           description
@@ -708,9 +683,6 @@ module ietf-interfaces {
              For character-oriented or fixed-length interfaces, the
              number of outbound transmission units that could not be
              transmitted because of errors.
-
-
-
 
              Discontinuities in the value of this counter can occur
              at re-initialization of the management system, and at
