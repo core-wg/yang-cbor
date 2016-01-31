@@ -334,12 +334,8 @@ class SidFile:
         self.content['things'].sort(key=lambda thing:thing['sid'])
         last_sid = -1
         for thing in self.content['things']:
-            if thing['type'].startswith('rpc-') or thing['type'].startswith('notification-'):
-                if thing['sid'] < 10:
-                    raise SidFileError("'sid' %d is invalid" % thing['sid'])
-            else:
-                if self.out_of_ranges(thing['sid']):
-                    raise SidFileError("'sid' %d not within 'assignment-ranges'" % thing['sid'])
+            if not (thing['type'].startswith('rpc-') or thing['type'].startswith('notification-') ) and self.out_of_ranges(thing['sid']):
+                raise SidFileError("'sid' %d not within 'assignment-ranges'" % thing['sid'])
             if thing['sid'] == last_sid:
                 raise SidFileError("duplicated 'sid' value %d " % thing['sid'])
                 last_sid = thing['sid']
@@ -420,6 +416,9 @@ class SidFile:
                 self.merge_thing('node', "%s/%s" % (path, substmt.arg))
                 self.collect_augment_data_nodes(substmt.i_children)
 
+            if substmt.keyword == 'choice' or substmt.keyword == 'case':
+                self.collect_augment_data_nodes(substmt.i_children)
+
     def merge_thing(self, type, label):
         for thing in self.content['things']:
             if (type == thing['type'] and label == thing['label']):
@@ -461,7 +460,7 @@ class SidFile:
         current_type = self.content['things'][i]['type']
         
         if current_type.startswith('rpc-') or current_type.startswith('notification-'):
-            sid = 10
+            sid = 0
         else:
             sid = self.content['assignment-ranges'][0]['entry-point']
 
