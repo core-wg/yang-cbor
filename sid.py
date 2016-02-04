@@ -63,7 +63,7 @@ class SidPlugin(plugin.PyangPlugin):
             return
 
         if ctx.errors != []:
-            print("Invalid YANG module, .sid file processing aborted.")
+            sys.stderr.write("Invalid YANG module, .sid file processing aborted.\n")
             return
 
         sid_file = SidFile()
@@ -158,10 +158,8 @@ class SidFile:
         self.list_content = False
         self.input_file_name = None
         self.range = None
-        self.node_highest_sid = 0
-        self.identity_highest_sid = 0
-        self.rpc_highest_sid = 0
-        self.notification_highest_sid = 0
+        self.node_highest = 0
+
 
     def process_sid_file(self, module):
         self.module_name = module.i_modulename
@@ -438,38 +436,44 @@ class SidFile:
     # Identifier assignment
     def assign_sid(self):
         last_type = ''
+        self.highest_sid = self.get_highest_sid()
+
         for i in range(len(self.content['things'])):
             if self.content['things'][i]['type'] != last_type:
-                sid = self.get_hihest_sid(i)
+                if self.content['things'][i]['type'].startswith('rpc-') or self.content['things'][i]['type'].startswith('notification-'):
+                    local_sid = self.get_highest_local_sid(i)
                 last_type = self.content['things'][i]['type']
 
             if self.content['things'][i]['sid'] == -1:
-                self.content['things'][i]['sid'] = sid
+                if self.content['things'][i]['type'].startswith('rpc-') or self.content['things'][i]['type'].startswith('notification-'):
+                    self.content['things'][i]['sid'] = local_sid
+                    local_sid += 1
+                else:
+                    self.content['things'][i]['sid'] = self.highest_sid
+                    self.highest_sid = self.get_next_sid(self.highest_sid)
+
+    def get_highest_sid(self):
+        sid = self.content['assignment-ranges'][0]['entry-point']
+
+        for thing in self.content['things']:
+            if thing['type'].startswith('rpc-') or thing['type'].startswith('notification-'):
+                continue
+            if (thing['sid'] >= sid):
+                sid = thing['sid']
                 sid = self.get_next_sid(sid)
 
-            if self.content['things'][i]['type'] == "node" and sid > self.node_highest_sid:
-                self.node_highest_sid = sid
-            if self.content['things'][i]['type'] == "identity" and sid > self.identity_highest_sid:
-                self.identity_highest_sid = sid
-            if self.content['things'][i]['type'] == "rpc" and sid > self.rpc_highest_sid:
-                self.rpc_highest_sid = sid
-            if self.content['things'][i]['type'] == "notification" and sid > self.notification_highest_sid:
-                self.notification_highest_sid = sid
+        return sid
 
-    def get_hihest_sid(self, i):
+    def get_highest_local_sid(self, i):
         current_type = self.content['things'][i]['type']
-        
-        if current_type.startswith('rpc-') or current_type.startswith('notification-'):
-            sid = 0
-        else:
-            sid = self.content['assignment-ranges'][0]['entry-point']
+        sid = 0
 
         for j in range(i, len(self.content['things'])):
             if (self.content['things'][j]['type'] != current_type):
                 return sid
             if (self.content['things'][j]['sid'] >= sid):
                 sid = self.content['things'][j]['sid']
-                sid = self.get_next_sid(sid)
+                sid += 1
 
         return sid
 
@@ -551,7 +555,4 @@ class SidFile:
 
     def print_statistic(self):
         print ("Number of SIDs available : %d" % self.number_of_SIDs())
-        print ("Number of data nodes assigned : %d" % self.number_of_SIDs_used(self.node_highest_sid))
-        print ("Number of identities assigned : %d" % self.number_of_SIDs_used(self.identity_highest_sid))
-        print ("Number of RPCs assigned : %d" % self.number_of_SIDs_used(self.rpc_highest_sid))
-        print ("Number of notifications assigned : %d" % self.number_of_SIDs_used(self.notification_highest_sid))
+        print ("Number of SIDs assigned : %d" % self.number_of_SIDs_used(self.highest_sid))
