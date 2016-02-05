@@ -289,12 +289,12 @@ class SidFile:
         for thing in things:
             for key in thing:
                 if key == 'type':
-                    if type(thing[key]) != str or not re.match(r'identity$|node$|notification$|notification-parameter \S*$|rpc$|rpc-input \S*$|rpc-output \S*$', thing[key]):
+                    if type(thing[key]) != str or not re.match(r'identity$|node$|notification$|rpc$', thing[key]):
                         raise SidFileError("invalid 'type' value '%s'." % thing[key])
                     continue
 
                 if key == 'assigned':
-                    if type(thing[key]) != str or not re.match(r'\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\dZ', thing[key]):
+                    if type(thing[key]) != str or not re.match(r'\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\dZ$', thing[key]):
                         raise SidFileError("invalid 'assigned' value '%s'." % thing[key])
                     continue
 
@@ -332,7 +332,7 @@ class SidFile:
         self.content['things'].sort(key=lambda thing:thing['sid'])
         last_sid = -1
         for thing in self.content['things']:
-            if not (thing['type'].startswith('rpc-') or thing['type'].startswith('notification-') ) and self.out_of_ranges(thing['sid']):
+            if self.out_of_ranges(thing['sid']):
                 raise SidFileError("'sid' %d not within 'assignment-ranges'" % thing['sid'])
             if thing['sid'] == last_sid:
                 raise SidFileError("duplicated 'sid' value %d " % thing['sid'])
@@ -355,67 +355,69 @@ class SidFile:
 
         for children in module.i_children:
             if children.keyword == 'leaf' or children.keyword == 'leaf-list' or children.keyword == 'anyxml':
-                self.merge_thing('node', "/%s" % children.arg)
+                self.merge_thing(self.getType(children), self.getPath(children))
 
             if children.keyword == 'container' or children.keyword == 'list':
-                self.merge_thing('node', "/%s" % children.arg)
-                self.collect_inner_data_nodes(children.i_children, 'node', "/%s/" % children.arg)
+                self.merge_thing(self.getType(children), self.getPath(children))
+                self.collect_inner_data_nodes(children.i_children)
 
             if children.keyword == 'choice' or children.keyword == 'case':
-                self.collect_inner_data_nodes(children.i_children, 'node', "/%s/" % children.arg)
+                self.collect_inner_data_nodes(children.i_children)
 
             if children.keyword == 'rpc':
-                self.merge_thing('rpc', "%s" % children.arg)
-                self.collect_rpc_input_and_output(children.i_children, children.arg, "/")
+                self.merge_thing('rpc', "/%s" % children.arg)
+                for statement in children.i_children:
+                    if statement.keyword == 'input' or statement.keyword == 'output':
+                        self.collect_inner_data_nodes(statement.i_children)
 
             if children.keyword == 'notification':
-                self.merge_thing('notification', "%s" % children.arg)
-                self.collect_inner_data_nodes(children.i_children, "notification-parameter %s" % children.arg, "/")
+                self.merge_thing('notification', "/%s" % children.arg)
+                self.collect_inner_data_nodes(children.i_children)
 
         for identity in module.i_identities:
                 self.merge_thing('identity', "%s:%s" % (module.i_modulename, identity))
 
         for substmt in module.substmts:
             if substmt.keyword == 'augment':
-                self.collect_augment_data_nodes(substmt.substmts)
+                self.collect_inner_data_nodes(substmt.substmts)
 
-    def collect_inner_data_nodes(self, children, type, label):
+    def collect_inner_data_nodes(self, children):
         for statement in children:
             if statement.keyword == 'leaf' or statement.keyword == 'leaf-list' or statement.keyword == 'anyxml':
-                self.merge_thing(type, "%s%s" % (label, statement.arg))
+                self.merge_thing(self.getType(statement), self.getPath(statement))
 
             if statement.keyword == 'container' or statement.keyword == 'list':
-                self.merge_thing(type, "%s%s" % (label, statement.arg))
-                self.collect_inner_data_nodes(statement.i_children, type, "%s%s/" % (label, statement.arg))
+                self.merge_thing(self.getType(statement), self.getPath(statement))
+                self.collect_inner_data_nodes(statement.i_children)
 
             if statement.keyword == 'choice' or statement.keyword == 'case':
-                self.collect_inner_data_nodes(statement.i_children, type, "%s%s/" % (label, statement.arg))
+                self.collect_inner_data_nodes(statement.i_children)
 
-    def collect_rpc_input_and_output(self, children, rpc_name, label):
-        for statement in children:
-            if statement.keyword == 'input' or statement.keyword == 'output':
-                self.collect_inner_data_nodes(statement.i_children, "rpc-%s %s" % (statement.keyword, rpc_name), label)
+    def getType(self, statement):
+        if statement.keyword == "rpc":
+            return 'rpc'
+        if statement.keyword == "notification":
+            return 'notification'
+        if statement.parent != None:
+            return self.getType(statement.parent)
+        return 'node'
 
     def getPath(self, statement, path = ""):
-        if statement.keyword == 'container' or statement.keyword == 'list':
+        current_module = statement.i_module
+        return self.constructPath(statement, current_module, "")
+
+    def constructPath(self, statement, current_module, path):
+        if statement.keyword == "module":
+            return path
+
+        if statement.i_module == None or statement.i_module == current_module:
             path = "/" + statement.arg + path
+        else:
+            path = "/" + statement.i_module.arg + ":" + statement.arg + path
+
         if statement.parent != None:
-            path = self.getPath(statement.parent, path)
+            path = self.constructPath(statement.parent, current_module, path)
         return path
-
-    def collect_augment_data_nodes(self, statement):
-        for substmt in statement:
-            if substmt.keyword == 'leaf' or substmt.keyword == 'leaf-list' or substmt.keyword == 'anyxml':
-                path = self.getPath(substmt.parent)
-                self.merge_thing('node', "%s/%s" % (path, substmt.arg))
-
-            if substmt.keyword == 'container' or substmt.keyword == 'list':
-                path = self.getPath(substmt.parent)
-                self.merge_thing('node', "%s/%s" % (path, substmt.arg))
-                self.collect_augment_data_nodes(substmt.i_children)
-
-            if substmt.keyword == 'choice' or substmt.keyword == 'case':
-                self.collect_augment_data_nodes(substmt.i_children)
 
     def merge_thing(self, type, label):
         for thing in self.content['things']:
@@ -435,45 +437,21 @@ class SidFile:
     ########################################################
     # Identifier assignment
     def assign_sid(self):
-        last_type = ''
         self.highest_sid = self.get_highest_sid()
 
         for i in range(len(self.content['things'])):
-            if self.content['things'][i]['type'] != last_type:
-                if self.content['things'][i]['type'].startswith('rpc-') or self.content['things'][i]['type'].startswith('notification-'):
-                    local_sid = self.get_highest_local_sid(i)
-                last_type = self.content['things'][i]['type']
 
             if self.content['things'][i]['sid'] == -1:
-                if self.content['things'][i]['type'].startswith('rpc-') or self.content['things'][i]['type'].startswith('notification-'):
-                    self.content['things'][i]['sid'] = local_sid
-                    local_sid += 1
-                else:
-                    self.content['things'][i]['sid'] = self.highest_sid
-                    self.highest_sid = self.get_next_sid(self.highest_sid)
+                self.content['things'][i]['sid'] = self.highest_sid
+                self.highest_sid = self.get_next_sid(self.highest_sid)
 
     def get_highest_sid(self):
         sid = self.content['assignment-ranges'][0]['entry-point']
 
         for thing in self.content['things']:
-            if thing['type'].startswith('rpc-') or thing['type'].startswith('notification-'):
-                continue
             if (thing['sid'] >= sid):
                 sid = thing['sid']
                 sid = self.get_next_sid(sid)
-
-        return sid
-
-    def get_highest_local_sid(self, i):
-        current_type = self.content['things'][i]['type']
-        sid = 0
-
-        for j in range(i, len(self.content['things'])):
-            if (self.content['things'][j]['type'] != current_type):
-                return sid
-            if (self.content['things'][j]['sid'] >= sid):
-                sid = self.content['things'][j]['sid']
-                sid += 1
 
         return sid
 
@@ -491,26 +469,23 @@ class SidFile:
 
     ########################################################
     def list_things(self):
+        definition_removed = False
+
         print("SID        Assigned to")
         print("---------  --------------------------------------------------")
         for thing in self.content['things']:
-            if thing['status'] == 'o':
-                if thing['type'].startswith('rpc-i'):
-                    print("%-9s  rpc %s input %s" % (thing['sid'], thing['type'][10:], thing['label']))
-                else:
-                    if thing['type'].startswith('rpc-o'):
-                        print("%-9s  rpc %s output %s" % (thing['sid'], thing['type'][11:], thing['label']))
-                    else:
-                        if thing['type'].startswith('notification-'):
-                            print("%-9s  notification %s parameter %s" % (thing['sid'], thing['type'][23:], thing['label']))
-                        else:
-                            print("%-9s  %s %s" % (thing['sid'], thing['type'], thing['label']))
+            print("%-9s  %s %s" % (thing['sid'], thing['type'], thing['label']))
 
         for thing in self.content['things']:
             if thing['status'] == 'd':
-                print("WARNING, thing '%s' have been deleted form the .yang files, it should be reintroduced with a 'deprecated' or 'obsolete' status." % thing['label'])
+                print("WARNING, '%s' have been removed form the .yang files." % thing['label'])
+                definition_removed = True
             if thing['status'] == 'n':
-                print("WARNING, thing '%s' is not defined in the .sid file." % thing['label'])
+                print("WARNING, '%s' is not defined in the .sid file." % thing['label'])
+
+        if definition_removed:
+            print("Obsolete definitions MUST NOT be removed from YANG modules, see RFC 6020 section 10.")
+            print("These definition(s) should be reintroduced with a 'deprecated' or 'obsolete' status.")
 
     ########################################################
     def list_deleted_things(self):
