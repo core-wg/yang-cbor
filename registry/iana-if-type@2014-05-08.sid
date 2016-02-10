@@ -7,7 +7,7 @@
   ],
   "module-name": "iana-if-type",
   "module-revision": "2014-05-08",
-  "things": [
+  "items": [
     {
       "type": "identity",
       "assigned": "2016-01-13T20:59:59Z",

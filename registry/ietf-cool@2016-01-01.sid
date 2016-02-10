@@ -7,7 +7,7 @@
   ],
   "module-name": "ietf-cool",
   "module-revision": "2016-01-01",
-  "things": [
+  "items": [
     {
       "type": "node",
       "assigned": "2016-01-19T21:38:30Z",
