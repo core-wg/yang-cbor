@@ -40,11 +40,10 @@ class SidPlugin(plugin.PyangPlugin):
                                  type="string",
                                  dest="check_sid_file",
                                  help="Check the consistency between a .sid file and the .yang file(s)."),
-            optparse.make_option("--list-sid-file",
-                                 action="store",
-                                 type="string",
-                                 dest="list_sid_file",
-                                 help="List the .sid file content."),
+            optparse.make_option("--list-sid",
+                                 action="store_true",
+                                 dest="list_sid",
+                                 help="Print the list of SID."),
             ]
 
         g = optparser.add_option_group("SID file specific options")
@@ -59,7 +58,17 @@ class SidPlugin(plugin.PyangPlugin):
         ctx.implicit_errors = False
 
     def post_validate_ctx(self, ctx, modules):
-        if ctx.opts.generate_sid_file is None and ctx.opts.update_sid_file is None and ctx.opts.check_sid_file is None and ctx.opts.list_sid_file is None:
+        nbr_option_specified = 0
+        if ctx.opts.generate_sid_file is not None:
+            nbr_option_specified += 1
+        if ctx.opts.update_sid_file is not None:
+            nbr_option_specified += 1
+        if ctx.opts.check_sid_file is not None:
+            nbr_option_specified += 1
+        if nbr_option_specified == 0:
+            return
+        if nbr_option_specified > 1:
+            sys.stderr.write("Invalid option, only one process on .sid file can be requested.\n")
             return
 
         if ctx.errors != []:
@@ -71,6 +80,7 @@ class SidPlugin(plugin.PyangPlugin):
         if ctx.opts.generate_sid_file is not None:
             sid_file.range = ctx.opts.generate_sid_file
             sid_file.is_consistent = False
+            sid_file.sid_file_created = True
 
         if ctx.opts.update_sid_file is not None:
             sid_file.input_file_name = ctx.opts.update_sid_file
@@ -78,10 +88,9 @@ class SidPlugin(plugin.PyangPlugin):
         if ctx.opts.check_sid_file is not None:
             sid_file.input_file_name = ctx.opts.check_sid_file
             sid_file.check_consistency = True
-            print("Checking the consistency of '%s'" % sid_file.input_file_name)
+            print("Checking consistency of '%s'" % sid_file.input_file_name)
 
-        if ctx.opts.list_sid_file is not None:
-            sid_file.input_file_name = ctx.opts.list_sid_file
+        if ctx.opts.list_sid:
             sid_file.list_content = True
 
         try:
@@ -103,40 +112,39 @@ class SidPlugin(plugin.PyangPlugin):
 def print_help():
     print("""
 Structure IDentifier (SID) are used to map YANG definitions to
-the CBOR encoding. These SIDs can be automatically generated
+CBOR encoding. These SIDs can be automatically generated
 for a YANG module using the pyang sid plugin.
 
-The first time a .sid file is generated, the entry-point and size
-of the registered range of SIDs is provided as argument to
-pyang. For more details on registration process, see:
-[I-D] veillette-core-yang-cbor-mapping
-
-   pyang --generate-sid-file <entry-point:size> <yang-module> …
+   pyang --generate-sid-file <entry-point:size> <yang-module>
 
 For example:
    pyang --generate-sid-file 20000:100 toaster@2009-11-20.yang
 
 The name of the .sid file generated is:
 
-   "<module-name>@<module-revision>.sid"
+   <module-name>@<module-revision>.sid
 
-Each time new thing(s) are added to a YANG module by the
+Each time new items(s) are added to a YANG module by the
 introduction of a new revision of this module, its included
 sub-module(s) or imported module(s), the .sid file need to be
 updated. This is done by providing the name of the previous
 .sid file as argument.
 
-   pyang --update-sid-file <file-name> <yang-module> …
+   pyang --update-sid-file <file-name> <yang-module>
+
+For example:
+   pyang --update-sid-file toaster@2009-11-20.sid toaster@2009-12-28.yang
 
 The --check-sid-file option can be used at any time to verify
 if the .sid file need to be updated.
 
-   pyang --check-sid-file <file-name> <yang-module> …
+   pyang --check-sid-file <file-name> <yang-module>
 
-The --list-sid-file can also be used at any time to list
-the content of a .sid file and verify its consistency.
+The --list_sid option can included before any of the previous
+option to obtains the list of SIDs assigned or validated.
 
-   pyang --list-sid-file <file-name> <yang-module> …
+For example:
+   pyang --list-sid --generate-sid-file 20000:100 toaster@2009-11-20.yang
 """
 )
 
@@ -153,6 +161,7 @@ class SidParcingError(Exception):
 ############################################################
 class SidFile:
     def __init__(self):
+        self.sid_file_created = False
         self.is_consistent = True
         self.check_consistency = False
         self.list_content = False
@@ -179,31 +188,31 @@ class SidFile:
             self.validate_sid()
 
         self.set_module_information()
-        self.collect_module_things(module)
-        self.sort_things()
+        self.collect_module_items(module)
+        self.sort_items()
         self.assign_sid()
 
+        if self.list_content:
+            self.list_all_items()
+        else:
+            self.list_deleted_items()
+
         if self.check_consistency:
-            self.list_deleted_things()
-            self.list_new_things()
             if self.is_consistent:
                 print("Check completed successfully")
             else:
                 print("The .sid file need to be updated.")
-            return
-
-        if self.list_content:
-            print("SIDs assigned to module '%s', revision '%s':\n" % (self.module_name, self.module_revision))
-            self.list_things()
-            return
-
-        self.list_deleted_things()
-        if self.is_consistent:
-            print("No .sid file generated, the current .sid file is already up to date.")
         else:
-            print("Generating %s ..." % self.output_file_name)
-            self.generate_file()
-            self.print_statistic()
+            if self.is_consistent:
+                print("No .sid file generated, the current .sid file is already up to date.")
+            else:
+                self.generate_file()
+                if self.sid_file_created:
+                    print("\nFile %s created" % self.output_file_name)
+                else:
+                    print("\nFile %s updated" % self.output_file_name)
+                self.print_statistic()
+
 
     ########################################################
     def set_initial_range(self, range):
@@ -262,10 +271,10 @@ class SidFile:
             if key == 'module-revision':
                 continue
 
-            if key == 'things':
+            if key == 'items':
                 if type(self.content[key]) != list:
-                    raise SidFileError("key 'things', invalid value.")
-                self.validate_things(self.content[key])
+                    raise SidFileError("key 'items', invalid value.")
+                self.validate_items(self.content[key])
                 continue
 
             raise SidFileError("invalid key '%s'." % key)
@@ -285,27 +294,27 @@ class SidFile:
 
                 raise SidFileError("invalid key '%s'." % key)
 
-    def validate_things(self, things):
-        for thing in things:
-            for key in thing:
+    def validate_items(self, items):
+        for item in items:
+            for key in item:
                 if key == 'type':
-                    if type(thing[key]) != str or not re.match(r'identity$|node$|notification$|rpc$', thing[key]):
-                        raise SidFileError("invalid 'type' value '%s'." % thing[key])
+                    if type(item[key]) != str or not re.match(r'identity$|node$|notification$|rpc$', item[key]):
+                        raise SidFileError("invalid 'type' value '%s'." % item[key])
                     continue
 
                 if key == 'assigned':
-                    if type(thing[key]) != str or not re.match(r'\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\dZ$', thing[key]):
-                        raise SidFileError("invalid 'assigned' value '%s'." % thing[key])
+                    if type(item[key]) != str or not re.match(r'\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\dZ$', item[key]):
+                        raise SidFileError("invalid 'assigned' value '%s'." % item[key])
                     continue
 
                 if key == 'label':
-                    if type(thing[key]) != str:
-                        raise SidFileError("invalid 'label' value '%s'." % thing[key])
+                    if type(item[key]) != str:
+                        raise SidFileError("invalid 'label' value '%s'." % item[key])
                     continue
 
                 if key == 'sid':
-                    if type(thing[key]) != int:
-                        raise SidFileError("invalid 'sid' value '%s'." % thing[key])
+                    if type(item[key]) != int:
+                        raise SidFileError("invalid 'sid' value '%s'." % item[key])
                     continue
 
                 raise SidFileError("invalid key '%s'." % key)
@@ -327,16 +336,16 @@ class SidFile:
                 last_highest_sid += range['entry-point'] + range['size']
 
     ########################################################
-    # Verify if each SID listed in things is in range and is not duplicate.
+    # Verify if each SID listed in items is in range and is not duplicate.
     def validate_sid(self):
-        self.content['things'].sort(key=lambda thing:thing['sid'])
+        self.content['items'].sort(key=lambda item:item['sid'])
         last_sid = -1
-        for thing in self.content['things']:
-            if self.out_of_ranges(thing['sid']):
-                raise SidFileError("'sid' %d not within 'assignment-ranges'" % thing['sid'])
-            if thing['sid'] == last_sid:
-                raise SidFileError("duplicated 'sid' value %d " % thing['sid'])
-                last_sid = thing['sid']
+        for item in self.content['items']:
+            if self.out_of_ranges(item['sid']):
+                raise SidFileError("'sid' %d not within 'assignment-ranges'" % item['sid'])
+            if item['sid'] == last_sid:
+                raise SidFileError("duplicated 'sid' value %d " % item['sid'])
+                last_sid = item['sid']
 
     def out_of_ranges(self, sid):
         for range in self.content['assignment-ranges']:
@@ -345,37 +354,37 @@ class SidFile:
         return True
 
     ########################################################
-    # Collection of things defined in .yang file(s)
-    def collect_module_things(self, module):
-        if 'things' not in self.content:
-            self.content['things'] = []
+    # Collection of items defined in .yang file(s)
+    def collect_module_items(self, module):
+        if 'items' not in self.content:
+            self.content['items'] = []
 
-        for thing in self.content['things']:
-            thing['status'] = 'd' # Set to 'd' deleted, updated to 'o' if present in .yang file
+        for item in self.content['items']:
+            item['status'] = 'd' # Set to 'd' deleted, updated to 'o' if present in .yang file
 
         for children in module.i_children:
             if children.keyword == 'leaf' or children.keyword == 'leaf-list' or children.keyword == 'anyxml':
-                self.merge_thing(self.getType(children), self.getPath(children))
+                self.merge_item(self.getType(children), self.getPath(children))
 
             if children.keyword == 'container' or children.keyword == 'list':
-                self.merge_thing(self.getType(children), self.getPath(children))
+                self.merge_item(self.getType(children), self.getPath(children))
                 self.collect_inner_data_nodes(children.i_children)
 
             if children.keyword == 'choice' or children.keyword == 'case':
                 self.collect_inner_data_nodes(children.i_children)
 
             if children.keyword == 'rpc':
-                self.merge_thing('rpc', "/%s" % children.arg)
+                self.merge_item('rpc', "/%s" % children.arg)
                 for statement in children.i_children:
                     if statement.keyword == 'input' or statement.keyword == 'output':
                         self.collect_inner_data_nodes(statement.i_children)
 
             if children.keyword == 'notification':
-                self.merge_thing('notification', "/%s" % children.arg)
+                self.merge_item('notification', "/%s" % children.arg)
                 self.collect_inner_data_nodes(children.i_children)
 
         for identity in module.i_identities:
-                self.merge_thing('identity', "%s:%s" % (module.i_modulename, identity))
+                self.merge_item('identity', "%s:%s" % (module.i_modulename, identity))
 
         for substmt in module.substmts:
             if substmt.keyword == 'augment':
@@ -384,10 +393,10 @@ class SidFile:
     def collect_inner_data_nodes(self, children):
         for statement in children:
             if statement.keyword == 'leaf' or statement.keyword == 'leaf-list' or statement.keyword == 'anyxml':
-                self.merge_thing(self.getType(statement), self.getPath(statement))
+                self.merge_item(self.getType(statement), self.getPath(statement))
 
             if statement.keyword == 'container' or statement.keyword == 'list':
-                self.merge_thing(self.getType(statement), self.getPath(statement))
+                self.merge_item(self.getType(statement), self.getPath(statement))
                 self.collect_inner_data_nodes(statement.i_children)
 
             if statement.keyword == 'choice' or statement.keyword == 'case':
@@ -419,38 +428,38 @@ class SidFile:
             path = self.constructPath(statement.parent, current_module, path)
         return path
 
-    def merge_thing(self, type, label):
-        for thing in self.content['things']:
-            if (type == thing['type'] and label == thing['label']):
-                thing['status'] = 'o' # Thing already assigned
+    def merge_item(self, type, label):
+        for item in self.content['items']:
+            if (type == item['type'] and label == item['label']):
+                item['status'] = 'o' # Item already assigned
                 return
-        self.content['things'].append(OrderedDict([('type', type),('assigned', self.assignment_time), ('label', label), ('sid', -1), ('status', 'n')]))
+        self.content['items'].append(OrderedDict([('type', type),('assigned', self.assignment_time), ('label', label), ('sid', -1), ('status', 'n')]))
         self.is_consistent = False
 
     ########################################################
-    # Sort the things list by 'type', 'assigned' and 'label'
-    def sort_things(self):
-        self.content['things'].sort(key=lambda thing:thing['label'])
-        self.content['things'].sort(key=lambda thing:thing['assigned'])
-        self.content['things'].sort(key=lambda thing:thing['type'])
+    # Sort the items list by 'type', 'assigned' and 'label'
+    def sort_items(self):
+        self.content['items'].sort(key=lambda item:item['label'])
+        self.content['items'].sort(key=lambda item:item['assigned'])
+        self.content['items'].sort(key=lambda item:item['type'])
 
     ########################################################
     # Identifier assignment
     def assign_sid(self):
         self.highest_sid = self.get_highest_sid()
 
-        for i in range(len(self.content['things'])):
+        for i in range(len(self.content['items'])):
 
-            if self.content['things'][i]['sid'] == -1:
-                self.content['things'][i]['sid'] = self.highest_sid
+            if self.content['items'][i]['sid'] == -1:
+                self.content['items'][i]['sid'] = self.highest_sid
                 self.highest_sid = self.get_next_sid(self.highest_sid)
 
     def get_highest_sid(self):
         sid = self.content['assignment-ranges'][0]['entry-point']
 
-        for thing in self.content['things']:
-            if (thing['sid'] >= sid):
-                sid = thing['sid']
+        for item in self.content['items']:
+            if (item['sid'] >= sid):
+                sid = item['sid']
                 sid = self.get_next_sid(sid)
 
         return sid
@@ -468,41 +477,40 @@ class SidFile:
         raise SidParcingError("SID range(s) exhausted, extend the allocation range or add a new one.")
 
     ########################################################
-    def list_things(self):
+    def list_all_items(self):
         definition_removed = False
 
-        print("SID        Assigned to")
+        print("\nSID        Assigned to")
         print("---------  --------------------------------------------------")
-        for thing in self.content['things']:
-            print("%-9s  %s %s" % (thing['sid'], thing['type'], thing['label']))
-
-        for thing in self.content['things']:
-            if thing['status'] == 'd':
-                print("WARNING, '%s' have been removed form the .yang files." % thing['label'])
+        for item in self.content['items']:
+            sys.stdout.write("%-9s  %s %s" % (item['sid'], item['type'], item['label']))
+            if item['status'] == 'n' and not self.sid_file_created:
+                sys.stdout.write(" (New)")
+            if item['status'] == 'd':
+                sys.stdout.write(" (Remove)")
                 definition_removed = True
-            if thing['status'] == 'n':
-                print("WARNING, '%s' is not defined in the .sid file." % thing['label'])
+            sys.stdout.write("\n")
+
+        if definition_removed:
+            print("\nWARNING, obsolete definitions should be defined as 'deprecated' or 'obsolete'.")
+        sys.stdout.write("\n")
+        
+    ########################################################
+    def list_deleted_items(self):
+        definition_removed = False
+        for item in self.content['items']:
+            if item['status'] == 'd':
+                print("WARNING, item '%s' have been deleted form the .yang files." % item['label'])
+                definition_removed = True
 
         if definition_removed:
             print("Obsolete definitions MUST NOT be removed from YANG modules, see RFC 6020 section 10.")
             print("These definition(s) should be reintroduced with a 'deprecated' or 'obsolete' status.")
 
     ########################################################
-    def list_deleted_things(self):
-        for thing in self.content['things']:
-            if thing['status'] == 'd':
-                print("WARNING, thing '%s' have been deleted form the .yang files, it should be reintroduced with a 'deprecated' or 'obsolete' status." % thing['label'])
-
-    ########################################################
-    def list_new_things(self):
-        for thing in self.content['things']:
-            if thing['status'] == 'n':
-                print("WARNING, thing '%s' is not defined in the .sid file." % thing['label'])
-
-    ########################################################
     def generate_file(self):
-        for thing in self.content['things']:
-            del thing['status']
+        for item in self.content['items']:
+            del item['status']
 
         if os.path.exists(self.output_file_name):
             os.remove(self.output_file_name)
