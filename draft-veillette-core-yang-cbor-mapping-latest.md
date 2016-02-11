@@ -165,11 +165,11 @@ This document defines CBOR encoding rules for YANG schema trees and their subtre
 
 Basic schema nodes such leaf, leaf-list, anydata and anyxml can be encoded standalone. In this case, only the value of this schema node is encoded in CBOR. Identification of this value need to be provided by some external means when needed.
 
-Collections like container, list, notification, RPC input, RPC output, action input and action output are serialized using a CBOR map in which each child schema node is encode using a tag and a value. Section 4 defines how the tag part is encoded, and the following sections deal with the value part.
+Collections like container, list, notification, RPC input, RPC output, action input and action output are serialized using a CBOR map in which each child schema node is encode using a tag and a value. {{SID}} defines how the tag part is encoded, and the following sections deal with the value part.
 
 In order to minimize the size of the encoded data, the propose mapping do not make use of any meta-information beyond those natively supported by CBOR. This include the use of CBOR tags which are not used for any of the proposed mapping. It is expected that entities generating and decoding CBOR contents have enough knowledge about the information processed in order to perform the expected task, and this without the need of such extra meta-information.
 
-# Structured IDentifiers (SID)
+# Structured IDentifiers (SID)  {#SID}
 
 Some of the items defined within YANG data models are identified using a unique unsigned integer called structured identifier (SID). The following items are identified using SIDs:
 
@@ -183,7 +183,7 @@ Some of the items defined within YANG data models are identified using a unique 
 
 * notification
 
-SIDs are globally unique and need to be registered, see section 9 and appendix A for more details about the registration process of SIDs.
+SIDs are globally unique and need to be registered, see {{IANA}} and {{sid-lifecycle}} for more details about the registration process of SIDs.
 
 Assignment of SIDs can be automated, the recommended process to assign SIDs is as follow:
 
@@ -199,16 +199,16 @@ Assignment of SIDs can be automated, the recommended process to assign SIDs is a
 
 Appendix B define a standard file format used to store and publish SIDs.
 
-# Encoding of YANG Schema Node Instances
+# Encoding of YANG Schema Node Instances   {#instance-encoding}
 
 Objects defined using the YANG modeling language are encoded using CBOR {{RFC7049}} based on the rules defined in this section. We assume that the reader is
 already familiar with both YANG {{I-D.ietf-netmod-rfc6020bis}} and CBOR {{RFC7049}}.
 
 ## The "leaf" Schema Node 
 
-Leaf MUST be encoded based on the encoding rules specific in section 6.
+Leaf MUST be encoded based on the encoding rules specific in {{data-types-mapping}}.
 
-## The "container" Schema Node
+## The "container" Schema Node {#container}
 
 A container MUST be encoded using a CBOR map data item (major type 5). A map is comprised of pairs of data items, with each data item consisting of a key and a value. 
 Keys MUST be encoded using a CBOR unsigned integer (major type 0) and set to the delta value of the associated SID. Delta values are computed as follow:
@@ -217,7 +217,7 @@ Keys MUST be encoded using a CBOR unsigned integer (major type 0) and set to the
 
 *	Delta values may result in a negative number, CoOL clients and servers MUST support negative deltas.
 
-Values MUST be encoded using the appropriate rules defined in section 5 and section 6.
+Values MUST be encoded using the appropriate rules defined in {{instance-encoding}} and {{data-types-mapping}}.
 
 Definition example {{RFC7317}}:
 
@@ -275,7 +275,7 @@ a1                                      # map(1)
 ~~~~
 {: align="left"}
 
-## The "leaf-list" Schema Node
+## The "leaf-list" Schema Node  {#leaf-list}
 
 A leaf-list MUST be encoded using a CBOR array data item (major type 4).
 Each entry MUST be encoded using the rules defined by the YANG type specified.
@@ -303,9 +303,9 @@ CBOR diagnostic notation: [ "ietf.org", "ieee.org" ]
 
 CBOR encoding: 82  68 696574662e6f7267  68 696565652e6f7267
 
-## The "list" Schema Node 
+## The "list" Schema Node {#list}
 
-A list MUST be encoded using a CBOR array data item (major type 4). Each entry of this array is encoded using a CBOR map data item (major type 5) based on the same rules as a YANG container, see section 5.2.
+A list MUST be encoded using a CBOR array data item (major type 4). Each entry of this array is encoded using a CBOR map data item (major type 5) based on the same rules as a YANG container, see {{container}}.
 
 Definition example {{RFC7317}}:
 
@@ -414,15 +414,15 @@ An anydata serves as a container for an arbitrary set of schema nodes that other
 
 *	Tags MUST be set to valid SIDs, this include the tag of the anydata node and the tag of any inner schema node.
 
-*	CBOR array MUST contain either unique scalar values (as a leaf-list, see Section 5.3), or maps (as a list, see Section 5.4).
+*	CBOR array MUST contain either unique scalar values (as a leaf-list, see {{leaf-list}}), or maps (as a list, see {{list}}).
 
-*	Values MUST follow the encoding rules of one of the datatype listed in section 6.
+*	Values MUST follow the encoding rules of one of the datatype listed in {{data-types-mapping}}.
 
 ## The "anyxml" Schema Node  
 
 An anyxml instance is encoded as a CBOR tag/value pair. The tag of the anyxml schema node MUST be a valid SID but the value is unrestricted, i.e., the value can be any CBOR encoded content.
 
-# Representing YANG Data Types in CBOR {#data_types_mapping}
+# Representing YANG Data Types in CBOR {#data-types-mapping}
 
 ## The unsigned integer Types
 
@@ -806,9 +806,9 @@ This document defines an alternative encoding for data modeled in the YANG data 
 
 To minimize security risks, software on the receiving side SHOULD reject all messages that do not comply to the rules of this document and reply with an appropriate error message to the sender.
 
-# IANA Considerations
+# IANA Considerations  {#IANA}
 
-## "SID" range registry
+## "SID" range registry  {#sid-registry}
 
 This document defines a registry for Structure Identifier (SID) ranges. This registry guaranty that each SID assigned is globally unique. The registry SHALL record for each entry:
 
@@ -852,7 +852,7 @@ Each registered SID range can be used to assign SIDs multiple YANG modules. To t
 
 Registration of YANG modules is optional. When a YANG module is registered, the registrant MUST provide the module name and its contact information and/or a specification reference.
 
-The registration of the associated ".yang" and ".sid" files is optional. When provided, the validity of the files SHOULD be verified. This can be accomplished by a YANG validation tool specially modified to support ".sid" file verification. The SID range specified within the ".sid" file SHOULD also be checked against the "SID" range registry (section 9.1) and against the other YANG modules registered to detect any duplicate use of SIDs.
+The registration of the associated ".yang" and ".sid" files is optional. When provided, the validity of the files SHOULD be verified. This can be accomplished by a YANG validation tool specially modified to support ".sid" file verification. The SID range specified within the ".sid" file SHOULD also be checked against the "SID" range registry ({{sid-registry}}) and against the other YANG modules registered to detect any duplicate use of SIDs.
 
 Initial entries in this registry are as follows:
 
@@ -871,7 +871,9 @@ This document have been largely inspired by the extensive works done by Andy Bie
 
 The authors would also like to acknowledge the review, feedback, and comments from Ladislav Lhotka and Juergen Schoenwaelder.
 
-# Appendix A. ".sid" file lifecycle
+--- back
+
+# ".sid" file lifecycle  {#sid-lifecycle}
 
 The following activity diagram summarize the life cycle of ".sid" files.
 
@@ -936,7 +938,7 @@ Each time a YANG module or one of its imported module(s) or included sub-module(
 
 If a new revision requires more SIDs than initially allocated, a new SID range MUST be added to the assignment ranges as defined in the ".sid" file header. These extra SIDs are used for subsequent assignment.
 
-# Appendix B. ".sid" file format
+# ".sid" file format  {#sid-format}
 
 ".sid" files are used to persist and publish SIDs assigned to the different YANG items of a specific YANG module. The following YANG module defined the structure of this file, encoding is performed using the rules defined in {{I-D.ietf-netmod-yang-json}}.
 
@@ -1093,7 +1095,7 @@ module sid-file {
 ~~~~
 {: align="left"}
 
-# Appendix C. ".sid" file example
+# ".sid" file example  {#sid-example}
 
 The following .sid file (ietf-system@2014-08-06.sid) have been generated using the following yang modules:
 
