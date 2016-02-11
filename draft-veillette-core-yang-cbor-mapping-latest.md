@@ -85,17 +85,17 @@ informative:
 
 --- abstract
 
-This document defines encoding rules for serializing configuration data, state data, RPC input and RPC output, Action input, Action output and notifications defined within YANG modules using the Concise Binary Object Representation (CBOR) [RFC7049].
+This document defines encoding rules for serializing configuration data, state data, RPC input and RPC output, Action input, Action output and notifications defined within YANG modules using the Concise Binary Object Representation (CBOR) {{RFC7049}}.
 
 --- middle
 
 # Introduction
 
-The specification of YANG 1.1 data modelling language [I-D.ietf-netmod-rfc6020bis] defines only XML encoding for data instances, i.e. contents of configuration datastores, state data, RPC inputs and outputs, action inputs and outputs, and event notifications.
+The specification of YANG 1.1 data modelling language {{I-D.ietf-netmod-rfc6020bis}} defines only XML encoding for data instances, i.e. contents of configuration datastores, state data, RPC inputs and outputs, action inputs and outputs, and event notifications.
 
-A new set of encoding rules have been defined to allow the use of the same data models in environments based on the JavaScript Object Notation (JSON) Data Interchange Format [RFC7159]. This is accomplished in the JSON Encoding of Data Modeled with YANG specification [I-D.ietf-netmod-yang-json].
+A new set of encoding rules have been defined to allow the use of the same data models in environments based on the JavaScript Object Notation (JSON) Data Interchange Format {{RFC7159}}. This is accomplished in the JSON Encoding of Data Modeled with YANG specification {{I-D.ietf-netmod-yang-json}}.
 
-The aim of this document is to define a set of encoding rules for the Concise Binary Object Representation (CBOR) [RFC7049]. The resulting encoding is more compact compared to XML and JSON and more suitable for Constrained Nodes and/or Constrained Networks as defined by [RFC7228].
+The aim of this document is to define a set of encoding rules for the Concise Binary Object Representation (CBOR) {{RFC7049}}. The resulting encoding is more compact compared to XML and JSON and more suitable for Constrained Nodes and/or Constrained Networks as defined by {{RFC7228}}.
 
 # Terminology and Notation
 
@@ -103,7 +103,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
 "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to
 be interpreted as described in {{RFC2119}}.
 
-The following terms are defined in [I-D.ietf-netmod-rfc6020bis]:
+The following terms are defined in {{I-D.ietf-netmod-rfc6020bis}}:
 
 * action
 
@@ -140,7 +140,7 @@ This specification also makes use of the following terminology:
 
 ## CBOR diagnostic notation
 
-Within this document, CBOR binary contents are represented using an equivalent textual form called CBOR diagnostic notation as define in [RFC7049] section 6. This notation is used strictly for documentation purposes and is never used in the data serialization.
+Within this document, CBOR binary contents are represented using an equivalent textual form called CBOR diagnostic notation as define in {{RFC7049}} section 6. This notation is used strictly for documentation purposes and is never used in the data serialization.
 
 | CBOR content     | CBOR type | Diagnostic notation                                                     | Example            | CBOR encoding      |
 |------------------+-----------+-------------------------------------------------------------------------+--------------------+--------------------|
@@ -201,7 +201,7 @@ Appendix B define a standard file format used to store and publish SIDs.
 # Encoding of YANG Schema Node Instances
 
 Objects defined using the YANG modeling language are encoded using CBOR {{RFC7049}} based on the rules defined in this section. We assume that the reader is
-already familiar with both YANG {{RFC6020}} and CBOR {{RFC7049}}.
+already familiar with both YANG {{I-D.ietf-netmod-rfc6020bis}} and CBOR {{RFC7049}}.
 
 ## The "leaf" Schema Node 
 
@@ -218,7 +218,7 @@ Keys MUST be encoded using a CBOR unsigned integer (major type 0) and set to the
 
 Values MUST be encoded using the appropriate rules defined in section 5 and section 6.
 
-Definition example [RFC7317]:
+Definition example {{RFC7317}}:
 
 ~~~~ YANG
 typedef date-and-time {
@@ -279,7 +279,7 @@ a1                                      # map(1)
 A leaf-list MUST be encoded using a CBOR array data item (major type 4).
 Each entry MUST be encoded using the rules defined by the YANG type specified.
 
-Definition example [RFC7317]:
+Definition example {{RFC7317}}:
 
 ~~~~ YANG
 typedef domain-name {
@@ -306,7 +306,7 @@ CBOR encoding: 82  68 696574662e6f7267  68 696565652e6f7267
 
 A list MUST be encoded using a CBOR array data item (major type 4). Each entry of this array is encoded using a CBOR map data item (major type 5) based on the same rules as a YANG container, see section 5.2.
 
-Definition example [RFC7317]:
+Definition example {{RFC7317}}:
 
 ~~~~ YANG
 list server {
@@ -428,7 +428,7 @@ An anyxml instance is encoded as a CBOR tag/value pair. The tag of the anyxml sc
 Leafs of type uint8, uint16, uint32 and uint64 MUST be encoded using a CBOR
 unsigned integer data item (major type 0).
 
-Definition example [RFC7277]:
+Definition example {{RFC7277}}:
 
 ~~~~ YANG
 leaf mtu {
@@ -449,7 +449,7 @@ Leafs of type int8, int16, int32 and int64 MUST be encoded using either CBOR
 unsigned integer (major type 0) or CBOR signed integer (major type 1), depending
 on the actual value.
 
-Definition example [RFC7317]:
+Definition example {{RFC7317}}:
 
 ~~~~ YANG
 leaf timezone-utc-offset {
@@ -470,7 +470,7 @@ Leafs of type decimal64 MUST be encoded using either CBOR unsigned integer
 (major type 0) or CBOR signed integer (major type 1), depending on the actual
 value. The position of the decimal point is defined by the fraction-digits YANG statement and not available in the CBOR encoding.
 
-Definition example [RFC7317]:
+Definition example {{RFC7317}}:
 
 ~~~~ YANG
 leaf my-decimal {
@@ -491,7 +491,7 @@ CBOR encoding: 19 0101
 Leafs of type string MUST be encoded using a CBOR text string data item (major
 type 3).
 
-Definition example [RFC7223]:
+Definition example {{RFC7223}}:
 
 ~~~~ YANG
 leaf name {
@@ -510,7 +510,7 @@ Leafs of type boolean MUST be encoded using a CBOR true (major type 7, additiona
 information 21) or false data item (major type 7, additional information
 20).
 
-Definition example [RFC7317]:
+Definition example {{RFC7317}}:
 
 ~~~~ YANG
 leaf enabled {
@@ -528,7 +528,7 @@ CBOR encoding: f5
 Leafs of type enumeration MUST be encoded using a CBOR unsigned integer data
 item (major type 0).
 
-Definition example [RFC7317]:
+Definition example {{RFC7317}}:
 
 ~~~~ YANG
 leaf oper-status {
@@ -556,7 +556,7 @@ type 2). Bits position 0 to 7 are assigned to the first byte within the byte
 string, bits 8 to 15 to the second byte, and subsequent bytes are assigned
 similarly. Within each byte, bits are assigned from least to most significant.
 
-Definition example [RFC6020]:
+Definition example {{I-D.ietf-netmod-rfc6020bis}}:
 
 ~~~~ YANG
 leaf mybits {
@@ -604,7 +604,7 @@ CBOR encoding: 50 1f1ce6a3f42660d888d92a4d8030476e
 Leafs of type leafref MUST be encoded using the rules of the schema node referenced
 by the "path" YANG statement.
 
-Definition example [RFC7223]:
+Definition example {{RFC7223}}:
 
 ~~~~ YANG
 typedef interface-state-ref {
@@ -635,7 +635,7 @@ CBOR encoding: 67 657468312e3130
 
 Leafs of type identityref MUST be encoded using a CBOR unsigned integer data item (major type 0) and MUST contain a registered SID.
 
-Definition example [RFC7223]:
+Definition example {{RFC7223}}:
 
 ~~~~ YANG
 identity interface-type {
@@ -668,7 +668,7 @@ CBOR encoding: 19 049b
 Leafs of type empty MUST be encoded using the CBOR null value (major type
 7, additional information 22).
 
-Definition example [RFC7277]:
+Definition example {{RFC7277}}:
 
 ~~~~ YANG
 leaf is-router {
@@ -686,7 +686,7 @@ CBOR encoding: f6
 Leafs of type union MUST be encoded using the rules associated with one of
 the type listed.
 
-Definition example [RFC7317]:
+Definition example {{RFC7317}}:
 
 ~~~~ YANG
 typedef ipv4-address {
@@ -730,7 +730,7 @@ CBOR encoding: 71 5b323030313a6462383a303a315d3a3830
 Leafs of type instance-identifier MUST be encoded using either a CBOR unsigned integer data item (major type 0) or a CBOR array data item (major type 4).
 When a leaf node of type instance-identifier identifies a single instance schema node (schema node not part of a list), its value MUST be encoded using a CBOR unsigned integer set to the targeted data node SID.
 
-Definition example [RFC7317]:
+Definition example {{RFC7317}}:
 
 ~~~~ YANG
 container system {
@@ -764,7 +764,7 @@ using a CBOR array data item (major type 4) containing the following entries:
 
 * The following entries MUST contain the value of each key required to identify the instance of the targeted data node. These keys MUST be ordered as defined in the "key" YANG statement, starting from top level list, and follow by each of the subordinate list(s).
 
-Definition example [RFC7317]:
+Definition example {{RFC7317}}:
 
 ~~~~ YANG
 list user {
@@ -866,7 +866,7 @@ Initial entries in this registry are as follows:
 
 # Acknowledgments
 
-This document have been largely inspired by the extensive works done by Andy Bierman and Peter van der Stok on [ID.vanderstok-core-comi]. [I-D.ietf-netmod-yang-json] have also been a critical input to this work. The authors would like to thank the authors and contributors to these two drafts.
+This document have been largely inspired by the extensive works done by Andy Bierman and Peter van der Stok on {{I-D.vanderstok-core-comi}}. {{I-D.ietf-netmod-yang-json}} have also been a critical input to this work. The authors would like to thank the authors and contributors to these two drafts.
 
 The authors would also like to acknowledge the review, feedback, and comments from Ladislav Lhotka and Juergen Schoenwaelder.
 
@@ -937,7 +937,7 @@ If a new revision requires more SIDs than initially allocated, a new SID range M
 
 # Appendix B. ".sid" file format
 
-".sid" files are used to persist and publish SIDs assigned to the different YANG items of a specific YANG module. The following YANG module defined the structure of this file, encoding is performed using the rules defined in [I-D.ietf-netmod-yang-json].
+".sid" files are used to persist and publish SIDs assigned to the different YANG items of a specific YANG module. The following YANG module defined the structure of this file, encoding is performed using the rules defined in {{I-D.ietf-netmod-yang-json}}.
 
 ~~~~
 module sid-file {
