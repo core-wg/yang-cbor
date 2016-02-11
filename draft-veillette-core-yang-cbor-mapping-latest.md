@@ -138,6 +138,7 @@ This specification also makes use of the following terminology:
 
 * structured identifier or SID: Unsigned integer used to identify different YANG items.
 
+* Item:  A schema node or identity which has been allocated a SID.
 
 ## CBOR diagnostic notation
 
@@ -163,11 +164,11 @@ Within this document, comments are allowed in CBOR diagnostic notation. Any char
 
 This document defines CBOR encoding rules for YANG schema trees and their subtrees.
 
-Basic schema nodes such leaf, leaf-list, anydata and anyxml can be encoded standalone. In this case, only the value of this schema node is encoded in CBOR. Identification of this value need to be provided by some external means when needed.
+Basic schema nodes such as leaf, leaf-list, anydata and anyxml can be encoded standalone. In this case, only the value of this schema node is encoded in CBOR. Identification of this value need to be provided by some external means when needed.
 
-Collections like container, list, notification, RPC input, RPC output, action input and action output are serialized using a CBOR map in which each child schema node is encode using a tag and a value. {{SID}} defines how the tag part is encoded, and the following sections deal with the value part.
+Collections like container, list entry, notification, RPC input, RPC output, action input and action output are serialized using a CBOR map in which each child schema node is encode using a tag and a value. {{SID}} defines how the tag part is encoded, and the following sections deal with the value part.
 
-In order to minimize the size of the encoded data, the propose mapping do not make use of any meta-information beyond those natively supported by CBOR. This include the use of CBOR tags which are not used for any of the proposed mapping. It is expected that entities generating and decoding CBOR contents have enough knowledge about the information processed in order to perform the expected task, and this without the need of such extra meta-information.
+In order to minimize the size of the encoded data, the proposed mapping does not make use of any meta-information beyond those natively supported by CBOR. This includes the use of CBOR tags which are not used for any of the proposed mapping. It is expected that entities generating and decoding CBOR contents have enough knowledge about the information processed in order to perform the expected task without the need of such extra meta-information.
 
 # Structured IDentifiers (SID)  {#SID}
 
@@ -187,15 +188,15 @@ SIDs are globally unique and need to be registered, see {{IANA}} and {{sid-lifec
 
 Assignment of SIDs can be automated, the recommended process to assign SIDs is as follow:
 
-* The tools extract the different items defined for a specific YANG module.
+* A tool extract the different items defined for a specific YANG module.
 
 * The list of items is ordered by type, assignment date and label.
 
 * SIDs are assigned sequentially for the entry point up to the size of the registered SID range. It is important to note that sequentially assigned SIDs optimizes the CBOR serialization due to the use of delta encoding.
 
-* If the number of items exceed the SID range(s) associated to a YANG module, an extra range is added for subsequent assignments.
+* If the number of items exceeds the SID range(s) allocated  to a YANG module, an extra range is added for subsequent assignments.
 
-* SID are assigned permanently, items introduced by a new revision of a YANG module are added to the list of SIDs already assigned.
+* SIDs are assigned permanently, items introduced by a new revision of a YANG module are added to the list of SIDs already assigned.
 
 Appendix B define a standard file format used to store and publish SIDs.
 
@@ -206,14 +207,14 @@ already familiar with both YANG {{I-D.ietf-netmod-rfc6020bis}} and CBOR {{RFC704
 
 ## The "leaf" Schema Node 
 
-Leaf MUST be encoded based on the encoding rules specific in {{data-types-mapping}}.
+Leafs MUST be encoded based on the encoding rules specified in {{data-types-mapping}}.
 
 ## The "container" Schema Node {#container}
 
 A container MUST be encoded using a CBOR map data item (major type 5). A map is comprised of pairs of data items, with each data item consisting of a key and a value. 
 Keys MUST be encoded using a CBOR unsigned integer (major type 0) and set to the delta value of the associated SID. Delta values are computed as follow:
 
-*	The delta value is equal the SID of the current schema node minus the SID of the parent schema node. When no parent exists in the context of use of this container, the delta is set to the SID of the current schema node (a parent with SID equal to zero is assumed).
+*	The delta value is equal to the SID of the current schema node minus the SID of the parent schema node. When no parent exists in the context of use of this container, the delta is set to the SID of the current schema node (a parent with SID equal to zero is assumed).
 
 *	Delta values may result in a negative number, CoOL clients and servers MUST support negative deltas.
 
@@ -810,7 +811,7 @@ To minimize security risks, software on the receiving side SHOULD reject all mes
 
 ## "SID" range registry  {#sid-registry}
 
-This document defines a registry for Structure Identifier (SID) ranges. This registry guaranty that each SID assigned is globally unique. The registry SHALL record for each entry:
+This document defines a registry for Structure Identifier (SID) ranges. This registry MUST guaranty that each SID assigned is globally unique. The registry SHALL record for each entry:
 
 *	The entry point of the registered SID range.
 
@@ -821,24 +822,24 @@ The IANA policy for this registry is split into four tiers as follows:
 
 *	The range of 0 to 9999 and 0x40000000 to 0xFFFFFFFFFFFFFFFF are reserved for future extensions of this protocol. Allocation within these ranges require IETF review or IESG approval.
 
-*	The range of 1000 to 59999 is reserved for standardized YANG modules. Allocation within this range require publishing of the associated ".yang" and ".sid" files.
+*	The range of 1000 to 59999 is reserved for standardized YANG modules. Allocation within this range requires publishing of the associated ".yang" and ".sid" files.
 
 *	The range of 60000 to 99999 is reserved for experimental or private YANG modules. Use of this range SHOUD NOT be used in operational deployments since these SIDs are not globally unique which limit their interoperability.
 
-*	The range of 100000 to 0x3FFFFFFF is available as first come first served basis. The only information require from the registrant is a valid contact information. The recommended size of the SID ranges allocated is 1,000 for private use and 10,000 for standard development organizations (SDOs). Registrants MAY request less or more SIDs based on their expected needs. Allocation of a significant larger SID range MAY required IETF review or IESG approval.
+*	The range of 100000 to 0x3FFFFFFF is available as first come first served basis. The only information require from the registrant is a valid contact information. The recommended size of the SID ranges allocated is 1,000 for private use and 10,000 for standard development organizations (SDOs). Registrants MAY request less or more SIDs based on their expected needs. Allocation of a significant larger SID range MAY required IETF review or IESG approval. IANA MAY delegate this registration process to one or multiple sub-registries. The recommended size of the SID range allocation for a sub-registry is 1,000,000.
 
 | Entry Point | Size       | Registration Procedures                                                 |
 |-------------+------------+-------------------------------------------------------------------------+
-|      0      |      1 000 | Specification required, expert review                                   |
-|  1 000      |     59 000 | Specification and associated ".yang" and ".sid" files required          |
-| 60 000      |     40 000 | Experimental or private use                                             |
-| 100 000     | 0x3FFE7960 | Contact information is required. Registration of the module name(s) and associated ".yang" and ".sid" files are optional.  |
+|           0 |      1,000 | Specification required, expert review                                   |
+|       1,000 |     59,000 | Specification and associated ".yang" and ".sid" files required          |
+|      60,000 |     40,000 | Experimental or private use                                             |
+|     100,000 | 0x3FFE7960 | Contact information is required. Registration of the module name(s) and associated ".yang" and ".sid" files are optional.  |
 | 0x40000000  |      2^64  | Specification required, expert review                                   |
 {: align="left"}
 
 ## YANG module registry
 
-Each registered SID range can be used to assign SIDs multiple YANG modules. To track which YANG module have been assigned and to avoid duplicate allocation, IANA SHALL provide a method to register and query the following information:
+Each registered SID range can be used to assign SIDs to multiple YANG modules. To track which YANG module have been assigned and to avoid duplicate allocation, IANA SHALL provide a method to register and query the following information:
 
 *	The YANG module name
 
@@ -850,9 +851,9 @@ Each registered SID range can be used to assign SIDs multiple YANG modules. To t
 
 *	The associated ".sid" file(Optional)
 
-Registration of YANG modules is optional. When a YANG module is registered, the registrant MUST provide the module name and its contact information and/or a specification reference.
+Registration of YANG modules is optional. When a YANG module is registered, the registrant MUST provide the module name and contact information and/or a specification reference.
 
-The registration of the associated ".yang" and ".sid" files is optional. When provided, the validity of the files SHOULD be verified. This can be accomplished by a YANG validation tool specially modified to support ".sid" file verification. The SID range specified within the ".sid" file SHOULD also be checked against the "SID" range registry ({{sid-registry}}) and against the other YANG modules registered to detect any duplicate use of SIDs.
+The registration of the associated ".yang" and ".sid" files is optional. When provided, the validity of the files MUST be verified. This can be accomplished by a YANG validation tool specially modified to support ".sid" file verification. The SID range specified within the ".sid" file SHOULD also be checked against the "SID" range registry ({{sid-registry}}) and against the other YANG modules registered to detect any duplicate use of SIDs.
 
 Initial entries in this registry are as follows:
 
