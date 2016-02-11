@@ -866,7 +866,7 @@ Initial entries in this registry are as follows:
 
 # Acknowledgments
 
-This document have been largely inspired by the extensive works done by Andy Bierman and Peter van der Stok on {{I-D.vanderstok-core-comi}}. {{I-D.ietf-netmod-yang-json}} have also been a critical input to this work. The authors would like to thank the authors and contributors to these two drafts.
+This document have been largely inspired by the extensive works done by Andy Bierman and Peter van der Stok on {{ID.vanderstok-core-comi}}. {{I-D.ietf-netmod-yang-json}} have also been a critical input to this work. The authors would like to thank the authors and contributors to these two drafts.
 
 The authors would also like to acknowledge the review, feedback, and comments from Ladislav Lhotka and Juergen Schoenwaelder.
 
