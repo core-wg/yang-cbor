@@ -132,13 +132,15 @@ This specification also makes use of the following terminology:
 
 * child: A schema node defined within a collection such as a container, a list, a case, a notification, a RPC input, a RPC output, an action input, an action output.
 
+* delta : Difference between the SID assigned to the current schema node and the SID assigned to the parent.
+
+* item:  A schema node or identity which has been allocated a SID.
+
 * parent: The collection in which a schema node is defined.
 
 * path: A path is a string that identifies a schema node within the schema tree. A path consists of the list of schema node identifier(s) separated by slashes ("/"). Schema node identifier(s) are always listed from the top-level schema node up to the targeted schema node. (e.g. "/system-state/clock/current-datetime")
 
 * structured identifier or SID: Unsigned integer used to identify different YANG items.
-
-* Item:  A schema node or identity which has been allocated a SID.
 
 ## CBOR diagnostic notation
 
