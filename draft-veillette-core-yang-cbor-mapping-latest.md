@@ -77,7 +77,7 @@ normative:
   RFC7049:
 informative:
   I-D.ietf-netmod-yang-json:
-  I-D.vanderstok-core-comi
+  I-D.vanderstok-core-comi:
   RFC7159:
   RFC7223:
   RFC7228:
