@@ -31,12 +31,11 @@ author:
   ins: A. P. Pelov
   name: Alexander Pelov
   org: Acklio
-  street: 2 Rue de la Chataigneraie
+  street: 2bis rue de la Chataigneraie
   code: '35510'
   city: Cesson-Sevigne
   region: Bretagne
   country: France
-  phone: "+33299127004"
   email: a@ackl.io
 - ins: A.  S. Somaraju
   name: Abhinav Somaraju
@@ -64,12 +63,11 @@ author:
 - ins: A. M.  Minaburo
   name: Ana Minaburo
   org: Acklio
-  street: 2 rue de la châtaigneraie
+  street: 2bis rue de la châtaigneraie
   code: '35510'
   city: Cesson-Sévigné
   region: Bretagne
   country: France
-  phone: "+33299127026"
   email: ana@ackl.io
 normative:
   I-D.ietf-netmod-rfc6020bis:
