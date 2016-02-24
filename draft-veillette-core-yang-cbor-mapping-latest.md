@@ -247,7 +247,6 @@ container system {
   }
 }
 ~~~~
-{: align="left"}
 
 The ".sid" file used in this example is available in {{sid-file-example}}.
 
@@ -261,7 +260,6 @@ CBOR diagnostic notation:
   }
 }
 ~~~~
-{: align="left"}
 
 CBOR encoding:
 
@@ -276,7 +274,6 @@ a1                                      # map(1)
       78 1a                             # text(26)
       323031352d30392d31355430393a31323a35385a2d30353a3030
 ~~~~
-{: align="left"}
 
 ## The "leaf-list" Schema Node  {#leaf-list}
 
@@ -300,7 +297,6 @@ leaf-list search {
   ordered-by user;
 }
 ~~~~
-{: align="left"}
 
 CBOR diagnostic notation: [ "ietf.org", "ieee.org" ]
 
@@ -350,7 +346,6 @@ list server {
   }
 }
 ~~~~
-{: align="left"}
 
 The .sid file used in this example is available in {{sid-file-example}}.
 
@@ -363,7 +358,7 @@ CBOR diagnostic notation:
     1748 : {                          # udp
       1 : "tic.nrc.ca",               # address, SID 1749
       2 : 123                         # port, SID 1750
-    }, 
+    },
     1744 : 0,                         # association-type
     1745 : false,                     # iburst
     1747 : true                       # prefer
@@ -376,7 +371,6 @@ CBOR diagnostic notation:
   }
 ]
 ~~~~
-{: align="left"}
 
 CBOR encoding:
 
@@ -409,21 +403,22 @@ CBOR encoding:
          6a                           # text(10)
             7461632e6e72632e6361      # "tac.nrc.ca"
 ~~~~
-{: align="left"}
+
+Note that the protocol or method using this mapping may carry a parent SID or may have the knowledge of this parent SID based on the context. In these cases, delta encoding can be performed based on this parent SID which minimizes the size of the encoded data.
 
 ## The "anydata" Schema Node
 
 An anydata serves as a container for an arbitrary set of schema nodes that otherwise appear as normal YANG-modeled data. An anydata instance is encoded using the same rules as a container, i.e., CBOR map. The requirement that anydata content can be modeled by YANG implies the following:
 
-*	Tags MUST be set to valid SIDs, this include the tag of the anydata node and the tag of any inner schema node.
+*	Keys MUST be set to valid SIDs, this includes the key of the anydata node and the key of any inner schema node.
 
 *	The CBOR array MUST contain either unique scalar values (as a leaf-list, see {{leaf-list}}), or maps (as a list, see {{list}}).
 
 *	Values MUST follow the encoding rules of one of the datatype listed in {{data-types-mapping}}.
 
-## The "anyxml" Schema Node  
+## The "anyxml" Schema Node
 
-An anyxml instance is encoded as a CBOR tag/value pair. The tag of the anyxml schema node MUST be a valid SID but the value is unrestricted, i.e., the value can be any CBOR encoded content.
+An anyxml instance is encoded as a CBOR key/value pair. The key of the anyxml schema node MUST be a valid SID but the value is unrestricted, i.e., the value can be any CBOR encoded content.
 
 # Representing YANG Data Types in CBOR {#data-types-mapping}
 
@@ -441,7 +436,6 @@ leaf mtu {
   }
 }
 ~~~~
-{: align="left"}
 
 CBOR diagnostic notation: 1280
 
@@ -462,13 +456,12 @@ leaf timezone-utc-offset {
   }
 }
 ~~~~
-{: align="left"}
 
 CBOR diagnostic notation: -300
 
 CBOR encoding: 39 012b
 
-## The "decimal64" Type 
+## The "decimal64" Type
 
 Leafs of type decimal64 MUST be encoded using either CBOR unsigned integer
 (major type 0) or CBOR signed integer (major type 1), depending on the actual
@@ -484,13 +477,12 @@ leaf my-decimal {
   }
 }
 ~~~~
-{: align="left"}
 
 CBOR diagnostic notation: 257 (Represents decimal value 2.57)
 
 CBOR encoding: 19 0101
 
-## The "string" Type 
+## The "string" Type
 
 Leafs of type string MUST be encoded using a CBOR text string data item (major
 type 3).
@@ -502,13 +494,12 @@ leaf name {
   type string;
 }
 ~~~~
-{: align="left"}
 
 CBOR diagnostic notation: "eth0"
 
 CBOR encoding: 64 65746830
 
-## The "boolean" Type  
+## The "boolean" Type
 
 Leafs of type boolean MUST be encoded using a CBOR true (major type 7, additional
 information 21) or false data item (major type 7, additional information
@@ -521,13 +512,12 @@ leaf enabled {
   type boolean;
 }
 ~~~~
-{: align="left"}
 
 CBOR diagnostic notation: true
 
 CBOR encoding: f5
 
-## The "enumeration" Type  
+## The "enumeration" Type
 
 Leafs of type enumeration MUST be encoded using a CBOR unsigned integer data
 item (major type 0).
@@ -547,13 +537,12 @@ leaf oper-status {
   }
 }
 ~~~~
-{: align="left"}
 
 CBOR diagnostic notation: 3 (Represents enumeration value "testing")
 
 CBOR encoding: 03
 
-## The "bits" Type 
+## The "bits" Type
 
 Leafs of type bits MUST be encoded using a CBOR byte string data item (major
 type 2). Bits position 0 to 7 are assigned to the first byte within the byte
@@ -577,13 +566,12 @@ leaf mybits {
   }
 }
 ~~~~
-{: align="left"}
 
 CBOR diagnostic notation: h'05' (Represents bits disable-nagle and 10-Mb-only set)
 
 CBOR encoding: 41 05
 
-## The "binary" Type 
+## The "binary" Type
 
 Leafs of type binary MUST be encoded using a CBOR byte string data item (major
 type 2).
@@ -597,13 +585,12 @@ leaf aes128-key {
   }
 }
 ~~~~
-{: align="left"}
 
 CBOR diagnostic notation: h'1f1ce6a3f42660d888d92a4d8030476e'
 
 CBOR encoding: 50 1f1ce6a3f42660d888d92a4d8030476e
 
-## The "leafref" Type  
+## The "leafref" Type
 
 Leafs of type leafref MUST be encoded using the rules of the schema node referenced
 by the "path" YANG statement.
@@ -629,13 +616,12 @@ container interfaces-state {
   }
 }
 ~~~~
-{: align="left"}
 
-CBOR diagnostic notation: "eth1.10"
+CBOR diagnostic notation: "eth1"
 
-CBOR encoding: 67 657468312e3130
+CBOR encoding: 64 65746831
 
-## The "identityref" Type  
+## The "identityref" Type
 
 Leafs of type identityref MUST be encoded using a CBOR unsigned integer data item (major type 0) and MUST contain a registered SID.
 
@@ -659,7 +645,6 @@ leaf type {
   }
 }
 ~~~~
-{: align="left"}
 
 Assuming that the identity "iana-if-type:ethernetCsmacd" have been assigned to the SID value 1179.
 
@@ -667,7 +652,7 @@ CBOR diagnostic notation: 1179
 
 CBOR encoding: 19 049b
 
-## The "empty" Type  
+## The "empty" Type
 
 Leafs of type empty MUST be encoded using the CBOR null value (major type
 7, additional information 22).
@@ -679,13 +664,12 @@ leaf is-router {
   type empty;
 }
 ~~~~
-{: align="left"}
 
 CBOR diagnostic notation: null
 
 CBOR encoding: f6
 
-## The "union" Type  
+## The "union" Type
 
 Leafs of type union MUST be encoded using the rules associated with one of
 the types listed.
@@ -723,13 +707,12 @@ leaf address {
   type inet:ip-address;
 }
 ~~~~
-{: align="left"}
 
-CBOR diagnostic notation: "[2001:db8:0:1]:80"
+CBOR diagnostic notation: "2001:db8:a0b:12f0::1"
 
-CBOR encoding: 71 5b323030313a6462383a303a315d3a3830
+CBOR encoding: 74 323030313a6462383a6130623a313266303a3a31
 
-## The "instance-identifier" Type  
+## The "instance-identifier" Type
 
 Leafs of type instance-identifier MUST be encoded using either a CBOR unsigned integer data item (major type 0) or a CBOR array data item (major type 4).
 When a leaf node of type instance-identifier identifies a single instance schema node (schema node not part of a list), its value MUST be encoded using a CBOR unsigned integer set to the targeted data node SID.
@@ -748,7 +731,6 @@ container system {
   }
 }
 ~~~~
-{: align="left"}
 
 In this example, we assume that the leaf "/system/contact" is assigned to SID 1728.
 
@@ -764,7 +746,7 @@ When a leaf node of type instance-identifier identifies a data node supporting
 multiple instances (data node part of a list), its value MUST be encoded
 using a CBOR array data item (major type 4) containing the following entries:
 
-* The first entry MUST be encoded as a CBOR unsigned integer data item (major type 0) and set to the targeted data node SID. 
+* The first entry MUST be encoded as a CBOR unsigned integer data item (major type 0) and set to the targeted data node SID.
 
 * The following entries MUST contain the value of each key required to identify the instance of the targeted data node. These keys MUST be ordered as defined in the "key" YANG statement, starting from top level list, and follow by each of the subordinate list(s).
 
@@ -795,7 +777,6 @@ list user {
   }
 }
 ~~~~
-{: align="left"}
 
 In this example, we assume that the leaf "/system/authentication/user/authorized-key/key-data" is assigned to SID 1721.
 
@@ -832,13 +813,13 @@ The IANA policy for this registry is split into four tiers as follows:
 
 *	The range of 100000 to 0x3FFFFFFF is available on a first come first served basis. The only information required from the registrant is a valid contact information. The recommended size of the SID ranges allocated is 1,000 for private use and 10,000 for standard development organizations (SDOs). Registrants MAY request fewer or more SIDs based on their expected, sat needs. Allocation of a significantly larger SID range MAY required IETF review or IESG approval. IANA MAY delegate this registration process to one or multiple sub-registries. The recommended size of the SID range allocation for a sub-registry is 1,000,000.
 
-| Entry Point | Size       | Registration Procedures                                                                                                   |
-|-------------+------------+---------------------------------------------------------------------------------------------------------------------------|
-| 0           | 1,000      | IETF review or IESG approval                                                                                              |
-| 1,000       | 59,000     | Specification and associated ".yang" and ".sid" files required                                                            |
-| 60,000      | 40,000     | Experimental use                                                                                                          |
-| 100,000     | 0x3FFFFFFF | Contact information is required. Registration of the module name(s) and associated ".yang" and ".sid" files are optional. |
-| 0x40000000  | 2^64-1     | Specification required, expert review                                                                                     |
+| Entry Point | Size            | Registration Procedures                                                                                                   |
+|-------------+-----------------+---------------------------------------------------------------------------------------------------------------------------|
+| 0           | 1,000           | IETF review or IESG approval                                                                                              |
+| 1,000       | 59,000          | Specification and associated ".yang" and ".sid" files required                                                            |
+| 60,000      | 40,000          | Experimental use                                                                                                          |
+| 100,000     | 0x3ffe7960      | Contact information is required. Registration of the module name(s) and associated ".yang" and ".sid" files are optional. |
+| 0x40000000  | 2^64-0x40000000 | Specification required, expert review                                                                                     |
 {: align="left"}
 
 ## YANG module registry
@@ -958,7 +939,7 @@ module sid-file {
   contact
     "Ana Minaburo
      <ana@ackl.io>
-     
+
      Alexander Pelov
      <mailto:a@ackl.io>
 
@@ -976,7 +957,7 @@ module sid-file {
 
   description
     "This module define the structure of the .sid files.
-     .sid files contains the identifiers (SIDs) assigned 
+     .sid files contains the identifiers (SIDs) assigned
      to the different items defined in a YANG module.
      SIDs are used to encode a data model defined in YANG
      using CBOR.";
@@ -1019,7 +1000,7 @@ module sid-file {
       Gregorian calendar.  The profile is defined by the
       date-time production in section 5.6 of RFC 3339.";
   }
-  
+
   leaf module-name {
     type yang-identifier;
     description
@@ -1054,7 +1035,7 @@ module sid-file {
         "Number of SIDs available for assignment.";
     }
   }
- 
+
   list items {
     key "type assigned label";
     description
