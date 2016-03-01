@@ -126,17 +126,23 @@ The following terms are defined in {{I-D.ietf-netmod-rfc6020bis}}:
 
 * submodule
 
+The following terms are defined in {{I-D.ietf-netmod-yang-json}}:
+
+* member name
+
+* name of an identity
+
+The following term is defined in {{I-D.vanderstok-core-comi}}:
+
+* YANG hash
+
 This specification also makes use of the following terminology:
 
 * child: A schema node defined within a collection such as a container, a list, a case, a notification, a RPC input, a RPC output, an action input, an action output.
 
 * delta : Difference between the SID assigned to the current schema node and the SID assigned to the parent.
 
-* item:  A schema node or identity which has been allocated a SID.
-
 * parent: The collection in which a schema node is defined.
-
-* path: A path is a string that identifies a schema node within the schema tree. A path consists of the list of schema node identifier(s) separated by slashes ("/"). Schema node identifier(s) are always listed from the top-level schema node up to the targeted schema node. (e.g. "/system-state/clock/current-datetime")
 
 * structured identifier or SID: Unsigned integer used to identify different YANG items.
 
@@ -164,45 +170,15 @@ Within this document, comments are allowed in CBOR diagnostic notation. Any char
 
 This document defines CBOR encoding rules for YANG schema trees and their subtrees.
 
-Basic schema nodes such as leaf, leaf-list, anydata and anyxml can be encoded standalone. In this case, only the value of this schema node is encoded in CBOR. Identification of this value need to be provided by some external means when needed.
+Basic schema nodes such as leaf, leaf-list, list, anydata and anyxml can be encoded standalone. In this case, only the value of this schema node is encoded in CBOR. Identification of this value need to be provided by some external means when needed.
 
-A collection such as container, list entry, notification, RPC input, RPC output, action input and action output is serialized using a CBOR map in which each child schema node is encoded using a key and a value. {{SID}} defines how the key part is encoded, and the following sections deal with the value part.
+A collection such as container, list instance, notification, RPC input, RPC output, action input and action output is serialized using a CBOR map in which each child schema node is encoded using a key and a value. This specification supports three type of keys; SID as defined in [I.D-somaraju-core-sid], member names as defined in {{I-D.ietf-netmod-yang-json}} and YANG hash as defined by {{I-D.vanderstok-core-comi}}. Each of these key type is encoded using a specific CBOR type which allows their interpretation during the deserialization process. The end user of this mapping specification can mandate the use of a specific key type or a specific subset of key types.
 
 In order to minimize the size of the encoded data, the proposed mapping does not make use of any meta-information beyond those natively supported by CBOR. For instance, CBOR tags are not used for any of the proposed mapping. It is expected that entities generating and decoding CBOR contents have enough knowledge about the information processed in order to perform the expected task without the need of such extra meta-information.  The CoAP Content-Format Option, or an HTTP Content-Type header field, conveys that the data is YANG-encoded CBOR in the first place.
 
-# Structured IDentifiers (SID)  {#SID}
-
-Some of the items defined within YANG data models are identified using a unique unsigned integer called structured identifier (SID). The following items are identified using SIDs:
-
-* identity
-
-* data node
-
-* rpc
-
-* action
-
-* notification
-
-SIDs are globally unique and need to be registered, see {{IANA}} and {{sid-lifecycle}} for more details about the registration process of SIDs.
-
-Assignment of SIDs can be automated, the recommended process to assign SIDs is as follows:
-
-* A tool extracts the different items defined for a specific YANG module.
-
-* The list of items is ordered by type, assignment date and label.
-
-* SIDs are assigned sequentially for the entry point up to the size of the registered SID range. It is important to note that sequentially assigning SIDs optimizes the CBOR serialization due to the use of delta encoding.
-
-* If the number of items exceeds the SID range(s) allocated to a YANG module, an extra range is added for subsequent assignments.
-
-* SIDs are assigned permanently, items introduced by a new revision of a YANG module are added to the list of SIDs already assigned.
-
-{{sid-file-format}} defines a standard file format used to store and publish SIDs.
-
 # Encoding of YANG Schema Node Instances   {#instance-encoding}
 
-Objects defined using the YANG modeling language are encoded using CBOR {{RFC7049}} based on the rules defined in this section. We assume that the reader is
+Schema node instances defined using the YANG modeling language are encoded using CBOR {{RFC7049}} based on the rules defined in this section. We assume that the reader is
 already familiar with both YANG {{I-D.ietf-netmod-rfc6020bis}} and CBOR {{RFC7049}}.
 
 ## The "leaf" Schema Node
@@ -211,12 +187,23 @@ Leafs MUST be encoded based on the encoding rules specified in {{data-types-mapp
 
 ## The "container" Schema Node {#container}
 
-A container MUST be encoded using a CBOR map data item (major type 5). A map is comprised of pairs of data items, with each data item consisting of a key and a value.
-Keys MUST be encoded using a CBOR unsigned integer (major type 0) and set to the delta value of the associated SID. Delta values are computed as follows:
+Collections such as containers, list instances, notifications, RPC inputs, RPC outputs, action inputs and action outputs MUST be encoded using a CBOR map data item (major type 5). A map is comprised of pairs of data items, with each data item consisting of a key and a value. This specification supports three type of keys; SID as defined in [I.D-somaraju-core-sid], member names as defined in {{I-D.ietf-netmod-yang-json}} and YANG hash as defined by {{I-D.vanderstok-core-comi}}.
+
+** SIDs as keys: **
+
+Keys implemented using SIDs MUST be encoded using a CBOR unsigned integer (major type 0) and set to the delta value of the associated SID. Delta values are computed as follows:
 
 *	The delta value is equal to the SID of the current schema node minus the SID of the parent schema node. When no parent exists in the context of use of this container, the delta is set to the SID of the current schema node (a parent with SID equal to zero is assumed).
 
 *	Delta values may result in a negative number, clients and servers MUST support negative deltas.
+
+** Member names as keys: **
+
+Keys implemented using member names MUST be encoded using a CBOR text string data item (major type 3). A namespace-qualified member name MUST be used for all members of a top-level collection, and then also whenever the namespaces of the schema node and its parent are different. In all other cases, the simple form of the member name MUST be used. Member names and namespaces are defined in {{I-D.ietf-netmod-yang-json}} section 4.
+
+** YANG hashes as keys: **
+
+Keys implemented using YANG hashes MUST be encoded using a CBOR byte string data item (major type 2).
 
 Values MUST be encoded using the appropriate rules defined in {{instance-encoding}} and {{data-types-mapping}}.
 
@@ -248,7 +235,9 @@ container system {
 }
 ~~~~
 
-The ".sid" file used in this example is available in {{sid-file-example}}.
+** SIDs example: **
+
+This example is encoded using the SIDs defined in [I.D-somaraju-core-sid] Appendix C.
 
 CBOR diagnostic notation:
 
@@ -275,10 +264,70 @@ a1                                      # map(1)
       323031352d30392d31355430393a31323a35385a2d30353a3030
 ~~~~
 
+** Member names example: **
+
+CBOR diagnostic notation:
+
+~~~~ CBORdiag
+{
+  "ietf-system:clock" : {
+    "current-datetime" : "2015-10-02T14:47:24Z-05:00",
+    "boot-datetime" : "2015-09-15T09:12:58Z-05:00"
+  }
+}
+~~~~
+
+CBOR encoding:
+
+~~~~ CBORbytes
+a1                                          # map(1)
+   71                                       # text(17)
+      696574662d73797374656d3a636c6f636b    # "ietf-system:clock"
+   a2                                       # map(2)
+      70                                    # text(16)
+         63757272656e742d6461746574696d65   # "current-datetime"
+      78 1a                                 # text(26)
+         323031352d31302d30325431343a34373a32345a2d30353a3030
+      6d                                    # text(13)
+         626f6f742d6461746574696d65         # "boot-datetime"
+      78 1a                                 # text(26)
+         323031352d30392d31355430393a31323a35385a2d30353a3030
+~~~~
+
+** YANG Hashes example: **
+
+CBOR diagnostic notation:
+
+~~~~ CBORdiag
+{
+  h'334c67d9' : {                                # clock
+    h'047c468b' : "2015-10-02T14:47:24Z-05:00",  # current-datetime
+    h'2fe1a167' : "2015-09-15T09:12:58Z-05:00"   # boot-datetime
+  }
+}
+~~~~
+
+CBOR encoding:
+
+~~~~ CBORbytes
+a1                                      # map(1)
+   44                                   # bytes(4)
+      334c67d9 
+   a2                                   # map(2)
+      44                                # bytes(4)
+         047c468b
+      78 1a                             # text(26)
+         323031352d31302d30325431343a34373a32345a2d30353a3030
+      44                                # bytes(4)
+         2fe1a167
+      78 1a                             # text(26)
+         323031352d30392d31355430393a31323a35385a2d30353a3030
+~~~~
+
 ## The "leaf-list" Schema Node  {#leaf-list}
 
 A leaf-list MUST be encoded using a CBOR array data item (major type 4).
-Each entry MUST be encoded using the rules defined by the YANG type specified.
+Each entry of this array MUST be encoded using the rules defined by the YANG type specified.
 
 Definition example {{RFC7317}}:
 
@@ -347,7 +396,9 @@ list server {
 }
 ~~~~
 
-The .sid file used in this example is available in {{sid-file-example}}.
+** SIDs example: **
+
+SIDs used in this example are defined in [I.D-somaraju-core-sid] Appendix C. It is important to note that the protocol or method using this mapping may carry a parent SID or may have the knowledge of this parent SID based on its context. In these cases, delta encoding can be performed based on this parent SID which minimizes the size of the encoded data.
 
 CBOR diagnostic notation:
 
@@ -404,13 +455,146 @@ CBOR encoding:
             7461632e6e72632e6361      # "tac.nrc.ca"
 ~~~~
 
-Note that the protocol or method using this mapping may carry a parent SID or may have the knowledge of this parent SID based on the context. In these cases, delta encoding can be performed based on this parent SID which minimizes the size of the encoded data.
+** Member names example **
+
+CBOR diagnostic notation:
+
+~~~~ CBORdiag
+[
+  {
+    "ietf-system:name" : "NRC TIC server",
+    "ietf-system:udp" : {
+      "address" : "tic.nrc.ca",
+      "port" : 123
+    },
+    "ietf-system:association-type" : 0,
+    "ietf-system:iburst" : false,
+    "ietf-system:prefer" : true
+  },
+  {
+    "ietf-system:name" : "NRC TAC server",
+    "ietf-system:udp" : {
+      "address" : "tac.nrc.ca"
+    }
+  }
+]
+~~~~
+
+CBOR encoding:
+
+~~~~ CBORbytes
+82                                            # array(2)
+   a5                                         # map(5)
+      70                                      # text(16)
+         696574662d73797374656d3a6e616d65     # "ietf-system:name"
+      6e                                      # text(14)
+         4e52432054494320736572766572         # "NRC TIC server"
+      6f                                      # text(15)
+         696574662d73797374656d3a756470       # "ietf-system:udp"
+      a2                                      # map(2)
+         67                                   # text(7)
+            61646472657373                    # "address"
+         6a                                   # text(10)
+            7469632e6e72632e6361              # "tic.nrc.ca"
+         64                                   # text(4)
+            706f7274                          # "port"
+         18 7b                                # unsigned(123)
+      78 1c                                   # text(28)
+         696574662d73797374656d3a6173736f63696174696f6e2d74797065
+                                              # "ietf-system:association-type"
+      00                                      # unsigned(0)
+      72                                      # text(18)
+         696574662d73797374656d3a696275727374 # "ietf-system:iburst"
+      f4                                      # primitive(20)
+      72                                      # text(18)
+         696574662d73797374656d3a707265666572 # "ietf-system:prefer"
+      f5                                      # primitive(21)
+   a2                                         # map(2)
+      70                                      # text(16)
+         696574662d73797374656d3a6e616d65     # "ietf-system:name"
+      6e                                      # text(14)
+         4e52432054414320736572766572         # "NRC TAC server"
+      6f                                      # text(15)
+         696574662d73797374656d3a756470       # "ietf-system:udp"
+      a1                                      # map(1)
+         67                                   # text(7)
+            61646472657373                    # "address"
+         6a                                   # text(10)
+            7461632e6e72632e6361              # "tac.nrc.ca"
+~~~~
+
+** YANG hashes example: **
+
+CBOR diagnostic notation:
+
+~~~~ CBORdiag
+[
+  {
+    h'06c32032' : "NRC TIC server",           # name
+    h'11889c84' : {                           # udp
+      h'3158c529' : "tic.nrc.ca",             # address
+      h'34492d05' : 123                       # port
+    },
+    h'2c2c2ccf' : 0,                          # association-type
+    h'1058dc5d' : false,                      # iburst
+    h'390e346a' : true                        # prefer
+  },
+  {
+    h'06c32032' : "NRC TAC server",           # name
+    h'11889c84' : {                           # udp
+      h'3158c529' : "tac.nrc.ca"              # address
+    }
+  }
+]
+~~~~
+
+CBOR encoding:
+
+~~~~ CBORbytes
+82                                    # array(2)
+   a5                                 # map(5)
+      44                              # bytes(4)
+         06c32032"
+      6e                              # text(14)
+         4e52432054494320736572766572 # "NRC TIC server"
+      44                              # bytes(4)
+         11889c84 "
+      a2                              # map(2)
+         44                           # bytes(4)
+            3158c529
+         6a                           # text(10)
+            7469632e6e72632e6361      # "tic.nrc.ca"
+         44                           # bytes(4)
+            34492d05
+         18 7b                        # unsigned(123)
+      44                              # bytes(4)
+         2c2c2ccf
+      00                              # unsigned(0)
+      44                              # bytes(4)
+         1058dc5d
+      f4                              # primitive(20)
+      44                              # bytes(4)
+         390e346a
+      f5                              # primitive(21)
+   a2                                 # map(2)
+      44                              # bytes(4)
+         06c32032
+      6e                              # text(14)
+         4e52432054414320736572766572 # "NRC TAC server"
+      44                              # bytes(4)
+         11889c84
+      a1                              # map(1)
+         44                           # bytes(4)
+            3158c529
+         6a                           # text(10)
+            7461632e6e72632e6361      # "tac.nrc.ca"
+~~~~
 
 ## The "anydata" Schema Node
 
 An anydata serves as a container for an arbitrary set of schema nodes that otherwise appear as normal YANG-modeled data. An anydata instance is encoded using the same rules as a container, i.e., CBOR map. The requirement that anydata content can be modeled by YANG implies the following:
 
-*	Keys MUST be set to valid SIDs, this includes the key of the anydata node and the key of any inner schema node.
+*	Keys MUST be set to valid SIDs, member names or YANG hashes. This rule apply to the key of the anydata node and the key of any inner schema node.
 
 *	The CBOR array MUST contain either unique scalar values (as a leaf-list, see {{leaf-list}}), or maps (as a list, see {{list}}).
 
@@ -418,7 +602,7 @@ An anydata serves as a container for an arbitrary set of schema nodes that other
 
 ## The "anyxml" Schema Node
 
-An anyxml instance is encoded as a CBOR key/value pair. The key of the anyxml schema node MUST be a valid SID but the value is unrestricted, i.e., the value can be any CBOR encoded content.
+An anyxml instance is encoded as a CBOR key/value pair. The key of the anyxml schema node MUST be a valid SID, member name or YANG hash but the value is unrestricted, i.e., the value can be any CBOR encoded content.
 
 # Representing YANG Data Types in CBOR {#data-types-mapping}
 
@@ -623,7 +807,15 @@ CBOR encoding: 64 65746831
 
 ## The "identityref" Type
 
-Leafs of type identityref MUST be encoded using a CBOR unsigned integer data item (major type 0) and MUST contain a registered SID.
+This specification support two approaches for encoding identityref, a SID as defined in [I.D-somaraju-core-sid] or a name as defined in {{I-D.ietf-netmod-yang-json}} section 6.8.
+
+** SIDs as identityref: **
+
+SIDs are globally unique and may be used as identityref.  This approach is both compact and simple to implement. When SID are used, identityref MUST be encoded using a CBOR unsigned integer data item (major type 0) and set to a SID allocated from a registered SID range.
+
+** Name as identityref: **
+
+Alternatively, an identityref may be encoded using a name as defined in {{I-D.ietf-netmod-yang-json}} section 6.8.  When a names are used, identityref MUST be encoded using a CBOR text string data item (major type 3). If the identity is defined in another module than the leaf node containing the identityref value, the namespace-qualified form MUST be used. Otherwise, both the simple and namespace-qualified forms are permitted.
 
 Definition example {{RFC7223}}:
 
@@ -646,11 +838,19 @@ leaf type {
 }
 ~~~~
 
+** SIDs as identityref: **
+
 Assuming that the identity "iana-if-type:ethernetCsmacd" have been assigned to the SID value 1179.
 
 CBOR diagnostic notation: 1179
 
 CBOR encoding: 19 049b
+
+** Name as identityref: **
+
+CBOR diagnostic notation: "iana-if-type:ethernetCsmacd"
+
+CBOR encoding: 78 1b  69616e612d69662d747970653a65746865726e657443736d616364
 
 ## The "empty" Type
 
@@ -714,8 +914,39 @@ CBOR encoding: 74 323030313a6462383a6130623a313266303a3a31
 
 ## The "instance-identifier" Type
 
-Leafs of type instance-identifier MUST be encoded using either a CBOR unsigned integer data item (major type 0) or a CBOR array data item (major type 4).
-When a leaf node of type instance-identifier identifies a single instance schema node (schema node not part of a list), its value MUST be encoded using a CBOR unsigned integer set to the targeted data node SID.
+This specification support three approaches for encoding an instance-identifier, one based on SIDs as defined in [I.D-somaraju-core-sid], one based on names as defined in {{I-D.ietf-netmod-yang-json}} section 6.13 and one based on YANG hashes as defined in {{I-D.vanderstok-core-comi}}.
+
+** SIDs as instance-identifier: **
+
+SIDs uniquely identify a data node. For single instance data node, the SID is sufficient to identify this instance. For a multi-instance data node, a SID is combined with the list key(s) to identify each instance of this data node within the YANG list(s).
+
+Single instance data nodes MUST be encoded using either a CBOR unsigned integer data item (major type 0) and set to the targeted data node SID.
+
+Multi-instances data nodes MUST be encoded using a CBOR array data item (major type 4) containing the following entries:
+
+*	The first entry MUST be encoded as a CBOR unsigned integer data item (major type 0) and set to the targeted data node SID. 
+
+*	The following entries MUST contain the value of each key required to identify the instance of the targeted data node. These keys MUST be ordered as defined in the "key" YANG statement, starting from top level list, and follow by each of the subordinate list(s).
+
+When the SID identify a YANG list, the presence of the key(s) for this list is optional. When the key(s) are present, the targeted instance within this list is selected. When the key(s) are absent, the entire YANG list is selected.
+
+** Names as instance-identifier: **
+
+The use of names as instance-identifier is defined in {{I-D.ietf-netmod-yang-json}} section 6.11. The resulting xpath MUST be encoded using a CBOR text string data item (major type 3).
+
+** YANG hashes as instance-identifier: **
+
+YANG hashes uniquely identify a data node. For single instance data node, the YANG hash is sufficient to identify this instance. For a multi-instance data node, a YANG hash is combined with the list key(s) to identify each instance of this data node within the YANG list(s).
+
+Single instance data nodes MUST be encoded using a CBOR byte string data item (major type 2) and set to the YANG hash associated to targeted data node.
+
+Multi-instances data nodes MUST be encoded using a CBOR array data item (major type 4) containing the following entries:
+
+*	The first entry MUST be encoded as a CBOR byte string data item (major type 2) and set to the YANG hash associated to targeted data node. 
+
+*	The following entries MUST contain the value of each key required to identify the instance of the targeted data node. These keys MUST be ordered as defined in the "key" YANG statement, starting from top level list, and follow by each of the subordinate list(s).
+
+When the YANG hash identify a YANG list, the presence of the key(s) for this list is optional. When the key(s) are present, the targeted instance within this list is selected. When the key(s) are absent, the entire YANG list is selected.
 
 Definition example {{RFC7317}}:
 
@@ -732,23 +963,29 @@ container system {
 }
 ~~~~
 
-In this example, we assume that the leaf "/system/contact" is assigned to SID 1728.
+** First example based on SID: **
+
+In this example, a field of type instance-identifier identify the data node "/system/contact" (SID 1728).
 
 CBOR diagnostic notation: 1728
 
 CBOR encoding: 19 06c0
 
-In this example, the value 69635 identifies the instance of the data node
-"hostname" within the ietf-system module. Assuming module ID = 68 and data
-node ID = 3.
+** First example based on name: **
 
-When a leaf node of type instance-identifier identifies a data node supporting
-multiple instances (data node part of a list), its value MUST be encoded
-using a CBOR array data item (major type 4) containing the following entries:
+Same example as above based on names.
 
-* The first entry MUST be encoded as a CBOR unsigned integer data item (major type 0) and set to the targeted data node SID.
+CBOR diagnostic notation: "/ietf-system:system/contact"
 
-* The following entries MUST contain the value of each key required to identify the instance of the targeted data node. These keys MUST be ordered as defined in the "key" YANG statement, starting from top level list, and follow by each of the subordinate list(s).
+CBOR encoding: 78 1c 2f20696574662d73797374656d3a73797374656d2f636f6e74616374
+
+** First example based on YANG hash: **
+
+Same example assuming data node "/system/contact" is associated to YANG hash 0x09b06d17.
+
+CBOR diagnostic notation: h'09b06d17'
+
+CBOR encoding: 44 09b06d17
 
 Definition example {{RFC7317}}:
 
@@ -778,11 +1015,124 @@ list user {
 }
 ~~~~
 
-In this example, we assume that the leaf "/system/authentication/user/authorized-key/key-data" is assigned to SID 1721.
+** Second example based on SID: **
 
-CBOR diagnostic notation: [1721, "bob", "admin"]
+In this example, a field of type instance-identifier identify the data node "/system/authentication/user/authorized-key/key-data" (SID 1721) for the user name "bob" and the authorized-key name "admin".
 
-CBOR encoding: 82 19 06b9 63 626f62 65 61646d696e
+CBOR diagnostic notation:
+
+~~~~ CBORdiag
+[1721, "bob", "admin"]
+~~~~
+
+CBOR encoding:
+
+~~~~ CBORbytes
+83                      # array(3)
+   19 06b9              # unsigned(1721)
+   63                   # text(3)
+      626f62            # "bob"
+   65                   # text(5)
+      61646d696e        # "admin"
+~~~~
+
+** Second example based on name: **
+
+Same example as above based on names.
+
+CBOR diagnostic notation:
+
+~~~~ CBORdiag
+"/ietf-system:system/authentication/user[name='bob']/authorized-key[name='admin']/key-data"
+~~~~
+
+CBOR encoding:
+
+~~~~ CBORbytes
+78 59
+   2f696574662d73797374656d3a73797374656d2f61757468656e7469636174696f6e2f
+   757365725b6e616d653d27626f62275d2f617574686f72697a65642d6b65795b6e616d
+   653d2761646d696e275d2f6b65792d64617461
+~~~~
+
+** Second example based on YANG hash: **
+
+Same example assuming data node "/ietf-system:system/authentication/user/authorized-key/key-data" is associated to YANG hash 0x0d6e7afb.
+
+CBOR diagnostic notation:
+
+~~~~ CBORdiag
+[h'0d6e7afb', "bob", "admin"]
+~~~~
+
+CBOR encoding:
+
+~~~~ CBORbytes
+83                      # array(3)
+   44                   # bytes(4)
+      0d6e7afb
+   63                   # text(3)
+      626f62            # "bob"
+   65                   # text(5)
+      61646d696e        # "admin"
+~~~~
+
+** Third example based on SID: **
+
+This third example identify an instance within the list "/system/authentication/user" (SID 1717) corresponding to the user name "jack".
+
+CBOR diagnostic notation:
+
+~~~~ CBORdiag
+[1717, "jack"]
+~~~~
+
+CBOR encoding:
+
+~~~~ CBORbytes
+82                      # array(2)
+   19 06b5              # unsigned(1717)
+   64                   # text(4)
+      6a61636b          # "jack"
+~~~~
+
+** Third example based on name: **
+
+Same example as above based on names.
+
+CBOR diagnostic notation:
+
+~~~~ CBORdiag
+"/ietf-system:system/authentication/user[name='bob']"
+~~~~
+
+CBOR encoding:
+
+~~~~ CBORbytes
+78 33
+   2f696574662d73797374656d3a73797374656d2f61757468656e7469636174696f6e2f
+   757365725b6e616d653d27626f62275d
+~~~~
+
+** Third example based on YANG hash: **
+
+Same example assuming data node "/ietf-system:system/authentication/user" is associated to YANG hash 0x2677c6c1.
+
+CBOR diagnostic notation:
+
+~~~~ CBORdiag
+[h'2677c6c1', "bob"]
+~~~~
+
+CBOR encoding:
+
+~~~~ CBORbytes
+82                      # array(2)
+   44                   # bytes(4)
+      2677c6c1
+   63                   # text(3)
+      626f62            # "bob"
+~~~~
 
 # Security Considerations
 
@@ -792,719 +1142,9 @@ This document defines an alternative encoding for data modeled in the YANG data 
 
 To minimize security risks, software on the receiving side SHOULD reject all messages that do not comply to the rules of this document and reply with an appropriate error message to the sender.
 
-# IANA Considerations  {#IANA}
-
-## "SID" range registry  {#sid-registry}
-
-IANA is requested to create a registry for Structure Identifier (SID) ranges. This registry needs to guarantee that the ranges registered do not overlap. The registry SHALL record for each entry:
-
-*	The entry point (first entry) of the registered SID range.
-
-*	The size of the registered SID range.
-
-*	The contact information of the owner of the range such as name, email address, and phone number.
-The IANA policy for this registry is split into four tiers as follows:
-
-*	The range of 0 to 9999 and 0x40000000 to 0xFFFFFFFFFFFFFFFF are reserved for future extensions of this protocol. Allocation within these ranges require IETF review or IESG approval.
-
-*	The range of 1000 to 59999 is reserved for standardized YANG modules. Allocation within this range requires publishing of the associated ".yang" and ".sid" files.  (Specification required.)
-
-*	The range of 60000 to 99999 is reserved for experimental YANG modules. Use of this range MUST NOT be used in operational deployments since these SIDs are not globally unique which limit their interoperability.
-
-*	The range of 100000 to 0x3FFFFFFF is available on a first come first served basis. The only information required from the registrant is a valid contact information. The recommended size of the SID ranges allocated is 1,000 for private use and 10,000 for standard development organizations (SDOs). Registrants MAY request fewer or more SIDs based on their expected, sat needs. Allocation of a significantly larger SID range MAY required IETF review or IESG approval. IANA MAY delegate this registration process to one or multiple sub-registries. The recommended size of the SID range allocation for a sub-registry is 1,000,000.
-
-| Entry Point | Size            | Registration Procedures                                                                                                   |
-|-------------+-----------------+---------------------------------------------------------------------------------------------------------------------------|
-| 0           | 1,000           | IETF review or IESG approval                                                                                              |
-| 1,000       | 59,000          | Specification and associated ".yang" and ".sid" files required                                                            |
-| 60,000      | 40,000          | Experimental use                                                                                                          |
-| 100,000     | 0x3ffe7960      | Contact information is required. Registration of the module name(s) and associated ".yang" and ".sid" files are optional. |
-| 0x40000000  | 2^64-0x40000000 | Specification required, expert review                                                                                     |
-{: align="left"}
-
-## YANG module registry
-
-Each registered SID range can be used to assign SIDs to one or more YANG modules. To track which YANG module have been assigned and to avoid duplicate allocation, IANA is requested to provide a method to register and query the following information:
-
-*	The YANG module name
-
-*	The contact information of the author
-
-*	The specification reference
-
-*	The associated ".yang" file(s) (Optional)
-
-*	The associated ".sid" file (Optional)
-
-Registration of YANG modules is optional. When a YANG module is registered, the registrant MUST provide the module name and contact information and/or a specification reference.
-
-The registration of the associated ".yang" and ".sid" files is optional. When provided, the validity of the files MUST be verified. This can be accomplished by a YANG validation tool specially modified to support ".sid" file verification. The SID range specified within the ".sid" file SHOULD also be checked against the "SID" range registry ({{sid-registry}}) and against the other YANG modules registered to detect any duplicate use of SIDs.
-
-Initial entries in this registry are as follows:
-
-| Entry Point | Size | Module name     | Module revision  | Reference               |
-|-------------+------+-----------------+------------------+-------------------------+
-|        1000 |  100 | ietf-cool       |    2016-01-01    | I.D-veillette-core-cool |
-|        1100 |  400 | iana-if-type    |    2014-05-08    | RFC 7224                |
-|        1500 |  100 | ietf-interfaces |    2014-05-08    | RFC 7223                |
-|        1600 |  100 | ietf-ip         |    2014-06-16    | RFC 7277                |
-|        1700 |  100 | ietf-system     |    2014-08-06    | RFC 7317                |
-{: align="left"}
-
 # Acknowledgments
 
 This document have been largely inspired by the extensive works done by Andy Bierman and Peter van der Stok on {{I-D.vanderstok-core-comi}}. {{I-D.ietf-netmod-yang-json}} have also been a critical input to this work. The authors would like to thank the authors and contributors to these two drafts.
 
 The authors would also like to acknowledge the review, feedback, and comments from Ladislav Lhotka and Juergen Schoenwaelder.
 
---- back
-
-# ".sid" file lifecycle  {#sid-lifecycle}
-
-The following activity diagram summarize the life cycle of ".sid" files.
-
-~~~~
-      +---------------+
- O    | Creation of a |
--|- ->| YANG module   |
-/ \   +---------------+
-              |
-              V
-       /-------------\
-      / Standardized  \ yes
-      \ YANG module ? /-------------+
-       \-------------/              |
-              | no                  |
-              V                     V
-       /-------------\      +---------------+
-      / Constrained   \ yes | SID range     |
-  +-->\ application ? /---->| registration  |
-  |    \-------------/      +---------------+
-  |           | no                  |
-  |           V                     V
-  |   +---------------+     +---------------+
-  +---| YANG module   |     | .sid file     |
-      | update        |     | generation    |
-      +---------------+     +---------------+
-                                    |
-                                    V
-                             /-------------\      +---------------+
-                            /  Publicly     \ yes | YANG module   |
-              +------------>\  available ?  /---->| registration  |
-              |              \-------------/      +---------------+
-              |                     | no                  |
-              |                     +---------------------+
-              |                     V
-      +---------------+     +---------------+
-      | .sid file     |     | Update of the |
-      | update based  |     | YANG module   |
-      | on previous   |     | or include(s) |
-      | .sid file     |     | or import(s)  |
-      +---------------+     +---------------+
-              ^                     |
-              |                     V
-              |              /-------------\      +---------------+
-              |             /  More SIDs    \ yes | Extra range   |
-              |             \  required ?   /---->| assignment    |
-              |              \-------------/      +---------------+
-              |                     | no                  |
-              +---------------------+---------------------+
-~~~~
-{: align="left"}
-
-YANG modules are not necessary created in the context of constrained applications. YANG modules can be implemented using NETCONF or RESTCONF without the need for assigning SIDs to the items within these YANG modules.
-
-Assignment of SIDs of a YANG module defined by an RFC is the responsibility of the authors of this RFC or IANA in the case of already existing modules. In the case of the non-standardized YANG module, authors or implementers MAY register for a SID range at any point in their development cycle.
-
-Once a SID range is registered, the owner of this range assign sub-ranges to each YANG module in order to generate the associated ".sid" files. Generation of ".sid" files SHOULD be performed using an automated tool.
-
-Registration of the .sid file associated to a YANG module is optional but recommended to promote interoperability between devices and to avoid duplicate allocation of SIDs to a single YANG module.
-
-Each time a YANG module or one of its imported module(s) or included sub-module(s) is updated, the ".sid" file MAY need to be updated. This update SHOULD also be performed using an automated tool.
-
-If a new revision requires more SIDs than initially allocated, a new SID range MUST be added to the assignment ranges as defined in the ".sid" file header. These extra SIDs are used for subsequent assignment.
-
-# ".sid" file format  {#sid-file-format}
-
-".sid" files are used to persist and publish SIDs assigned to the different YANG items of a specific YANG module. The following YANG module defined the structure of this file, encoding is performed using the rules defined in {{I-D.ietf-netmod-yang-json}}.
-
-~~~~
-module sid-file {
-  namespace "urn:ietf:ns:cool:sid-file";
-  prefix sid;
-
-  organization
-    "IETF Core Working Group";
-
-  contact
-    "Ana Minaburo
-     <ana@ackl.io>
-
-     Alexander Pelov
-     <mailto:a@ackl.io>
-
-     Abhinav Somaraju
-     <mailto:abhinav.somaraju@tridonic.com>
-
-     Laurent Toutain
-     <Laurent.Toutain@telecom-bretagne.eu>
-
-     Randy Turner
-     <mailto:Randy.Turner@landisgyr.com>
-
-     Michel Veillette
-     <mailto:michel.veillette@trilliantinc.com>";
-
-  description
-    "This module define the structure of the .sid files.
-     .sid files contains the identifiers (SIDs) assigned
-     to the different items defined in a YANG module.
-     SIDs are used to encode a data model defined in YANG
-     using CBOR.";
-
-  revision 2015-12-16 {
-    description
-      "Initial revision.";
-    reference
-      "draft-veillette-core-yang-cbor-mapping";
-  }
-
-  typedef yang-identifier {
-    type string {
-      length "1..max";
-      pattern '[a-zA-Z_][a-zA-Z0-9\-_.]*';
-      pattern '.|..|[^xX].*|.[^mM].*|..[^lL].*';
-    }
-    description
-      "A YANG identifier string as defined by the 'identifier'
-       rule in Section 12 of RFC 6020.";
-  }
-
-  typedef revision-identifier {
-    type string {
-      pattern '\d{4}-\d{2}-\d{2}';
-    }
-    description
-      "Represents a date in YYYY-MM-DD format.";
-  }
-
-
-  typedef date-and-time {
-    type string {
-      pattern '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?' +
-              '(Z|[\+\-]\d{2}:\d{2})';
-    }
-    description
-      "The date-and-time type is a profile of the ISO 8601
-      standard for representation of dates and times using the
-      Gregorian calendar.  The profile is defined by the
-      date-time production in section 5.6 of RFC 3339.";
-  }
-
-  leaf module-name {
-    type yang-identifier;
-    description
-      "Name of the module associated with this .sid file.";
-  }
-
-  leaf module-revision {
-    type revision-identifier;
-    description
-      "Revision of the module associated with this .sid file.
-       This leaf is not present if no revision statement is
-       defined in the YANG module.";
-  }
-
-  list assigment-ranges {
-    key "entry-point";
-    description
-      "Range(s) of SIDs available for assignment to the
-       different items defined by the associated module.";
-
-    leaf entry-point {
-      mandatory true;
-      type uint32;
-      description
-        "Lowest SID available for assignment.";
-    }
-
-    leaf size {
-      mandatory true;
-      type uint16;
-      description
-        "Number of SIDs available for assignment.";
-    }
-  }
-
-  list items {
-    key "type assigned label";
-    description
-      "List of items defined by the associated YANG module.";
-
-    leaf type {
-      description
-        "Item type assigned, this field can be set to:
-          - 'identity'
-          - 'node'
-          - 'notification'
-          - 'rpc'
-          - 'action'";
-      mandatory true;
-      type string {
-        pattern 'identity$|node$|notification$|rpc$|action$';
-      }
-    }
-
-    leaf assigned {
-      mandatory true;
-      type date-and-time;
-      description
-        "Date and time when this entry has been created.";
-    }
-
-    leaf label {
-      mandatory true;
-      type string;
-      description
-        "Label associated to this item, can be set to:
-          - an identity encoded as: '<module name>:<entity name>'
-          - a schema node path";
-    }
-
-    leaf sid {
-      mandatory true;
-      type uint32;
-      description "Identifier assigned to this YANG item.";
-    }
-  }
-}
-~~~~
-{: align="left"}
-
-# ".sid" file example  {#sid-file-example}
-
-The following .sid file (ietf-system@2014-08-06.sid) have been generated using the following yang modules:
-
-*	ietf-system@2014-08-06.yang
-
-*	ietf-yang-types@2013-07-15.yang
-
-*	ietf-inet-types@2013-07-15.yang
-
-*	ietf-netconf-acm@2012-02-22.yang
-
-*	iana-crypt-hash@2014-04-04.yang
-
-~~~~
-{
-  "assignment-ranges": [
-    {
-      "entry-point": 1700,
-      "size": 100
-    }
-  ],
-  "module-name": "ietf-system",
-  "module-revision": "2014-08-06",
-  "items": [
-    {
-      "type": "identity",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "ietf-system:authentication-method",
-      "sid": 1700
-    },
-    {
-      "type": "identity",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "ietf-system:local-users",
-      "sid": 1701
-    },
-    {
-      "type": "identity",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "ietf-system:radius",
-      "sid": 1702
-    },
-    {
-      "type": "identity",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "ietf-system:radius-authentication-type",
-      "sid": 1703
-    },
-    {
-      "type": "identity",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "ietf-system:radius-chap",
-      "sid": 1704
-    },
-    {
-      "type": "identity",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "ietf-system:radius-pap",
-      "sid": 1705
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system",
-      "sid": 1706
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system-state",
-      "sid": 1707
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system-state/clock",
-      "sid": 1708
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system-state/clock/boot-datetime",
-      "sid": 1709
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system-state/clock/current-datetime",
-      "sid": 1710
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system-state/platform",
-      "sid": 1711
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system-state/platform/machine",
-      "sid": 1712
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system-state/platform/os-name",
-      "sid": 1713
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system-state/platform/os-release",
-      "sid": 1714
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system-state/platform/os-version",
-      "sid": 1715
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/authentication",
-      "sid": 1716
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/authentication/user",
-      "sid": 1717
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/authentication/user-authentication-order",
-      "sid": 1718
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/authentication/user/authorized-key",
-      "sid": 1719
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/authentication/user/authorized-key/algorithm",
-      "sid": 1720
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/authentication/user/authorized-key/key-data",
-      "sid": 1721
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/authentication/user/authorized-key/name",
-      "sid": 1722
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/authentication/user/name",
-      "sid": 1723
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/authentication/user/password",
-      "sid": 1724
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/clock",
-      "sid": 1725
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/clock/timezone/timezone-name/timezone-name",
-      "sid": 1726
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/clock/timezone/timezone-utc-offset/timezone-utc-offset",
-      "sid": 1727
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/contact",
-      "sid": 1728
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/dns-resolver",
-      "sid": 1729
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/dns-resolver/options",
-      "sid": 1730
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/dns-resolver/options/attempts",
-      "sid": 1731
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/dns-resolver/options/timeout",
-      "sid": 1732
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/dns-resolver/search",
-      "sid": 1733
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/dns-resolver/server",
-      "sid": 1734
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/dns-resolver/server/name",
-      "sid": 1735
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/dns-resolver/server/transport/udp-and-tcp/udp-and-tcp",
-      "sid": 1736
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/dns-resolver/server/transport/udp-and-tcp/udp-and-tcp/address",
-      "sid": 1737
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/dns-resolver/server/transport/udp-and-tcp/udp-and-tcp/port",
-      "sid": 1738
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/hostname",
-      "sid": 1739
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/location",
-      "sid": 1740
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/ntp",
-      "sid": 1741
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/ntp/enabled",
-      "sid": 1742
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/ntp/server",
-      "sid": 1743
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/ntp/server/association-type",
-      "sid": 1744
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/ntp/server/iburst",
-      "sid": 1745
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/ntp/server/name",
-      "sid": 1746
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/ntp/server/prefer",
-      "sid": 1747
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/ntp/server/transport/udp/udp",
-      "sid": 1748
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/ntp/server/transport/udp/udp/address",
-      "sid": 1749
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/ntp/server/transport/udp/udp/port",
-      "sid": 1750
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/radius",
-      "sid": 1751
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/radius/options",
-      "sid": 1752
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/radius/options/attempts",
-      "sid": 1753
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/radius/options/timeout",
-      "sid": 1754
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/radius/server",
-      "sid": 1755
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/radius/server/authentication-type",
-      "sid": 1756
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/radius/server/name",
-      "sid": 1757
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/radius/server/transport/udp/udp",
-      "sid": 1758
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/radius/server/transport/udp/udp/address",
-      "sid": 1759
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/radius/server/transport/udp/udp/authentication-port",
-      "sid": 1760
-    },
-    {
-      "type": "node",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/radius/server/transport/udp/udp/shared-secret",
-      "sid": 1761
-    },
-    {
-      "type": "rpc",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/set-current-datetime",
-      "sid": 1762
-    },
-    {
-      "type": "rpc",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/set-current-datetime/input/current-datetime",
-      "sid": 1763
-    },
-    {
-      "type": "rpc",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system-restart",
-      "sid": 1764
-    },
-    {
-      "type": "rpc",
-      "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system-shutdown",
-      "sid": 1765
-    }
-  ]
-}
-~~~~
-{: align="left"}
-
---- back
