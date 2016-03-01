@@ -71,6 +71,7 @@ author:
   email: ana@ackl.io
 normative:
   I-D.ietf-netmod-rfc6020bis: yang11
+  I-D.ietf-netmod-yang-json: yang-json
   RFC2119:
   RFC7049:
 
@@ -122,9 +123,9 @@ This specification also makes use of the following terminology:
 
 Some of the items defined in YANG {{I-D.ietf-netmod-rfc6020bis}} require the use of a unique identifier. In both NETCONF and RESTCONF, these identifiers are implemented using names. To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required.
 
-This compact identifier, called SID, is encoded using an unsigned integer. To minimize its size, SIDs are often implemented using a delta from a reference SID and the current SID. To guaranty the uniqueness of each assigned SID, SID ranges MUST be registered. {{#sid-range-registry}} provide more details about the registration process of SID range(s).
+This compact identifier, called SID, is encoded using an unsigned integer. To minimize its size, SIDs are often implemented using a delta from a reference SID and the current SID. To guaranty the uniqueness of each assigned SID, SID ranges MUST be registered. {{sid-range-registry}} provide more details about the registration process of SID range(s).
 
-To avoid duplicate assignment of SIDs, the registration of the SIDs assigned to YANG module(s) is recommended. {{#module-registry}} provide more details about the registration process of YANG modules.
+To avoid duplicate assignment of SIDs, the registration of the SIDs assigned to YANG module(s) is recommended. {{module-registry}} provide more details about the registration process of YANG modules.
 
 The following items are identified using SIDs:
 
@@ -422,7 +423,7 @@ Each registered SID range can be used to assign SIDs to one or more YANG modules
 
 Registration of YANG modules is optional. When a YANG module is registered, the registrant MUST provide the module name and contact information and/or a specification reference.
 
-The registration of the associated ".yang" and ".sid" files is optional. When provided, the validity of the files MUST be verified. This can be accomplished by a YANG validation tool specially modified to support ".sid" file verification. The SID range specified within the ".sid" file SHOULD also be checked against the "SID" range registry ({{sid-registry}}) and against the other YANG modules registered to detect any duplicate use of SIDs.
+The registration of the associated ".yang" and ".sid" files is optional. When provided, the validity of the files MUST be verified. This can be accomplished by a YANG validation tool specially modified to support ".sid" file verification. The SID range specified within the ".sid" file SHOULD also be checked against the "SID" range registry ({{sid-range-registry}}) and against the other YANG modules registered to detect any duplicate use of SIDs.
 
 Initial entries in this registry are as follows:
 
