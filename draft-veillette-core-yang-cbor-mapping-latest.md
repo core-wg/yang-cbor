@@ -189,7 +189,7 @@ Leafs MUST be encoded based on the encoding rules specified in {{data-types-mapp
 
 Collections such as containers, list instances, notifications, RPC inputs, RPC outputs, action inputs and action outputs MUST be encoded using a CBOR map data item (major type 5). A map is comprised of pairs of data items, with each data item consisting of a key and a value. This specification supports three type of keys; SID as defined in [I.D-somaraju-core-sid], member names as defined in {{I-D.ietf-netmod-yang-json}} and YANG hash as defined by {{I-D.vanderstok-core-comi}}.
 
-** SIDs as keys: **
+**SIDs as keys:**
 
 Keys implemented using SIDs MUST be encoded using a CBOR unsigned integer (major type 0) and set to the delta value of the associated SID. Delta values are computed as follows:
 
@@ -197,11 +197,11 @@ Keys implemented using SIDs MUST be encoded using a CBOR unsigned integer (major
 
 *	Delta values may result in a negative number, clients and servers MUST support negative deltas.
 
-** Member names as keys: **
+**Member names as keys:**
 
 Keys implemented using member names MUST be encoded using a CBOR text string data item (major type 3). A namespace-qualified member name MUST be used for all members of a top-level collection, and then also whenever the namespaces of the schema node and its parent are different. In all other cases, the simple form of the member name MUST be used. Member names and namespaces are defined in {{I-D.ietf-netmod-yang-json}} section 4.
 
-** YANG hashes as keys: **
+**YANG hashes as keys:**
 
 Keys implemented using YANG hashes MUST be encoded using a CBOR byte string data item (major type 2).
 
@@ -235,7 +235,7 @@ container system {
 }
 ~~~~
 
-** SIDs example: **
+**SIDs example:**
 
 This example is encoded using the SIDs defined in [I.D-somaraju-core-sid] Appendix C.
 
@@ -264,7 +264,7 @@ a1                                      # map(1)
       323031352d30392d31355430393a31323a35385a2d30353a3030
 ~~~~
 
-** Member names example: **
+**Member names example:**
 
 CBOR diagnostic notation:
 
@@ -294,7 +294,7 @@ a1                                          # map(1)
          323031352d30392d31355430393a31323a35385a2d30353a3030
 ~~~~
 
-** YANG Hashes example: **
+**YANG Hashes example:**
 
 CBOR diagnostic notation:
 
@@ -396,7 +396,7 @@ list server {
 }
 ~~~~
 
-** SIDs example: **
+**SIDs example:**
 
 SIDs used in this example are defined in [I.D-somaraju-core-sid] Appendix C. It is important to note that the protocol or method using this mapping may carry a parent SID or may have the knowledge of this parent SID based on its context. In these cases, delta encoding can be performed based on this parent SID which minimizes the size of the encoded data.
 
@@ -455,7 +455,7 @@ CBOR encoding:
             7461632e6e72632e6361      # "tac.nrc.ca"
 ~~~~
 
-** Member names example **
+**Member names example:**
 
 CBOR diagnostic notation:
 
@@ -523,7 +523,7 @@ CBOR encoding:
             7461632e6e72632e6361              # "tac.nrc.ca"
 ~~~~
 
-** YANG hashes example: **
+**YANG hashes example:**
 
 CBOR diagnostic notation:
 
@@ -809,11 +809,11 @@ CBOR encoding: 64 65746831
 
 This specification support two approaches for encoding identityref, a SID as defined in [I.D-somaraju-core-sid] or a name as defined in {{I-D.ietf-netmod-yang-json}} section 6.8.
 
-** SIDs as identityref: **
+**SIDs as identityref:**
 
 SIDs are globally unique and may be used as identityref.  This approach is both compact and simple to implement. When SID are used, identityref MUST be encoded using a CBOR unsigned integer data item (major type 0) and set to a SID allocated from a registered SID range.
 
-** Name as identityref: **
+**Name as identityref:**
 
 Alternatively, an identityref may be encoded using a name as defined in {{I-D.ietf-netmod-yang-json}} section 6.8.  When a names are used, identityref MUST be encoded using a CBOR text string data item (major type 3). If the identity is defined in another module than the leaf node containing the identityref value, the namespace-qualified form MUST be used. Otherwise, both the simple and namespace-qualified forms are permitted.
 
@@ -838,7 +838,7 @@ leaf type {
 }
 ~~~~
 
-** SIDs as identityref: **
+**SIDs as identityref:**
 
 Assuming that the identity "iana-if-type:ethernetCsmacd" have been assigned to the SID value 1179.
 
@@ -846,7 +846,7 @@ CBOR diagnostic notation: 1179
 
 CBOR encoding: 19 049b
 
-** Name as identityref: **
+**Name as identityref:**
 
 CBOR diagnostic notation: "iana-if-type:ethernetCsmacd"
 
@@ -916,7 +916,7 @@ CBOR encoding: 74 323030313a6462383a6130623a313266303a3a31
 
 This specification support three approaches for encoding an instance-identifier, one based on SIDs as defined in [I.D-somaraju-core-sid], one based on names as defined in {{I-D.ietf-netmod-yang-json}} section 6.13 and one based on YANG hashes as defined in {{I-D.vanderstok-core-comi}}.
 
-** SIDs as instance-identifier: **
+**SIDs as instance-identifier:**
 
 SIDs uniquely identify a data node. For single instance data node, the SID is sufficient to identify this instance. For a multi-instance data node, a SID is combined with the list key(s) to identify each instance of this data node within the YANG list(s).
 
@@ -930,11 +930,11 @@ Multi-instances data nodes MUST be encoded using a CBOR array data item (major t
 
 When the SID identify a YANG list, the presence of the key(s) for this list is optional. When the key(s) are present, the targeted instance within this list is selected. When the key(s) are absent, the entire YANG list is selected.
 
-** Names as instance-identifier: **
+**Names as instance-identifier:**
 
 The use of names as instance-identifier is defined in {{I-D.ietf-netmod-yang-json}} section 6.11. The resulting xpath MUST be encoded using a CBOR text string data item (major type 3).
 
-** YANG hashes as instance-identifier: **
+**YANG hashes as instance-identifier:**
 
 YANG hashes uniquely identify a data node. For single instance data node, the YANG hash is sufficient to identify this instance. For a multi-instance data node, a YANG hash is combined with the list key(s) to identify each instance of this data node within the YANG list(s).
 
@@ -963,7 +963,7 @@ container system {
 }
 ~~~~
 
-** First example based on SID: **
+**First example based on SID:**
 
 In this example, a field of type instance-identifier identify the data node "/system/contact" (SID 1728).
 
@@ -971,7 +971,7 @@ CBOR diagnostic notation: 1728
 
 CBOR encoding: 19 06c0
 
-** First example based on name: **
+**First example based on name:**
 
 Same example as above based on names.
 
@@ -979,7 +979,7 @@ CBOR diagnostic notation: "/ietf-system:system/contact"
 
 CBOR encoding: 78 1c 2f20696574662d73797374656d3a73797374656d2f636f6e74616374
 
-** First example based on YANG hash: **
+**First example based on YANG hash:**
 
 Same example assuming data node "/system/contact" is associated to YANG hash 0x09b06d17.
 
@@ -1015,7 +1015,7 @@ list user {
 }
 ~~~~
 
-** Second example based on SID: **
+**Second example based on SID:**
 
 In this example, a field of type instance-identifier identify the data node "/system/authentication/user/authorized-key/key-data" (SID 1721) for the user name "bob" and the authorized-key name "admin".
 
@@ -1036,7 +1036,7 @@ CBOR encoding:
       61646d696e        # "admin"
 ~~~~
 
-** Second example based on name: **
+**Second example based on name:**
 
 Same example as above based on names.
 
@@ -1055,7 +1055,7 @@ CBOR encoding:
    653d2761646d696e275d2f6b65792d64617461
 ~~~~
 
-** Second example based on YANG hash: **
+**Second example based on YANG hash:**
 
 Same example assuming data node "/ietf-system:system/authentication/user/authorized-key/key-data" is associated to YANG hash 0x0d6e7afb.
 
@@ -1077,7 +1077,7 @@ CBOR encoding:
       61646d696e        # "admin"
 ~~~~
 
-** Third example based on SID: **
+**Third example based on SID:**
 
 This third example identify an instance within the list "/system/authentication/user" (SID 1717) corresponding to the user name "jack".
 
@@ -1096,7 +1096,7 @@ CBOR encoding:
       6a61636b          # "jack"
 ~~~~
 
-** Third example based on name: **
+**Third example based on name:**
 
 Same example as above based on names.
 
@@ -1114,7 +1114,7 @@ CBOR encoding:
    757365725b6e616d653d27626f62275d
 ~~~~
 
-** Third example based on YANG hash: **
+**Third example based on YANG hash:**
 
 Same example assuming data node "/ietf-system:system/authentication/user" is associated to YANG hash 0x2677c6c1.
 
