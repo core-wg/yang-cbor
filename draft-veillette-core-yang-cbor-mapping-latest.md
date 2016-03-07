@@ -936,17 +936,7 @@ The use of names as instance-identifier is defined in {{I-D.ietf-netmod-yang-jso
 
 **YANG hashes as instance-identifier:**
 
-YANG hashes uniquely identify a data node. For single instance data node, the YANG hash is sufficient to identify this instance. For a multi-instance data node, a YANG hash is combined with the list key(s) to identify each instance of this data node within the YANG list(s).
-
-Single instance data nodes MUST be encoded using a CBOR byte string data item (major type 2) and set to the YANG hash associated to targeted data node.
-
-Multi-instances data nodes MUST be encoded using a CBOR array data item (major type 4) containing the following entries:
-
-*	The first entry MUST be encoded as a CBOR byte string data item (major type 2) and set to the YANG hash associated to targeted data node. 
-
-*	The following entries MUST contain the value of each key required to identify the instance of the targeted data node. These keys MUST be ordered as defined in the "key" YANG statement, starting from top level list, and follow by each of the subordinate list(s).
-
-When the YANG hash identify a YANG list, the presence of the key(s) for this list is optional. When the key(s) are present, the targeted instance within this list is selected. When the key(s) are absent, the entire YANG list is selected.
+When YANG hashes are used, xpath can be compressed based on the method defined by {{I-D.vanderstok-core-comi}} sections 4.1.4.1 and 4.1.4.2.
 
 Definition example {{RFC7317}}:
 
@@ -967,25 +957,45 @@ container system {
 
 In this example, a field of type instance-identifier identify the data node "/system/contact" (SID 1728).
 
-CBOR diagnostic notation: 1728
+~~~~ CBORdiag
+1728
+~~~~
 
-CBOR encoding: 19 06c0
+CBOR encoding:
+
+~~~~ CBORbytes
+19 06c0
+~~~~
 
 **First example based on name:**
 
 Same example as above based on names.
 
-CBOR diagnostic notation: "/ietf-system:system/contact"
+~~~~ CBORdiag
+"/ietf-system:system/contact"
+~~~~
 
-CBOR encoding: 78 1c 2f20696574662d73797374656d3a73797374656d2f636f6e74616374
+CBOR encoding:
+
+~~~~ CBORbytes
+78 1c 2f20696574662d73797374656d3a73797374656d2f636f6e74616374
+~~~~
 
 **First example based on YANG hash:**
 
-Same example assuming data node "/system/contact" is associated to YANG hash 0x09b06d17.
+Same example assuming data node "/system/contact" is associated to YANG hash 0x09b06d17 or "JsG0X" in base64.
 
-CBOR diagnostic notation: h'09b06d17'
+CBOR diagnostic notation:
 
-CBOR encoding: 44 09b06d17
+~~~~ CBORdiag
+"/JsG0X"
+~~~~
+
+CBOR encoding:
+
+~~~~ CBORbytes
+66 2f4a73473058
+~~~~
 
 Definition example {{RFC7317}}:
 
@@ -1057,24 +1067,18 @@ CBOR encoding:
 
 **Second example based on YANG hash:**
 
-Same example assuming data node "/ietf-system:system/authentication/user/authorized-key/key-data" is associated to YANG hash 0x0d6e7afb.
+Same example assuming data node "/ietf-system:system/authentication/user/authorized-key/key-data" is associated to YANG hash 0x0d6e7afb or  "Nbnr7" in base64.
 
 CBOR diagnostic notation:
 
 ~~~~ CBORdiag
-[h'0d6e7afb', "bob", "admin"]
+"/Nbnr7?keys=\"bob\",\"admin\""
 ~~~~
 
 CBOR encoding:
 
 ~~~~ CBORbytes
-83                      # array(3)
-   44                   # bytes(4)
-      0d6e7afb
-   63                   # text(3)
-      626f62            # "bob"
-   65                   # text(5)
-      61646d696e        # "admin"
+78 19 2f4e626e72373f6b6579733d22626f62222c2261646d696e22
 ~~~~
 
 **Third example based on SID:**
@@ -1116,22 +1120,18 @@ CBOR encoding:
 
 **Third example based on YANG hash:**
 
-Same example assuming data node "/ietf-system:system/authentication/user" is associated to YANG hash 0x2677c6c1.
+Same example assuming data node "/ietf-system:system/authentication/user" is associated to YANG hash 0x2677c6c1 or "md8bB" in base64.
 
 CBOR diagnostic notation:
 
 ~~~~ CBORdiag
-[h'2677c6c1', "bob"]
+"/md8bB?keys=\"bob\""
 ~~~~
 
 CBOR encoding:
 
 ~~~~ CBORbytes
-82                      # array(2)
-   44                   # bytes(4)
-      2677c6c1
-   63                   # text(3)
-      626f62            # "bob"
+71 2f6d643862423f6b6579733d22626f6222
 ~~~~
 
 # Security Considerations
