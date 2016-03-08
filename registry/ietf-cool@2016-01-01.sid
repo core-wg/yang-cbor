@@ -9,129 +9,129 @@
   "module-revision": "2016-01-01",
   "items": [
     {
-      "type": "node",
-      "assigned": "2016-01-19T21:38:30Z",
-      "label": "/error-payload",
+      "type": "identity",
+      "assigned": "2016-03-08T21:59:45Z",
+      "label": "ietf-cool:application",
       "sid": 1000
     },
     {
-      "type": "node",
-      "assigned": "2016-01-19T21:38:30Z",
-      "label": "/error-payload/error-code",
+      "type": "identity",
+      "assigned": "2016-03-08T21:59:45Z",
+      "label": "ietf-cool:facility-type",
       "sid": 1001
     },
     {
-      "type": "node",
-      "assigned": "2016-01-19T21:38:30Z",
-      "label": "/error-payload/error-text",
+      "type": "identity",
+      "assigned": "2016-03-08T21:59:45Z",
+      "label": "ietf-cool:hardware-monitoring",
       "sid": 1002
     },
     {
-      "type": "node",
-      "assigned": "2016-01-19T21:38:30Z",
-      "label": "/notification-paylaod",
+      "type": "identity",
+      "assigned": "2016-03-08T21:59:45Z",
+      "label": "ietf-cool:os",
       "sid": 1003
     },
     {
-      "type": "node",
-      "assigned": "2016-01-19T21:38:30Z",
-      "label": "/notification-paylaod/event_time",
+      "type": "identity",
+      "assigned": "2016-03-08T21:59:45Z",
+      "label": "ietf-cool:protocol-stack",
       "sid": 1004
     },
     {
-      "type": "node",
-      "assigned": "2016-01-19T21:38:30Z",
-      "label": "/notification-paylaod/sid",
+      "type": "identity",
+      "assigned": "2016-03-08T21:59:45Z",
+      "label": "ietf-cool:security",
       "sid": 1005
     },
     {
       "type": "node",
-      "assigned": "2016-01-19T21:38:30Z",
-      "label": "/patch-request-payload",
+      "assigned": "2016-03-08T21:59:45Z",
+      "label": "/error-payload",
       "sid": 1006
     },
     {
       "type": "node",
-      "assigned": "2016-01-19T21:38:30Z",
-      "label": "/patch-request-payload/requests",
+      "assigned": "2016-03-08T21:59:45Z",
+      "label": "/error-payload/error-code",
       "sid": 1007
     },
     {
       "type": "node",
-      "assigned": "2016-01-19T21:38:30Z",
-      "label": "/patch-request-payload/requests/edit-id",
+      "assigned": "2016-03-08T21:59:45Z",
+      "label": "/error-payload/error-text",
       "sid": 1008
     },
     {
       "type": "node",
-      "assigned": "2016-01-19T21:38:30Z",
-      "label": "/patch-request-payload/requests/list-instance",
+      "assigned": "2016-03-08T21:59:45Z",
+      "label": "/notification-payload",
       "sid": 1009
     },
     {
       "type": "node",
-      "assigned": "2016-01-19T21:38:30Z",
-      "label": "/patch-request-payload/requests/operation",
+      "assigned": "2016-03-08T21:59:45Z",
+      "label": "/notification-payload/_id",
       "sid": 1010
     },
     {
       "type": "node",
-      "assigned": "2016-01-19T21:38:30Z",
-      "label": "/patch-request-payload/requests/value",
+      "assigned": "2016-03-08T21:59:45Z",
+      "label": "/notification-payload/content",
       "sid": 1011
     },
     {
       "type": "node",
-      "assigned": "2016-01-19T21:38:30Z",
-      "label": "/patch-response-payload",
+      "assigned": "2016-03-08T21:59:45Z",
+      "label": "/notification-payload/facility",
       "sid": 1012
     },
     {
       "type": "node",
-      "assigned": "2016-01-19T21:38:30Z",
-      "label": "/patch-response-payload/responses",
+      "assigned": "2016-03-08T21:59:45Z",
+      "label": "/notification-payload/sequence-number",
       "sid": 1013
     },
     {
       "type": "node",
-      "assigned": "2016-01-19T21:38:30Z",
-      "label": "/patch-response-payload/responses/edit-id",
+      "assigned": "2016-03-08T21:59:45Z",
+      "label": "/notification-payload/severity-level",
       "sid": 1014
     },
     {
       "type": "node",
-      "assigned": "2016-01-19T21:38:30Z",
-      "label": "/patch-response-payload/responses/edit-status",
+      "assigned": "2016-03-08T21:59:45Z",
+      "label": "/notification-payload/timestamp",
       "sid": 1015
     },
     {
-      "type": "node",
-      "assigned": "2016-01-19T21:38:30Z",
-      "label": "/patch-response-payload/responses/error-text",
+      "type": "rpc",
+      "assigned": "2016-03-08T21:59:45Z",
+      "label": "/cancel-commit",
       "sid": 1016
     },
     {
-      "type": "node",
-      "assigned": "2016-01-19T21:38:30Z",
-      "label": "/rpc-input-paylaod",
+      "type": "rpc",
+      "assigned": "2016-03-08T21:59:45Z",
+      "label": "/commit",
       "sid": 1017
     },
     {
-      "type": "node",
-      "assigned": "2016-01-19T21:38:30Z",
-      "label": "/rpc-input-paylaod/sid",
+      "type": "rpc",
+      "assigned": "2016-03-08T21:59:45Z",
+      "label": "/commit/input/commit-date-time",
       "sid": 1018
     },
     {
-      "type": "node",
-      "assigned": "2016-01-19T21:38:30Z",
-      "label": "/rpc-output-paylaod",
+      "type": "rpc",
+      "assigned": "2016-03-08T21:59:45Z",
+      "label": "/commit/input/confirm-timeout",
       "sid": 1019
     },
     {
-      "type": "node",
-      "assigned": "2016-01-19T21:38:30Z",
-      "label": "/rpc-output-paylaod/sid",
+      "type": "rpc",
+      "assigned": "2016-03-08T21:59:45Z",
+      "label": "/commit/input/datastore",
       "sid": 1020
     }
   ]
