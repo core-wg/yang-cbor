@@ -70,7 +70,6 @@ author:
   country: France
   email: ana@ackl.io
 normative:
-  I-D.veillette-core-yang-cbor-mapping: cbor-mapping
   I-D.ietf-core-block: coap-block
   I-D.bormann-core-coap-fetch: coap-fetch
   I-D.vanderstok-core-patch: coap-patch
@@ -97,7 +96,7 @@ informative:
 
 --- abstract
 
-This document describes a management interface adapted to constrained devices and constrained networks (e.g., low-power, lossy). CoOL objects (datastores, RPCs, actions and notifications) are defined using the YANG modelling language {{yang11}}. Interactions with these objects are performed using the CoAP web transfer protocol {{RFC7252}}. Payloads are encoded using the CBOR data format {{RFC7049}}. The mapping between YANG data models and the CBOR data format is defined in {{cbor-mapping}}.
+This document describes a management interface adapted to constrained devices and constrained networks (e.g., low-power, lossy). CoOL objects (datastores, RPCs, actions and notifications) are defined using the YANG modelling language {{yang11}}. Interactions with these objects are performed using the CoAP web transfer protocol {{RFC7252}}. Payloads are encoded using the CBOR data format {{RFC7049}}. The mapping between YANG data models and the CBOR data format is defined in [I-D.veillette-core-yang-cbor-mapping].
 
 This document defines encoding rules for serializing configuration data, state data, RPC input and RPC output, Action input, Action output and notifications defined within YANG modules using the Concise Binary Object Representation (CBOR) {{RFC7049}}.
 
@@ -105,7 +104,7 @@ This document defines encoding rules for serializing configuration data, state d
 
 # Introduction
 
-This document defines a CoAP function set for accessing YANG defined resources. YANG data models are encoded in CBOR based on the mapping rules defined in {{cbor-mapping}}. YANG items are identify using a compact identifier called Structured Identifiers (SIDs) as defined in [I-D.somaraju-core-sid].
+This document defines a CoAP function set for accessing YANG defined resources. YANG data models are encoded in CBOR based on the mapping rules defined in [I-D.veillette-core-yang-cbor-mapping]. YANG items are identify using a compact identifier called Structured Identifiers (SIDs) as defined in [I-D.somaraju-core-sid].
 
 The resulting protocol based on CoAP, CBOR encoded data and structured identifiers (SID) have a low implementation footprint and low network bandwidth requirements and is suitable for both constrained devices and constrained networks as define by {{RFC7228}}. This protocol is applicable to the different management topology options described by {{constrained-mgmt}}; centralized, distributed and hierarchical.
 
@@ -236,7 +235,7 @@ This section defines the different interactions supported between a CoOL client 
 
 The GET method is used by CoOL clients to retrieve the entire content of a datastore. Implementation of this function is optional and dependent of the capability of the CoOL server to transfer a relatively large response.
 
-To retrieve all instantiated data nodes of a datastore resource, a CoOL client sent a CoAP GET request to the URI of the targeted datastore. If the request is accepted by the CoOL server, a 2.05 (Content) response code. The payload of the GET response MUST carry a CBOR array containing the content of the targeted datastore. The CBOR array MUST contain a list of pairs of delta and associated value. A delta represents the different between the current SID and the SID of the previous pair within the CBOR array. Each value is encoded using the rules defined by {{cbor-mapping}}.
+To retrieve all instantiated data nodes of a datastore resource, a CoOL client sent a CoAP GET request to the URI of the targeted datastore. If the request is accepted by the CoOL server, a 2.05 (Content) response code. The payload of the GET response MUST carry a CBOR array containing the content of the targeted datastore. The CBOR array MUST contain a list of pairs of delta and associated value. A delta represents the different between the current SID and the SID of the previous pair within the CBOR array. Each value is encoded using the rules defined by [I-D.veillette-core-yang-cbor-mapping].
 
 If the request is rejected by the CoOL server, a 5.01 Not implemented or 4.13 Request Entity Too Large response code is returned.
 
@@ -293,15 +292,15 @@ CoAP response:
 
 The FETCH method is used by the CoOL client of retrieve a subset of the data nodes within a datastore.
 
-To retrieve a list of data node instances, the CoOL client send a CoAP FETCH request to the URI of the targeted datastore. The payload of the FETCH request contains the list of data node instance to be retrieved. This list is encoded using a CBOR array, each entry containing an "instance-identifier" as defined by {{cbor-mapping}}. Within each "instance-identifier", data nodes are identified using SIDs as defined by [I-D.somaraju-core-sid].
+To retrieve a list of data node instances, the CoOL client send a CoAP FETCH request to the URI of the targeted datastore. The payload of the FETCH request contains the list of data node instance to be retrieved. This list is encoded using a CBOR array, each entry containing an "instance-identifier" as defined by [I-D.veillette-core-yang-cbor-mapping]. Within each "instance-identifier", data nodes are identified using SIDs as defined by [I-D.somaraju-core-sid].
 
 SIDs within the list of "instance-identifier" are encoded using delta. A delta represents the different between the current SID and the SID of the previous entry within this list. The delta of the first entry within the list is set to the absolute SID value (current SID minus zero).
 
 On successful processing of the CoAP request, the CoOL server MUST return a CoAP response with a response code 2.05 (Content). 
 
-When a single data node is requested, the payload of the GET response MUST carry the data node instance requested encoded using the rules defined in {{cbor-mapping}}.
+When a single data node is requested, the payload of the GET response MUST carry the data node instance requested encoded using the rules defined in [I-D.veillette-core-yang-cbor-mapping].
 
-When a multiple data nodes are requested, the payload of the GET response MUST carry a CBOR array containing the data node instance(s) requested. Each entry within this array MUST be encoding using the rules defined in {{cbor-mapping}}.
+When a multiple data nodes are requested, the payload of the GET response MUST carry a CBOR array containing the data node instance(s) requested. Each entry within this array MUST be encoding using the rules defined in [I-D.veillette-core-yang-cbor-mapping].
 
 When a collection is returned (YANG container, YANG list or YANG list instance), delta are computed using the requested SID as parent.
 
@@ -404,7 +403,7 @@ CoAP response:
 
 ### Example #3 - YANG list
 
-To retrieve all instances of a list, the CoOL client exclude form the "instance-identifier" the key(s) of the targeted list. The list returned is encoded using the rules defined in {{cbor-mapping}} section 4.4.
+To retrieve all instances of a list, the CoOL client exclude form the "instance-identifier" the key(s) of the targeted list. The list returned is encoded using the rules defined in [I-D.veillette-core-yang-cbor-mapping] section 4.4.
 
 In this example, a CoOL client retrieves the list "/interfaces/interface" (SID 1529). The response returned contain two instances, one for an Ethernet adaptor and one for a WIFI interface.
 
@@ -520,7 +519,7 @@ The CoAP PUT method is used by CoOL clients to update the content of a datastore
 
 The URI of the PUT request MUST be set to the URI of the targeted datastore.
 
-The payload of the PUT request MUST carry a CBOR array containing the new content of the datastore. The CBOR array MUST contain a list of pairs of delta and associated value. A delta represents the different between the current SID and the SID of the previous pair within the CBOR array. Each value is encoded using the rules defined by {{cbor-mapping}}.
+The payload of the PUT request MUST carry a CBOR array containing the new content of the datastore. The CBOR array MUST contain a list of pairs of delta and associated value. A delta represents the different between the current SID and the SID of the previous pair within the CBOR array. Each value is encoded using the rules defined by [I-D.veillette-core-yang-cbor-mapping].
 
 On successful processing of the CoAP request, the CoOL server MUST return a CoAP response with a response code 2.04 (Changed).
 
