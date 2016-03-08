@@ -70,7 +70,6 @@ author:
   country: France
   email: ana@ackl.io
 normative:
-  I-D.somaraju-core-sid: sid
   I-D.veillette-core-yang-cbor-mapping: cbor-mapping
   I-D.ietf-core-block: coap-block
   I-D.bormann-core-coap-fetch: coap-fetch
@@ -106,7 +105,7 @@ This document defines encoding rules for serializing configuration data, state d
 
 # Introduction
 
-This document defines a CoAP function set for accessing YANG defined resources. YANG data models are encoded in CBOR based on the mapping rules defined in {{cbor-mapping}}. YANG items are identify using a compact identifier called Structured Identifiers (SIDs) as defined in {{sid}}.
+This document defines a CoAP function set for accessing YANG defined resources. YANG data models are encoded in CBOR based on the mapping rules defined in {{cbor-mapping}}. YANG items are identify using a compact identifier called Structured Identifiers (SIDs) as defined in [I-D.somaraju-core-sid].
 
 The resulting protocol based on CoAP, CBOR encoded data and structured identifiers (SID) have a low implementation footprint and low network bandwidth requirements and is suitable for both constrained devices and constrained networks as define by {{RFC7228}}. This protocol is applicable to the different management topology options described by {{constrained-mgmt}}; centralized, distributed and hierarchical.
 
@@ -294,7 +293,7 @@ CoAP response:
 
 The FETCH method is used by the CoOL client of retrieve a subset of the data nodes within a datastore.
 
-To retrieve a list of data node instances, the CoOL client send a CoAP FETCH request to the URI of the targeted datastore. The payload of the FETCH request contains the list of data node instance to be retrieved. This list is encoded using a CBOR array, each entry containing an "instance-identifier" as defined by {{cbor-mapping}}. Within each "instance-identifier", data nodes are identified using SIDs as defined by {{sid}}.
+To retrieve a list of data node instances, the CoOL client send a CoAP FETCH request to the URI of the targeted datastore. The payload of the FETCH request contains the list of data node instance to be retrieved. This list is encoded using a CBOR array, each entry containing an "instance-identifier" as defined by {{cbor-mapping}}. Within each "instance-identifier", data nodes are identified using SIDs as defined by [I-D.somaraju-core-sid].
 
 SIDs within the list of "instance-identifier" are encoded using delta. A delta represents the different between the current SID and the SID of the previous entry within this list. The delta of the first entry within the list is set to the absolute SID value (current SID minus zero).
 
@@ -587,7 +586,7 @@ The PATCH method is used by CoOL clients to modify a subset of a datastore.
 
 To modify a datastore, the CoOL client send a CoAP PATH request to the URI of the targeted datastore. The payload of the FETCH request contains the list of data node instance to be updated, inserted or deleted. This list is encoded using a CBOR array and contain a sequence of pairs of "instance-identifier" and associated values.
 
-Within each "instance-identifier", data nodes are identified using SIDs as defined by {{sid}}. SIDs within the list are encode as delta. 
+Within each "instance-identifier", data nodes are identified using SIDs as defined by [I-D.somaraju-core-sid]. SIDs within the list are encode as delta. 
 
 On reception, the list is processed by the CoOL server as follow:
 
@@ -739,7 +738,7 @@ Notifications are defined using the YANG "notification" statement. Subscriptions
 
 To subscribe to an event stream resource, a CoOL client MUST send a CoAP GET with the Observe CoAP option set to 0. To unsubscribe, a CoOL client MAY send a CoAP reset or a CoAP GET with the Observe option set to 1. For more information on the observe mechanism, see {{RFC7641}}.
 
-Each notification transferred by a CoOL server to each of the registered CoOL client is carried in a CoAP response with a response code set to 2.05 (Content). Each CoAP response MUST carry in its payload at least one notification but MAY carry multiple. Each notification is carries in a notification-payload defined in ietf-cool, see appendix A. The notification-payload support different meta-data associated to this notification such the notification identifier, event timestamp, sequence number, severity level and facility. All these meta information are optional at the exception of the notification identifier.
+Each notification transferred by a CoOL server to each of the registered CoOL client is carried in a CoAP response with a response code set to 2.05 (Content). Each CoAP response MUST carry in its payload at least one notification but MAY carry multiple. Each notification is carries in a notification-payload defined in ietf-cool, see {{cool-module}}. The notification-payload support different meta-data associated to this notification such the notification identifier, event timestamp, sequence number, severity level and facility. All these meta information are optional at the exception of the notification identifier.
 
 The CoAP response payload is encoded using the rules defined for the PUT request. When multiple notifications are reported, the CoAP response payload carries a CBOR array, with each entry containing a notification.
 
@@ -971,7 +970,7 @@ CoAP response:
 
 # Error Handling
 
-All CoAP response codes defined by {{RFC7252}} MUST be accepted and processed accordingly by CoOL clients. Optionally, client errors (CoAP response codes 4.xx) or server errors (CoAP response codes 5.xx) MAY have a payload providing further information about the cause of the error. This payload contains the " error-payload" container (SID 1006) defined in the "ietf-cool" YANG module, see appendix A.
+All CoAP response codes defined by {{RFC7252}} MUST be accepted and processed accordingly by CoOL clients. Optionally, client errors (CoAP response codes 4.xx) or server errors (CoAP response codes 5.xx) MAY have a payload providing further information about the cause of the error. This payload contains the " error-payload" container (SID 1006) defined in the "ietf-cool" YANG module, see {{cool-module}}.
 
 Example:
 
@@ -1304,7 +1303,7 @@ module ietf-cool {
 
 # File "ietf-cool@2016-01-01.sid" {#cool-sid-file}
 
-Following is the ".sid" file generated for the "ietf-cool" YANG module. See {{sid}} for more details on SID and ".sid" file.
+Following is the ".sid" file generated for the "ietf-cool" YANG module. See [I-D.somaraju-core-sid] for more details on SID and ".sid" file.
 
 ~~~~
 {
