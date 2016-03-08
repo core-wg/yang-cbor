@@ -96,7 +96,7 @@ informative:
 
 --- abstract
 
-This document describes a management interface adapted to constrained devices and constrained networks (e.g., low-power, lossy). CoOL objects (datastores, RPCs, actions and notifications) are defined using the YANG modelling language {{yang11}}. Interactions with these objects are performed using the CoAP web transfer protocol {{RFC7252}}. Payloads are encoded using the CBOR data format {{RFC7049}}. The mapping between YANG data models and the CBOR data format is defined in [I-D.veillette-core-yang-cbor-mapping].
+This document describes a management interface adapted to constrained devices and constrained networks (e.g., low-power, lossy). CoOL objects (datastores, RPCs, actions and notifications) are defined using the YANG modelling language {{-yang11}}. Interactions with these objects are performed using the CoAP web transfer protocol {{RFC7252}}. Payloads are encoded using the CBOR data format {{RFC7049}}. The mapping between YANG data models and the CBOR data format is defined in [I-D.veillette-core-yang-cbor-mapping].
 
 This document defines encoding rules for serializing configuration data, state data, RPC input and RPC output, Action input, Action output and notifications defined within YANG modules using the Concise Binary Object Representation (CBOR) {{RFC7049}}.
 
@@ -106,7 +106,7 @@ This document defines encoding rules for serializing configuration data, state d
 
 This document defines a CoAP function set for accessing YANG defined resources. YANG data models are encoded in CBOR based on the mapping rules defined in [I-D.veillette-core-yang-cbor-mapping]. YANG items are identify using a compact identifier called Structured Identifiers (SIDs) as defined in [I-D.somaraju-core-sid].
 
-The resulting protocol based on CoAP, CBOR encoded data and structured identifiers (SID) have a low implementation footprint and low network bandwidth requirements and is suitable for both constrained devices and constrained networks as define by {{RFC7228}}. This protocol is applicable to the different management topology options described by {{constrained-mgmt}}; centralized, distributed and hierarchical.
+The resulting protocol based on CoAP, CBOR encoded data and structured identifiers (SID) have a low implementation footprint and low network bandwidth requirements and is suitable for both constrained devices and constrained networks as define by {{RFC7228}}. This protocol is applicable to the different management topology options described by {{-constrained-mgmt}}; centralized, distributed and hierarchical.
 
 # Terminology and Notation
 
@@ -114,7 +114,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
 "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to
 be interpreted as described in {{RFC2119}}.
 
-The following terms are defined in {{yang11}}:
+The following terms are defined in {{-yang11}}:
 
 * action
 
@@ -329,7 +329,7 @@ CoAP response:
 ]
 ~~~~
 
-CoAP requests and responses MUST be encoded in accordance with {{RFC7252}} or {{coap-tcp}}. An encoding example is shown below:
+CoAP requests and responses MUST be encoded in accordance with {{RFC7252}} or {{-coap-tcp}}. An encoding example is shown below:
 
 CoAP request:
 
@@ -649,7 +649,7 @@ On successful completion on the protocol operation, the CoOL server return a CoA
 
 ### Example #1 - RPC
 
-This example is based on the "activate-software-image" RPC defined in {{yang11}}, assuming that this RPC is assigned to SID 1932, leaf image-name to SID 1933 and leaf status to SID 1934. These SIDs are defined strictly for the purpose of this example.
+This example is based on the "activate-software-image" RPC defined in {{-yang11}}, assuming that this RPC is assigned to SID 1932, leaf image-name to SID 1933 and leaf status to SID 1934. These SIDs are defined strictly for the purpose of this example.
 
 rpc activate-software-image {
   input {
@@ -687,7 +687,7 @@ CoAP response:
 
 ### Example #2 - Action
 
-This example is based on the "reset" action defined in {{yang11}} assuming that this action is assigned to SID 1902, leaf reset-at to SID 1903 and leaf reset-finished-at to SID 1904. These SIDs are defined strictly for the purpose of this example.
+This example is based on the "reset" action defined in {{-yang11}} assuming that this action is assigned to SID 1902, leaf reset-at to SID 1903 and leaf reset-finished-at to SID 1904. These SIDs are defined strictly for the purpose of this example.
 
 list server {
   key name;
@@ -741,7 +741,7 @@ Each notification transferred by a CoOL server to each of the registered CoOL cl
 
 The CoAP response payload is encoded using the rules defined for the PUT request. When multiple notifications are reported, the CoAP response payload carries a CBOR array, with each entry containing a notification.
 
-This example is based on the "link-failure" and "interface-enabled" notifications defined in {{yang11}} assuming the following SID assignment:
+This example is based on the "link-failure" and "interface-enabled" notifications defined in {{-yang11}} assuming the following SID assignment:
 
 * "/link-failure" (SID 1942)
 
@@ -874,7 +874,7 @@ This option MUST be supported as specified by {{RFC6690}}. Each ETag is associat
 
 ## Working with Size1, Size2, Block1 and Block2
 
-When the UDP transport is used and large payload need to be transfered, support of the CoAP block transfer as defined by {{coap-block}} is recommended.
+When the UDP transport is used and large payload need to be transfered, support of the CoAP block transfer as defined by {{-coap-block}} is recommended.
 
 6.8. Working with Observe
 
@@ -987,7 +987,7 @@ CoAP response:
 
 # Security Considerations
 
-This application protocol relies on the lower layers to provide confidentiality, integrity, and availability. A typical approach to archive these requirements is to implement CoAP using the DTLS binding as defined in {{RFC7252}} section 9. Other approaches are possible to fulfill these requirements, such as the use of a network layer security mechanism as discussed in {{coap-ipsec}} or a link layer security mechanism for exchanges done within a single sub-network.
+This application protocol relies on the lower layers to provide confidentiality, integrity, and availability. A typical approach to archive these requirements is to implement CoAP using the DTLS binding as defined in {{RFC7252}} section 9. Other approaches are possible to fulfill these requirements, such as the use of a network layer security mechanism as discussed in {{-coap-ipsec}} or a link layer security mechanism for exchanges done within a single sub-network.
 
 In some applications, different access rights to objects (data nodes, protocol operations and notifications) need to be granted to different CoOL clients. Different solutions are possible, such as the implementation of Access Control Lists (ACL) using YANG module(s) or the use of an authorization certificate as defined in {{RFC7252}}. These access control mechanisms need to be addressed in complementary specifications.
 
@@ -997,15 +997,15 @@ The Security Considerations section of CoAP {{RFC7252}} is especially relevant t
 
 ## "FETCH" CoAP Method Code
 
-This draft makes use of the PATCH CoAP method as defined in {{coap-fetch}}. This method needs to be registered in the CoAP Method Codes sub-registry as defined in {{RFC7252}} section 12.1.1.
+This draft makes use of the PATCH CoAP method as defined in {{-coap-fetch}}. This method needs to be registered in the CoAP Method Codes sub-registry as defined in {{RFC7252}} section 12.1.1.
 
 ## "PATCH" CoAP Method Code
 
-This draft makes use of the PATCH CoAP method as defined in {{coap-patch}}. This method needs to be registered in the CoAP Method Codes sub-registry as defined in {{RFC7252}} section 12.1.1.
+This draft makes use of the PATCH CoAP method as defined in {{-coap-patch}}. This method needs to be registered in the CoAP Method Codes sub-registry as defined in {{RFC7252}} section 12.1.1.
 
 # Acknowledgments
 
-This document have been largely inspired by the extensive works done by Andy Bierman and Peter van der Stok on {{comi}}. {{restconf}} have also been a critical input to this work. The authors would like to thank the authors and contributors to these two drafts.
+This document have been largely inspired by the extensive works done by Andy Bierman and Peter van der Stok on {{-comi}}. {{-restconf}} have also been a critical input to this work. The authors would like to thank the authors and contributors to these two drafts.
 
 The authors would also like to thank Carsten Bormann for its help during the development of this document and its useful comments during the review process. 
 
