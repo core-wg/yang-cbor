@@ -1,287 +1,281 @@
-   module ietf-cool {
-     namespace "urn:ietf:ns:cool";
-     prefix cool;
+module ietf-cool {
+  namespace "urn:ietf:ns:cool";
+  prefix cool;
 
-     organization
-       "IETF Core Working Group";
+  organization
+    "IETF Core Working Group";
 
-     contact
-       "Michel Veillette
-        <mailto:michel.veillette@trilliantinc.com>
+  contact
+    "Ana Minaburo
+     <mailto:ana@ackl.io>
+     
+     Abhinav Somaraju
+     <mailto:abhinav.somaraju@tridonic.com>
+     
+     Alexander Pelov
+     <mailto:a@ackl.io>
 
-        Randy Turner
-        <mailto:Randy.Turner@landisgyr.com>
+     Michel Veillette
+     <mailto:michel.veillette@trilliantinc.com>
 
-        Alexander Pelov
-        <mailto:a@ackl.io>
+     Randy Turner
+     <mailto:Randy.Turner@landisgyr.com>";
 
-        Abhinav Somaraju
-        <mailto:abhinav.somaraju@tridonic.com>";
+  description
+    "This module contains the different definitions required
+     by the CoOL protocol.";
 
+  revision 2016-01-01 {
      description
-       "This module contains the different definitions required
-        by the CoOL protocol.";
+      "Initial revision.";
+    reference
+      "draft-veillette-core-cool";
+  }
 
-     revision 2016-01-01 {
+  // List of useful derived YANG data types for constrained devices
+  
+  typedef sid {
+    type uint32;
+    description
+      "Structure Identifier value (SID).";
+  }
+  
+  typedef utc-time {
+    type uint32;
+    description
+      "Unsigned 32-bit value representing the number of seconds
+      since 0 hours, 0 minutes, 0 seconds, on the 1st of January,
+      2000 UTC (Universal Coordinated Time).";
+  }
+
+  typedef anydata {
+    type empty;
+    description "Temporary fix.";
+  }
+
+  // Error payload 
+   
+  container error-payload {
+    description
+      "Optional payload of a client error (CoAP response 4.xx)
+       or server error (CoAP response 5.xx).";
+
+    leaf error-code {
+      mandatory true;
+      type enumeration {
+        enum ok {
+          value 0;
+          description
+            "The requested edit have been performed successfully.";
+        }
+
+        enum error {
+          value 1;
+          description "Unspecified error.";
+        }
+
+        enum malformed {
+          value 2;
+          description "Malformed CBOR payload.";
+        }
+
+        enum invalid {
+          value 3;
+          description "The value specified in the request can't be
+                      apply to the target data node.";
+        }
+
+        enum doesNotExist {
+          value 4;
+          description "The target data node instance specified in 
+                      the request doesn't exist.";
+        }
+
+        enum alreadyExist {
+          value 5;
+          description "The target data node instance specified in 
+                      the request already exists.";
+        }
+
+        enum readOnly {
+          value 6;
+          description "Attempt to update a read-only data node.";
+        }
+      }
+    }
+
+    leaf error-text {
+      mandatory false;
+      type string;
+      description "Textual descriptions of the error.";
+    }
+  }
+
+  // Notification payload
+
+  identity facility-type {
+    description
+      "A facility code is used to specify the type of process that
+      is logging the message. Notifications from different facilities
+      may be handled differently. Other YANG module may add new
+      facility type as needed.";
+  }
+
+  identity os {
+    base facility-type;
+  }
+
+  identity protocol-stack {
+    base facility-type;
+  }
+
+  identity security {
+    base facility-type;
+  }
+
+  identity hardware-monitoring {
+    base facility-type;
+  }
+
+  identity application {
+    base facility-type;
+  }
+  
+  container notification-payload {
+    leaf _id {
+      mandatory true;
+      type instance-identifier;
+      description
+        "Identifier associated to the notification reported.";
+    }
+      
+    leaf timestamp {
+      mandatory false;
+      type utc-time;
+      description
+        "Event timestamp. Support of this field is optional
+        since its not expected that all implementations have
+        implement a real time clock and if so, this clock is
+        available at all time.";
+    }
+
+    leaf sequence-number {
+      mandatory false;
+      type uint32;
+      description
+        "Sequence number associated to each event created by CoOL
+        server within a specific event stream.";
+    }
+
+    leaf severity-level {
+      reference "RFC 5424";
+      mandatory false;
+      type enumeration {
+        enum emergency {
+          value 0;
+          description
+            "System is unusable.";
+        }
+        enum alert {
+          value 1;
+          description
+            "Should be corrected immediately.";
+        }
+        enum critical {
+          value 2;
+          description
+            "Critical conditions.";
+        }
+        enum error {
+          value 3;
+          description
+            "Error conditions.";
+        }
+        enum warning {
+          value 4;
+          description
+            "May indicate that an error will occur if action is
+            not taken.";
+        }
+        enum notice {
+          value 5;
+          description
+            "Events that are unusual, but not error conditions.";
+        }
+        enum informational {
+          value 6;
+          description
+            "Normal operational messages that require no action.";
+        }
+        enum debug {
+          value 7;
+          description
+            "Information useful to developers for debugging the
+            application.";
+        }
+      }
+      description
+        "Severity associated with this event.";
+    }
+
+    leaf facility {
+      mandatory false;
+      type identityref {
+        base facility-type;
+      }
+      description
+        "Type of process that is logging the message.";
+      reference "RFC 5424";
+    }
+
+    leaf content {
+      mandatory false;
+      type anydata;
+      description
+        "Notification container as defined by the notification YANG
+        statement.";
+    }
+  }
+  
+  rpc commit {
+    description
+      "Used to commit the changes present in a candidate datastore on the
+      runtime datastore specify by the URI used to execute this operation.";
+    input {
+      leaf datastore {
         description
-         "Initial revision.";
-       reference
-         "draft-veillette-core-cool";
-     }
-
-     // List of useful derived YANG data types for constrained devices
-     
-     typedef sid {
-       type uint32;
-       description
-         "Struture IDentifier value (SID).";
-     }
-     
-     typedef utc-time {
-       type uint32;
-       description
-         "Unsigned 32-bit value representing the number of seconds
-         since 0 hours, 0 minutes, 0 seconds, on the 1st of January,
-         2000 UTC (Universal Coordinated Time).";
-     }
-
-     // CoAP error payload 
+          "Path of the datastore resource used as the source of the
+          commit operation. When not present, the default candidate
+          datastore resource is used.";
+        type string;
+        mandatory false;
+      }
       
-     typedef status-code {
-       type enumeration {
-         enum ok {
-           value 0;
-           description
-             "The requested edit have been performed successfully.";
-         }
-
-         enum error {
-           value 1;
-           description "Unspecified error.";
-         }
-
-         enum malformed {
-           value 2;
-           description "Malformed CBOR payload.";
-         }
-
-         enum invalid {
-           value 3;
-           description "The value specified in the request can't be
-                       apply to the target data node.";
-         }
-
-         enum doesNotExist {
-           value 4;
-           description "The target data node instance specified in the 
-                       request don't exist.";
-         }
-
-         enum alreadyExist {
-           value 5;
-           description "The target data node instance specified in the 
-                       request already exist.";
-         }
-
-         enum readOnly {
-           value 6;
-           description "Attempt to update a read-only data node.";
-         }
-       }
-     }
-
-     container error-payload {
-       description
-         "Optional payload of a client error (CoAP response 4.xx)
-         or server error (CoAP response 5.xx).";
-
-       leaf error-code {
-         mandatory true;
-         type status-code;
-       }
-
-       leaf error-text {
-         mandatory false;
-         type string;
-         description "Textual descriptions of the error.";
-       }
-     }
-
-     // PATH request paylaod
+      leaf commit-date-time {
+        description
+          "When specified, the commit operation is postponed at the
+          specified date and time. When not present, the commit is
+          performed on reception of this RPC. Supports of this feature
+          is optional.";
+        type utc-time;
+        mandatory false;
+      }
       
-     container patch-request-payload {
-       list requests {
-         key "edit-id";
+      leaf confirm-timeout {
+        description
+          "When present, a confirming commit MUST be received within
+          this period after the start of the commit process.
+          A confirming commit is a commit RPC without the
+          confirm-timeout field presents. Supports of this feature
+          is optional.";
+        type string;
+        mandatory false;
+      }
+    }
+  }
 
-         description
-           "This list represents the payload of a patch request message.
-           It carries a sequence of edits on a datastore. Each edit MUST
-           be applied in ascending order, and all edits MUST be applied.
-           If any errors occur, then the target datastore SOULD NOT be
-           changed by the patch operation.";
-
-         leaf edit-id {
-           mandatory true;
-           type uint8;
-
-           description
-             "Error messages returned by the server pertaining to
-             a specific edit will be identified by this value.";
-         }
-
-         leaf operation {
-           mandatory true;
-           type enumeration {
-             enum "create" {
-               value 0;
-               description
-                 "The target data node instance is created using the
-                 supplied value, only if it does not already exist.";
-             }
-             enum "delete" {
-               value 1;
-               description
-                 "Delete the target instance, only if the instance
-                 currently exists, otherwise return an error.";
-             }
-             enum "merge" {
-               value 2;
-               description
-                 "The supplied value is merged with the target
-                 data node instance.";
-             }
-             enum "replace" {
-               value 3;
-               description
-                 "The supplied value is used to replace the target
-                 data node instance.";
-             }
-             enum "remove" {
-               value 4;
-               description
-                 "Delete the target node instance if it currently exists.";
-             }
-             enum insert-first {
-               value 5;
-               description
-                 "Insert the supplied value at the beginning of an
-                 user-ordered-list.";
-             }
-             enum insert-last {
-               value 6;
-               description
-                 "Insert the supplied value at the end of an
-                 user-ordered-list.";
-             }
-             enum insert-before {
-               value 7;
-               description
-                 "Insert the supplied value in a user-ordered-list
-                 just before the entry identified by 'list-instance'
-                 parameter.";
-             }
-             enum insert-after {
-               value 8;
-               description
-                 "Insert the supplied value in a user-ordered-list
-                 just after the entry identified by 'list-instance'
-                 parameter.";
-             }
-           }
-         }
-
-         leaf list-instance {
-           when
-             "(../operation = 'delete' or ../operation = 'remove' or" +
-             " ../operation = 'insert-before' or" +
-             " ../operation = 'insert-after' )";
-           type binary;
-           mandatory true;
-           description
-             "CBOR array containing an 'instance-identifier' used to
-             identify an instance within a list.";
-         }
-
-         anyxml value {
-           when
-             "(../operation = 'create' or ../operation = 'merge' or" +
-             " ../operation = 'replace' or " +
-             " ../operation = 'insert-first' or" +
-             " ../operation = 'insert-last' or" +
-             " ../operation = 'insert-before' or" +
-             " ../operation = 'insert-after')";
-           description
-             "CBOR map containing the tag and value used for this
-             edit operation.";
-         }
-       }
-     }
-
-     // PATH response paylaod
-     
-     container patch-response-payload {
-       list responses {
-         key "edit-id";
-         description
-           "This list represents the payload of a patch request response.
-           Each entry contain the status of an operation included in
-           the corresponding request message.";
-            
-         leaf edit-id {
-           mandatory true;
-           type uint8;
-           description
-             "This value is used to match this entry with the
-             corresponding entry in the patch-request list";
-         }
-         
-          leaf edit-status {
-           mandatory true;
-           type status-code;
-         }
-
-         leaf error-text {
-           mandatory false;
-           type string;
-           description "Textual descriptions of the error.";
-         }
-       }
-     }
-
-     // Notification paylaod
-     
-     container notification-paylaod {
-       leaf sid {
-         mandatory true;
-         type sid;
-         description "SID registered for the notification reported.";
-       }
-       
-       leaf event_time {
-         mandatory false;
-         type utc-time;
-         description
-           "Date and time when this notification has been created.";
-       }
-     }
-
-       // RPC input paylaod
-     
-     container rpc-input-paylaod {
-       leaf sid {
-         mandatory true;
-         type sid;
-         description "SID registered for the protocol operation executed.";
-       }
-     }
-
-       // RPC output paylaod
-     
-     container rpc-output-paylaod {
-       leaf sid {
-         mandatory false;
-         type sid;
-         description "SID registered for the protocol operation executed.";
-       }
-     }
-   }
+  rpc cancel-commit {
+    description
+      "Cancels an ongoing scheduled or confirmed commit.";
+  }
+}
