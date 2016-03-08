@@ -71,7 +71,7 @@ author:
   email: ana@ackl.io
 normative:
   I-D.somaraju-core-sid: sid
-  I-D. veillette-core-yang-cbor-mapping: cbor-mapping
+  I-D.veillette-core-yang-cbor-mapping: cbor-mapping
   I-D.ietf-core-block: coap-block
   I-D.bormann-core-coap-fetch: coap-fetch
   I-D.vanderstok-core-patch: coap-patch
@@ -86,7 +86,7 @@ normative:
 informative:
   I-D.ietf-netconf-restconf: restconf
   I-D.ersue-constrained-mgmt: constrained-mgmt
-  I.D-ietf-core-coap-tcp-tls: coap-tcp
+  I-D.ietf-core-coap-tcp-tls: coap-tcp
   I-D.bormann-core-ipsec-for-coap: coap-ipsec
   I-D.vanderstok-core-comi: comi
   RFC5755:
