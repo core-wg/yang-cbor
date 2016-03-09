@@ -64,11 +64,8 @@ The following drafts are currently available:
 |                   | Managed, Unmanaged                                |
 +-------------------+---------------------------------------------------+
 | Problem statement | I-D.turner-core-cool-problem-statement            |
-+-------------------+---------------------------------------------------+
 | Data presentation | I-D.veillette-core-yang-cbor-mapping              |
-+-------------------+---------------------------------------------------+
 | Identifiers       | I-D.somaraju-core-sid, I-D.bierman-core-yang-hash |
-+-------------------+---------------------------------------------------+
 | Function set      | I-D.veillette-core-cool, I-D.vanderstok-core-comi |
 {: align="left"}
 
