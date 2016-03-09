@@ -1066,11 +1066,6 @@ module ietf-cool {
       2000 UTC (Universal Coordinated Time).";
   }
 
-  typedef anydata {
-    type empty;
-    description "Temporary fix.";
-  }
-
   // Error payload 
    
   container error-payload {
