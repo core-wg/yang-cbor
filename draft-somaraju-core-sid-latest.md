@@ -427,13 +427,13 @@ The registration of the associated ".yang" and ".sid" files is optional. When pr
 
 Initial entries in this registry are as follows:
 
-| Entry Point | Size | Module name     | Module revision  | Reference               |
-|-------------+------+-----------------+------------------+-------------------------+
-|        1000 |  100 | ietf-cool       |    2016-01-01    | I.D-veillette-core-cool |
-|        1100 |  400 | iana-if-type    |    2014-05-08    | RFC 7224                |
-|        1500 |  100 | ietf-interfaces |    2014-05-08    | RFC 7223                |
-|        1600 |  100 | ietf-ip         |    2014-06-16    | RFC 7277                |
-|        1700 |  100 | ietf-system     |    2014-08-06    | RFC 7317                |
+| Entry Point | Size | Module name     | Revision   | Reference               |
+|-------------+------+-----------------+------------+-------------------------+
+|        1000 |  100 | ietf-cool       | 2016-01-01 | I.D-veillette-core-cool |
+|        1100 |  400 | iana-if-type    | 2014-05-08 | RFC 7224                |
+|        1500 |  100 | ietf-interfaces | 2014-05-08 | RFC 7223                |
+|        1600 |  100 | ietf-ip         | 2014-06-16 | RFC 7277                |
+|        1700 |  100 | ietf-system     | 2014-08-06 | RFC 7317                |
 {: align="left"}
 
 # Acknowledgments
@@ -632,7 +632,8 @@ The following .sid file (ietf-system@2014-08-06.sid) have been generated using t
     {
       "type": "node",
       "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/clock/timezone/timezone-utc-offset/timezone-utc-offset",
+      "label": "/system/clock/timezone/timezone-utc-offset/
+      timezone-utc-offset",
       "sid": 1727
     },
     {
@@ -686,19 +687,22 @@ The following .sid file (ietf-system@2014-08-06.sid) have been generated using t
     {
       "type": "node",
       "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/dns-resolver/server/transport/udp-and-tcp/udp-and-tcp",
+      "label": "/system/dns-resolver/server/transport/udp-and-tcp/
+      udp-and-tcp",
       "sid": 1736
     },
     {
       "type": "node",
       "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/dns-resolver/server/transport/udp-and-tcp/udp-and-tcp/address",
+      "label": "/system/dns-resolver/server/transport/udp-and-tcp/
+      udp-and-tcp/address",
       "sid": 1737
     },
     {
       "type": "node",
       "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/dns-resolver/server/transport/udp-and-tcp/udp-and-tcp/port",
+      "label": "/system/dns-resolver/server/transport/udp-and-tcp/
+      udp-and-tcp/port",
       "sid": 1738
     },
     {
@@ -830,7 +834,8 @@ The following .sid file (ietf-system@2014-08-06.sid) have been generated using t
     {
       "type": "node",
       "assigned": "2016-01-13T21:00:19Z",
-      "label": "/system/radius/server/transport/udp/udp/authentication-port",
+      "label": "/system/radius/server/transport/udp/udp/
+      authentication-port",
       "sid": 1760
     },
     {
