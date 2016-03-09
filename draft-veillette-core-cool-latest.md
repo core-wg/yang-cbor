@@ -735,14 +735,15 @@ CoAP response:
 
 ~~~~
 WARNING
-This section require more works to address the following issues:
+This section requires more works to address the following identified issues:
 
 * Retrieval of past events (e.g. start-time, stop-time)
 * Retrieval of specific events (e.g. filter)
 * Configuration persistence
 * Configuration of by a third entity (configuration tool)
 * Support of multicast
-* Events congestion
+* Event congestion-avoidance
+* Transfer reliability
 
 The current solution based on the observe CoAP option can be augmented
 or completely replaced by a future version of this draft.
