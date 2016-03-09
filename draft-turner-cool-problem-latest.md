@@ -55,7 +55,23 @@ Currently proposed solutions for constrained management do not specifically addr
 
 The evolution of the CoOL solution will recognize the proliferation of the "pub/sub" design pattern by relying on extensions both at the CoAP, as well as CoOL protocol layers where needed. Incorporating the pub/sub design pattern will assist in the application of CoOL into larger scale networks (both constrained and non-constrained).
 
-QUESTION: We need text here that describes the applicability of CoOL to different types of networks (different levels of administrative management or domain knowledge)
+# Roadmap
+
+Within the CORE group, there is currently two thread of development of a management interface for constrained devices and networks, one based on unmanaged identifiers (YANG hash) and one based on managed identifiers (SID). Some aspects of these solutions are shared (Problem statement and Data representation) and some are distinct (Identifiers and Function set).
+
+The following drafts are currently available:
+
++-------------------+--------------------------------------------------+
+|                   | Managed, Unmanaged                               |
++-------------------+--------------------------------------------------+
+| Problem statement | I-D.turner-core-cool-problem-statement           |
++-------------------+--------------------------------------------------+
+| Data presentation | I-D.veillette-core-yang-cbor-mapping             |
++-------------------+--------------------------------------------------+
+| Identifiers       | I-D.somaraju-core-sid, I-D.bierman-core-yang-hash|
++-------------------+--------------------------------------------------+
+| Function set      | I-D.veillette-core-cool, I-D.vanderstok-core-comi|
++-------------------+--------------------------------------------------+
 
 # Security Considerations
 
