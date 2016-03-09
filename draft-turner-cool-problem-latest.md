@@ -67,7 +67,6 @@ The following drafts are currently available:
 | Data presentation | I-D.veillette-core-yang-cbor-mapping              |
 | Identifiers       | I-D.somaraju-core-sid, I-D.bierman-core-yang-hash |
 | Function set      | I-D.veillette-core-cool, I-D.vanderstok-core-comi |
-{: align="left"}
 
 # Security Considerations
 
