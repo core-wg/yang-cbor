@@ -274,17 +274,17 @@ CoAP response:
 [
   1529, 
     {
-     4 : "eth0",              # name (SID 1533)
-     1 : "Ethernet adaptor",  # description (SID 1530)
-     5 : 1179,                # type (SID 1534), identity ethernetCsmacd
-     2 : true                 # enabled (SID 1531)
+     4 : "eth0",             # name (SID 1533)
+     1 : "Ethernet adaptor", # description (SID 1530)
+     5 : 1179,               # type (SID 1534), identity ethernetCsmacd
+     2 : true                # enabled (SID 1531)
     },
-  179,                        # clock (SID 1708)
+  179,                       # clock (SID 1708)
     {
       1 : "2015-02-08T14:10:08Z09:00",  # boot-datetime (SID 1709)
       2 : "2015-04-04T09:32:51Z09:00"   # current-datetime (SID 1710)
     }
-  13, 60                      # timezone-utc-offset (SID 1721)
+  13, 60                     # timezone-utc-offset (SID 1721)
 ]
 ~~~~
 
@@ -420,16 +420,16 @@ CoAP response:
 2.05 Content Content-Format(application/cool+cbor)
 [
   {
-    4 : "eth0",              # name (SID 1533)
-    1 : "Ethernet adaptor",  # description (SID 1530)
-    5 : 1179,                # type (SID 1534), identity ethernetCsmacd
-    2 : true                 # enabled (SID 1531)
+    4 : "eth0",             # name (SID 1533)
+    1 : "Ethernet adaptor", # description (SID 1530)
+    5 : 1179,               # type (SID 1534), identity ethernetCsmacd
+    2 : true                # enabled (SID 1531)
   },
   {
-    4 : "wlan0",             # name (SID 1533)
-    1 : "WIFI ",             # description (SID 1530)
-    5 : 1220,                # type (SID 1534), identity ieee80211
-    2 : false                # enabled (SID 1531)
+    4 : "wlan0",            # name (SID 1533)
+    1 : "WIFI ",            # description (SID 1530)
+    5 : 1220,               # type (SID 1534), identity ieee80211
+    2 : false               # enabled (SID 1531)
   }
 ]
 ~~~~
@@ -482,10 +482,10 @@ CoAP response:
 2.05 Content Content-Format(application/cool+cbor)
 [
   {
-    5 : 1179,                   # type (SID 1533), identity ethernetCsmacd
-    2 : true                    # enabled (SID 1530)
+    5 : 1179,             # type (SID 1533), identity ethernetCsmacd
+    2 : true              # enabled (SID 1530)
   },
-  "datatracker.ietf.org",       # hostname (SID 1739)
+  "datatracker.ietf.org", # hostname (SID 1739)
 ]
 ~~~~
 
@@ -829,19 +829,19 @@ CoAP response:
 Content-Format(application/cool+cbor)
 [
   [
-    1010 , [1538, "eth0"],             # _id = interface-enabled (SID 1010)
-    1,{                                # content (SID 1011)
-      1 : "jack"                       # by-user (SID 1539)
+    1010 , [1538, "eth0"],      # _id = interface-enabled (SID 1010)
+    1,{                         # content (SID 1011)
+      1 : "jack"                # by-user (SID 1539)
     }
-    5 , "2016-03-12T15:49:51Z09:00",   # timestamp (SID 1015)
+    5 , "2016-03-12T15:49:51Z09:00",  # timestamp (SID 1015)
   ],
   [
-    1010 , 1942,                       # _id = link-failure (SID 1010)
-    1,{                                # content (SID 1011)
-      1 : "eth0",                      # if-name (SID 1943)
-      1 : 1                            # admin-status = up (SID 1944)
+    1010 , 1942,                # _id = link-failure (SID 1010)
+    1,{                         # content (SID 1011)
+      1 : "eth0",               # if-name (SID 1943)
+      1 : 1                     # admin-status = up (SID 1944)
     }
-    5 , "2016-03-12T15:50:06Z09:00",   # timestamp (SID 1015)
+    5 , "2016-03-12T15:50:06Z09:00",  # timestamp (SID 1015)
   ]
 ]
 ~~~~
@@ -1257,8 +1257,9 @@ module ietf-cool {
   
   rpc commit {
     description
-      "Used to commit the changes present in a candidate datastore on the
-      runtime datastore specify by the URI used to execute this operation.";
+      "Used to commit the changes present in a candidate datastore on
+      the runtime datastore specify by the URI used to execute this
+      operation.";
     input {
       leaf datastore {
         description
