@@ -733,6 +733,21 @@ CoAP response:
 
 ## Event stream
 
+~~~~
+WARNING
+This section require more works to address the following issues:
+
+* Retrieval of past events (e.g. start-time, stop-time)
+* Retrieval of specific events (e.g. filter)
+* Configuration persistence
+* Configuration of by a third entity (configuration tool)
+* Support of multicast
+* Events congestion
+
+The current solution based on the observe CoAP option can be augmented
+or completely replaced by a future version of this draft.
+~~~~
+
 Notifications are defined using the YANG "notification" statement. Subscriptions to an event stream and notification reporting are performed using an event stream resource. When multiple event stream resources are supported, the list of notifications associated with each stream is either pre-defined or configured in the CoOL server. CoOL clients MAY subscribe to one or more event stream resources.
 
 To subscribe to an event stream resource, a CoOL client MUST send a CoAP GET with the Observe CoAP option set to 0. To unsubscribe, a CoOL client MAY send a CoAP reset or a CoAP GET with the Observe option set to 1. For more information on the observe mechanism, see {{RFC7641}}.
