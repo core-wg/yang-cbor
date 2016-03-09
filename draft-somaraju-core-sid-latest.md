@@ -206,13 +206,13 @@ The following activity diagram summarize the life cycle of ".sid" files.
 
 YANG modules are not necessary created in the context of constrained applications. YANG modules can be implemented using NETCONF or RESTCONF without the need to assign SIDs.
 
-As needed, authors of YANG modules need to assign SIDs their modules. This process starts by the registration of a SID range. Once a SID range is registered, the owner of this range assign sub-ranges to each YANG module in order to generate the associated “.sid” files. Generation of “.sid” files SHOULD be performed using an automated tool.
+As needed, authors of YANG modules can assign SIDs to their modules. This process starts by the registration of a SID range. Once a SID range is registered, the owner of this range assign sub-ranges to each YANG module in order to generate the associated “.sid” files. Generation of “.sid” files SHOULD be performed using an automated tool.
 
 Registration of the .sid file associated to a YANG module is optional but recommended to promote interoperability between devices and to avoid duplicate allocation of SIDs to a single YANG module.
 
 Each time a YANG module or one of its imported module(s) or included sub-module(s) is updated, the ".sid" file MAY need to be updated. This update SHOULD also be performed using an automated tool.
 
-If a new revision requires more SIDs than initially allocated, a new SID range MUST be added to the assignment ranges as defined in the ".sid" file header. These extra SIDs are used for subsequent assignment.
+If a new revision requires more SIDs than initially allocated, a new SID range MUST be added to the assignment ranges as defined in the ".sid" file header. These extra SIDs are used for subsequent assignments.
 
 # ".sid" file format  {#sid-file-format}
 
@@ -375,7 +375,7 @@ module sid-file {
 
 The security considerations of {{RFC7049}} and {{-yang11}} apply.
 
-This document defines an new type of identifier used to encode data models defined in YANG {{-yang11}}. As such, this identifier does not contribute to any new security issues in addition of those identified for the specific protocol or context for which it is used.
+This document defines an new type of identifier used to encode data models defined in YANG {{-yang11}}. As such, this identifier does not contribute to any new security issues in addition of those identified for the specific protocols or contexts for which it is used.
 
 # IANA Considerations  {#IANA}
 
