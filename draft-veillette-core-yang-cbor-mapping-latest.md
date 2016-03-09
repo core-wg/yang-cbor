@@ -501,7 +501,6 @@ CBOR encoding:
          18 7b                                # unsigned(123)
       78 1c                                   # text(28)
          696574662d73797374656d3a6173736f63696174696f6e2d74797065
-                                              # "ietf-system:association-type"
       00                                      # unsigned(0)
       72                                      # text(18)
          696574662d73797374656d3a696275727374 # "ietf-system:iburst"
@@ -1053,16 +1052,17 @@ Same example as above based on names.
 CBOR diagnostic notation:
 
 ~~~~ CBORdiag
-"/ietf-system:system/authentication/user[name='bob']/authorized-key[name='admin']/key-data"
+"/ietf-system:system/authentication/user[name='bob']/authorized-key
+[name='admin']/key-data"
 ~~~~
 
 CBOR encoding:
 
 ~~~~ CBORbytes
 78 59
-   2f696574662d73797374656d3a73797374656d2f61757468656e7469636174696f6e2f
-   757365725b6e616d653d27626f62275d2f617574686f72697a65642d6b65795b6e616d
-   653d2761646d696e275d2f6b65792d64617461
+   2f696574662d73797374656d3a73797374656d2f61757468656e74696361
+   74696f6e2f757365725b6e616d653d27626f62275d2f617574686f72697a
+   65642d6b65795b6e616d653d2761646d696e275d2f6b65792d64617461
 ~~~~
 
 **Second example based on YANG hash:**
@@ -1114,8 +1114,8 @@ CBOR encoding:
 
 ~~~~ CBORbytes
 78 33
-   2f696574662d73797374656d3a73797374656d2f61757468656e7469636174696f6e2f
-   757365725b6e616d653d27626f62275d
+   2f696574662d73797374656d3a73797374656d2f61757468656e74696361
+   74696f6e2f757365725b6e616d653d27626f62275d
 ~~~~
 
 **Third example based on YANG hash:**
