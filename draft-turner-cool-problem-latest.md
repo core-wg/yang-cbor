@@ -27,7 +27,7 @@ author:
 
 --- abstract
 
-A significant part of the next tens of billion of devices that will be connected to the Internet will be constrained devices, connecting over constrained networks. Managing these devices and the networks they form in a consistent, scalable, extensible, secure, energy-efficient manner with low computational and protocol complexity cannot be done in an ad-hoc manner. This document outlines the problem at hand and provides a roadmap of the possible solutions develped at the IETF. The description includes the basic constrained management problem, as well as properties of the solution. Details as to the CoOL protocol itself can be found in companion documents.
+A significant part of the next tens of billion of devices that will be connected to the Internet will be constrained devices, connecting over constrained networks. Managing these devices and the networks they form in a consistent, scalable, extensible, secure, energy-efficient manner with low computational and protocol complexity cannot be done in an ad-hoc manner. This document outlines the problem at hand and provides a roadmap of the possible solutions develped at the IETF. The description includes the basic constrained management problem, as well as properties of the solution. Details as to the Constrained Objecs Language (CoOL) protocol itself can be found in companion documents.
 
 --- middle
 
@@ -39,17 +39,32 @@ The need exists for a unified approach to network management of constrained devi
 
 The problem of network management for constrained networks and devices includes a number of requirements not necessarily addressed by existing solutions. Any solution must be conservative with "when" network traffic is required, as well as "how much" traffic is required in order to fulfill network management functions. In addition, a solution should support "traditional" network management functions that have been useful in a variety of legacy use-cases, as well as new functionality that address the evolving constrained device and constrained device scenarios. In this context, the term "constrained" implies limited resources (RAM, FLASH), as well as limited CPU resources.  Therefore, the amount of code necessary to achieve network management functionality will need to be as small as possible, as well as the amount of RAM necessary to achieve the functionality will be limited. Likewise, minimal network bandwidth should be required to support a solution.
 
+An ideal solution SHOULD therefore possess the following characteristics:
+* Simple and efficient
+  * Low memory footprint (RAM)
+  * Low binary footprint (flash)
+  * Low protocol complexity (simple state machine)
+* Scalable
+  * Thing-to-thing management
+  * Zero feature negotiation required
+* Compact on the air/wire 
+* Secure
+* Extensible
+  * Possibility to modify 
+* Interoperable
+
 The IETF is coalescing around a set of solutions for transport of applications on constrained networks (CoAP).  Since constrained devices will likely include support for this constrained "stack", it would be advantageous to reuse this constrained device stack for network management as well, to address the constrained device property of limited resources.
 
-Additionally, the IETF is moving towards YANG as a data modeling language for configuration and state data often attributed to network management problems.  Therefore, any constrained device/network management solution should attempt to reuse this information when and where possible.
+Additionally, the IETF is moving towards YANG as a data modeling language for configuration and state data often attributed to network management problems. Therefore, any constrained device/network management solution should attempt to reuse this information when and where possible.
 
-YANG is a data modeling language used to model configuration and state data manipulated by the NETCONF protocol (RFC 6241), NETCONF remote procedure calls, and NETCONF notifications.YANG was originally designed to work with the NETCONF configuration protocol; however, the idea of constrained networks and devices was not a factor in the design of NETCONF/YANG.  Any solution that attempts to use YANG in a constrained environment should consider constrained device and networking properties to the application of YANG in these scenarios.
+YANG is a data modeling language used to model configuration and state data manipulated by the NETCONF protocol (RFC 6241), NETCONF remote procedure calls, and NETCONF notifications. YANG was originally designed to work with the NETCONF configuration protocol; however, the idea of constrained networks and devices was not a factor in the design of NETCONF/YANG.  Any solution that attempts to use YANG in a constrained environment should consider constrained device and networking properties to the application of YANG in these scenarios.
 
 It would be advantageous to model the particular constrained network management functionality on the evolving NETCONF/RESTCONF operations, since some level of semantic interoperability might be expected by management systems that mix constrained and non-constrained management domains.
 
 One design element that could reduce the amount of traffic "on the wire" is requiring less metadata in management transactions. Instead of endpoints semantically parsing the meaning of the data and/or traffic, the knowledge of the data and how it is expected to be used is, instead, required on the endpoints, a priori.
 
-# Why CoOL ?
+
+# Why CoOL?
 
 Currently proposed solutions for constrained management do not specifically address the requirements previously suggested in this memo.  The solution introduced by CoOL seeks to remedy this by introducing an alternative method for operations and encoding "on the wire". CoOL will address these requirements while still utilizing the IETF application "stack" and management data modeling language (YANG). The alternative method employed by CoOL utilizes a more concise representation of management transactions (specifically management "data").
 
@@ -57,7 +72,9 @@ The evolution of the CoOL solution will recognize the proliferation of the "pub/
 
 # Roadmap
 
-Within the CORE group, there is currently two thread of development of a management interface for constrained devices and networks, one based on unmanaged identifiers (YANG hash) and one based on managed identifiers (SID). Some aspects of these solutions are shared (Problem statement and Data representation) and some are distinct (Identifiers and Function set).
+
+
+Within the CORE group, there are currently two thread of development of a management interface for constrained devices and networks, one based on unmanaged identifiers (YANG hash) and one based on managed identifiers (SID). Some aspects of these solutions are shared (Problem statement and Data representation) and some are distinct (Identifiers and Function set).
 
 The following drafts are currently available:
 
