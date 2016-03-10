@@ -27,7 +27,7 @@ author:
 
 --- abstract
 
-This document describes the particular problem being addressed by the introduction of CoOL into the constrained management solution space. The description includes the basic constrained management problem, as well as properties of the solution. Details as to the CoOL protocol itself can be found in companion documents.
+A significant part of the next tens of billion of devices that will be connected to the Internet will be constrained devices, connecting over constrained networks. Managing these devices and the networks they form in a consistent, scalable, extensible, secure, energy-efficient manner with low computational and protocol complexity cannot be done in an ad-hoc manner. This document outlines the problem at hand and provides a roadmap of the possible solutions develped at the IETF. The description includes the basic constrained management problem, as well as properties of the solution. Details as to the CoOL protocol itself can be found in companion documents.
 
 --- middle
 
