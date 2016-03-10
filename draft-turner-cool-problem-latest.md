@@ -72,9 +72,11 @@ The evolution of the CoOL solution will recognize the proliferation of the "pub/
 
 # Roadmap
 
+Within the CORE group, there are currently two threads of development of a management interface for constrained devices and networks. They both converge on the common grounds of using CoAP as fundamental transport protocol. Both solutions bring the YANG modeling language to the world of constrained networks and devices, thus bridging the gap to core network management.
 
+Both solutions address most of the ideal solution characteristics as outlined in the previous section, with the major difference situateed in the runtime--vs--compile time complexity and efficiency. The first approach is based on unmanaged identifiers (YANG hashes), which require zero compile-time efforts in exchange for decreased runtime efficiency. The second approach is based on managed identifiers (SID), which takes the opposite direction, requiring more upfront preparation, aiming at maximal efficiency, deterministic behavior and improved scalability.
 
-Within the CORE group, there are currently two thread of development of a management interface for constrained devices and networks, one based on unmanaged identifiers (YANG hash) and one based on managed identifiers (SID). Some aspects of these solutions are shared (Problem statement and Data representation) and some are distinct (Identifiers and Function set).
+Both solutions converge around the YANG data representation expressed in CBOR, as well as the common comprehension of the problem statement. The managed and unmanaged identifier spaces can coexist built on top of common function set. The Function set is the specification of CoAP method mapping to NETCONF/RESTCONF functions. At the time of writing, there are two distinct function sets (one for managed and one for unmanaged identifiers), but these should ideally merge in a single approach.
 
 The following drafts are currently available:
 
@@ -85,6 +87,55 @@ The following drafts are currently available:
 | Identifiers       | I-D.somaraju-core-sid, I-D.bierman-core-yang-hash |
 | Function set      | I-D.veillette-core-cool, I-D.vanderstok-core-comi |
 {: align="left"}
+
+|                                      |
+|        +-------------------+         |
+|        | Problem statement |         |
+|        +-------------------+         |
+|                  |                   |
+|                  V                   |
+|        +-------------------+         |
+|        |Data representation|         |
+|        +-------------------+         |
+|        |                   |         |
+|        V                   V         |
+|  +-------------+    +-------------+  |
+|  | Managed IDs |    |Unmanaged IDs|  |
+|  +-------------+    +-------------+  |
+|        |                   |         |
+|        V                   V         |
+|  +-------------+    +-------------+  |
+|  |Function setA|    |Function setB|  |
+|  +-------------+    +-------------+  |
+|                                      |
+{: align="left"}
+
+
+Future work will focus on having a common NETCONF/RESTCONF mapping of the basic function set.
+
+|                                      |
+|        +-------------------+         |
+|        | Problem statement |         |
+|        +-------------------+         |
+|                  |                   |
+|                  V                   |
+|        +-------------------+         |
+|        |Data representation|         |
+|        +-------------------+         |
+|        |                   |         |
+|        V                   V         |
+|  +-------------+    +-------------+  |
+|  | Managed IDs |    |Unmanaged IDs|  |
+|  +-------------+    +-------------+  |
+|        |                   |         |
+|        V                   V         |
+|        +-------------------+         |
+|        |   Function set    |         |
+|        +-------------------+         |
+|                                      |
+{: align="left"}
+
+
 
 # Security Considerations
 
