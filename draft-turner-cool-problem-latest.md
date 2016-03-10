@@ -136,7 +136,6 @@ Future work will focus on having a common NETCONF/RESTCONF mapping of the basic 
 {: align="left"}
 
 
-
 # Security Considerations
 
 The security considerations applicable to network management of enterprise networks is similar but different to that of constrained networks given the potential risk involved.  The risk involved to enterprise networks could be local to an organization (assets, reputation). However, in the case of constrained networks, it is reasonable to assume significant risk due to the types of application domains constrained devices would be applied (sensors controlling everything from home automation to medical devices).  With this risk should come a more strict understanding of the attack vectors and vulnerabilities of any and all protocols in use in constrained networks, especially those protocols tasked with the management of a device. The CoOL working group will attempt to reuse applicable ideas and technology originating from other IETF working groups to address the problem of security. The initial focus of security will involve the integrity and trustworthiness of information originating from CoOL managed endpoints. The confidentiality of this information will also be considered.
