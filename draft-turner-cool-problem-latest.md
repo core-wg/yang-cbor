@@ -41,16 +41,16 @@ The problem of network management for constrained networks and devices includes 
 
 An ideal solution SHOULD therefore possess the following characteristics:
 * Simple and efficient
-  * Low memory footprint (RAM)
-  * Low binary footprint (flash)
-  * Low protocol complexity (simple state machine)
+** Low memory footprint (RAM)
+** Low binary footprint (flash)
+** Low protocol complexity (simple state machine)
 * Scalable
-  * Thing-to-thing management
-  * Zero feature negotiation required
+** Thing-to-thing management
+** Zero feature negotiation required
 * Compact on the air/wire 
 * Secure
 * Extensible
-  * Possibility to modify 
+** Possibility to modify 
 * Interoperable
 
 The IETF is coalescing around a set of solutions for transport of applications on constrained networks (CoAP).  Since constrained devices will likely include support for this constrained "stack", it would be advantageous to reuse this constrained device stack for network management as well, to address the constrained device property of limited resources.
@@ -76,7 +76,7 @@ Within the CORE group, there are currently two threads of development of a manag
 
 Both solutions address most of the ideal solution characteristics as outlined in the previous section, with the major difference situateed in the runtime--vs--compile time complexity and efficiency. The first approach is based on unmanaged identifiers (YANG hashes), which require zero compile-time efforts in exchange for decreased runtime efficiency. The second approach is based on managed identifiers (SID), which takes the opposite direction, requiring more upfront preparation, aiming at maximal efficiency, deterministic behavior and improved scalability.
 
-Both solutions converge around the YANG data representation expressed in CBOR, as well as the common comprehension of the problem statement. The managed and unmanaged identifier spaces can coexist built on top of common function set. The Function set is the specification of CoAP method mapping to NETCONF/RESTCONF functions. At the time of writing, there are two distinct function sets (one for managed and one for unmanaged identifiers), but these should ideally merge in a single approach.
+Both solutions converge around the YANG data representation expressed in CBOR, as well as the common comprehension of the problem statement. The managed and unmanaged identifier spaces have their specific underlaying function sets. A function set is the specification of CoAP method mapping to NETCONF/RESTCONF functions. 
 
 The following drafts are currently available:
 
@@ -88,51 +88,28 @@ The following drafts are currently available:
 | Function set      | I-D.veillette-core-cool, I-D.vanderstok-core-comi |
 {: align="left"}
 
-|                                      |
-|        +-------------------+         |
-|        | Problem statement |         |
-|        +-------------------+         |
-|                  |                   |
-|                  V                   |
-|        +-------------------+         |
-|        |Data representation|         |
-|        +-------------------+         |
-|        |                   |         |
-|        V                   V         |
-|  +-------------+    +-------------+  |
-|  | Managed IDs |    |Unmanaged IDs|  |
-|  +-------------+    +-------------+  |
-|        |                   |         |
-|        V                   V         |
-|  +-------------+    +-------------+  |
-|  |Function setA|    |Function setB|  |
-|  +-------------+    +-------------+  |
-|                                      |
-{: align="left"}
-
-
-Future work will focus on having a common NETCONF/RESTCONF mapping of the basic function set.
-
-|                                      |
-|        +-------------------+         |
-|        | Problem statement |         |
-|        +-------------------+         |
-|                  |                   |
-|                  V                   |
-|        +-------------------+         |
-|        |Data representation|         |
-|        +-------------------+         |
-|        |                   |         |
-|        V                   V         |
-|  +-------------+    +-------------+  |
-|  | Managed IDs |    |Unmanaged IDs|  |
-|  +-------------+    +-------------+  |
-|        |                   |         |
-|        V                   V         |
-|        +-------------------+         |
-|        |   Function set    |         |
-|        +-------------------+         |
-|                                      |
+          +----------------------------------------+
+          |          Problem statement             |
+          | I-D.turner-core-cool-problem-statement |
+          +----------------------------------------+
+                               |
+                               V
+          +----------------------------------------+
+          |          Data representation           |
+          |  I-D.veillette-core-yang-cbor-mapping  |
+          +----------------------------------------+
+                   |                      |
+                   V                      V
++---------------------------+  +----------------------------+
+|       Managed IDs         |  |       Unmanaged IDs        |
+|   I-D.somaraju-core-sid   |  | I-D.bierman-core-yang-hash |
++---------------------------+  +----------------------------+
+                   |                      |
+                   V                      V
++---------------------------+  +----------------------------+
+|       Function set        |  |       Function set         |
+|  I-D.veillette-core-cool  |  |  I-D.vanderstok-core-comi  |
++---------------------------+  +----------------------------+
 {: align="left"}
 
 
