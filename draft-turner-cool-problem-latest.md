@@ -40,17 +40,27 @@ The need exists for a unified approach to network management of constrained devi
 The problem of network management for constrained networks and devices includes a number of requirements not necessarily addressed by existing solutions. Any solution must be conservative with "when" network traffic is required, as well as "how much" traffic is required in order to fulfill network management functions. In addition, a solution should support "traditional" network management functions that have been useful in a variety of legacy use-cases, as well as new functionality that address the evolving constrained device and constrained device scenarios. In this context, the term "constrained" implies limited resources (RAM, FLASH), as well as limited CPU resources.  Therefore, the amount of code necessary to achieve network management functionality will need to be as small as possible, as well as the amount of RAM necessary to achieve the functionality will be limited. Likewise, minimal network bandwidth should be required to support a solution.
 
 An ideal solution SHOULD therefore possess the following characteristics:
+
 * Simple and efficient
-** Low memory footprint (RAM)
-** Low binary footprint (flash)
-** Low protocol complexity (simple state machine)
+
+  * Low memory footprint (RAM)
+
+  * Low binary footprint (flash)
+
+  * Low protocol complexity (simple state machine)
+
 * Scalable
-** Thing-to-thing management
-** Zero feature negotiation required
+
+  * Thing-to-thing management
+
+  * Zero feature negotiation required
+
 * Compact on the air/wire 
+
 * Secure
+
 * Extensible
-** Possibility to modify 
+
 * Interoperable
 
 The IETF is coalescing around a set of solutions for transport of applications on constrained networks (CoAP).  Since constrained devices will likely include support for this constrained "stack", it would be advantageous to reuse this constrained device stack for network management as well, to address the constrained device property of limited resources.
@@ -72,22 +82,15 @@ The evolution of the CoOL solution will recognize the proliferation of the "pub/
 
 # Roadmap
 
-Within the CORE group, there are currently two threads of development of a management interface for constrained devices and networks. They both converge on the common grounds of using CoAP as fundamental transport protocol. Both solutions bring the YANG modeling language to the world of constrained networks and devices, thus bridging the gap to core network management.
+Within the CORE group, there are currently two threads of development of a management interface for constrained devices and networks. They both converge on the common grounds of using CoAP as fundamental application protocol. Both solutions bring the YANG modeling language to the world of constrained networks and devices, thus bridging the gap to core network management.
 
-Both solutions address most of the ideal solution characteristics as outlined in the previous section, with the major difference situateed in the runtime--vs--compile time complexity and efficiency. The first approach is based on unmanaged identifiers (YANG hashes), which require zero compile-time efforts in exchange for decreased runtime efficiency. The second approach is based on managed identifiers (SID), which takes the opposite direction, requiring more upfront preparation, aiming at maximal efficiency, deterministic behavior and improved scalability.
+These two approaches differ by their runtime-vs-compile time complexity and efficiency. The first approach is based on unmanaged identifiers (YANG hashes), which require zero compile-time efforts in exchange for decreased runtime efficiency. The second approach is based on managed identifiers (SID), which takes the opposite direction, requiring more upfront preparation, aiming at maximal efficiency, deterministic behavior and improved scalability.
 
 Both solutions converge around the YANG data representation expressed in CBOR, as well as the common comprehension of the problem statement. The managed and unmanaged identifier spaces have their specific underlaying function sets. A function set is the specification of CoAP method mapping to NETCONF/RESTCONF functions. 
 
 The following drafts are currently available:
 
-|                   | Managed, Unmanaged                                |
-|-------------------+---------------------------------------------------+
-| Problem statement | I-D.turner-core-cool-problem-statement            |
-| Data presentation | I-D.veillette-core-yang-cbor-mapping              |
-| Identifiers       | I-D.somaraju-core-sid, I-D.bierman-core-yang-hash |
-| Function set      | I-D.veillette-core-cool, I-D.vanderstok-core-comi |
-{: align="left"}
-
+~~~~
           +----------------------------------------+
           |          Problem statement             |
           | I-D.turner-core-cool-problem-statement |
@@ -110,8 +113,7 @@ The following drafts are currently available:
 |       Function set        |  |       Function set         |
 |  I-D.veillette-core-cool  |  |  I-D.vanderstok-core-comi  |
 +---------------------------+  +----------------------------+
-{: align="left"}
-
+~~~~
 
 # Security Considerations
 
