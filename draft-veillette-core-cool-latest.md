@@ -95,8 +95,6 @@ informative:
 
 This document describes a management function set adapted to constrained devices and constrained networks (e.g., low-power, lossy). CoOL objects (datastores, RPCs, actions and notifications) are defined using the YANG modelling language {{-yang11}}. Interactions with these objects are performed using the CoAP web transfer protocol {{RFC7252}}. Payloads are encoded using the CBOR data format {{RFC7049}}. The mapping between YANG data models and the CBOR data format is defined in [I-D.veillette-core-yang-cbor-mapping].
 
-This document defines encoding rules for serializing configuration data, state data, RPC input and RPC output, Action input, Action output and notifications defined within YANG modules using the Concise Binary Object Representation (CBOR) {{RFC7049}}.
-
 --- middle
 
 # Introduction
