@@ -88,11 +88,8 @@ informative:
   I-D.bormann-core-ipsec-for-coap: coap-ipsec
   I-D.vanderstok-core-comi: comi
   RFC5755:
-  RFC6021:
   RFC7223:
-  RFC7224:
   RFC7228:
-  RFC7277:
 
 --- abstract
 
@@ -243,7 +240,7 @@ If the request is rejected by the CoOL server, a 5.01 Not implemented or 4.13 Re
 
 Example:
 
-In this example, the CoOL server returns a datastore containing the following data nodes:
+In this example, the CoOL server returns a datastore containing the following data nodes defined in the YANG module "ietf-system" {{RFC7317}} and YANG module "ietf-interfaces" {{RFC7223]}}:
 
 * "/interfaces/interface" (SID 1529)
 
@@ -310,7 +307,7 @@ The CBOR value undefined (0xf7) must be returned for each data node requested bu
 
 ### Example #1 - Simple data node
 
-In this example, a CoOL client retrieves the leaf "/system-state/clock/current-datetime" (SID 1704) and the container "/system/clock" (SID 1719) containing the leaf "/system/clock/timezone/timezone-utc-offset/timezone-utc-offset" (SID 1721). These data nodes are defined in the YANG module "ietf-system".
+In this example, a CoOL client retrieves the leaf "/system-state/clock/current-datetime" (SID 1704) and the container "/system/clock" (SID 1719) containing the leaf "/system/clock/timezone/timezone-utc-offset/timezone-utc-offset" (SID 1721). These data nodes are defined in the YANG module "ietf-system" {{RFC7317}}.
 
 CoAP request:
 
@@ -467,7 +464,7 @@ This "instance-identifier" extension allows the selection of a subset of data no
 
 CoOL servers SHOULD implement this "instance-identifier" extension. When this extension is not supported, the CoOL server MUST ignore the third element of the "instance-identifier" and return the list instance as specified by the first two elements of the "instance-identifier".
 
-In this example, a CoOL client retrieves from within the "/interfaces/interface" list (SID 1528) the leafs "/interfaces/interface/type" (SID 1533) and "/interfaces/interface/enabled" (SID 1530). The CoOL client also includes in this request the selection of the leaf "/system/hostname" defined in "ietf-system".
+In this example, a CoOL client retrieves from within the "/interfaces/interface" list (SID 1528) the leafs "/interfaces/interface/type" (SID 1533) and "/interfaces/interface/enabled" (SID 1530). The CoOL client also includes in this request the selection of the leaf "/system/hostname" defined in "ietf-system" {{RFC7317}}.
 
 For example:
 
@@ -1007,7 +1004,7 @@ CoAP response:
 
 This application protocol relies on the lower layers to provide confidentiality, integrity, and availability. A typical approach to archive these requirements is to implement CoAP using the DTLS binding as defined in {{RFC7252}} section 9. Other approaches are possible to fulfill these requirements, such as the use of a network layer security mechanism as discussed in {{-coap-ipsec}} or a link layer security mechanism for exchanges done within a single sub-network.
 
-In some applications, different access rights to objects (data nodes, protocol operations and notifications) need to be granted to different CoOL clients. Different solutions are possible, such as the implementation of Access Control Lists (ACL) using YANG module(s) or the use of an authorization certificate as defined in {{RFC7252}}. These access control mechanisms need to be addressed in complementary specifications.
+In some applications, different access rights to objects (data nodes, protocol operations and notifications) need to be granted to different CoOL clients. Different solutions are possible, such as the implementation of Access Control Lists (ACL) using YANG module(s) or the use of an authorization certificate as defined in {{RFC5755}}. These access control mechanisms need to be addressed in complementary specifications.
 
 The Security Considerations section of CoAP {{RFC7252}} is especially relevant to this application protocol and should be reviewed carefully by implementers.
 
