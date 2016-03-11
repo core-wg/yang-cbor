@@ -74,8 +74,6 @@ normative:
   I-D.bormann-core-coap-fetch: coap-fetch
   I-D.vanderstok-core-patch: coap-patch
   I-D.ietf-netmod-rfc6020bis: yang11
-  I-D.somaraju-core-sid: sid-registration
-  I-D.veillette-core-yang-cbor-mapping: yang-mapping
   RFC2119:
   RFC6020:
   RFC6690:
