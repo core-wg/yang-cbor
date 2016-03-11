@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-turner-cool-problem-00
+docname: draft-turner-core-cool-problem-statement-00
 cat: bcp
 pi:
   toc: 'yes'
