@@ -6,7 +6,7 @@ title: Structure Identifier (SID)
 area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
 kw: CBOR
-cat: info
+cat: std
 pi:
   strict: 'yes'
   toc: 'yes'
