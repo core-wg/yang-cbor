@@ -83,8 +83,6 @@ Structured IDentifiers (SID) are used to identify different YANG items when enco
 
 # Introduction
 
-[I.D-veillette-core-yang-cbor-mapping] defines a set of encoding rules to encode data models defined in YANG {{I-D.ietf-netmod-rfc6020bis}} using the Concise Binary Object Representation (CBOR) {{RFC7049}}. One type of identifier supported by this specification is a registered unsigned integer called Structured IDentifier (SID).
-
 This document describes the registries required to manage SIDs and a file format used to persist and publish the assigned SIDs.
 
 # Terminology and Notation
