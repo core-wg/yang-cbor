@@ -92,7 +92,7 @@ This document defines encoding rules for serializing configuration data, state d
 
 The specification of the YANG 1.1 data modelling language {{I-D.ietf-netmod-rfc6020bis}} defines only an XML encoding for data instances, i.e. contents of configuration datastores, state data, RPC inputs and outputs, action inputs and outputs, and event notifications.
 
-A new set of encoding rules have been defined to allow the use of the same data models in environments based on the JavaScript Object Notation (JSON) Data Interchange Format {{RFC7159}}. This is accomplished in the JSON Encoding of Data Modeled with YANG specification {{I-D.ietf-netmod-yang-json}}.
+A new set of encoding rules has been defined to allow the use of the same data models in environments based on the JavaScript Object Notation (JSON) Data Interchange Format {{RFC7159}}. This is accomplished in the JSON Encoding of Data Modeled with YANG specification {{I-D.ietf-netmod-yang-json}}.
 
 The aim of this document is to define a set of encoding rules for the Concise Binary Object Representation (CBOR) {{RFC7049}}. The resulting encoding is more compact compared to XML and JSON and more suitable for Constrained Nodes and/or Constrained Networks as defined by {{RFC7228}}.
 
@@ -138,7 +138,7 @@ The following term is defined in {{I-D.vanderstok-core-comi}}:
 
 This specification also makes use of the following terminology:
 
-* child: A schema node defined within a collection such as a container, a list, a case, a notification, a RPC input, a RPC output, an action input, an action output.
+* child: A schema node defined within a collection such as a container, a list, a case, a notification, an RPC input, an RPC output, an action input, an action output.
 
 * delta : Difference between the SID assigned to the current schema node and the SID assigned to the parent.
 
@@ -156,8 +156,8 @@ Within this document, CBOR binary contents are represented using an equivalent t
 | Negative integer |         1 | Decimal digits prefixed by a minus sign                                 | -123               | 38 7a              |
 | Byte string      |         2 | Hexadecimal value enclosed between single quotes and prefixed by an 'h' | h'f15c'            | 42 f15c            |
 | Text string      |         3 | String of Unicode characters enclosed between double quotes             | "txt"              | 63 747874          |
-| Array            |         4 | Comma separated list of values within square brackets                   | [ 1, 2 ]           | 82 01 02           |
-| Map              |         5 | Comma separated list of key : value pairs within curly braces           | { 1: 123, 2: 456 } | a2 01187b 021901c8 |
+| Array            |         4 | Comma-separated list of values within square brackets                   | [ 1, 2 ]           | 82 01 02           |
+| Map              |         5 | Comma-separated list of key : value pairs within curly braces           | { 1: 123, 2: 456 } | a2 01187b 021901c8 |
 | Boolean          |      7/20 | false                                                                   | false              | f4                 |
 |                  |      7/21 | true                                                                    | true               | f5                 |
 | Null             |      7/22 | null                                                                    | null               | f6                 |
@@ -593,11 +593,11 @@ CBOR encoding:
 
 An anydata serves as a container for an arbitrary set of schema nodes that otherwise appear as normal YANG-modeled data. An anydata instance is encoded using the same rules as a container, i.e., CBOR map. The requirement that anydata content can be modeled by YANG implies the following:
 
-*	Keys MUST be set to valid SIDs, member names or YANG hashes. This rule apply to the key of the anydata node and the key of any inner schema node.
+*	Keys MUST be set to valid SIDs, member names or YANG hashes. This rule applies to the key of the anydata node and the key of any inner schema node.
 
 *	The CBOR array MUST contain either unique scalar values (as a leaf-list, see {{leaf-list}}), or maps (as a list, see {{list}}).
 
-*	Values MUST follow the encoding rules of one of the datatype listed in {{data-types-mapping}}.
+*	Values MUST follow the encoding rules of one of the datatypes listed in {{data-types-mapping}}.
 
 ## The "anyxml" Schema Node
 
@@ -648,7 +648,7 @@ CBOR encoding: 39 012b
 
 Leafs of type decimal64 MUST be encoded using either CBOR unsigned integer
 (major type 0) or CBOR signed integer (major type 1), depending on the actual
-value. The position of the decimal point is defined by the fraction-digits YANG statement and not available in the CBOR encoding.
+value. The position of the decimal point is defined by the fraction-digits YANG statement and is not available in the CBOR encoding.
 
 Definition example {{RFC7317}}:
 
@@ -806,15 +806,15 @@ CBOR encoding: 64 65746831
 
 ## The "identityref" Type
 
-This specification support two approaches for encoding identityref, a SID as defined in [I.D-somaraju-core-sid] or a name as defined in {{I-D.ietf-netmod-yang-json}} section 6.8.
+This specification supports two approaches for encoding identityref, a SID as defined in [I.D-somaraju-core-sid] or a name as defined in {{I-D.ietf-netmod-yang-json}} section 6.8.
 
 **SIDs as identityref**
 
-SIDs are globally unique and may be used as identityref.  This approach is both compact and simple to implement. When SID are used, identityref MUST be encoded using a CBOR unsigned integer data item (major type 0) and set to a SID allocated from a registered SID range.
+SIDs are globally unique and may be used as identityref.  This approach is both compact and simple to implement. When SIDs are used, identityref MUST be encoded using a CBOR unsigned integer data item (major type 0) and set to a SID allocated from a registered SID range.
 
 **Name as identityref**
 
-Alternatively, an identityref may be encoded using a name as defined in {{I-D.ietf-netmod-yang-json}} section 6.8.  When a names are used, identityref MUST be encoded using a CBOR text string data item (major type 3). If the identity is defined in another module than the leaf node containing the identityref value, the namespace-qualified form MUST be used. Otherwise, both the simple and namespace-qualified forms are permitted.
+Alternatively, an identityref may be encoded using a name as defined in {{I-D.ietf-netmod-yang-json}} section 6.8.  When names are used, identityref MUST be encoded using a CBOR text string data item (major type 3). If the identity is defined in another module than the leaf node containing the identityref value, the namespace-qualified form MUST be used. Otherwise, both the simple and namespace-qualified forms are permitted.
 
 Definition example {{RFC7223}}:
 
@@ -839,7 +839,7 @@ leaf type {
 
 **SIDs as identityref**
 
-Assuming that the identity "iana-if-type:ethernetCsmacd" have been assigned to the SID value 1179.
+Assuming that the identity "iana-if-type:ethernetCsmacd" has been assigned to the SID value 1179.
 
 CBOR diagnostic notation: 1179
 
@@ -913,13 +913,13 @@ CBOR encoding: 74 323030313a6462383a6130623a313266303a3a31
 
 ## The "instance-identifier" Type
 
-This specification support three approaches for encoding an instance-identifier, one based on SIDs as defined in [I.D-somaraju-core-sid], one based on names as defined in {{I-D.ietf-netmod-yang-json}} section 6.13 and one based on YANG hashes as defined in {{I-D.vanderstok-core-comi}}.
+This specification supports three approaches for encoding an instance-identifier, one based on SIDs as defined in [I.D-somaraju-core-sid], one based on names as defined in {{I-D.ietf-netmod-yang-json}} section 6.13 and one based on YANG hashes as defined in {{I-D.vanderstok-core-comi}}.
 
 **SIDs as instance-identifier**
 
-SIDs uniquely identify a data node. For single instance data node, the SID is sufficient to identify this instance. For a multi-instance data node, a SID is combined with the list key(s) to identify each instance of this data node within the YANG list(s).
+SIDs uniquely identify a data node. For a single instance data node, the SID is sufficient to identify this instance. For a multi-instance data node, a SID is combined with the list key(s) to identify each instance of this data node within the YANG list(s).
 
-Single instance data nodes MUST be encoded using either a CBOR unsigned integer data item (major type 0) and set to the targeted data node SID.
+Single instance data nodes MUST be encoded using a CBOR unsigned integer data item (major type 0) and set to the targeted data node SID.
 
 Multi-instances data nodes MUST be encoded using a CBOR array data item (major type 4) containing the following entries:
 
@@ -927,7 +927,7 @@ Multi-instances data nodes MUST be encoded using a CBOR array data item (major t
 
 *	The following entries MUST contain the value of each key required to identify the instance of the targeted data node. These keys MUST be ordered as defined in the "key" YANG statement, starting from top level list, and follow by each of the subordinate list(s).
 
-When the SID identify a YANG list, the presence of the key(s) for this list is optional. When the key(s) are present, the targeted instance within this list is selected. When the key(s) are absent, the entire YANG list is selected.
+When SIDs identify a YANG list, the presence of the key(s) for this list is optional. When the key(s) are present, the targeted instance within this list is selected. When the key(s) are absent, the entire YANG list is selected.
 
 **Names as instance-identifier**
 
@@ -954,7 +954,7 @@ container system {
 
 **First example based on SID**
 
-In this example, a field of type instance-identifier identify the data node "/system/contact" (SID 1728).
+In this example, a field of type instance-identifier identifies the data node "/system/contact" (SID 1728).
 
 ~~~~ CBORdiag
 1728
@@ -1144,7 +1144,7 @@ To minimize security risks, software on the receiving side SHOULD reject all mes
 
 # Acknowledgments
 
-This document have been largely inspired by the extensive works done by Andy Bierman and Peter van der Stok on {{I-D.vanderstok-core-comi}}. {{I-D.ietf-netmod-yang-json}} have also been a critical input to this work. The authors would like to thank the authors and contributors to these two drafts.
+This document has been largely inspired by the extensive works done by Andy Bierman and Peter van der Stok on {{I-D.vanderstok-core-comi}}. {{I-D.ietf-netmod-yang-json}} has also been a critical input to this work. The authors would like to thank the authors and contributors to these two drafts.
 
 The authors would also like to acknowledge the review, feedback, and comments from Ladislav Lhotka and Juergen Schoenwaelder.
 
