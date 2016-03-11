@@ -86,7 +86,7 @@ Within the CORE group, there are currently two threads of development of a manag
 
 These two approaches differ by their runtime-vs-compile time complexity and efficiency. The first approach is based on unmanaged identifiers (YANG hashes), which require zero compile-time efforts in exchange for decreased runtime efficiency. The second approach is based on managed identifiers (SID), which takes the opposite direction, requiring more upfront preparation, aiming at maximal efficiency, deterministic behavior and improved scalability.
 
-Both solutions converge around the YANG data representation expressed in CBOR, as well as the common comprehension of the problem statement. The managed and unmanaged identifier spaces have their specific underlaying function sets. A function set is the specification of CoAP method mapping to NETCONF/RESTCONF functions. 
+Both solutions converge around the YANG data representation expressed in CBOR, as well as the common comprehension of the problem statement. The managed and unmanaged identifier spaces have their specific underlaying function sets. These function set drafts define the well-known REST resources that provide the device management services. 
 
 The following drafts are currently available:
 
