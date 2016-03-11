@@ -71,7 +71,7 @@ author:
   email: ana@ackl.io
 normative:
   I-D.ietf-netmod-rfc6020bis: yang11
-  I.D-somaraju-core-sid: sid-registration
+  I-D.somaraju-core-sid: sid-registration
   RFC2119:
   RFC7049:
 informative:
