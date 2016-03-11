@@ -240,7 +240,7 @@ If the request is rejected by the CoOL server, a 5.01 Not implemented or 4.13 Re
 
 Example:
 
-In this example, the CoOL server returns a datastore containing the following data nodes defined in the YANG module "ietf-system" {{RFC7317}} and YANG module "ietf-interfaces" {{RFC7223]}}:
+In this example, the CoOL server returns a datastore containing the following data nodes defined in the YANG module "ietf-system" {{RFC7317}} and YANG module "ietf-interfaces" {{RFC7223}}:
 
 * "/interfaces/interface" (SID 1529)
 
