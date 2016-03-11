@@ -24,6 +24,16 @@ author:
   country: USA
   phone: 678-258-1292
   email: randy.turner@landisgyr.com
+- ins: M. V. Veillette
+  name: Michel Veillette
+  org: Trilliant Networks Inc.
+  street: 610 Rue du Luxembourg
+  code: J2J 2V2
+  city: Granby
+  region: Quebec
+  country: Canada
+  phone: "+14503750556"
+  email: michel.veillette@trilliantinc.com
 
 --- abstract
 
