@@ -71,7 +71,6 @@ author:
   email: ana@ackl.io
 normative:
   I-D.ietf-netmod-rfc6020bis: yang11
-  I-D.somaraju-core-sid: sid-registration
   RFC2119:
   RFC7049:
 informative:
@@ -173,7 +172,7 @@ This document defines CBOR encoding rules for YANG schema trees and their subtre
 
 Basic schema nodes such as leaf, leaf-list, list, anydata and anyxml can be encoded standalone. In this case, only the value of this schema node is encoded in CBOR. Identification of this value need to be provided by some external means when needed.
 
-A collection such as container, list instance, notification, RPC input, RPC output, action input and action output is serialized using a CBOR map in which each child schema node is encoded using a key and a value. This specification supports three type of keys; SID as defined in {{-sid-registration}}, member names as defined in {{I-D.ietf-netmod-yang-json}} and YANG hash as defined by {{I-D.vanderstok-core-comi}}. Each of these key type is encoded using a specific CBOR type which allows their interpretation during the deserialization process. The end user of this mapping specification can mandate the use of a specific key type or a specific subset of key types.
+A collection such as container, list instance, notification, RPC input, RPC output, action input and action output is serialized using a CBOR map in which each child schema node is encoded using a key and a value. This specification supports three type of keys; SID as defined in [I-D.somaraju-core-sid], member names as defined in {{I-D.ietf-netmod-yang-json}} and YANG hash as defined by {{I-D.vanderstok-core-comi}}. Each of these key type is encoded using a specific CBOR type which allows their interpretation during the deserialization process. The end user of this mapping specification can mandate the use of a specific key type or a specific subset of key types.
 
 In order to minimize the size of the encoded data, the proposed mapping does not make use of any meta-information beyond those natively supported by CBOR. For instance, CBOR tags are not used for any of the proposed mapping. It is expected that entities generating and decoding CBOR contents have enough knowledge about the information processed in order to perform the expected task without the need of such extra meta-information.  The CoAP Content-Format Option, or an HTTP Content-Type header field, conveys that the data is YANG-encoded CBOR in the first place.
 
@@ -188,7 +187,7 @@ Leafs MUST be encoded based on the encoding rules specified in {{data-types-mapp
 
 ## The "container" Schema Node {#container}
 
-Collections such as containers, list instances, notifications, RPC inputs, RPC outputs, action inputs and action outputs MUST be encoded using a CBOR map data item (major type 5). A map is comprised of pairs of data items, with each data item consisting of a key and a value. This specification supports three type of keys; SID as defined in {{-sid-registration}}, member names as defined in {{I-D.ietf-netmod-yang-json}} and YANG hash as defined by {{I-D.vanderstok-core-comi}}.
+Collections such as containers, list instances, notifications, RPC inputs, RPC outputs, action inputs and action outputs MUST be encoded using a CBOR map data item (major type 5). A map is comprised of pairs of data items, with each data item consisting of a key and a value. This specification supports three type of keys; SID as defined in [I-D.somaraju-core-sid], member names as defined in {{I-D.ietf-netmod-yang-json}} and YANG hash as defined by {{I-D.vanderstok-core-comi}}.
 
 **SIDs as keys**
 
@@ -238,7 +237,7 @@ container system {
 
 **SIDs example**
 
-This example is encoded using the SIDs defined in {{-sid-registration}} Appendix C.
+This example is encoded using the SIDs defined in [I-D.somaraju-core-sid] Appendix C.
 
 CBOR diagnostic notation:
 
@@ -399,7 +398,7 @@ list server {
 
 **SIDs example**
 
-SIDs used in this example are defined in {{-sid-registration}} Appendix C. It is important to note that the protocol or method using this mapping may carry a parent SID or may have the knowledge of this parent SID based on its context. In these cases, delta encoding can be performed based on this parent SID which minimizes the size of the encoded data.
+SIDs used in this example are defined in [I-D.somaraju-core-sid] Appendix C. It is important to note that the protocol or method using this mapping may carry a parent SID or may have the knowledge of this parent SID based on its context. In these cases, delta encoding can be performed based on this parent SID which minimizes the size of the encoded data.
 
 CBOR diagnostic notation:
 
@@ -807,7 +806,7 @@ CBOR encoding: 64 65746831
 
 ## The "identityref" Type
 
-This specification supports two approaches for encoding identityref, a SID as defined in {{-sid-registration}} or a name as defined in {{I-D.ietf-netmod-yang-json}} section 6.8.
+This specification supports two approaches for encoding identityref, a SID as defined in [I-D.somaraju-core-sid] or a name as defined in {{I-D.ietf-netmod-yang-json}} section 6.8.
 
 **SIDs as identityref**
 
@@ -914,7 +913,7 @@ CBOR encoding: 74 323030313a6462383a6130623a313266303a3a31
 
 ## The "instance-identifier" Type
 
-This specification supports three approaches for encoding an instance-identifier, one based on SIDs as defined in {{-sid-registration}}, one based on names as defined in {{I-D.ietf-netmod-yang-json}} section 6.13 and one based on YANG hashes as defined in {{I-D.vanderstok-core-comi}}.
+This specification supports three approaches for encoding an instance-identifier, one based on SIDs as defined in [I-D.somaraju-core-sid], one based on names as defined in {{I-D.ietf-netmod-yang-json}} section 6.13 and one based on YANG hashes as defined in {{I-D.vanderstok-core-comi}}.
 
 **SIDs as instance-identifier**
 
