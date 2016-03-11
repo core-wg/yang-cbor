@@ -34,6 +34,34 @@ author:
   country: Canada
   phone: "+14503750556"
   email: michel.veillette@trilliantinc.com
+- ins: A. P. Pelov
+  name: Alexander Pelov
+  org: Acklio
+  street: 2bis rue de la Chataigneraie
+  code: '35510'
+  city: Cesson-Sevigne
+  region: Bretagne
+  country: France
+  email: a@ackl.io
+- ins: A.  S. Somaraju
+  name: Abhinav Somaraju
+  org: Tridonic GmbH & Co KG
+  street: Farbergasse 15
+  code: '6850'
+  city: Dornbirn
+  region: Vorarlberg
+  country: Austria
+  phone: "+43664808926169"
+  email: abhinav.somaraju@tridonic.com
+- ins: A. M.  Minaburo
+  name: Ana Minaburo
+  org: Acklio
+  street: 2bis rue de la châtaigneraie
+  code: '35510'
+  city: Cesson-Sévigné
+  region: Bretagne
+  country: France
+  email: ana@ackl.io
 
 --- abstract
 
