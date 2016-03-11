@@ -77,7 +77,7 @@ normative:
 
 --- abstract
 
-Structured IDentifiers (SID) are used to identify different YANG items when encoded is CBOR. This document defines the registration and assignment processes of SIDs. To enable the implementation of these processes, this document also defines a file format used to persist and publish assigned SIDs.
+Structured IDentifiers (SID) are used to identify different YANG items when encoded in CBOR. This document defines the registration and assignment processes of SIDs. To enable the implementation of these processes, this document also defines a file format used to persist and publish assigned SIDs.
 
 --- middle
 
@@ -206,7 +206,7 @@ The following activity diagram summarize the life cycle of ".sid" files.
 
 YANG modules are not necessary created in the context of constrained applications. YANG modules can be implemented using NETCONF or RESTCONF without the need to assign SIDs.
 
-As needed, authors of YANG modules can assign SIDs to their modules. This process starts by the registration of a SID range. Once a SID range is registered, the owner of this range assign sub-ranges to each YANG module in order to generate the associated “.sid” files. Generation of “.sid” files SHOULD be performed using an automated tool.
+As needed, authors of YANG modules can assign SIDs to their modules. This process starts by the registration of a SID range. Once a SID range is registered, the owner of this range assigns sub-ranges to each YANG module in order to generate the associated “.sid” files. Generation of “.sid” files SHOULD be performed using an automated tool.
 
 Registration of the .sid file associated to a YANG module is optional but recommended to promote interoperability between devices and to avoid duplicate allocation of SIDs to a single YANG module.
 
@@ -411,7 +411,7 @@ The IANA policy for this registry is split into four tiers as follows:
 
 ## YANG module registry {#module-registry}
 
-Each registered SID range can be used to assign SIDs to one or more YANG modules. To track which YANG module have been assigned and to avoid duplicate allocation, IANA is requested to provide a method to register and query the following information:
+Each registered SID range can be used to assign SIDs to one or more YANG modules. To track which YANG modules have been assigned and to avoid duplicate allocation, IANA is requested to provide a method to register and query the following information:
 
 *	The YANG module name
 
@@ -440,7 +440,7 @@ Initial entries in this registry are as follows:
 
 # Acknowledgments
 
-The authors would like to thank Carsten Bormann for its help during the development of this document and its useful comments during the review process.
+The authors would like to thank Carsten Bormann for his help during the development of this document and his useful comments during the review process.
 
 --- back
 
