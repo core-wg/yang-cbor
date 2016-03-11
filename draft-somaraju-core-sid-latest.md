@@ -435,7 +435,7 @@ Initial entries in this registry are as follows:
 
 | Entry Point | Size | Module name     | Revision   | Reference               |
 |-------------+------+-----------------+------------+-------------------------+
-|        1000 |  100 | ietf-cool       | 2016-01-01 | {{cool}}                |
+|        1000 |  100 | ietf-cool       | 2016-01-01 | {{-cool}}                |
 |        1100 |  400 | iana-if-type    | 2014-05-08 | {{RFC7224}}             |
 |        1500 |  100 | ietf-interfaces | 2014-05-08 | {{RFC7223}}             |
 |        1600 |  100 | ietf-ip         | 2014-06-16 | {{RFC7277}}             |
