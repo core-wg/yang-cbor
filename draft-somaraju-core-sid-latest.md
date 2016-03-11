@@ -74,6 +74,11 @@ normative:
   I-D.ietf-netmod-yang-json: yang-json
   RFC2119:
   RFC7049:
+informative:
+  RFC7223:
+  RFC7224:
+  RFC7277:
+  RFC7317:
 
 --- abstract
 
@@ -430,10 +435,10 @@ Initial entries in this registry are as follows:
 | Entry Point | Size | Module name     | Revision   | Reference               |
 |-------------+------+-----------------+------------+-------------------------+
 |        1000 |  100 | ietf-cool       | 2016-01-01 | I.D-veillette-core-cool |
-|        1100 |  400 | iana-if-type    | 2014-05-08 | RFC 7224                |
-|        1500 |  100 | ietf-interfaces | 2014-05-08 | RFC 7223                |
-|        1600 |  100 | ietf-ip         | 2014-06-16 | RFC 7277                |
-|        1700 |  100 | ietf-system     | 2014-08-06 | RFC 7317                |
+|        1100 |  400 | iana-if-type    | 2014-05-08 | {{RFC7224}}             |
+|        1500 |  100 | ietf-interfaces | 2014-05-08 | {{RFC7223}}             |
+|        1600 |  100 | ietf-ip         | 2014-06-16 | {{RFC7277}}             |
+|        1700 |  100 | ietf-system     | 2014-08-06 | {{RFC7317}}             |
 {: align="left"}
 
 # Acknowledgments
