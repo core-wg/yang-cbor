@@ -353,7 +353,7 @@ CBOR encoding: 82  68 696574662e6f7267  68 696565652e6f7267
 
 ## The "list" Schema Node {#list}
 
-A list MUST be encoded using a CBOR array data item (major type 4). Each entry of this array is encoded using a CBOR map data item (major type 5) based on the same rules as a YANG container, see {{container}}.
+A list MUST be encoded using a CBOR array data item (major type 4). Each list instance within this CBOR array is encoded using a CBOR map data item (major type 5) based on the same rules as a YANG container, see {{container}}.
 
 Definition example {{RFC7317}}:
 
