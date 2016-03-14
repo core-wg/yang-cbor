@@ -1,6 +1,6 @@
-"""Tree output plugin
+"""sid plugin
 
-Idea copied from libsmi.
+Plugin used to generate or update .sid files.
 """
 
 import optparse
@@ -140,7 +140,7 @@ if the .sid file need to be updated.
 
    pyang --check-sid-file <file-name> <yang-module>
 
-The --list_sid option can included before any of the previous
+The --list_sid option can be included before any of the previous
 option to obtains the list of SIDs assigned or validated.
 
 For example:
@@ -494,7 +494,7 @@ class SidFile:
         if definition_removed:
             print("\nWARNING, obsolete definitions should be defined as 'deprecated' or 'obsolete'.")
         sys.stdout.write("\n")
-        
+
     ########################################################
     def list_deleted_items(self):
         definition_removed = False
