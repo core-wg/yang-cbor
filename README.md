@@ -2,7 +2,7 @@
 
 This is the working area for the Individual internet-draft, "CBOR Encoding of Data Modeled with YANG".
 
-* [Editor's copy](https://core-wg.github.io/yang-cbor/) [![Build Status](https://travis-ci.org/core-wg/yang-cbor.svg?branch=master)](https://travis-ci.org/core-wg/yang-cbor)
+* [Editor's copies](https://core-wg.github.io/yang-cbor/) [![Build Status](https://travis-ci.org/core-wg/yang-cbor.svg?branch=master)](https://travis-ci.org/core-wg/yang-cbor)
 * [Individual Draft] (https://tools.ietf.org/html/draft-veillette-core-yang-cbor-mapping-latest)
 
 
