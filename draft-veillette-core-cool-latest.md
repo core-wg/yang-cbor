@@ -71,8 +71,7 @@ author:
   email: ana@ackl.io
 normative:
   I-D.ietf-core-block: coap-block
-  I-D.bormann-core-coap-fetch: coap-fetch
-  I-D.vanderstok-core-patch: coap-patch
+  I-D.vanderstok-core-etch: coap-etch
   I-D.ietf-netmod-rfc6020bis: yang11
   RFC2119:
   RFC6020:
@@ -1012,11 +1011,11 @@ The Security Considerations section of CoAP {{RFC7252}} is especially relevant t
 
 ## "FETCH" CoAP Method Code
 
-This draft makes use of the PATCH CoAP method as defined in {{-coap-fetch}}. This method needs to be registered in the CoAP Method Codes sub-registry as defined in {{RFC7252}} section 12.1.1.
+This draft makes use of the PATCH CoAP method as defined in {{-coap-etch}}. This method needs to be registered in the CoAP Method Codes sub-registry as defined in {{RFC7252}} section 12.1.1.
 
 ## "PATCH" CoAP Method Code
 
-This draft makes use of the PATCH CoAP method as defined in {{-coap-patch}}. This method needs to be registered in the CoAP Method Codes sub-registry as defined in {{RFC7252}} section 12.1.1.
+This draft makes use of the PATCH CoAP method as defined in {{-coap-etch}}. This method needs to be registered in the CoAP Method Codes sub-registry as defined in {{RFC7252}} section 12.1.1.
 
 # Acknowledgments
 
