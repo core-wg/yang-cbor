@@ -577,9 +577,9 @@ CoAP response:
 2.04 Changed
 ~~~~
 
-## PATCH - Updating specific data nodes
+## iPATCH - Updating specific data nodes
 
-The PATCH method is used by CoOL clients to modify a subset of a datastore.
+The iPATCH method is used by CoOL clients to modify a subset of a datastore.
 
 To modify a datastore, the CoOL client sends a CoAP PATH request to the URI of the targeted datastore. The payload of the FETCH request contains the list of data node instance(s) to be updated, inserted or deleted. This list is encoded using a CBOR array and contains a sequence of pairs of "instance-identifier" and associated values.
 
@@ -595,7 +595,7 @@ On reception, the list is processed by the CoOL server as follows:
 
 On successful processing of the CoAP request, the CoOL server MUST return a CoAP response with a response code 2.05 (Content). 
 
-A PATCH request MUST be processed as an atomic transaction, if any of the data nodes transferred is rejected for any reasons, the entire PATCH request MUST be rejected and the CoOL server MUST return an appropriate error response as defined in section 6.
+A iPATCH request MUST be processed as an atomic transaction, if any of the data nodes transferred is rejected for any reasons, the entire iPATCH request MUST be rejected and the CoOL server MUST return an appropriate error response as defined in section 6.
 
 Example:
 
@@ -613,7 +613,7 @@ In this example, a CoOL client performs the following operations:
 CoAP request:
 
 ~~~~
-PATCH /c/r Content-Format(application/cool+cbor)
+iPATCH /c/r Content-Format(application/cool+cbor)
 [
   1742 , true,                         # enabled (1742)
   [1, "tac.nrc.ca"], null,             # server (SID 1743)
@@ -1011,11 +1011,11 @@ The Security Considerations section of CoAP {{RFC7252}} is especially relevant t
 
 ## "FETCH" CoAP Method Code
 
-This draft makes use of the PATCH CoAP method as defined in {{-coap-etch}}. This method needs to be registered in the CoAP Method Codes sub-registry as defined in {{RFC7252}} section 12.1.1.
+This draft makes use of the FETCH CoAP method as defined in {{-coap-etch}}. This method needs to be registered in the CoAP Method Codes sub-registry as defined in {{RFC7252}} section 12.1.1.
 
-## "PATCH" CoAP Method Code
+## "iPATCH" CoAP Method Code
 
-This draft makes use of the PATCH CoAP method as defined in {{-coap-etch}}. This method needs to be registered in the CoAP Method Codes sub-registry as defined in {{RFC7252}} section 12.1.1.
+This draft makes use of the iPATCH CoAP method as defined in {{-coap-etch}}. This method needs to be registered in the CoAP Method Codes sub-registry as defined in {{RFC7252}} section 12.1.1.
 
 # Acknowledgments
 
