@@ -1031,6 +1031,7 @@ The authors would also like to thank Carsten Bormann for his help during the dev
 Module containing the different definitions required by the CoOL protocol.
 
 ~~~~
+<CODE BEGINS> file "ietf-cool@ 2016-01-01.yang"
 module ietf-cool {
   namespace "urn:ietf:ns:cool";
   prefix cool;
@@ -1308,6 +1309,7 @@ module ietf-cool {
       "Cancels an ongoing scheduled or confirmed commit.";
   }
 }
+<CODE ENDS>
 ~~~~
 {: align="left"}
 
