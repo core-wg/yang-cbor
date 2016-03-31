@@ -223,8 +223,9 @@ If a new revision requires more SIDs than initially allocated, a new SID range M
 ".sid" files are used to persist and publish SIDs assigned to the different YANG items of a specific YANG module. The following YANG module defined the structure of this file, encoding is performed using the rules defined in {{I-D.ietf-netmod-yang-json}}.
 
 ~~~~
-module sid-file {
-  namespace "urn:ietf:ns:cool:sid-file";
+<CODE BEGINS> file "ietf-sid-file@2015-12-16.yang"
+module ietf-sid-file {
+  namespace "urn:ietf:params:xml:ns:yang:ietf-sid-file";
   prefix sid;
 
   organization
@@ -316,15 +317,15 @@ module sid-file {
        different items defined by the associated module.";
 
     leaf entry-point {
-      mandatory true;
       type uint32;
+      mandatory true;
       description
         "Lowest SID available for assignment.";
     }
 
     leaf size {
-      mandatory true;
       type uint16;
+      mandatory true;
       description
         "Number of SIDs available for assignment.";
     }
@@ -336,6 +337,10 @@ module sid-file {
       "List of items defined by the associated YANG module.";
 
     leaf type {
+      type string {
+        pattern 'identity$|node$|notification$|rpc$|action$';
+      }
+      mandatory true;
       description
         "Item type assigned, this field can be set to:
           - 'identity'
@@ -343,22 +348,18 @@ module sid-file {
           - 'notification'
           - 'rpc'
           - 'action'";
-      mandatory true;
-      type string {
-        pattern 'identity$|node$|notification$|rpc$|action$';
-      }
     }
 
     leaf assigned {
-      mandatory true;
       type date-and-time;
+      mandatory true;
       description
         "Date and time when this entry has been created.";
     }
 
     leaf label {
-      mandatory true;
       type string;
+      mandatory true;
       description
         "Label associated to this item, can be set to:
           - an identity encoded as: '<module name>:<entity name>'
@@ -366,12 +367,13 @@ module sid-file {
     }
 
     leaf sid {
-      mandatory true;
       type uint32;
+      mandatory true;
       description "Identifier assigned to this YANG item.";
     }
   }
 }
+<CODE ENDS>
 ~~~~
 {: align="left"}
 
