@@ -549,7 +549,7 @@ CoAP request:
 ~~~~
 PUT /c/r Content-Format(application/cool+cbor)
 [
-  1727, 540,                     # timezone-utc-offset (SID 1721)
+  1727, 540,                     # timezone-utc-offset (SID 1727)
   +15, true,                     # enabled (SID 1742)
   +1, [                          # server (SID 1743)
     {
