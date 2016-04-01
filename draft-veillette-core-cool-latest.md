@@ -272,17 +272,17 @@ CoAP response:
 [
   1529, 
     {
-     4 : "eth0",             # name (SID 1533)
-     1 : "Ethernet adaptor", # description (SID 1530)
-     5 : 1179,               # type (SID 1534), identity ethernetCsmacd
-     2 : true                # enabled (SID 1531)
+     +4 : "eth0",             # name (SID 1533)
+     +1 : "Ethernet adaptor", # description (SID 1530)
+     +5 : 1179,               # type (SID 1534), identity ethernetCsmacd
+     +2 : true                # enabled (SID 1531)
     },
-  179,                       # clock (SID 1708)
+  +179,                       # clock (SID 1708)
     {
-      1 : "2015-02-08T14:10:08Z09:00",  # boot-datetime (SID 1709)
-      2 : "2015-04-04T09:32:51Z09:00"   # current-datetime (SID 1710)
+      +1 : "2015-02-08T14:10:08Z09:00",  # boot-datetime (SID 1709)
+      +2 : "2015-04-04T09:32:51Z09:00"   # current-datetime (SID 1710)
     }
-  13, 60                     # timezone-utc-offset (SID 1721)
+  +13, 60                     # timezone-utc-offset (SID 1721)
 ]
 ~~~~
 
@@ -312,7 +312,7 @@ CoAP request:
 
 ~~~~
 FETCH /c Content-Format(application/cool+cbor)
-[1704, 15]
+[1704, +15]
 ~~~~
 
 CoAP response:
@@ -322,7 +322,7 @@ CoAP response:
 [
   "2015-10-08T14:10:08Z09:00",    # current-datetime (SID 1704)
   {                               # clock (SID 1719)
-    2 : 540                       # timezone-utc-offset (SID 1721)
+    +2 : 540                     # timezone-utc-offset (SID 1721)
   }
 ]
 ~~~~
@@ -418,16 +418,16 @@ CoAP response:
 2.05 Content Content-Format(application/cool+cbor)
 [
   {
-    4 : "eth0",             # name (SID 1533)
-    1 : "Ethernet adaptor", # description (SID 1530)
-    5 : 1179,               # type (SID 1534), identity ethernetCsmacd
-    2 : true                # enabled (SID 1531)
+    +4 : "eth0",             # name (SID 1533)
+    +1 : "Ethernet adaptor", # description (SID 1530)
+    +5 : 1179,               # type (SID 1534), identity ethernetCsmacd
+    +2 : true                # enabled (SID 1531)
   },
   {
-    4 : "wlan0",            # name (SID 1533)
-    1 : "WIFI ",            # description (SID 1530)
-    5 : 1220,               # type (SID 1534), identity ieee80211
-    2 : false               # enabled (SID 1531)
+    +4 : "wlan0",            # name (SID 1533)
+    +1 : "WIFI ",            # description (SID 1530)
+    +5 : 1220,               # type (SID 1534), identity ieee80211
+    +2 : false               # enabled (SID 1531)
   }
 ]
 ~~~~
@@ -450,10 +450,10 @@ CoAP response:
 ~~~~
 2.05 Content Content-Format(application/cool+cbor)
 {
-  4 : "eth0"               # name (SID 1533)
-  1 : "Ethernet adaptor"   # description (SID 1530)
-  5 : 1179                 # type (SID 1534), identity ethernetCsmacd
-  2 : true                 # enabled (SID 1531)
+  +4 : "eth0"               # name (SID 1533)
+  +1 : "Ethernet adaptor"   # description (SID 1530)
+  +5 : 1179                 # type (SID 1534), identity ethernetCsmacd
+  +2 : true                 # enabled (SID 1531)
 }
 ~~~~
 
@@ -471,7 +471,7 @@ CoAP request:
 
 ~~~~
 FETCH /c Content-Format(application/cool+cbor)
-[ [1528, ["eth0"], [5, 2]], 211]
+[ [1528, ["eth0"], [+5, +2]], +211]
 ~~~~
 
 CoAP response:
@@ -480,10 +480,10 @@ CoAP response:
 2.05 Content Content-Format(application/cool+cbor)
 [
   {
-    5 : 1179,             # type (SID 1533), identity ethernetCsmacd
-    2 : true              # enabled (SID 1530)
+    +5 : 1179,             # type (SID 1533), identity ethernetCsmacd
+    +2 : true              # enabled (SID 1530)
   },
-  "datatracker.ietf.org", # hostname (SID 1739)
+  "datatracker.ietf.org",  # hostname (SID 1739)
 ]
 ~~~~
 
@@ -549,22 +549,22 @@ CoAP request:
 ~~~~
 PUT /c/r Content-Format(application/cool+cbor)
 [
-  1727, 540,                    # timezone-utc-offset (SID 1721)
-  15, true,                     # enabled (SID 1742)
-  1, [                          # server (SID 1743)
+  1727, 540,                     # timezone-utc-offset (SID 1721)
+  +15, true,                     # enabled (SID 1742)
+  +1, [                          # server (SID 1743)
     {
-      3 : "tic.nrc.ca",         # name (SID 1746)
-      4 : true,                 # prefer (SID 1747)
-      5 : {                     # udp (SID 1748)
-        6 : "132.246.11.231",   # address (SID 1749)
-        7 : 123                 # port (SID 1750)
+      +3 : "tic.nrc.ca",         # name (SID 1746)
+      +4 : true,                 # prefer (SID 1747)
+      +5 : {                     # udp (SID 1748)
+        +6 : "132.246.11.231",   # address (SID 1749)
+        +7 : 123                 # port (SID 1750)
       }
     },
     {
-      3 : "tac.nrc.ca",         # name (SID 1746)
-      4 : false,                # prefer (SID 1747)
-      5 : {                     # udp (SID 1748)
-        6 : "132.246.11.232"    # address (SID 1749)
+      +3 : "tac.nrc.ca",         # name (SID 1746)
+      +4 : false,                # prefer (SID 1747)
+      +5 : {                     # udp (SID 1748)
+        +6 : "132.246.11.232"    # address (SID 1749)
       }
     }
   ] 
@@ -615,17 +615,17 @@ CoAP request:
 ~~~~
 iPATCH /c/r Content-Format(application/cool+cbor)
 [
-  1742 , true,                         # enabled (1742)
-  [1, "tac.nrc.ca"], null,             # server (SID 1743)
-  0,                                   # server (SID 1743)
+  1742 , true,                          # enabled (1742)
+  [+1, "tac.nrc.ca"], null,             # server (SID 1743)
+  +0,                                   # server (SID 1743)
     {
-      3 : "NTP Pool server 2",         # name (SID 1746)
-      4 : true,                        # prefer (SID 1747)
-      5 : {                            # udp (SID 1748)
-        6 : "2620:10a:800f::11",       # address (SID 1749)
+      +3 : "NTP Pool server 2",         # name (SID 1746)
+      +4 : true,                        # prefer (SID 1747)
+      +5 : {                            # udp (SID 1748)
+        +6 : "2620:10a:800f::11",       # address (SID 1749)
       }
     }
-  [4, "tic.nrc.ca"], false             # prefer (SID 1747)
+  [+4, "tic.nrc.ca"], false             # prefer (SID 1747)
 ]
 ~~~~
 
@@ -669,7 +669,7 @@ POST /c Content-Format(application/cool+cbor)
 [
   1932,
   {
-    1 : "acmefw-2.3"                   # image-name (SID 1933)
+    +1 : "acmefw-2.3"                   # image-name (SID 1933)
   }
 ]
 ~~~~
@@ -679,7 +679,7 @@ CoAP response:
 ~~~~
 2.05 Content
 {
-  2 : "installed"                      # status (SID 1934)
+  +2 : "installed"                      # status (SID 1934)
 }
 ~~~~
 
@@ -715,7 +715,7 @@ POST /c Content-Format(application/cool+cbor)
 [
   [1902, "myServer"],
   {
-    1 : "2016-02-08T14:10:08Z09:00"    # reset-at (SID 1903)
+    +1 : "2016-02-08T14:10:08Z09:00"    # reset-at (SID 1903)
   }
 ]
 ~~~~
@@ -725,7 +725,7 @@ CoAP response:
 ~~~~
 2.05 Content
 {
-  2 : "2016-08T14:10:08Z09:18"         # reset-finished-at (SID 1904)
+  +2 : "2016-08T14:10:08Z09:18"         # reset-finished-at (SID 1904)
 }
 ~~~~
 
@@ -827,10 +827,10 @@ CoAP response:
 Content-Format(application/cool+cbor)
 [
   1010 , [1538, "eth0"],             # _id (SID 1010)
-  1,{                                # content (SID 1011)
-    1 : "bob"                        # by-user  (SID 1539)
+  +1,{                                # content (SID 1011)
+    +1 : "bob"                        # by-user  (SID 1539)
   }
-  5 , "2016-03-08T14:10:08Z09:00",   # timestamp (SID 1015)
+  +5 , "2016-03-08T14:10:08Z09:00",   # timestamp (SID 1015)
 ]
 ~~~~
 
@@ -844,18 +844,18 @@ Content-Format(application/cool+cbor)
 [
   [
     1010 , [1538, "eth0"],      # _id = interface-enabled (SID 1010)
-    1,{                         # content (SID 1011)
-      1 : "jack"                # by-user (SID 1539)
+    +1,{                         # content (SID 1011)
+      +1 : "jack"                # by-user (SID 1539)
     }
-    5 , "2016-03-12T15:49:51Z09:00",  # timestamp (SID 1015)
+    +5 , "2016-03-12T15:49:51Z09:00",  # timestamp (SID 1015)
   ],
   [
-    1010 , 1942,                # _id = link-failure (SID 1010)
-    1,{                         # content (SID 1011)
-      1 : "eth0",               # if-name (SID 1943)
-      1 : 1                     # admin-status = up (SID 1944)
+    +1010 , 1942,                # _id = link-failure (SID 1010)
+    +1,{                         # content (SID 1011)
+      +1 : "eth0",               # if-name (SID 1943)
+      +1 : 1                     # admin-status = up (SID 1944)
     }
-    5 , "2016-03-12T15:50:06Z09:00",  # timestamp (SID 1015)
+    +5 , "2016-03-12T15:50:06Z09:00",  # timestamp (SID 1015)
   ]
 ]
 ~~~~
@@ -993,8 +993,8 @@ CoAP response:
 4.00 Bad Request (Content-Format: application/cool+cbor)
 [
   1006 , {
-    1 : 2,                                  # error-code, SID 1007
-    2 : "Unknown data node 69687"           # error-text, SID 1008
+    +1 : 2,                                  # error-code, SID 1007
+    +2 : "Unknown data node 69687"           # error-text, SID 1008
   }
 ]
 ~~~~
