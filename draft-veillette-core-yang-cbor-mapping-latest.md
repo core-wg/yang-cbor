@@ -245,8 +245,8 @@ CBOR diagnostic notation:
 ~~~~ CBORdiag
 {
   1708 : {                              # clock
-    2 : "2015-10-02T14:47:24Z-05:00",   # current-datetime, SID 1710
-    1 : "2015-09-15T09:12:58Z-05:00"    # boot-datetime, SID 1709
+    +2 : "2015-10-02T14:47:24Z-05:00",  # current-datetime, SID 1710
+    +1 : "2015-09-15T09:12:58Z-05:00"   # boot-datetime, SID 1709
   }
 }
 ~~~~
@@ -408,8 +408,8 @@ CBOR diagnostic notation:
   {
     1746 : "NRC TIC server",          # name
     1748 : {                          # udp
-      1 : "tic.nrc.ca",               # address, SID 1749
-      2 : 123                         # port, SID 1750
+      +1 : "tic.nrc.ca",              # address, SID 1749
+      +2 : 123                        # port, SID 1750
     },
     1744 : 0,                         # association-type
     1745 : false,                     # iburst
@@ -418,7 +418,7 @@ CBOR diagnostic notation:
   {
     1746 : "NRC TAC server",          # name
     1748 : {                          # udp
-      1 : "tac.nrc.ca"                # address, SID 1749
+      +1 : "tac.nrc.ca"               # address, SID 1749
     }
   }
 ]
