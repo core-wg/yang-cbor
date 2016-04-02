@@ -153,7 +153,7 @@ Within this document, CBOR binary contents are represented using an equivalent t
 
 | CBOR content     | CBOR type | Diagnostic notation                                                     | Example            | CBOR encoding      |
 |------------------+-----------+-------------------------------------------------------------------------+--------------------+--------------------|
-| Unsigned integer |         0 | Decimal digits                                                          | 123                | 18 7b              |
+| Unsigned integer |         0 | Decimal digits                                                          | 123 or +123        | 18 7b              |
 | Negative integer |         1 | Decimal digits prefixed by a minus sign                                 | -123               | 38 7a              |
 | Byte string      |         2 | Hexadecimal value enclosed between single quotes and prefixed by an 'h' | h'f15c'            | 42 f15c            |
 | Text string      |         3 | String of Unicode characters enclosed between double quotes             | "txt"              | 63 747874          |
