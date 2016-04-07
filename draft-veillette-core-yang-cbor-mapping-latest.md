@@ -165,7 +165,11 @@ Within this document, CBOR binary contents are represented using an equivalent t
 | Not assigned     |      7/23 | undefined                                                               | undefined          | f7                 |
 {: align="left"}
 
-Within this document, comments are allowed in CBOR diagnostic notation. Any characters after a Pound sign ('#') outside of a string, up to the end of the line, are treated as a comment.
+The following extensions to the CBOR diagnostic notation are supported:
+
+* Comments can be added to the end of each line. Any characters after a Pound sign (‘#’) outside of a string, up to the end of the line, are treated as a comment.
+
+* Deltas are represented as positive numbers (e.g. +123).
 
 # Properties of the CBOR Encoding
 
