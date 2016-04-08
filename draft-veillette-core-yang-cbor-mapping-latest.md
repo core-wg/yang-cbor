@@ -815,7 +815,7 @@ This specification supports two approaches for encoding identityref, a SID as de
 
 **SIDs as identityref**
 
-SIDs are globally unique and may be used as identityref.  This approach is both compact and simple to implement. When SIDs are used, identityref MUST be encoded using a CBOR unsigned integer data item (major type 0) and set to a SID allocated from a registered SID range.
+SIDs are globally unique and can be used as identityref. This approach is both compact and simple to implement. When SIDs are used, identityref MUST be encoded using a CBOR unsigned integer data item (major type 0) or CBOR signed integer (major type 1), depending on the actual value. The value represents the delta between the identity SID and the SID of the assigned leaf.
 
 **Name as identityref**
 
@@ -844,11 +844,11 @@ leaf type {
 
 **SIDs as identityref**
 
-Assuming that the identity "iana-if-type:ethernetCsmacd" has been assigned to the SID value 1179.
+Assuming that the identity “iana-if-type:ethernetCsmacd” (SID 1179) is assigned to leaf "/interfaces-state/interface/type" (SID 1528).
 
-CBOR diagnostic notation: 1179
+CBOR diagnostic notation: -349
 
-CBOR encoding: 19 049b
+CBOR encoding: 39 015c
 
 **Name as identityref**
 
