@@ -890,7 +890,7 @@ This option MUST be supported as specified by {{RFC6690}}. Each ETag is associat
 
 When the UDP transport is used and a large payload need to be transferred, support of the CoAP block transfer as defined by {{-coap-block}} is recommended.
 
-6.8. Working with Observe
+## Working with Observe
 
 A CoOL server MAY support state change notifications to some or all its leaf data nodes. When supported the CoOL server MUST implement the Server-Side requirements defined in {{RFC7641}} section 3 and the CoOL client MUST implement the Client-Side requirements defined in {{RFC7641}} section 4.
 
