@@ -11,7 +11,7 @@
     {
       "type": "identity",
       "assigned": "2016-01-13T21:00:06Z",
-      "label": "ietf-interfaces:interface-type",
+      "label": "/interface-type",
       "sid": 1500
     },
     {

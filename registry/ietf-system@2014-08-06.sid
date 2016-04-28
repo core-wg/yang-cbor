@@ -11,37 +11,37 @@
     {
       "type": "identity",
       "assigned": "2016-01-13T21:00:19Z",
-      "label": "ietf-system:authentication-method",
+      "label": "/authentication-method",
       "sid": 1700
     },
     {
       "type": "identity",
       "assigned": "2016-01-13T21:00:19Z",
-      "label": "ietf-system:local-users",
+      "label": "/authentication-method/local-users",
       "sid": 1701
     },
     {
       "type": "identity",
       "assigned": "2016-01-13T21:00:19Z",
-      "label": "ietf-system:radius",
+      "label": "/authentication-method/radius",
       "sid": 1702
     },
     {
       "type": "identity",
       "assigned": "2016-01-13T21:00:19Z",
-      "label": "ietf-system:radius-authentication-type",
+      "label": "/radius-authentication-type",
       "sid": 1703
     },
     {
       "type": "identity",
       "assigned": "2016-01-13T21:00:19Z",
-      "label": "ietf-system:radius-chap",
+      "label": "/radius-authentication-type/radius-chap",
       "sid": 1704
     },
     {
       "type": "identity",
       "assigned": "2016-01-13T21:00:19Z",
-      "label": "ietf-system:radius-pap",
+      "label": "/radius-authentication-type/radius-pap",
       "sid": 1705
     },
     {

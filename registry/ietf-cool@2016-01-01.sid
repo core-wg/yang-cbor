@@ -11,37 +11,37 @@
     {
       "type": "identity",
       "assigned": "2016-03-08T21:59:45Z",
-      "label": "ietf-cool:application",
+      "label": "/facility-type",
       "sid": 1000
     },
     {
       "type": "identity",
       "assigned": "2016-03-08T21:59:45Z",
-      "label": "ietf-cool:facility-type",
+      "label": "/facility-type/application",
       "sid": 1001
     },
     {
       "type": "identity",
       "assigned": "2016-03-08T21:59:45Z",
-      "label": "ietf-cool:hardware-monitoring",
+      "label": "/facility-type/hardware-monitoring",
       "sid": 1002
     },
     {
       "type": "identity",
       "assigned": "2016-03-08T21:59:45Z",
-      "label": "ietf-cool:os",
+      "label": "/facility-type/os",
       "sid": 1003
     },
     {
       "type": "identity",
       "assigned": "2016-03-08T21:59:45Z",
-      "label": "ietf-cool:protocol-stack",
+      "label": "/facility-type/protocol-stack",
       "sid": 1004
     },
     {
       "type": "identity",
       "assigned": "2016-03-08T21:59:45Z",
-      "label": "ietf-cool:security",
+      "label": "/facility-type/security",
       "sid": 1005
     },
     {

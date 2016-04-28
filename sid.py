@@ -384,7 +384,7 @@ class SidFile:
                 self.collect_inner_data_nodes(children.i_children)
 
         for identity in module.i_identities:
-                self.merge_item('identity', "%s:%s" % (module.i_modulename, identity))
+                self.merge_item('identity', "/%s%s" % (self.get_base_identity(module.i_identities[identity]), identity))
 
         for substmt in module.substmts:
             if substmt.keyword == 'augment':
@@ -401,6 +401,15 @@ class SidFile:
 
             if statement.keyword == 'choice' or statement.keyword == 'case':
                 self.collect_inner_data_nodes(statement.i_children)
+
+    def get_base_identity(self, identity):
+        for substmts in identity.substmts:
+            if substmts.keyword == 'base':
+                if substmts.arg.find(':') == -1:
+                    return "%s/" % substmts.arg
+                else:
+                    return "%s/" % substmts.arg[substmts.arg.find(':')+1: ]
+        return ""
 
     def getType(self, statement):
         if statement.keyword == "rpc":
