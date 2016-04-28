@@ -821,40 +821,43 @@ SIDs are globally unique and can be used as identityref. This approach is both c
 
 Alternatively, an identityref may be encoded using a name as defined in {{I-D.ietf-netmod-yang-json}} section 6.8.  When names are used, identityref MUST be encoded using a CBOR text string data item (major type 3). If the identity is defined in another module than the leaf node containing the identityref value, the namespace-qualified form MUST be used. Otherwise, both the simple and namespace-qualified forms are permitted.
 
-Definition example {{RFC7223}}:
+Definition example {{RFC7317}}:
 
 ~~~~ yang
-identity interface-type {
+identity radius-authentication-type {
+  description
+    "Base identity for RADIUS authentication types.";
 }
 
-identity iana-interface-type {
-  base interface-type;
+identity radius-chap {
+  base radius-authentication-type;
 }
 
-identity ethernetCsmacd {
-  base iana-interface-type;
+identity radius-pap {
+  base radius-authentication-type;
 }
 
-leaf type {
+leaf authentication-type {
   type identityref {
-    base interface-type;
+    base radius-authentication-type;
   }
 }
 ~~~~
 
 **SIDs as identityref**
 
-This example represents the encoding of identity "ethernetCsmacd" (SID 1179) assuming the base identity "interface-type"(SID 1500).
+This example represents the encoding of identity "radius-pap" (SID 1705) assuming the base identity "radius-authentication-type"(SID 1703).
 
-CBOR diagnostic notation: -349
 
-CBOR encoding: 39 015c
+CBOR diagnostic notation: 2
+
+CBOR encoding: 02
 
 **Name as identityref**
 
-CBOR diagnostic notation: "iana-if-type:ethernetCsmacd"
+CBOR diagnostic notation: "ietf-system:radius-pap"
 
-CBOR encoding: 78 1b  69616e612d69662d747970653a65746865726e657443736d616364
+CBOR encoding: 76 696574662d73797374656d3a7261646975732d706170
 
 ## The "empty" Type
 
