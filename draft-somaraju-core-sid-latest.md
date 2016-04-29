@@ -397,7 +397,7 @@ IANA is requested to create a registry for Structure Identifier (SID) ranges. Th
 
 The IANA policy for this registry is split into four tiers as follows:
 
-*	The range of 0 to 9999 and 0x40000000 to 0xFFFFFFFFFFFFFFFF are reserved for future extensions of this protocol. Allocation within these ranges require IETF review or IESG approval.
+*	The range of 0 to 999 and 0x40000000 to 0xFFFFFFFFFFFFFFFF are reserved for future extensions of this protocol. Allocation within these ranges require IETF review or IESG approval.
 
 *	The range of 1000 to 59999 is reserved for standardized YANG modules. Allocation within this range requires publishing of the associated ".yang" and ".sid" files.  (Specification required.)
 
