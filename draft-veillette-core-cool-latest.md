@@ -296,9 +296,9 @@ SIDs within the list of "instance-identifier" are encoded using delta. A delta r
 
 On successful processing of the CoAP request, the CoOL server MUST return a CoAP response with a response code 2.05 (Content). 
 
-When a single data node is requested, the payload of the GET response MUST carry the data node instance requested encoded using the rules defined in {{-yang-cbor-mapping}}.
+When a single data node is requested, the payload of the FETCH response MUST carry the data node instance requested encoded using the rules defined in {{-yang-cbor-mapping}}.
 
-When a multiple data nodes are requested, the payload of the GET response MUST carry a CBOR array containing the data node instance(s) requested. Each entry within this array MUST be encoding using the rules defined in {{-yang-cbor-mapping}}.
+When a multiple data nodes are requested, the payload of the FETCH response MUST carry a CBOR array containing the data node instance(s) requested. Each entry within this array MUST be encoding using the rules defined in {{-yang-cbor-mapping}}.
 
 When a collection is returned (YANG container, YANG list or YANG list instance), delta(s) are computed using the requested SID as parent.
 
