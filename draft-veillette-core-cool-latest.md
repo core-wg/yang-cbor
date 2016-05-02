@@ -257,7 +257,7 @@ In this example, the CoOL server returns a datastore containing the following da
 
 * "/system-state/clock/current-datetime" (SID 1710)
 
-* "/system/clock/timezone/timezone-utc-offset/timezone-utc-offset" (SID 1721)
+* "/system/clock/timezone/timezone-utc-offset/timezone-utc-offset" (SID 1727)
 
 CoAP Request:
 
@@ -282,7 +282,7 @@ CoAP response:
       +1 : "2015-02-08T14:10:08Z09:00",  # boot-datetime (SID 1709)
       +2 : "2015-04-04T09:32:51Z09:00"   # current-datetime (SID 1710)
     }
-  +13, 60                     # timezone-utc-offset (SID 1721)
+  +19, 60                     # timezone-utc-offset (SID 1727)
 ]
 ~~~~
 
@@ -306,7 +306,7 @@ The CBOR value undefined (0xf7) must be returned for each data node requested bu
 
 ### Example #1 - Simple data node
 
-In this example, a CoOL client retrieves the leaf "/system-state/clock/current-datetime" (SID 1704) and the container "/system/clock" (SID 1719) containing the leaf "/system/clock/timezone/timezone-utc-offset/timezone-utc-offset" (SID 1721). These data nodes are defined in the YANG module "ietf-system" {{RFC7317}}.
+In this example, a CoOL client retrieves the leaf "/system-state/clock/current-datetime" (SID 1704) and the container "/system/clock" (SID 1719) containing the leaf "/system/clock/timezone/timezone-utc-offset/timezone-utc-offset" (SID 1727). These data nodes are defined in the YANG module "ietf-system" {{RFC7317}}.
 
 CoAP request:
 
@@ -322,7 +322,7 @@ CoAP response:
 [
   "2015-10-08T14:10:08Z09:00",    # current-datetime (SID 1704)
   {                               # clock (SID 1719)
-    +2 : 540                     # timezone-utc-offset (SID 1721)
+    +8 : 540                     # timezone-utc-offset (SID 1727)
   }
 ]
 ~~~~
@@ -335,7 +335,7 @@ CoAP request:
  0                   1                   2                   3
  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-|Ver| T |  TKL  |  Code (0x01)  |          Message ID           |
+|Ver| T |  TKL  |  Code (0x05)  |          Message ID           |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |   Token (0 to 8 bytes) ...
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
@@ -383,13 +383,13 @@ CoAP response:
 
 ### Example #2 - Data node instance within a YANG list
 
-The data type "instance-identifier" allows the selection of an instance of a specific data node within a list. In this example, a CoOL client retrieves the "/interfaces/interface/type" (SID 1529) leaf from the "/interfaces/interface" list. The "/interfaces/interface/name" associated to this interface is equal to "eth0". This example is based on the YANG module "ietf-interfaces" {{RFC7223}}.
+The data type "instance-identifier" allows the selection of an instance of a specific data node within a list. In this example, a CoOL client retrieves the "/interfaces/interface/description" (SID 1530) leaf from the "/interfaces/interface" list. The "/interfaces/interface/name" associated to this interface is equal to "eth0". This example is based on the YANG module "ietf-interfaces" {{RFC7223}}.
 
 CoAP request:
 
 ~~~~
 FETCH /c Content-Format(application/cool+cbor)
-[[1529, "eth0"]]
+[[1530, "eth0"]]
 ~~~~
 
 CoAP response:
@@ -436,13 +436,13 @@ CoAP response:
 
 To retrieve a list instance, the CoOL client MUST use an "instance-identifier" with a SID set to the targeted list and the key(s) set to the value(s) associated to the targeted instance.
 
-In this example, the CoOL client requests the instance of the list "/interfaces/interface" (SID 1529) associated to the name "eth1". The response returned by the CoOL server contains the targeted list instance formatted as YANG container.
+In this example, the CoOL client requests the instance of the list "/interfaces/interface" (SID 1529) associated to the name "eth0". The response returned by the CoOL server contains the targeted list instance formatted as YANG container.
 
 CoAP request:
 
 ~~~~
 FETCH /c Content-Format(application/cool+cbor)
-[[1529, "eth1"]
+[[1529, "eth0"]
 ~~~~
 
 CoAP response:
@@ -463,7 +463,7 @@ This "instance-identifier" extension allows the selection of a subset of data no
 
 CoOL servers SHOULD implement this "instance-identifier" extension. When this extension is not supported, the CoOL server MUST ignore the third element of the "instance-identifier" and return the list instance as specified by the first two elements of the "instance-identifier".
 
-In this example, a CoOL client retrieves from within the "/interfaces/interface" list (SID 1528) the leafs "/interfaces/interface/type" (SID 1533) and "/interfaces/interface/enabled" (SID 1530). The CoOL client also includes in this request the selection of the leaf "/system/hostname" defined in "ietf-system" {{RFC7317}}.
+In this example, a CoOL client retrieves from within the "/interfaces/interface" list (SID 1529) the leafs "/interfaces/interface/type" (SID 1534) and "/interfaces/interface/enabled" (SID 1531). The CoOL client also includes in this request the selection of the leaf "/system/hostname" (SID 1739) defined in "ietf-system" {{RFC7317}}.
 
 For example:
 
@@ -471,7 +471,7 @@ CoAP request:
 
 ~~~~
 FETCH /c Content-Format(application/cool+cbor)
-[ [1528, ["eth0"], [+5, +2]], +211]
+[ [1529, "eth0", [+5, +2]], +210]
 ~~~~
 
 CoAP response:
@@ -480,8 +480,8 @@ CoAP response:
 2.05 Content Content-Format(application/cool+cbor)
 [
   {
-    +5 : 1179,             # type (SID 1533), identity ethernetCsmacd
-    +2 : true              # enabled (SID 1530)
+    +5 : 1179,             # type (SID 1534), identity ethernetCsmacd
+    +2 : true              # enabled (SID 1531)
   },
   "datatracker.ietf.org",  # hostname (SID 1739)
 ]
@@ -493,7 +493,7 @@ This "instance-identifier" extension allows the efficient transfer of all instan
 
 The response MUST be encoded as a CBOR ARRAY containing the available instances of the requested data node. This special encoding minimizes significantly this commonly used type of request.
 
-In this example, a CoOL client retrieves all instances of data node "/interfaces-state/interface/name" (SID 1532).
+In this example, a CoOL client retrieves all instances of data node "/interfaces/interface/name" (SID 1533).
 
 Example:
 
@@ -501,7 +501,7 @@ CoAP request:
 
 ~~~~
 FETCH /c Content-Format(application/cool+cbor)
-[1532]
+[1533]
 ~~~~
 
 CoAP response:
@@ -527,7 +527,7 @@ Example:
 
 In this example, a CoOL client sets the default runtime datastore with these data nodes:
 
-* "/system/clock/timezone/timezone-utc-offset/timezone-utc-offset" (SID 1721)
+* "/system/clock/timezone/timezone-utc-offset/timezone-utc-offset" (SID 1727)
 
 * "/system/ntp/enabled" (SID 1742)
 
@@ -556,15 +556,15 @@ PUT /c/r Content-Format(application/cool+cbor)
       +3 : "tic.nrc.ca",         # name (SID 1746)
       +4 : true,                 # prefer (SID 1747)
       +5 : {                     # udp (SID 1748)
-        +6 : "132.246.11.231",   # address (SID 1749)
-        +7 : 123                 # port (SID 1750)
+        +1 : "132.246.11.231",   # address (SID 1749)
+        +2 : 123                 # port (SID 1750)
       }
     },
     {
       +3 : "tac.nrc.ca",         # name (SID 1746)
       +4 : false,                # prefer (SID 1747)
       +5 : {                     # udp (SID 1748)
-        +6 : "132.246.11.232"    # address (SID 1749)
+        +1 : "132.246.11.232"    # address (SID 1749)
       }
     }
   ] 
@@ -622,7 +622,7 @@ iPATCH /c/r Content-Format(application/cool+cbor)
       +3 : "NTP Pool server 2",         # name (SID 1746)
       +4 : true,                        # prefer (SID 1747)
       +5 : {                            # udp (SID 1748)
-        +6 : "2620:10a:800f::11",       # address (SID 1749)
+        +1 : "2620:10a:800f::11",       # address (SID 1749)
       }
     }
   [+4, "tic.nrc.ca"], false             # prefer (SID 1747)
