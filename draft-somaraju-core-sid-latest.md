@@ -149,7 +149,7 @@ Assignment of SIDs can be automated, the recommended process to assign SIDs is a
 
 *	The list of items is ordered by type and label.
 
-*	SIDs are assigned sequentially for the entry point up to the size of the registered SID range. When multiple ranges are assigned to a YANG module, SIDs need to be assigned sequentially within all these ranges. It is important to note that sequentially assigning SIDs optimizes the CBOR serialization due to the use of delta encoding.
+*	SIDs are assigned sequentially for the entry point up to the size of the registered SID range. It is important to note that sequentially assigning SIDs optimizes the CBOR serialization due to the use of delta encoding.
 
 *	If the number of items exceeds the SID range(s) allocated to a YANG module, an extra range is added for subsequent assignments.
 
