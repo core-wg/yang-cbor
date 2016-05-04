@@ -153,7 +153,7 @@ Assignment of SIDs can be automated, the recommended process to assign SIDs is a
 
 *	If the number of items exceeds the SID range(s) allocated to a YANG module, an extra range is added for subsequent assignments.
 
-SIDs are assigned permanently, items introduced by a new revision of a YANG module are added to the list of SIDs already assigned. This process can also be automated using the same method described above except that the assignment restart for the highest SID already assigned.
+SIDs are assigned permanently, items introduced by a new revision of a YANG module are added to the list of SIDs already assigned. This process can also be automated using the same method described above except that the assignment need to be restarted from the highest SID already assigned.
 
 {{sid-file-format}} defines a standard file format used to store and publish SIDs.
 
