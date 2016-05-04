@@ -149,11 +149,13 @@ Assignment of SIDs can be automated, the recommended process to assign SIDs is a
 
 *	The list of items is ordered by type and label.
 
-*	SIDs are assigned sequentially for the entry point up to the size of the registered SID range. It is important to note that sequentially assigning SIDs optimizes the CBOR serialization due to the use of delta encoding.
+*	SIDs are assigned sequentially for the entry point up to the size of the registered SID range. When multiple ranges are assigned to a YANG module, SIDs need to be assigned sequentially within all these ranges. It is important to note that sequentially assigning SIDs optimizes the CBOR serialization due to the use of delta encoding.
 
 *	If the number of items exceeds the SID range(s) allocated to a YANG module, an extra range is added for subsequent assignments.
 
-*	SIDs are assigned permanently, items introduced by a new revision of a YANG module are added to the list of SIDs already assigned. {{sid-file-format}} defines a standard file format used to store and publish SIDs.
+SIDs are assigned permanently, items introduced by a new revision of a YANG module are added to the list of SIDs already assigned. This process can also be automated using the same method described above except that the assignment restart for the highest SID already assigned.
+
+{{sid-file-format}} defines a standard file format used to store and publish SIDs.
 
 # ".sid" file lifecycle  {#sid-lifecycle}
 
@@ -362,7 +364,8 @@ module ietf-sid-file {
       mandatory true;
       description
         "Label associated to this item, can be set to:
-          - an identity encoded as: '<module name>:<entity name>'
+          - a base identity encoded as '/<base identity name>'
+          - an identity encoded as '/<base identity name>/<identity name>'
           - a schema node path";
     }
 
@@ -478,37 +481,37 @@ The following .sid file (ietf-system@2014-08-06.sid) have been generated using t
     {
       "type": "identity",
       "assigned": "2016-01-13T21:00:19Z",
-      "label": "ietf-system:authentication-method",
+      "label": "/authentication-method",
       "sid": 1700
     },
     {
       "type": "identity",
       "assigned": "2016-01-13T21:00:19Z",
-      "label": "ietf-system:local-users",
+      "label": "/authentication-method/local-users",
       "sid": 1701
     },
     {
       "type": "identity",
       "assigned": "2016-01-13T21:00:19Z",
-      "label": "ietf-system:radius",
+      "label": "/authentication-method/radius",
       "sid": 1702
     },
     {
       "type": "identity",
       "assigned": "2016-01-13T21:00:19Z",
-      "label": "ietf-system:radius-authentication-type",
+      "label": "/radius-authentication-type",
       "sid": 1703
     },
     {
       "type": "identity",
       "assigned": "2016-01-13T21:00:19Z",
-      "label": "ietf-system:radius-chap",
+      "label": "/radius-authentication-type/radius-chap",
       "sid": 1704
     },
     {
       "type": "identity",
       "assigned": "2016-01-13T21:00:19Z",
-      "label": "ietf-system:radius-pap",
+      "label": "/radius-authentication-type/radius-pap",
       "sid": 1705
     },
     {
