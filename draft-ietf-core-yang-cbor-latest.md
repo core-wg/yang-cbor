@@ -1,12 +1,12 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-veillette-core-yang-cbor-mapping-00
+docname: draft-ietf-core-yang-cbor-00
 title: CBOR Encoding of Data Modeled with YANG
 area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
 kw: CBOR
-cat: info
+cat: std
 pi:
   strict: 'yes'
   toc: 'yes'
