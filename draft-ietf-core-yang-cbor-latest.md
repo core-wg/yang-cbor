@@ -886,17 +886,17 @@ Leafs of type union MUST be encoded using the rules associated with one of the t
 When use in a union, the following list of YANG datatypes are prefixed by CBOR tag to avoid confusion
 between different YANG datatypes encoded using the same CBOR major type.
 
-o bits
+* bits
 
-o decimal64
+* decimal64
 
-o enumeration
+* enumeration
 
-o identityref
+* identityref
 
-o instance-identifier
+* instance-identifier
 
-o leafref  (Only if the datatype of the leaf referenced using the "path" YANG statement require a CBOR tag)
+* leafref  (Only when the datatype of the leaf referenced using the "path" YANG statement require a CBOR tag)
 
 See {{tag-registry}} for more information about these CBOR tags.
 
