@@ -192,7 +192,9 @@ Leafs MUST be encoded based on the encoding rules specified in {{data-types-mapp
 
 ## The "container" Schema Node {#container}
 
-Collections such as containers, list instances, notifications, RPC inputs, RPC outputs, action inputs and action outputs MUST be encoded using a CBOR map data item (major type 5). A map is comprised of pairs of data items, with each data item consisting of a key and a value. This specification supports three type of keys; SID as defined in {{-core-sid}}, member names as defined in {{I-D.ietf-netmod-yang-json}} and YANG hash as defined by {{I-D.vanderstok-core-comi}}.
+Collections such as containers, list instances, notifications, RPC inputs, RPC outputs, action inputs and action outputs MUST be encoded using a CBOR map data item (major type 5). A map is comprised of pairs of data items, with each data item consisting of a key and a value. Each key within the CBOR map is set to a data node identifier, each value is set to the value of this data node instance.
+
+This specification supports three type of keys; SID as defined in {{-core-sid}}, member names as defined in {{I-D.ietf-netmod-yang-json}} and YANG hash as defined by {{I-D.vanderstok-core-comi}}.
 
 **SIDs as keys**
 
@@ -707,8 +709,7 @@ CBOR encoding: f5
 
 ## The "enumeration" Type
 
-Leafs of type enumeration MUST be encoded using a CBOR unsigned integer data
-item (major type 0).
+Leafs of type enumeration MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR signed integer (major type 1), depending on the actual value. Enumeration values are either explicitly assigned using the YANG statement "value" or automatically assigned based on the algorithm defined in {{I-D.ietf-netmod-rfc6020bis}} section 9.6.4.2.
 
 Definition example {{RFC7317}}:
 
@@ -733,7 +734,10 @@ CBOR encoding: 03
 ## The "bits" Type
 
 Leafs of type bits MUST be encoded using a CBOR byte string data item (major
-type 2). Bits position 0 to 7 are assigned to the first byte within the byte
+type 2). TBits position are either explicitly assigned using the YANG statement
+"position" or automatically assigned based on the algorithm defined in {{I-D.ietf-netmod-rfc6020bis}} section 9.7.4.2.
+
+Bits position 0 to 7 are assigned to the first byte within the byte
 string, bits 8 to 15 to the second byte, and subsequent bytes are assigned
 similarly. Within each byte, bits are assigned from least to most significant.
 
@@ -878,8 +882,23 @@ CBOR encoding: f6
 
 ## The "union" Type
 
-Leafs of type union MUST be encoded using the rules associated with one of
-the types listed.
+Leafs of type union MUST be encoded using the rules associated with one of the types listed.
+When use in a union, the following list of YANG datatypes are prefixed by CBOR tag to avoid confusion
+between different YANG datatypes encoded using the same CBOR major type.
+
+o bits
+
+o decimal64
+
+o enumeration
+
+o identityref
+
+o instance-identifier
+
+o leafref  (Only if the datatype of the leaf referenced using the "path" YANG statement require a CBOR tag)
+
+See {{tag-registry}} for more information about these CBOR tags.
 
 Definition example {{RFC7317}}:
 
@@ -934,8 +953,6 @@ Multi-instances data nodes MUST be encoded using a CBOR array data item (major t
 *	The first entry MUST be encoded as a CBOR unsigned integer data item (major type 0) and set to the targeted data node SID. 
 
 *	The following entries MUST contain the value of each key required to identify the instance of the targeted data node. These keys MUST be ordered as defined in the "key" YANG statement, starting from top level list, and follow by each of the subordinate list(s).
-
-When SIDs identify a YANG list, the presence of the key(s) for this list is optional. When the key(s) are present, the targeted instance within this list is selected. When the key(s) are absent, the entire YANG list is selected.
 
 **Names as instance-identifier**
 
@@ -1149,6 +1166,23 @@ The security considerations of {{RFC7049}} and {{-yang11}} apply.
 This document defines an alternative encoding for data modeled in the YANG data modeling language. As such, this encoding does not contribute any new security issues in addition of those identified for the specific protocol or context for which it is used.
 
 To minimize security risks, software on the receiving side SHOULD reject all messages that do not comply to the rules of this document and reply with an appropriate error message to the sender.
+
+# IANA Considerations
+
+##  Tags Registry {#tag-registry}
+
+This specification require the assignment of CBOR tags for the following YANG datatypes.
+These tags are added to the Tags Registry as defined in section 7.2 of {{RFC7049}}.
+
+| Data Item           | Semantics                         | Reference                      |
+|---------------------+-----------------------------------+--------------------------------|
+| bits                | YANG bits datatype                | {{I-D.ietf-netmod-rfc6020bis}} |
+| decimal64           | YANG decimal64 datatype           | {{I-D.ietf-netmod-rfc6020bis}} |
+| enumeration         | YANG enumeration datatype         | {{I-D.ietf-netmod-rfc6020bis}} |
+|  identityref        | YANG identityref datatype         | {{I-D.ietf-netmod-rfc6020bis}} |
+| instance-identifier | YANG instance-identifier datatype | {{I-D.ietf-netmod-rfc6020bis}} |
+| leafref             | YANG leafref  datatype            | {{I-D.ietf-netmod-rfc6020bis}} |
+{: align="left"}
 
 # Acknowledgments
 
