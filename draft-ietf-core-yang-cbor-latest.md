@@ -962,7 +962,7 @@ The use of names as instance-identifier is defined in {{I-D.ietf-netmod-yang-jso
 
 **YANG hashes as instance-identifier**
 
-When YANG hashes are used, xpath can be compressed based on the method defined by {{I-D.vanderstok-core-comi}} sections 4.1.4.1 and 4.1.4.2.
+When YANG hashes are used, xpath can be compressed based on the method defined by {{I-D.vanderstok-core-comi}} sections 4.1.4.1 and 4.1.4.2. The resulting hash MUST be encoded using a CBOR byte string data item (major type 2).
 
 Definition example {{RFC7317}}:
 
