@@ -442,7 +442,7 @@ CoAP request:
 
 ~~~~
 FETCH /c Content-Format(application/cool+cbor)
-[[1529, "eth0"]
+[[1529, "eth0"]]
 ~~~~
 
 CoAP response:
