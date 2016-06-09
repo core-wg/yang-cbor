@@ -281,7 +281,7 @@ CoAP response:
     {
       +1 : "2015-02-08T14:10:08Z09:00",  # boot-datetime (SID 1709)
       +2 : "2015-04-04T09:32:51Z09:00"   # current-datetime (SID 1710)
-    }
+    },
   +19, 60                     # timezone-utc-offset (SID 1727)
 ]
 ~~~~
