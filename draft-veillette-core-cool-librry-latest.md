@@ -29,13 +29,11 @@ author:
   email: michel.veillette@trilliantinc.com
 normative:
   RFC2119:
-informative:
   I-D.ietf-netmod-rfc6020bis: yang11
-  I-D.ietf-core-yang-cbor: yang-cbor-mapping
   I-D.somaraju-core-sid: core-sid
+informative:
   I-D.veillette-core-cool: core-cool
   I-D.ietf-netconf-yang-library: yang-library
-  RFC6020:
 
 --- abstract
 
@@ -395,7 +393,7 @@ module ietf-cool-library {
 
 ## YANG Module Registry
 
-This document registers one YANG module in the YANG Module Names registry [RFC6020].
+This document registers one YANG module in the YANG Module Names registry {{-yang11}}.
 
 name:         ietf-cool-library
 namespace:    urn:ietf:params:xml:ns:yang:ietf-cool-library
