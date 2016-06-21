@@ -412,7 +412,7 @@ Specifically, the 'module' list may help an attacker identify the server capabil
 
 # Acknowledgments
 
-The YANG module defined by this memo have been derived from an already existing YANG module targetting the RESTconf protocol {{-restconf}}. We will like to thank the authors of this prior work {{-yang-library}} which have been essential for the development of "ietf-cool-library" targetting the Constrained Objects Language {{core-cool}} protocol. The authors would also like to thank Andy Bierman for his recommendations on the appraoch to use and his review of the resulting YANG module.
+The YANG module defined by this memo have been derived from an already existing YANG module targetting the RESTconf protocol {{-restconf}}. We will like to thank the authors of this prior work {{-yang-library}} which have been essential for the development of "ietf-cool-library" targetting the Constrained Objects Language {{-core-cool}} protocol. The authors would also like to thank Andy Bierman for his recommendations on the appraoch to use and his review of the resulting YANG module.
 
 --- back
 
