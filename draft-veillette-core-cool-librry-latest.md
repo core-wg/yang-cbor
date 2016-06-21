@@ -33,6 +33,7 @@ normative:
   I-D.somaraju-core-sid: core-sid
 informative:
   I-D.veillette-core-cool: core-cool
+  I-D.ietf-netconf-restconf: restconf
   I-D.ietf-netconf-yang-library: yang-library
 
 --- abstract
@@ -51,7 +52,7 @@ The YANG module defined in this meno is available to CoOL clients to discover th
 
 * submodule list: The SID and revision assigned to each submodule used by the module.
 
-* feature list: The SID assigned to each YANG feature supported by the server.
+* feature list: The SID assigned to each YANG feature supported by the server endpoint.
 
 * deviation list: The SID and revision assigned to each YANG module used for deviation statements.
 
@@ -85,11 +86,11 @@ The following terms are defined in {{-core-cool}}:
    
 The following terms are used within this document:
 
-* YANG library: a collection of YANG modules used by a server
+* YANG library: a collection of YANG modules used by a server endpoint
 
 # Overview
 
-The "ietf-cool-library" module provides information about the YANG library used by a server.  This module is defined using YANG version 1, but it supports the description of YANG modules written in any revision of YANG.
+The "ietf-cool-library" module provides information about the YANG library used by a server endpoint.  This module is defined using YANG version 1, but it supports the description of YANG modules written in any revision of YANG.
 
 ## Tree diagram
 
@@ -119,11 +120,11 @@ notifications:
 
 ### modules-state
 
-This mandatory container holds the module set identifier and the list of modules supported by the server.
+This mandatory container holds the module set identifier and the list of modules supported by the server endpoint.
 
 ###  modules-state/module-set-id
 
-This mandatory leaf contains an identifier representing the current set of modules and submodules used by a server. This identifier is server-specific when implemented as unit32 or shared between multiple servers when implemented as identityref.  The value of this leaf MUST change whenever the set of modules and submodules in the YANG library changes.  There is no requirement that the same set always results in the same module-set-id value.
+This mandatory leaf contains an identifier representing the current set of modules and submodules used by a server endpoint. This identifier is endpoint-specific when implemented as unit32 or shared between multiple endpoints on one or multiple servers when implemented as identityref.  The value of this leaf MUST change whenever the set of modules and submodules in the YANG library changes.  There is no requirement that the same set always results in the same module-set-id value.
 
 This leaf allows a client to fetch the module list once, cache it, and only re-fetch it if the value of this leaf has been changed.
 
@@ -131,7 +132,7 @@ If the value of this leaf changes, the server also generates a "yang-library-cha
 
 ###  modules-state/module
 
-This mandatory list contains one entry for each YANG module supported by the server.  There MUST be an entry in this list for each revision of each YANG module that is used by the server.
+This mandatory list contains one entry for each YANG module supported by the server endpoint.  There MUST be an entry in this list for each revision of each YANG module that is used by the server.
 
 # YANG Module "ietf-cool-library"
 
@@ -139,7 +140,7 @@ RFC Ed.: update the date below with the date of RFC publication
 and remove this note.
    
 ~~~~
-<CODE BEGINS> file "ietf-core-library@2016-06-01.yang"
+<CODE BEGINS> file "ietf-cool-library@2016-06-01.yang"
 module ietf-cool-library {
   namespace "urn:ietf:params:xml:ns:yang:ietf-cool-library";
   prefix "coollib";
@@ -163,7 +164,7 @@ module ietf-cool-library {
 
   description
     "This module contains the list of YANG modules and submodules
-    implemented by a CoOL server end point.
+    implemented by a CoOL server endpoint.
 
      Copyright (c) 2016 IETF Trust and the persons identified as
      authors of the code.  All rights reserved.
@@ -270,18 +271,19 @@ module ietf-cool-library {
       description
         "Identifier representing the current set of modules
         and submodules listed in the 'module' list. This
-        identifier is server-specific when implemented as
-        unit32 or shared between multiple servers when
-        implemented as identityref. The server MUST change
-        the value of this leaf each time the information
-        represented by the 'module' list instance changes.";
+        identifier is endpoint-specific when implemented as
+        unit32 or shared between multiple endpoints on one
+        or multiple servers when implemented as identityref.
+        The server MUST change the value of this leaf each
+        time the information represented by the 'module'
+        list instance changes.";
     }
 
     list module {
       key "sid revision";
       description
         "Each entry represents one revision of one module
-         currently supported by the server.";
+         currently supported by the server endpoint.";
 
       uses identification-info;
       
@@ -289,17 +291,18 @@ module ietf-cool-library {
         type sid;
         description
           "List of YANG features from this module that are
-          supported by the server, regardless whether they are
-          defined in the module or any included submodule.";
+          supported by the server endpoint, regardless whether
+          they are defined in the module or any included
+          submodule.";
       }
       
       list deviation {
         key "sid revision";
         description
           "List of YANG deviation modules used by this server
-          to modify the conformance of the module associated
-          with this entry.  Note that the same module can be
-          used for deviations for multiple modules, so the
+          endpoint to modify the conformance of the module
+          associated with this entry.  Note that the same module
+          can be used for deviations for multiple modules, so the
           same entry MAY appear within multiple 'module' entries.
 
           The deviation module MUST be present in the 'module'
@@ -315,37 +318,37 @@ module ietf-cool-library {
           enum implement {
             value 0;
             description
-              "Indicates that the server implements one or more
-               protocol-accessible objects defined in the YANG module
-               identified in this entry.  This includes deviation
-               statements defined in the module.
+              "Indicates that the server endpoint implements one or
+              more protocol-accessible objects defined in the YANG
+              module identified in this entry.  This includes
+              deviation statements defined in the module.
 
-               For YANG version 1.1 modules, there is at most one
-               module entry with conformance type 'implement' for a
-               particular module id, since YANG 1.1 requires that
-               at most one revision of a module is implemented.
+              For YANG version 1.1 modules, there is at most one
+              module entry with conformance type 'implement' for a
+              particular module id, since YANG 1.1 requires that
+              at most one revision of a module is implemented.
 
-               For YANG version 1 modules, there SHOULD NOT be more
-               than one module entry for a particular module id.";
+              For YANG version 1 modules, there SHOULD NOT be more
+              than one module entry for a particular module id.";
           }
           enum import {
             value 1;
             description
-              "Indicates that the server imports reusable definitions
-               from the specified revision of the module, but does
-               not implement any protocol accessible objects from
-               this revision.
+              "Indicates that the server endpoint imports reusable
+              definitions from the specified revision of the module,
+              but does not implement any protocol accessible objects
+              from this revision.
 
-               Multiple module entries for the same module id MAY
-               exist. This can occur if multiple modules import the
-               same module, but specify different revision-dates in
-               the import statements.";
+              Multiple module entries for the same module id MAY
+              exist. This can occur if multiple modules import the
+              same module, but specify different revision-dates in
+              the import statements.";
           }
         }
         mandatory true;
         description
-          "Indicates the type of conformance the server is claiming
-           for the YANG module identified by this entry.";
+          "Indicates the type of conformance the server endpoint is
+          claiming for the YANG module identified by this entry.";
       }
       
       container submodules {
@@ -371,7 +374,7 @@ module ietf-cool-library {
   notification yang-library-change {
     description
       "Generated when the set of modules and submodules supported
-      by the server has changed.";
+      by the server endpoint has changed.";
       
     leaf module-set-id {
       type leafref {
@@ -380,8 +383,8 @@ module ietf-cool-library {
       mandatory true;
       description
         "Contains the module-set-id value representing the
-        set of modules and submodules supported at the server at
-        the time the notification is generated.";
+        set of modules and submodules supported at the server
+        endpoint at the time the notification is generated.";
     }
   }
 }
@@ -403,14 +406,13 @@ reference:    RFC XXXX
 
 # Security Considerations
 
-The YANG module defined in this memo is designed to be accessed via the CoOL protocol {{-core-cool}}.  Some of the readable data nodes in this YANG module may be considered sensitive or vulnerable in some network environments.  It is thus important to control read access to these data nodes.
+This YANG module is designed to be accessed via the CoOL protocol {{-core-cool}}.  Some of the readable data nodes in this YANG module may be considered sensitive or vulnerable in some network environments.  It is thus important to control read access to these data nodes.
 
-Specifically, the 'module' list may help an attacker identify the server capabilities and server implementations with known bugs. Server vulnerabilities may be specific to particular modules, module
-revisions, module features, or even module deviations.  This information is included in each module entry.  For example, if a particular operation on a particular data node is known to cause a server to crash or significantly degrade device performance, then the module list information will help an attacker identify server implementations with such a defect, in order to launch a denial of service attack on the device.
+Specifically, the 'module' list may help an attacker identify the server capabilities and server implementations with known bugs. Server vulnerabilities may be specific to particular modules, module revisions, module features, or even module deviations.  This information is included in each module entry.  For example, if a particular operation on a particular data node is known to cause a server to crash or significantly degrade device performance, then the module list information will help an attacker identify server implementations with such a defect, in order to launch a denial of service attack on the device.
 
 # Acknowledgments
 
-The YANG module defined by this memo (ietf-cool-library) have been derived from an already existing module targetting the RESTconf protocol. We will like to thanks the authors of this prior work {{-yang-library}} which have been escential for the development of this module targetting the Constrained Objects Language protocol {{-core-cool}}.
+The YANG module defined by this memo have been derived from an already existing YANG module targetting the RESTconf protocol {{-restconf}}. We will like to thank the authors of this prior work {{-yang-library}} which have been essential for the development of "ietf-cool-library" targetting the Constrained Objects Language {{core-cool}} protocol. The authors would also like to thank Andy Bierman for his recommendations on the appraoch to use and his review of the resulting YANG module.
 
 --- back
 
