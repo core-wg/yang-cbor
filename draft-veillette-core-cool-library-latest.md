@@ -399,9 +399,13 @@ module ietf-cool-library {
 This document registers one YANG module in the YANG Module Names registry {{-yang11}}.
 
 name:         ietf-cool-library
+
 namespace:    urn:ietf:params:xml:ns:yang:ietf-cool-library
+
 prefix:       coollib
+
 // RFC Ed.: replace XXXX with RFC number and remove this note
+
 reference:    RFC XXXX
 
 # Security Considerations
