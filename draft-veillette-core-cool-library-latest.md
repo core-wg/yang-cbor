@@ -306,7 +306,7 @@ module ietf-cool-library {
           same entry MAY appear within multiple 'module' entries.
 
           The deviation module MUST be present in the 'module'
-          list, with the same id and revision values.
+          list, with the same sid and revision values.
           The 'conformance-type' value will be 'implement' for
           the deviation module.";
           
@@ -325,11 +325,11 @@ module ietf-cool-library {
 
               For YANG version 1.1 modules, there is at most one
               module entry with conformance type 'implement' for a
-              particular module id, since YANG 1.1 requires that
+              particular module, since YANG 1.1 requires that
               at most one revision of a module is implemented.
 
               For YANG version 1 modules, there SHOULD NOT be more
-              than one module entry for a particular module id.";
+              than one module entry for a particular module.";
           }
           enum import {
             value 1;
@@ -339,7 +339,7 @@ module ietf-cool-library {
               but does not implement any protocol accessible objects
               from this revision.
 
-              Multiple module entries for the same module id MAY
+              Multiple module entries for the same module MAY
               exist. This can occur if multiple modules import the
               same module, but specify different revision-dates in
               the import statements.";
