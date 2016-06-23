@@ -1173,7 +1173,7 @@ To minimize security risks, software on the receiving side SHOULD reject all mes
 
 ##  Tags Registry {#tag-registry}
 
-This specification require the assignment of CBOR tags for the following YANG datatypes.
+This specification requires the assignment of CBOR tags for the following YANG datatypes.
 These tags are added to the Tags Registry as defined in section 7.2 of {{RFC7049}}.
 
 | Data Item           | Semantics                         | Reference                      |
