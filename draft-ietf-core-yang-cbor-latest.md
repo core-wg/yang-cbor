@@ -1152,7 +1152,7 @@ Same example assuming data node "/ietf-system:system/authentication/user" is ass
 CBOR diagnostic notation:
 
 ~~~~ CBORdiag
-"/md8bB?keys=\"bob\"
+"/md8bB?keys=\"bob\""
 ~~~~
 
 CBOR encoding:
