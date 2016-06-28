@@ -821,7 +821,8 @@ This specification supports two approaches for encoding identityref, a SID as de
 
 **SIDs as identityref**
 
-SIDs are globally unique and can be used as identityref. This approach is both compact and simple to implement. When SIDs are used, identityref MUST be encoded using a CBOR unsigned integer data item (major type 0) or CBOR signed integer (major type 1), depending on the actual value. The value represents the delta between the SID of the identity assigned to the leaf and the SID of the base identity defined for this leaf.
+SIDs are globally unique and may be used as identityref.  This approach is both compact and simple to implement.  When SIDs are
+used, identityref MUST be encoded using a CBOR unsigned integer data item (major type 0) and set to a SID allocated from a registered SID range.
 
 **Name as identityref**
 
@@ -830,40 +831,38 @@ Alternatively, an identityref may be encoded using a name as defined in {{I-D.ie
 Definition example {{RFC7317}}:
 
 ~~~~ yang
-identity radius-authentication-type {
-  description
-    "Base identity for RADIUS authentication types.";
+identity interface-type {
 }
 
-identity radius-chap {
-  base radius-authentication-type;
+identity iana-interface-type {
+  base interface-type;
 }
 
-identity radius-pap {
-  base radius-authentication-type;
+identity ethernetCsmacd {
+  base iana-interface-type;
 }
 
-leaf authentication-type {
+leaf type {
   type identityref {
-    base radius-authentication-type;
+    base interface-type;
   }
 }
 ~~~~
 
-**SIDs as identityref**
-
-This example represents the encoding of identity "radius-pap" (SID 1705) assuming the base identity "radius-authentication-type" (SID 1703).
-
-
-CBOR diagnostic notation: 2
-
-CBOR encoding: 02
-
 **Name as identityref**
 
-CBOR diagnostic notation: "ietf-system:radius-pap"
+CBOR diagnostic notation: "iana-if-type:ethernetCsmacd"
 
-CBOR encoding: 76 696574662d73797374656d3a7261646975732d706170
+CBOR encoding: 78 1b 69616e612d69662d747970653a65746865726e657443736d616364
+
+
+**SIDs as identityref**
+
+Assuming that the identity "iana-if-type:ethernetCsmacd" has been assigned to the SID value 1179.
+
+CBOR diagnostic notation: 1179
+
+CBOR encoding: 19 049b
 
 ## The 'empty' Type
 
