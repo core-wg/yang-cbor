@@ -252,9 +252,9 @@ CBOR diagnostic notation:
 
 ~~~~ CBORdiag
 {
-  1708 : {                              # clock
-    +2 : "2015-10-02T14:47:24Z-05:00",  # current-datetime, SID 1710
-    +1 : "2015-09-15T09:12:58Z-05:00"   # boot-datetime, SID 1709
+  1717 : {                              # clock  (SID 1717)
+    +2 : "2015-10-02T14:47:24Z-05:00",  # current-datetime (SID 1719)
+    +1 : "2015-09-15T09:12:58Z-05:00"   # boot-datetime (SID 1718)
   }
 }
 ~~~~
@@ -263,7 +263,7 @@ CBOR encoding:
 
 ~~~~ CBORbytes
 a1                                      # map(1)
-   19 06ac                              # unsigned(1708)
+   19 06b5                              # unsigned(1717)
    a2                                   # map(2)
       02                                # unsigned(2)
       78 1a                             # text(26)
@@ -414,19 +414,19 @@ CBOR diagnostic notation:
 ~~~~ CBORdiag
 [
   {
-    1746 : "NRC TIC server",          # name
-    1748 : {                          # udp
-      +1 : "tic.nrc.ca",              # address, SID 1749
-      +2 : 123                        # port, SID 1750
+    1755 : "NRC TIC server",          # name (SID 1755)
+    1757 : {                          # udp (SID 1757)
+      +1 : "tic.nrc.ca",              # address (SID 1758)
+      +2 : 123                        # port (SID 1759)
     },
-    1744 : 0,                         # association-type
-    1745 : false,                     # iburst
-    1747 : true                       # prefer
+    1753 : 0,                         # association-type (SID 1753)
+    1754 : false,                     # iburst (SID 1754)
+    1756 : true                       # prefer (SID 1756)
   },
   {
-    1746 : "NRC TAC server",          # name
-    1748 : {                          # udp
-      +1 : "tac.nrc.ca"               # address, SID 1749
+    1755 : "NRC TAC server",          # name (SID 1755)
+    1757 : {                          # udp (SID 1757)
+      +1 : "tac.nrc.ca"               # address (SID 1758)
     }
   }
 ]
@@ -437,27 +437,27 @@ CBOR encoding:
 ~~~~ CBORbytes
 82                                    # array(2)
    a5                                 # map(5)
-      19 06d2                         # unsigned(1746)
+      19 06db                         # unsigned(1755)
       6e                              # text(14)
          4e52432054494320736572766572 # "NRC TIC server"
-      19 06d4                         # unsigned(1748)
+      19 06dd                         # unsigned(1757)
       a2                              # map(2)
          01                           # unsigned(1)
          6a                           # text(10)
             7469632e6e72632e6361      # "tic.nrc.ca"
          02                           # unsigned(2)
          18 7b                        # unsigned(123)
-      19 06d0                         # unsigned(1744)
+      19 06d9                         # unsigned(1753)
       00                              # unsigned(0)
-      19 06d1                         # unsigned(1745)
+      19 06da                         # unsigned(1754)
       f4                              # primitive(20)
-      19 06d3                         # unsigned(1747)
+      19 06dc                         # unsigned(1756)
       f5                              # primitive(21)
    a2                                 # map(2)
-      19 06d2                         # unsigned(1746)
+      19 06db                         # unsigned(1755)
       6e                              # text(14)
          4e52432054414320736572766572 # "NRC TAC server"
-      19 06d4                         # unsigned(1748)
+      19 06dd                         # unsigned(1757)
       a1                              # map(1)
          01                           # unsigned(1)
          6a                           # text(10)
@@ -858,11 +858,11 @@ CBOR encoding: 78 1b 69616e612d69662d747970653a65746865726e657443736d616364
 
 **SIDs as identityref**
 
-Assuming that the identity "iana-if-type:ethernetCsmacd" has been assigned to the SID value 1179.
+Assuming that the identity "iana-if-type:ethernetCsmacd" has been assigned to the SID value 1180.
 
-CBOR diagnostic notation: 1179
+CBOR diagnostic notation: 1180
 
-CBOR encoding: 19 049b
+CBOR encoding: 19 049c
 
 ## The 'empty' Type
 
@@ -980,16 +980,16 @@ container system {
 
 **First example based on SID**
 
-In this example, a field of type instance-identifier identifies the data node "/system/contact" (SID 1728).
+In this example, a field of type instance-identifier identifies the data node "/system/contact" (SID 1737).
 
 ~~~~ CBORdiag
-1728
+1737
 ~~~~
 
 CBOR encoding:
 
 ~~~~ CBORbytes
-19 06c0
+19 06c9
 ~~~~
 
 **First example based on name**
@@ -1052,19 +1052,19 @@ list user {
 
 **Second example based on SID**
 
-In this example, a field of type instance-identifier identify the data node "/system/authentication/user/authorized-key/key-data" (SID 1721) for the user name "bob" and the authorized-key name "admin".
+In this example, a field of type instance-identifier identify the data node "/system/authentication/user/authorized-key/key-data" (SID 1730) for the user name "bob" and the authorized-key name "admin".
 
 CBOR diagnostic notation:
 
 ~~~~ CBORdiag
-[1721, "bob", "admin"]
+[1730, "bob", "admin"]
 ~~~~
 
 CBOR encoding:
 
 ~~~~ CBORbytes
 83                      # array(3)
-   19 06b9              # unsigned(1721)
+   19 06c2              # unsigned(1730)
    63                   # text(3)
       626f62            # "bob"
    65                   # text(5)
@@ -1109,19 +1109,19 @@ CBOR encoding:
 
 **Third example based on SID**
 
-This third example identify an instance within the list "/system/authentication/user" (SID 1717) corresponding to the user name "jack".
+This third example identify an instance within the list "/system/authentication/user" (SID 1726) corresponding to the user name "jack".
 
 CBOR diagnostic notation:
 
 ~~~~ CBORdiag
-[1717, "jack"]
+[1726, "jack"]
 ~~~~
 
 CBOR encoding:
 
 ~~~~ CBORbytes
 82                      # array(2)
-   19 06b5              # unsigned(1717)
+   19 06be              # unsigned(1726)
    64                   # text(4)
       6a61636b          # "jack"
 ~~~~
