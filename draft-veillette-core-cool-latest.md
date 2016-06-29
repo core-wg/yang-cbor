@@ -236,13 +236,13 @@ The GET method is used by CoOL clients to retrieve the entire contents of a data
 
 To retrieve all instantiated data nodes of a datastore resource, a CoOL client sends a CoAP GET request to the URI of the targeted datastore. If the request is accepted by the CoOL server, a 2.05 (Content) response code is returned. The payload of the GET response MUST carry a CBOR array containing the contents of the targeted datastore. The CBOR array MUST contain a list of pairs of delta and associated value. A delta represents the difference between the current SID and the SID of the previous pair within the CBOR array. Each value is encoded using the rules defined by {{-yang-cbor-mapping}}.
 
-The normal behaviour of a CoOL server is to exclude from the GET response, any data node with a value equal to the default value for this data node as defined by the YANG "default" statement. When this behaviour is not appropriate for the CoOL client, this client can force the retrieval of all data nodes by adding to its CoAP request a Uri-Query option containing the "a" parameter. See section {{a-uri-query}} form more details.
+The normal behaviour of a CoOL server is to exclude from the GET response, any data node with a value equal to the default value for this data node as defined by the YANG 'default' statement. When this behaviour is not appropriate for the CoOL client, this client can force the retrieval of all data nodes by adding to its CoAP request a Uri-Query option containing the 'a' parameter. See  {{a-uri-query}} form more details.
 
 If the request is rejected by the CoOL server, a 5.01 Not implemented or 4.13 Request Entity Too Large response code is returned.
 
 Example:
 
-In this example, the CoOL server returns a datastore containing the following data nodes defined in the YANG module "ietf-system" {{RFC7317}} and YANG module "ietf-interfaces" {{RFC7223}}:
+In this example, the CoOL server returns a datastore containing the following data nodes defined in the YANG module "ietf-system" {{RFC7317}} and YANG module 'ietf-interfaces' {{RFC7223}}:
 
 * "/interfaces/interface" (SID 1533)
 
@@ -293,14 +293,14 @@ CoAP response:
 
 The FETCH method is used by the CoOL client of retrieve a subset of the data node instances within a datastore.
 
-To retrieve a list of data node instances, the CoOL client sends a CoAP FETCH request to the URI of the targeted datastore. The payload of the FETCH request contains the list of data node(s) instance to be retrieved. This list is encoded using a CBOR array, each entry containing an "instance-identifier" as defined by {{-yang-cbor-mapping}}. Within each "instance-identifier", data nodes are identified using SIDs as defined by {{-core-sid}}.
+To retrieve a list of data node instances, the CoOL client sends a CoAP FETCH request to the URI of the targeted datastore. The payload of the FETCH request contains the list of data node(s) instance to be retrieved. This list is encoded using a CBOR array, each entry containing an 'instance-identifier' as defined by {{-yang-cbor-mapping}}. Within each 'instance-identifier', data nodes are identified using SIDs as defined by {{-core-sid}}.
 
-SIDs within the list of "instance-identifier" are encoded using delta. A delta represents the different between the current SID and the SID of the previous entry within this list. The delta of the first entry within the list is set to the absolute SID value.
+SIDs within the list of 'instance-identifier' are encoded using delta. A delta represents the different between the current SID and the SID of the previous entry within this list. The delta of the first entry within the list is set to the absolute SID value.
 
 On successful processing of the CoAP request, the CoOL server MUST return a CoAP response with a response code 2.05 (Content). 
 
 When a single data node is requested, the payload of the FETCH response carries the value of the data node instance requested. When a multiple data nodes are requested, the payload of the FETCH response carries a CBOR array containing the value of each data node instance(s) requested. The number of entries in this CBOR array MUST match the number of “instance-identifier” requested to allow a proper interpretation of this information.
-The following type of values can be returned for each “instance-identifier” requested:
+The following type of values can be returned for each 'instance-identifier' requested:
 
 *	If the data node requested is not implemented or not instantiated, the CBOR simple value 'undefined' is returned.
 
@@ -308,7 +308,7 @@ The following type of values can be returned for each “instance-identifier” 
 
 *	Otherwise, the data node instance is encoded using the rules defined in {{-yang-cbor-mapping}}.
 
-The normal behaviour of a CoOL server is to exclude from containers and list instances of a FETCH response, any data node with a value equal to the default value for this data node as defined by the YANG "default" statement. When this behaviour is not appropriate for the CoOL client, this client can force the retrieval of all data nodes by adding to its CoAP request a Uri-Query option containing the "a" parameter. See section {{a-uri-query}} form more details.
+The normal behaviour of a CoOL server is to exclude from containers and list instances of a FETCH response, any data node with a value equal to the default value for this data node as defined by the YANG 'default' statement. When this behaviour is not appropriate for the CoOL client, this client can force the retrieval of all data nodes by adding to its CoAP request a Uri-Query option containing the 'a' parameter. See {{a-uri-query}} form more details.
 
 ### Example #1 - Simple data node
 
@@ -389,7 +389,7 @@ CoAP response:
 
 ### Example #2 - Data node instance within a YANG list
 
-The data type "instance-identifier" allows the selection of an instance of a specific data node within a list. In this example, a CoOL client retrieves the "/interfaces/interface/description" (SID 1534) leaf from the "/interfaces/interface" list. The "/interfaces/interface/name" associated to this interface is equal to "eth0". This example is based on the YANG module "ietf-interfaces" {{RFC7223}}.
+The data type 'instance-identifier' allows the selection of an instance of a specific data node within a list. In this example, a CoOL client retrieves the "/interfaces/interface/description" (SID 1534) leaf from the "/interfaces/interface" list. The "/interfaces/interface/name" associated to this interface is equal to "eth0". This example is based on the YANG module "ietf-interfaces" {{RFC7223}}.
 
 CoAP request:
 
@@ -407,7 +407,7 @@ CoAP response:
 
 ### Example #3 - YANG list
 
-This “instance-identifier” extension allows the retrieval of all instances of a YANG list. To perform this operation, the CoOL client excludes from the "instance-identifier" the key(s) of the targeted list. The list returned is encoded using the rules defined in {{-yang-cbor-mapping}} section 4.4.
+This “instance-identifier” extension allows the retrieval of all instances of a YANG list. To perform this operation, the CoOL client excludes from the 'instance-identifier' the key(s) of the targeted list. The list returned is encoded using the rules defined in {{-yang-cbor-mapping}} section 4.4.
 
 In this example, a CoOL client retrieves the list "/interfaces/interface" (SID 1533). The response returned contain two instances, one for an Ethernet adaptor and one for a WIFI interface.
 
@@ -440,7 +440,7 @@ CoAP response:
 
 ### Example #4 - YANG list instance
 
-To retrieve a list instance, the CoOL client MUST use an "instance-identifier" with a SID set to the targeted list and the key(s) set to the value(s) associated to the targeted instance.
+To retrieve a list instance, the CoOL client MUST use an 'instance-identifier' with a SID set to the targeted list and the key(s) set to the value(s) associated to the targeted instance.
 
 In this example, the CoOL client requests the instance of the list "/interfaces/interface" (SID 1533) associated to the name "eth0". The response returned by the CoOL server contains the targeted list instance formatted as YANG container.
 
@@ -465,9 +465,9 @@ CoAP response:
 
 ### Example #5 - YANG list instance filtering
 
-This "instance-identifier" extension allows the selection of a subset of data nodes within a list. This is accomplished by adding an extra element to the "instance-identifier". This element contains the subset of data nodes to be returned encoded as CBOR array. Each entry within this CBOR array is set to the delta between the current SID and the SID of targeted container as specified in the first entry of the "instance-identifier".
+This 'instance-identifier' extension allows the selection of a subset of data nodes within a list. This is accomplished by adding an extra element to the 'instance-identifier'. This element contains the subset of data nodes to be returned encoded as CBOR array. Each entry within this CBOR array is set to the delta between the current SID and the SID of targeted container as specified in the first entry of the 'instance-identifier'.
 
-CoOL servers SHOULD implement this "instance-identifier" extension. When this extension is not supported, the CoOL server MUST ignore the third element of the "instance-identifier" and return the list instance as specified by the first two elements of the "instance-identifier".
+CoOL servers SHOULD implement this 'instance-identifier' extension. When this extension is not supported, the CoOL server MUST ignore the third element of the 'instance-identifier' and return the list instance as specified by the first two elements of the 'instance-identifier'.
 
 In this example, a CoOL client retrieves from within the "/interfaces/interface" list (SID 1533) the leafs "/interfaces/interface/type" (SID 1538) and "/interfaces/interface/enabled" (SID 1535). The CoOL client also includes in this request the selection of the leaf "/system/hostname" (SID 1748) defined in "ietf-system" {{RFC7317}}.
 
@@ -495,7 +495,7 @@ CoAP response:
 
 ### Example #6 - All instances of a data node within a YANG list
 
-This "instance-identifier" extension allows the efficient transfer of all instances of a data node within a YANG list. To retrieve all instances, the CoOL client excludes form the "instance-identifier" the key(s) of the list containing the targeted data node.
+This 'instance-identifier' extension allows the efficient transfer of all instances of a data node within a YANG list. To retrieve all instances, the CoOL client excludes form the 'instance-identifier' the key(s) of the list containing the targeted data node.
 
 The response MUST be encoded as a CBOR ARRAY containing the available instances of the requested data node. This special encoding minimizes significantly this commonly used type of request.
 
@@ -587,9 +587,9 @@ CoAP response:
 
 The iPATCH method is used by CoOL clients to modify a subset of a datastore.
 
-To modify a datastore, the CoOL client sends a CoAP PATH request to the URI of the targeted datastore. The payload of the FETCH request contains the list of data node instance(s) to be updated, inserted or deleted. This list is encoded using a CBOR array and contains a sequence of pairs of "instance-identifier" and associated values.
+To modify a datastore, the CoOL client sends a CoAP PATH request to the URI of the targeted datastore. The payload of the FETCH request contains the list of data node instance(s) to be updated, inserted or deleted. This list is encoded using a CBOR array and contains a sequence of pairs of 'instance-identifier' and associated values.
 
-Within each "instance-identifier", data nodes are identified using SIDs as defined by {{-core-sid}}. SIDs within the list are encoded as delta. 
+Within each 'instance-identifier', data nodes are identified using SIDs as defined by {{-core-sid}}. SIDs within the list are encoded as delta. 
 
 On reception, the list is processed by the CoOL server as follows:
 
@@ -597,7 +597,7 @@ On reception, the list is processed by the CoOL server as follows:
 
 * If the targeted data instance doesn't exist, this instance is created.
 
-* If the targeted data instance already exists but is associated with the value "null", this instance is deleted.
+* If the targeted data instance already exists but is associated with the value 'null', this instance is deleted.
 
 On successful processing of the CoAP request, the CoOL server MUST return a CoAP response with a response code 2.05 (Content). 
 
@@ -643,7 +643,7 @@ CoAP response:
 
 ## POST - Protocol operation
 
-Protocol operations are defined using the YANG "rpc" or YANG "action" statements.
+Protocol operations are defined using the YANG 'rpc' or YANG 'action' statements.
 
 To execute a protocol operation, the CoOL client sents a CoAP POST request to the URI of the targeted datastore.
 
@@ -653,7 +653,7 @@ On successful completion on the protocol operation, the CoOL server returns a Co
 
 ### Example #1 - RPC
 
-This example is based on the "activate-software-image" RPC defined in {{-yang11}}, assuming that this RPC is assigned to SID 1932, leaf image-name to SID 1933 and leaf status to SID 1934. These SIDs are defined strictly for the purpose of this example.
+This example is based on the 'activate-software-image' RPC defined in {{-yang11}}, assuming that this RPC is assigned to SID 1932, leaf image-name to SID 1933 and leaf status to SID 1934. These SIDs are defined strictly for the purpose of this example.
 
 rpc activate-software-image {
   input {
@@ -691,7 +691,7 @@ CoAP response:
 
 ### Example #2 - Action
 
-This example is based on the "reset" action defined in {{-yang11}} assuming that this action is assigned to SID 1902, leaf reset-at to SID 1903 and leaf reset-finished-at to SID 1904. These SIDs are defined strictly for the purpose of this example.
+This example is based on the 'reset' action defined in {{-yang11}} assuming that this action is assigned to SID 1902, leaf reset-at to SID 1903 and leaf reset-finished-at to SID 1904. These SIDs are defined strictly for the purpose of this example.
 
 list server {
   key name;
@@ -753,7 +753,7 @@ The current solution based on the observe CoAP option can be augmented
 or completely replaced by a future version of this draft.
 ~~~~
 
-Notifications are defined using the YANG "notification" statement. Subscriptions to an event stream and notification reporting are performed using an event stream resource. When multiple event stream resources are supported, the list of notifications associated with each stream is either pre-defined or configured in the CoOL server. CoOL clients MAY subscribe to one or more event stream resources.
+Notifications are defined using the YANG 'notification' statement. Subscriptions to an event stream and notification reporting are performed using an event stream resource. When multiple event stream resources are supported, the list of notifications associated with each stream is either pre-defined or configured in the CoOL server. CoOL clients MAY subscribe to one or more event stream resources.
 
 To subscribe to an event stream resource, a CoOL client MUST send a CoAP GET with the Observe CoAP option set to 0. To unsubscribe, a CoOL client MAY send a CoAP reset or a CoAP GET with the Observe option set to 1. For more information on the observe mechanism, see {{RFC7641}}.
 
@@ -761,7 +761,7 @@ Each notification transferred by a CoOL server to each of the registered CoOL cl
 
 The CoAP response payload is encoded using the rules defined for the PUT request. When multiple notifications are reported, the CoAP response payload carries a CBOR array, with each entry containing a notification.
 
-This example is based on the "link-failure" and "interface-enabled" notifications defined in {{-yang11}} assuming the following SID assignment:
+This example is based on the 'link-failure' and 'interface-enabled' notifications defined in {{-yang11}} assuming the following SID assignment:
 
 * "/link-failure" (SID 1942)
 
@@ -870,7 +870,7 @@ Content-Format(application/cool-value-pairs+cbor)
 
 ## The 'a' Query Parameter {#a-uri-query}
 
-When performing a GET, the normal behaviour of a CoOL server is to exclude from the GET response, data nodes currently set to the default value as defined by the YANG "default" statement. This behaviour called 'trim' is defined in {{RFC6243}} section 3.2.
+When performing a GET, the normal behaviour of a CoOL server is to exclude from the GET response, data nodes currently set to the default value as defined by the YANG 'default' statement. This behaviour called 'trim' is defined in {{RFC6243}} section 3.2.
 
 This rule also applies to the FETCH for containers and list instances but not for the root data nodes. To minimize the payload size of the FETCH responses, root data nodes are returned in a CBOR array without associated SID. To keep the symmetry between the FETCH request and the FETCH response, a CBOR content must be returned for each data node requested as follows: 
 
@@ -892,13 +892,13 @@ There are use-cases when a CoOL client will need the default data from the serve
 
 In all these cases, the CoOL client will need a mechanism to retrieve default data from a CoOL server.
 
-This is accomplished by including the "a" Uri-Query parameter in the GET or FETCH request. This behaviour called 'report-all' is defined in {{RFC6243}} section 3.1.
+This is accomplished by including the 'a' Uri-Query parameter in the GET or FETCH request. This behaviour called 'report-all' is defined in {{RFC6243}} section 3.1.
 
 # CoAP compatibility
 
 ## Working with Uri-Host, Uri-Port, Uri-Path, and Uri-Query
 
-Supported Uri-Query parameters are defined in section {{uri-query}}. Uri-Host, Uri-Port and Uri-Path MUST be used as specified by {{RFC6690}} to target the CoOL resources as defined by section 3.
+Supported Uri-Query parameters are defined in {{uri-query}}. Uri-Host, Uri-Port and Uri-Path MUST be used as specified by {{RFC6690}} to target the CoOL resources as defined by section 3.
 
 ## Working with Location-Path and Location-Query
 
@@ -931,7 +931,7 @@ A CoOL server MAY support state change notifications to some or all its leaf dat
 To start observing a leaf data node, a CoOL client MUST send a CoAP FETCH with the Observe CoAP option set to 0.
 
 The payload of the FETCH request carries a CBOR array of instance-identifier.
-The first entry MUST be set to the "instance-identifier" of the data node instance observed. The following entries are optional and allow the selection of coincidental values, data nodes reported at the same time as the observed data node. Coincidental values are included in each notification reported, but changes to these extra data nodes MUST not trigger notification messages.
+The first entry MUST be set to the 'instance-identifier' of the data node instance observed. The following entries are optional and allow the selection of coincidental values, data nodes reported at the same time as the observed data node. Coincidental values are included in each notification reported, but changes to these extra data nodes MUST not trigger notification messages.
 
 A subscription can be terminated by the CoOL client by returning a CoAP Reset message or by sending a GET request with an Observe CoAP option set to deregister (1). More details are available in {{RFC7641}}.
 
