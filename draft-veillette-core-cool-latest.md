@@ -308,7 +308,7 @@ The following type of values can be returned for each “instance-identifier” 
 
 *	Otherwise, the data node instance is encoded using the rules defined in {{-yang-cbor-mapping}}.
 
-The normal behaviour of a CoOL server is to exclude from containers and list instances of a FETCH response, any data node with a value equal to the default value for this data node as defined by the YANG "default" statement. When this behaviour is not appropriate for the CoOL client, this client can force the retrieval of all data nodes by adding to its CoAP request a Uri-Query option containing the "a" parameter. See section {{-a-uri-query}} form more details.
+The normal behaviour of a CoOL server is to exclude from containers and list instances of a FETCH response, any data node with a value equal to the default value for this data node as defined by the YANG "default" statement. When this behaviour is not appropriate for the CoOL client, this client can force the retrieval of all data nodes by adding to its CoAP request a Uri-Query option containing the "a" parameter. See section {{a-uri-query}} form more details.
 
 ### Example #1 - Simple data node
 
