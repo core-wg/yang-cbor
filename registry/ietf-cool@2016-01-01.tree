@@ -1,0 +1,18 @@
+module: ietf-cool
+   +--rw error-payload
+   |  +--rw error-code    enumeration
+   |  +--rw error-text?   string
+   +--rw notification-payload
+      +--rw _id                instance-identifier
+      +--rw timestamp?         utc-time
+      +--rw sequence-number?   uint32
+      +--rw severity-level?    enumeration
+      +--rw facility?          identityref
+      +--rw content?           anydata
+rpcs:
+   +---x commit
+   |  +---w input
+   |     +---w datastore?          string
+   |     +---w commit-date-time?   utc-time
+   |     +---w confirm-timeout?    string
+   +---x cancel-commit
