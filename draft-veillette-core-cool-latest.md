@@ -268,7 +268,7 @@ GET /c
 CoAP response:
 
 ~~~~
-2.05 Content Content-Format(application/cool+cbor)
+2.05 Content Content-Format(application/cool-value-pairs+cbor)
 [
   1533,                       # interface (SID 1533)
     {
@@ -288,21 +288,22 @@ CoAP response:
 
 ## FETCH - Retrieving specific data nodes
 
-The FETCH method is used by the CoOL client of retrieve a subset of the data nodes within a datastore.
+The FETCH method is used by the CoOL client of retrieve a subset of the data node instances within a datastore.
 
 To retrieve a list of data node instances, the CoOL client sends a CoAP FETCH request to the URI of the targeted datastore. The payload of the FETCH request contains the list of data node(s) instance to be retrieved. This list is encoded using a CBOR array, each entry containing an "instance-identifier" as defined by {{-yang-cbor-mapping}}. Within each "instance-identifier", data nodes are identified using SIDs as defined by {{-core-sid}}.
 
-SIDs within the list of "instance-identifier" are encoded using delta. A delta represents the different between the current SID and the SID of the previous entry within this list. The delta of the first entry within the list is set to the absolute SID value (current SID minus zero).
+SIDs within the list of "instance-identifier" are encoded using delta. A delta represents the different between the current SID and the SID of the previous entry within this list. The delta of the first entry within the list is set to the absolute SID value.
 
 On successful processing of the CoAP request, the CoOL server MUST return a CoAP response with a response code 2.05 (Content). 
 
-When a single data node is requested, the payload of the FETCH response MUST carry the data node instance requested encoded using the rules defined in {{-yang-cbor-mapping}}.
+When a single data node is requested, the payload of the FETCH response carries the value of the data node instance requested. When a multiple data nodes are requested, the payload of the FETCH response carries a CBOR array containing the value of each data node instance(s) requested. The number of entries in this CBOR array MUST match the number of “instance-identifier” requested to allow a proper interpretation of this information.
+The following type of values can be returned for each “instance-identifier” requested:
 
-When a multiple data nodes are requested, the payload of the FETCH response MUST carry a CBOR array containing the data node instance(s) requested. Each entry within this array MUST be encoding using the rules defined in {{-yang-cbor-mapping}}.
+*	If the data node requested is not implemented or not instantiated, the CBOR simple value 'undefined' is returned.
 
-When a collection is returned (YANG container, YANG list or YANG list instance), delta(s) are computed using the requested SID as parent.
+*	If the URI-Query parameter 'a' is not present in the FETCH request and the value of the data node instance is equal to the default value for this data node, the CBOR simple value 'default' is returned.
 
-The CBOR value undefined (0xf7) must be returned for each data node requested but not currently available.
+*	Otherwise, the data node instance is encoded using the rules defined in {{-yang-cbor-mapping}}.
 
 ### Example #1 - Simple data node
 
@@ -311,14 +312,14 @@ In this example, a CoOL client retrieves the leaf "/system-state/clock/current-d
 CoAP request:
 
 ~~~~
-FETCH /c Content-Format(application/cool+cbor)
+FETCH /c Content-Format(application/cool-instance-id-list+cbor)
 [1719, +15]
 ~~~~
 
 CoAP response:
 
 ~~~~
-2.05 Content Content-Format(application/cool+cbor)
+2.05 Content Content-Format(application/cool-value-list+cbor)
 [
   "2015-10-08T14:10:08Z09:00",    # current-datetime (SID 1719)
   {                               # clock (SID 1734)
@@ -388,34 +389,34 @@ The data type "instance-identifier" allows the selection of an instance of a spe
 CoAP request:
 
 ~~~~
-FETCH /c Content-Format(application/cool+cbor)
+FETCH /c Content-Format(application/cool-instance-id-list+cbor)
 [[1534, "eth0"]]
 ~~~~
 
 CoAP response:
 
 ~~~~
-2.05 Content Content-Format(application/cool+cbor)
+2.05 Content Content-Format(application/cool-value+cbor)
 "Ethernet adaptor"
 ~~~~
 
 ### Example #3 - YANG list
 
-To retrieve all instances of a list, the CoOL client excludes from the "instance-identifier" the key(s) of the targeted list. The list returned is encoded using the rules defined in {{-yang-cbor-mapping}} section 4.4.
+This “instance-identifier” extension allows the retrieval of all instances of a YANG list. To perform this operation, the CoOL client excludes from the "instance-identifier" the key(s) of the targeted list. The list returned is encoded using the rules defined in {{-yang-cbor-mapping}} section 4.4.
 
-In this example, a CoOL client retrieves the list "/interfaces/interface" (SID 1533). The response returns contain two instances, one for an Ethernet adaptor and one for a WIFI interface.
+In this example, a CoOL client retrieves the list "/interfaces/interface" (SID 1533). The response returned contain two instances, one for an Ethernet adaptor and one for a WIFI interface.
 
 CoAP request:
 
 ~~~~
-FETCH /c Content-Format(application/cool+cbor)
+FETCH /c Content-Format(application/cool-instance-id-list+cbor)
 [1533]
 ~~~~
 
 CoAP response:
 
 ~~~~
-2.05 Content Content-Format(application/cool+cbor)
+2.05 Content Content-Format(application/cool-value+cbor)
 [
   {
     +4 : "eth0",             # name (SID 1537)
@@ -441,14 +442,14 @@ In this example, the CoOL client requests the instance of the list "/interfaces/
 CoAP request:
 
 ~~~~
-FETCH /c Content-Format(application/cool+cbor)
+FETCH /c Content-Format(application/cool-instance-id-list+cbor)
 [[1533, "eth0"]]
 ~~~~
 
 CoAP response:
 
 ~~~~
-2.05 Content Content-Format(application/cool+cbor)
+2.05 Content Content-Format(application/cool-value+cbor)
 {
   +4 : "eth0"               # name (SID 1537)
   +1 : "Ethernet adaptor"   # description (SID 1534)
@@ -470,14 +471,14 @@ For example:
 CoAP request:
 
 ~~~~
-FETCH /c Content-Format(application/cool+cbor)
+FETCH /c Content-Format(application/cool-instance-id-list+cbor)
 [ [1533, "eth0", [+5, +2]], +215]
 ~~~~
 
 CoAP response:
 
 ~~~~
-2.05 Content Content-Format(application/cool+cbor)
+2.05 Content Content-Format(application/cool-value-list+cbor)
 [
   {
     +5 : 1179,             # type (SID 1538), identity ethernetCsmacd
@@ -500,14 +501,14 @@ Example:
 CoAP request:
 
 ~~~~
-FETCH /c Content-Format(application/cool+cbor)
+FETCH /c Content-Format(application/cool-instance-id-list+cbor)
 [1537]
 ~~~~
 
 CoAP response:
 
 ~~~~
-2.05 Content Content-Format(application/cool+cbor)
+2.05 Content Content-Format(application/cool-value+cbor)
 ["eth0", "eth1", "wlan0"]
 ~~~~
 
@@ -547,7 +548,7 @@ In this example, a CoOL client sets the default runtime datastore with these dat
 CoAP request:
 
 ~~~~
-PUT /c/r Content-Format(application/cool+cbor)
+PUT /c/r Content-Format(application/cool-value-pairs+cbor)
 [
   1736, 540,                     # timezone-utc-offset (SID 1736)
   +15, true,                     # enabled (SID 1751)
@@ -613,7 +614,7 @@ In this example, a CoOL client performs the following operations:
 CoAP request:
 
 ~~~~
-iPATCH /c/r Content-Format(application/cool+cbor)
+iPATCH /c/r Content-Format(application/cool-value-pairs+cbor)
 [
   1751 , true,                          # enabled (1751)
   [+1, "tac.nrc.ca"], null,             # server (SID 1752)
@@ -665,7 +666,7 @@ rpc activate-software-image {
 CoAP request:
 
 ~~~~
-POST /c Content-Format(application/cool+cbor)
+POST /c Content-Format(application/cool-value-pairs+cbor)
 [
   1932,
   {
@@ -677,7 +678,7 @@ POST /c Content-Format(application/cool+cbor)
 CoAP response:
 
 ~~~~
-2.05 Content
+2.05 Content Content-Format(application/cool-value+cbor)
 {
   +2 : "installed"                      # status (SID 1934)
 }
@@ -711,7 +712,7 @@ list server {
 CoAP request:
 
 ~~~~
-POST /c Content-Format(application/cool+cbor)
+POST /c Content-Format(application/cool-value-pairs+cbor)
 [
   [1902, "myServer"],
   {
@@ -723,7 +724,7 @@ POST /c Content-Format(application/cool+cbor)
 CoAP response:
 
 ~~~~
-2.05 Content
+2.05 Content Content-Format(application/cool-value+cbor)
 {
   +2 : "2016-08T14:10:08Z09:18"         # reset-finished-at (SID 1904)
 }
@@ -824,7 +825,7 @@ CoAP response:
 
 ~~~~
 2.05 Content Observe(53) Token(0xD937)
-Content-Format(application/cool+cbor)
+Content-Format(application/cool-value-pairs+cbor)
 [
   1011 , [1538, "eth0"],              # _id (SID 1011)
   +1,{                                # content (SID 1012)
@@ -840,7 +841,7 @@ CoAP response:
 
 ~~~~
 2.05 Content Observe(52) Token(0xD937)
-Content-Format(application/cool+cbor)
+Content-Format(application/cool-value-pairs+cbor)
 [
   [
     1011 , [1538, "eth0"],      # _id = interface-enabled (SID 1011)
@@ -872,7 +873,7 @@ This version of CoOL doesn’t support the creation of resources (datastore or e
 
 ## Working with Accept
 
-This option is not required since this protocol supports a single content format, "application/cool+cbor".
+This option is not required since this protocol don't support multiple choices of Content-Format.
 
 ## Working with Max-Age
 
@@ -912,14 +913,14 @@ Subsequent responses are returned by the CoOL server each time the state of data
 CoAP request:
 
 ~~~~
-FETCH /c Content-Format(application/cool+cbor) Observe(0)
+FETCH /c Content-Format(application/cool-instance-id-list+cbor) Observe(0)
 [ [1751, "tic.nrc.ca"], -3 ]
 ~~~~
 
 CoAP response:
 
 ~~~~
-2.05 Content Content-Format(application/cool+cbor) Observe(2631)
+2.05 Content Content-Format(application/cool-value-pairs+cbor) Observe(2631)
 [
   false,                     # enabled (SID 1751)
   "tic"                      # hostname (SID 1748)
@@ -929,7 +930,7 @@ CoAP response:
 CoAP response:
 
 ~~~~
-2.05 Content Content-Format(application/cool+cbor) Observe(2632)
+2.05 Content Content-Format(application/cool-value-pairs+cbor) Observe(2632)
 [
   true,                      # enabled (SID 1751)
   "tic"                      # hostname (SID 1748)
@@ -990,7 +991,7 @@ Example:
 CoAP response:
 
 ~~~~
-4.00 Bad Request (Content-Format: application/cool+cbor)
+4.00 Bad Request (Content-Format: application/cool-value-pairs+cbor)
 [
   1007 , {                                   # error-payload (SID 1007)
     +1 : 2,                                  # error-code (SID 1008)
@@ -1009,13 +1010,62 @@ The Security Considerations section of CoAP {{RFC7252}} is especially relevant t
 
 # IANA Considerations
 
-## "FETCH" CoAP Method Code
+## CoAP Method Code
 
-This draft makes use of the FETCH CoAP method as defined in {{-coap-etch}}. This method needs to be registered in the CoAP Method Codes sub-registry as defined in {{RFC7252}} section 12.1.1.
+This draft makes use of the FETCH and  iPATCH CoAP methods as defined in [I-D.vanderstok-core-etch]. These methods need to be registered in the CoAP Method Codes sub-registry as defined in {{RFC7252}} section 12.1.1.
 
-## "iPATCH" CoAP Method Code
+## CoAP Content-Formats
 
-This draft makes use of the iPATCH CoAP method as defined in {{-coap-etch}}. This method needs to be registered in the CoAP Method Codes sub-registry as defined in {{RFC7252}} section 12.1.1.
+This draft introduces the following CoAP Content-Formats. These entries need to be registered in the CoAP Content-Formats Registry as defined in {{RFC7252}} section 12.3.
+
+*	Media type = application/cool-instance-id-list
+
+*	Encoding = CBOR
+
+*	ID = 61
+
+*	Reference = RFC XXXX
+
+
+*	Media type = application/cool-value
+
+*	Encoding = CBOR
+
+*	ID = 62
+
+*	Reference = RFC XXXX
+
+
+*	Media type = application/cool-value-list
+
+*	Encoding = CBOR
+
+*	ID = 63
+
+*	Reference = RFC XXXX
+
+
+*	Media type = application/cool-value-pairs+cbor
+
+*	Encoding = CBOR
+
+*	ID = 64
+
+*	Reference = RFC XXXX
+
+RFC Ed.: update ID with allocated value and Reference with RFC number and remove this note.
+
+## CBOR simple value
+
+This draft introduces the following CBOR simple value. This entry needs to be registered in the Simple Values Registry as defined in {{RFC7049}} section 7.1.
+
+*	Value = 19
+
+*	Semantics = Default value
+
+*	Reference = RFC XXXX
+
+RFC Ed.: update XXXX and the values using the RFC number for this draft and allocated values and remove this note.
 
 # Acknowledgments
 
