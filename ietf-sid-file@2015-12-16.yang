@@ -93,20 +93,20 @@ module ietf-sid-file {
   }
 
   list items {
-    key "type assigned label";
+    key "type label";
     description
       "List of items defined by the associated YANG module.";
 
     leaf type {
       type string {
-        pattern 'Module|submodule|feature|' +
+        pattern 'Module|Submodule|feature|' +
                 'identity$|node$|notification$|rpc$|action$';
       }
       mandatory true;
       description
         "Item type assigned, this field can be set to:
           - 'Module'
-          - 'submodule'
+          - 'Submodule'
           - 'feature'
           - 'identity'
           - 'node'

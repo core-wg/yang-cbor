@@ -5,7 +5,6 @@ Plugin used to generate or update .sid files.
 
 import optparse
 import sys
-import time
 import json
 import collections
 import re
@@ -173,7 +172,6 @@ class SidFile:
     def process_sid_file(self, module):
         self.module_name = module.i_modulename
         self.module_revision = self.get_module_revision(module)
-        self.assignment_time = time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())
         self.output_file_name = '%s@%s.sid' % (self.module_name, self.module_revision)
 
         if self.range is not None:
@@ -202,9 +200,9 @@ class SidFile:
 
         if self.check_consistency:
             if self.is_consistent:
-                print("Check completed successfully")
+                print("\nCheck completed successfully")
             else:
-                print("The .sid file need to be updated.")
+                print("\nThe .sid file need to be updated.")
         else:
             if self.is_consistent:
                 print("No .sid file generated, the current .sid file is already up to date.")
@@ -301,13 +299,8 @@ class SidFile:
         for item in items:
             for key in item:
                 if key == 'type':
-                    if type(item[key]) != str or not re.match(r'identity$|node$|notification$|rpc$|action$', item[key]):
+                    if type(item[key]) != str or not re.match(r'Module$|Submodule$|feature$|identity$|node$|notification$|rpc$|action$', item[key]):
                         raise SidFileError("invalid 'type' value '%s'." % item[key])
-                    continue
-
-                if key == 'assigned':
-                    if type(item[key]) != str or not re.match(r'\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\dZ$', item[key]):
-                        raise SidFileError("invalid 'assigned' value '%s'." % item[key])
                     continue
 
                 if key == 'label':
@@ -364,6 +357,15 @@ class SidFile:
 
         for item in self.content['items']:
             item['status'] = 'd' # Set to 'd' deleted, updated to 'o' if present in .yang file
+
+        self.merge_item('Module', self.module_name)
+
+        for name in module.i_ctx.modules:
+            if module.i_ctx.modules[name].keyword == 'submodule':
+                self.merge_item('Submodule', module.i_ctx.modules[name].arg)
+
+        for feature in module.i_features:
+                self.merge_item('feature', feature)
 
         for children in module.i_children:
             if children.keyword == 'leaf' or children.keyword == 'leaf-list' or children.keyword == 'anyxml' or children.keyword == 'anydata':
@@ -457,14 +459,13 @@ class SidFile:
             if (type == item['type'] and label == item['label']):
                 item['status'] = 'o' # Item already assigned
                 return
-        self.content['items'].append(OrderedDict([('type', type),('assigned', self.assignment_time), ('label', label), ('sid', -1), ('status', 'n')]))
+        self.content['items'].append(OrderedDict([('type', type), ('label', label), ('sid', -1), ('status', 'n')]))
         self.is_consistent = False
 
     ########################################################
     # Sort the items list by 'type', 'assigned' and 'label'
     def sort_items(self):
         self.content['items'].sort(key=lambda item:item['label'])
-        self.content['items'].sort(key=lambda item:item['assigned'])
         self.content['items'].sort(key=lambda item:item['type'])
 
     ########################################################
@@ -517,7 +518,6 @@ class SidFile:
 
         if definition_removed:
             print("\nWARNING, obsolete definitions should be defined as 'deprecated' or 'obsolete'.")
-        sys.stdout.write("\n")
 
     ########################################################
     def list_deleted_items(self):
@@ -563,3 +563,4 @@ class SidFile:
     def print_statistic(self):
         print ("Number of SIDs available : %d" % self.number_of_SIDs())
         print ("Number of SIDs assigned : %d" % self.number_of_SIDs_used(self.highest_sid))
+
