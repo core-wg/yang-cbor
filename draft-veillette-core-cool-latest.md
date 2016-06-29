@@ -74,6 +74,7 @@ normative:
   I-D.vanderstok-core-etch: coap-etch
   I-D.ietf-netmod-rfc6020bis: yang11
   RFC2119:
+  RFC6243:
   RFC6020:
   RFC6690:
   RFC7049:
@@ -233,7 +234,9 @@ This section defines the different interactions supported between a CoOL client 
 
 The GET method is used by CoOL clients to retrieve the entire contents of a datastore. Implementation of this function is optional and dependent of the capability of the CoOL server to transfer a relatively large response.
 
-To retrieve all instantiated data nodes of a datastore resource, a CoOL client sends a CoAP GET request to the URI of the targeted datastore. If the request is accepted by the CoOL server, a 2.05 (Content) response code is returned. The payload of the GET response MUST carry a CBOR array containing the contents of the targeted datastore. The CBOR array MUST contain a list of pairs of delta and associated value. A delta represents the difference between the current SID and the SID of the previous pair within the CBOR array. Each value is encoded using the rules defined by  {{-yang-cbor-mapping}}.
+To retrieve all instantiated data nodes of a datastore resource, a CoOL client sends a CoAP GET request to the URI of the targeted datastore. If the request is accepted by the CoOL server, a 2.05 (Content) response code is returned. The payload of the GET response MUST carry a CBOR array containing the contents of the targeted datastore. The CBOR array MUST contain a list of pairs of delta and associated value. A delta represents the difference between the current SID and the SID of the previous pair within the CBOR array. Each value is encoded using the rules defined by {{-yang-cbor-mapping}}.
+
+The normal behaviour of a CoOL server is to exclude from the GET response, any data node with a value equal to the default value for this data node as defined by the YANG "default" statement. When this behaviour is not appropriate for the CoOL client, this client can force the retrieval of all data nodes by adding to its CoAP request a Uri-Query option containing the "a" parameter. See section {{a-uri-query}} form more details.
 
 If the request is rejected by the CoOL server, a 5.01 Not implemented or 4.13 Request Entity Too Large response code is returned.
 
@@ -304,6 +307,8 @@ The following type of values can be returned for each “instance-identifier” 
 *	If the URI-Query parameter 'a' is not present in the FETCH request and the value of the data node instance is equal to the default value for this data node, the CBOR simple value 'default' is returned.
 
 *	Otherwise, the data node instance is encoded using the rules defined in {{-yang-cbor-mapping}}.
+
+The normal behaviour of a CoOL server is to exclude from containers and list instances of a FETCH response, any data node with a value equal to the default value for this data node as defined by the YANG "default" statement. When this behaviour is not appropriate for the CoOL client, this client can force the retrieval of all data nodes by adding to its CoAP request a Uri-Query option containing the "a" parameter. See section {{-a-uri-query}} form more details.
 
 ### Example #1 - Simple data node
 
@@ -861,11 +866,39 @@ Content-Format(application/cool-value-pairs+cbor)
 ]
 ~~~~
 
+# Uri-Query {#uri-query}
+
+## The 'a' Query Parameter {#a-uri-query}
+
+When performing a GET, the normal behaviour of a CoOL server is to exclude from the GET response, data nodes currently set to the default value as defined by the YANG "default" statement. This behaviour called 'trim' is defined in {{RFC6243}} section 3.2.
+
+This rule also applies to the FETCH for containers and list instances but not for the root data nodes. To minimize the payload size of the FETCH responses, root data nodes are returned in a CBOR array without associated SID. To keep the symmetry between the FETCH request and the FETCH response, a CBOR content must be returned for each data node requested as follows: 
+
+* a CBOR simple type 'default' is returned for each data node currently set to its default value
+
+* a CBOR simple type 'undefined value' is returned for each data node not instantiated or not supported
+
+* otherwise, the value is encoded based on the rules defined in {{-yang-cbor-mapping}}
+
+There are use-cases when a CoOL client will need the default data from the server, for example:
+
+*	The management application often needs a single, definitive, and complete set of configuration values that determine how the networking device works.
+
+*	Documentation about default values can be unreliable or unavailable.
+
+*	Some management applications might not have the capabilities to correctly parse and interpret formal data models.
+
+*	Human users might want to understand the received data without consultation of the documentation.
+
+In all these cases, the CoOL client will need a mechanism to retrieve default data from a CoOL server.
+
+This is accomplished by including the "a" Uri-Query parameter in the GET or FETCH request. This behaviour called 'report-all' is defined in {{RFC6243}} section 3.1.
+
 # CoAP compatibility
 
 ## Working with Uri-Host, Uri-Port, Uri-Path, and Uri-Query
 
-Uri-Query is not currently used by this protocol. Uri-Host, Uri-Port and Uri-Path MUST be used as specified by {{RFC6690}} to target the CoOL resources as defined by section 3.
+Supported Uri-Query parameters are defined in section {{uri-query}}. Uri-Host, Uri-Port and Uri-Path MUST be used as specified by {{RFC6690}} to target the CoOL resources as defined by section 3.
 
 ## Working with Location-Path and Location-Query
 
