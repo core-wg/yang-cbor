@@ -561,7 +561,7 @@ Leafs of type decimal64 MUST be encoded using either CBOR unsigned integer
 (major type 0) or CBOR signed integer (major type 1), depending on the actual
 value. The position of the decimal point is defined by the fraction-digits YANG statement and is not available in the CBOR encoding.
 
-The following example shows the encoding of leaf 'my-decimal' set to 2.57 minutes.
+The following example shows the encoding of leaf 'my-decimal' set to 2.57.
 
 Definition example from {{RFC7317}}:
 
@@ -682,7 +682,7 @@ CBOR encoding: 41 05
 Leafs of type binary MUST be encoded using a CBOR byte string data item (major
 type 2).
 
-The following example shows the encoding of leaf 'aes128-key' set to the value 0x1f1ce6a3f42660d888d92a4d8030476e.
+The following example shows the encoding of leaf 'aes128-key' set to 0x1f1ce6a3f42660d888d92a4d8030476e.
 
 Definition example:
 
@@ -735,12 +735,12 @@ CBOR encoding: 64 65746831
 
 This specification supports two approaches for encoding identityref, a SID as defined in {{-core-sid}} or a name as defined in {{I-D.ietf-netmod-yang-json}} section 6.8.
 
-### SIDs as identityref
+### SIDs as identityref {#identityref-with-sid}
 
 SIDs are globally unique and may be used as identityref.  This approach is both compact and simple to implement.  When SIDs are
 used, identityref MUST be encoded using a CBOR unsigned integer data item (major type 0) and set to a SID allocated from a registered SID range.
 
-The following example shows the encoding of leaf 'type' set to the value 'iana-if-type:ethernetCsmacd'. We assume that this identity is assigned to SID 1180.
+The following example shows the encoding of leaf 'type' set to the value 'iana-if-type:ethernetCsmacd' (SID 1180).
 
 Definition example from {{RFC7317}}:
 
@@ -771,7 +771,7 @@ CBOR encoding: 19 049c
 
 Alternatively, an identityref may be encoded using a name as defined in {{I-D.ietf-netmod-yang-json}} section 6.8.  When names are used, identityref MUST be encoded using a CBOR text string data item (major type 3). If the identity is defined in another module than the leaf node containing the identityref value, the namespace-qualified form MUST be used. Otherwise, both the simple and namespace-qualified forms are permitted. Names and namespaces are defined in {{I-D.ietf-netmod-yang-json}} section 4.
 
-The following example shows the encoding of the same identity using its name.
+The following example shows the encoding of the identity 'iana-if-type:ethernetCsmacd' using its name. This example is described in {{identityref-with-sid}}.
 
 CBOR diagnostic notation: "iana-if-type:ethernetCsmacd"
 
@@ -872,7 +872,7 @@ Multi-instances data nodes MUST be encoded using a CBOR array data item (major t
 
 *	The following entries MUST contain the value of each key required to identify the instance of the targeted data node. These keys MUST be ordered as defined in the 'key' YANG statement, starting from top level list, and follow by each of the subordinate list(s).
 
-**First example**
+**First example:**
 
 The following example shows the encoding of a leaf of type instance-identifier which identify the data node "/system/contact" (SID 1737).
 
@@ -895,7 +895,7 @@ CBOR diagnostic notation: 1737
 
 CBOR encoding: 19 06c9
 
-**Second example**
+**Second example:**
 
 The following example shows the encoding of a leaf of type instance-identifier which identify the data node instance "/system/authentication/user/authorized-key/key-data" (SID 1730) for user name "bob" and authorized-key "admin".
 
@@ -940,7 +940,7 @@ CBOR encoding:
       61646d696e        # "admin"
 ~~~~
 
-**Third example**
+**Third example:**
 
 The following example shows the encoding of a leaf of type instance-identifier which identify the list instance "/system/authentication/user" (SID 1726) corresponding to the user name "jack".
 
@@ -959,7 +959,7 @@ CBOR encoding:
 
 The use of names as instance-identifier is defined in {{I-D.ietf-netmod-yang-json}} section 6.11. The resulting xpath MUST be encoded using a CBOR text string data item (major type 3).
 
-**First example**
+**First example:**
 
 This example is described in {{instance-identifier-with-sid}}.
 
@@ -971,7 +971,7 @@ CBOR encoding:
 78 1c 2f20696574662d73797374656d3a73797374656d2f636f6e74616374
 ~~~~
 
-**Second example**
+**Second example:**
 
 This example is described in {{instance-identifier-with-sid}}.
 
@@ -991,7 +991,7 @@ CBOR encoding:
    65642d6b65795b6e616d653d2761646d696e275d2f6b65792d64617461
 ~~~~
 
-**Third example**
+**Third example:**
 
 This example is described in {{instance-identifier-with-sid}}.
 
