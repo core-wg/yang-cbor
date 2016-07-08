@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-somaraju-core-sid-00
+docname: draft-somaraju-core-sid-01
 title: Structure Identifier (SID)
 area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
