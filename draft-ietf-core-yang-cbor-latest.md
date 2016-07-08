@@ -196,7 +196,7 @@ Collections such as containers, list instances, notifications, RPC inputs, RPC o
 
 This specification supports two type of keys; SID as defined in {{-core-sid}} encoded using CBOR unsigned or signed integers and member names as defined in {{I-D.ietf-netmod-yang-json}} encoded using CBOR text strings. The use of CBOR byte strings for keys is reserved for future extensions.
 
-### SIDs as keys
+### SIDs as keys {#container-with-sid}
 
 Keys implemented using SIDs MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR signed integer (major type 1), depending on the actual value. Keys are set to the delta of the associated SID, delta values are computed as follows:
 
@@ -263,7 +263,7 @@ a1                                      # map(1)
 
 Keys implemented using member names MUST be encoded using a CBOR text string data item (major type 3). A namespace-qualified member name MUST be used for all members of a top-level collection, and then also whenever the namespaces of the schema node and its parent are different. In all other cases, the simple form of the member name MUST be used. Names and namespaces are defined in {{I-D.ietf-netmod-yang-json}} section 4.
 
-The following example shows the encoding of the  the 'system' container using names.
+The following example shows the encoding of the  the 'system' container using names. This example is described in {{container-with-sid}}.
 
 CBOR diagnostic notation:
 
@@ -326,7 +326,7 @@ CBOR encoding: 82  68 696574662e6f7267  68 696565652e6f7267
 
 A list MUST be encoded using a CBOR array data item (major type 4). Each list instance within this CBOR array is encoded using a CBOR map data item (major type 5) based on the same rules as a YANG container as defined in {{container}}.
 
-### SIDs as keys {#list-example}
+### SIDs as keys {#list-with-sid}
 
 The follwoing example show the encoding a the 'server' list using the SIDs defined in {{-core-sid}} Appendix C. It is important to note that the protocol or method using this mapping may carry a parent SID or may have the knowledge of this parent SID based on its context. In these cases, delta encoding can be performed based on this parent SID which minimizes the size of the encoded data.
 
@@ -430,7 +430,7 @@ CBOR encoding:
 
 ### Member names as keys
 
-The following example shows the encoding of the the 'server' list using names. This example is described in {{list-example}}.
+The following example shows the encoding of the the 'server' list using names. This example is described in {{list-with-sid}}.
 
 CBOR diagnostic notation:
 
@@ -860,7 +860,7 @@ CBOR encoding: 74 323030313a6462383a6130623a313266303a3a31
 
 This specification supports two approaches for encoding an instance-identifier, one based on SIDs as defined in {{-core-sid}} and one based on names as defined in {{I-D.ietf-netmod-yang-json}} section 6.13.
 
-### SIDs as instance-identifier {#instance-identifier-examples}
+### SIDs as instance-identifier {#instance-identifier-with-sid}
 
 SIDs uniquely identify a data node. For a single instance data node, the SID is sufficient to identify this instance. For a multi-instance data node, a SID is combined with the list key(s) to identify each instance of this data node within the YANG list(s).
 
@@ -961,7 +961,7 @@ The use of names as instance-identifier is defined in {{I-D.ietf-netmod-yang-jso
 
 **First example**
 
-See {{instance-identifier-examples}} for the description of this example.
+This example is described in {{instance-identifier-with-sid}}.
 
 CBOR diagnostic notation: "/ietf-system:system/contact"
 
@@ -973,7 +973,7 @@ CBOR encoding:
 
 **Second example**
 
-See {{instance-identifier-examples}} for the description of this example.
+This example is described in {{instance-identifier-with-sid}}.
 
 CBOR diagnostic notation:
 
@@ -993,7 +993,7 @@ CBOR encoding:
 
 **Third example**
 
-See {{instance-identifier-examples}} for the description of this example.
+This example is described in {{instance-identifier-with-sid}}.
 
 CBOR diagnostic notation:
 
