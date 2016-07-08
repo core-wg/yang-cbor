@@ -204,7 +204,7 @@ Keys implemented using SIDs MUST be encoded using a CBOR unsigned integer (major
 
 *	Delta values may result in a negative number, clients and servers MUST support negative deltas.
 
-The following example shows the encoding of a container using the SIDs defined in {{-core-sid}} Appendix C.
+The following example shows the encoding of the 'system' container using the SIDs defined in {{-core-sid}} Appendix C.
 
 Definition example from {{RFC7317}}:
 
@@ -263,7 +263,7 @@ a1                                      # map(1)
 
 Keys implemented using member names MUST be encoded using a CBOR text string data item (major type 3). A namespace-qualified member name MUST be used for all members of a top-level collection, and then also whenever the namespaces of the schema node and its parent are different. In all other cases, the simple form of the member name MUST be used. Names and namespaces are defined in {{I-D.ietf-netmod-yang-json}} section 4.
 
-The following example shows the encoding of the same container using names.
+The following example shows the encoding of the  the 'system' container using names.
 
 CBOR diagnostic notation:
 
@@ -298,6 +298,8 @@ a1                                          # map(1)
 A leaf-list MUST be encoded using a CBOR array data item (major type 4).
 Each entry of this array MUST be encoded using the rules defined by the YANG type specified.
 
+The following example shows the encoding the 'search' leaf-list containing the two entries, "ietf.org" and "ieee.org".
+
 Definition example {{RFC7317}}:
 
 ~~~~ yang
@@ -324,9 +326,11 @@ CBOR encoding: 82  68 696574662e6f7267  68 696565652e6f7267
 
 A list MUST be encoded using a CBOR array data item (major type 4). Each list instance within this CBOR array is encoded using a CBOR map data item (major type 5) based on the same rules as a YANG container as defined in {{container}}.
 
-### SIDs as keys
+### SIDs as keys {#list-example}
 
 The follwoing example show the encoding a the 'server' list using the SIDs defined in {{-core-sid}} Appendix C. It is important to note that the protocol or method using this mapping may carry a parent SID or may have the knowledge of this parent SID based on its context. In these cases, delta encoding can be performed based on this parent SID which minimizes the size of the encoded data.
+
+The following example shows the encoding of the 'server' list containing two enties. SIDs used in this example are defined in [I-D.somaraju-core-sid] Appendix C. It is important to note that the protocol or method using this mapping may carry a parent SID or may have the knowledge of this parent SID based on its context. In these cases, delta encoding can be performed based on this parent SID which minimizes the size of the encoded data.
 
 Definition example from {{RFC7317}}:
 
@@ -426,7 +430,7 @@ CBOR encoding:
 
 ### Member names as keys
 
-The following example shows the encoding of the same list using names.
+The following example shows the encoding of the the 'server' list using names. This example is described in {{list-example}}.
 
 CBOR diagnostic notation:
 
