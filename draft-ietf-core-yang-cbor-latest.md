@@ -856,7 +856,7 @@ CBOR encoding: 74 323030313a6462383a6130623a313266303a3a31
 
 This specification supports two approaches for encoding an instance-identifier, one based on SIDs as defined in {{-core-sid}} and one based on names as defined in {{I-D.ietf-netmod-yang-json}} section 6.13.
 
-### SIDs as instance-identifier (#instance-identifier-examples}
+### SIDs as instance-identifier {#instance-identifier-examples}
 
 SIDs uniquely identify a data node. For a single instance data node, the SID is sufficient to identify this instance. For a multi-instance data node, a SID is combined with the list key(s) to identify each instance of this data node within the YANG list(s).
 
