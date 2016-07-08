@@ -261,7 +261,7 @@ a1                                      # map(1)
 
 ### Member names as keys
 
-Keys implemented using member names MUST be encoded using a CBOR text string data item (major type 3). A namespace-qualified member name MUST be used for all members of a top-level collection, and then also whenever the namespaces of the schema node and its parent are different. In all other cases, the simple form of the member name MUST be used. Member names and namespaces are defined in {{I-D.ietf-netmod-yang-json}} section 4.
+Keys implemented using member names MUST be encoded using a CBOR text string data item (major type 3). A namespace-qualified member name MUST be used for all members of a top-level collection, and then also whenever the namespaces of the schema node and its parent are different. In all other cases, the simple form of the member name MUST be used. Names and namespaces are defined in {{I-D.ietf-netmod-yang-json}} section 4.
 
 The following example shows the encoding of the same container using names.
 
@@ -731,7 +731,7 @@ CBOR encoding: 64 65746831
 
 This specification supports two approaches for encoding identityref, a SID as defined in {{-core-sid}} or a name as defined in {{I-D.ietf-netmod-yang-json}} section 6.8.
 
-**SIDs as identityref**
+### SIDs as identityref
 
 SIDs are globally unique and may be used as identityref.  This approach is both compact and simple to implement.  When SIDs are
 used, identityref MUST be encoded using a CBOR unsigned integer data item (major type 0) and set to a SID allocated from a registered SID range.
@@ -763,9 +763,9 @@ CBOR diagnostic notation: 1180
 
 CBOR encoding: 19 049c
 
-**Name as identityref**
+### Name as identityref
 
-Alternatively, an identityref may be encoded using a name as defined in {{I-D.ietf-netmod-yang-json}} section 6.8.  When names are used, identityref MUST be encoded using a CBOR text string data item (major type 3). If the identity is defined in another module than the leaf node containing the identityref value, the namespace-qualified form MUST be used. Otherwise, both the simple and namespace-qualified forms are permitted.
+Alternatively, an identityref may be encoded using a name as defined in {{I-D.ietf-netmod-yang-json}} section 6.8.  When names are used, identityref MUST be encoded using a CBOR text string data item (major type 3). If the identity is defined in another module than the leaf node containing the identityref value, the namespace-qualified form MUST be used. Otherwise, both the simple and namespace-qualified forms are permitted. Names and namespaces are defined in {{I-D.ietf-netmod-yang-json}} section 4.
 
 The following example shows the encoding of the same identity using its name.
 
