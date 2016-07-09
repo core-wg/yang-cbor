@@ -1115,6 +1115,7 @@ Module containing the different definitions required by the CoOL protocol.
 ~~~~
 <CODE BEGINS> file "ietf-cool@2016-01-01.yang"
 module ietf-cool {
+  yang-version 1;
   namespace "urn:ietf:params:xml:ns:yang:ietf-cool";
   prefix cool;
 
@@ -1167,6 +1168,7 @@ module ietf-cool {
   // Error payload 
    
   container error-payload {
+    presence "Defines the format of an error paylaod.";
     description
       "Optional payload of a client error (CoAP response 4.xx)
        or server error (CoAP response 5.xx).";
@@ -1258,6 +1260,7 @@ module ietf-cool {
   }
   
   container notification-payload {
+    presence "Defines the format of a notification paylaod.";
     description
       "Definition of the payload of a notification transfered using CoOL.";
   
