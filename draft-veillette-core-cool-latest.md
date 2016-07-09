@@ -1346,8 +1346,7 @@ module ietf-cool {
       reference "RFC 5424";
     }
 
-    leaf content {
-      type anydata;
+    anydata content {
       description
         "Notification container as defined by the notification YANG
         statement.";
