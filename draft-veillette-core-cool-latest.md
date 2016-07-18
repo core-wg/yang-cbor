@@ -83,7 +83,7 @@ normative:
   RFC7641:
 informative:
   I-D.somaraju-core-sid: core-sid
-  I-D.veillette-core-yang-cbor-mapping: yang-cbor-mapping
+  I-D.ietf-core-yang-cbor: yang-cbor-mapping
   I-D.ietf-netconf-restconf: restconf
   I-D.ersue-constrained-mgmt: constrained-mgmt
   I-D.ietf-core-coap-tcp-tls: coap-tcp
@@ -236,7 +236,7 @@ The GET method is used by CoOL clients to retrieve the entire contents of a data
 
 To retrieve all instantiated data nodes of a datastore resource, a CoOL client sends a CoAP GET request to the URI of the targeted datastore. If the request is accepted by the CoOL server, a 2.05 (Content) response code is returned. The payload of the GET response MUST carry a CBOR array containing the contents of the targeted datastore. The CBOR array MUST contain a list of pairs of delta and associated value. A delta represents the difference between the current SID and the SID of the previous pair within the CBOR array. Each value is encoded using the rules defined by {{-yang-cbor-mapping}}.
 
-The normal behaviour of a CoOL server is to exclude from the GET response, any data node with a value equal to the default value for this data node as defined by the YANG 'default' statement. When this behaviour is not appropriate for the CoOL client, this client can force the retrieval of all data nodes by adding to its CoAP request a Uri-Query option containing the 'a' parameter. See  {{a-uri-query}} form more details.
+The normal behaviour of a CoOL server is to exclude from the GET response, any data node currently set to its default value. When this behaviour is not appropriate for the CoOL client, this client can force the retrieval of all data nodes by using the 'a' Uri-Query parameter, see {{a-uri-query}} for more details.
 
 If the request is rejected by the CoOL server, a 5.01 Not implemented or 4.13 Request Entity Too Large response code is returned.
 
@@ -299,8 +299,7 @@ SIDs within the list of 'instance-identifier' are encoded using delta. A delta r
 
 On successful processing of the CoAP request, the CoOL server MUST return a CoAP response with a response code 2.05 (Content). 
 
-When a single data node is requested, the payload of the FETCH response carries the value of the data node instance requested. When a multiple data nodes are requested, the payload of the FETCH response carries a CBOR array containing the value of each data node instance(s) requested. The number of entries in this CBOR array MUST match the number of “instance-identifier” requested to allow a proper interpretation of this information.
-The following type of values can be returned for each 'instance-identifier' requested:
+When a single data node is requested, the payload of the FETCH response carries the value of the data node instance requested. When multiple data nodes are requested, the payload of the FETCH response carries a CBOR array containing the value of each data node instance(s) requested. The number of entries in this CBOR array MUST match the number of “instance-identifier” requested to allow a proper interpretation of this information. The following values can be returned for each 'instance-identifier' requested:
 
 *	If the data node requested is not implemented or not instantiated, the CBOR simple value 'undefined' is returned.
 
@@ -308,7 +307,7 @@ The following type of values can be returned for each 'instance-identifier' requ
 
 *	Otherwise, the data node instance is encoded using the rules defined in {{-yang-cbor-mapping}}.
 
-The normal behaviour of a CoOL server is to exclude from containers and list instances of a FETCH response, any data node with a value equal to the default value for this data node as defined by the YANG 'default' statement. When this behaviour is not appropriate for the CoOL client, this client can force the retrieval of all data nodes by adding to its CoAP request a Uri-Query option containing the 'a' parameter. See {{a-uri-query}} form more details.
+The normal behaviour of a CoOL server is to exclude from containers and list instances of a FETCH response, any data node currently set to its default value. When this behaviour is not appropriate for the CoOL client, this client can force the retrieval of all data nodes by using the 'a' Uri-Query parameter, see {{a-uri-query}} for more details.
 
 ### Example #1 - Simple data node
 
@@ -870,7 +869,7 @@ Content-Format(application/cool-value-pairs+cbor)
 
 ## The 'a' Query Parameter {#a-uri-query}
 
-When performing a GET, the normal behaviour of a CoOL server is to exclude from the GET response, data nodes currently set to the default value as defined by the YANG 'default' statement. This behaviour called 'trim' is defined in {{RFC6243}} section 3.2.
+When performing a GET, the normal behaviour of a CoOL server is to exclude from the GET response, data nodes currently set to their default values as defined by the YANG 'default' statement. This behaviour called 'trim' is defined in {{RFC6243}} section 3.2.
 
 This rule also applies to the FETCH for containers and list instances but not for the root data nodes. To minimize the payload size of the FETCH responses, root data nodes are returned in a CBOR array without associated SID. To keep the symmetry between the FETCH request and the FETCH response, a CBOR content must be returned for each data node requested as follows: 
 
@@ -1086,7 +1085,8 @@ This draft introduces the following CoAP Content-Formats. These entries need to 
 
 *	Reference = RFC XXXX
 
-RFC Ed.: update ID with allocated value and Reference with RFC number and remove this note.
+RFC Ed.: update XXXX to the RFC number assigned to this draft, update the ID if different than the one allocated, remove this note.
+TO DO : If this set of Content-Formats is accepted, requirements and description need to be added where appropriate.
 
 ## CBOR simple value
 
@@ -1098,7 +1098,7 @@ This draft introduces the following CBOR simple value. This entry needs to be re
 
 *	Reference = RFC XXXX
 
-RFC Ed.: update XXXX and the values using the RFC number for this draft and allocated values and remove this note.
+RFC Ed.: update XXXX to the RFC number assigned to this draft, update the value if different than the one allocated, remove this note.
 
 # Acknowledgments
 
