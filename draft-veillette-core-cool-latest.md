@@ -1042,13 +1042,11 @@ The Security Considerations section of CoAP {{RFC7252}} is especially relevant t
 
 # IANA Considerations
 
-## CoAP Method Code
-
-This draft makes use of the FETCH and  iPATCH CoAP methods as defined in [I-D.vanderstok-core-etch]. These methods need to be registered in the CoAP Method Codes sub-registry as defined in {{RFC7252}} section 12.1.1.
-
 ## CoAP Content-Formats
 
 This draft introduces the following CoAP Content-Formats. These entries need to be registered in the CoAP Content-Formats Registry as defined in {{RFC7252}} section 12.3.
+
+First entry:
 
 *	Media type = application/cool-instance-id-list
 
@@ -1058,6 +1056,7 @@ This draft introduces the following CoAP Content-Formats. These entries need to 
 
 *	Reference = RFC XXXX
 
+Second entry:
 
 *	Media type = application/cool-value
 
@@ -1067,6 +1066,7 @@ This draft introduces the following CoAP Content-Formats. These entries need to 
 
 *	Reference = RFC XXXX
 
+Third entry:
 
 *	Media type = application/cool-value-list
 
@@ -1076,6 +1076,7 @@ This draft introduces the following CoAP Content-Formats. These entries need to 
 
 *	Reference = RFC XXXX
 
+Fourth entry:
 
 *	Media type = application/cool-value-pairs+cbor
 
@@ -1086,7 +1087,8 @@ This draft introduces the following CoAP Content-Formats. These entries need to 
 *	Reference = RFC XXXX
 
 RFC Ed.: update XXXX to the RFC number assigned to this draft, update the ID if different than the one allocated, remove this note.
-TO DO : If this set of Content-Formats is accepted, requirements and description need to be added where appropriate.
+
+TO DO If this set of Content-Formats is accepted, requirements and description need to be added where appropriate.
 
 ## CBOR simple value
 
