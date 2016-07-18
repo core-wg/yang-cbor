@@ -1117,7 +1117,7 @@ Module containing the different definitions required by the CoOL protocol.
 ~~~~
 <CODE BEGINS> file "ietf-cool@2016-01-01.yang"
 module ietf-cool {
-  yang-version 1;
+  yang-version 1.1;
   namespace "urn:ietf:params:xml:ns:yang:ietf-cool";
   prefix cool;
 
