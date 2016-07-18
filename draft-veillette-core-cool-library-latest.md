@@ -38,7 +38,7 @@ informative:
 
 --- abstract
 
-This document describes a YANG library, which provides information about all YANG modules implemented by a CoOL server endpoint.  A simple caching mechanism is provided to minimize retrieval of this information by CoOL clients.
+This document describes a library, which provides information about all YANG modules implemented by a CoOL server endpoint.  A simple caching mechanism is provided to minimize retrieval of this information by CoOL clients.
    
 --- middle
 
@@ -46,15 +46,13 @@ This document describes a YANG library, which provides information about all YAN
 
 The YANG module defined in this meno is available to CoOL clients to discover the different YANG data models supported by a CoOL server endpoint. The following YANG module information is needed by client applications to fully utilize the YANG data modeling language:
 
-* SID: Identifier assigned to a YANG module.
+* module list: The list of YANG modules implemented by the CoOL server endpoint, each module is identified by its SID and revision.
 
-* revision: Each YANG module and submodule within the library has a revision.  This is derived from the most recent revision statement within the module or submodule. If no such revision statement exists, the module's or submodule's revision is set to zero.
+* submodule list: The list of YANG submodules included by each module, each submodule is identified by its SID and revision. 
+   
+* feature list: The list of features supported by each YANG module, each feature is identified by its SID.
 
-* submodule list: The SID and revision assigned to each submodule used by the module.
-
-* feature list: The SID assigned to each YANG feature supported by the server endpoint.
-
-* deviation list: The SID and revision assigned to each YANG module used for deviation statements.
+* deviation list: The list of YANG modules used for deviation statements associated with each YANG module, each module is identified by its SID and revision.
 
 # Terminology and Notation
 
@@ -86,7 +84,7 @@ The following terms are defined in {{-core-cool}}:
    
 The following terms are used within this document:
 
-* YANG library: a collection of YANG modules used by a server endpoint
+* library: a collection of YANG modules used by a server endpoint
 
 # Overview
 
@@ -110,7 +108,7 @@ module: ietf-cool-library
             +--ro sid         sid
             +--ro revision    revision
 notifications:
-   +---n yang-library-change
+   +---n cool-library-change
       +--ro module-set-id    -> /modules-state/module-set-id
 ~~~~
 {: align="left"}
@@ -123,11 +121,11 @@ This mandatory container holds the module set identifier and the list of modules
 
 ###  modules-state/module-set-id
 
-This mandatory leaf contains an identifier representing the current set of modules and submodules used by a server endpoint. This identifier is endpoint-specific when implemented as unit32 or shared between multiple endpoints on one or multiple servers when implemented as identityref.  The value of this leaf MUST change whenever the set of modules and submodules in the YANG library changes.  There is no requirement that the same set always results in the same module-set-id value.
+This mandatory leaf contains an identifier representing the current set of modules and submodules used by a server endpoint. This identifier is endpoint-specific when implemented as unit32 or shared between multiple endpoints on one or multiple servers when implemented as identityref.  The value of this leaf MUST change whenever the set of modules and submodules in the library changes.  There is no requirement that the same set always results in the same module-set-id value.
 
 This leaf allows a client to fetch the module list once, cache it, and only re-fetch it if the value of this leaf has been changed.
 
-If the value of this leaf changes, the server also generates a "yang-library-change" notification, with the new value of "module-set-id".
+If the value of this leaf changes, the server also generates a "cool-library-change" notification, with the new value of "module-set-id".
 
 ###  modules-state/module
 
@@ -364,7 +362,7 @@ module ietf-cool-library {
    * Notifications
    */
 
-  notification yang-library-change {
+  notification cool-library-change {
     description
       "Generated when the set of modules and submodules supported
       by the server endpoint has changed.";
