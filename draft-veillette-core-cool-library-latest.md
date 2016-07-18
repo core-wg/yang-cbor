@@ -106,10 +106,9 @@ module: ietf-cool-library
          |  +--ro sid         sid
          |  +--ro revision    revision
          +--ro conformance-type    enumeration
-         +--ro submodules
-            +--ro submodule* [sid revision]
-               +--ro sid         sid
-               +--ro revision    revision
+         +--ro submodule* [sid revision]
+            +--ro sid         sid
+            +--ro revision    revision
 notifications:
    +---n yang-library-change
       +--ro module-set-id    -> /modules-state/module-set-id
@@ -351,18 +350,12 @@ module ietf-cool-library {
           claiming for the YANG module identified by this entry.";
       }
       
-      container submodules {
+      list submodule {
+        key "sid revision";
         description
-          "Contains information about all the submodules used
-           by the parent module entry";
-
-        list submodule {
-          key "sid revision";
-          description
-            "Each entry represents one submodule within the
-             parent module.";
-          uses identification-info;
-        }
+          "Each entry represents one submodule within the
+           parent module.";
+        uses identification-info;
       }
     }
   }
