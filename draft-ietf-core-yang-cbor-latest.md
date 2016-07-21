@@ -177,7 +177,7 @@ Basic schema nodes such as leaf, leaf-list, list, anydata and anyxml can be enco
 
 A collection such as container, list instance, notification, RPC input, RPC output, action input and action output is serialized using a CBOR map in which each child schema node is encoded using a key and a value. This specification supports two type of keys; SID as defined in {{-core-sid}} and member names as defined in {{I-D.ietf-netmod-yang-json}}. Each of these key type is encoded using a specific CBOR type which allows their interpretation during the deserialization process. The end user of this mapping specification can mandate the use of a specific key type or a specific subset of key types.
 
-In order to minimize the size of the encoded data, the proposed mapping avoid any unnecessary meta-information beyond those natively supported by CBOR. For instance, CBOR tags are used sorely in the case of the union datatype to distinguish explicitly the use of different YANG datatypes encoded using the same CBOR major type. 
+In order to minimize the size of the encoded data, the proposed mapping avoid any unnecessary meta-information beyond those natively supported by CBOR. For instance, CBOR tags are used solely in the case of the union datatype to distinguish explicitly the use of different YANG datatypes encoded using the same CBOR major type. 
 
 It is expected that application entities generating and decoding CBOR contents have enough knowledge about the information processed in order to perform the expected task without the need of such extra meta-information.
 
