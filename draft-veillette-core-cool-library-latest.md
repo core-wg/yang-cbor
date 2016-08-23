@@ -94,6 +94,7 @@ The "ietf-cool-library" module provides information about the YANG library used 
 
 A simplified graphical representation of the data model is used for the ietf-cool-library YANG module specified in this document. The meaning of the symbols in these diagrams is as follows:
 
+
 : Brackets "[" and "]" enclose list keys.
 
 : Abbreviations before data node names: "rw" means configuration
