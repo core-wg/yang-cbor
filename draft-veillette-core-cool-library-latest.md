@@ -94,13 +94,12 @@ The "ietf-cool-library" module provides information about the YANG library used 
 
 A simplified graphical representation of the data model is used for the ietf-cool-library YANG module specified in this document. The meaning of the symbols in these diagrams is as follows:
 
+    Brackets "[" and "]" enclose list keys.
 
-: Brackets "[" and "]" enclose list keys.
-
-: Abbreviations before data node names: "rw" means configuration
+    Abbreviations before data node names: "rw" means configuration
 data (read-write) and "ro" state data (read-only).
 
-: Symbols after data node names: "?" means an optional node, "!"
+    Symbols after data node names: "?" means an optional node, "!"
 means a presence container, and "*" denotes a list and leaf-list.
 
 ~~~~
