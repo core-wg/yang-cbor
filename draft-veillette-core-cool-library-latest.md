@@ -92,6 +92,16 @@ The "ietf-cool-library" module provides information about the YANG library used 
 
 ## Tree diagram
 
+A simplified graphical representation of the data model is used for the ietf-cool-library YANG module specified in this document. The meaning of the symbols in these diagrams is as follows:
+
+: Brackets "[" and "]" enclose list keys.
+
+: Abbreviations before data node names: "rw" means configuration
+data (read-write) and "ro" state data (read-only).
+
+: Symbols after data node names: "?" means an optional node, "!"
+means a presence container, and "*" denotes a list and leaf-list.
+
 ~~~~
 module: ietf-cool-library
    +--ro modules-state
@@ -179,7 +189,7 @@ module ietf-cool-library {
   // RFC Ed.: replace XXXX with actual RFC number and remove
   // this note.
 
-  // RFC Ed.: update the date below with the date of RFC
+  // RFC Ed.: update the date below with the date of the RFC
   // publication and remove this note.
 
   // RFC Ed.: update [I-D.somaraju-core-sid] with actual RFC
@@ -228,6 +238,7 @@ module ietf-cool-library {
 
     leaf sid {
       type sid;
+      mandatory true;
       description
         "SID assigned to this module or submodule.";
     }
@@ -236,8 +247,8 @@ module ietf-cool-library {
       type revision;
       description
         "Revision date assigned to this module or submodule.
-        Set to 0x00000000 if no revision statement is present
-        in the YANG module.";
+        A zero-length binary string is used if no revision statement
+        is present in the YANG module or submodule.";
     }
   }
   
@@ -256,7 +267,7 @@ module ietf-cool-library {
     description
       "Contain information about the different data models
       implement by a CoOL endpoint.";
-
+    
     leaf module-set-id {
       type union {
         type uint32;
@@ -395,9 +406,9 @@ namespace:    urn:ietf:params:xml:ns:yang:ietf-cool-library
 
 prefix:       coollib
 
-// RFC Ed.: replace XXXX with RFC number and remove this note
-
 reference:    RFC XXXX
+
+// RFC Ed.: replace XXXX with RFC number and remove this note
 
 # Security Considerations
 
@@ -407,7 +418,7 @@ Specifically, the 'module' list may help an attacker identify the server capabil
 
 # Acknowledgments
 
-The YANG module defined by this memo have been derived from an already existing YANG module targetting the RESTconf protocol {{-restconf}}. We will like to thank the authors of this prior work {{-yang-library}} which have been essential for the development of "ietf-cool-library" targetting the Constrained Objects Language {{-core-cool}} protocol. The authors would also like to thank Andy Bierman for his recommendations on the appraoch to use and his review of the resulting YANG module.
+The YANG module defined by this memo have been derived from an already existing YANG module targeting the RESTconf protocol {{-restconf}}. We will like to thank the authors of this prior work {{-yang-library}} which have been essential for the development of "ietf-cool-library" targeting the Constrained Objects Language {{-core-cool}} protocol. The authors would also like to thank Andy Bierman for his recommendations and his review of the resulting YANG module.
 
 --- back
 
