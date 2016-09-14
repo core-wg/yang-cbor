@@ -262,7 +262,7 @@ In this example, the CoOL server returns a datastore containing the following da
 
 * "/system/clock/timezone/timezone-utc-offset/timezone-utc-offset" (SID 1736)
 
-CoAP Request:
+CoAP request:
 
 ~~~~
 GET /c
@@ -654,6 +654,7 @@ On successful completion on the protocol operation, the CoOL server returns a Co
 
 This example is based on the 'activate-software-image' RPC defined in {{-yang11}}, assuming that this RPC is assigned to SID 1932, leaf image-name to SID 1933 and leaf status to SID 1934. These SIDs are defined strictly for the purpose of this example.
 
+~~~~
 rpc activate-software-image {
   input {
     leaf image-name {
@@ -666,6 +667,7 @@ rpc activate-software-image {
     }
   }
 }
+~~~~
 
 CoAP request:
 
@@ -692,6 +694,7 @@ CoAP response:
 
 This example is based on the 'reset' action defined in {{-yang11}} assuming that this action is assigned to SID 1902, leaf reset-at to SID 1903 and leaf reset-finished-at to SID 1904. These SIDs are defined strictly for the purpose of this example.
 
+~~~~
 list server {
   key name;
   leaf name {
@@ -712,6 +715,7 @@ list server {
     }
   }
 }
+~~~~
 
 CoAP request:
 
@@ -730,7 +734,7 @@ CoAP response:
 ~~~~
 2.05 Content Content-Format(application/cool-value+cbor)
 {
-  +2 : "2016-08T14:10:08Z09:18"         # reset-finished-at (SID 1904)
+  +2 : "2016-02-08T14:10:08Z09:18"         # reset-finished-at (SID 1904)
 }
 ~~~~
 
