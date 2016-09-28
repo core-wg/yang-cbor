@@ -252,7 +252,7 @@ In this example, the CoOL server returns a datastore containing the following da
 
 * "/interfaces/interface/name" (SID 1537)
 
-* "/interfaces/interface/1538" (SID 1534)
+* "/interfaces/interface/description" (SID 1534)
 
 * "/system-state/clock" (SID 1717)
 
