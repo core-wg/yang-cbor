@@ -70,6 +70,8 @@ author:
   country: France
   email: ana@ackl.io
 normative:
+  RFC7950:
+  RFC7951:
   RFC2119:
   RFC7049:
 informative:
@@ -94,7 +96,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
 "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to
 be interpreted as described in {{RFC2119}}.
 
-The following terms are defined in [RFC7950]:
+The following terms are defined in {{RFC7950}}:
 
 * action
 
@@ -124,7 +126,7 @@ This specification also makes use of the following terminology:
 
 # YANG Schema Item iDentifier (SID)
 
-Some of the items defined in YANG [RFC7950] require the use of a unique identifier. In both NETCONF and RESTCONF, these identifiers are implemented using names. To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required.
+Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier. In both NETCONF and RESTCONF, these identifiers are implemented using names. To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required.
 
 This compact identifier, called SID, is encoded using an unsigned integer. To minimize its size, SIDs are often implemented using a delta from a reference SID and the current SID. To guaranty the uniqueness of each assigned SID, SID ranges MUST be registered. {{sid-range-registry}} provide more details about the registration process of SID range(s).
 
@@ -223,7 +225,7 @@ If a new revision requires more SIDs than initially allocated, a new SID range M
 
 # ".sid" file format  {#sid-file-format}
 
-".sid" files are used to persist and publish SIDs assigned to the different YANG items of a specific YANG module. The following YANG module defined the structure of this file, encoding is performed using the rules defined in [RFC7951].
+".sid" files are used to persist and publish SIDs assigned to the different YANG items of a specific YANG module. The following YANG module defined the structure of this file, encoding is performed using the rules defined in {{RFC7951}}.
 
 ~~~~
 <CODE BEGINS> file "ietf-sid-file@2015-12-16.yang"
@@ -371,9 +373,9 @@ module ietf-sid-file {
 
 # Security Considerations
 
-The security considerations of {{RFC7049}} and [RFC7950] apply.
+The security considerations of {{RFC7049}} and {{RFC7950}} apply.
 
-This document defines an new type of identifier used to encode data models defined in YANG [RFC7950]. As such, this identifier does not contribute to any new security issues in addition of those identified for the specific protocols or contexts for which it is used.
+This document defines an new type of identifier used to encode data models defined in YANG {{RFC7950}}. As such, this identifier does not contribute to any new security issues in addition of those identified for the specific protocols or contexts for which it is used.
 
 # IANA Considerations  {#IANA}
 
