@@ -70,8 +70,8 @@ author:
   country: France
   email: ana@ackl.io
 normative:
-  I-D.ietf-netmod-rfc6020bis: yang11
-  I-D.ietf-netmod-yang-json: yang-json
+  RFC7950:
+  RFC7951:
   RFC2119:
   RFC7049:
 informative:
@@ -82,7 +82,7 @@ informative:
 
 --- abstract
 
-YANG Schema Item iDentifiers (SID) are used to identify different YANG items when encoded in CBOR. This document defines the registration and assignment processes of SIDs. To enable the implementation of these processes, this document also defines a file format used to persist and publish assigned SIDs.
+YANG Schema Item iDentifiers (SID) are used to identify different YANG items using a numeric identifier. This document defines the registration and assignment processes of SIDs. To enable the implementation of these processes, this document also defines a file format used to persist and publish assigned SIDs.
 
 --- middle
 
@@ -96,7 +96,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
 "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to
 be interpreted as described in {{RFC2119}}.
 
-The following terms are defined in {{I-D.ietf-netmod-rfc6020bis}}:
+The following terms are defined in {{RFC7950}}:
 
 * action
 
@@ -126,7 +126,7 @@ This specification also makes use of the following terminology:
 
 # YANG Schema Item iDentifier (SID)
 
-Some of the items defined in YANG {{I-D.ietf-netmod-rfc6020bis}} require the use of a unique identifier. In both NETCONF and RESTCONF, these identifiers are implemented using names. To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required.
+Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier. In both NETCONF and RESTCONF, these identifiers are implemented using names. To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required.
 
 This compact identifier, called SID, is encoded using an unsigned integer. To minimize its size, SIDs are often implemented using a delta from a reference SID and the current SID. To guaranty the uniqueness of each assigned SID, SID ranges MUST be registered. {{sid-range-registry}} provide more details about the registration process of SID range(s).
 
@@ -152,7 +152,7 @@ Assignment of SIDs can be automated, the recommended process to assign SIDs is a
 
 *	The list of items is ordered by type and label.
 
-*	SIDs are assigned sequentially for the entry point up to the size of the registered SID range. It is important to note that sequentially assigning SIDs optimizes the CBOR serialization due to the use of delta encoding.
+*	SIDs are assigned sequentially for the entry point up to the size of the registered SID range. This approach is recommended to minimize the serialization overhead, especially when delta encoding is implemented.
 
 *	If the number of items exceeds the SID range(s) allocated to a YANG module, an extra range is added for subsequent assignments.
 
@@ -225,7 +225,7 @@ If a new revision requires more SIDs than initially allocated, a new SID range M
 
 # ".sid" file format  {#sid-file-format}
 
-".sid" files are used to persist and publish SIDs assigned to the different YANG items of a specific YANG module. The following YANG module defined the structure of this file, encoding is performed using the rules defined in {{I-D.ietf-netmod-yang-json}}.
+".sid" files are used to persist and publish SIDs assigned to the different YANG items of a specific YANG module. The following YANG module defined the structure of this file, encoding is performed using the rules defined in {{RFC7951}}.
 
 ~~~~
 <CODE BEGINS> file "ietf-sid-file@2015-12-16.yang"
@@ -373,9 +373,9 @@ module ietf-sid-file {
 
 # Security Considerations
 
-The security considerations of {{RFC7049}} and {{-yang11}} apply.
+The security considerations of {{RFC7049}} and {{RFC7950}} apply.
 
-This document defines an new type of identifier used to encode data models defined in YANG {{-yang11}}. As such, this identifier does not contribute to any new security issues in addition of those identified for the specific protocols or contexts for which it is used.
+This document defines an new type of identifier used to encode data models defined in YANG {{RFC7950}. As such, this identifier does not contribute to any new security issues in addition of those identified for the specific protocols or contexts for which it is used.
 
 # IANA Considerations  {#IANA}
 
