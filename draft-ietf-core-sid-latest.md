@@ -90,7 +90,7 @@ YANG Schema Item iDentifiers (SID) are used to identify different YANG items usi
 
 # Introduction
 
-YANG identifiers are typically implemented using unmanaged strings. This is the approach used by both NETCONF {{RFC6241}} and RESTCONF {{-restconf}}. In order to implement YANG in constrained devices and constrained networks, a more efficient representation is required. YANG Schema Item iDentifier (SID) is a compact numeric identifier assigned to the following YANG item:
+YANG identifiers are typically implemented using unmanaged strings. This is the approach used by both NETCONF {{RFC6241}} and RESTCONF {{-restconf}}. In order to implement YANG in constrained devices and constrained networks, a more efficient representation is required. YANG Schema Item iDentifier (SID) is a compact numeric identifier assigned to the following YANG items:
 
 * schema node identifier
 
