@@ -70,7 +70,6 @@ author:
   country: France
   email: ana@ackl.io
 normative:
-  RFC7951:
   RFC2119:
   RFC7049:
 informative:
@@ -224,7 +223,7 @@ If a new revision requires more SIDs than initially allocated, a new SID range M
 
 # ".sid" file format  {#sid-file-format}
 
-".sid" files are used to persist and publish SIDs assigned to the different YANG items of a specific YANG module. The following YANG module defined the structure of this file, encoding is performed using the rules defined in {{RFC7951}}.
+".sid" files are used to persist and publish SIDs assigned to the different YANG items of a specific YANG module. The following YANG module defined the structure of this file, encoding is performed using the rules defined in [RFC7951].
 
 ~~~~
 <CODE BEGINS> file "ietf-sid-file@2015-12-16.yang"
