@@ -375,7 +375,7 @@ module ietf-sid-file {
 
 The security considerations of {{RFC7049}} and {{RFC7950}} apply.
 
-This document defines an new type of identifier used to encode data models defined in YANG {{RFC7950}. As such, this identifier does not contribute to any new security issues in addition of those identified for the specific protocols or contexts for which it is used.
+This document defines an new type of identifier used to encode data models defined in YANG {{RFC7950}}. As such, this identifier does not contribute to any new security issues in addition of those identified for the specific protocols or contexts for which it is used.
 
 # IANA Considerations  {#IANA}
 
