@@ -1,8 +1,8 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-somaraju-core-sid-01
-title: Structure Identifier (SID)
+docname: draft-ietf-core-sid-00
+title: YANG Schema Item iDentifier (SID)
 area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
 kw: CBOR
@@ -79,11 +79,10 @@ informative:
   RFC7224:
   RFC7277:
   RFC7317:
-  I-D.veillette-core-cool: cool
 
 --- abstract
 
-Structured IDentifiers (SID) are used to identify different YANG items when encoded in CBOR. This document defines the registration and assignment processes of SIDs. To enable the implementation of these processes, this document also defines a file format used to persist and publish assigned SIDs.
+YANG Schema Item iDentifiers (SID) are used to identify different YANG items when encoded in CBOR. This document defines the registration and assignment processes of SIDs. To enable the implementation of these processes, this document also defines a file format used to persist and publish assigned SIDs.
 
 --- middle
 
@@ -125,7 +124,7 @@ This specification also makes use of the following terminology:
 
 * path: A path is a string that identifies a schema node within the schema tree. A path consists of the list of schema node identifier(s) separated by slashes ("/"). Schema node identifier(s) are always listed from the top-level schema node up to the targeted schema node. (e.g. "/system-state/clock/current-datetime")
 
-# Structured IDentifiers (SID)
+# YANG Schema Item iDentifier (SID)
 
 Some of the items defined in YANG {{I-D.ietf-netmod-rfc6020bis}} require the use of a unique identifier. In both NETCONF and RESTCONF, these identifiers are implemented using names. To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required.
 
@@ -382,7 +381,7 @@ This document defines an new type of identifier used to encode data models defin
 
 ## "SID" range registry  {#sid-range-registry}
 
-IANA is requested to create a registry for Structure Identifier (SID) ranges. This registry needs to guarantee that the ranges registered do not overlap. The registry SHALL record for each entry:
+IANA is requested to create a registry for YANG Schema Item iDentifier (SID) ranges. This registry needs to guarantee that the ranges registered do not overlap. The registry SHALL record for each entry:
 
 *	The entry point (first entry) of the registered SID range.
 
@@ -432,7 +431,7 @@ Initial entries in this registry are as follows:
 
 | Entry Point | Size | Module name     | Reference               |
 |-------------+------+-----------------+-------------------------+
-|        1000 |  100 | ietf-cool       | {{-cool}}                |
+|        1000 |  100 |                 | Reserved for CoMI       |
 |        1100 |  400 | iana-if-type    | {{RFC7224}}             |
 |        1500 |  100 | ietf-interfaces | {{RFC7223}}             |
 |        1600 |  100 | ietf-ip         | {{RFC7277}}             |
