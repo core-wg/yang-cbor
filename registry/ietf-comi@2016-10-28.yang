@@ -1,0 +1,190 @@
+module ietf-comi {
+  yang-version 1.1;
+  
+  namespace "urn:ietf:params:xml:ns:yang:ietf-comi";
+  prefix comi;
+
+  organization
+    "IETF Core Working Group";
+
+  contact
+    "Peter van der Stok
+     <mailto:consultancy@vanderstok.org>
+     
+     Andy Bierman
+     <mailto:andy@yumaworks.com>
+
+     Michel Veillette
+     <mailto:michel.veillette@trilliantinc.com>
+
+     Alexander Pelov
+     <mailto:alexander@ackl.io>";
+
+  description
+    "This module contains the different definitions required
+     by the CoMI protocol.";
+
+  revision 2016-10-28 {
+     description
+      "Initial revision.";
+    reference
+      "draft-vanderstok-core-comi";
+  }
+
+  // List of useful derived YANG data types for constrained devices
+
+  typedef sid {
+    type uint32;
+    description
+      "Structure Identifier value (SID).";
+  }
+  
+  typedef utc-time {
+    type uint32;
+    description
+      "Unsigned 32-bit value representing the number of seconds
+      since 0 hours, 0 minutes, 0 seconds, on the 1st of January,
+      1970 UTC (Universal Coordinated Time).";
+  }
+
+  // Error payload 
+   
+  container error-payload {
+    presence "Extended error information";
+    
+    description
+      "Optional payload of a client error (CoAP response 4.xx)
+       or server error (CoAP response 5.xx).";
+
+    leaf error-code {
+      type enumeration {
+        enum too-big {
+          value 1;
+          description "The size of the CoAP response would be too large.";
+        }
+        
+        enum unknown {
+          value 2;
+          description "The requested data node(s) was not found.";
+        }
+
+        enum bad-value {
+          value 3;
+          description "A value in the request didn't match the targetted
+          data node(s).";
+        }
+
+        enum read-only {
+          value 4;
+          description "An attempt was made to set a non configuration
+          data node.";
+        }
+
+        enum general-error {
+          value 5;
+          description "An error occurred other than one indicated by a more
+          specific error code.";
+        }
+
+        enum no-access {
+          value 6;
+          description "Access was denied to the object for security reasons.";
+        }
+
+        enum wrong-type {
+          value 7;
+          description "The CBOR datatype received is incompatible with the
+          targeted data node.";
+        }
+
+        enum wrong-length {
+          value 8;
+          description "The value length received is incompatible with the
+          targeted data node.";
+        }        
+
+        enum wrong-encoding {
+          value 9;
+          description "Invalid CBOR encoding received.";
+        }
+
+        enum wrong-value {
+          value 10;
+          description "The value received is incompatible with the targeted
+          data node.";
+        }
+
+        enum no-creation {
+          value 11;
+          description "A specified data node does not exist and cannot be
+          created.";
+        }
+
+        enum inconsistent-value {
+          value 12;
+          description "The value received is valid but cannot be assigned
+          at this time.";
+        }
+
+        enum resource-unavailable {
+          value 13;
+          description "An attempt to set a data node required a resource
+          that is not available.";
+        }
+
+        enum commit-failed {
+          value 14;
+          description "An attempt to set a particular data node failed.";
+        }
+
+        enum undo-failed {
+          value 15;
+          description "An attempt to set a particular data node as part of a
+          iPATCH  failed, and the attempt to then undo the setting of other
+          data nodes was not successful.";
+        }
+
+        enum authorization-error {
+          value 16;
+          description "A problem occurred in authorization.";
+        }
+      }
+      mandatory true;
+      description
+        "Error code.";
+    }
+
+    leaf error-text {
+      type string;
+      description "Textual descriptions of the error.";
+    }
+  }
+
+  // Notification payload
+  
+  container notification-payload {
+    presence "Notification payload";
+
+    description
+      "This container define the payload of each CoMI notification
+      and SHALL NOT be instantiated in the datastore. This container
+      may be augmented to add common information to an event steam.
+      (e.g. severity, facility, siganture)";
+  
+    leaf timestamp {
+      type utc-time;
+      description
+        "Event timestamp. Support of this field is optional
+        since its not expected that all implementations have
+        implement a real time clock and if so, this clock is
+        available at all time.";
+    }
+
+    anydata content {
+      description
+        "Notification container as defined by the notification YANG
+        statement.";
+      mandatory true;
+    }
+  }
+}

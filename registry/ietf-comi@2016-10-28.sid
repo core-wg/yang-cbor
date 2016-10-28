@@ -1,0 +1,47 @@
+{
+  "assignment-ranges": [
+    {
+      "entry-point": 1000,
+      "size": 100
+    }
+  ],
+  "module-name": "ietf-comi",
+  "module-revision": "2016-10-28",
+  "items": [
+    {
+      "type": "Module",
+      "label": "ietf-comi",
+      "sid": 1000
+    },
+    {
+      "type": "node",
+      "label": "/error-payload",
+      "sid": 1001
+    },
+    {
+      "type": "node",
+      "label": "/error-payload/error-code",
+      "sid": 1002
+    },
+    {
+      "type": "node",
+      "label": "/error-payload/error-text",
+      "sid": 1003
+    },
+    {
+      "type": "node",
+      "label": "/notification-payload",
+      "sid": 1004
+    },
+    {
+      "type": "node",
+      "label": "/notification-payload/content",
+      "sid": 1005
+    },
+    {
+      "type": "node",
+      "label": "/notification-payload/timestamp",
+      "sid": 1006
+    }
+  ]
+}

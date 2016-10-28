@@ -1,0 +1,7 @@
+module: ietf-comi
+   +--rw error-payload!
+   |  +--rw error-code    enumeration
+   |  +--rw error-text?   string
+   +--rw notification-payload!
+      +--rw timestamp?   utc-time
+      +--rw content
