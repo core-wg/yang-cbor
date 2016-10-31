@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-ietf-core-yang-cbor-02
+docname: draft-ietf-core-yang-cbor-03
 title: CBOR Encoding of Data Modeled with YANG
 area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
@@ -91,7 +91,7 @@ This document defines encoding rules for serializing configuration data, state d
 
 # Introduction
 
-The specification of the YANG 1.1 data modelling language {{I-D.ietf-netmod-rfc6020bis}} defines an XML encoding for data instances, i.e. contents of configuration datastores, state data, RPC inputs and outputs, action inputs and outputs, and event notifications.
+The specification of the YANG 1.1 data modelling language {{RFC7950}} defines an XML encoding for data instances, i.e. contents of configuration datastores, state data, RPC inputs and outputs, action inputs and outputs, and event notifications.
 
 A new set of encoding rules has been defined to allow the use of the same data models in environments based on the JavaScript Object Notation (JSON) Data Interchange Format {{RFC7159}}. This is accomplished in the JSON Encoding of Data Modeled with YANG specification {{RFC7951}}.
 
@@ -103,7 +103,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
 "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to
 be interpreted as described in {{RFC2119}}.
 
-The following terms are defined in {{I-D.ietf-netmod-rfc6020bis}}:
+The following terms are defined in {{RFC7950}}:
 
 * action
 
@@ -184,7 +184,7 @@ It is expected that application entities generating and decoding CBOR contents h
 # Encoding of YANG Data Node Instances   {#instance-encoding}
 
 Schema node instances defined using the YANG modeling language are encoded using CBOR {{RFC7049}} based on the rules defined in this section. We assume that the reader is
-already familiar with both YANG {{I-D.ietf-netmod-rfc6020bis}} and CBOR {{RFC7049}}.
+already familiar with both YANG {{RFC7950}} and CBOR {{RFC7049}}.
 
 ## The 'leaf' Data Node
 
@@ -330,7 +330,7 @@ A list MUST be encoded using a CBOR array data item (major type 4). Each list in
 
 The follwoing example show the encoding a the 'server' list using the SIDs defined in {{-core-sid}} Appendix C. It is important to note that the protocol or method using this mapping may carry a parent SID or may have the knowledge of this parent SID based on its context. In these cases, delta encoding can be performed based on this parent SID which minimizes the size of the encoded data.
 
-The following example shows the encoding of the 'server' list containing two enties. SIDs used in this example are defined in [I-D.somaraju-core-sid] Appendix C. It is important to note that the protocol or method using this mapping may carry a parent SID or may have the knowledge of this parent SID based on its context. In these cases, delta encoding can be performed based on this parent SID which minimizes the size of the encoded data.
+The following example shows the encoding of the 'server' list containing two enties. SIDs used in this example are defined in {{-core-sid}} Appendix C. It is important to note that the protocol or method using this mapping may carry a parent SID or may have the knowledge of this parent SID based on its context. In these cases, delta encoding can be performed based on this parent SID which minimizes the size of the encoded data.
 
 Definition example from {{RFC7317}}:
 
@@ -557,7 +557,7 @@ CBOR diagnostic notation: -300
 CBOR encoding: 39 012b
 
 ## The 'decimal64' Type
-Leafs of type decimal64 MUST be encoded using a decimal fraction as defined in [RFC 7049] section 2.4.3.
+Leafs of type decimal64 MUST be encoded using a decimal fraction as defined in {{RFC7049}} section 2.4.3.
 
 The following example shows the encoding of leaf 'my-decimal' set to 2.57.
 
@@ -617,7 +617,7 @@ CBOR encoding: f5
 
 ## The 'enumeration' Type
 
-Leafs of type enumeration MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR signed integer (major type 1), depending on the actual value. Enumeration values are either explicitly assigned using the YANG statement 'value' or automatically assigned based on the algorithm defined in {{I-D.ietf-netmod-rfc6020bis}} section 9.6.4.2.
+Leafs of type enumeration MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR signed integer (major type 1), depending on the actual value. Enumeration values are either explicitly assigned using the YANG statement 'value' or automatically assigned based on the algorithm defined in {{RFC7950}} section 9.6.4.2.
 
 The following example shows the encoding of leaf 'oper-status' set to 'testing'.
 
@@ -645,7 +645,7 @@ CBOR encoding: 03
 
 Leafs of type bits MUST be encoded using a CBOR byte string data item (major
 type 2). Bits position are either explicitly assigned using the YANG statement
-'position' or automatically assigned based on the algorithm defined in {{I-D.ietf-netmod-rfc6020bis}} section 9.7.4.2.
+'position' or automatically assigned based on the algorithm defined in {{RFC7950}} section 9.7.4.2.
 
 Bits position 0 to 7 are assigned to the first byte within the byte
 string, bits 8 to 15 to the second byte, and subsequent bytes are assigned
@@ -653,7 +653,7 @@ similarly. Within each byte, bits are assigned from least to most significant.
 
 The following example shows the encoding of leaf 'mybits' with the 'disable-nagle' and '10-Mb-only' flags set.
 
-Definition example from {{I-D.ietf-netmod-rfc6020bis}}:
+Definition example from {{RFC7950}}:
 
 ~~~~ yang
 leaf mybits {
