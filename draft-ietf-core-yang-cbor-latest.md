@@ -263,7 +263,7 @@ a1                                      # map(1)
 
 Keys implemented using member names MUST be encoded using a CBOR text string data item (major type 3). A namespace-qualified member name MUST be used for all members of a top-level collection, and then also whenever the namespaces of the schema node and its parent are different. In all other cases, the simple form of the member name MUST be used. Names and namespaces are defined in {{RFC7951}} section 4.
 
-The following example shows the encoding of the  the 'system' container using names. This example is described in {{container-with-sid}}.
+The following example shows the encoding of the 'system' container using names. This example is described in {{container-with-sid}}.
 
 CBOR diagnostic notation:
 
