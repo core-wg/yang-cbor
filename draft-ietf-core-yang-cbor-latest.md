@@ -430,7 +430,7 @@ CBOR encoding:
 
 ### Member names as keys
 
-The following example shows the encoding of the the 'server' list using names. This example is described in {{list-with-sid}}.
+The following example shows the encoding of the 'server' list using names. This example is described in {{list-with-sid}}.
 
 CBOR diagnostic notation:
 
@@ -852,7 +852,7 @@ CBOR encoding: 74 323030313a6462383a6130623a313266303a3a31
 
 ## The 'instance-identifier' Type
 
-This specification supports two approaches for encoding an instance-identifier, one based on SIDs as defined in {{-core-sid}} and one based on names as defined in {{RFC7951}} section 6.13.
+This specification supports two approaches for encoding an instance-identifier, one based on SIDs as defined in {{-core-sid}} and one based on names as defined in {{RFC7951}} section 6.11.
 
 ### SIDs as instance-identifier {#instance-identifier-with-sid}
 
