@@ -70,12 +70,12 @@ author:
   country: France
   email: ana@ackl.io
 normative:
-  I-D.ietf-netmod-rfc6020bis: yang11
+  RFC7950: yang11
   RFC2119:
   RFC7049:
 informative:
-  I-D.somaraju-core-sid: core-sid
-  I-D.ietf-netmod-yang-json: yang-json
+  I-D.ietf-core-sid: core-sid
+  RFC7951: yang-json
   I-D.vanderstok-core-comi: comi
   RFC7159:
   RFC7223:
