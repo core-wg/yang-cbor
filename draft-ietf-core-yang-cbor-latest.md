@@ -70,12 +70,12 @@ author:
   country: France
   email: ana@ackl.io
 normative:
-  RFC7950: yang11
+  RFC7950:
   RFC2119:
   RFC7049:
 informative:
   I-D.ietf-core-sid: core-sid
-  RFC7951: yang-json
+  RFC7951:
   I-D.vanderstok-core-comi: comi
   RFC7159:
   RFC7223:
@@ -93,7 +93,7 @@ This document defines encoding rules for serializing configuration data, state d
 
 The specification of the YANG 1.1 data modelling language {{I-D.ietf-netmod-rfc6020bis}} defines an XML encoding for data instances, i.e. contents of configuration datastores, state data, RPC inputs and outputs, action inputs and outputs, and event notifications.
 
-A new set of encoding rules has been defined to allow the use of the same data models in environments based on the JavaScript Object Notation (JSON) Data Interchange Format {{RFC7159}}. This is accomplished in the JSON Encoding of Data Modeled with YANG specification {{I-D.ietf-netmod-yang-json}}.
+A new set of encoding rules has been defined to allow the use of the same data models in environments based on the JavaScript Object Notation (JSON) Data Interchange Format {{RFC7159}}. This is accomplished in the JSON Encoding of Data Modeled with YANG specification {{RFC7951}}.
 
 The aim of this document is to define a set of encoding rules for the Concise Binary Object Representation (CBOR) {{RFC7049}}. The resulting encoding is more compact compared to XML and JSON and more suitable for Constrained Nodes and/or Constrained Networks as defined by {{RFC7228}}.
 
@@ -127,7 +127,7 @@ The following terms are defined in {{I-D.ietf-netmod-rfc6020bis}}:
 
 * submodule
 
-The following terms are defined in {{I-D.ietf-netmod-yang-json}}:
+The following terms are defined in {{RFC7951}}:
 
 * member name
 
@@ -175,7 +175,7 @@ This document defines CBOR encoding rules for YANG schema trees and their subtre
 
 Basic schema nodes such as leaf, leaf-list, list, anydata and anyxml can be encoded standalone. In this case, only the value of this schema node is encoded in CBOR. Identification of this value needs to be provided by some external means when required.
 
-A collection such as container, list instance, notification, RPC input, RPC output, action input and action output is serialized using a CBOR map in which each child schema node is encoded using a key and a value. This specification supports two type of keys; SID as defined in {{-core-sid}} and member names as defined in {{I-D.ietf-netmod-yang-json}}. Each of these key type is encoded using a specific CBOR type which allows their interpretation during the deserialization process. The end user of this mapping specification can mandate the use of a specific key type or a specific subset of key types.
+A collection such as container, list instance, notification, RPC input, RPC output, action input and action output is serialized using a CBOR map in which each child schema node is encoded using a key and a value. This specification supports two type of keys; SID as defined in {{-core-sid}} and member names as defined in {{RFC7951}}. Each of these key type is encoded using a specific CBOR type which allows their interpretation during the deserialization process. The end user of this mapping specification (e.g. RESFCONF, CoMI) can mandate the use of a specific key type.
 
 In order to minimize the size of the encoded data, the proposed mapping avoid any unnecessary meta-information beyond those natively supported by CBOR. For instance, CBOR tags are used solely in the case of the union datatype to distinguish explicitly the use of different YANG datatypes encoded using the same CBOR major type. 
 
@@ -194,7 +194,7 @@ Leafs MUST be encoded based on the encoding rules specified in {{data-types-mapp
 
 Collections such as containers, list instances, notifications, RPC inputs, RPC outputs, action inputs and action outputs MUST be encoded using a CBOR map data item (major type 5). A map is comprised of pairs of data items, with each data item consisting of a key and a value. Each key within the CBOR map is set to a data node identifier, each value is set to the value of this data node instance.
 
-This specification supports two type of keys; SID as defined in {{-core-sid}} encoded using CBOR unsigned or signed integers and member names as defined in {{I-D.ietf-netmod-yang-json}} encoded using CBOR text strings. The use of CBOR byte strings for keys is reserved for future extensions.
+This specification supports two type of keys; SID as defined in {{-core-sid}} encoded using CBOR unsigned or signed integers and member names as defined in {{RFC7951}} encoded using CBOR text strings. The use of CBOR byte strings for keys is reserved for future extensions.
 
 ### SIDs as keys {#container-with-sid}
 
@@ -261,7 +261,7 @@ a1                                      # map(1)
 
 ### Member names as keys
 
-Keys implemented using member names MUST be encoded using a CBOR text string data item (major type 3). A namespace-qualified member name MUST be used for all members of a top-level collection, and then also whenever the namespaces of the schema node and its parent are different. In all other cases, the simple form of the member name MUST be used. Names and namespaces are defined in {{I-D.ietf-netmod-yang-json}} section 4.
+Keys implemented using member names MUST be encoded using a CBOR text string data item (major type 3). A namespace-qualified member name MUST be used for all members of a top-level collection, and then also whenever the namespaces of the schema node and its parent are different. In all other cases, the simple form of the member name MUST be used. Names and namespaces are defined in {{RFC7951}} section 4.
 
 The following example shows the encoding of the  the 'system' container using names. This example is described in {{container-with-sid}}.
 
@@ -557,9 +557,7 @@ CBOR diagnostic notation: -300
 CBOR encoding: 39 012b
 
 ## The 'decimal64' Type
-Leafs of type decimal64 MUST be encoded using either CBOR unsigned integer
-(major type 0) or CBOR signed integer (major type 1), depending on the actual
-value. The position of the decimal point is defined by the fraction-digits YANG statement and is not available in the CBOR encoding.
+Leafs of type decimal64 MUST be encoded using a decimal fraction as defined in [RFC 7049] section 2.4.3.
 
 The following example shows the encoding of leaf 'my-decimal' set to 2.57.
 
@@ -574,9 +572,9 @@ leaf my-decimal {
 }
 ~~~~
 
-CBOR diagnostic notation: 257
+CBOR diagnostic notation: 4([-2, 257])
 
-CBOR encoding: 19 0101
+CBOR encoding: c4 82 21 19 0101
 
 ## The 'string' Type
 
@@ -733,7 +731,7 @@ CBOR encoding: 64 65746831
 
 ## The 'identityref' Type
 
-This specification supports two approaches for encoding identityref, a SID as defined in {{-core-sid}} or a name as defined in {{I-D.ietf-netmod-yang-json}} section 6.8.
+This specification supports two approaches for encoding identityref, a SID as defined in {{-core-sid}} or a name as defined in {{RFC7951}} section 6.8.
 
 ### SIDs as identityref {#identityref-with-sid}
 
@@ -769,7 +767,7 @@ CBOR encoding: 19 049c
 
 ### Name as identityref
 
-Alternatively, an identityref may be encoded using a name as defined in {{I-D.ietf-netmod-yang-json}} section 6.8.  When names are used, identityref MUST be encoded using a CBOR text string data item (major type 3). If the identity is defined in another module than the leaf node containing the identityref value, the namespace-qualified form MUST be used. Otherwise, both the simple and namespace-qualified forms are permitted. Names and namespaces are defined in {{I-D.ietf-netmod-yang-json}} section 4.
+Alternatively, an identityref may be encoded using a name as defined in {{RFC7951}} section 6.8.  When names are used, identityref MUST be encoded using a CBOR text string data item (major type 3). If the identity is defined in another module than the leaf node containing the identityref value, the namespace-qualified form MUST be used. Otherwise, both the simple and namespace-qualified forms are permitted. Names and namespaces are defined in {{RFC7951}} section 4.
 
 The following example shows the encoding of the identity 'iana-if-type:ethernetCsmacd' using its name. This example is described in {{identityref-with-sid}}.
 
@@ -804,15 +802,11 @@ between different YANG datatypes encoded using the same CBOR major type.
 
 * bits
 
-* decimal64
-
 * enumeration
 
 * identityref
 
 * instance-identifier
-
-* leafref  (Only when the datatype of the leaf referenced using the 'path' YANG statement require a CBOR tag)
 
 See {{tag-registry}} for more information about these CBOR tags.
 
@@ -858,15 +852,17 @@ CBOR encoding: 74 323030313a6462383a6130623a313266303a3a31
 
 ## The 'instance-identifier' Type
 
-This specification supports two approaches for encoding an instance-identifier, one based on SIDs as defined in {{-core-sid}} and one based on names as defined in {{I-D.ietf-netmod-yang-json}} section 6.13.
+This specification supports two approaches for encoding an instance-identifier, one based on SIDs as defined in {{-core-sid}} and one based on names as defined in {{RFC7951}} section 6.13.
 
 ### SIDs as instance-identifier {#instance-identifier-with-sid}
 
-SIDs uniquely identify a data node. For a single instance data node, the SID is sufficient to identify this instance. For a multi-instance data node, a SID is combined with the list key(s) to identify each instance of this data node within the YANG list(s).
+SIDs uniquely identify a data node. In the case of a single instance data node, a data node defined at the root of a YANG module or submodule or data nodes defined within a container, the SID is sufficient to identify this instance.
+
+In the case of a data node member of a YANG list, a SID is combined with the list key(s) to identify each instance within the YANG list(s).
 
 Single instance data nodes MUST be encoded using a CBOR unsigned integer data item (major type 0) and set to the targeted data node SID.
 
-Multi-instances data nodes MUST be encoded using a CBOR array data item (major type 4) containing the following entries:
+Data nodes member of a YANG list MUST be encoded using a CBOR array data item (major type 4) containing the following entries:
 
 *	The first entry MUST be encoded as a CBOR unsigned integer data item (major type 0) and set to the targeted data node SID. 
 
@@ -957,7 +953,7 @@ CBOR encoding:
 
 ### Names as instance-identifier
 
-The use of names as instance-identifier is defined in {{I-D.ietf-netmod-yang-json}} section 6.11. The resulting xpath MUST be encoded using a CBOR text string data item (major type 3).
+The use of names as instance-identifier is defined in {{RFC7951}} section 6.11. The resulting xpath MUST be encoded using a CBOR text string data item (major type 3).
 
 **First example:**
 
@@ -1011,7 +1007,7 @@ CBOR encoding:
 
 # Security Considerations
 
-The security considerations of {{RFC7049}} and {{-yang11}} apply.
+The security considerations of {{RFC7049}} and {{RFC7950}} apply.
 
 This document defines an alternative encoding for data modeled in the YANG data modeling language. As such, this encoding does not contribute any new security issues in addition of those identified for the specific protocol or context for which it is used.
 
@@ -1027,10 +1023,9 @@ These tags are added to the Tags Registry as defined in section 7.2 of {{RFC7049
 | Tag | Data Item           | Semantics                         | Reference |
 |-----|---------------------+-----------------------------------+-----------|
 | 40  | bits                | YANG bits datatype                | RFC XXXX  |
-| 41  | decimal64           | YANG decimal64 datatype           | RFC XXXX  |
-| 42  | enumeration         | YANG enumeration datatype         | RFC XXXX  |
-| 43  | identityref         | YANG identityref datatype         | RFC XXXX  |
-| 44  | instance-identifier | YANG instance-identifier datatype | RFC XXXX  |
+| 41  | enumeration         | YANG enumeration datatype         | RFC XXXX  |
+| 42  | identityref         | YANG identityref datatype         | RFC XXXX  |
+| 43  | instance-identifier | YANG instance-identifier datatype | RFC XXXX  |
 {: align="left"}
 
 // RFC Ed.: update Tag values using allocated tags if needed and remove this note
@@ -1038,7 +1033,7 @@ These tags are added to the Tags Registry as defined in section 7.2 of {{RFC7049
 
 # Acknowledgments
 
-This document has been largely inspired by the extensive works done by Andy Bierman and Peter van der Stok on {{I-D.vanderstok-core-comi}}. {{I-D.ietf-netmod-yang-json}} has also been a critical input to this work. The authors would like to thank the authors and contributors to these two drafts.
+This document has been largely inspired by the extensive works done by Andy Bierman and Peter van der Stok on {{I-D.vanderstok-core-comi}}. {{RFC7951}} has also been a critical input to this work. The authors would like to thank the authors and contributors to these two drafts.
 
 The authors would also like to acknowledge the review, feedback, and comments from Ladislav Lhotka and Juergen Schoenwaelder.
 
