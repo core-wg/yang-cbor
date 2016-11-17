@@ -498,7 +498,7 @@ An anydata serves as a container for an arbitrary set of schema nodes that other
 
 *	Values MUST follow the encoding rules of one of the datatypes listed in {{data-types-mapping}}.
 
-The following example shows a possible use of anydata. In this example, an anydata is used to define a data node containing a notification event, this data node can be defined within an YANG list to create an event logger.
+The following example shows a possible use of anydata. In this example, an anydata is used to define a data node containing a notification event, this data node can be part of a YANG list to create an event logger.
 
 Definition example:
 
@@ -506,7 +506,7 @@ Definition example:
 anydata event;
 ~~~~
 
-For this example, we also assume that the following notification is defined.
+This example also assumes the assistance of the following notification.
 
 ~~~~ yang
 module example-port {
