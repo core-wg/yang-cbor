@@ -175,11 +175,9 @@ This document defines CBOR encoding rules for YANG schema trees and their subtre
 
 Basic schema nodes such as leaf, leaf-list, list, anydata and anyxml can be encoded standalone. In this case, only the value of this schema node is encoded in CBOR. Identification of this value needs to be provided by some external means when required.
 
-A collection such as container, list instance, notification, RPC input, RPC output, action input and action output is serialized using a CBOR map in which each child schema node is encoded using a key and a value. This specification supports two type of keys; SID as defined in {{-core-sid}} and member names as defined in {{RFC7951}}. Each of these key type is encoded using a specific CBOR type which allows their interpretation during the deserialization process. The end user of this mapping specification (e.g. RESTCONF, CoMI) can mandate the use of a specific key type.
+A collection such as container, list instance, notification, RPC input, RPC output, action input and action output is serialized using a CBOR map in which each child schema node is encoded using a key and a value. This specification supports two type of keys; SID as defined in {{-core-sid}} and member names as defined in {{RFC7951}}. Each of these key types is encoded using a specific CBOR type which allows their interpretation during the deserialization process. The end user of this mapping specification (e.g. RESTCONF, CoMI) can mandate the use of a specific key type.
 
-In order to minimize the size of the encoded data, the proposed mapping avoid any unnecessary meta-information beyond those natively supported by CBOR. For instance, CBOR tags are used solely in the case of the union datatype to distinguish explicitly the use of different YANG datatypes encoded using the same CBOR major type. 
-
-It is expected that application entities generating and decoding CBOR contents have enough knowledge about the information processed in order to perform the expected task without the need of such extra meta-information.
+In order to minimize the size of the encoded data, the proposed mapping avoids any unnecessary meta-information beyond those natively supported by CBOR. For instance, CBOR tags are used solely in the case of anyxml data nodes and the union datatype to distinguish explicitly the use of different YANG datatypes encoded using the same CBOR major type. 
 
 # Encoding of YANG Data Node Instances   {#instance-encoding}
 
@@ -192,7 +190,7 @@ Leafs MUST be encoded based on the encoding rules specified in {{data-types-mapp
 
 ## The 'container' Data Node {#container}
 
-Collections such as containers, list instances, notifications, RPC inputs, RPC outputs, action inputs and action outputs MUST be encoded using a CBOR map data item (major type 5). A map is comprised of pairs of data items, with each data item consisting of a key and a value. Each key within the CBOR map is set to a data node identifier, each value is set to the value of this data node instance.
+Collections such as containers, list instances, notifications, RPC inputs, RPC outputs, action inputs and action outputs MUST be encoded using a CBOR map data item (major type 5). A map is comprised of pairs of data items, with each data item consisting of a key and a value. Each key within the CBOR map is set to a data node identifier, each value is set to the value of this data node instance according to the instance datatype.
 
 This specification supports two type of keys; SID as defined in {{-core-sid}} encoded using CBOR unsigned or signed integers and member names as defined in {{RFC7951}} encoded using CBOR text strings. The use of CBOR byte strings for keys is reserved for future extensions.
 
@@ -218,18 +216,13 @@ typedef date-and-time {
   }
 }
 
-container system {
-  leaf hostname {
-    type inet:domain-name;
+container clock {
+  leaf current-datetime {
+    type date-and-time;
+  }
 
-  container clock {
-    leaf current-datetime {
-      type date-and-time;
-    }
-
-    leaf boot-datetime {
-      type date-and-time;
-    }
+  leaf boot-datetime {
+    type date-and-time;
   }
 }
 ~~~~
@@ -328,9 +321,7 @@ A list MUST be encoded using a CBOR array data item (major type 4). Each list in
 
 ### SIDs as keys {#list-with-sid}
 
-The follwoing example show the encoding a the 'server' list using the SIDs defined in {{-core-sid}} Appendix C. It is important to note that the protocol or method using this mapping may carry a parent SID or may have the knowledge of this parent SID based on its context. In these cases, delta encoding can be performed based on this parent SID which minimizes the size of the encoded data.
-
-The following example shows the encoding of the 'server' list containing two enties. SIDs used in this example are defined in {{-core-sid}} Appendix C. It is important to note that the protocol or method using this mapping may carry a parent SID or may have the knowledge of this parent SID based on its context. In these cases, delta encoding can be performed based on this parent SID which minimizes the size of the encoded data.
+The follwoing example show the encoding of the 'server' list using the SIDs defined in {{-core-sid}} Appendix C. It is important to note that the protocol or method using this mapping may carry a parent SID or may have the knowledge of this parent SID based on its context. In these cases, delta encoding can be performed based on this parent SID which minimizes the size of the encoded data.
 
 Definition example from {{RFC7317}}:
 
@@ -507,9 +498,50 @@ An anydata serves as a container for an arbitrary set of schema nodes that other
 
 *	Values MUST follow the encoding rules of one of the datatypes listed in {{data-types-mapping}}.
 
+The following example shows a possible use of anydata. In this example, the anydata is used to define data node containing a modification event, this data node can be defined within an YANG list to create an event logger.
+
+Definition example:
+
+~~~~ yang
+anydata event;
+~~~~
+
+CBOR diagnostic notation:
+
+~~~~ CBORdiag
+{
+  2601 : "0/4/21",       # port-name
+  2602 : "Open pin 2"    # port-fault
+}
+~~~~
+
+CBOR encoding:
+
+~~~~ CBORbytes
+a2                         # map(2)
+   19 0a29                 # unsigned(2601)
+   66                      # text(6)
+      302f342f3231         # "0/4/21"
+   19 0a2a                 # unsigned(2602)
+   6a                      # text(10)
+      4f70656e2070696e2032 # "Open pin 2"
+~~~~
+
 ## The 'anyxml' Data Node
 
-An anyxml schema node is used to serialize an arbitrary CBOR content, i.e., its value can be any CBOR binary object.
+An anyxml schema node is used to serialize an arbitrary CBOR content, i.e., its value can be any CBOR binary object. anyxml value may contain CBOR data items tagged with one of the tag listed in {{tag-registry}}, these tags shall be supported.
+
+The following example shows a valid CBOR encoded instance.
+
+Definition example from {{RFC7951}}:
+
+~~~~ yang
+anyxml bar;
+~~~~
+
+CBOR diagnostic notation: [true, null, true]
+
+CBOR encoding: 83 f5 f6 f5
 
 # Representing YANG Data Types in CBOR {#data-types-mapping}
 
@@ -738,7 +770,7 @@ This specification supports two approaches for encoding identityref, a SID as de
 SIDs are globally unique and may be used as identityref.  This approach is both compact and simple to implement.  When SIDs are
 used, identityref MUST be encoded using a CBOR unsigned integer data item (major type 0) and set to a SID allocated from a registered SID range.
 
-The following example shows the encoding of leaf 'type' set to the value 'iana-if-type:ethernetCsmacd' (SID 1180).
+The following example shows the encoding of leaf 'type' set to the value 'iana-if-type:ethernetCsmacd' (SID 1180 as listed in 'iana-if-type@2014-05-08.sid').
 
 Definition example from {{RFC7317}}:
 
@@ -870,7 +902,7 @@ Data nodes member of a YANG list MUST be encoded using a CBOR array data item (m
 
 **First example:**
 
-The following example shows the encoding of a leaf of type instance-identifier which identify the data node "/system/contact" (SID 1737).
+The following example shows the encoding of a leaf of type instance-identifier which identifies the data node "/system/contact" (SID 1737).
 
 Definition example from {{RFC7317}}:
 
