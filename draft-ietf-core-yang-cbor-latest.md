@@ -165,7 +165,7 @@ Within this document, CBOR binary contents are represented using an equivalent t
 
 The following extensions to the CBOR diagnostic notation are supported:
 
-* Comments can be added to the end of each line. Any characters after a Pound sign (‘#’) outside of a string, up to the end of the line, are treated as a comment.
+* Any text within and including a pair of slashes is considered a comment.
 
 * Deltas are represented as numbers preceded by a '+' or '–' sign. The use of the '+' sign for positive deltas represents an extension to the CBOR diagnostic notation as defined by {{RFC7049}} section 6.
 
@@ -231,9 +231,9 @@ CBOR diagnostic notation:
 
 ~~~~ CBORdiag
 {
-  1717 : {                              # clock  (SID 1717)
-    +2 : "2015-10-02T14:47:24Z-05:00",  # current-datetime (SID 1719)
-    +1 : "2015-09-15T09:12:58Z-05:00"   # boot-datetime (SID 1718)
+  1717 : {                              / clock  (SID 1717) /
+    +2 : "2015-10-02T14:47:24Z-05:00",  / current-datetime (SID 1719) /
+    +1 : "2015-09-15T09:12:58Z-05:00"   / boot-datetime (SID 1718) /
   }
 }
 ~~~~
@@ -369,19 +369,19 @@ CBOR diagnostic notation:
 ~~~~ CBORdiag
 [
   {
-    1755 : "NRC TIC server",          # name (SID 1755)
-    1757 : {                          # udp (SID 1757)
-      +1 : "tic.nrc.ca",              # address (SID 1758)
-      +2 : 123                        # port (SID 1759)
+    1755 : "NRC TIC server",          / name (SID 1755) /
+    1757 : {                          / udp (SID 1757) /
+      +1 : "tic.nrc.ca",              / address (SID 1758) /
+      +2 : 123                        / port (SID 1759) /
     },
-    1753 : 0,                         # association-type (SID 1753)
-    1754 : false,                     # iburst (SID 1754)
-    1756 : true                       # prefer (SID 1756)
+    1753 : 0,                         / association-type (SID 1753) /
+    1754 : false,                     / iburst (SID 1754) /
+    1756 : true                       / prefer (SID 1756) /
   },
   {
-    1755 : "NRC TAC server",          # name (SID 1755)
-    1757 : {                          # udp (SID 1757)
-      +1 : "tac.nrc.ca"               # address (SID 1758)
+    1755 : "NRC TAC server",          / name (SID 1755) /
+    1757 : {                          / udp (SID 1757) /
+      +1 : "tac.nrc.ca"               / address (SID 1758) /
     }
   }
 ]
@@ -527,8 +527,8 @@ CBOR diagnostic notation:
 
 ~~~~ CBORdiag
 {
-  2601 : "0/4/21",       # port-name
-  2602 : "Open pin 2"    # port-fault
+  2601 : "0/4/21",       / port-name /
+  2602 : "Open pin 2"    / port-fault /
 }
 ~~~~
 
