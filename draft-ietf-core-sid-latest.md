@@ -1,4 +1,4 @@
----
+﻿---
 stand_alone: true
 ipr: trust200902
 docname: draft-ietf-core-sid-00
@@ -136,27 +136,27 @@ To avoid duplicate assignment of SIDs, the registration of the SIDs assigned to 
 
 The following items are identified using SIDs:
 
-*	identities
+* identities
 
-*	data nodes
+* data nodes
 
-*	RPCs and associated input(s) and output(s)
+* RPCs and associated input(s) and output(s)
 
-*	actions and associated input(s) and output(s)
+* actions and associated input(s) and output(s)
 
-*	notifications and associated information
+* notifications and associated information
 
-*	YANG modules, submodules and features
+* YANG modules, submodules and features
 
 Assignment of SIDs can be automated, the recommended process to assign SIDs is as follows:
 
-*	A tool extracts the different items defined for a specific YANG module.
+* A tool extracts the different items defined for a specific YANG module.
 
-*	The list of items is ordered by type and label.
+* The list of items is ordered by type and label.
 
-*	SIDs are assigned sequentially for the entry point up to the size of the registered SID range. This approach is recommended to minimize the serialization overhead, especially when delta encoding is implemented.
+* SIDs are assigned sequentially for the entry point up to the size of the registered SID range. This approach is recommended to minimize the serialization overhead, especially when delta encoding is implemented.
 
-*	If the number of items exceeds the SID range(s) allocated to a YANG module, an extra range is added for subsequent assignments.
+* If the number of items exceeds the SID range(s) allocated to a YANG module, an extra range is added for subsequent assignments.
 
 SIDs are assigned permanently, items introduced by a new revision of a YANG module are added to the list of SIDs already assigned. This process can also be automated using the same method described above except that the assignment need to be restarted from the highest SID already assigned.
 
@@ -385,21 +385,21 @@ This document defines an new type of identifier used to encode data models defin
 
 IANA is requested to create a registry for YANG Schema Item iDentifier (SID) ranges. This registry needs to guarantee that the ranges registered do not overlap. The registry SHALL record for each entry:
 
-*	The entry point (first entry) of the registered SID range.
+* The entry point (first entry) of the registered SID range.
 
-*	The size of the registered SID range.
+* The size of the registered SID range.
 
-*	The contact information of the owner of the range such as name, email address, and phone number.
+* The contact information of the owner of the range such as name, email address, and phone number.
 
 The IANA policy for this registry is split into four tiers as follows:
 
-*	The range of 0 to 999 and 0x40000000 to 0xFFFFFFFFFFFFFFFF are reserved for future extensions of this protocol. Allocation within these ranges require IETF review or IESG approval.
+* The range of 0 to 999 and 0x40000000 to 0xFFFFFFFFFFFFFFFF are reserved for future extensions of this protocol. Allocation within these ranges require IETF review or IESG approval.
 
-*	The range of 1000 to 59999 is reserved for standardized YANG modules. Allocation within this range requires publishing of the associated ".yang" and ".sid" files.  (Specification required.)
+* The range of 1000 to 59999 is reserved for standardized YANG modules. Allocation within this range requires publishing of the associated ".yang" and ".sid" files.  (Specification required.)
 
-*	The range of 60000 to 99999 is reserved for experimental YANG modules. Use of this range MUST NOT be used in operational deployments since these SIDs are not globally unique which limit their interoperability.
+* The range of 60000 to 99999 is reserved for experimental YANG modules. Use of this range MUST NOT be used in operational deployments since these SIDs are not globally unique which limit their interoperability.
 
-*	The range of 100000 to 0x3FFFFFFF is available on a first come first served basis. The only information required from the registrant is a valid contact information. The recommended size of the SID ranges allocated is 1,000 for private use and 10,000 for standard development organizations (SDOs). Registrants MAY request fewer or more SIDs based on their expected, sat needs. Allocation of a significantly larger SID range MAY required IETF review or IESG approval. IANA MAY delegate this registration process to one or multiple sub-registries. The recommended size of the SID range allocation for a sub-registry is 1,000,000.
+* The range of 100000 to 0x3FFFFFFF is available on a first come first served basis. The only information required from the registrant is a valid contact information. The recommended size of the SID ranges allocated is 1,000 for private use and 10,000 for standard development organizations (SDOs). Registrants MAY request fewer or more SIDs based on their expected, sat needs. Allocation of a significantly larger SID range MAY required IETF review or IESG approval. IANA MAY delegate this registration process to one or multiple sub-registries. The recommended size of the SID range allocation for a sub-registry is 1,000,000.
 
 
 | Entry Point | Size            | Registration Procedures                                                                                                   |
@@ -415,15 +415,15 @@ The IANA policy for this registry is split into four tiers as follows:
 
 Each registered SID range can be used to assign SIDs to one or more YANG modules. To track which YANG modules have been assigned and to avoid duplicate allocation, IANA is requested to provide a method to register and query the following information:
 
-*	The YANG module name
+* The YANG module name
 
-*	The contact information of the author
+* The contact information of the author
 
-*	The specification reference
+* The specification reference
 
-*	The associated ".yang" file(s) (Optional)
+* The associated ".yang" file(s) (Optional)
 
-*	The associated ".sid" file (Optional)
+* The associated ".sid" file (Optional)
 
 Registration of YANG modules is optional. When a YANG module is registered, the registrant MUST provide the module name and contact information and/or a specification reference.
 
@@ -450,15 +450,15 @@ The authors would like to thank Carsten Bormann for his help during the developm
 
 The following .sid file (ietf-system@2014-08-06.sid) have been generated using the following yang modules:
 
-*	ietf-system@2014-08-06.yang
+* ietf-system@2014-08-06.yang
 
-*	ietf-yang-types@2013-07-15.yang
+* ietf-yang-types@2013-07-15.yang
 
-*	ietf-inet-types@2013-07-15.yang
+* ietf-inet-types@2013-07-15.yang
 
-*	ietf-netconf-acm@2012-02-22.yang
+* ietf-netconf-acm@2012-02-22.yang
 
-*	iana-crypt-hash@2014-04-04.yang
+* iana-crypt-hash@2014-04-04.yang
 
 ~~~~
 {

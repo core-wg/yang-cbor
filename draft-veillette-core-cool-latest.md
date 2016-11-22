@@ -1,4 +1,4 @@
----
+﻿---
 stand_alone: true
 ipr: trust200902
 docname: draft-veillette-core-cool-02
@@ -301,11 +301,11 @@ On successful processing of the CoAP request, the CoOL server MUST return a CoAP
 
 When a single data node is requested, the payload of the FETCH response carries the value of the data node instance requested. When multiple data nodes are requested, the payload of the FETCH response carries a CBOR array containing the value of each data node instance(s) requested. The number of entries in this CBOR array MUST match the number of “instance-identifier” requested to allow a proper interpretation of this information. The following values can be returned for each 'instance-identifier' requested:
 
-*	If the data node requested is not implemented or not instantiated, the CBOR simple value 'undefined' is returned.
+* If the data node requested is not implemented or not instantiated, the CBOR simple value 'undefined' is returned.
 
-*	If the URI-Query parameter 'a' is not present in the FETCH request and the value of the data node instance is equal to the default value for this data node, the CBOR simple value 'default' is returned.
+* If the URI-Query parameter 'a' is not present in the FETCH request and the value of the data node instance is equal to the default value for this data node, the CBOR simple value 'default' is returned.
 
-*	Otherwise, the data node instance is encoded using the rules defined in {{-yang-cbor-mapping}}.
+* Otherwise, the data node instance is encoded using the rules defined in {{-yang-cbor-mapping}}.
 
 The normal behaviour of a CoOL server is to exclude from containers and list instances of a FETCH response, any data node currently set to its default value. When this behaviour is not appropriate for the CoOL client, this client can force the retrieval of all data nodes by using the 'a' Uri-Query parameter, see {{a-uri-query}} for more details.
 
@@ -885,13 +885,13 @@ This rule also applies to the FETCH for containers and list instances but not fo
 
 There are use-cases when a CoOL client will need the default data from the server, for example:
 
-*	The management application often needs a single, definitive, and complete set of configuration values that determine how the networking device works.
+* The management application often needs a single, definitive, and complete set of configuration values that determine how the networking device works.
 
-*	Documentation about default values can be unreliable or unavailable.
+* Documentation about default values can be unreliable or unavailable.
 
-*	Some management applications might not have the capabilities to correctly parse and interpret formal data models.
+* Some management applications might not have the capabilities to correctly parse and interpret formal data models.
 
-*	Human users might want to understand the received data without consultation of the documentation.
+* Human users might want to understand the received data without consultation of the documentation.
 
 In all these cases, the CoOL client will need a mechanism to retrieve default data from a CoOL server.
 
@@ -1052,43 +1052,43 @@ This draft introduces the following CoAP Content-Formats. These entries need to 
 
 First entry:
 
-*	Media type = application/cool-instance-id-list
+* Media type = application/cool-instance-id-list
 
-*	Encoding = CBOR
+* Encoding = CBOR
 
-*	ID = 61
+* ID = 61
 
-*	Reference = RFC XXXX
+* Reference = RFC XXXX
 
 Second entry:
 
-*	Media type = application/cool-value
+* Media type = application/cool-value
 
-*	Encoding = CBOR
+* Encoding = CBOR
 
-*	ID = 62
+* ID = 62
 
-*	Reference = RFC XXXX
+* Reference = RFC XXXX
 
 Third entry:
 
-*	Media type = application/cool-value-list
+* Media type = application/cool-value-list
 
-*	Encoding = CBOR
+* Encoding = CBOR
 
-*	ID = 63
+* ID = 63
 
-*	Reference = RFC XXXX
+* Reference = RFC XXXX
 
 Fourth entry:
 
-*	Media type = application/cool-value-pairs+cbor
+* Media type = application/cool-value-pairs+cbor
 
-*	Encoding = CBOR
+* Encoding = CBOR
 
-*	ID = 64
+* ID = 64
 
-*	Reference = RFC XXXX
+* Reference = RFC XXXX
 
 RFC Ed.: update XXXX to the RFC number assigned to this draft, update the ID if different than the one allocated, remove this note.
 
@@ -1098,11 +1098,11 @@ TO DO If this set of Content-Formats is accepted, requirements and description n
 
 This draft introduces the following CBOR simple value. This entry needs to be registered in the Simple Values Registry as defined in {{RFC7049}} section 7.1.
 
-*	Value = 19
+* Value = 19
 
-*	Semantics = Default value
+* Semantics = Default value
 
-*	Reference = RFC XXXX
+* Reference = RFC XXXX
 
 RFC Ed.: update XXXX to the RFC number assigned to this draft, update the value if different than the one allocated, remove this note.
 

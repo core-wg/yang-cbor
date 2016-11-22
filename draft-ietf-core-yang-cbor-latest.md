@@ -1,4 +1,4 @@
----
+﻿---
 stand_alone: true
 ipr: trust200902
 docname: draft-ietf-core-yang-cbor-03
@@ -198,9 +198,9 @@ This specification supports two type of keys; SID as defined in {{-core-sid}} en
 
 Keys implemented using SIDs MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR signed integer (major type 1), depending on the actual value. Keys are set to the delta of the associated SID, delta values are computed as follows:
 
-*	The delta value is equal to the SID of the current schema node minus the SID of the parent schema node. When no parent exists in the context of use of this container, the delta is set to the SID of the current schema node (a parent with SID equal to zero is assumed).
+* The delta value is equal to the SID of the current schema node minus the SID of the parent schema node. When no parent exists in the context of use of this container, the delta is set to the SID of the current schema node (a parent with SID equal to zero is assumed).
 
-*	Delta values may result in a negative number, clients and servers MUST support negative deltas.
+* Delta values may result in a negative number, clients and servers MUST support negative deltas.
 
 The following example shows the encoding of the 'system' container using the SIDs defined in {{-core-sid}} Appendix C.
 
@@ -492,11 +492,11 @@ CBOR encoding:
 
 An anydata serves as a container for an arbitrary set of schema nodes that otherwise appear as normal YANG-modeled data. An anydata instance is encoded using the same rules as a container, i.e., CBOR map. The requirement that anydata content can be modeled by YANG implies the following:
 
-*	Keys of any inner data nodes MUST be set to valid deltas or member names.
+* Keys of any inner data nodes MUST be set to valid deltas or member names.
 
-*	The CBOR array MUST contain either unique scalar values (as a leaf-list, see {{leaf-list}}), or maps (as a list, see {{list}}).
+* The CBOR array MUST contain either unique scalar values (as a leaf-list, see {{leaf-list}}), or maps (as a list, see {{list}}).
 
-*	Values MUST follow the encoding rules of one of the datatypes listed in {{data-types-mapping}}.
+* Values MUST follow the encoding rules of one of the datatypes listed in {{data-types-mapping}}.
 
 The following example shows a possible use of anydata. In this example, an anydata is used to define a data node containing a notification event, this data node can be part of a YANG list to create an event logger.
 
@@ -913,9 +913,9 @@ Single instance data nodes MUST be encoded using a CBOR unsigned integer data it
 
 Data nodes member of a YANG list MUST be encoded using a CBOR array data item (major type 4) containing the following entries:
 
-*	The first entry MUST be encoded as a CBOR unsigned integer data item (major type 0) and set to the targeted data node SID. 
+* The first entry MUST be encoded as a CBOR unsigned integer data item (major type 0) and set to the targeted data node SID. 
 
-*	The following entries MUST contain the value of each key required to identify the instance of the targeted data node. These keys MUST be ordered as defined in the 'key' YANG statement, starting from top level list, and follow by each of the subordinate list(s).
+* The following entries MUST contain the value of each key required to identify the instance of the targeted data node. These keys MUST be ordered as defined in the 'key' YANG statement, starting from top level list, and follow by each of the subordinate list(s).
 
 **First example:**
 
