@@ -512,11 +512,11 @@ This example also assumes the assistance of the following notification.
 module example-port {
   ...
 
-  notification example-port-fault {  # ID 2600
-    leaf port-name {                 # ID 2601
+  notification example-port-fault {  # SID 2600
+    leaf port-name {                 # SID 2601
       type string;
     }
-    leaf port-fault {                # ID 2601
+    leaf port-fault {                # SID 2601
       type string;
     }
   }
