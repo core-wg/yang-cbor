@@ -139,7 +139,7 @@ This specification also makes use of the following terminology:
 
 * child: A schema node defined within a collection such as a container, a list, a case, a notification, an RPC input, an RPC output, an action input, an action output.
 
-* delta : Difference between the SID assigned to the current schema node and the SID assigned to the parent.
+* delta : Difference between the current SID and a reference SID. A reference SID is defined for each context for which deltas are used.
 
 * parent: The collection in which a schema node is defined.
 
