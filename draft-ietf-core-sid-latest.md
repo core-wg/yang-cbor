@@ -207,7 +207,7 @@ The following activity diagram summarizes the creation of a YANG module and its 
                                      +---------------------+
                                      |
                                    [DONE]
- ~~~~
+~~~~
 {: align="left"}
 
 Each time a YANG module or one of its imported module(s) or included sub-module(s) is updated, the ".sid" file MAY need to be updated. This update SHOULD also be performed using an automated tool.
