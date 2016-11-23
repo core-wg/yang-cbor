@@ -90,7 +90,37 @@ YANG Schema Item iDentifiers (SID) are used to identify different YANG items usi
 
 # Introduction
 
-This document describes the registries required to manage SIDs and a file format used to persist and publish the assigned SIDs.
+Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier.  In both NETCONF {{RFC6241}} and RESTCONF, these identifiers are implemented using names.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called SID, is encoded using an unsigned integer. The following items are identified using SIDs:
+
+* identities
+
+* data nodes
+
+* RPCs and associated input(s) and output(s)
+
+* actions and associated input(s) and output(s)
+
+* notifications and associated information
+
+* YANG modules, submodules and features
+
+To minimize its size, SIDs are often implemented using a delta from a reference SID and the current SID. Conversion from SIDs to deltas and back to SIDs are stateless processes solely based on the data serialized or deserialized.
+
+To guaranty the uniqueness of each assigned SID, SID ranges MUST be registered. {{sid-range-registry}} provide more details about the registration process of SID range(s).
+
+Assignment of SIDs can be automated, the recommended process to assign SIDs is as follows:
+
+* A tool extracts the different items defined for a specific YANG module.
+
+* The list of items is ordered in alphabetical order by type and label. Valid types and label formats are described within the 'ietf-sid-file' YANG module defined in {{sid-file-format}}.
+
+* SIDs are assigned sequentially from the entry point up to the size of the registered SID range. This approach is recommended to minimize the serialization overhead, especially when delta encoding is implemented.
+
+* If the number of items exceeds the SID range(s) allocated to a YANG module, an extra range is added for subsequent assignments.
+
+SIDs are assigned permanently, items introduced by a new revision of a YANG module are added to the list of SIDs already assigned.  This process can also be automated using the same method described above except that the assignment restart from the highest SID already assigned plus one.
+
+To avoid duplicate assignment of SIDs, the registration of the SIDs assigned to YANG module(s) is recommended.  {{module-registry}} provide more details about the registration process of YANG modules and associated SIDs. In order to implement this registry, {{sid-file-format}} defines a standard file format used to store and publish SIDs.
 
 # Terminology and Notation
 
@@ -126,104 +156,101 @@ This specification also makes use of the following terminology:
 
 * path: A path is a string that identifies a schema node within the schema tree. A path consists of the list of schema node identifier(s) separated by slashes ("/"). Schema node identifier(s) are always listed from the top-level schema node up to the targeted schema node. (e.g. "/system-state/clock/current-datetime")
 
-# YANG Schema Item iDentifier (SID)
-
-Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier. In both NETCONF and RESTCONF, these identifiers are implemented using names. To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required.
-
-This compact identifier, called SID, is encoded using an unsigned integer. To minimize its size, SIDs are often implemented using a delta from a reference SID and the current SID. To guaranty the uniqueness of each assigned SID, SID ranges MUST be registered. {{sid-range-registry}} provide more details about the registration process of SID range(s).
-
-To avoid duplicate assignment of SIDs, the registration of the SIDs assigned to YANG module(s) is recommended. {{module-registry}} provide more details about the registration process of YANG modules.
-
-The following items are identified using SIDs:
-
-* identities
-
-* data nodes
-
-* RPCs and associated input(s) and output(s)
-
-* actions and associated input(s) and output(s)
-
-* notifications and associated information
-
-* YANG modules, submodules and features
-
-Assignment of SIDs can be automated, the recommended process to assign SIDs is as follows:
-
-* A tool extracts the different items defined for a specific YANG module.
-
-* The list of items is ordered by type and label.
-
-* SIDs are assigned sequentially for the entry point up to the size of the registered SID range. This approach is recommended to minimize the serialization overhead, especially when delta encoding is implemented.
-
-* If the number of items exceeds the SID range(s) allocated to a YANG module, an extra range is added for subsequent assignments.
-
-SIDs are assigned permanently, items introduced by a new revision of a YANG module are added to the list of SIDs already assigned. This process can also be automated using the same method described above except that the assignment need to be restarted from the highest SID already assigned.
-
-{{sid-file-format}} defines a standard file format used to store and publish SIDs.
-
 # ".sid" file lifecycle  {#sid-lifecycle}
 
-The following activity diagram summarize the life cycle of ".sid" files.
+YANG is a language designed to model data sent between clients and servers using one of the compatible protocol (e.g. NETCONF {{RFC6241}}, RESCONF and CoMI). A YANG module defines hierarchies of data, including configuration, state data, RPCs, actions and notifications.
 
-~~~~
-      +---------------+
- O    | Creation of a |
--|- ->| YANG module   |
-/ \   +---------------+
-              |
-              V
-       /-------------\
-      / Standardized  \ yes
-      \ YANG module ? /-------------+
-       \-------------/              |
-              | no                  |
-              V                     V
-       /-------------\      +---------------+
-      / Constrained   \ yes | SID range     |
-  +-->\ application ? /---->| registration  |
-  |    \-------------/      +---------------+
-  |           | no                  |
-  |           V                     V
-  |   +---------------+     +---------------+
-  +---| YANG module   |     | .sid file     |
-      | update        |     | generation    |
-      +---------------+     +---------------+
-                                    |
-                                    V
-                             /-------------\      +---------------+
-                            /  Publicly     \ yes | YANG module   |
-              +------------>\  available ?  /---->| registration  |
-              |              \-------------/      +---------------+
-              |                     | no                  |
-              |                     +---------------------+
-              |                     V
-      +---------------+     +---------------+
-      | .sid file     |     | Update of the |
-      | update based  |     | YANG module   |
-      | on previous   |     | or include(s) |
-      | .sid file     |     | or import(s)  |
-      +---------------+     +---------------+
-              ^                     |
-              |                     V
-              |              /-------------\      +---------------+
-              |             /  More SIDs    \ yes | Extra range   |
-              |             \  required ?   /---->| assignment    |
-              |              \-------------/      +---------------+
-              |                     | no                  |
-              +---------------------+---------------------+
-~~~~
-{: align="left"}
+YANG modules are not necessary created in the context of constrained applications. YANG modules can be implemented using NETCONF {{RFC6241}} or RESTCONF without the need to assign SIDs.
 
-YANG modules are not necessary created in the context of constrained applications. YANG modules can be implemented using NETCONF or RESTCONF without the need to assign SIDs.
-
-As needed, authors of YANG modules can assign SIDs to their modules. This process starts by the registration of a SID range. Once a SID range is registered, the owner of this range assigns sub-ranges to each YANG module in order to generate the associated “.sid” files. Generation of “.sid” files SHOULD be performed using an automated tool.
+As needed, authors of YANG modules can assign SIDs to their YANG modules. This process starts by the registration of a SID range. Once a SID range is registered, the owner of this range assigns sub-ranges to each YANG module in order to generate the associated “.sid” files. Generation of “.sid” files SHOULD be performed using an automated tool.
 
 Registration of the .sid file associated to a YANG module is optional but recommended to promote interoperability between devices and to avoid duplicate allocation of SIDs to a single YANG module.
+
+The following activity diagram summarizes the creation of a YANG module and its associated .sid file.
+
+~~~~
+       +---------------+
+  O    | Creation of a |
+ -|- ->| YANG module   |
+ / \   +---------------+
+               |
+               V
+        /-------------\
+       / Standardized  \ yes
+       \ YANG module ? /-------------+
+        \-------------/              |
+               | no                  |
+               V                     V
+        /-------------\      +---------------+
+       / Constrained   \ yes | SID range     |
+   +-->\ application ? /---->| registration  |
+   |    \-------------/      +---------------+
+   |           | no                  |
+   |           V                     V
+   |   +---------------+     +---------------+
+   +---| YANG module   |     | SID sub-range |
+       | update        |     | assignment    |
+       +---------------+     +---------------+
+                                     |
+                                     V
+                             +---------------+
+                             | .sid file     |
+                             | generation    |
+                             +---------------+
+                                     |
+                                     V
+                              /-------------\      +---------------+
+                             /  Publicly     \ yes | YANG module   |
+                             \  available ?  /---->| registration  |
+                              \-------------/      +---------------+
+                                     | no                  |
+                                     +---------------------+
+                                     |
+                                   [DONE]
+ ~~~~
+{: align="left"}
 
 Each time a YANG module or one of its imported module(s) or included sub-module(s) is updated, the ".sid" file MAY need to be updated. This update SHOULD also be performed using an automated tool.
 
 If a new revision requires more SIDs than initially allocated, a new SID range MUST be added to the assignment ranges as defined in the ".sid" file header. These extra SIDs are used for subsequent assignments.
+
+The following activity diagram summarizes the update of a YANG module and its associated .sid file.
+
+~~~~
+       +---------------+
+  O    | Update of the |
+ -|- ->| YANG module   |
+ / \   | or include(s) |
+       | or import(s)  |
+       +---------------+
+               |
+               V
+        /-------------\      +----------------+
+       /  More SIDs    \ yes | Extra sub-range|
+       \  required ?   /---->| assignment     |
+        \-------------/      +----------------+
+               | no                  |
+               +---------------------+
+               |
+               V
+       +---------------+
+       | .sid file     |
+       | update based  |
+       | on previous   |
+       | .sid file     |
+       +---------------+
+               |
+               V
+        /-------------\      +---------------+
+       /  Publicly     \ yes | YANG module   |
+       \  available ?  /---->| registration  |
+        \-------------/      +---------------+
+               | no                  |
+               +---------------------+
+               |
+             [DONE]
+~~~~
+{: align="left"}
 
 # ".sid" file format  {#sid-file-format}
 
