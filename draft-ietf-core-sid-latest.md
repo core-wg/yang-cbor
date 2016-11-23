@@ -17,17 +17,6 @@ pi:
   subcompact: 'no'
 author:
 - role: editor
-  ins: A.  S. Somaraju
-  name: Abhinav Somaraju
-  org: Tridonic GmbH & Co KG
-  street: Farbergasse 15
-  code: '6850'
-  city: Dornbirn
-  region: Vorarlberg
-  country: Austria
-  phone: "+43664808926169"
-  email: abhinav.somaraju@tridonic.com
-- role: editor
   ins: M. V. Veillette
   name: Michel Veillette
   org: Trilliant Networks Inc.
@@ -38,7 +27,8 @@ author:
   country: Canada
   phone: "+14503750556"
   email: michel.veillette@trilliantinc.com
-- ins: A. P. Pelov
+- role: editor
+  ins: A. P. Pelov
   name: Alexander Pelov
   org: Acklio
   street: 2bis rue de la Chataigneraie
@@ -69,6 +59,16 @@ author:
   region: Bretagne
   country: France
   email: ana@ackl.io
+- ins: A.  S. Somaraju
+  name: Abhinav Somaraju
+  org: Tridonic GmbH & Co KG
+  street: Farbergasse 15
+  code: '6850'
+  city: Dornbirn
+  region: Vorarlberg
+  country: Austria
+  phone: "+43664808926169"
+  email: abhinav.somaraju@tridonic.com
 normative:
   RFC7950:
   RFC7951:
