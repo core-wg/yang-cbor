@@ -562,6 +562,8 @@ CBOR encoding: 83 f5 f6 f5
 
 # Representing YANG Data Types in CBOR {#data-types-mapping}
 
+The CBOR encoding of an instance of a leaf or leaf-list data node depends on the built-in type of that data node. The following sub-section defined the CBOR encoding of each built-in type supported by YANG as listed in [RFC7950] section 4.2.4. Each subsection shows an example value assigned to a data node of the discussed built-in type.
+
 ## The unsigned integer Types
 
 Leafs of type uint8, uint16, uint32 and uint64 MUST be encoded using a CBOR
@@ -750,7 +752,7 @@ CBOR encoding: 50 1f1ce6a3f42660d888d92a4d8030476e
 Leafs of type leafref MUST be encoded using the rules of the schema node referenced
 by the 'path' YANG statement.
 
-The following example shows the encoding of leaf 'interface-state-ref' set to the value "eth1".
+The following example shows the encoding of the value "eth1" assigned to the leaf 'interface-state-ref'.
 
 Definition example from {{RFC7223}}:
 
