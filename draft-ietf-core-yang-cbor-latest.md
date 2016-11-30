@@ -202,7 +202,7 @@ Keys implemented using SIDs MUST be encoded using a CBOR unsigned integer (major
 
 * Delta values may result in a negative number, clients and servers MUST support negative deltas.
 
-The following example shows the encoding of the 'system' container using the SIDs defined in {{-core-sid}} Appendix C.
+The following example shows the encoding of a 'system' container instance using the SIDs defined in {{-core-sid}} Appendix C.
 
 Definition example from {{RFC7317}}:
 
@@ -256,7 +256,7 @@ a1                                      # map(1)
 
 Keys implemented using member names MUST be encoded using a CBOR text string data item (major type 3). A namespace-qualified member name MUST be used for all members of a top-level collection, and then also whenever the namespaces of the schema node and its parent are different. In all other cases, the simple form of the member name MUST be used. Names and namespaces are defined in {{RFC7951}} section 4.
 
-The following example shows the encoding of the 'system' container using names. This example is described in {{container-with-sid}}.
+The following example shows the encoding of a 'system' container instance using names. This example is described in {{container-with-sid}}.
 
 CBOR diagnostic notation:
 
@@ -291,7 +291,7 @@ a1                                          # map(1)
 A leaf-list MUST be encoded using a CBOR array data item (major type 4).
 Each entry of this array MUST be encoded using the rules defined by the YANG type specified.
 
-The following example shows the encoding the 'search' leaf-list containing the two entries, "ietf.org" and "ieee.org".
+The following example shows the encoding a 'search' leaf-list instance containing the two entries, "ietf.org" and "ieee.org".
 
 Definition example {{RFC7317}}:
 
@@ -321,7 +321,7 @@ A list MUST be encoded using a CBOR array data item (major type 4). Each list in
 
 ### SIDs as keys {#list-with-sid}
 
-The following example show the encoding of the 'server' list using the SIDs defined in {{-core-sid}} Appendix C. It is important to note that the protocol or method using this mapping may carry a parent SID or may have the knowledge of this parent SID based on its context. In these cases, delta encoding can be performed based on this parent SID which minimizes the size of the encoded data.
+The following example show the encoding of a 'server' list instance using the SIDs defined in {{-core-sid}} Appendix C. It is important to note that the protocol or method using this mapping may carry a parent SID or may have the knowledge of this parent SID based on its context. In these cases, delta encoding can be performed based on this parent SID which minimizes the size of the encoded data.
 
 Definition example from {{RFC7317}}:
 
@@ -421,7 +421,7 @@ CBOR encoding:
 
 ### Member names as keys
 
-The following example shows the encoding of the 'server' list using names. This example is described in {{list-with-sid}}.
+The following example shows the encoding of a 'server' list instance using names. This example is described in {{list-with-sid}}.
 
 CBOR diagnostic notation:
 
@@ -569,7 +569,7 @@ The CBOR encoding of an instance of a leaf or leaf-list data node depends on the
 Leafs of type uint8, uint16, uint32 and uint64 MUST be encoded using a CBOR
 unsigned integer data item (major type 0).
 
-The following example shows the encoding of leaf 'mtu' set to 1280 bytes.
+The following example shows the encoding of a 'mtu' leaf instance set to 1280 bytes.
 
 Definition example from {{RFC7277}}:
 
@@ -591,7 +591,7 @@ Leafs of type int8, int16, int32 and int64 MUST be encoded using either CBOR
 unsigned integer (major type 0) or CBOR signed integer (major type 1), depending
 on the actual value.
 
-The following example shows the encoding of leaf 'timezone-utc-offset' set to -300 minutes.
+The following example shows the encoding of a 'timezone-utc-offset' leaf instance set to -300 minutes.
 
 Definition example from {{RFC7317}}:
 
@@ -610,7 +610,7 @@ CBOR encoding: 39 012b
 ## The 'decimal64' Type
 Leafs of type decimal64 MUST be encoded using a decimal fraction as defined in {{RFC7049}} section 2.4.3.
 
-The following example shows the encoding of leaf 'my-decimal' set to 2.57.
+The following example shows the encoding of a 'my-decimal' leaf instance set to 2.57.
 
 Definition example from {{RFC7317}}:
 
@@ -632,7 +632,7 @@ CBOR encoding: c4 82 21 19 0101
 Leafs of type string MUST be encoded using a CBOR text string data item (major
 type 3).
 
-The following example shows the encoding of leaf 'name' set to "eth0".
+The following example shows the encoding of a 'name' leaf instance set to "eth0".
 
 Definition example from {{RFC7223}}:
 
@@ -652,7 +652,7 @@ Leafs of type boolean MUST be encoded using a CBOR true (major type 7, additiona
 information 21) or false data item (major type 7, additional information
 20).
 
-The following example shows the encoding of leaf 'enabled' set to 'true'.
+The following example shows the encoding of an 'enabled' leaf instance set to 'true'.
 
 Definition example from {{RFC7317}}:
 
@@ -670,7 +670,7 @@ CBOR encoding: f5
 
 Leafs of type enumeration MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR signed integer (major type 1), depending on the actual value. Enumeration values are either explicitly assigned using the YANG statement 'value' or automatically assigned based on the algorithm defined in {{RFC7950}} section 9.6.4.2.
 
-The following example shows the encoding of leaf 'oper-status' set to 'testing'.
+The following example shows the encoding of an 'oper-status' leaf instance set to 'testing'.
 
 Definition example from {{RFC7317}}:
 
@@ -702,7 +702,7 @@ Bits position 0 to 7 are assigned to the first byte within the byte
 string, bits 8 to 15 to the second byte, and subsequent bytes are assigned
 similarly. Within each byte, bits are assigned from least to most significant.
 
-The following example shows the encoding of leaf 'mybits' with the 'disable-nagle' and '10-Mb-only' flags set.
+The following example shows the encoding of a 'mybits' leaf instance with the 'disable-nagle' and '10-Mb-only' flags set.
 
 Definition example from {{RFC7950}}:
 
@@ -731,7 +731,7 @@ CBOR encoding: 41 05
 Leafs of type binary MUST be encoded using a CBOR byte string data item (major
 type 2).
 
-The following example shows the encoding of leaf 'aes128-key' set to 0x1f1ce6a3f42660d888d92a4d8030476e.
+The following example shows the encoding of an 'aes128-key' leaf instance set to 0x1f1ce6a3f42660d888d92a4d8030476e.
 
 Definition example:
 
@@ -752,7 +752,7 @@ CBOR encoding: 50 1f1ce6a3f42660d888d92a4d8030476e
 Leafs of type leafref MUST be encoded using the rules of the schema node referenced
 by the 'path' YANG statement.
 
-The following example shows the encoding of the value "eth1" assigned to the leaf 'interface-state-ref'.
+The following example shows the encoding of an 'interface-state-ref' leaf instance set to "eth1".
 
 Definition example from {{RFC7223}}:
 
@@ -789,7 +789,7 @@ This specification supports two approaches for encoding identityref, a SID as de
 SIDs are globally unique and may be used as identityref.  This approach is both compact and simple to implement.  When SIDs are
 used, identityref MUST be encoded using a CBOR unsigned integer data item (major type 0) and set to a SID allocated from a registered SID range.
 
-The following example shows the encoding of leaf 'type' set to the value 'iana-if-type:ethernetCsmacd' (SID 1180 as listed in 'iana-if-type@2014-05-08.sid').
+The following example shows the encoding of a 'type' leaf instance set to the value 'iana-if-type:ethernetCsmacd' (SID 1180 as listed in 'iana-if-type@2014-05-08.sid').
 
 Definition example from {{RFC7317}}:
 
@@ -831,7 +831,7 @@ CBOR encoding: 78 1b 69616e612d69662d747970653a65746865726e657443736d616364
 Leafs of type empty MUST be encoded using the CBOR null value (major type
 7, additional information 22).
 
-The following example shows the encoding of leaf 'is-router' when present.
+The following example shows the encoding of a 'is-router' leaf instance when present.
 
 Definition example from {{RFC7277}}:
 
@@ -861,7 +861,7 @@ between different YANG datatypes encoded using the same CBOR major type.
 
 See {{tag-registry}} for more information about these CBOR tags.
 
-The following example shows the encoding of leaf 'ip-address' when set to "2001:db8:a0b:12f0::1".
+The following example shows the encoding of an 'ip-address' leaf instance when set to "2001:db8:a0b:12f0::1".
 
 Definition example from {{RFC7317}}:
 
@@ -921,7 +921,7 @@ Data nodes member of a YANG list MUST be encoded using a CBOR array data item (m
 
 **First example:**
 
-The following example shows the encoding of a leaf of type instance-identifier which identifies the data node "/system/contact" (SID 1737).
+The following example shows the encoding of a leaf instance of type instance-identifier which identifies the data node "/system/contact" (SID 1737).
 
 Definition example from {{RFC7317}}:
 
@@ -944,7 +944,7 @@ CBOR encoding: 19 06c9
 
 **Second example:**
 
-The following example shows the encoding of a leaf of type instance-identifier which identify the data node instance "/system/authentication/user/authorized-key/key-data" (SID 1730) for user name "bob" and authorized-key "admin".
+The following example shows the encoding of a leaf instance of type instance-identifier which identify the data node instance "/system/authentication/user/authorized-key/key-data" (SID 1730) for user name "bob" and authorized-key "admin".
 
 Definition example from {{RFC7317}}:
 
@@ -989,7 +989,7 @@ CBOR encoding:
 
 **Third example:**
 
-The following example shows the encoding of a leaf of type instance-identifier which identify the list instance "/system/authentication/user" (SID 1726) corresponding to the user name "jack".
+The following example shows the encoding of a leaf instance of type instance-identifier which identify the list instance "/system/authentication/user" (SID 1726) corresponding to the user name "jack".
 
 CBOR diagnostic notation: [1726, "jack"]
 
