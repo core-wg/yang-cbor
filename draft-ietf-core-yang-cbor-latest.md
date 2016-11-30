@@ -562,7 +562,7 @@ CBOR encoding: 83 f5 f6 f5
 
 # Representing YANG Data Types in CBOR {#data-types-mapping}
 
-The CBOR encoding of an instance of a leaf or leaf-list data node depends on the built-in type of that data node. The following sub-section defined the CBOR encoding of each built-in type supported by YANG as listed in [RFC7950] section 4.2.4. Each subsection shows an example value assigned to a data node of the discussed built-in type.
+The CBOR encoding of an instance of a leaf or leaf-list data node depends on the built-in type of that data node. The following sub-section defined the CBOR encoding of each built-in type supported by YANG as listed in {{RFC7950}} section 4.2.4. Each subsection shows an example value assigned to a data node instance of the discussed built-in type.
 
 ## The unsigned integer Types
 
