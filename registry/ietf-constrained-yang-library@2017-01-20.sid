@@ -5,12 +5,12 @@
       "size": 100
     }
   ],
-  "module-name": "ietf-cool-library",
-  "module-revision": "2016-06-01",
+  "module-name": "ietf-constrained-yang-library",
+  "module-revision": "2017-01-20",
   "items": [
     {
       "type": "Module",
-      "label": "ietf-cool-library",
+      "label": "ietf-constrained-yang-library",
       "sid": 1800
     },
     {
@@ -70,33 +70,28 @@
     },
     {
       "type": "node",
-      "label": "/modules-state/module/submodules",
+      "label": "/modules-state/module/submodule",
       "sid": 1812
     },
     {
       "type": "node",
-      "label": "/modules-state/module/submodules/submodule",
+      "label": "/modules-state/module/submodule/revision",
       "sid": 1813
     },
     {
       "type": "node",
-      "label": "/modules-state/module/submodules/submodule/revision",
+      "label": "/modules-state/module/submodule/sid",
       "sid": 1814
-    },
-    {
-      "type": "node",
-      "label": "/modules-state/module/submodules/submodule/sid",
-      "sid": 1815
     },
     {
       "type": "notification",
       "label": "/yang-library-change",
-      "sid": 1816
+      "sid": 1815
     },
     {
       "type": "notification",
       "label": "/yang-library-change/module-set-id",
-      "sid": 1817
+      "sid": 1816
     }
   ]
 }
