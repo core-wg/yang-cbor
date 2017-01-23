@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-veillette-core-cool-library-00
+docname: draft-veillette-core-yang-library-00
 title: Constrained YANG Module Library
 area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
@@ -152,7 +152,7 @@ If the value of this leaf changes, the server also generates a "yang-library-cha
 
 ###  modules-state/module
 
-This mandatory list contains one entry for each YANG module supported by the server endpoint.  There MUST be an entry in this list for each revision of each YANG module that is used by the server.
+This mandatory list contains one entry for each YANG module supported by the server.  There MUST be an entry in this list for each revision of each YANG module that is used by the server.
 
 # YANG Module "ietf-constrained-yang-library"
 
@@ -160,10 +160,10 @@ RFC Ed.: update the date below with the date of RFC publication
 and remove this note.
    
 ~~~~
-<CODE BEGINS> file " ietf-constrained-yang-library@2017-01-20.yang"
-  module ietf-constrained-yang-library {
-    namespace "urn:ietf:params:xml:ns:yang:ietf-constrained-yang-library";
-    prefix "lib";
+<CODE BEGINS> file "ietf-constrained-yang-library@2017-01-20.yang"
+module ietf-constrained-yang-library {
+  namespace "urn:ietf:params:xml:ns:yang:ietf-constrained-yang-library";
+  prefix "lib";
 
   organization
     "IETF CORE (Constrained RESTful Environments) Working Group";
@@ -362,8 +362,8 @@ and remove this note.
         }
         mandatory true;
         description
-          "Indicates the type of conformance the server endpoint is
-          claiming for the YANG module identified by this entry.";
+          "Indicates the type of conformance the server is claiming
+          for the YANG module identified by this entry.";
       }
       
       list submodule {
@@ -411,7 +411,7 @@ name:         ietf-constrained-yang-library
 
 namespace:    urn:ietf:params:xml:ns:yang:ietf-constrained-yang-library
 
-prefix:       coollib
+prefix:       lib
 
 reference:    RFC XXXX
 
