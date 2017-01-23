@@ -1,6 +1,6 @@
-module ietf-cool-library {
-  namespace "urn:ietf:params:xml:ns:yang:ietf-cool-library";
-  prefix "coollib";
+module ietf-constrained-yang-library {
+  namespace "urn:ietf:params:xml:ns:yang:ietf-constrained-yang-library";
+  prefix "lib";
 
   organization
     "IETF CORE (Constrained RESTful Environments) Working Group";
@@ -21,7 +21,7 @@ module ietf-cool-library {
 
   description
     "This module contains the list of YANG modules and submodules
-    implemented by a CoOL server endpoint.
+    implemented by a server.
 
      Copyright (c) 2016 IETF Trust and the persons identified as
      authors of the code.  All rights reserved.
@@ -39,17 +39,14 @@ module ietf-cool-library {
   // RFC Ed.: replace XXXX with actual RFC number and remove
   // this note.
 
-  // RFC Ed.: update the date below with the date of RFC
+  // RFC Ed.: update the date below with the date of the RFC
   // publication and remove this note.
 
-  // RFC Ed.: update [I-D.somaraju-core-sid] with actual RFC
-  // number and remove this note.
-  
-  revision 2016-06-01 {
+  revision 2017-01-20 {
     description
       "Initial revision.";
     reference
-      "RFC XXXX: Contrained YANG Module Library.";
+      "RFC XXXX: Constrained YANG Module Library.";
   }
 
   /*
@@ -69,13 +66,11 @@ module ietf-cool-library {
   }
 
   typedef sid {
-    type uint32;
+    type uint64;
     description
       "Unique identifier assigned to different YANG items
       such as data nodes, RPCs and actions, notifications,
-      modules, sub-modules, features and deviations. The SID
-      registration process is defined in
-      [I-D.somaraju-core-sid].";
+      modules, sub-modules, features and deviations.";
   }
   
   /*
@@ -88,6 +83,7 @@ module ietf-cool-library {
 
     leaf sid {
       type sid;
+      mandatory true;
       description
         "SID assigned to this module or submodule.";
     }
@@ -96,8 +92,8 @@ module ietf-cool-library {
       type revision;
       description
         "Revision date assigned to this module or submodule.
-        Set to 0x00000000 if no revision statement is present
-        in the YANG module.";
+        A zero-length binary string is used if no revision statement
+        is present in the YANG module or submodule.";
     }
   }
   
@@ -115,32 +111,31 @@ module ietf-cool-library {
     config false;
     description
       "Contain information about the different data models
-      implement by a CoOL endpoint.";
-
+      implement by a server.";
+    
     leaf module-set-id {
       type union {
         type uint32;
         type identityref {
-          base "coollib:module-set";
+          base "lib:module-set";
         }
       }
       mandatory true;
       description
         "Identifier representing the current set of modules
         and submodules listed in the 'module' list. This
-        identifier is endpoint-specific when implemented as
-        unit32 or shared between multiple endpoints on one
-        or multiple servers when implemented as identityref.
-        The server MUST change the value of this leaf each
-        time the information represented by the 'module'
-        list instance changes.";
+        identifier is server-specific when implemented as
+        unit32 or shared between multiple servers when
+        implemented as identityref. The server MUST change
+        the value of this leaf each time the information
+        represented by the 'module' list instance changes.";
     }
 
     list module {
       key "sid revision";
       description
         "Each entry represents one revision of one module
-         currently supported by the server endpoint.";
+         currently supported by the server.";
 
       uses identification-info;
       
@@ -148,7 +143,7 @@ module ietf-cool-library {
         type sid;
         description
           "List of YANG features from this module that are
-          supported by the server endpoint, regardless whether
+          supported by the server, regardless whether
           they are defined in the module or any included
           submodule.";
       }
@@ -157,9 +152,9 @@ module ietf-cool-library {
         key "sid revision";
         description
           "List of YANG deviation modules used by this server
-          endpoint to modify the conformance of the module
-          associated with this entry.  Note that the same module
-          can be used for deviations for multiple modules, so the
+          to modify the conformance of the module associated
+          with this entry.  Note that the same module can be
+          used for deviations for multiple modules, so the
           same entry MAY appear within multiple 'module' entries.
 
           The deviation module MUST be present in the 'module'
@@ -175,8 +170,8 @@ module ietf-cool-library {
           enum implement {
             value 0;
             description
-              "Indicates that the server endpoint implements one or
-              more protocol-accessible objects defined in the YANG
+              "Indicates that the server implements one or more
+              protocol-accessible objects defined in the YANG
               module identified in this entry.  This includes
               deviation statements defined in the module.
 
@@ -191,10 +186,10 @@ module ietf-cool-library {
           enum import {
             value 1;
             description
-              "Indicates that the server endpoint imports reusable
-              definitions from the specified revision of the module,
-              but does not implement any protocol accessible objects
-              from this revision.
+              "Indicates that the server imports reusable definitions
+              from the specified revision of the module, but does
+              not implement any protocol accessible objects from
+              this revision.
 
               Multiple module entries for the same module MAY
               exist. This can occur if multiple modules import the
@@ -204,22 +199,16 @@ module ietf-cool-library {
         }
         mandatory true;
         description
-          "Indicates the type of conformance the server endpoint is
-          claiming for the YANG module identified by this entry.";
+          "Indicates the type of conformance the server is claiming
+          for the YANG module identified by this entry.";
       }
       
-      container submodules {
+      list submodule {
+        key "sid revision";
         description
-          "Contains information about all the submodules used
-           by the parent module entry";
-
-        list submodule {
-          key "sid revision";
-          description
-            "Each entry represents one submodule within the
-             parent module.";
-          uses identification-info;
-        }
+          "Each entry represents one submodule within the
+           parent module.";
+        uses identification-info;
       }
     }
   }
@@ -231,17 +220,17 @@ module ietf-cool-library {
   notification yang-library-change {
     description
       "Generated when the set of modules and submodules supported
-      by the server endpoint has changed.";
+      by the server has changed.";
       
     leaf module-set-id {
       type leafref {
-        path "/coollib:modules-state/coollib:module-set-id";
+        path "/lib:modules-state/lib:module-set-id";
       }
       mandatory true;
       description
         "Contains the module-set-id value representing the
-        set of modules and submodules supported at the server
-        endpoint at the time the notification is generated.";
+        set of modules and submodules supported by the server
+        at the time the notification is generated.";
     }
   }
 }
