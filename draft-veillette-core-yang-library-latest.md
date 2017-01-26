@@ -38,36 +38,36 @@ informative:
 
 --- abstract
 
-This document describes a YANG library, which provides information about all YANG modules implemented by a constrained network management server (e.g. CoMI server).  Simple caching mechanisms are provided to minimize retrieval of this information by clients.
+This document describes a YANG library that provides information about all the YANG modules used by a constrained network management server (e.g., a CoAP Management Interface (CoMI) server). Simple caching mechanisms are provided to allow clients to minimize retrieval of this information.
 
 --- middle
 
 # Introduction
 
-The YANG module defined in this memo is available to clients to discover the different YANG data models supported by a constrained network management server. The following YANG module information is needed by client applications to fully utilize the YANG data modeling language:
+The YANG library specified in this document is available to clients of a given server to discover the YANG modules supported by this constrained network management server. A CoMI server provides a link to this library in the /c/mod.uri resource. The following YANG module information is provided to client applications to fully utilize the YANG data modeling language:
 
-* module list: The list of YANG modules implemented by a server, each module is identified by its SID and revision.
+* module list: The list of YANG modules implemented by a server, each module is identified by its assigned Schema Item iDentifier (SID) and revision.
 
-* submodule list: The list of YANG submodules included by each module, each submodule is identified by its SID and revision. 
+* submodule list: The list of YANG submodules included by each module, each submodule is identified by its assigned SID and revision. 
    
-* feature list: The list of features supported by each YANG module, each feature is identified by its SID.
+* feature list: The list of features supported by the server, each feature is identified by its assigned SID.
 
-* deviation list: The list of YANG modules used for deviation statements associated with each YANG module, each module is identified by its SID and revision.
+* deviation list: The list of YANG modules used for deviation statements associated with each YANG module, each module is identified by its assigned SID and revision.
 
 ## Major differences between ietf-constrained-yang-library and ietf-yang-library
 
-YANG module ietf-constrained-yang-library target the same functionality and share the same approach as YANG module ietf-yang-library. The following changes are required to make this module compatible with Schema Item iDentifier {{-core-sid}} used by CoMI {{-comi}} and to improve its applicability to constrained devices and networks. 
+YANG module ietf-constrained-yang-library targets the same functionality and shares the same approach as YANG module ietf-yang-library. The following changes with respect to ietf-yang-library are specified to make ietf-constrained-yang-library compatible with SID {{-core-sid}} used by CoMI {{-comi}} and to improve its applicability to constrained devices and networks. 
 
-* YANG module ietf-constrained-yang-library extends the caching mechanism supported by ietf-yang-library to a group of servers. This is accomplished by supporting the identityref datatype for "module-set-id". This enables the use of a managed identifier (i.e. a SID) to identify a specific assembly of YANG modules, deviations and features implemented by a group of constrained servers.
+* YANG module ietf-constrained-yang-library extends the caching mechanism supported by ietf-yang-library to multiple servers. This is accomplished by supporting the identityref datatype for "module-set-id". This enables the use of a managed identifier (i.e. a SID) to identify a specific assembly of YANG modules, deviations and features implemented by a group of constrained servers.
 
 
 * Modules, sub-modules, deviations and features are identified using a numerical value (SID) instead of a string (yang-identifier).
 
-* The "namespace" leaf is not required for SIDs, this leaf mandatory in ietf-yang-library is not included in ietf-constrained-yang-library.
+* The "namespace" leaf, not required for SIDs, but mandatory in ietf-yang-library is not included in ietf-constrained-yang-library.
 
-* The size of schema URIs is considered incompatible with constrained devices and constrained networks. Furthermore, schemas can be located using the already available module or sub-module identifier (SID) and revision. For these reasons, supports of module and sub-module schema URIs have been removed.
+* Schemas can be located using the already available module or sub-module identifier (SID) and revision. For this reason, support of module and sub-module schema URIs have been removed.
 
-o To minimize their size, "revision" are encoded in binary instead of strings.
+o To minimize their size, each revision date is encoded in binary.
 
 # Terminology and Notation
 
@@ -101,7 +101,7 @@ The following terms are used within this document:
 
 # Overview
 
-The "ietf-constrained-yang-library" module provides information about the YANG library used by a server.  This module is defined using YANG version 1, but it supports the description of YANG modules written in any revision of YANG.
+The "ietf-constrained-yang-library" module provides information about the YANG library used by a given server.  This module is defined using YANG version 1 as defined by {{RFC7950}}, but it supports the description of YANG modules written in any revision of YANG.
 
 ## Tree diagram
 
@@ -140,11 +140,11 @@ notifications:
 
 ### modules-state
 
-This mandatory container holds the module set identifier and the list of modules supported by the server.
+This mandatory container specifies the module set identifier and the list of modules supported by the server.
 
 ###  modules-state/module-set-id
 
-This mandatory leaf contains an identifier representing the current set of modules and submodules used by a server. This identifier is server-specific when implemented as unit32 or shared between multiple servers when implemented as identityref.  The value of this leaf MUST change whenever the set of modules and submodules in the library changes.  There is no requirement that the same set always results in the same module-set-id value.
+This mandatory leaf contains an identifier representing the current set of modules and submodules used by a server. This identifier is server-specific when implemented as unit32 or can be used by multiple servers when implemented as identityref.  The value of this leaf MUST change whenever the set of modules and submodules in the library changes.  There is no requirement that the same set always results in the same module-set-id value.
 
 This leaf allows a client to fetch the module list once, cache it, and only re-fetch it if the value of this leaf has been changed.
 
@@ -152,7 +152,7 @@ If the value of this leaf changes, the server also generates a "yang-library-cha
 
 ###  modules-state/module
 
-This mandatory list contains one entry for each YANG module supported by the server.  There MUST be an entry in this list for each revision of each YANG module that is used by the server.
+This mandatory list contains one entry for each YANG module supported by the server.  There MUST be an entry in this list for each revision of each YANG module that is used by the server. It is possible for multiple revisions of the same module to be imported, in addition to an entry for the revision that is implemented by the server.
 
 # YANG Module "ietf-constrained-yang-library"
 
@@ -222,8 +222,8 @@ module ietf-constrained-yang-library {
     }
     description
       "Revision date encoded as a binary string as follow:
-      - First byte = Century
-      - Second byte = Year (0 to 99)
+      - First byte = Year divided by 100
+      - Second byte = Year modulo 100 (0 to 99)
       - Third byte = Month (1 = January to 12 = december)
       - Forth byte = Day (1 to 31)";
   }
@@ -231,9 +231,9 @@ module ietf-constrained-yang-library {
   typedef sid {
     type uint64;
     description
-      "Unique identifier assigned to different YANG items
-      such as data nodes, RPCs and actions, notifications,
-      modules, sub-modules, features and deviations.";
+      "Identifier assigned to different YANG items such as
+      data nodes, RPCs and actions, notifications, modules,
+      sub-modules, features and deviations.";
   }
   
   /*
@@ -273,8 +273,8 @@ module ietf-constrained-yang-library {
   container modules-state {
     config false;
     description
-      "Contain information about the different data models
-      implement by a server.";
+      "Contains information about the different data models
+      implemented by the server.";
     
     leaf module-set-id {
       type union {
@@ -290,8 +290,8 @@ module ietf-constrained-yang-library {
         identifier is server-specific when implemented as
         unit32 or shared between multiple servers when
         implemented as identityref. The server MUST change
-        the value of this leaf each time the information
-        represented by the 'module' list instance changes.";
+        the value of this leaf each time the content of the
+        'module' list instance change.";
     }
 
     list module {
@@ -307,7 +307,7 @@ module ietf-constrained-yang-library {
         description
           "List of YANG features from this module that are
           supported by the server, regardless whether
-          they are defined in the module or any included
+          they are defined in the module or in any included
           submodule.";
       }
       
@@ -421,7 +421,7 @@ reference:    RFC XXXX
 
 This YANG module is designed to be accessed via the CoMI protocol {{-comi}}.  Some of the readable data nodes in this YANG module may be considered sensitive or vulnerable in some network environments.  It is thus important to control read access to these data nodes.
 
-Specifically, the 'module' list may help an attacker identify the server capabilities and server implementations with known bugs. Server vulnerabilities may be specific to particular modules, module revisions, module features, or even module deviations.  This information is included in each module entry.  For example, if a particular operation on a particular data node is known to cause a server to crash or significantly degrade device performance, then the module list information will help an attacker identify server implementations with such a defect, in order to launch a denial of service attack on the device.
+Specifically, the 'module' list may help an attacker to identify the server capabilities and server implementations with known bugs. Server vulnerabilities may be specific to particular modules, module revisions, module features, or even module deviations.  This information is included in each module entry.  For example, if a particular operation on a particular data node is known to cause a server to crash or significantly degrade device performance, then the module list information will help an attacker identify server implementations with such a defect, in order to launch a denial of service attack on the device.
 
 # Acknowledgments
 
