@@ -30,7 +30,7 @@ author:
 normative:
   RFC2119:
   RFC7950:
-  I-D.ietf-core-sid: core-sid
+  I-D.ietf-core-yang-cbor: core-yang-cbor
   I-D.vanderstok-core-comi: comi
 informative:
   RFC7895:
@@ -46,7 +46,7 @@ This document describes a YANG library that provides information about all the Y
 
 The YANG library specified in this document is available to clients of a given server to discover the YANG modules supported by this constrained network management server. A CoMI server provides a link to this library in the /c/mod.uri resource. The following YANG module information is provided to client applications to fully utilize the YANG data modeling language:
 
-* module list: The list of YANG modules implemented by a server, each module is identified by its assigned Schema Item iDentifier (SID) and revision.
+* module list: The list of YANG modules implemented by a server, each module is identified by its assigned YANG Schema Item iDentifier (SID) and revision.
 
 * submodule list: The list of YANG submodules included by each module, each submodule is identified by its assigned SID and revision. 
    
@@ -56,7 +56,7 @@ The YANG library specified in this document is available to clients of a given s
 
 ## Major differences between ietf-constrained-yang-library and ietf-yang-library
 
-YANG module ietf-constrained-yang-library targets the same functionality and shares the same approach as YANG module ietf-yang-library. The following changes with respect to ietf-yang-library are specified to make ietf-constrained-yang-library compatible with SID {{-core-sid}} used by CoMI {{-comi}} and to improve its applicability to constrained devices and networks. 
+YANG module ietf-constrained-yang-library targets the same functionality and shares the same approach as YANG module ietf-yang-library. The following changes with respect to ietf-yang-library are specified to make ietf-constrained-yang-library compatible with SID {{-core-yang-cbor}} used by CoMI {{-comi}} and to improve its applicability to constrained devices and networks. 
 
 * YANG module ietf-constrained-yang-library extends the caching mechanism supported by ietf-yang-library to multiple servers. This is accomplished by supporting the identityref datatype for "module-set-id". This enables the use of a managed identifier (i.e. a SID) to identify a specific assembly of YANG modules, deviations and features implemented by a group of constrained servers.
 
@@ -85,9 +85,9 @@ The following terms are defined in {{RFC7950}}:
 
 * deviation
 
-The following terms are defined in {{-core-sid}}:
+The following terms are defined in {{-core-yang-cbor}}:
 
-* Schema Item iDentifier (SID)
+* YANG Schema Item iDentifier (SID)
 
 The following terms are defined in {{-comi}}:
 
