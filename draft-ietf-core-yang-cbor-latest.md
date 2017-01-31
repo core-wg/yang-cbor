@@ -72,6 +72,7 @@ author:
 normative:
   RFC7950:
   RFC2119:
+  RFC6241:
   RFC7049:
 informative:
   I-D.ietf-core-sid: core-sid
