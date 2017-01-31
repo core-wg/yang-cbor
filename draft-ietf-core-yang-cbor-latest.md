@@ -170,7 +170,7 @@ Some of the items defined in YANG {{RFC7950}} require the use of a unique identi
 
 To minimize its size, in certain positions, SIDs are represented using a (signed) delta from a reference SID and the current SID. Conversion from SIDs to deltas and back to SIDs are stateless processes solely based on the data serialized or deserialized.
 
-It is outside the scope of the present specification how a SID is derived for a unique identifier and vice versa.  If SIDs are to be used, the present specification is used in conjunction with a specification defining this mapping. One example for such a specification is under development as {{-core-sid}}.
+Mechanisms and processes used to assign SIDs to YANG items and to guarantee their uniqueness is outside the scope of the present specification. If SIDs are to be used, the present specification is used in conjunction with a specification defining this management. One example for such a specification is under development as {{-core-sid}}.
 
 ## CBOR diagnostic notation
 
