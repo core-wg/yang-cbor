@@ -813,7 +813,7 @@ This specification supports two approaches for encoding identityref, a YANG Sche
 
 ### SIDs as identityref {#identityref-with-sid}
 
-When schema nodes of type identityref are implemented using SIDs, they MUST be encoded using a CBOR unsigned integer data item (major type 0) and set to a SID allocated from a registered SID range. (Note that no delta mechanism is employed for SIDs as identityref.)
+When schema nodes of type identityref are implemented using SIDs, they MUST be encoded using a CBOR unsigned integer data item (major type 0). (Note that no delta mechanism is employed for SIDs as identityref.)
 
 The following example shows the encoding of a 'type' leaf instance set to the value 'iana-if-type:ethernetCsmacd' (SID 1180).
 
