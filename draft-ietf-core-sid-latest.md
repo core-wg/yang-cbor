@@ -148,13 +148,13 @@ The following terms are defined in {{RFC7950}}:
 
 This specification also makes use of the following terminology:
 
-* identifier: An identifier embodies the information required to distinguish what is being identified from all other things within its scope of identification.
-
 * delta : Difference between the current SID and a reference SID. A reference SID is defined for each context for which deltas are used.
 
 * item:  A schema node, an identity, a module, a submodule or a feature defined using the YANG modeling language.
 
 * path: A path is a string that identifies a schema node within the schema tree. A path consists of the list of schema node identifier(s) separated by slashes ("/"). Schema node identifier(s) are always listed from the top-level schema node up to the targeted schema node. (e.g. "/system-state/clock/current-datetime")
+
+* YANG Schema Item iDentifier (SID): Unsigned integer used to identify different YANG items.
 
 # ".sid" file lifecycle  {#sid-lifecycle}
 
