@@ -115,6 +115,10 @@ The following terms are defined in {{RFC7950}}:
 
 * data tree
 
+* feature
+
+* identity
+
 * module
 
 * notification
@@ -139,11 +143,33 @@ This specification also makes use of the following terminology:
 
 * child: A schema node defined within a collection such as a container, a list, a case, a notification, an RPC input, an RPC output, an action input, an action output.
 
-* delta : Difference between the current SID and a reference SID. A reference SID is defined for each context for which deltas are used.
+* delta: Difference between the current SID and a reference SID. A reference SID is defined for each context for which deltas are used.
+
+* item: A schema node, an identity, a module, a submodule or a feature defined using the YANG modeling language.
 
 * parent: The collection in which a schema node is defined.
 
-* structured identifier or SID: Unsigned integer used to identify different YANG items.
+* YANG Schema Item iDentifier (SID): Unsigned integer used to identify different YANG items.
+
+## YANG Schema Item iDentifier (SID) {#sid}
+
+Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier.  In both NETCONF {{RFC6241}} and RESTCONF, these identifiers are implemented using names.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called YANG Schema Item iDentifier (SID), is encoded using an unsigned integer. The following items are identified using SIDs:
+
+* identities
+
+* data nodes
+
+* RPCs and associated input(s) and output(s)
+
+* actions and associated input(s) and output(s)
+
+* notifications and associated information
+
+* YANG modules, submodules and features
+
+To minimize its size, in certain positions, SIDs are represented using a (signed) delta from a reference SID and the current SID. Conversion from SIDs to deltas and back to SIDs are stateless processes solely based on the data serialized or deserialized.
+
+It is outside the scope of the present specification how a SID is derived for a unique identifier and vice versa.  If SIDs are to be used, the present specification is used in conjunction with a specification defining this mapping. One example for such a specification is under development as {{-core-sid}}.
 
 ## CBOR diagnostic notation
 
@@ -167,7 +193,7 @@ The following extensions to the CBOR diagnostic notation are supported:
 
 * Any text within and including a pair of slashes is considered a comment.
 
-* Deltas are represented as numbers preceded by a '+' or '–' sign. The use of the '+' sign for positive deltas represents an extension to the CBOR diagnostic notation as defined by {{RFC7049}} section 6.
+* Deltas are visualized as numbers preceded by a '+' or '–' sign. The use of the '+' sign for positive deltas represents an extension to the CBOR diagnostic notation as defined by {{RFC7049}} section 6.
 
 # Properties of the CBOR Encoding
 
@@ -175,7 +201,7 @@ This document defines CBOR encoding rules for YANG schema trees and their subtre
 
 Basic schema nodes such as leaf, leaf-list, list, anydata and anyxml can be encoded standalone. In this case, only the value of this schema node is encoded in CBOR. Identification of this value needs to be provided by some external means when required.
 
-A collection such as container, list instance, notification, RPC input, RPC output, action input and action output is serialized using a CBOR map in which each child schema node is encoded using a key and a value. This specification supports two type of keys; SID as defined in {{-core-sid}} and member names as defined in {{RFC7951}}. Each of these key types is encoded using a specific CBOR type which allows their interpretation during the deserialization process. The end user of this mapping specification (e.g. RESTCONF, CoMI) can mandate the use of a specific key type.
+A collection such as container, list instance, notification, RPC input, RPC output, action input and action output is serialized using a CBOR map in which each child schema node is encoded using a key and a value. This specification supports two type of CBOR keys; YANG Schema Item iDentifier (SID) as defined in {{sid}} and member names as defined in {{RFC7951}}. Each of these key types is encoded using a specific CBOR type which allows their interpretation during the deserialization process. The end user of this mapping specification (e.g. RESTCONF, CoMI) can mandate the use of a specific key type.
 
 In order to minimize the size of the encoded data, the proposed mapping avoids any unnecessary meta-information beyond those natively supported by CBOR. For instance, CBOR tags are used solely in the case of anyxml data nodes and the union datatype to distinguish explicitly the use of different YANG datatypes encoded using the same CBOR major type. 
 
@@ -192,17 +218,17 @@ Leafs MUST be encoded based on the encoding rules specified in {{data-types-mapp
 
 Collections such as containers, list instances, notifications, RPC inputs, RPC outputs, action inputs and action outputs MUST be encoded using a CBOR map data item (major type 5). A map is comprised of pairs of data items, with each data item consisting of a key and a value. Each key within the CBOR map is set to a data node identifier, each value is set to the value of this data node instance according to the instance datatype.
 
-This specification supports two type of keys; SID as defined in {{-core-sid}} encoded using CBOR unsigned or signed integers and member names as defined in {{RFC7951}} encoded using CBOR text strings. The use of CBOR byte strings for keys is reserved for future extensions.
+This specification supports two type of CBOR keys; SID as defined in {{sid}} encoded as deltas and member names as defined in {{RFC7951}} encoded using CBOR text strings. The use of CBOR byte strings for keys is reserved for future extensions.
 
 ### SIDs as keys {#container-with-sid}
 
-Keys implemented using SIDs MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR signed integer (major type 1), depending on the actual value. Keys are set to the delta of the associated SID, delta values are computed as follows:
+Keys implemented using SIDs MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR negative integer (major type 1), depending on the actual value. Keys are represented as the delta of the associated SID, delta values are computed as follows:
 
-* The delta value is equal to the SID of the current schema node minus the SID of the parent schema node. When no parent exists in the context of use of this container, the delta is set to the SID of the current schema node (a parent with SID equal to zero is assumed).
+* The delta value is equal to the SID of the current schema node minus the SID of the parent schema node. When no parent exists in the context of use of this container, the delta is set to the SID of the current schema node (i.e., a parent with SID equal to zero is assumed).
 
-* Delta values may result in a negative number, clients and servers MUST support negative deltas.
+* Delta values may result in a negative number, clients and servers MUST support both unsigned and negative deltas.
 
-The following example shows the encoding of a 'system' container instance using the SIDs defined in {{-core-sid}} Appendix C.
+The following example shows the encoding of a 'system' container instance.
 
 Definition example from {{RFC7317}}:
 
@@ -321,7 +347,7 @@ A list MUST be encoded using a CBOR array data item (major type 4). Each list in
 
 ### SIDs as keys {#list-with-sid}
 
-The following example show the encoding of a 'server' list instance using the SIDs defined in {{-core-sid}} Appendix C. It is important to note that the protocol or method using this mapping may carry a parent SID or may have the knowledge of this parent SID based on its context. In these cases, delta encoding can be performed based on this parent SID which minimizes the size of the encoded data.
+The following example show the encoding of a 'server' list instance using SIDs. It is important to note that the protocol or method using this mapping may carry a parent SID or may have the knowledge of this parent SID based on its context. In these cases, delta encoding can be performed based on this parent SID which minimizes the size of the encoded data.
 
 Definition example from {{RFC7317}}:
 
@@ -588,7 +614,7 @@ CBOR encoding: 19 0500
 ## The integer Types
 
 Leafs of type int8, int16, int32 and int64 MUST be encoded using either CBOR
-unsigned integer (major type 0) or CBOR signed integer (major type 1), depending
+unsigned integer (major type 0) or CBOR negative integer (major type 1), depending
 on the actual value.
 
 The following example shows the encoding of a 'timezone-utc-offset' leaf instance set to -300 minutes.
@@ -668,7 +694,7 @@ CBOR encoding: f5
 
 ## The 'enumeration' Type
 
-Leafs of type enumeration MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR signed integer (major type 1), depending on the actual value. Enumeration values are either explicitly assigned using the YANG statement 'value' or automatically assigned based on the algorithm defined in {{RFC7950}} section 9.6.4.2.
+Leafs of type enumeration MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR negative integer (major type 1), depending on the actual value. Enumeration values are either explicitly assigned using the YANG statement 'value' or automatically assigned based on the algorithm defined in {{RFC7950}} section 9.6.4.2.
 
 The following example shows the encoding of an 'oper-status' leaf instance set to 'testing'.
 
@@ -782,14 +808,13 @@ CBOR encoding: 64 65746831
 
 ## The 'identityref' Type
 
-This specification supports two approaches for encoding identityref, a SID as defined in {{-core-sid}} or a name as defined in {{RFC7951}} section 6.8.
+This specification supports two approaches for encoding identityref, a YANG Schema Item iDentifier (SID) as defined in {{sid}} or a name as defined in {{RFC7951}} section 6.8.
 
 ### SIDs as identityref {#identityref-with-sid}
 
-SIDs are globally unique and may be used as identityref.  This approach is both compact and simple to implement.  When SIDs are
-used, identityref MUST be encoded using a CBOR unsigned integer data item (major type 0) and set to a SID allocated from a registered SID range.
+When schema nodes of type identityref are implemented using SIDs, they MUST be encoded using a CBOR unsigned integer data item (major type 0) and set to a SID allocated from a registered SID range. (Note that no delta mechanism is employed for SIDs as identityref.)
 
-The following example shows the encoding of a 'type' leaf instance set to the value 'iana-if-type:ethernetCsmacd' (SID 1180 as listed in 'iana-if-type@2014-05-08.sid').
+The following example shows the encoding of a 'type' leaf instance set to the value 'iana-if-type:ethernetCsmacd' (SID 1180).
 
 Definition example from {{RFC7317}}:
 
@@ -903,7 +928,7 @@ CBOR encoding: 74 323030313a6462383a6130623a313266303a3a31
 
 ## The 'instance-identifier' Type
 
-This specification supports two approaches for encoding an instance-identifier, one based on SIDs as defined in {{-core-sid}} and one based on names as defined in {{RFC7951}} section 6.11.
+This specification supports two approaches for encoding an instance-identifier, one based on YANG Schema Item iDentifier (SID) as defined in {{sid}} and one based on names as defined in {{RFC7951}} section 6.11.
 
 ### SIDs as instance-identifier {#instance-identifier-with-sid}
 
