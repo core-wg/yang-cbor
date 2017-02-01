@@ -75,9 +75,9 @@ normative:
   RFC6241:
   RFC7049:
 informative:
+  I-D.ietf-core-comi: comi
   I-D.ietf-core-sid: core-sid
   RFC7951:
-  I-D.vanderstok-core-comi: comi
   RFC7159:
   RFC7223:
   RFC7228:
