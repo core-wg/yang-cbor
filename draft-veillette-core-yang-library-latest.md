@@ -31,7 +31,7 @@ normative:
   RFC2119:
   RFC7950:
   I-D.ietf-core-yang-cbor: core-yang-cbor
-  I-D.vanderstok-core-comi: comi
+  I-D.ietf-core-comi: comi
 informative:
   RFC7895:
   I-D.ietf-netconf-restconf: restconf
