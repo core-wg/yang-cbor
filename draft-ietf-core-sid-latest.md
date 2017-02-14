@@ -420,22 +420,22 @@ IANA is requested to create a registry for YANG Schema Item iDentifier (SID) ran
 
 The IANA policy for this registry is split into four tiers as follows:
 
-* The range of 0 to 999 and 0x40000000 to 0xFFFFFFFFFFFFFFFF are reserved for future extensions of this protocol. Allocation within these ranges require IETF review or IESG approval.
+* The range of 0 to 999 and 1,000,000,000 to 2^64 are reserved for future extensions of this protocol. Allocation within these ranges require IETF review or IESG approval.
 
-* The range of 1000 to 59999 is reserved for standardized YANG modules. Allocation within this range requires publishing of the associated ".yang" and ".sid" files.  (Specification required.)
+* The range of 1000 to 59,999 is reserved for standardized YANG modules. Allocation within this range requires publishing of the associated ".yang" and ".sid" files.  (Specification required.)
 
-* The range of 60000 to 99999 is reserved for experimental YANG modules. Use of this range MUST NOT be used in operational deployments since these SIDs are not globally unique which limit their interoperability.
+* The range of 60,000 to 99,999 is reserved for experimental YANG modules. Use of this range MUST NOT be used in operational deployments since these SIDs are not globally unique which limit their interoperability.
 
-* The range of 100000 to 1,073,641,824 is available on a first come first served basis. The only information required from the registrant is a valid contact information. The recommended size of the SID ranges allocated is 1,000 for private use and 10,000 for standard development organizations (SDOs). Registrants MAY request fewer or more SIDs based on their expected, sat needs. Allocation of a significantly larger SID range MAY required IETF review or IESG approval. IANA MAY delegate this registration process to one or multiple sub-registries. The recommended size of the SID range allocation for a sub-registry is 1,000,000.
+* The range of 100,000 to 1,000,000,000 is available on a first come first served basis. The only information required from the registrant is a valid contact information. The recommended size of the SID ranges allocated is 1,000 for private use and 10,000 for standard development organizations (SDOs). Registrants MAY request fewer or more SIDs based on their expected, sat needs. Allocation of a significantly larger SID range MAY required IETF review or IESG approval. IANA MAY delegate this registration process to one or multiple sub-registries. The recommended size of the SID range allocation for a sub-registry is 1,000,000.
 
 
-| Entry Point | Size            | Registration Procedures                                                                                                   |
-|-------------+-----------------+---------------------------------------------------------------------------------------------------------------------------|
-| 0           | 1,000           | IETF review or IESG approval                                                                                              |
-| 1,000       | 59,000          | Specification and associated ".yang" and ".sid" files required                                                            |
-| 60,000      | 40,000          | Experimental use                                                                                                          |
-| 100,000     | 1,073,641,824   | Contact information is required. Registration of the module name(s) and associated ".yang" and ".sid" files are optional. |
-| 0x40000000  | 2^64-0x40000000 | Specification required, expert review                                                                                     |
+| Entry Point   | Size          | Registration Procedures                                                                                                   |
+|---------------+---------------+---------------------------------------------------------------------------------------------------------------------------|
+| 0             | 1,000         | IETF review or IESG approval                                                                                              |
+| 1,000         | 59,000        | Specification and associated ".yang" and ".sid" files required                                                            |
+| 60,000        | 40,000        | Experimental use                                                                                                          |
+| 100,000       | 1,000,000,000 | Contact information is required. Registration of the module name(s) and associated ".yang" and ".sid" files are optional. |
+| 1,000,000,000 | 2^64          | Specification required, expert review                                                                                     |
 {: align="left"}
 
 ## YANG module registry {#module-registry}
