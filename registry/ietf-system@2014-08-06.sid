@@ -185,12 +185,12 @@
     },
     {
       "type": "node",
-      "label": "/system/clock/timezone/timezone-name/timezone-name",
+      "label": "/system/clock/timezone-name",
       "sid": 1735
     },
     {
       "type": "node",
-      "label": "/system/clock/timezone/timezone-utc-offset/timezone-utc-offset",
+      "label": "/system/clock/timezone-utc-offset",
       "sid": 1736
     },
     {
@@ -235,17 +235,17 @@
     },
     {
       "type": "node",
-      "label": "/system/dns-resolver/server/transport/udp-and-tcp/udp-and-tcp",
+      "label": "/system/dns-resolver/server/udp-and-tcp",
       "sid": 1745
     },
     {
       "type": "node",
-      "label": "/system/dns-resolver/server/transport/udp-and-tcp/udp-and-tcp/address",
+      "label": "/system/dns-resolver/server/udp-and-tcp/address",
       "sid": 1746
     },
     {
       "type": "node",
-      "label": "/system/dns-resolver/server/transport/udp-and-tcp/udp-and-tcp/port",
+      "label": "/system/dns-resolver/server/udp-and-tcp/port",
       "sid": 1747
     },
     {
@@ -295,17 +295,17 @@
     },
     {
       "type": "node",
-      "label": "/system/ntp/server/transport/udp/udp",
+      "label": "/system/ntp/server/udp",
       "sid": 1757
     },
     {
       "type": "node",
-      "label": "/system/ntp/server/transport/udp/udp/address",
+      "label": "/system/ntp/server/udp/address",
       "sid": 1758
     },
     {
       "type": "node",
-      "label": "/system/ntp/server/transport/udp/udp/port",
+      "label": "/system/ntp/server/udp/port",
       "sid": 1759
     },
     {
@@ -345,22 +345,22 @@
     },
     {
       "type": "node",
-      "label": "/system/radius/server/transport/udp/udp",
+      "label": "/system/radius/server/udp",
       "sid": 1767
     },
     {
       "type": "node",
-      "label": "/system/radius/server/transport/udp/udp/address",
+      "label": "/system/radius/server/udp/address",
       "sid": 1768
     },
     {
       "type": "node",
-      "label": "/system/radius/server/transport/udp/udp/authentication-port",
+      "label": "/system/radius/server/udp/authentication-port",
       "sid": 1769
     },
     {
       "type": "node",
-      "label": "/system/radius/server/transport/udp/udp/shared-secret",
+      "label": "/system/radius/server/udp/shared-secret",
       "sid": 1770
     },
     {

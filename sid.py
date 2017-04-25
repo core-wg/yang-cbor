@@ -437,21 +437,18 @@ class SidFile:
             return self.getType(statement.parent)
         return 'node'
 
-    def getPath(self, statement, path = ""):
-        current_module = statement.i_module
-        return self.constructPath(statement, current_module, "")
+    def getPath(self, statement):
+        path = ""
 
-    def constructPath(self, statement, current_module, path):
-        if statement.keyword == "module":
-            return path
+        while statement.i_module != None:
+            if statement.keyword != "case" and statement.keyword != "choice":
+                path = "/" + statement.arg + path
+                #if statement.parent.i_module == None or statement.parent.i_module != statement.i_module:
+                #    path = "/" + statement.i_module.arg + ":" + statement.arg + path
+                #else:
+                #    path = "/" + statement.arg + path
+            statement = statement.parent
 
-        if statement.i_module == None or statement.i_module == current_module:
-            path = "/" + statement.arg + path
-        else:
-            path = "/" + statement.i_module.arg + ":" + statement.arg + path
-
-        if statement.parent != None:
-            path = self.constructPath(statement.parent, current_module, path)
         return path
 
     def merge_item(self, type, label):
