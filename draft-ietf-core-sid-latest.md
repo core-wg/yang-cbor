@@ -86,13 +86,13 @@ informative:
 
 --- abstract
 
-YANG Schema Item iDentifiers (SID) are used to identify different YANG items using a numeric identifier. This document defines the registration and assignment processes of SIDs. To enable the implementation of these processes, this document also defines a file format used to persist and publish assigned SIDs.
+YANG Schema Item iDentifiers (SID) are globally unique 64-bit numeric identifiers used to identify all items used in YANG.  This document defines the semantics, the registration, and assignment processes of SIDs.  To enable the implementation of these processes, this document also defines a file format used to persist and publish assigned SIDs.
 
 --- middle
 
 # Introduction
 
-Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier.  In both NETCONF {{RFC6241}} and RESTCONF, {{RFC8040}} these identifiers are implemented using names.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called SID, is encoded using an unsigned integer. The following items are identified using SIDs:
+Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier.  In both NETCONF {{RFC6241}} and RESTCONF, {{RFC8040}} these identifiers are implemented using names.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called SID, is encoded using a 64-bit unsigned integer. The following items are identified using SIDs:
 
 * identities
 
@@ -106,11 +106,11 @@ Some of the items defined in YANG {{RFC7950}} require the use of a unique identi
 
 * YANG modules, submodules and features
 
-To minimize its size, SIDs are often implemented using a delta from a reference SID and the current SID. Conversion from SIDs to deltas and back to SIDs are stateless processes solely based on the data serialized or deserialized.
+To minimize their size, SIDs are often represented as a difference between the current SID and a reference SID. Such difference is called "delta" (shorthand for "delta-encoded SID").  Conversion from SIDs to deltas (and back to SIDs) is a stateless process. Each protocol implementing deltas must unambiguously define the reference SID for each YANG item.
 
-To guaranty the uniqueness of each assigned SID, SID ranges MUST be registered. {{sid-range-registry}} provide more details about the registration process of SID range(s).
+SIDs are globally unique numbers, a registration system is used in order to guarantee their uniqueness. SIDs are registered in blocks called "SID ranges". {{sid-range-registry}} provide more details about the registration process of SID range(s).
 
-Assignment of SIDs can be automated, the recommended process to assign SIDs is as follows:
+Assignment of SIDs to YANG items can be automated, the recommended process to assign SIDs is as follows:
 
 * A tool extracts the different items defined for a specific YANG module.
 
@@ -437,9 +437,9 @@ The initial entry in this registry reserved for IANA:
 
 The IANA policies for future additions to this registry are "Hierarchical Allocation, Expert Review" {{RFC5226}}. Prior to a first allocation, the requesting organization must demonstrate a functional registry infrastructure. On subsequent allocation request(s), the organization must demonstrate the exhaustion of the prior range. These conditions need to be asserted by the assigned expert(s).
 
-### IANA SID mega-range sub-registries
+### IANA SID Mega-Range Registry
 
-The first million SIDs is owned by IANA and sub-divided as follow:
+The first million SIDs assigned to IANA and sub-divided as follow:
 
 * The range of 0 to 999 is reserved for future extensions.  The IANA policy for this range is "IETF review" {{RFC5226}}.
 
