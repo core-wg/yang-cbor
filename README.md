@@ -1,10 +1,20 @@
 # CBOR Encoding of Data Modeled with YANG
 
-This is the working area for the Individual internet-draft, "CBOR Encoding of Data Modeled with YANG".
+This is the working area for the CoRE WG Internet-Draft, "CBOR
+Encoding of Data Modeled with YANG", and the related CoRE WG
+Internet-Draft "YANG Schema Item iDentifier (SID)".
+Please see [the separate repo](https://github.com/core-wg/comi) for COMI.
 
 * [Editor's copies](https://core-wg.github.io/yang-cbor/) [![Build Status](https://travis-ci.org/core-wg/yang-cbor.svg?branch=master)](https://travis-ci.org/core-wg/yang-cbor)
-* [Individual Draft: Yang-CBOR] (https://tools.ietf.org/html/draft-ietf-core-yang-cbor)
-* [Diff from Individual Draft: Yang-CBOR](https://tools.ietf.org/rfcdiff?url1=draft-ietf-core-yang-cbor&url2=http://core-wg.github.io/yang-cbor/draft-ietf-core-yang-cbor-latest.txt)
+* Yang-CBOR:
+  [WG Internet-Draft](https://tools.ietf.org/html/draft-ietf-core-yang-cbor),
+  [Diff from Internet-Draft to Editor's version](https://tools.ietf.org/rfcdiff?url1=draft-ietf-core-yang-cbor&url2=http://core-wg.github.io/yang-cbor/draft-ietf-core-yang-cbor-latest.txt)
+* SID:
+  [WG Internet-Draft](https://tools.ietf.org/html/draft-ietf-core-sid),
+  [Diff from Internet-Draft to Editor's version](https://tools.ietf.org/rfcdiff?url1=draft-ietf-core-sid&url2=http://core-wg.github.io/yang-cbor/draft-ietf-core-sid-latest.txt)
+* COMI [(separate repo)](https://github.com/core-wg/comi):
+  [WG Internet-Draft](https://tools.ietf.org/html/draft-ietf-core-comi),
+  [Diff from Internet-Draft to Editor's version](https://tools.ietf.org/rfcdiff?url1=draft-ietf-core-comi&url2=http://core-wg.github.io/comi/draft-ietf-core-comi.txt)
 
 ## Building the Draft
 
