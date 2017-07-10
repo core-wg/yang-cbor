@@ -3,8 +3,8 @@
 This is the working area for the Individual internet-draft, "CBOR Encoding of Data Modeled with YANG".
 
 * [Editor's copies](https://core-wg.github.io/yang-cbor/) [![Build Status](https://travis-ci.org/core-wg/yang-cbor.svg?branch=master)](https://travis-ci.org/core-wg/yang-cbor)
-* [Individual Draft] (https://tools.ietf.org/html/draft-veillette-core-yang-cbor-mapping-latest)
-
+* [Individual Draft: Yang-CBOR] (https://tools.ietf.org/html/draft-ietf-core-yang-cbor)
+* [Diff from Individual Draft: Yang-CBOR](https://tools.ietf.org/rfcdiff?url1=draft-ietf-core-yang-cbor&url2=http://core-wg.github.io/yang-cbor/draft-ietf-core-yang-cbor-latest.txt)
 
 ## Building the Draft
 
