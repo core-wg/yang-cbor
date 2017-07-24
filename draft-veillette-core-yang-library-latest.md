@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-veillette-core-yang-library-00
+docname: draft-veillette-core-yang-library-01
 title: Constrained YANG Module Library
 area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
@@ -32,9 +32,9 @@ normative:
   RFC7950:
   I-D.ietf-core-yang-cbor: core-yang-cbor
   I-D.ietf-core-comi: comi
+  I-D.ietf-netmod-yang-tree-diagrams: tree-diagrams
 informative:
   RFC7895:
-  I-D.ietf-netconf-restconf: restconf
 
 --- abstract
 
@@ -44,7 +44,7 @@ This document describes a YANG library that provides information about all the Y
 
 # Introduction
 
-The YANG library specified in this document is available to clients of a given server to discover the YANG modules supported by this constrained network management server. A CoMI server provides a link to this library in the /c/mod.uri resource. The following YANG module information is provided to client applications to fully utilize the YANG data modeling language:
+The YANG library specified in this document is available to clients of a given server to discover the YANG modules supported by this constrained network management server. A CoMI server provides a link to this library in the /mod.uri resource. The following YANG module information is provided to client applications to fully utilize the YANG data modeling language:
 
 * module list: The list of YANG modules implemented by a server, each module is identified by its assigned YANG Schema Item iDentifier (SID) and revision.
 
@@ -105,15 +105,7 @@ The "ietf-constrained-yang-library" module provides information about the YANG l
 
 ## Tree diagram
 
-A simplified graphical representation of the YANG module specified in this document (ietf-constrained-yang-library) is provided below.  The  meaning of the symbols in this diagram is as follows:
-
-* Brackets "[" and "]" enclose list keys.
-
-* Abbreviations before data node names: "rw" means configuration
-data (read-write) and "ro" state data (read-only).
-
-* Symbols after data node names: "?" means an optional node, "!"
-means a presence container, and "*" denotes a list and leaf-list.
+The tree diagram of YANG module ietf-constrained-yang-library is provided below. This graphical representation of a YANG module is defined in {{-tree-diagrams}}.
 
 ~~~~
 module: ietf-constrained-yang-library
@@ -144,11 +136,11 @@ This mandatory container specifies the module set identifier and the list of mod
 
 ###  modules-state/module-set-id
 
-This mandatory leaf contains an identifier representing the current set of modules and submodules used by a server. This identifier is server-specific when implemented as unit32 or can be used by multiple servers when implemented as identityref.  The value of this leaf MUST change whenever the set of modules and submodules in the library changes.  There is no requirement that the same set always results in the same module-set-id value.
+This mandatory leaf contains an identifier representing the current set of modules and submodules used by a server. This identifier is server-specific when implemented as unit32 or can be used by multiple servers when implemented as identityref.  The value of this leaf MUST change whenever the set of modules and submodules in the library changes.  There is no requirement that the same set always results in the same 'module-set-id' value.
 
 This leaf allows a client to fetch the module list once, cache it, and only re-fetch it if the value of this leaf has been changed.
 
-If the value of this leaf changes, the server also generates a "yang-library-change" notification, with the new value of "module-set-id".
+If the value of this leaf changes, the server also generates a 'yang-library-change' notification, with the new value of 'module-set-id'.
 
 ###  modules-state/module
 
@@ -162,7 +154,8 @@ and remove this note.
 ~~~~
 <CODE BEGINS> file "ietf-constrained-yang-library@2017-01-20.yang"
 module ietf-constrained-yang-library {
-  namespace "urn:ietf:params:xml:ns:yang:ietf-constrained-yang-library";
+  namespace
+    "urn:ietf:params:xml:ns:yang:ietf-constrained-yang-library";
   prefix "lib";
 
   organization
@@ -308,7 +301,7 @@ module ietf-constrained-yang-library {
           "List of YANG features from this module that are
           supported by the server, regardless whether
           they are defined in the module or in any included
-          submodule.";
+          submodules.";
       }
       
       list deviation {
@@ -425,7 +418,7 @@ Specifically, the 'module' list may help an attacker to identify the server capa
 
 # Acknowledgments
 
-The YANG module defined by this memo have been derived from an already existing YANG module, ietf-yang-library {{RFC7895}}, we will like to thanks to the authors of this YANG module. A special thank Andy Bierman for his initial recommendations for the creation of this YANG module.
+The YANG module defined by this memo have been derived from an already existing YANG module, ietf-yang-library {{RFC7895}}, we will like to thanks to the authors of this YANG module. A special thank also to Andy Bierman for his initial recommendations for the creation of this YANG module.
 
 --- back
 

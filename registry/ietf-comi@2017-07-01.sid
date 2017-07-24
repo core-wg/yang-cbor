@@ -1,0 +1,157 @@
+{
+  "assignment-ranges": [
+    {
+      "entry-point": 1000,
+      "size": 100
+    }
+  ],
+  "module-name": "ietf-comi",
+  "module-revision": "2017-07-01",
+  "items": [
+    {
+      "type": "Module",
+      "label": "ietf-comi",
+      "sid": 1000
+    },
+    {
+      "type": "identity",
+      "label": "/error-app-tag",
+      "sid": 1001
+    },
+    {
+      "type": "identity",
+      "label": "/error-app-tag/data-not-unique",
+      "sid": 1002
+    },
+    {
+      "type": "identity",
+      "label": "/error-app-tag/duplicate",
+      "sid": 1003
+    },
+    {
+      "type": "identity",
+      "label": "/error-app-tag/instance-required",
+      "sid": 1004
+    },
+    {
+      "type": "identity",
+      "label": "/error-app-tag/invalid-datatype",
+      "sid": 1005
+    },
+    {
+      "type": "identity",
+      "label": "/error-app-tag/invalid-length",
+      "sid": 1006
+    },
+    {
+      "type": "identity",
+      "label": "/error-app-tag/malformed-message",
+      "sid": 1007
+    },
+    {
+      "type": "identity",
+      "label": "/error-app-tag/missing-choice",
+      "sid": 1008
+    },
+    {
+      "type": "identity",
+      "label": "/error-app-tag/missing-input-parameter",
+      "sid": 1009
+    },
+    {
+      "type": "identity",
+      "label": "/error-app-tag/missing-key",
+      "sid": 1010
+    },
+    {
+      "type": "identity",
+      "label": "/error-app-tag/must-violation",
+      "sid": 1011
+    },
+    {
+      "type": "identity",
+      "label": "/error-app-tag/not-in-range",
+      "sid": 1012
+    },
+    {
+      "type": "identity",
+      "label": "/error-app-tag/pattern-test-failed",
+      "sid": 1013
+    },
+    {
+      "type": "identity",
+      "label": "/error-app-tag/too-few-elements",
+      "sid": 1014
+    },
+    {
+      "type": "identity",
+      "label": "/error-app-tag/too-many-elements",
+      "sid": 1015
+    },
+    {
+      "type": "identity",
+      "label": "/error-tag",
+      "sid": 1016
+    },
+    {
+      "type": "identity",
+      "label": "/error-tag/bad-element",
+      "sid": 1017
+    },
+    {
+      "type": "identity",
+      "label": "/error-tag/data-missing",
+      "sid": 1018
+    },
+    {
+      "type": "identity",
+      "label": "/error-tag/error",
+      "sid": 1019
+    },
+    {
+      "type": "identity",
+      "label": "/error-tag/invalid-value",
+      "sid": 1020
+    },
+    {
+      "type": "identity",
+      "label": "/error-tag/missing-element",
+      "sid": 1021
+    },
+    {
+      "type": "identity",
+      "label": "/error-tag/operation-failed",
+      "sid": 1022
+    },
+    {
+      "type": "identity",
+      "label": "/error-tag/unknown-element",
+      "sid": 1023
+    },
+    {
+      "type": "node",
+      "label": "/error",
+      "sid": 1024
+    },
+    {
+      "type": "node",
+      "label": "/error/data-node-in-error",
+      "sid": 1025
+    },
+    {
+      "type": "node",
+      "label": "/error/error-app-tag",
+      "sid": 1026
+    },
+    {
+      "type": "node",
+      "label": "/error/error-message",
+      "sid": 1027
+    },
+    {
+      "type": "node",
+      "label": "/error/error-tag",
+      "sid": 1028
+    }
+  ]
+}
