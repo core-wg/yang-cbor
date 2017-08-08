@@ -1,7 +1,7 @@
 ﻿---
 stand_alone: true
 ipr: trust200902
-docname: draft-ietf-core-yang-cbor-04
+docname: draft-ietf-core-yang-cbor-05
 title: CBOR Encoding of Data Modeled with YANG
 area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
@@ -230,7 +230,7 @@ Keys implemented using SIDs MUST be encoded using a CBOR unsigned integer (major
 
 * Delta values may result in a negative number, clients and servers MUST support both unsigned and negative deltas.
 
-The following example shows the encoding of a 'system' container instance.
+The following example shows the encoding of a 'system-state' container instance with a single child, a clock container. The clock container container has two children, a 'current-datetime' leaf and a 'boot-datetime' leaf.
 
 Definition example from {{RFC7317}}:
 
@@ -244,24 +244,29 @@ typedef date-and-time {
   }
 }
 
-container clock {
-  leaf current-datetime {
-    type date-and-time;
-  }
+container system-state {
 
-  leaf boot-datetime {
-    type date-and-time;
+  container clock {
+    leaf current-datetime {
+      type date-and-time;
+    }
+
+    leaf boot-datetime {
+      type date-and-time;
+    }
   }
 }
 ~~~~
+
+For this first representation, we assume that parent SID of the root container (i.e. 'system-state') is not available to the serializer. In this case, root data nodes are encoded using absolute SIDs.
 
 CBOR diagnostic notation:
 
 ~~~~ CBORdiag
 {
-  1717 : {                              / clock  (SID 1717) /
-    +2 : "2015-10-02T14:47:24Z-05:00",  / current-datetime (SID 1719) /
-    +1 : "2015-09-15T09:12:58Z-05:00"   / boot-datetime (SID 1718) /
+  1717 : {                             / clock  (SID 1717) /
+    +2 : "2015-10-02T14:47:24Z-05:00", / current-datetime (SID 1719)/
+    +1 : "2015-09-15T09:12:58Z-05:00"  / boot-datetime (SID 1718) /
   }
 }
 ~~~~
@@ -269,14 +274,41 @@ CBOR diagnostic notation:
 CBOR encoding:
 
 ~~~~ CBORbytes
-a1                                      # map(1)
-   19 06b5                              # unsigned(1717)
-   a2                                   # map(2)
-      02                                # unsigned(2)
-      78 1a                             # text(26)
+a1                                     # map(1)
+   19 06b5                             # unsigned(1717)
+   a2                                  # map(2)
+      02                               # unsigned(2)
+      78 1a                            # text(26)
       323031352d31302d30325431343a34373a32345a2d30353a3030
-      01                                # unsigned(1)
-      78 1a                             # text(26)
+      01                               # unsigned(1)
+      78 1a                            # text(26)
+      323031352d30392d31355430393a31323a35385a2d30353a3030
+~~~~
+
+On the other hand, if the serializer is aware of the parent SID, 1716 in the case 'system-state' container, root data nodes are encoded using deltas.
+
+CBOR diagnostic notation:
+
+~~~~ CBORdiag
+{
+  +1 : {                               / clock  (SID 1717) /
+    +2 : "2015-10-02T14:47:24Z-05:00", / current-datetime (SID 1719)/
+    +1 : "2015-09-15T09:12:58Z-05:00"  / boot-datetime (SID 1718) /
+  }
+}
+~~~~
+
+CBOR encoding:
+
+~~~~ CBORbytes
+a1                                     # map(1)
+   01                                   # unsigned(1)
+   a2                                  # map(2)
+      02                               # unsigned(2)
+      78 1a                            # text(26)
+      323031352d31302d30325431343a34373a32345a2d30353a3030
+      01                               # unsigned(1)
+      78 1a                            # text(26)
       323031352d30392d31355430393a31323a35385a2d30353a3030
 ~~~~
 
