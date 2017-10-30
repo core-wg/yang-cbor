@@ -88,7 +88,7 @@ Assignment of SIDs to YANG items can be automated, the recommended process to as
 
 4.	If the number of items exceeds the SID range(s) allocated to a YANG module, an extra range is added for subsequent assignments.
 
-SIDs are assigned permanently, items introduced by a new revision of a YANG module are added to the list of SIDs already assigned. This process can also be automated using the same method described above, unassigned YÀNG items are processed at step #3.
+SIDs are assigned permanently, items introduced by a new revision of a YANG module are added to the list of SIDs already assigned. This process can also be automated using the same method described above, only unassigned YÀNG items are processed at step #3.
 
 {{sid-lifecycle}} provides more details about the registration process of YANG modules and associated SIDs. To enable the implementation of this registry, {{sid-file-format}} defines a standard file format used to store and publish SIDs.
 
