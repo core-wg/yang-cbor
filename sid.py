@@ -21,6 +21,12 @@ except NameError:
     #py2
     FileNotFoundError = IOError
 
+try:
+    JsonDecoderError = json.decoder.JSONDecodeError
+except AttributeError:
+    JsonDecoderError = ValueError
+
+
 def pyang_plugin_init():
     plugin.register_plugin(SidPlugin())
 
@@ -125,7 +131,7 @@ class SidPlugin(plugin.PyangPlugin):
         except FileNotFoundError as e:
             sys.stderr.write("ERROR, file '%s' not found\n" % e.filename)
             sys.exit(1)
-        except json.decoder.JSONDecodeError as e:
+        except JsonDecoderError as e:
             sys.stderr.write("ERROR in '%s', line %d, column %d, %s\n" % (sid_file.input_file_name, e.lineno, e.colno, e.msg))
             sys.exit(1)
 
