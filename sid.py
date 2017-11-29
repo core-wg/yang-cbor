@@ -11,6 +11,7 @@ import re
 import os
 
 from pyang import plugin
+from pyang import error
 from collections import OrderedDict
 
 def pyang_plugin_init():
@@ -71,8 +72,21 @@ class SidPlugin(plugin.PyangPlugin):
             return
 
         if ctx.errors != []:
-            sys.stderr.write("Invalid YANG module, .sid file processing aborted.\n")
-            return
+            fatal_errors = 0
+            for (epos, etag, eargs) in ctx.errors:
+                elevel = error.err_level(etag)
+                if error.is_warning(elevel):
+                    kind = "warning"
+                else:
+                    kind = "error"
+                    fatal_errors += 1
+                sys.stderr.write(str(epos) + ': %s: ' % kind + \
+                                 error.err_to_str(etag, eargs) + '\n')
+
+            if fatal_errors > 0:
+                sys.stderr.write("Invalid YANG module, .sid file processing aborted.\n")
+                return
+
 
         sid_file = SidFile()
 
