@@ -326,12 +326,14 @@ class SidFile:
         for item in items:
             for key in item:
                 if key == 'type':
-                    if type(item[key]) != str or not re.match(r'Module$|Submodule$|feature$|identity$|node$|notification$|rpc$|action$', item[key]):
+                    matched = re.match(r'Module$|Submodule$|feature$|identity$|node$|notification$|rpc$|action$', item[key])
+                    nstrtype = (type(item[key]) != unicode)
+                    if nstrtype or matched is None:
                         raise SidFileError("invalid 'type' value '%s'." % item[key])
                     continue
 
                 if key == 'label':
-                    if type(item[key]) != str:
+                    if type(item[key]) != unicode:
                         raise SidFileError("invalid 'label' value '%s'." % item[key])
                     continue
 
