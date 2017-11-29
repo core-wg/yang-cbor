@@ -14,6 +14,13 @@ from pyang import plugin
 from pyang import error
 from collections import OrderedDict
 
+# for python 2.7 compatibility.
+try:
+    FileNotFoundError
+except NameError:
+    #py2
+    FileNotFoundError = IOError
+
 def pyang_plugin_init():
     plugin.register_plugin(SidPlugin())
 
