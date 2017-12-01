@@ -484,7 +484,6 @@ Initial entries in this registry are as follows:
 | 1600        | 100  | ietf-ip          | {{RFC7277}}            |
 | 1700        | 100  | ietf-system      | {{RFC7317}}            |
 | 1800        | 400  | iana-if-type     | {{RFC7224}}            |
-
 {: align="left"}
 
 ##  "YANG module assignment" registry {#module-registry}
