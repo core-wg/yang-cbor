@@ -44,7 +44,9 @@ normative:
   RFC7049:
 informative:
   RFC5226:
+  RFC6021:
   RFC6241:
+  RFC6536:
   RFC7223:
   RFC7224:
   RFC7277:
@@ -470,13 +472,19 @@ The name of this sub-registry is "RFC SID range assignment". This sub-registry c
   
 Initial entries in this registry are as follows:
 
-| Entry Point | Size | Module name     | RFC number             |
-|-------------+------+-----------------+------------------------|
-| 1000        | 100  |                 | Reserved for {{-comi}} |
-| 1100        | 400  | iana-if-type    | {{RFC7224}}            |
-| 1500        | 100  | ietf-interfaces | {{RFC7223}}            |
-| 1600        | 100  | ietf-ip         | {{RFC7277}}            |
-| 1700        | 100  | ietf-system     | {{RFC7317}}            |
+| Entry Point | Size | Module name      | RFC number             |
+|-------------+------+------------------+------------------------|
+| 1000        | 100  | ietf-comi        | {{-comi}}              |
+| 1100        |  50  | ietf-yang-types  | {{RFC6021}}            |
+| 1150        |  50  | ietf-inet-types  | {{RFC6021}}            |
+| 1200        |  50  | iana-crypt-hash  | {{RFC7317}}            |
+| 1250        |  50  | ietf-netconf-acm | {{RFC6536}}            |
+| 1300        |  50  | ietf-sid-file    | [I-D.ieft-core-sid]    |
+| 1500        | 100  | ietf-interfaces  | {{RFC7223}}            |
+| 1600        | 100  | ietf-ip          | {{RFC7277}}            |
+| 1700        | 100  | ietf-system      | {{RFC7317}}            |
+| 1800        | 400  | iana-if-type     | {{RFC7224}}            |
+
 {: align="left"}
 
 ##  "YANG module assignment" registry {#module-registry}
