@@ -256,7 +256,7 @@ module ietf-comi {
         "The application-specific error-tag.";
     }   
 
-    leaf data-node-in-error {
+    leaf error-data-node {
       type instance-identifier;
       description
         "When the error reported is caused by a specific data node,
