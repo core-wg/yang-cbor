@@ -1,0 +1,142 @@
+{
+  "assignment-ranges": [
+    {
+      "entry-point": 1250,
+      "size": 50
+    }
+  ],
+  "module-name": "ietf-netconf-acm",
+  "module-revision": "2012-02-22",
+  "items": [
+    {
+      "namespace": "module",
+      "identifier": "ietf-netconf-acm",
+      "sid": 1250
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-netconf-acm:nacm",
+      "sid": 1251
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-netconf-acm:nacm/denied-data-writes",
+      "sid": 1252
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-netconf-acm:nacm/denied-notifications",
+      "sid": 1253
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-netconf-acm:nacm/denied-operations",
+      "sid": 1254
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-netconf-acm:nacm/enable-external-groups",
+      "sid": 1255
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-netconf-acm:nacm/enable-nacm",
+      "sid": 1256
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-netconf-acm:nacm/exec-default",
+      "sid": 1257
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-netconf-acm:nacm/groups",
+      "sid": 1258
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-netconf-acm:nacm/groups/group",
+      "sid": 1259
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-netconf-acm:nacm/groups/group/name",
+      "sid": 1260
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-netconf-acm:nacm/groups/group/user-name",
+      "sid": 1261
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-netconf-acm:nacm/read-default",
+      "sid": 1262
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-netconf-acm:nacm/rule-list",
+      "sid": 1263
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-netconf-acm:nacm/rule-list/group",
+      "sid": 1264
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-netconf-acm:nacm/rule-list/name",
+      "sid": 1265
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-netconf-acm:nacm/rule-list/rule",
+      "sid": 1266
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-netconf-acm:nacm/rule-list/rule/access-operations",
+      "sid": 1267
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-netconf-acm:nacm/rule-list/rule/action",
+      "sid": 1268
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-netconf-acm:nacm/rule-list/rule/comment",
+      "sid": 1269
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-netconf-acm:nacm/rule-list/rule/module-name",
+      "sid": 1270
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-netconf-acm:nacm/rule-list/rule/name",
+      "sid": 1271
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-netconf-acm:nacm/rule-list/rule/notification-name",
+      "sid": 1272
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-netconf-acm:nacm/rule-list/rule/path",
+      "sid": 1273
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-netconf-acm:nacm/rule-list/rule/rpc-name",
+      "sid": 1274
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-netconf-acm:nacm/write-default",
+      "sid": 1275
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 {
   "assignment-ranges": [
     {
-      "entry-point": 1000,
+      "entry-point": 1100,
       "size": 100
     }
   ],
@@ -9,149 +9,149 @@
   "module-revision": "2017-07-01",
   "items": [
     {
-      "type": "Module",
-      "label": "ietf-comi",
-      "sid": 1000
+      "namespace": "module",
+      "identifier": "ietf-comi",
+      "sid": 1100
     },
     {
-      "type": "identity",
-      "label": "/error-app-tag",
-      "sid": 1001
+      "namespace": "identity",
+      "identifier": "bad-element",
+      "sid": 1101
     },
     {
-      "type": "identity",
-      "label": "/error-app-tag/data-not-unique",
-      "sid": 1002
+      "namespace": "identity",
+      "identifier": "data-missing",
+      "sid": 1102
     },
     {
-      "type": "identity",
-      "label": "/error-app-tag/duplicate",
-      "sid": 1003
+      "namespace": "identity",
+      "identifier": "data-not-unique",
+      "sid": 1103
     },
     {
-      "type": "identity",
-      "label": "/error-app-tag/instance-required",
-      "sid": 1004
+      "namespace": "identity",
+      "identifier": "duplicate",
+      "sid": 1104
     },
     {
-      "type": "identity",
-      "label": "/error-app-tag/invalid-datatype",
-      "sid": 1005
+      "namespace": "identity",
+      "identifier": "error",
+      "sid": 1105
     },
     {
-      "type": "identity",
-      "label": "/error-app-tag/invalid-length",
-      "sid": 1006
+      "namespace": "identity",
+      "identifier": "error-app-tag",
+      "sid": 1106
     },
     {
-      "type": "identity",
-      "label": "/error-app-tag/malformed-message",
-      "sid": 1007
+      "namespace": "identity",
+      "identifier": "error-tag",
+      "sid": 1107
     },
     {
-      "type": "identity",
-      "label": "/error-app-tag/missing-choice",
-      "sid": 1008
+      "namespace": "identity",
+      "identifier": "instance-required",
+      "sid": 1108
     },
     {
-      "type": "identity",
-      "label": "/error-app-tag/missing-input-parameter",
-      "sid": 1009
+      "namespace": "identity",
+      "identifier": "invalid-datatype",
+      "sid": 1109
     },
     {
-      "type": "identity",
-      "label": "/error-app-tag/missing-key",
-      "sid": 1010
+      "namespace": "identity",
+      "identifier": "invalid-length",
+      "sid": 1110
     },
     {
-      "type": "identity",
-      "label": "/error-app-tag/must-violation",
-      "sid": 1011
+      "namespace": "identity",
+      "identifier": "invalid-value",
+      "sid": 1111
     },
     {
-      "type": "identity",
-      "label": "/error-app-tag/not-in-range",
-      "sid": 1012
+      "namespace": "identity",
+      "identifier": "malformed-message",
+      "sid": 1112
     },
     {
-      "type": "identity",
-      "label": "/error-app-tag/pattern-test-failed",
-      "sid": 1013
+      "namespace": "identity",
+      "identifier": "missing-choice",
+      "sid": 1113
     },
     {
-      "type": "identity",
-      "label": "/error-app-tag/too-few-elements",
-      "sid": 1014
+      "namespace": "identity",
+      "identifier": "missing-element",
+      "sid": 1114
     },
     {
-      "type": "identity",
-      "label": "/error-app-tag/too-many-elements",
-      "sid": 1015
+      "namespace": "identity",
+      "identifier": "missing-input-parameter",
+      "sid": 1115
     },
     {
-      "type": "identity",
-      "label": "/error-tag",
-      "sid": 1016
+      "namespace": "identity",
+      "identifier": "missing-key",
+      "sid": 1116
     },
     {
-      "type": "identity",
-      "label": "/error-tag/bad-element",
-      "sid": 1017
+      "namespace": "identity",
+      "identifier": "must-violation",
+      "sid": 1117
     },
     {
-      "type": "identity",
-      "label": "/error-tag/data-missing",
-      "sid": 1018
+      "namespace": "identity",
+      "identifier": "not-in-range",
+      "sid": 1118
     },
     {
-      "type": "identity",
-      "label": "/error-tag/error",
-      "sid": 1019
+      "namespace": "identity",
+      "identifier": "operation-failed",
+      "sid": 1119
     },
     {
-      "type": "identity",
-      "label": "/error-tag/invalid-value",
-      "sid": 1020
+      "namespace": "identity",
+      "identifier": "pattern-test-failed",
+      "sid": 1120
     },
     {
-      "type": "identity",
-      "label": "/error-tag/missing-element",
-      "sid": 1021
+      "namespace": "identity",
+      "identifier": "too-few-elements",
+      "sid": 1121
     },
     {
-      "type": "identity",
-      "label": "/error-tag/operation-failed",
-      "sid": 1022
+      "namespace": "identity",
+      "identifier": "too-many-elements",
+      "sid": 1122
     },
     {
-      "type": "identity",
-      "label": "/error-tag/unknown-element",
-      "sid": 1023
+      "namespace": "identity",
+      "identifier": "unknown-element",
+      "sid": 1123
     },
     {
-      "type": "node",
-      "label": "/error",
-      "sid": 1024
+      "namespace": "data",
+      "identifier": "/ietf-comi:error",
+      "sid": 1124
     },
     {
-      "type": "node",
-      "label": "/error/data-node-in-error",
-      "sid": 1025
+      "namespace": "data",
+      "identifier": "/ietf-comi:error/data-node-in-error",
+      "sid": 1125
     },
     {
-      "type": "node",
-      "label": "/error/error-app-tag",
-      "sid": 1026
+      "namespace": "data",
+      "identifier": "/ietf-comi:error/error-app-tag",
+      "sid": 1126
     },
     {
-      "type": "node",
-      "label": "/error/error-message",
-      "sid": 1027
+      "namespace": "data",
+      "identifier": "/ietf-comi:error/error-message",
+      "sid": 1127
     },
     {
-      "type": "node",
-      "label": "/error/error-tag",
-      "sid": 1028
+      "namespace": "data",
+      "identifier": "/ietf-comi:error/error-tag",
+      "sid": 1128
     }
   ]
 }
