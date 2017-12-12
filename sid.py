@@ -415,13 +415,13 @@ class SidFile:
                         raise SidFileError("invalid 'namespace' value '%s'." % item[key])
                     continue
 
-                if key == 'identifier':
+                elif key == 'identifier':
                     identifier_absent = False
                     if type(item[key]) != str:
                         raise SidFileError("invalid 'identifier' value '%s'." % item[key])
                     continue
 
-                if key == 'sid':
+                elif key == 'sid':
                     sid_absent = False
                     if type(item[key]) != int:
                         raise SidFileError("invalid 'sid' value '%s'." % item[key])
@@ -493,20 +493,20 @@ class SidFile:
             if children.keyword == 'leaf' or children.keyword == 'leaf-list' or children.keyword == 'anyxml' or children.keyword == 'anydata':
                 self.merge_item('data', self.getPath(children))
 
-            if children.keyword == 'container' or children.keyword == 'list':
+            elif children.keyword == 'container' or children.keyword == 'list':
                 self.merge_item('data', self.getPath(children))
                 self.collect_inner_data_nodes(children.i_children)
 
-            if children.keyword == 'choice' or children.keyword == 'case':
+            elif children.keyword == 'choice' or children.keyword == 'case':
                 self.collect_inner_data_nodes(children.i_children)
 
-            if children.keyword == 'rpc':
+            elif children.keyword == 'rpc':
                 self.merge_item('data', "/%s:%s" % (self.module_name ,children.arg) )
                 for statement in children.i_children:
                     if statement.keyword == 'input' or statement.keyword == 'output':
                         self.collect_inner_data_nodes(statement.i_children)
 
-            if children.keyword == 'notification':
+            elif children.keyword == 'notification':
                 self.merge_item('data', "/%s:%s" % (self.module_name ,children.arg))
                 self.collect_inner_data_nodes(children.i_children)
 
@@ -515,35 +515,52 @@ class SidFile:
 
         for substmt in module.substmts:
             if substmt.keyword == 'augment':
-                self.collect_inner_data_nodes(substmt.substmts)
+                self.collect_in_substmts(substmt.substmts)
+            elif hasattr(substmt, 'i_extension') and substmt.i_extension.arg ==  'yang-data':
+                self.collect_in_substmts(substmt.substmts)
 
     def collect_inner_data_nodes(self, children):
         for statement in children:
             if statement.keyword == 'leaf' or statement.keyword == 'leaf-list' or statement.keyword == 'anyxml' or statement.keyword == 'anydata':
                 self.merge_item('data', self.getPath(statement))
 
-            if statement.keyword == 'container' or statement.keyword == 'list':
+            elif statement.keyword == 'container' or statement.keyword == 'list':
                 self.merge_item('data', self.getPath(statement))
                 self.collect_inner_data_nodes(statement.i_children)
 
-            if statement.keyword == 'action':
+            elif statement.keyword == 'action':
                 self.merge_item('data', self.getPath(statement))
                 for children in statement.i_children:
                     if children.keyword == 'input' or children.keyword == 'output':
                         self.collect_inner_data_nodes(children.i_children)
 
-            if statement.keyword == 'notification':
+            elif statement.keyword == 'notification':
                 self.merge_item('data', self.getPath(statement))
                 self.collect_inner_data_nodes(statement.i_children)
 
-            if statement.keyword == 'choice' or statement.keyword == 'case':
+            elif statement.keyword == 'choice' or statement.keyword == 'case':
                 self.collect_inner_data_nodes(statement.i_children)
+
+    def collect_in_substmts(self, substmts):
+        for statement in substmts:
+            if statement.keyword == 'leaf' or statement.keyword == 'leaf-list' or statement.keyword == 'anyxml' or statement.keyword == 'anydata':
+                self.merge_item('data', self.getPath(statement))
+
+            elif statement.keyword == 'container' or statement.keyword == 'list':
+                self.merge_item('data', self.getPath(statement))
+                self.collect_in_substmts(statement.substmts)
+
+            elif statement.keyword == 'choice' or statement.keyword == 'case':
+                self.collect_in_substmts(statement.substmts)
+
+            elif statement.keyword == 'uses':
+                self.collect_inner_data_nodes(statement.i_grouping.i_children)
 
     def getPath(self, statement):
         path = ""
 
         while statement.i_module != None:
-            if statement.keyword != "case" and statement.keyword != "choice":
+            if statement.keyword != "case" and statement.keyword != "choice" and statement.keyword != "grouping" and not (hasattr(statement, 'i_extension') and statement.i_extension.arg ==  'yang-data'):
                 # Locate the data node parent
                 parent = statement.parent
                 while parent.i_module != None:
