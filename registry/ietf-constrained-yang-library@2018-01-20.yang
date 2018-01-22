@@ -106,8 +106,8 @@ module ietf-constrained-yang-library {
   container modules-state {
     config false;
     description
-      "Contain information about the different data models
-      implement by a server.";
+      "Contains information about the different data models
+      implemented by the server.";
     
     leaf module-set-id {
       type union {
@@ -126,10 +126,10 @@ module ietf-constrained-yang-library {
         identifier is server-specific when implemented as
         unit32 or shared between multiple servers when
         implemented as identityref or binary hash. The
-		server MUST change the value of this leaf each
-		time the information represented by the 'module'
-		list instance changes. The hash function and size
-		are not specified but shall be collision resistant.";
+		server MUST change the value of this leaf each time
+		the content of the 'module' list instance change.
+		The hash function and size are not specified but
+		shall be collision resistant.";
     }
 
     list module {
@@ -145,8 +145,8 @@ module ietf-constrained-yang-library {
         description
           "List of YANG features from this module that are
           supported by the server, regardless whether
-          they are defined in the module or any included
-          submodule.";
+          they are defined in the module or in any included
+          submodules.";
       }
       
       list deviation {
