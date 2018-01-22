@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-veillette-core-yang-library-01
+docname: draft-veillette-core-yang-library-02
 title: Constrained YANG Module Library
 area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
@@ -58,7 +58,7 @@ The YANG library specified in this document is available to clients of a given s
 
 YANG module ietf-constrained-yang-library targets the same functionality and shares the same approach as YANG module ietf-yang-library. The following changes with respect to ietf-yang-library are specified to make ietf-constrained-yang-library compatible with SID {{-core-yang-cbor}} used by CoMI {{-comi}} and to improve its applicability to constrained devices and networks. 
 
-* YANG module ietf-constrained-yang-library extends the caching mechanism supported by ietf-yang-library to multiple servers. This is accomplished by supporting the identityref datatype for "module-set-id". This enables the use of a managed identifier (i.e. a SID) to identify a specific assembly of YANG modules, deviations and features implemented by a group of constrained servers.
+* YANG module ietf-constrained-yang-library extends the caching mechanism supported by ietf-yang-library to multiple servers. This is accomplished by supporting the identityref datatype or binary hash for "module-set-id". This enables the use of a globally unique value (i.e. a SID or hash) to identify a specific assembly of YANG modules, deviations and features implemented by a group of constrained servers.
 
 
 * Modules, sub-modules, deviations and features are identified using a numerical value (SID) instead of a string (yang-identifier).
@@ -136,7 +136,7 @@ This mandatory container specifies the module set identifier and the list of mod
 
 ###  modules-state/module-set-id
 
-This mandatory leaf contains an identifier representing the current set of modules and submodules used by a server. This identifier is server-specific when implemented as unit32 or can be used by multiple servers when implemented as identityref.  The value of this leaf MUST change whenever the set of modules and submodules in the library changes.  There is no requirement that the same set always results in the same 'module-set-id' value.
+This mandatory leaf contains an identifier representing the current set of modules and submodules used by a server. This identifier is server-specific when implemented as unit32 or can be used by multiple servers when implemented as identityref or as binary hash.  The value of this leaf MUST change whenever the set of modules and submodules in the library changes.  There is no requirement that the same set always results in the same 'module-set-id' value.
 
 This leaf allows a client to fetch the module list once, cache it, and only re-fetch it if the value of this leaf has been changed.
 
@@ -152,12 +152,15 @@ RFC Ed.: update the date below with the date of RFC publication
 and remove this note.
    
 ~~~~
-<CODE BEGINS> file "ietf-constrained-yang-library@2017-01-20.yang"
+<CODE BEGINS> file "ietf-constrained-yang-library@2018-01-20.yang"
 module ietf-constrained-yang-library {
-  namespace
-    "urn:ietf:params:xml:ns:yang:ietf-constrained-yang-library";
+  namespace "urn:ietf:params:xml:ns:yang:ietf-constrained-yang-library";
   prefix "lib";
 
+  import ietf-comi {
+    prefix comi;
+  }
+  
   organization
     "IETF CORE (Constrained RESTful Environments) Working Group";
 
@@ -198,7 +201,7 @@ module ietf-constrained-yang-library {
   // RFC Ed.: update the date below with the date of the RFC
   // publication and remove this note.
 
-  revision 2017-01-20 {
+  revision 2018-01-20 {
     description
       "Initial revision.";
     reference
@@ -215,20 +218,12 @@ module ietf-constrained-yang-library {
     }
     description
       "Revision date encoded as a binary string as follow:
-      - First byte = Year divided by 100
-      - Second byte = Year modulo 100 (0 to 99)
-      - Third byte = Month (1 = January to 12 = december)
+      - First byte = Century
+      - Second byte = Year (0 to 99)
+      - Third byte = Month (1 = January to 12 = December)
       - Forth byte = Day (1 to 31)";
   }
 
-  typedef sid {
-    type uint64;
-    description
-      "Identifier assigned to different YANG items such as
-      data nodes, RPCs and actions, notifications, modules,
-      sub-modules, features and deviations.";
-  }
-  
   /*
    * Groupings
    */
@@ -238,7 +233,7 @@ module ietf-constrained-yang-library {
       "YANG modules and submodules identification information.";
 
     leaf sid {
-      type sid;
+      type comi:sid;
       mandatory true;
       description
         "SID assigned to this module or submodule.";
@@ -266,14 +261,17 @@ module ietf-constrained-yang-library {
   container modules-state {
     config false;
     description
-      "Contains information about the different data models
-      implemented by the server.";
+      "Contain information about the different data models
+      implement by a server.";
     
     leaf module-set-id {
       type union {
         type uint32;
         type identityref {
           base "lib:module-set";
+        }
+		type binary {
+          length "8..32";
         }
       }
       mandatory true;
@@ -282,9 +280,11 @@ module ietf-constrained-yang-library {
         and submodules listed in the 'module' list. This
         identifier is server-specific when implemented as
         unit32 or shared between multiple servers when
-        implemented as identityref. The server MUST change
-        the value of this leaf each time the content of the
-        'module' list instance change.";
+        implemented as identityref or binary hash. The
+		server MUST change the value of this leaf each
+		time the information represented by the 'module'
+		list instance changes. The hash function and size
+		are not specified but shall be collision resistant.";
     }
 
     list module {
@@ -296,12 +296,12 @@ module ietf-constrained-yang-library {
       uses identification-info;
       
       leaf-list feature {
-        type sid;
+        type comi:sid;
         description
           "List of YANG features from this module that are
           supported by the server, regardless whether
-          they are defined in the module or in any included
-          submodules.";
+          they are defined in the module or any included
+          submodule.";
       }
       
       list deviation {
@@ -313,10 +313,9 @@ module ietf-constrained-yang-library {
           used for deviations for multiple modules, so the
           same entry MAY appear within multiple 'module' entries.
 
-          The deviation module MUST be present in the 'module'
-          list, with the same sid and revision values.
-          The 'conformance-type' value will be 'implement' for
-          the deviation module.";
+          Deviation modules MUST also be present in the 'module'
+          list, with the same sid and revision values and the
+          'conformance-type' set to 'implement'.";
           
         uses identification-info;
       }
