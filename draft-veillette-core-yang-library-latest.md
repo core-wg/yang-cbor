@@ -49,7 +49,7 @@ This document describes a YANG library that provides information about all the Y
 # Introduction
 
 WARNING:
-The CoMI protocol {{-comi}} and this contribution need to be reviewed to verify their compatibility with the "Network Management Datastore Architecture" (NMDA) introduced netmod. See {{-nmda-guidelines}}, {{-netconf-rfc7895bis}}, {{-revised-datastores}} and {{-nmda-restconf}} for more details.
+Both this contribution and the CoMI protocol {{-comi}} need to be reviewed to verify their compatibility with the "Network Management Datastore Architecture" (NMDA). See {{-nmda-guidelines}}, {{-netconf-rfc7895bis}}, {{-revised-datastores}} and {{-nmda-restconf}} for more details.
 
 The YANG library specified in this document is available to clients of a given server to discover the YANG modules supported by this constrained network management server. A CoMI server provides a link to this library in the /mod.uri resource. The following YANG module information is provided to client applications to fully utilize the YANG data modeling language:
 
@@ -66,7 +66,7 @@ The YANG library specified in this document is available to clients of a given s
 
 YANG module 'ietf-constrained-yang-library' targets the same functionality and shares the same approach as YANG module ietf-yang-library. The following changes with respect to ietf-yang-library are specified to make ietf-constrained-yang-library compatible with SID {{-core-yang-cbor}} used by CoMI {{-comi}} and to improve its applicability to constrained devices and networks. 
 
-* YANG module 'ietf-constrained-yang-library' extends the caching mechanism supported by 'ietf-yang-library' to multiple servers of the same type. This is accomplished by replacing the 'module-set-id' by a hash of the library content. 
+* YANG module 'ietf-constrained-yang-library' extends the caching mechanism supported by 'ietf-yang-library' to multiple servers of the same type. This is accomplished by replacing 'module-set-id' by a hash of the library content. 
 
 * Modules, sub-modules, deviations and features are identified using a numerical value (SID) instead of a string (yang-identifier).
 
