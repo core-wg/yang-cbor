@@ -110,27 +110,17 @@ module ietf-constrained-yang-library {
       "Contains information about the different data models
       implemented by the server.";
     
-    leaf module-set-id {
-      type union {
-        type uint32;
-        type identityref {
-          base "lib:module-set";
-        }
-		type binary {
-          length "8..32";
-        }
+    leaf hash {
+	  type binary {
+        length "8..32";
       }
       mandatory true;
       description
-        "Identifier representing the current set of modules
-        and submodules listed in the 'module' list. This
-        identifier is server-specific when implemented as
-        unit32 or shared between multiple servers when
-        implemented as identityref or binary hash. The
-		server MUST change the value of this leaf each time
-		the content of the 'module' list instance change.
-		The hash function and size are not specified but
-		shall be collision resistant.";
+        "A server-generated hash of the contents of the library.
+        The server MUST change the value of this leaf each time
+		the content of the library has changed. The hash function
+		and size are not specified, but shall be collision
+		resistant.";
     }
 
     list module {
@@ -223,15 +213,13 @@ module ietf-constrained-yang-library {
       "Generated when the set of modules and submodules supported
       by the server has changed.";
       
-    leaf module-set-id {
+    leaf hash {
       type leafref {
-        path "/lib:modules-state/lib:module-set-id";
+        path "/lib:modules-state/lib:hash";
       }
       mandatory true;
       description
-        "Contains the module-set-id value representing the
-        set of modules and submodules supported by the server
-        at the time the notification is generated.";
+        "New hash value.";
     }
   }
 }

@@ -35,6 +35,10 @@ normative:
   I-D.ietf-netmod-yang-tree-diagrams: tree-diagrams
 informative:
   RFC7895:
+  I-D.dsdt-nmda-guidelines: nmda-guidelines
+  I-D.ietf-netconf-rfc7895bis: rfc7895bis
+  I-D.ietf-netmod-revised-datastores: revised-datastores
+  I-D.ietf-netconf-nmda-restconf: nmda-restconf
 
 --- abstract
 
@@ -43,6 +47,9 @@ This document describes a YANG library that provides information about all the Y
 --- middle
 
 # Introduction
+
+WARNING:
+The CoMI protocol {{-comi}} and this contribution need to be reviewed to verify their compatibility with the "Network Management Datastore Architecture" (NMDA) introduced netmod. See {{-nmda-guidelines}}, {{-rfc7895bis}}, {{-revised-datastores}} and {{-nmda-restconf}} for more details.
 
 The YANG library specified in this document is available to clients of a given server to discover the YANG modules supported by this constrained network management server. A CoMI server provides a link to this library in the /mod.uri resource. The following YANG module information is provided to client applications to fully utilize the YANG data modeling language:
 
@@ -54,16 +61,16 @@ The YANG library specified in this document is available to clients of a given s
 
 * deviation list: The list of YANG modules used for deviation statements associated with each YANG module, each module is identified by its assigned SID and revision.
 
+
 ## Major differences between ietf-constrained-yang-library and ietf-yang-library
 
-YANG module ietf-constrained-yang-library targets the same functionality and shares the same approach as YANG module ietf-yang-library. The following changes with respect to ietf-yang-library are specified to make ietf-constrained-yang-library compatible with SID {{-core-yang-cbor}} used by CoMI {{-comi}} and to improve its applicability to constrained devices and networks. 
+YANG module 'ietf-constrained-yang-library' targets the same functionality and shares the same approach as YANG module ietf-yang-library. The following changes with respect to ietf-yang-library are specified to make ietf-constrained-yang-library compatible with SID {{-core-yang-cbor}} used by CoMI {{-comi}} and to improve its applicability to constrained devices and networks. 
 
-* YANG module ietf-constrained-yang-library extends the caching mechanism supported by ietf-yang-library to multiple servers. This is accomplished by supporting the identityref datatype or binary hash for "module-set-id". This enables the use of a globally unique value (i.e. a SID or hash) to identify a specific assembly of YANG modules, deviations and features implemented by a group of constrained servers.
-
+* YANG module 'ietf-constrained-yang-library' extends the caching mechanism supported by 'ietf-yang-library' to multiple servers of the same type. This is accomplished by replacing the 'module-set-id' by a hash of the library content. 
 
 * Modules, sub-modules, deviations and features are identified using a numerical value (SID) instead of a string (yang-identifier).
 
-* The "namespace" leaf, not required for SIDs, but mandatory in ietf-yang-library is not included in ietf-constrained-yang-library.
+* The "namespace" leaf, not required for SIDs, but mandatory in 'ietf-yang-library' is not included in 'ietf-constrained-yang-library'.
 
 * Schemas can be located using the already available module or sub-module identifier (SID) and revision. For this reason, support of module and sub-module schema URIs have been removed.
 
@@ -110,21 +117,22 @@ The tree diagram of YANG module ietf-constrained-yang-library is provided below.
 ~~~~
 module: ietf-constrained-yang-library
    +--ro modules-state
-      +--ro module-set-id    union
+      +--ro hash      binary
       +--ro module* [sid revision]
-         +--ro sid                 sid
+         +--ro sid                 comi:sid
          +--ro revision            revision
-         +--ro feature*            sid
+         +--ro feature*            comi:sid
          +--ro deviation* [sid revision]
-         |  +--ro sid         sid
+         |  +--ro sid         comi:sid
          |  +--ro revision    revision
          +--ro conformance-type    enumeration
          +--ro submodule* [sid revision]
-            +--ro sid         sid
+            +--ro sid         comi:sid
             +--ro revision    revision
+
 notifications:
    +---n yang-library-change
-      +--ro module-set-id    -> /modules-state/module-set-id
+      +--ro hash    -> /modules-state/hash
 ~~~~
 {: align="left"}
 
@@ -134,13 +142,11 @@ notifications:
 
 This mandatory container specifies the module set identifier and the list of modules supported by the server.
 
-###  modules-state/module-set-id
+###  modules-state/hash
 
-This mandatory leaf contains an identifier representing the current set of modules and submodules used by a server. This identifier is server-specific when implemented as unit32 or can be used by multiple servers when implemented as identityref or as binary hash.  The value of this leaf MUST change whenever the set of modules and submodules in the library changes.  There is no requirement that the same set always results in the same 'module-set-id' value.
+This mandatory leaf contains the hash of the library content. The value of this leaf MUST change whenever the set of modules and submodules in the library changes. This leaf allows a client to fetch the module list once, cache it, and only re-fetch it if the value of this leaf has been changed.
 
-This leaf allows a client to fetch the module list once, cache it, and only re-fetch it if the value of this leaf has been changed.
-
-If the value of this leaf changes, the server also generates a 'yang-library-change' notification, with the new value of 'module-set-id'.
+If the value of this leaf changes, the server also generates a 'yang-library-change' notification.
 
 ###  modules-state/module
 
@@ -265,27 +271,17 @@ module ietf-constrained-yang-library {
       "Contains information about the different data models
       implemented by the server.";
     
-    leaf module-set-id {
-      type union {
-        type uint32;
-        type identityref {
-          base "lib:module-set";
-        }
-		type binary {
-          length "8..32";
-        }
+    leaf hash {
+      type binary {
+        length "8..32";
       }
       mandatory true;
       description
-        "Identifier representing the current set of modules
-        and submodules listed in the 'module' list. This
-        identifier is server-specific when implemented as
-        unit32 or shared between multiple servers when
-        implemented as identityref or binary hash. The
-		server MUST change the value of this leaf each time
-		the content of the 'module' list instance change.
-		The hash function and size are not specified but
-		shall be collision resistant.";
+        "A server-generated hash of the contents of the library.
+        The server MUST change the value of this leaf each time
+        the content of the library has changed. The hash function
+        and size are not specified, but shall be collision
+        resistant.";
     }
 
     list module {
@@ -378,15 +374,13 @@ module ietf-constrained-yang-library {
       "Generated when the set of modules and submodules supported
       by the server has changed.";
       
-    leaf module-set-id {
+    leaf hash {
       type leafref {
-        path "/lib:modules-state/lib:module-set-id";
+        path "/lib:modules-state/lib:hash";
       }
       mandatory true;
       description
-        "Contains the module-set-id value representing the
-        set of modules and submodules supported by the server
-        at the time the notification is generated.";
+        "New hash value.";
     }
   }
 }
