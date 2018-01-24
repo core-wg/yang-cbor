@@ -36,7 +36,7 @@ normative:
 informative:
   RFC7895:
   I-D.dsdt-nmda-guidelines: nmda-guidelines
-  I-D.ietf-netconf-rfc7895bis: rfc7895bis
+  I-D.ietf-netconf-rfc7895bis: netconf-rfc7895bis
   I-D.ietf-netmod-revised-datastores: revised-datastores
   I-D.ietf-netconf-nmda-restconf: nmda-restconf
 
@@ -49,7 +49,7 @@ This document describes a YANG library that provides information about all the Y
 # Introduction
 
 WARNING:
-The CoMI protocol {{-comi}} and this contribution need to be reviewed to verify their compatibility with the "Network Management Datastore Architecture" (NMDA) introduced netmod. See {{-nmda-guidelines}}, {{-rfc7895bis}}, {{-revised-datastores}} and {{-nmda-restconf}} for more details.
+The CoMI protocol {{-comi}} and this contribution need to be reviewed to verify their compatibility with the "Network Management Datastore Architecture" (NMDA) introduced netmod. See {{-nmda-guidelines}}, {{-netconf-rfc7895bis}}, {{-revised-datastores}} and {{-nmda-restconf}} for more details.
 
 The YANG library specified in this document is available to clients of a given server to discover the YANG modules supported by this constrained network management server. A CoMI server provides a link to this library in the /mod.uri resource. The following YANG module information is provided to client applications to fully utilize the YANG data modeling language:
 
