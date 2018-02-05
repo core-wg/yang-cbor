@@ -1,7 +1,7 @@
 ﻿---
 stand_alone: true
 ipr: trust200902
-docname: draft-ietf-core-yang-cbor-05
+docname: draft-ietf-core-yang-cbor-06
 title: CBOR Encoding of Data Modeled with YANG
 area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
@@ -117,6 +117,8 @@ The following terms are defined in {{RFC7950}}:
 
 * data tree
 
+* datastore
+
 * feature
 
 * identity
@@ -140,6 +142,12 @@ The following terms are defined in {{RFC7951}}:
 * name of an identity
 
 * namespace-qualified
+
+The following terms are defined in {{RFC8040}}:
+
+* yang-data (YANG extension)
+
+* YANG data template
 
 This specification also makes use of the following terminology:
 
@@ -258,7 +266,7 @@ container system-state {
 }
 ~~~~
 
-For this first representation, we assume that parent SID of the root container (i.e. 'system-state') is not available to the serializer. In this case, root data nodes are encoded using absolute SIDs.
+For this first representation, we assume that the SID of the parent container (i.e. 'system-state') is not available to the serializer. In this case, root data nodes are encoded using absolute SIDs.
 
 CBOR diagnostic notation:
 
@@ -619,6 +627,122 @@ anyxml bar;
 CBOR diagnostic notation: [true, null, true]
 
 CBOR encoding: 83 f5 f6 f5
+
+# Encoding of YANG data templates
+
+YANG data templates are data structures defined in YANG but not intended to be implemented as part of a datastore. YANG data templates are defined using the 'yang-data' extension as described by RFC 8040.
+
+The encoding rules defined for YANG containers in section 4.2 may be used to serialize YANG data templates.
+
+Definition example from [I-D.ietf-core-comi]:
+
+~~~~ yang
+import ietf-restconf {
+  prefix rc;
+}
+
+rc:yang-data yang-errors {
+  container error {
+    leaf error-tag {
+      type identityref {
+        base error-tag;
+      }
+    }
+    leaf error-app-tag {
+      type identityref {
+        base error-app-tag;
+      }
+    }   
+    leaf error-data-node {
+      type instance-identifier;
+    }
+    leaf error-message {
+      type string;
+    }
+  }
+}
+~~~~
+
+Just like YANG containers, YANG data templates can be encoded using either SIDs or names.
+
+## SIDs as keys
+
+This example shows a serialization example of the yang-errors template using SIDs as CBOR map key.
+
+CBOR diagnostic notation:
+
+~~~~ CBORdiag
+{
+  1024 : {                    / error  (SID 1024) /
+    +4 : 1011,                / error-tag (SID 1028) /
+                              / = invalid-value (SID 1011) /
+    +1 : 1018,                / error-app-tag (SID 1025) /
+                              / = not-in-range (SID 1018) /
+    +2 : 1740,                / error-data-node (SID 1026) /
+                              / = timezone-utc-offset (SID 1740) /
+    +3 : "max value exceeded" / error-message (SID 1027) /
+  }
+}
+~~~~
+
+CBOR encoding:
+
+~~~~ CBORbytes
+A1                                      # map(1)
+   19 0400                              # unsigned(1024)
+   A4                                   # map(4)
+      04                                # unsigned(4)
+      19 03F3                           # unsigned(1011)
+      01                                # unsigned(1)
+      19 03FA                           # unsigned(1018)
+      02                                # unsigned(2)
+      19 06CC                           # unsigned(1740)
+      03                                # unsigned(3)
+      76                                # text(22)
+         6D6178696D756D2076616C7565206578636565646564
+~~~~
+
+## Member names as keys
+
+This example shows a serialization example of the yang-errors template using member names as CBOR map key.
+
+CBOR diagnostic notation:
+
+~~~~ CBORdiag
+{
+  "ietf-comi:error" : {
+    "error-tag" : "invalid-value",
+    "error-app-tag" : "not-in-range",
+    "error-data-node" : "timezone-utc-offset",
+    "error-message" : "max value exceeded"
+  }
+}
+~~~~
+
+CBOR encoding:
+
+~~~~ CBORbytes
+A1                                      # map(1)
+   6F                                   # text(15)
+      696574662D636F6D693A6572726F72
+   A4                                   # map(4)
+      69                                # text(9)
+         6572726F722D746167             # "error-tag"
+      6D                                # text(13)
+         696E76616C69642D76616C7565
+      6D                                # text(13)
+         6572726F722D6170702D746167
+      6C                                # text(12)
+         6E6F742D696E2D72616E6765
+      6F                                # text(15)
+         6572726F722D646174612D6E6F6465
+      73                                # text(19)
+         74696D657A6F6E652D7574632D6F6666736574
+      6D                                # text(13)
+         6572726F722D6D657373616765
+      72                                # text(18)
+         6D61782076616C7565206578636565646564
+~~~~
 
 # Representing YANG Data Types in CBOR {#data-types-mapping}
 
