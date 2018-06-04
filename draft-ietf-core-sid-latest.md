@@ -1,7 +1,7 @@
 ﻿---
 stand_alone: true
 ipr: trust200902
-docname: draft-ietf-core-sid-03
+docname: draft-ietf-core-sid-04
 title: YANG Schema Item iDentifier (SID)
 area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
@@ -26,7 +26,7 @@ author:
   region: Quebec
   country: Canada
   phone: "+14503750556"
-  email: michel.veillette@trilliantinc.com
+  email: michel.veillette@trilliant.com
 - role: editor
   ins: A. P. Pelov
   name: Alexander Pelov
@@ -66,7 +66,7 @@ Some of the items defined in YANG {{RFC7950}} require the use of a unique identi
 
 * identities
 
-* data nodes
+* data nodes (Note: including those part of a YANG template as defined by the 'yang-data' extension.)
 
 * RPCs and associated input(s) and output(s)
 
@@ -117,6 +117,10 @@ The following terms are defined in {{RFC7950}}:
 * schema tree
 
 * submodule
+
+The following term is defined in {{RFC8040}}:
+
+* yang-data extension
 
 This specification also makes use of the following terminology:
 
@@ -253,7 +257,7 @@ module ietf-sid-file {
 
   contact
     "Michel Veillette
-     <mailto:michel.veillette@trilliantinc.com>
+     <mailto:michel.veillette@trilliant.com>
 
      Andy Bierman
      <mailto:andy@yumaworks.com>
