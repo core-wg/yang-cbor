@@ -298,9 +298,11 @@ A1                                      # map(1)
 
 ### Member names as keys {#container-with-name}
 
-Keys implemented using member names MUST be encoded using a CBOR text string data item (major type 3). A namespace-qualified member name MUST be used for all members of a top-level collection, and then also whenever the namespaces of the schema node and its parent are different. In all other cases, the simple form of the member name MUST be used. Names and namespaces are defined in {{RFC7951}} section 4.
+CBOR map keys implemented using member names MUST be encoded using a CBOR text string data item (major type 3). A namespace-qualified member name MUST be used for all members of a top-level collection, and then also whenever the namespaces of the schema node and its parent are different. In all other cases, the simple form of the member name MUST be used. Names and namespaces are defined in {{RFC7951}} section 4.
 
-The following example shows the encoding of a 'system' container instance using names. YANG definitions used by this example are available in {{container-with-sid}}.
+The following example shows the encoding of a 'system' container instance using names. YANG definitions used in this example are available in {{container-with-sid}}.
+
+Application payloads carrying a collection (e.g. CoAP Content-Format) SHOULD include the namespace-qualified container name. In this case, the simple form of the member name may be used for the container members sharing the same namespaces. The format of this application payload is not defined by the current specification and is not shown in the examples.
 
 CBOR diagnostic notation:
 
