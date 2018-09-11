@@ -230,17 +230,7 @@ Collections such as containers, list instances, notification contents, rpc input
 
 This specification supports two type of CBOR keys; SID as defined in {{sid}} and member names as defined in {{RFC7951}}.
 
-### SIDs as keys {#container-with-sid}
-
-CBOR map keys implemented using SIDs MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR negative integer (major type 1), depending on the actual delta value. Delta values are computed as follows:
-
-* In the case of a 'container', deltas are equal to the SID of the current schema node minus the SID of the parent 'container'.
-
-* In the case of an 'rpc input' or 'rcp output', deltas are equal to the SID of the current schema node minus the SID of the 'rpc'.
-
-* In the case of an 'action input' or 'action output', deltas are equal to the SID of the current schema node minus the SID of the 'action'.
-
-The following example shows the encoding of a 'system-state' container instance with a single child, a 'clock' container.  The 'clock' container has two children, a 'current-datetime' leaf and a 'boot-datetime' leaf.
+The following examples shows the encoding of a 'system-state' container instance using SIDs or member names.
 
 Definition example from {{RFC7317}}:
 
@@ -265,6 +255,16 @@ container system-state {
   }
 }
 ~~~~
+
+### SIDs as keys {#container-with-sid}
+
+CBOR map keys implemented using SIDs MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR negative integer (major type 1), depending on the actual delta value. Delta values are computed as follows:
+
+* In the case of a 'container', deltas are equal to the SID of the current schema node minus the SID of the parent 'container'.
+
+* In the case of an 'rpc input' or 'rcp output', deltas are equal to the SID of the current schema node minus the SID of the 'rpc'.
+
+* In the case of an 'action input' or 'action output', deltas are equal to the SID of the current schema node minus the SID of the 'action'.
 
 CBOR diagnostic notation:
 
@@ -383,11 +383,7 @@ A list or a subset of a list MUST be encoded using a CBOR array data item (major
 
 It is important to note that this encoding rule also apply to a single 'list' instance.
 
-### SIDs as keys {#list-with-sid}
-
-Deltas of data nodes within a list are equal to the SID of the current schema node minus the SID of the 'list'.
-
-The following example show the encoding of a 'server' list using SIDs.
+The following examples show the encoding of a 'server' list using SIDs or member names.
 
 Definition example from {{RFC7317}}:
 
@@ -429,6 +425,10 @@ list server {
   }
 }
 ~~~~
+
+### SIDs as keys {#list-with-sid}
+
+The encoding rules of each 'list' instance are defined in {{container-with-sid}}. Deltas of list members are equal to the SID of the current schema node minus the SID of the 'list'.
 
 CBOR diagnostic notation:
 
@@ -487,48 +487,7 @@ CBOR encoding:
 
 ### Member names as keys
 
-The following example shows the encoding of a 'server' list instance using names. Encoding rules of each 'list' instance are defined in {{container-with-name}}.
-
-Definition example from {{RFC7317}}:
-
-~~~~ yang
-list server {
-  key name;
-
-  leaf name {
-    type string;
-  }
-  choice transport {
-    case udp {
-      container udp {
-        leaf address {
-          type host;
-          mandatory true;
-        }
-        leaf port {
-          type port-number;
-        }
-      }
-    }
-  }
-  leaf association-type {
-    type enumeration {
-      enum server;
-      enum peer;
-      enum pool;
-    }
-    default server;
-  }
-  leaf iburst {
-    type boolean;
-    default false;
-  }
-  leaf prefer {
-    type boolean;
-    default false;
-  }
-}
-~~~~
+The encoding rules of each 'list' instance are defined in {{container-with-name}}.
 
 CBOR diagnostic notation:
 
@@ -599,13 +558,13 @@ CBOR encoding:
 
 An anydata serves as a container for an arbitrary set of schema nodes that otherwise appear as normal YANG-modeled data. An anydata instance is encoded using the same rules as a container, i.e., CBOR map. The requirement that anydata content can be modeled by YANG implies the following:
 
-* Keys of any inner schema nodes MUST be set to valid deltas or member names.
+* CBOR map keys of any inner schema nodes MUST be set to valid deltas or member names.
 
 * The CBOR array MUST contain either unique scalar values (as a leaf-list, see {{leaf-list}}), or maps (as a list, see {{list}}).
 
-* Values MUST follow the encoding rules of one of the datatypes listed in {{data-types-mapping}}.
+* CBOR map values MUST follow the encoding rules of one of the datatypes listed in {{instance-encoding}}.
 
-The following example shows a possible use of anydata. In this example, an anydata is used to define a schema node containing a notification event, this schema node can be part of a YANG list to create an event logger.
+The following example shows a possible use of an anydata. In this example, an anydata is used to define a schema node containing a notification event, this schema node can be part of a YANG list to create an event logger.
 
 Definition example:
 
@@ -675,6 +634,8 @@ YANG data templates are data structures defined in YANG but not intended to be i
 
 YANG data templates SHOULD be encoded using the encoding rules of a collection as defined in {{container}}.
 
+Just like YANG containers, YANG data templates can be encoded using either SIDs or names.
+
 Definition example from [I-D.ietf-core-comi]:
 
 ~~~~ yang
@@ -703,8 +664,6 @@ rc:yang-data yang-errors {
   }
 }
 ~~~~
-
-Just like YANG containers, YANG data templates can be encoded using either SIDs or names.
 
 ## SIDs as keys
 
