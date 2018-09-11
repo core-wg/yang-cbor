@@ -616,7 +616,7 @@ A2                         # map(2)
 
 An anyxml schema node is used to serialize an arbitrary CBOR content, i.e., its value can be any CBOR binary object. anyxml value MAY contain CBOR data items tagged with one of the tag listed in {{tag-registry}}, these tags shall be supported.
 
-The following example shows a valid CBOR encoded instance consisting of a CBOR array containing the CBOR values 'true', 'null' and 'true'.
+The following example shows a valid CBOR encoded instance consisting of a CBOR array containing the CBOR simple values 'true', 'null' and 'true'.
 
 Definition example from {{RFC7951}}:
 
@@ -832,9 +832,7 @@ CBOR encoding: 64 65746830
 
 ## The 'boolean' Type
 
-Leafs of type boolean MUST be encoded using a CBOR 'true' (major type 7, additional
-information 21) or CBOR 'false' (major type 7, additional information
-20).
+Leafs of type boolean MUST be encoded using a CBOR simple value 'true' (major type 7, additional information 21) or 'false' (major type 7, additional information 20).
 
 The following example shows the encoding of an 'enabled' leaf instance set to 'true'.
 
