@@ -240,23 +240,13 @@ CBOR map keys implemented using SIDs MUST be encoded using a CBOR unsigned integ
 
 * In the case of an 'action input' or 'action output', deltas are equal to the SID of the current schema node minus the SID of the 'action'.
 
-Application payloads carrying a collection (e.g. CoAP Content-Format) SHOULD include the reference SID to allow stateless conversion of delta values to SIDs. The format of this application payload is not defined by the current specification and is not shown in the examples.
-
+Application payloads carrying a collection (e.g. CoAP Content-Format) SHOULD include the reference SID for this collection to allow stateless conversion of delta values to SIDs. The format of this application payload is not defined by the current specification and is not shown in the examples.
 
 The following example shows the encoding of a 'system-state' container instance with a single child, a 'clock' container.  The 'clock' container has two children, a 'current-datetime' leaf and a 'boot-datetime' leaf.
 
 Definition example from {{RFC7317}}:
 
-<!-- draft-iab-xml2rfc-03.txt uses lower-case "yang" as the type -->
-
 ~~~~ yang
-typedef date-and-time {
-  type string {
-    pattern '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[\+\-]
-             \d{2}:\d{2})';
-  }
-}
-
 container system-state {
 
   container clock {
@@ -302,7 +292,24 @@ CBOR map keys implemented using member names MUST be encoded using a CBOR text s
 
 The following example shows the encoding of a 'system' container instance using names. YANG definitions used in this example are available in {{container-with-sid}}.
 
-Application payloads carrying a collection (e.g. CoAP Content-Format) SHOULD include the namespace-qualified container name. In this case, the simple form of the member name may be used for the container members sharing the same namespaces. The format of this application payload is not defined by the current specification and is not shown in the examples.
+Application payloads carrying a collection (e.g. CoAP Content-Format) SHOULD include the namespace-qualified collection name. In this case, the simple form of the member name may be used for the collection members sharing the same namespaces.
+
+Definition example from {{RFC7317}}:
+
+~~~~ yang
+container system-state {
+
+  container clock {
+    leaf current-datetime {
+      type date-and-time;
+    }
+
+    leaf boot-datetime {
+      type date-and-time;
+    }
+  }
+}
+~~~~
 
 CBOR diagnostic notation:
 
@@ -368,11 +375,11 @@ It is important to note that this encoding rule also apply to a single 'list' in
 
 ### SIDs as keys {#list-with-sid}
 
-CBOR map keys implemented using SIDs MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR negative integer (major type 1), depending on the actual delta value. Deltas of data nodes within a list are equal to the SID of the current schema node minus the SID of the 'list'.
+Deltas of data nodes within a list are equal to the SID of the current schema node minus the SID of the 'list'.
 
 The following example show the encoding of a 'server' list using SIDs.
 
-Application payloads carrying list instance(s) (e.g. CoAP Content-Format) SHOULD also carry the reference SID to allow stateless conversion of deltas to SIDs. The format of this application payload is not defined by the current specification and is not shown in the example.
+Application payloads carrying list instance(s) (e.g. CoAP Content-Format) SHOULD also carry the SID of the list to allow stateless conversion of deltas to SIDs. The format of this application payload is not defined by the current specification and is not shown in the example.
 
 Definition example from {{RFC7317}}:
 
@@ -472,7 +479,50 @@ CBOR encoding:
 
 ### Member names as keys
 
-The following example shows the encoding of a 'server' list instance using names. Encoding rules of each 'list' instance are defined in section {{container-with-name}},  YANG definitions used by this example are available in {{list-with-sid}}.
+The following example shows the encoding of a 'server' list instance using names. Encoding rules of each 'list' instance are defined in section {{container-with-name}}.
+
+Application payloads carrying a list (e.g. CoAP Content-Format) SHOULD include the namespace-qualified list name. In this case, the simple form of the member name may be used for the list members sharing the same namespaces.
+
+Definition example from {{RFC7317}}:
+
+~~~~ yang
+list server {
+  key name;
+
+  leaf name {
+    type string;
+  }
+  choice transport {
+    case udp {
+      container udp {
+        leaf address {
+          type host;
+          mandatory true;
+        }
+        leaf port {
+          type port-number;
+        }
+      }
+    }
+  }
+  leaf association-type {
+    type enumeration {
+      enum server;
+      enum peer;
+      enum pool;
+    }
+    default server;
+  }
+  leaf iburst {
+    type boolean;
+    default false;
+  }
+  leaf prefer {
+    type boolean;
+    default false;
+  }
+}
+~~~~
 
 CBOR diagnostic notation:
 
