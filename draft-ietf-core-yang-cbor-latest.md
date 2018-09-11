@@ -213,6 +213,10 @@ A collection such as container, list instance, notification, RPC input, RPC outp
 
 In order to minimize the size of the encoded data, the proposed mapping avoids any unnecessary meta-information beyond those natively supported by CBOR. For instance, CBOR tags are used solely in the case of anyxml schema nodes and the union datatype to distinguish explicitly the use of different YANG datatypes encoded using the same CBOR major type.
 
+Unless specified otherwise by the protocol or mechanism implementing this specification, the infinite lengths encoding as defined in {{RFC7049}} section 2.2 SHALL be supported by CBOR decoders.
+
+Data nodes implemented using a CBOR array, map, byte string, and text string can be instantiated but empty. In this case, they are encoded with a length of zero.
+
 Application payloads carrying a value serialized using the rules defined by this specification (e.g. CoAP Content-Format) SHOULD include the identifier (e.g. SID, namespace-qualified member name, instance-identifier) of this value. When SIDs are used as identifiers, the reference SID SHALL be included in the payload to allow stateless conversion of delta values to SIDs. Formats of these application payloads are not defined by the current specification and are not shown in the examples.
 
 # Encoding of YANG Schema Node Instances   {#instance-encoding}
