@@ -187,16 +187,16 @@ Within this document, CBOR binary contents are represented using an equivalent t
 
 | CBOR content     | CBOR type | Diagnostic notation                                                     | Example            | CBOR encoding      |
 |------------------+-----------+-------------------------------------------------------------------------+--------------------+--------------------|
-| Unsigned integer |         0 | Decimal digits                                                          | 123                | 18 7b              |
-| Negative integer |         1 | Decimal digits prefixed by a minus sign                                 | -123               | 38 7a              |
-| Byte string      |         2 | Hexadecimal value enclosed between single quotes and prefixed by an 'h' | h'f15c'            | 42 f15c            |
+| Unsigned integer |         0 | Decimal digits                                                          | 123                | 18 7B              |
+| Negative integer |         1 | Decimal digits prefixed by a minus sign                                 | -123               | 38 7A              |
+| Byte string      |         2 | Hexadecimal value enclosed between single quotes and prefixed by an 'h' | h'F15C'            | 42 f15C            |
 | Text string      |         3 | String of Unicode characters enclosed between double quotes             | "txt"              | 63 747874          |
 | Array            |         4 | Comma-separated list of values within square brackets                   | [ 1, 2 ]           | 82 01 02           |
-| Map              |         5 | Comma-separated list of key : value pairs within curly braces           | { 1: 123, 2: 456 } | a2 01187b 021901c8 |
-| Boolean          |      7/20 | false                                                                   | false              | f4                 |
-|                  |      7/21 | true                                                                    | true               | f5                 |
-| Null             |      7/22 | null                                                                    | null               | f6                 |
-| Not assigned     |      7/23 | undefined                                                               | undefined          | f7                 |
+| Map              |         5 | Comma-separated list of key : value pairs within curly braces           | { 1: 123, 2: 456 } | a2 01187B 021901C8 |
+| Boolean          |      7/20 | false                                                                   | false              | F4                 |
+|                  |      7/21 | true                                                                    | true               | F5                 |
+| Null             |      7/22 | null                                                                    | null               | F6                 |
+| Not assigned     |      7/23 | undefined                                                               | undefined          | F7                 |
 {: #diagnostic-notation-summary title="CBOR diagnostic notation summary"}
 
 The following extensions to the CBOR diagnostic notation are supported:
@@ -209,11 +209,11 @@ The following extensions to the CBOR diagnostic notation are supported:
 
 This document defines CBOR encoding rules for YANG schema trees and their subtrees.
 
-Basic schema nodes such as leaf, leaf-list, list, anydata and anyxml can be encoded standalone. In this case, only the value of this schema node is encoded in CBOR. Identification of this value needs to be provided by some external means when required.
-
 A collection such as container, list instance, notification, RPC input, RPC output, action input and action output is serialized using a CBOR map in which each child schema node is encoded using a key and a value. This specification supports two type of CBOR keys; YANG Schema Item iDentifier (SID) as defined in {{sid}} and member names as defined in {{RFC7951}}. Each of these key types is encoded using a specific CBOR type which allows their interpretation during the deserialization process. Protocols or mechanisms implementing this specification can mandate the use of a specific key type.
 
-In order to minimize the size of the encoded data, the proposed mapping avoids any unnecessary meta-information beyond those natively supported by CBOR. For instance, CBOR tags are used solely in the case of anyxml schema nodes and the union datatype to distinguish explicitly the use of different YANG datatypes encoded using the same CBOR major type. 
+In order to minimize the size of the encoded data, the proposed mapping avoids any unnecessary meta-information beyond those natively supported by CBOR. For instance, CBOR tags are used solely in the case of anyxml schema nodes and the union datatype to distinguish explicitly the use of different YANG datatypes encoded using the same CBOR major type.
+
+Application payloads carrying a value serialized using the rules defined by this specification (e.g. CoAP Content-Format) SHOULD include the identifier (e.g. SID, namespace-qualified member name, instance-identifier) of this value. When SIDs are used as identifiers, the reference SID SHALL be included in the payload to allow stateless conversion of delta values to SIDs. Formats of these application payloads are not defined by the current specification and are not shown in the examples.
 
 # Encoding of YANG Schema Node Instances   {#instance-encoding}
 
@@ -239,8 +239,6 @@ CBOR map keys implemented using SIDs MUST be encoded using a CBOR unsigned integ
 * In the case of an 'rpc input' or 'rcp output', deltas are equal to the SID of the current schema node minus the SID of the 'rpc'.
 
 * In the case of an 'action input' or 'action output', deltas are equal to the SID of the current schema node minus the SID of the 'action'.
-
-Application payloads carrying a collection (e.g. CoAP Content-Format) SHOULD include the reference SID for this collection to allow stateless conversion of delta values to SIDs. The format of this application payload is not defined by the current specification and is not shown in the examples.
 
 The following example shows the encoding of a 'system-state' container instance with a single child, a 'clock' container.  The 'clock' container has two children, a 'current-datetime' leaf and a 'boot-datetime' leaf.
 
@@ -291,8 +289,6 @@ A1                                      # map(1)
 CBOR map keys implemented using member names MUST be encoded using a CBOR text string data item (major type 3). A namespace-qualified member name MUST be used for all members of a top-level collection, and then also whenever the namespaces of the schema node and its parent are different. In all other cases, the simple form of the member name MUST be used. Names and namespaces are defined in {{RFC7951}} section 4.
 
 The following example shows the encoding of a 'system' container instance using names. YANG definitions used in this example are available in {{container-with-sid}}.
-
-Application payloads carrying a collection (e.g. CoAP Content-Format) SHOULD include the namespace-qualified collection name. In this case, the simple form of the member name may be used for the collection members sharing the same namespaces.
 
 Definition example from {{RFC7317}}:
 
@@ -378,8 +374,6 @@ It is important to note that this encoding rule also apply to a single 'list' in
 Deltas of data nodes within a list are equal to the SID of the current schema node minus the SID of the 'list'.
 
 The following example show the encoding of a 'server' list using SIDs.
-
-Application payloads carrying list instance(s) (e.g. CoAP Content-Format) SHOULD also carry the SID of the list to allow stateless conversion of deltas to SIDs. The format of this application payload is not defined by the current specification and is not shown in the example.
 
 Definition example from {{RFC7317}}:
 
@@ -480,8 +474,6 @@ CBOR encoding:
 ### Member names as keys
 
 The following example shows the encoding of a 'server' list instance using names. Encoding rules of each 'list' instance are defined in {{container-with-name}}.
-
-Application payloads carrying a list (e.g. CoAP Content-Format) SHOULD include the namespace-qualified list name. In this case, the simple form of the member name may be used for the list members sharing the same namespaces.
 
 Definition example from {{RFC7317}}:
 
@@ -1142,7 +1134,6 @@ Examples within this section assume the definition of a schema node of type 'ins
 Definition example from [RFC7950]:
 
 ~~~~ yang
-~~~~ yang
 container system {
   ...
   leaf reporting-entity {
@@ -1163,7 +1154,7 @@ container system {
 
 **First example:**
 
-The following example shows the encoding of 'reporting-entity' referencing data node instance "/system/contact" (SID 1741).
+The following example shows the encoding of the 'reporting-entity' value referencing data node instance "/system/contact" (SID 1741).
 
 Definition example from {{RFC7317}}:
 
@@ -1186,7 +1177,7 @@ CBOR encoding: 19 06CD
 
 **Second example:**
 
-The following example shows the encoding of 'reporting-entity' referencing list instance "/system/authentication/user/authorized-key/key-data" (SID 1734) for user name "bob" and authorized-key "admin".
+The following example shows the encoding of the 'reporting-entity' value referencing list instance "/system/authentication/user/authorized-key/key-data" (SID 1734) for user name "bob" and authorized-key "admin".
 
 Definition example from {{RFC7317}}:
 
@@ -1231,7 +1222,7 @@ CBOR encoding:
 
 **Third example:**
 
-The following example shows the encoding of 'reporting-entity' referencing the list instance "/system/authentication/user" (SID 1730) corresponding to user name "jack".
+The following example shows the encoding of the 'reporting-entity' value referencing the list instance "/system/authentication/user" (SID 1730) corresponding to user name "jack".
 
 CBOR diagnostic notation: [1730, "jack"]
 
