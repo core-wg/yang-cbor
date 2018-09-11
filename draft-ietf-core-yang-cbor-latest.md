@@ -232,13 +232,13 @@ This specification supports two type of CBOR keys; SID as defined in {{sid}} and
 
 ### SIDs as keys {#container-with-sid}
 
-CBOR map keys implemented using SIDs MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR negative integer (major type 1), depending on the actual delta value. Deltas value are computed as follow:
+CBOR map keys implemented using SIDs MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR negative integer (major type 1), depending on the actual delta value. Delta values are computed as follows:
 
 * In the case of a 'container', deltas are equal to the SID of the current schema node minus the SID of the parent 'container'.
 
-* In the case of a rpc 'input' or rcp 'output', deltas are equal to the SID of the current schema node minus the SID of the rpc.
+* In the case of an 'rpc input' or 'rcp output', deltas are equal to the SID of the current schema node minus the SID of the 'rpc'.
 
-* In the case of a rpc 'input' or rpc 'output', deltas are equal to the SID of the current schema node minus the SID of the action.
+* In the case of an 'action input' or 'action output', deltas are equal to the SID of the current schema node minus the SID of the 'action'.
 
 Application payloads carrying a collection (e.g. CoAP Content-Format) SHOULD include the reference SID to allow stateless conversion of delta values to SIDs. The format of this application payload is not defined by the current specification and is not shown in the examples.
 
@@ -316,18 +316,18 @@ CBOR diagnostic notation:
 CBOR encoding:
 
 ~~~~ CBORbytes
-a1                                          # map(1)
-   71                                       # text(17)
-      696574662d73797374656d3a636c6f636b    # "ietf-system:clock"
-   a2                                       # map(2)
-      70                                    # text(16)
-         63757272656e742d6461746574696d65   # "current-datetime"
-      78 1a                                 # text(26)
-         323031352d31302d30325431343a34373a32345a2d30353a3030
-      6d                                    # text(13)
-         626f6f742d6461746574696d65         # "boot-datetime"
-      78 1a                                 # text(26)
-         323031352d30392d31355430393a31323a35385a2d30353a3030
+A1                                      # map(1)
+   71                                   # text(17)
+      696574662D73797374656D3A636C6F636B # "ietf-system:clock"
+   A2                                   # map(2)
+      70                                # text(16)
+         63757272656E742D6461746574696D65 # "current-datetime"
+      78 1A                             # text(26)
+         323031352D31302D30325431343A34373A32345A2D30353A3030
+      6D                                # text(13)
+         626F6F742D6461746574696D65     # "boot-datetime"
+      78 1A                             # text(26)
+         323031352D30392D31355430393A31323A35385A2D30353A3030
 ~~~~
 
 ## The 'leaf-list' {#leaf-list}
@@ -356,7 +356,7 @@ leaf-list search {
 
 CBOR diagnostic notation: [ "ietf.org", "ieee.org" ]
 
-CBOR encoding: 82  68 696574662e6f7267  68 696565652e6f7267
+CBOR encoding: 82  68 696574662E6F7267  68 696565652E6F7267
 
 ## The 'list' and 'list' instance(s) {#list}
 
@@ -498,43 +498,43 @@ CBOR diagnostic notation:
 CBOR encoding:
 
 ~~~~ CBORbytes
-82                                            # array(2)
-   a5                                         # map(5)
-      70                                      # text(16)
-         696574662d73797374656d3a6e616d65     # "ietf-system:name"
-      6e                                      # text(14)
-         4e52432054494320736572766572         # "NRC TIC server"
-      6f                                      # text(15)
-         696574662d73797374656d3a756470       # "ietf-system:udp"
-      a2                                      # map(2)
-         67                                   # text(7)
-            61646472657373                    # "address"
-         6a                                   # text(10)
-            7469632e6e72632e6361              # "tic.nrc.ca"
-         64                                   # text(4)
-            706f7274                          # "port"
-         18 7b                                # unsigned(123)
-      78 1c                                   # text(28)
-         696574662d73797374656d3a6173736f63696174696f6e2d74797065
-      00                                      # unsigned(0)
-      72                                      # text(18)
-         696574662d73797374656d3a696275727374 # "ietf-system:iburst"
-      f4                                      # primitive(20)
-      72                                      # text(18)
-         696574662d73797374656d3a707265666572 # "ietf-system:prefer"
-      f5                                      # primitive(21)
-   a2                                         # map(2)
-      70                                      # text(16)
-         696574662d73797374656d3a6e616d65     # "ietf-system:name"
-      6e                                      # text(14)
-         4e52432054414320736572766572         # "NRC TAC server"
-      6f                                      # text(15)
-         696574662d73797374656d3a756470       # "ietf-system:udp"
-      a1                                      # map(1)
-         67                                   # text(7)
-            61646472657373                    # "address"
-         6a                                   # text(10)
-            7461632e6e72632e6361              # "tac.nrc.ca"
+82                                      # array(2)
+   A5                                   # map(5)
+      70                                # text(16)
+         696574662D73797374656D3A6E616D65 # "ietf-system:name"
+      6E                                # text(14)
+         4E52432054494320736572766572   # "NRC TIC server"
+      6F                                # text(15)
+         696574662D73797374656D3A756470 # "ietf-system:udp"
+      A2                                # map(2)
+         67                             # text(7)
+            61646472657373              # "address"
+         6A                             # text(10)
+            7469632E6E72632E6361        # "tic.nrc.ca"
+         64                             # text(4)
+            706F7274                    # "port"
+         18 7B                          # unsigned(123)
+      78 1C                             # text(28)
+         696574662D73797374656D3A6173736F63696174696F6E2D74797065
+      00                                # unsigned(0)
+      72                                # text(18)
+         696574662D73797374656D3A696275727374 # "ietf-system:iburst"
+      F4                                # primitive(20)
+      72                                # text(18)
+         696574662D73797374656D3A707265666572 # "ietf-system:prefer"
+      F5                                # primitive(21)
+   A2                                   # map(2)
+      70                                # text(16)
+         696574662D73797374656D3A6E616D65 # "ietf-system:name"
+      6E                                # text(14)
+         4E52432054414320736572766572   # "NRC TAC server"
+      6F                                # text(15)
+         696574662D73797374656D3A756470 # "ietf-system:udp"
+      A1                                # map(1)
+         67                             # text(7)
+            61646472657373              # "address"
+         6A                             # text(10)
+            7461632E6E72632E6361        # "tac.nrc.ca"
 ~~~~
 
 ## The 'anydata'
@@ -763,7 +763,7 @@ leaf timezone-utc-offset {
 
 CBOR diagnostic notation: -300
 
-CBOR encoding: 39 012b
+CBOR encoding: 39 012B
 
 ## The 'decimal64' Type
 Leafs of type decimal64 MUST be encoded using a decimal fraction as defined in {{RFC7049}} section 2.4.3.
@@ -783,7 +783,7 @@ leaf my-decimal {
 
 CBOR diagnostic notation: 4([-2, 257])
 
-CBOR encoding: c4 82 21 19 0101
+CBOR encoding: C4 82 21 19 0101
 
 ## The 'string' Type
 
@@ -822,7 +822,7 @@ leaf enabled {
 
 CBOR diagnostic notation: true
 
-CBOR encoding: f5
+CBOR encoding: F5
 
 ## The 'enumeration' Type
 
@@ -901,9 +901,9 @@ leaf aes128-key {
 }
 ~~~~
 
-CBOR diagnostic notation: h'1f1ce6a3f42660d888d92a4d8030476e'
+CBOR diagnostic notation: h'1F1CE6A3F42660D888D92A4D8030476E'
 
-CBOR encoding: 50 1f1ce6a3f42660d888d92a4d8030476e
+CBOR encoding: 50 1F1CE6A3F42660D888D92A4D8030476E
 
 ## The 'leafref' Type
 
@@ -981,7 +981,7 @@ The following example shows the encoding of the identity 'iana-if-type:ethernetC
 
 CBOR diagnostic notation: "iana-if-type:ethernetCsmacd"
 
-CBOR encoding: 78 1b 69616e612d69662d747970653a65746865726e657443736d616364
+CBOR encoding: 78 1b 69616E612D69662D747970653A65746865726E657443736D616364
 
 ## The 'empty' Type
 
@@ -1000,7 +1000,7 @@ leaf is-router {
 
 CBOR diagnostic notation: null
 
-CBOR encoding: f6
+CBOR encoding: F6
 
 ## The 'union' Type
 
@@ -1056,7 +1056,7 @@ leaf address {
 
 CBOR diagnostic notation: "2001:db8:a0b:12f0::1"
 
-CBOR encoding: 74 323030313a6462383a6130623a313266303a3a31
+CBOR encoding: 74 323030313A6462383A6130623A313266303A3A31
 
 ## The 'instance-identifier' Type
 
@@ -1121,7 +1121,7 @@ container system {
 
 CBOR diagnostic notation: 1741
 
-CBOR encoding: 19 06cd
+CBOR encoding: 19 06CD
 
 **Second example:**
 
@@ -1160,12 +1160,12 @@ CBOR diagnostic notation: [1734, "bob", "admin"]
 CBOR encoding:
 
 ~~~~ CBORbytes
-83                      # array(3)
-   19 06c6              # unsigned(1734)
-   63                   # text(3)
-      626f62            # "bob"
-   65                   # text(5)
-      61646d696e        # "admin"
+83               # array(3)
+   19 06C6       # unsigned(1734)
+   63            # text(3)
+      626F62     # "bob"
+   65            # text(5)
+      61646D696E # "admin"
 ~~~~
 
 **Third example:**
@@ -1177,10 +1177,10 @@ CBOR diagnostic notation: [1730, "jack"]
 CBOR encoding:
 
 ~~~~ CBORbytes
-82                      # array(2)
-   19 06c2              # unsigned(1730)
-   64                   # text(4)
-      6a61636b          # "jack"
+82             # array(2)
+   19 06C2     # unsigned(1730)
+   64          # text(4)
+      6A61636B # "jack"
 ~~~~
 
 ### Names as instance-identifier
@@ -1196,7 +1196,7 @@ CBOR diagnostic notation: "/ietf-system:system/contact"
 CBOR encoding:
 
 ~~~~ CBORbytes
-78 1c 2f20696574662d73797374656d3a73797374656d2f636f6e74616374
+78 1c 2F696574662D73797374656D3A73797374656D2F636F6E74616374
 ~~~~
 
 **Second example:**
@@ -1214,9 +1214,9 @@ CBOR encoding:
 
 ~~~~ CBORbytes
 78 59
-   2f696574662d73797374656d3a73797374656d2f61757468656e74696361
-   74696f6e2f757365725b6e616d653d27626f62275d2f617574686f72697a
-   65642d6b65795b6e616d653d2761646d696e275d2f6b65792d64617461
+   2F696574662D73797374656D3A73797374656D2F61757468656E74696361
+   74696F6E2F757365725B6E616D653D27626F62275D2F617574686F72697A
+   65642D6B65790D0A5B6E616D653D2761646D696E275D2F6B65792D64617461
 ~~~~
 
 **Third example:**
@@ -1233,8 +1233,8 @@ CBOR encoding:
 
 ~~~~ CBORbytes
 78 33
-   2f696574662d73797374656d3a73797374656d2f61757468656e74696361
-   74696f6e2f757365725b6e616d653d27626f62275d
+   2F696574662D73797374656D3A73797374656D2F61757468656E74696361
+   74696F6E2F757365725B6E616D653D27626F62275D
 ~~~~
 
 # Security Considerations
