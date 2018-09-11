@@ -369,7 +369,7 @@ CBOR encoding: 82  68 696574662E6F7267  68 696565652E6F7267
 
 ## The 'list' and 'list' instance(s) {#list}
 
-A list or a subset of a list MUST be encoded using a CBOR array data item (major type 4). Each list instance within this CBOR array is encoded using a CBOR map data item (major type 5) based on the same rules as a YANG container as defined in {{container}}.
+A list or a subset of a list MUST be encoded using a CBOR array data item (major type 4). Each list instance within this CBOR array is encoded using a CBOR map data item (major type 5) based on the encoding rules of a collection as defined in {{container}}.
 
 It is important to note that this encoding rule also apply to a single 'list' instance.
 
@@ -479,7 +479,7 @@ CBOR encoding:
 
 ### Member names as keys
 
-The following example shows the encoding of a 'server' list instance using names. Encoding rules of each 'list' instance are defined in section {{container-with-name}}.
+The following example shows the encoding of a 'server' list instance using names. Encoding rules of each 'list' instance are defined in {{container-with-name}}.
 
 Application payloads carrying a list (e.g. CoAP Content-Format) SHOULD include the namespace-qualified list name. In this case, the simple form of the member name may be used for the list members sharing the same namespaces.
 
@@ -667,7 +667,7 @@ CBOR encoding: 83 f5 f6 f5
 
 YANG data templates are data structures defined in YANG but not intended to be implemented as part of a datastore. YANG data templates are defined using the 'yang-data' extension as described by RFC 8040.
 
-The encoding rules defined for YANG containers in section 4.2 SHOULD be used to serialize YANG data templates.
+YANG data templates SHOULD be encoded using the encoding rules of a collection as defined in {{container}}.
 
 Definition example from [I-D.ietf-core-comi]:
 
@@ -702,35 +702,39 @@ Just like YANG containers, YANG data templates can be encoded using either SIDs 
 
 ## SIDs as keys
 
-This example shows a serialization example of the yang-errors template using SIDs as CBOR map key.
+This example shows a serialization example of the yang-errors template using SIDs as CBOR map key. The reference SID of a YANG data template is zero, this imply that the CBOR map keys of the top level members of the template are set to SIDs. 
 
 CBOR diagnostic notation:
 
 ~~~~ CBORdiag
-{                             / error  (SID 1024) /
-  +4 : 1011,                  / error-tag (SID 1028) /
-                              / = invalid-value (SID 1011) /
-  +1 : 1018,                  / error-app-tag (SID 1025) /
-                              / = not-in-range (SID 1018) /
-  +2 : 1740,                  / error-data-node (SID 1026) /
-                              / = timezone-utc-offset (SID 1740) /
-  +3 : "Maximum exceeded"     / error-message (SID 1027) /
+{
+  1024 : {                      / error  (SID 1024) /
+    +4 : 1011,                  / error-tag (SID 1028) /
+                                / = invalid-value (SID 1011) /
+    +1 : 1018,                  / error-app-tag (SID 1025) /
+                                / = not-in-range (SID 1018) /
+    +2 : 1740,                  / error-data-node (SID 1026) /
+                                / = timezone-utc-offset (SID 1740) /
+    +3 : "Maximum exceeded"     / error-message (SID 1027) /
+      }
 }
 ~~~~
 
 CBOR encoding:
 
 ~~~~ CBORbytes
-A4                                     # map(4)
-   04                                  # unsigned(4)
-   19 03F3                             # unsigned(1011)
-   01                                  # unsigned(1)
-   19 03FA                             # unsigned(1018)
-   02                                  # unsigned(2)
-   19 06CC                             # unsigned(1740)
-   03                                  # unsigned(3)
-   70                                  # text(16)
-      4D6178696D756D206578636565646564 # "Maximum exceeded"
+A1                                      # map(1)
+   19 0400                              # unsigned(1024)
+   A4                                   # map(4)
+      04                                # unsigned(4)
+      19 03F3                           # unsigned(1011)
+      01                                # unsigned(1)
+      19 03FA                           # unsigned(1018)
+      02                                # unsigned(2)
+      19 06CC                           # unsigned(1740)
+      03                                # unsigned(3)
+      70                                # text(16)
+         4D6178696D756D206578636565646564
 ~~~~
 
 ## Member names as keys
@@ -741,33 +745,38 @@ CBOR diagnostic notation:
 
 ~~~~ CBORdiag
 {
-  "ietf-comi:error-tag" : "invalid-value",
-  "ietf-comi:error-app-tag" : "not-in-range",
-  "ietf-comi:error-data-node" : "timezone-utc-offset",
-  "ietf-comi:error-message" : "max value exceeded"
+  "ietf-comi:error" : {
+    "error-tag" : "invalid-value",
+    "error-app-tag" : "not-in-range",
+    "error-data-node" : "timezone-utc-offset",
+    "error-message" : "Maximum exceeded"
+  }
 }
 ~~~~
 
 CBOR encoding:
 
 ~~~~ CBORbytes
-A4                                      # map(4)
-   73                                   # text(19)
-      696574662D636F6D693A6572726F722D746167
-   6D                                   # text(13)
-      696E76616C69642D76616C7565        # "invalid-value"
-   77                                   # text(23)
-      696574662D636F6D693A6572726F722D6170702D746167
-   6C                                   # text(12)
-      6E6F742D696E2D72616E6765          # "not-in-range"
-   78 19                                # text(25)
-      696574662D636F6D693A6572726F722D646174612D6E6F6465
-   73                                   # text(19)
-      74696D657A6F6E652D7574632D6F6666736574
-   77                                   # text(23)
-      696574662D636F6D693A6572726F722D6D657373616765
-   72                                   # text(18)
-      6D61782076616C7565206578636565646564
+A1                                      # map(1)
+   6F                                   # text(15)
+      696574662D636F6D693A6572726F72    # "ietf-comi:error"
+   A4                                   # map(4)
+      69                                # text(9)
+         6572726F722D746167             # "error-tag"
+      6D                                # text(13)
+         696E76616C69642D76616C7565     # "invalid-value"
+      6D                                # text(13)
+         6572726F722D6170702D746167     # "error-app-tag"
+      6C                                # text(12)
+         6E6F742D696E2D72616E6765       # "not-in-range"
+      6F                                # text(15)
+         6572726F722D646174612D6E6F6465 # "error-data-node"
+      73                                # text(19)
+         74696D657A6F6E652D7574632D6F6666736574 # "timezone-utc-offset"
+      6D                                # text(13)
+         6572726F722D6D657373616765     # "error-message"
+      70                                # text(16)
+         4D6178696D756D206578636565646564
 ~~~~
 
 # Representing YANG Data Types in CBOR {#data-types-mapping}
