@@ -461,12 +461,12 @@ The first million SIDs assigned to IANA is sub-divided as follow:
 
 * The range of 100,000 to 999,999 is reserved for standardized YANG modules. The IANA policy for future additions to this sub-registry is "Specification Required" {{RFC5226}}. Allocation within this range requires publishing of the associated ".yang" and ".sid" files in the YANG module registry.
 
-| Entry Point   | Size          | IANA policy                       |
-|---------------+---------------+-----------------------------------|
-| 0             | 1,000         | IETF review                       |
-| 1,000         | 59,000        | RFC required                      |
-| 60,000        | 40,000        | Experimental use                  |
-| 100,000       | 1,000,000,000 | Specification Required            |
+| Entry Point   | Size       | IANA policy                       |
+|---------------+------------+-----------------------------------|
+| 0             | 1,000      | IETF review                       |
+| 1,000         | 59,000     | RFC required                      |
+| 60,000        | 40,000     | Experimental use                  |
+| 100,000       | 900,000    | Specification Required            |
 {: align="left"}
 
 The size of a SID range assigned to a YANG module should be at least 33% above the current number of YANG items. This headroom allows assignment within the same range of new YANG items introduced by subsequent revisions. A larger SID range size may be requested by the authors if this recommendation is considered insufficient. It is important to note that an extra SID range can be allocated to an existing YANG module if the initial range is exhausted.
