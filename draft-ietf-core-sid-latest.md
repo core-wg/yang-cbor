@@ -471,7 +471,7 @@ The first million SIDs assigned to IANA is sub-divided as follow:
 
 The size of a SID range assigned to a YANG module should be at least 33% above the current number of YANG items. This headroom allows assignment within the same range of new YANG items introduced by subsequent revisions. A larger SID range size may be requested by the authors if this recommendation is considered insufficient. It is important to note that an extra SID range can be allocated to an existing YANG module if the initial range is exhausted.
 
-###  IANA "RFC SID range assignment" sub-registries
+###  IANA "RFC SID range assignment" sub-registry
 
 The name of this sub-registry is "RFC SID range assignment". This sub-registry corresponds to the SID entry point 1000, size 59000. Each entry in this sub-registry must include the SID range entry point, the SID range size, the YANG module name, the RFC number.
   
