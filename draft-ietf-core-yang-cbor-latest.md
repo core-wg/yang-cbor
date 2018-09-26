@@ -270,6 +270,8 @@ CBOR map keys implemented using SIDs MUST be encoded using a CBOR unsigned integ
 
 * In the case of an 'action input' or 'action output', deltas are equal to the SID of the current schema node minus the SID of the 'action'.
 
+* In the case of an 'notification content', deltas are equal to the SID of the current schema node minus the SID of the 'notification'.
+
 CBOR diagnostic notation:
 
 ~~~~ CBORdiag
