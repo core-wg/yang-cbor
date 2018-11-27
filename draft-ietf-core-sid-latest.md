@@ -31,12 +31,22 @@ author:
   ins: A. P. Pelov
   name: Alexander Pelov
   org: Acklio
-  street: 2bis rue de la Chataigneraie
+  street: 1137A avenue des Champs Blancs
   code: '35510'
   city: Cesson-Sevigne
   region: Bretagne
   country: France
   email: a@ackl.io
+- role: editor
+  ins: I. I. Petrov
+  name: Ivaylo Petrov
+  org: Acklio
+  street: 1137A avenue des Champs Blancs
+  code: '35510'
+  city: Cesson-Sevigne
+  region: Bretagne
+  country: France
+  email: ivaylo@ackl.io
 normative:
   RFC7950:
   RFC7951:
@@ -125,7 +135,7 @@ The following term is defined in {{RFC8040}}:
 
 This specification also makes use of the following terminology:
 
-* delta : Difference between the current SID and a reference SID. A reference SID is defined for each context for which deltas are used.
+* delta : Difference between the current SID and a reference SID. Each protocol that uses delta encoded SIDs MUST define how the reference SID is obtained.
 
 * item:  A schema node, an identity, a module, a submodule or a feature defined using the YANG modeling language.
 
@@ -137,9 +147,9 @@ This specification also makes use of the following terminology:
 
 YANG is a language designed to model data accessed using one of the compatible protocols (e.g. NETCONF {{RFC6241}}, RESCONF {{RFC8040}} and CoMI {{-comi}}). A YANG module defines hierarchies of data, including configuration, state data, RPCs, actions and notifications.
 
-YANG modules are not necessary created in the context of constrained applications. YANG modules can be implemented using NETCONF {{RFC6241}} or RESTCONF {{RFC8040}} without the need to assign SIDs.
+YANG modules are not necessarily created in the context of constrained applications. YANG modules can be implemented using NETCONF {{RFC6241}} or RESTCONF {{RFC8040}} without the need to assign SIDs.
 
-As needed, authors of YANG modules can assign SIDs to their YANG modules. This process starts by the registration of a SID range in a registry. This includes start SID number and range size. Once a SID range is registered, the owner of this range assigns sub-ranges to each YANG module in order to generate the associated “.sid” files. Generation of “.sid” files SHOULD be performed using an automated tool. Note that “.sid” files can only be generated for YANG modules and not for submodules.
+As needed, authors of YANG modules can assign SIDs to their YANG modules. In order to do that, they should first obtain a SID range from a registry. It could be "IANA SID Mega-Range Registry" {{iana-sid-mega-range-registry}} or another one, depending on the particular case. The minimal information required for this would be a start SID number and a range size, but might include additional details depending on the registry policy, which is outside the scope of this document. Once a SID range is registered, the owner can use it to generate “.sid” file/s for his YANG module/s. It is recommended to leave some unallocated SIDs following the allocated range in each “.sid” file in order to allow better evolution of the YANG module in the future. Generation of “.sid” files SHOULD be performed using an automated tool. Note that “.sid” files can only be generated for YANG modules and not for submodules.
 
 Registration of the .sid file associated to a YANG module is optional but recommended to promote interoperability between devices and to avoid duplicate allocation of SIDs to a single YANG module. Different registries might have different requirement for the registration and publication of the “.sid“ files.
 
@@ -202,7 +212,7 @@ The following activity diagram summarizes the creation of a YANG module and its 
 
 Each time a YANG module or one of its imported module(s) or included sub-module(s) is updated, the ".sid" file MAY need to be updated. This update SHOULD also be performed using an automated tool.
 
-If a new revision requires more SIDs than initially allocated, a new SID range MUST be added to the 'assignment-ranges'. These extra SIDs are used for subsequent assignements.
+If a new revision requires more SIDs than initially allocated, a new SID range MUST be added to the 'assignment-ranges' as defined in {{sid-file-format}}. These extra SIDs are used for subsequent assignements.
 
 The following activity diagram summarizes the update of a YANG module and its associated .sid file.
 
@@ -430,7 +440,7 @@ module ietf-sid-file {
 
 # Third party registries
 
-The way of organization and functioning of third party registries is outside the scope of the current document. The only limitations connected to those registries are listed in {{mega-range-registry}}.
+The organization and functioning of third party registries is outside the scope of the current document. The only limitations connected to those registries are listed in {{mega-range-registry}}.
 
 # Security Considerations
 
@@ -453,7 +463,7 @@ This document registers one YANG modules in the "YANG Module Names" registry {{R
 
 ## "SID mega-range" registry  {#mega-range-registry}
 
-The name of this registry is "SID mega-range". This registry is used to delegate the management of block of SIDs for third party's (e.g. SDO, registrar).
+The name of this registry is "SID mega-range". This registry is used to record the delegation of the management of a block of SIDs to third parties (e.g. SDO, registrar).
 
 Each entry in this registry must include:
 
@@ -542,7 +552,7 @@ The IANA policy for future additions to this registry is "First Come First Serve
 
 # Acknowledgments
 
-The authors would like to thank Andy Bierman, Carsten Bormann, Abhinav Somaraju, Laurent Toutain and Randy Turner for their help during the development of this document and their useful comments during the review process.
+The authors would like to thank Andy Bierman, Carsten Bormann, Abhinav Somaraju, Laurent Toutain, Randy Turner and Peter van der Stok for their help during the development of this document and their useful comments during the review process.
 
 --- back
 
