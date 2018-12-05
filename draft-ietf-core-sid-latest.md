@@ -149,7 +149,7 @@ YANG is a language designed to model data accessed using one of the compatible p
 
 YANG modules are not necessarily created in the context of constrained applications. YANG modules can be implemented using NETCONF {{RFC6241}} or RESTCONF {{RFC8040}} without the need to assign SIDs.
 
-As needed, authors of YANG modules can assign SIDs to their YANG modules. In order to do that, they should first obtain a SID range from a registry. It could be "IANA SID Mega-Range Registry" {{iana-sid-mega-range-registry}} or another one, depending on the particular case. The minimal information required for this would be a start SID number and a range size, but might include additional details depending on the registry policy, which is outside the scope of this document. Once a SID range is registered, the owner can use it to generate “.sid” file/s for his YANG module/s. It is recommended to leave some unallocated SIDs following the allocated range in each “.sid” file in order to allow better evolution of the YANG module in the future. Generation of “.sid” files SHOULD be performed using an automated tool. Note that “.sid” files can only be generated for YANG modules and not for submodules.
+As needed, authors of YANG modules can assign SIDs to their YANG modules. In order to do that, they should first obtain a SID range from a registry. It could be "RFC SID range assignment" sub-registry as defined in Section {{rfc-sid-range-assignment}}, the "Specification SID range assignment" sub-registry as defined in Section {{specification-sid-range-assignment}} or another one, depending on the particular case. The minimal information required for this would be a start SID number and a range size, but might include additional details depending on the registry policy, which is outside the scope of this document. Once a SID range is registered, the owner can use it to generate “.sid” file/s for his YANG module/s. It is recommended to leave some unallocated SIDs following the allocated range in each “.sid” file in order to allow better evolution of the YANG module in the future. Generation of “.sid” files SHOULD be performed using an automated tool. Note that “.sid” files can only be generated for YANG modules and not for submodules.
 
 Registration of the .sid file associated to a YANG module is optional but recommended to promote interoperability between devices and to avoid duplicate allocation of SIDs to a single YANG module. Different registries might have different requirement for the registration and publication of the “.sid“ files.
 
@@ -212,7 +212,7 @@ The following activity diagram summarizes the creation of a YANG module and its 
 
 Each time a YANG module or one of its imported module(s) or included sub-module(s) is updated, the ".sid" file MAY need to be updated. This update SHOULD also be performed using an automated tool.
 
-If a new revision requires more SIDs than initially allocated, a new SID range MUST be added to the 'assignment-ranges' as defined in {{sid-file-format}}. These extra SIDs are used for subsequent assignements.
+If a new revision requires more SIDs than initially allocated, a new SID range MUST be added to the 'assignment-ranges' as defined in {{sid-file-format}}. These extra SIDs are used for subsequent assignments.
 
 The following activity diagram summarizes the update of a YANG module and its associated .sid file.
 
@@ -487,7 +487,7 @@ The IANA policies for future additions to this registry are "Hierarchical Alloca
 
 The first million SIDs assigned to IANA is sub-divided as follow:
 
-* The range of 0 to 999 is reserved for future extensions. The IANA policy for this range is "IETF review" {{RFC5226}}.
+* The range of 0 to 999 is reserved for future extensions. The IANA policy for this range is "IETF review" {{RFC5226}}. This range is reserved for a future uses and no sub-registries are currently defined for it.
 * The range of 1000 to 59,999 is reserved for YANG modules defined in RFCs. The IANA policy for future additions to this sub-registry is "RFC required" {{RFC5226}}. Allocation within this range requires publishing of the associated ".yang" and ".sid" files in the YANG module registry. The allocation within this range is done during IESG review.
 * The range of 60,000 to 99,999 is reserved for experimental YANG modules. This range MUST NOT be used in operational deployments since these SIDs are not globally unique which limit their interoperability. The IANA policy for this range is "Experimental use" {{RFC5226}}.
 * The range of 100,000 to 999,999 is reserved for standardized YANG modules. The IANA policy for future additions to this sub-registry is "Specification Required" {{RFC5226}}. Allocation within this range requires publishing of the associated ".yang" and ".sid" files in the YANG module registry.
@@ -502,7 +502,7 @@ The first million SIDs assigned to IANA is sub-divided as follow:
 
 The size of a SID range assigned to a YANG module should be at least 33% above the current number of YANG items. This headroom allows assignment within the same range of new YANG items introduced by subsequent revisions. A larger SID range size may be requested by the authors if this recommendation is considered insufficient. It is important to note that an extra SID range can be allocated to an existing YANG module if the initial range is exhausted.
 
-###  IANA "RFC SID range assignment" sub-registry
+###  IANA "RFC SID range assignment" sub-registry {#rfc-sid-range-assignment}
 
 The name of this sub-registry is "RFC SID range assignment". This sub-registry of "IANA SID Mega-Range Registry" {{iana-sid-mega-range-registry}} corresponds to the SID entry point 1000, size 59000. Each entry in this sub-registry must include:
 
@@ -530,6 +530,16 @@ Initial entries in this registry are as follows:
 // RFC Ed.: replace XXXX with RFC number assigned to this draft.
 
 For allocation, RFC publication of the module is required as per {{RFC5226}}. The YANG module must be registered in the "YANG module Name" registry according to the rules specified in section 14 of {{RFC6020}}.
+
+###  IANA "Specification SID range assignment" sub-registry {#specification-sid-range-assignment}
+
+The name of this sub-registry is "Specification SID range assignment". This sub-registry of "IANA SID Mega-Range Registry" {{iana-sid-mega-range-registry}} corresponds to the SID entry point 100000, size 900000. Each entry in this sub-registry must include:
+
+* The SID range entry point.
+* The SID range size.
+* The YANG module name.
+* The name of the standard organization
+* The specification identifier or URI
 
 ##  "YANG module assignment" registry {#module-registry}
 
