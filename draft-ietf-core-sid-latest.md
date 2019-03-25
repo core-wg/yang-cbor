@@ -87,21 +87,13 @@ Some of the items defined in YANG {{RFC7950}} require the use of a unique identi
 
 * YANG modules, submodules and features
 
-To minimize their size, SIDs are often represented as a difference between the current SID and a reference SID. Such difference is called "delta", shorthand for "delta-encoded SID".  Conversion from SIDs to deltas and back to SIDs is a stateless process. Each protocol implementing deltas must unambiguously define the reference SID for each YANG item.
+To minimize their size during trnasmissions, SIDs are often sent in "Delta-SID" form, e. g. as a difference between the current SID and a reference SID. Such difference is themselves called "delta", shorthand for "delta-encoded SID".  Conversion from SIDs to deltas and back to SIDs is a stateless process. Each protocol implementing deltas must unambiguously define the reference SID for each YANG item.
 
 SIDs are globally unique numbers, a registration system is used in order to guarantee their uniqueness. SIDs are registered in blocks called "SID ranges".
 
-Assignment of SIDs to YANG items can be automated, the recommended process to assign SIDs is as follows:
+Assignment of SIDs to YANG items can be automated. For more details how this could be achieved, please consult {{sid-auto-generation}}.
 
-1. A tool extracts the different items defined for a specific YANG module.
-
-2. The list of items is sorted in alphabetical order, 'namespace' in descending order, 'identifier' in ascending order. The 'namespace' and 'identifier' formats are described in the YANG module 'ietf-sid-file' defined in {{sid-file-format}}.
-
-3. SIDs are assigned sequentially from the entry point up to the size of the registered SID range. This approach is recommended to minimize the serialization overhead, especially when delta encoding is implemented.
-
-4. If the number of items exceeds the SID range(s) allocated to a YANG module, an extra range is added for subsequent assignments.
-
-SIDs are assigned permanently, items introduced by a new revision of a YANG module are added to the list of SIDs already assigned. This process can also be automated using the same method described above, only unassigned YÀNG items are processed at step #3.
+SIDs are assigned permanently, items introduced by a new revision of a YANG module are added to the list of SIDs already assigned.
 
 {{sid-lifecycle}} provides more details about the registration process of YANG modules and associated SIDs. To enable the implementation of this registry, {{sid-file-format}} defines a standard file format used to store and publish SIDs.
 
@@ -272,10 +264,6 @@ module ietf-sid-file {
     prefix yang;
   }
 
-  import ietf-comi {
-    prefix comi;
-  }
-
   organization
     "IETF Core Working Group";
 
@@ -309,6 +297,14 @@ module ietf-sid-file {
     }
     description
       "Represents a date in YYYY-MM-DD format.";
+  }
+
+  typedef sid {
+    type uint64;
+    description
+      "YANG Schema Item iDentifier";
+    reference
+      "[I-D.ietf-core-sid] YANG Schema Item iDentifier (SID)";
   }
 
   typedef schema-node-path {
@@ -354,7 +350,7 @@ module ietf-sid-file {
        'module-name' and 'module-revision'.";
 
     leaf entry-point {
-      type comi:sid;
+      type sid;
       mandatory true;
       description
         "Lowest SID available for assignment.";
@@ -427,7 +423,7 @@ module ietf-sid-file {
      }
 
     leaf sid {
-      type comi:sid;
+      type sid;
       mandatory true;
       description
         "SID assigned to the YANG item for this mapping entry.";
@@ -990,3 +986,17 @@ The following .sid file (ietf-system@2014-08-06.sid) have been generated using t
 ~~~~
 
 --- back
+
+# SID auto generation {#sid-auto-generation}
+
+Assignment of SIDs to YANG items can be automated, the recommended process to assign SIDs is as follows:
+
+1. A tool extracts the different items defined for a specific YANG module.
+
+2. The list of items is sorted in alphabetical order, 'namespace' in descending order, 'identifier' in ascending order. The 'namespace' and 'identifier' formats are described in the YANG module 'ietf-sid-file' defined in {{sid-file-format}}.
+
+3. SIDs are assigned sequentially from the entry point up to the size of the registered SID range. This approach is recommended to minimize the serialization overhead, especially when delta encoding is implemented.
+
+4. If the number of items exceeds the SID range(s) allocated to a YANG module, an extra range is added for subsequent assignments.
+
+Changes of SID files can also be automated using the same method described above, only unassigned YÀNG items are processed at step #3.
