@@ -284,7 +284,7 @@ A 'leaf' MUST be encoded accordingly to its datatype using one of the encoding r
 
 Collections such as containers, list instances, notification contents, rpc inputs, rpc outputs, action inputs and action outputs MUST be encoded using a CBOR map data item (major type 5). A map is comprised of pairs of data items, with each data item consisting of a key and a value. Each key within the CBOR map is set to a schema node identifier, each value is set to the value of this schema node instance according to the instance datatype.
 
-This specification supports two type of CBOR keys; SID as defined in {{sid}} and names as defined in {{RFC7951}}.
+This specification supports two type of CBOR keys; SID as defined in {{sid}} and names as defined in {{name}}.
 
 The following examples shows the encoding of a 'system-state' container instance using SIDs or names.
 
@@ -577,24 +577,26 @@ This example assumes that the Media Type used to carry this container consists o
 CBOR diagnostic notation:
 
 ~~~~ CBORdiag
-[
-  {
-    "ietf-system:name" : "NRC TIC server",
-    "ietf-system:udp" : {
-      "address" : "tic.nrc.ca",
-      "port" : 123
+{
+  "ietf-system:server" : [
+    {
+      "name" : "NRC TIC server",
+      "udp" : {
+        "address" : "tic.nrc.ca",
+        "port" : 123
+      },
+      "association-type" : 0,
+      "iburst" : false,
+      "prefer" : true
     },
-    "ietf-system:association-type" : 0,
-    "ietf-system:iburst" : false,
-    "ietf-system:prefer" : true
-  },
-  {
-    "ietf-system:name" : "NRC TAC server",
-    "ietf-system:udp" : {
-      "address" : "tac.nrc.ca"
+    {
+      "name" : "NRC TAC server",
+      "udp" : {
+        "address" : "tac.nrc.ca"
+      }
     }
-  }
-]
+  ]
+}
 ~~~~
 
 CBOR encoding:
@@ -1424,7 +1426,7 @@ These tags are added to the Tags Registry as defined in section 7.2 of {{RFC7049
 
 | Tag | Data Item           | Semantics                         | Reference |
 |-----|---------------------+-----------------------------------+-----------|
-| xx  | SID                 | YANG Schema Item iDentifier (SID) | RFC XXXX  |
+| xx  | SID                 | YANG Schema Item iDentifier       | RFC XXXX  |
 | xx  | bits                | YANG bits datatype                | RFC XXXX  |
 | xx  | enumeration         | YANG enumeration datatype         | RFC XXXX  |
 | xx  | identityref         | YANG identityref datatype         | RFC XXXX  |
