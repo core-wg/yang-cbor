@@ -1,7 +1,7 @@
 ﻿---
 stand_alone: true
 ipr: trust200902
-docname: draft-ietf-core-yang-cbor-07
+docname: draft-ietf-core-yang-cbor-08
 title: CBOR Encoding of Data Modeled with YANG
 area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
@@ -135,14 +135,6 @@ The following terms are defined in {{RFC7950}}:
 
 * submodule
 
-The following terms are defined in {{RFC7951}}:
-
-* member name
-
-* name of an identity
-
-* namespace-qualified
-
 The following terms are defined in {{RFC8040}}:
 
 * yang-data (YANG extension)
@@ -161,25 +153,19 @@ This specification also makes use of the following terminology:
 
 * YANG Schema Item iDentifier (SID): Unsigned integer used to identify different YANG items.
 
-## YANG Schema Item iDentifier (SID) {#sid}
+# Properties of the CBOR Encoding
 
-Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier.  In both NETCONF {{RFC6241}} and RESTCONF {{RFC8040}}, these identifiers are implemented using names.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called YANG Schema Item iDentifier (SID), is encoded using an unsigned integer. The following items are identified using SIDs:
+This document defines CBOR encoding rules for YANG schema trees and their subtrees.
 
-* identities
+A collection such as container, list instance, notification, RPC input, RPC output, action input and action output is serialized using a CBOR map in which each child schema node is encoded using a key and a value. This specification supports two type of CBOR keys; YANG Schema Item iDentifier (SID) as defined in {{sid}} and names as defined in {{name}}. Each of these key types is encoded using a specific CBOR type which allows their interpretation during the deserialization process. Protocols or mechanisms implementing this specification can mandate the use of a specific key type.
 
-* data nodes
+In order to minimize the size of the encoded data, the proposed mapping avoids any unnecessary meta-information beyond those natively supported by CBOR. For instance, CBOR tags are used solely in the case of anyxml schema nodes and the union datatype to distinguish explicitly the use of different YANG datatypes encoded using the same CBOR major type.
 
-* RPCs and associated input(s) and output(s)
+Unless specified otherwise by the protocol or mechanism implementing this specification, the infinite lengths encoding as defined in {{RFC7049}} section 2.2 SHALL be supported by CBOR decoders.
 
-* actions and associated input(s) and output(s)
+Data nodes implemented using a CBOR array, map, byte string, and text string can be instantiated but empty. In this case, they are encoded with a length of zero.
 
-* notifications and associated information
-
-* YANG modules, submodules and features
-
-To minimize its size, in certain positions, SIDs are represented using a (signed) delta from a reference SID and the current SID. Conversion from SIDs to deltas and back to SIDs are stateless processes solely based on the data serialized or deserialized.
-
-Mechanisms and processes used to assign SIDs to YANG items and to guarantee their uniqueness is outside the scope of the present specification. If SIDs are to be used, the present specification is used in conjunction with a specification defining this management. One example for such a specification is under development as {{-core-sid}}.
+Application payloads carrying a value serialized using the rules defined by this specification (e.g. CoAP Content-Format) SHOULD include the identifier (e.g. SID, namespace qualified name, instance-identifier) of this value. When SIDs are used as identifiers, the reference SID SHALL be included in the payload to allow stateless conversion of delta values to SIDs. Formats of these application payloads are not defined by the current specification.
 
 ## CBOR diagnostic notation
 
@@ -205,19 +191,85 @@ The following extensions to the CBOR diagnostic notation are supported:
 
 * Deltas are visualized as numbers preceded by a '+' or '–' sign. The use of the '+' sign for positive deltas represents an extension to the CBOR diagnostic notation as defined by {{RFC7049}} section 6.
 
-# Properties of the CBOR Encoding
+## YANG Schema Item iDentifier (SID) {#sid}
 
-This document defines CBOR encoding rules for YANG schema trees and their subtrees.
+Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier.  In both NETCONF {{RFC6241}} and RESTCONF {{RFC8040}}, these identifiers are implemented using strings.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called YANG Schema Item iDentifier (SID), is an unsigned integer. The following items are identified using SIDs:
 
-A collection such as container, list instance, notification, RPC input, RPC output, action input and action output is serialized using a CBOR map in which each child schema node is encoded using a key and a value. This specification supports two type of CBOR keys; YANG Schema Item iDentifier (SID) as defined in {{sid}} and member names as defined in {{RFC7951}}. Each of these key types is encoded using a specific CBOR type which allows their interpretation during the deserialization process. Protocols or mechanisms implementing this specification can mandate the use of a specific key type.
+* identities
 
-In order to minimize the size of the encoded data, the proposed mapping avoids any unnecessary meta-information beyond those natively supported by CBOR. For instance, CBOR tags are used solely in the case of anyxml schema nodes and the union datatype to distinguish explicitly the use of different YANG datatypes encoded using the same CBOR major type.
+* data nodes
 
-Unless specified otherwise by the protocol or mechanism implementing this specification, the infinite lengths encoding as defined in {{RFC7049}} section 2.2 SHALL be supported by CBOR decoders.
+* RPCs and associated input(s) and output(s)
 
-Data nodes implemented using a CBOR array, map, byte string, and text string can be instantiated but empty. In this case, they are encoded with a length of zero.
+* actions and associated input(s) and output(s)
 
-Application payloads carrying a value serialized using the rules defined by this specification (e.g. CoAP Content-Format) SHOULD include the identifier (e.g. SID, namespace-qualified member name, instance-identifier) of this value. When SIDs are used as identifiers, the reference SID SHALL be included in the payload to allow stateless conversion of delta values to SIDs. Formats of these application payloads are not defined by the current specification and are not shown in the examples.
+* notifications and associated information
+
+* YANG modules, submodules and features
+
+To minimize its size, in certain positions, SIDs are represented using a (signed) delta from a reference SID and the current SID. Conversion from SIDs to deltas and back to SIDs are stateless processes solely based on the data serialized or deserialized.
+
+Mechanisms and processes used to assign SIDs to YANG items and to guarantee their uniqueness is outside the scope of the present specification. If SIDs are to be used, the present specification is used in conjunction with a specification defining this management. One example for such a specification is under development as {{-core-sid}}.
+
+## Name {#name}
+
+This specification also supports the encoding of YANG item identifiers as string, similar as those used by the JSON Encoding of Data Modeled with YANG [RFC7951]. This approach can be used to avoid the management overhead associated to SIDs allocation. The main drawback is the significant increase is size of the encoded data.
+
+YANG items identifiers implemented using names MUST be in one of the following forms:
+
+* simple - the identifier of the YANG item (i.e. schema node or identity).
+
+* namespace qualified - the identifier of the YANG item is prefixed with the name of the module in which this item is defined, separated by the colon character (":").
+
+The name of a module determines the namespace of all YANG items defined in that module. If an item is defined in a submodule, then the namespace qualified name uses the name of the main module to which the submodule belongs.
+
+ABNF syntax [RFC5234] of a name is shown in {{namesyntax}}, where the production for "identifier" is defined in Section 14 of [RFC7950].
+
+~~~~
+name = [identifier ":"] identifier
+~~~~
+{: #namesyntax title='ABNF Production for a simple or namespace qualified name' artwork-align="center"}
+
+A namespace qualified name MUST be used for all members of a top-level CBOR map and then also whenever the namespaces of the data node and its parent node are different. In all other cases, the simple form of the name SHOULD be used.
+
+Definition example:
+
+~~~~ yang
+module example-foomod {
+  container top {
+    leaf foo {
+      type uint8;
+    }
+  }
+}
+
+module example-barmod {
+  import example-foomod {
+    prefix "foomod";
+  }
+  augment "/foomod:top" {
+    leaf bar {
+      type boolean;
+    }
+  }
+}
+~~~~
+
+A valid CBOR encoding of the 'top' container is as follow. 
+
+CBOR diagnostic notation:
+
+~~~~ CBORdiag
+{
+  "example-foomod:top": {
+    "foo": 54,
+    "example-barmod:bar": true
+  }
+}
+~~~~
+
+Both the 'top' container and the 'bar' leaf defined in a different YANG module as its parent container are encoded as namespace qualified names. The 'foo' leaf defined in the same YANG module as its parent container is encoded as simple name.
+
 
 # Encoding of YANG Schema Node Instances   {#instance-encoding}
 
@@ -232,9 +284,9 @@ A 'leaf' MUST be encoded accordingly to its datatype using one of the encoding r
 
 Collections such as containers, list instances, notification contents, rpc inputs, rpc outputs, action inputs and action outputs MUST be encoded using a CBOR map data item (major type 5). A map is comprised of pairs of data items, with each data item consisting of a key and a value. Each key within the CBOR map is set to a schema node identifier, each value is set to the value of this schema node instance according to the instance datatype.
 
-This specification supports two type of CBOR keys; SID as defined in {{sid}} and member names as defined in {{RFC7951}}.
+This specification supports two type of CBOR keys; SID as defined in {{sid}} and names as defined in {{RFC7951}}.
 
-The following examples shows the encoding of a 'system-state' container instance using SIDs or member names.
+The following examples shows the encoding of a 'system-state' container instance using SIDs or names.
 
 Definition example from {{RFC7317}}:
 
@@ -262,9 +314,15 @@ container system-state {
 
 ### SIDs as keys {#container-with-sid}
 
-CBOR map keys implemented using SIDs MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR negative integer (major type 1), depending on the actual delta value. Delta values are computed as follows:
+CBOR map keys implemented using SIDs MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR negative integer (major type 1), depending on the actual delta or to a SID preceded by the CBOR tag 99.
+
+// RFC Ed.: replace 99 by the allocated CBOR tag.
+
+Delta values are computed as follows:
 
 * In the case of a 'container', deltas are equal to the SID of the current schema node minus the SID of the parent 'container'.
+
+* In the case of a 'list', deltas are equal to the SID of the current schema node minus the SID of the parent 'list'.
 
 * In the case of an 'rpc input' or 'rcp output', deltas are equal to the SID of the current schema node minus the SID of the 'rpc'.
 
@@ -272,13 +330,17 @@ CBOR map keys implemented using SIDs MUST be encoded using a CBOR unsigned integ
 
 * In the case of an 'notification content', deltas are equal to the SID of the current schema node minus the SID of the 'notification'.
 
+This example assumes that the Media Type used to carry this container consists of a CBOR map composed of the data node SID and data node encoding. This root CBOR map is not part of the present encoding rules and is not compulsory.
+
 CBOR diagnostic notation:
 
 ~~~~ CBORdiag
-{                                      / system-state (SID 1720) /
-  +1 : {                               / clock  (SID 1721) /
-    +2 : "2015-10-02T14:47:24Z-05:00", / current-datetime (SID 1723)/
-    +1 : "2015-09-15T09:12:58Z-05:00"  / boot-datetime (SID 1722) /
+{
+  1720 : {                              / system-state /
+    +1 : {                              / clock  (SID 1721) /
+      +2 : "2015-10-02T14:47:24Z-05:00",/ current-datetime (SID 1723) /
+      +1 : "2015-09-15T09:12:58Z-05:00" / boot-datetime (SID 1722) /
+    }
   }
 }
 ~~~~
@@ -287,19 +349,21 @@ CBOR encoding:
 
 ~~~~ CBORbytes
 A1                                      # map(1)
-   01                                   # unsigned(1)
-   A2                                   # map(2)
-      02                                # unsigned(2)
-      78 1A                             # text(26)
-      323031352d31302d30325431343a34373a32345a2d30353a3030
-      01                               # unsigned(1)
-      78 1a                            # text(26)
-      323031352d30392d31355430393a31323a35385a2d30353a3030
+   19 06B8                              # unsigned(1720)
+   A1                                   # map(1)
+      01                                # unsigned(1)
+      A2                                # map(2)
+         02                             # unsigned(2)
+         78 1A                          # text(26)
+            323031352D31302D30325431343A34373A32345A2D30353A3030
+         01                             # unsigned(1)
+         78 1A                          # text(26)
+            323031352D30392D31355430393A31323A35385A2D30353A3030
 ~~~~
 
-### Member names as keys {#container-with-name}
+### Names as keys {#container-with-name}
 
-CBOR map keys implemented using member names MUST be encoded using a CBOR text string data item (major type 3). A namespace-qualified member name MUST be used each time the namespace of a schema node and its parent differ. In all other cases, the simple form of the member name MUST be used. Names and namespaces are defined in {{RFC7951}} section 4.
+CBOR map keys implemented using names MUST be encoded using a CBOR text string data item (major type 3). A namespace-qualified name MUST be used each time the namespace of a schema node and its parent differ. In all other cases, the simple form of the name MUST be used. Names and namespaces are defined in {{RFC7951}} section 4.
 
 The following example shows the encoding of a 'system' container instance using names.
 
@@ -327,13 +391,17 @@ container system-state {
 }
 ~~~~
 
+This example assumes that the Media Type used to carry this container consists of a CBOR map composed of the data node namespace qualified name and data node encoding. This root CBOR map is not part of the present encoding rules and is not compulsory.
+
 CBOR diagnostic notation:
 
 ~~~~ CBORdiag
 {
-  "ietf-system:clock" : {
-    "current-datetime" : "2015-10-02T14:47:24Z-05:00",
-    "boot-datetime" : "2015-09-15T09:12:58Z-05:00"
+  "ietf-system:system-state" : {
+    "ietf-system:clock" : {
+      "current-datetime" : "2015-10-02T14:47:24Z-05:00",
+      "boot-datetime" : "2015-09-15T09:12:58Z-05:00"
+    }
   }
 }
 ~~~~
@@ -342,17 +410,20 @@ CBOR encoding:
 
 ~~~~ CBORbytes
 A1                                      # map(1)
-   71                                   # text(17)
-      696574662D73797374656D3A636C6F636B # "ietf-system:clock"
-   A2                                   # map(2)
-      70                                # text(16)
-         63757272656E742D6461746574696D65 # "current-datetime"
-      78 1A                             # text(26)
-         323031352D31302D30325431343A34373A32345A2D30353A3030
-      6D                                # text(13)
-         626F6F742D6461746574696D65     # "boot-datetime"
-      78 1A                             # text(26)
-         323031352D30392D31355430393A31323A35385A2D30353A3030
+   78 18                                # text(24)
+      696574662D73797374656D3A73797374656D2D7374617465 
+   A1                                   # map(1)
+      71                                # text(17)
+         696574662D73797374656D3A636C6F636B
+      A2                                # map(2)
+         70                             # text(16)
+            63757272656E742D6461746574696D65
+         78 1A                          # text(26)
+            323031352D31302D30325431343A34373A32345A2D30353A3030
+         6D                             # text(13)
+            626F6F742D6461746574696D65
+         78 1A                          # text(26)
+            323031352D30392D31355430393A31323A35385A2D30353A3030
 ~~~~
 
 ## The 'leaf-list' {#leaf-list}
@@ -389,7 +460,7 @@ A list or a subset of a list MUST be encoded using a CBOR array data item (major
 
 It is important to note that this encoding rule also apply to a single 'list' instance.
 
-The following examples show the encoding of a 'server' list using SIDs or member names.
+The following examples show the encoding of a 'server' list using SIDs or names.
 
 Definition example from {{RFC7317}}:
 
@@ -436,64 +507,72 @@ list server {
 
 The encoding rules of each 'list' instance are defined in {{container-with-sid}}. Deltas of list members are equal to the SID of the current schema node minus the SID of the 'list'.
 
+This example assumes that the Media Type used to carry this list consists of a CBOR map composed of the data node SID and data node encoding. This root CBOR map is not part of the present encoding rules and is not compulsory.
+
 CBOR diagnostic notation:
 
 ~~~~ CBORdiag
-[                                     / server (SID 1756) /
-  {
-    +3 : "NRC TIC server",            / name (SID 1759) /
-    +5 : {                            / udp (SID 1761) /
-      +1 : "tic.nrc.ca",              / address (SID 1762) /
-      +2 : 123                        / port (SID 1763) /
+{
+  1756 : [                      / server (SID 1756) /
+    {
+      +3 : "NRC TIC server",    / name (SID 1759) /
+      +5 : {                    / udp (SID 1761) /
+        +1 : "tic.nrc.ca",      / address (SID 1762) /
+        +2 : 123                / port (SID 1763) /
+      },
+      +1 : 0,                   / association-type (SID 1757) /
+      +2 : false,               / iburst (SID 1758) /
+      +4 : true                 / prefer (SID 1760) /
     },
-    +1 : 0,                           / association-type (SID 1757) /
-    +2 : false,                       / iburst (SID 1758) /
-    +4 : true                         / prefer (SID 1760) /
-  },
-  {
-    +3 : "NRC TAC server",            / name (SID 1759) /
-    +5 : {                            / udp (SID 1761) /
-      +1 : "tac.nrc.ca"               / address (SID 1762) /
+    {
+      +3 : "NRC TAC server",    / name (SID 1759) /
+      +5 : {                    / udp (SID 1761) /
+        +1 : "tac.nrc.ca"       / address (SID 1762) /
+      }
     }
-  }
-]
+  ]
+}
 ~~~~
 
 CBOR encoding:
 
 ~~~~ CBORbytes
-82                                    # array(2)
-   A5                                 # map(5)
-      03                              # unsigned(3)
-      6E                              # text(14)
-         4E52432054494320736572766572 # "NRC TIC server"
-      05                              # unsigned(5)
-      A2                              # map(2)
-         01                           # unsigned(1)
-         6A                           # text(10)
-            7469632E6E72632E6361      # "tic.nrc.ca"
-         02                           # unsigned(2)
-         18 7B                        # unsigned(123)
-      01                              # unsigned(1)
-      00                              # unsigned(0)
-      02                              # unsigned(2)
-      F4                              # primitive(20)
-      04                              # unsigned(4)
-      F5                              # primitive(21)
-   A2                                 # map(2)
-      03                              # unsigned(3)
-      6E                              # text(14)
-         4E52432054414320736572766572 # "NRC TAC server"
-      05                              # unsigned(5)
-      A1                              # map(1)
-         01                           # unsigned(1)
-         6A                           # text(10)
-            7461632E6E72632E6361      # "tac.nrc.ca"
+A1                                      # map(1)
+   19 06DC                              # unsigned(1756)
+   82                                   # array(2)
+      A5                                # map(5)
+         03                             # unsigned(3)
+         6E                             # text(14)
+            4E52432054494320736572766572 # "NRC TIC server"
+         05                             # unsigned(5)
+         A2                             # map(2)
+            01                          # unsigned(1)
+            6A                          # text(10)
+               7469632E6E72632E6361     # "tic.nrc.ca"
+            02                          # unsigned(2)
+            18 7B                       # unsigned(123)
+         01                             # unsigned(1)
+         00                             # unsigned(0)
+         02                             # unsigned(2)
+         F4                             # primitive(20)
+         04                             # unsigned(4)
+         F5                             # primitive(21)
+      A2                                # map(2)
+         03                             # unsigned(3)
+         6E                             # text(14)
+            4E52432054414320736572766572 # "NRC TAC server"
+         05                             # unsigned(5)
+         A1                             # map(1)
+            01                          # unsigned(1)
+            6A                          # text(10)
+               7461632E6E72632E6361     # "tac.nrc.ca"
 ~~~~
 
-### Member names as keys
+### Names as keys
 
 The encoding rules of each 'list' instance are defined in {{container-with-name}}.
+
+This example assumes that the Media Type used to carry this container consists of a CBOR map composed of the data node namespace qualified name and data node encoding. This root CBOR map is not part of the present encoding rules and is not compulsory.
 
 CBOR diagnostic notation:
 
@@ -521,50 +600,53 @@ CBOR diagnostic notation:
 CBOR encoding:
 
 ~~~~ CBORbytes
-82                                      # array(2)
-   A5                                   # map(5)
-      70                                # text(16)
-         696574662D73797374656D3A6E616D65 # "ietf-system:name"
-      6E                                # text(14)
-         4E52432054494320736572766572   # "NRC TIC server"
-      6F                                # text(15)
-         696574662D73797374656D3A756470 # "ietf-system:udp"
-      A2                                # map(2)
-         67                             # text(7)
-            61646472657373              # "address"
-         6A                             # text(10)
-            7469632E6E72632E6361        # "tic.nrc.ca"
+A1                                      # map(1)
+   72                                   # text(18)
+      696574662D73797374656D3A736572766572
+   82                                   # array(2)
+      A5                                # map(5)
          64                             # text(4)
-            706F7274                    # "port"
-         18 7B                          # unsigned(123)
-      78 1C                             # text(28)
-         696574662D73797374656D3A6173736F63696174696F6E2D74797065
-      00                                # unsigned(0)
-      72                                # text(18)
-         696574662D73797374656D3A696275727374 # "ietf-system:iburst"
-      F4                                # primitive(20)
-      72                                # text(18)
-         696574662D73797374656D3A707265666572 # "ietf-system:prefer"
-      F5                                # primitive(21)
-   A2                                   # map(2)
-      70                                # text(16)
-         696574662D73797374656D3A6E616D65 # "ietf-system:name"
-      6E                                # text(14)
-         4E52432054414320736572766572   # "NRC TAC server"
-      6F                                # text(15)
-         696574662D73797374656D3A756470 # "ietf-system:udp"
-      A1                                # map(1)
-         67                             # text(7)
-            61646472657373              # "address"
-         6A                             # text(10)
-            7461632E6E72632E6361        # "tac.nrc.ca"
+            6E616D65                    # "name"
+         6E                             # text(14)
+            4E52432054494320736572766572
+         63                             # text(3)
+            756470                      # "udp"
+         A2                             # map(2)
+            67                          # text(7)
+               61646472657373           # "address"
+            6A                          # text(10)
+               7469632E6E72632E6361     # "tic.nrc.ca"
+            64                          # text(4)
+               706F7274                 # "port"
+            18 7B                       # unsigned(123)
+         70                             # text(16)
+            6173736F63696174696F6E2D74797065
+         00                             # unsigned(0)
+         66                             # text(6)
+            696275727374                # "iburst"
+         F4                             # primitive(20)
+         66                             # text(6)
+            707265666572                # "prefer"
+         F5                             # primitive(21)
+      A2                                # map(2)
+         64                             # text(4)
+            6E616D65                    # "name"
+         6E                             # text(14)
+            4E52432054414320736572766572
+         63                             # text(3)
+            756470                      # "udp"
+         A1                             # map(1)
+            67                          # text(7)
+               61646472657373           # "address"
+            6A                          # text(10)
+               7461632E6E72632E6361     # "tac.nrc.ca"
 ~~~~
 
 ## The 'anydata'
 
 An anydata serves as a container for an arbitrary set of schema nodes that otherwise appear as normal YANG-modeled data. An anydata instance is encoded using the same rules as a container, i.e., CBOR map. The requirement that anydata content can be modeled by YANG implies the following:
 
-* CBOR map keys of any inner schema nodes MUST be set to valid deltas or member names.
+* CBOR map keys of any inner schema nodes MUST be set to valid deltas or names.
 
 * The CBOR array MUST contain either unique scalar values (as a leaf-list, see {{leaf-list}}), or maps (as a list, see {{list}}).
 
@@ -577,7 +659,7 @@ Definition example:
 ~~~~ yang
 module event-log {
   ...
-  anydata event;                     # SID 60123
+  anydata last-event;                # SID 60123
 ~~~~
 
 This example also assumes the assistance of the following notification.
@@ -597,26 +679,52 @@ module example-port {
 }
 ~~~~
 
+This example assumes that the Media Type used to carry this anydata consists of a CBOR map composed of the data node SID and data node encoding. This root CBOR map is not part of the present encoding rules and is not compulsory.
+
 CBOR diagnostic notation:
 
 ~~~~ CBORdiag
-{                          / event (SID=60123) /
-  +78 : "0/4/21",          / port-name (SID=60201) /
-  +79 : "Open pin 2"       / port-fault (SID=60202) /
+{
+  60123 : {                   / last-event (SID=60123) /
+    +77 : {                   / event (SID=60200) /
+      +1 : "0/4/21",          / port-name (SID=60201) /
+      +2 : "Open pin 2"       / port-fault (SID=60202) /
+    }
+  }
 }
 ~~~~
 
 CBOR encoding:
 
 ~~~~ CBORbytes
-A2                         # map(2)
-   18 4E                   # unsigned(78)
-   66                      # text(6)
-      302F342F3231         # "0/4/21"
-   18 4F                   # unsigned(79)
-   6A                      # text(10)
-      4F70656E2070696E2032 # "Open pin 2"
+A1                               # map(1)
+   19 EADB                       # unsigned(60123)
+   A1                            # map(1)
+      18 4D                      # unsigned(77)
+      A2                         # map(2)
+         18 4E                   # unsigned(78)
+         66                      # text(6)
+            302F342F3231         # "0/4/21"
+         18 4F                   # unsigned(79)
+         6A                      # text(10)
+            4F70656E2070696E2032 # "Open pin 2"
+
 ~~~~
+
+In some implementations, it might be simpler to use the absolute SID tag encoding for the anydata root element. The resulting encoding is as follow:
+
+~~~~ CBORdiag
+{
+  60123 : {                   / last-event (SID=60123) /
+    99(60200) : {             / event (SID=60123) /
+      +1 : "0/4/21",          / port-name (SID=60201) /
+      +2 : "Open pin 2"       / port-fault (SID=60202) /
+    }
+  }
+}
+~~~~
+
+// RFC Ed.: replace 99 by the allocated CBOR tag.
 
 ## The 'anyxml'
 
@@ -630,9 +738,26 @@ Definition example from {{RFC7951}}:
 anyxml bar;
 ~~~~
 
-CBOR diagnostic notation: [true, null, true]
+Note: This example assumes that the Media Type used to carry this anyxml consists of a CBOR map composed of the data node SID and data node encoding. This root CBOR map is not part of the present encoding rules and is not compulsory.
 
-CBOR encoding: 83 f5 f6 f5
+CBOR diagnostic notation:
+
+~~~~ CBORdiag
+{
+  60000 : [true, null, true]   / bar (SID 60000) /
+}
+~~~~
+
+CBOR encoding:
+
+~~~~ CBORbytes
+A1         # map(1)
+   19 EA60 # unsigned(60000)
+   83      # array(3)
+      F5   # primitive(21)
+      F6   # primitive(22)
+      F5   # primitive(21)
+~~~~
 
 # Encoding of YANG data templates
 
@@ -673,7 +798,9 @@ rc:yang-data yang-errors {
 
 ## SIDs as keys
 
-This example shows a serialization example of the yang-errors template using SIDs as CBOR map key. The reference SID of a YANG data template is zero, this imply that the CBOR map keys of the top level members of the template are set to SIDs. 
+YANG template encoded using SIDs are carried in a CBOR map containing a single item pair. The key of this item is set to the SID assigned to the YANG template container, the value is set the CBOR encoding of this container as defined in {{container}}.
+
+This example shows a serialization example of the yang-errors template as defined in {{-comi}} using SIDs as defined in {{sid}}.
 
 CBOR diagnostic notation:
 
@@ -708,9 +835,11 @@ A1                                      # map(1)
          4D6178696D756D206578636565646564
 ~~~~
 
-## Member names as keys
+## Names as keys
 
-This example shows a serialization example of the yang-errors template using member names as CBOR map key.
+YANG template encoded using names are carried in a CBOR map containing a single item pair. The key of this item is set to the namespace qualified name of the YANG template container, the value is set the CBOR encoding of this container as defined in {{name}}.
+
+This example shows a serialization example of the yang-errors template as defined in {{-comi}} using names as defined {{name}}.
 
 CBOR diagnostic notation:
 
@@ -1005,9 +1134,9 @@ CBOR encoding: 19 0758
 
 ### Name as identityref
 
-Alternatively, an identityref MAY be encoded using a name as defined in {{RFC7951}} section 6.8.  When names are used, identityref MUST be encoded using a CBOR text string data item (major type 3). If the identity is defined in different module than the leaf node containing the identityref value, the namespace-qualified form MUST be used. Otherwise, both the simple and namespace-qualified forms are permitted. Names and namespaces are defined in {{RFC7951}} section 4.
+Alternatively, an identityref MAY be encoded using a name as defined in {{name}}.  When names are used, identityref MUST be encoded using a CBOR text string data item (major type 3). If the identity is defined in different module than the leaf node containing the identityref data node, the namespace qualified form MUST be used. Otherwise, both the simple and namespace qualified forms are permitted. Names and namespaces are defined in {{name}}.
 
-The following example shows the encoding of the identity 'iana-if-type:ethernetCsmacd' using its name. This example is described in {{identityref-with-sid}}.
+The following example shows the encoding of the identity 'iana-if-type:ethernetCsmacd' using its namespace qualified name. This example is described in {{identityref-with-sid}}.
 
 CBOR diagnostic notation: "iana-if-type:ethernetCsmacd"
 
@@ -1090,7 +1219,7 @@ CBOR encoding: 74 323030313A6462383A6130623A313266303A3A31
 
 ## The 'instance-identifier' Type
 
-This specification supports two approaches for encoding an instance-identifier, one based on YANG Schema Item iDentifier (SID) as defined in {{sid}} and one based on names as defined in {{RFC7951}} section 6.11.
+This specification supports two approaches for encoding an instance-identifier, one based on YANG Schema Item iDentifier (SID) as defined in {{sid}} and one based on names as defined in {{name}}.
 
 ### SIDs as instance-identifier {#instance-identifier-with-sid}
 
@@ -1214,7 +1343,19 @@ CBOR encoding:
 
 ### Names as instance-identifier
 
-The use of names as instance-identifier is defined in {{RFC7951}} section 6.11. The resulting xpath MUST be encoded using a CBOR text string data item (major type 3).
+An "instance-identifier" value is encoded as a string that is analogical to the lexical representation in XML encoding; see Section 9.13.2 in {{RFC7950}}. However, the encoding of namespaces in instance-identifier values follows the rules stated in {{name}}, namely:
+
+* The leftmost (top-level) data node name is always in the namespace qualified form.
+
+* Any subsequent data node name is in the namespace qualified form if the node is defined in a module other than its parent node, and the simple form is used otherwise. This rule also holds for node names appearing in predicates.
+
+For example,
+
+/ietf-interfaces:interfaces/interface[name='eth0']/ietf-ip:ipv4/ip
+
+is a valid instance-identifier value because the data nodes "interfaces", "interface", and "name" are defined in the module "ietf-interfaces", whereas "ipv4" and "ip" are defined in "ietf-ip".
+
+The resulting xpath MUST be encoded using a CBOR text string data item (major type 3).
 
 **First example:**
 
@@ -1283,6 +1424,7 @@ These tags are added to the Tags Registry as defined in section 7.2 of {{RFC7049
 
 | Tag | Data Item           | Semantics                         | Reference |
 |-----|---------------------+-----------------------------------+-----------|
+| xx  | SID                 | YANG Schema Item iDentifier (SID) | RFC XXXX  |
 | xx  | bits                | YANG bits datatype                | RFC XXXX  |
 | xx  | enumeration         | YANG enumeration datatype         | RFC XXXX  |
 | xx  | identityref         | YANG identityref datatype         | RFC XXXX  |
