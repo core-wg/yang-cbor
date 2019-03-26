@@ -141,114 +141,16 @@ YANG is a language designed to model data accessed using one of the compatible p
 
 YANG modules are not necessarily created in the context of constrained applications. YANG modules can be implemented using NETCONF {{RFC6241}} or RESTCONF {{RFC8040}} without the need to assign SIDs.
 
-As needed, authors of YANG modules can assign SIDs to their YANG modules. In order to do that, they should first obtain a SID range from a registry. It could be "RFC SID range assignment" sub-registry as defined in Section {{rfc-sid-range-assignment}}, the "Specification SID range assignment" sub-registry as defined in Section {{specification-sid-range-assignment}} or another one, depending on the particular case. The minimal information required for this would be a start SID number and a range size, but might include additional details depending on the registry policy, which is outside the scope of this document. Once a SID range is registered, the owner can use it to generate “.sid” file/s for his YANG module/s. It is recommended to leave some unallocated SIDs following the allocated range in each “.sid” file in order to allow better evolution of the YANG module in the future. Generation of “.sid” files SHOULD be performed using an automated tool. Note that “.sid” files can only be generated for YANG modules and not for submodules.
+As needed, authors of YANG modules can assign SIDs to their YANG modules. In order to do that, they should first obtain a SID range from a registry and use that to assign or generate SIDs to elements of their YANG module. For example how this could be achieved, please refer to {{sid-lifecycle-ex}}.
 
-Registration of the .sid file associated to a YANG module is optional but recommended to promote interoperability between devices and to avoid duplicate allocation of SIDs to a single YANG module. Different registries might have different requirement for the registration and publication of the “.sid“ files.
+Registration of the .sid file associated to a YANG module is optional but recommended to promote interoperability between devices and to avoid duplicate allocation of SIDs to a single YANG module. Different registries might have different requirement for the registration and publication of the “.sid“ files. For diagram of one of the possibilities, please refer to {{fig-sid-file-creation}}.
 
-The following activity diagram summarizes the creation of a YANG module and its associated .sid file.
-
-~~~~
-       +---------------+
-  O    | Creation of a |
- -|- ->| YANG module   |
- / \   +---------------+
-               |
-               V
-        /-------------\
-       / Standardized  \     yes
-       \ YANG module ? /-------------+
-        \-------------/              |
-               | no                  |
-               V                     V
-        /-------------\      +---------------+
-       / Constrained   \ yes | SID range     |
-   +-->\ application ? /---->| registration  |<----------+
-   |    \-------------/      +---------------+           |
-   |           | no                  |                   |
-   |           V                     V                   |
-   |   +---------------+     +---------------+           |
-   +---| YANG module   |     | SID sub-range |           |
-       | update        |     | assignment    |<----------+
-       +---------------+     +---------------+           |
-                                     |                   |
-                                     V                   |
-                             +---------------+    +-------------+
-                             | .sid file     |    | Rework YANG |
-                             | generation    |    |    model    |
-                             +---------------+    +-------------+
-                                     |                   ^
-                                     V                   |
-                                /----------\  yes        |
-                               /  Work in   \ -----------+
-                               \  progress  /
-                                \----------/
-                                     | no
-                                     V
-                               /-------------\       /-------------\
-                              /      RFC      \ no  /     Open      \ no
-                              \  publication? /---->\ specification?/---+
-                               \-------------/       \-------------/    |
-                                      | yes                 | yes       |
-                                      |     +---------------+           |
-                                      V     V                           V
-                              +---------------+                 +---------------+
-                              |     IANA      |                 | Third party   |
-                              | registration  |                 | registration  |
-                              +-------+-------+                 +-------+-------+
-                                      |                                 |
-                                      +---------------------------------+
-                                      V
-                                    [DONE]
-~~~~
-{: align="left"}
 
 Each time a YANG module or one of its imported module(s) or included sub-module(s) is updated, the ".sid" file MAY need to be updated. This update SHOULD also be performed using an automated tool.
 
 If a new revision requires more SIDs than initially allocated, a new SID range MUST be added to the 'assignment-ranges' as defined in {{sid-file-format}}. These extra SIDs are used for subsequent assignments.
 
-The following activity diagram summarizes the update of a YANG module and its associated .sid file.
-
-~~~~
-       +---------------+
-  O    | Update of the |
- -|- ->| YANG module   |
- / \   | or include(s) |
-       | or import(s)  |
-       +---------------+
-               |
-               V
-           /-------------\
-          /  New items    \ yes
-          \  created  ?   /------+
-           \-------------/       |
-                  | no           V
-                  |       /-------------\      +----------------+
-                  |      /  SID range    \ yes | Extra sub-range|
-                  |      \  exhausted ?  /---->| assignment     |
-                  |       \-------------/      +----------------+
-                  |              | no                  |
-                  |              +---------------------+
-                  |              |
-                  |              V
-                  |      +---------------+
-                  |      | .sid file     |
-                  |      | update based  |
-                  |      | on previous   |
-                  |      | .sid file     |
-                  |      +---------------+
-                  |              |
-                  |              V
-                  |       /-------------\      +---------------+
-                  |      /  Publicly     \ yes | YANG module   |
-                  |      \  available ?  /---->| registration  |
-                  |       \-------------/      +---------------+
-                  |              | no                  |
-                  +--------------+---------------------+
-                                 |
-                               [DONE]
-
-~~~~
-{: align="left"}
+Activity diagram {{fig-sid-file-update}} summarizes the update of a YANG module and its associated .sid file.
 
 # ".sid" file format  {#sid-file-format}
 
@@ -433,10 +335,6 @@ module ietf-sid-file {
 <CODE ENDS>
 ~~~~
 {: align="left"}
-
-# Third party registries
-
-The organization and functioning of third party registries is outside the scope of the current document. The only limitations connected to those registries are listed in {{mega-range-registry}}.
 
 # Security Considerations
 
@@ -985,8 +883,6 @@ The following .sid file (ietf-system@2014-08-06.sid) have been generated using t
 }
 ~~~~
 
---- back
-
 # SID auto generation {#sid-auto-generation}
 
 Assignment of SIDs to YANG items can be automated, the recommended process to assign SIDs is as follows:
@@ -1000,3 +896,112 @@ Assignment of SIDs to YANG items can be automated, the recommended process to as
 4. If the number of items exceeds the SID range(s) allocated to a YANG module, an extra range is added for subsequent assignments.
 
 Changes of SID files can also be automated using the same method described above, only unassigned YÀNG items are processed at step #3.
+
+# ".sid" file lifecycle {#sid-lifecycle-ex}
+
+It could be "RFC SID range assignment" sub-registry as defined in Section {{rfc-sid-range-assignment}}, the "Specification SID range assignment" sub-registry as defined in Section {{specification-sid-range-assignment}} or another one, depending on the particular case. The minimal information required for this would be a start SID number and a range size, but might include additional details depending on the registry policy, which is outside the scope of this document. Once a SID range is registered, the owner can use it to generate “.sid” file/s for his YANG module/s. It is recommended to leave some unallocated SIDs following the allocated range in each “.sid” file in order to allow better evolution of the YANG module in the future. Generation of “.sid” files SHOULD be performed using an automated tool. Note that “.sid” files can only be generated for YANG modules and not for submodules.
+
+## SID File Creation
+
+The following activity diagram summarizes the creation of a YANG module and its associated .sid file.
+
+~~~~
+       +---------------+
+  O    | Creation of a |
+ -|- ->| YANG module   |
+ / \   +---------------+
+               |
+               V
+        /-------------\
+       / Standardized  \     yes
+       \ YANG module ? /-------------+
+        \-------------/              |
+               | no                  |
+               V                     V
+        /-------------\      +---------------+
+       / Constrained   \ yes | SID range     |
+   +-->\ application ? /---->| registration  |<----------+
+   |    \-------------/      +---------------+           |
+   |           | no                  |                   |
+   |           V                     V                   |
+   |   +---------------+     +---------------+           |
+   +---| YANG module   |     | SID sub-range |           |
+       | update        |     | assignment    |<----------+
+       +---------------+     +---------------+           |
+                                     |                   |
+                                     V                   |
+                             +---------------+    +-------------+
+                             | .sid file     |    | Rework YANG |
+                             | generation    |    |    model    |
+                             +---------------+    +-------------+
+                                     |                   ^
+                                     V                   |
+                                /----------\  yes        |
+                               /  Work in   \ -----------+
+                               \  progress  /
+                                \----------/
+                                     | no
+                                     V
+                               /-------------\       /-------------\
+                              /      RFC      \ no  /     Open      \ no
+                              \  publication? /---->\ specification?/---+
+                               \-------------/       \-------------/    |
+                                      | yes                 | yes       |
+                                      |     +---------------+           |
+                                      V     V                           V
+                              +---------------+                 +---------------+
+                              |     IANA      |                 | Third party   |
+                              | registration  |                 | registration  |
+                              +-------+-------+                 +-------+-------+
+                                      |                                 |
+                                      +---------------------------------+
+                                      V
+                                    [DONE]
+~~~~
+{: #fig-sid-file-creation title='SID Lifecycle' align="left"}
+
+## SID File Update
+
+The following Activity diagram summarizes the update of a YANG module and its associated .sid file.
+
+~~~~
+       +---------------+
+  O    | Update of the |
+ -|- ->| YANG module   |
+ / \   | or include(s) |
+       | or import(s)  |
+       +---------------+
+               |
+               V
+           /-------------\
+          /  New items    \ yes
+          \  created  ?   /------+
+           \-------------/       |
+                  | no           V
+                  |       /-------------\      +----------------+
+                  |      /  SID range    \ yes | Extra sub-range|
+                  |      \  exhausted ?  /---->| assignment     |
+                  |       \-------------/      +----------------+
+                  |              | no                  |
+                  |              +---------------------+
+                  |              |
+                  |              V
+                  |      +---------------+
+                  |      | .sid file     |
+                  |      | update based  |
+                  |      | on previous   |
+                  |      | .sid file     |
+                  |      +---------------+
+                  |              |
+                  |              V
+                  |       /-------------\      +---------------+
+                  |      /  Publicly     \ yes | YANG module   |
+                  |      \  available ?  /---->| registration  |
+                  |       \-------------/      +---------------+
+                  |              | no                  |
+                  +--------------+---------------------+
+                                 |
+                               [DONE]
+
+~~~~
+{: #fig-sid-file-update title="YANG and SID file update" align="left"}
