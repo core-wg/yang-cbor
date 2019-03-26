@@ -52,8 +52,9 @@ normative:
   RFC7951:
   RFC2119:
   RFC7049:
+  RFC7120:
 informative:
-  RFC5226:
+  RFC8126:
   RFC6020:
   RFC6021:
   RFC6241:
@@ -379,7 +380,7 @@ Information connected to the Organization name that should not be publicly visib
 
 ### Allocation policy
 
-The IANA policies for future additions to this registry are "Hierarchical Allocation, Expert Review" {{RFC5226}}. Prior to a first allocation, the requesting organization must demonstrate a functional registry infrastructure. On subsequent allocation request(s), the organization must demonstrate the exhaustion of the prior range. These conditions need to be asserted by the assigned expert(s).
+The IANA policies for future additions to this registry are "Hierarchical Allocation, Expert Review" {{RFC8126}}. Prior to a first allocation, the requesting organization must demonstrate a functional registry infrastructure. On subsequent allocation request(s), the organization must demonstrate the exhaustion of the prior range. These conditions need to be asserted by the assigned expert(s).
 
 ### Initial contents of the Registry
 
@@ -396,7 +397,6 @@ The initial entry in this registry is allocated to IANA:
 
 Each entry in this registry must include:
 
-
 * The SID range entry point.
 * The SID range size.
 * The YANG module name.
@@ -406,10 +406,10 @@ Each entry in this registry must include:
 
 The first million SIDs assigned to IANA is sub-divided as follow:
 
-* The range of 0 to 999 (size 1000) is "Reserved" as defined in {{RFC5226}}.
-* The range of 1000 to 59,999 (size 59,000) is reserved for YANG modules defined in RFCs. The IANA policy for future additions to this sub-registry is "RFC required" {{RFC5226}}.
-* The range of 60,000 to 99,999 (size 40,000)is reserved for experimental YANG modules. This range MUST NOT be used in operational deployments since these SIDs are not globally unique which limit their interoperability. The IANA policy for this range is "Experimental use" {{RFC5226}}.
-* The range of 100,000 to 999,999 (size 900,000) is "Reserved" as defined in {{RFC5226}}.
+* The range of 0 to 999 (size 1000) is "Reserved" as defined in {{RFC8126}}.
+* The range of 1000 to 59,999 (size 59,000) is reserved for YANG modules defined in RFCs. The IANA policy for future additions to this sub-registry is "RFC required" {{RFC8126}}. Early allocation is possible in compliance with {{RFC7120}}.
+* The range of 60,000 to 99,999 (size 40,000)is reserved for experimental YANG modules. This range MUST NOT be used in operational deployments since these SIDs are not globally unique which limit their interoperability. The IANA policy for this range is "Experimental use" {{RFC8126}}.
+* The range of 100,000 to 999,999 (size 900,000) is "Reserved" as defined in {{RFC8126}}.
 
 | Entry Point   | Size       | IANA policy                       |
 |---------------+------------+-----------------------------------|
@@ -441,7 +441,7 @@ Initial entries in this registry are as follows:
 
 // RFC Ed.: replace XXXX with RFC number assigned to this draft.
 
-??? For allocation, RFC publication of the module is required as per {{RFC5226}}. The YANG module must be registered in the "YANG module Name" registry according to the rules specified in section 14 of {{RFC6020}}.
+??? For allocation, RFC publication of the module is required as per {{RFC8126}}. The YANG module must be registered in the "YANG module Name" registry according to the rules specified in section 14 of {{RFC6020}}.
 
 # Acknowledgments
 
