@@ -31,7 +31,7 @@ author:
   ins: A. P. Pelov
   name: Alexander Pelov
   org: Acklio
-  street: 2bis rue de la Chataigneraie
+  street: 1137A avenue des Champs Blancs
   code: '35510'
   city: Cesson-Sevigne
   region: Bretagne
@@ -63,12 +63,22 @@ author:
 - ins: A. M.  Minaburo
   name: Ana Minaburo
   org: Acklio
-  street: 2bis rue de la châtaigneraie
+  street: 1137A avenue des Champs Blancs
   code: '35510'
   city: Cesson-Sévigné
   region: Bretagne
   country: France
   email: ana@ackl.io
+- role: editor
+  ins: I. I. Petrov
+  name: Ivaylo Petrov
+  org: Acklio
+  street: 1137A avenue des Champs Blancs
+  code: '35510'
+  city: Cesson-Sevigne
+  region: Bretagne
+  country: France
+  email: ivaylo@ackl.io
 normative:
   RFC7950:
   RFC2119:
