@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-ietf-core-sid-05
+docname: draft-ietf-core-sid-06
 title: YANG Schema Item iDentifier (SID)
 area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
@@ -441,7 +441,7 @@ Each entry in this registry must include:
 * The SID range entry point.
 * The SID range size.
 * The YANG module name.
-* The RFC number.
+* Document reference.
 
 ### Allocation policy {#ietf-iana-sid-range-allocation-policy}
 
@@ -473,7 +473,7 @@ The first million SIDs assigned to IANA is sub-divided as follows:
 
 Initial entries in this registry are as follows:
 
-| Entry Point | Size | Module name      | RFC number             |
+| Entry Point | Size | Module name      | Document reference     |
 |-------------+------+------------------+------------------------|
 | 1000        | 100  | ietf-comi        | {{-comi}}              |
 | 1100        |  50  | ietf-yang-types  | {{RFC6021}}            |
