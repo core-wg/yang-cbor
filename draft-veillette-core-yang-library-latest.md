@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-veillette-core-yang-library-03
+docname: draft-veillette-core-yang-library-04
 title: Constrained YANG Module Library
 area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
@@ -17,7 +17,7 @@ pi:
   subcompact: 'no'
 author:
 - role: editor
-  ins: M. V. Veillette
+  ins: M. Veillette
   name: Michel Veillette
   org: Trilliant Networks Inc.
   street: 610 Rue du Luxembourg
@@ -25,22 +25,31 @@ author:
   city: Granby
   region: Quebec
   country: Canada
-  phone: "+14503750556"
   email: michel.veillette@trilliantinc.com
+- role: editor
+  ins: I. Petrov
+  name: Ivaylo Petrov
+  org: Acklio
+  street: 1137A avenue des Champs Blancs
+  code: 35510
+  city: Cesson-Sevigne
+  region: Bretagne
+  country: France
+  email: ivaylo@ackl.io
+  
 normative:
   RFC2119:
   RFC7228:
   RFC7950:
   RFC8340:
   RFC8342:
-  I-D.ietf-core-yang-cbor: core-yang-cbor
-  I-D.ietf-netconf-rfc7895bis: netconf-rfc7895bis
+  RFC8525:
 informative:
-  I-D.ietf-core-comi: comi
+  I-D.ietf-core-sid: core-sid
 
 --- abstract
 
-This document describes a constrained version of the YANG library that provides information about the YANG modules, datastores, and datastore schemas used by a constrained network management server (e.g., a CoMI server).
+This document describes a constrained version of the YANG library that provides information about the YANG modules, datastores, and datastore schemas used by a constrained network management server (e.g., a CORECONF server).
 
 --- middle
 
@@ -48,7 +57,7 @@ This document describes a constrained version of the YANG library that provides 
 
 There is a need for a standard mechanism to expose which YANG modules, datastores and datastore schemas are in use by a constrained network management server. This document defines the YANG module 'ietf-constrained-yang-library' that provides this information.
 
-YANG module 'ietf-constrained-yang-library' shares the same data model and objectives as 'ietf-yang-library', only datatypes and mandatory requirements have been updated to minimize its size to allow its implementation by Constrained Nodes and/or Constrained Networks as defined by {{RFC7228}}. To review the list of objectives and proposed data model, please refer to {{-netconf-rfc7895bis}} section 2 and 3.
+YANG module 'ietf-constrained-yang-library' shares the same data model and objectives as 'ietf-yang-library', only datatypes and mandatory requirements have been updated to minimize its size to allow its implementation by Constrained Nodes and/or Constrained Networks as defined by {{RFC7228}}. To review the list of objectives and proposed data model, please refer to {{RFC8525}} section 2 and 3.
 
 # Terminology and Notation
 
@@ -58,9 +67,9 @@ be interpreted as described in {{RFC2119}}.
 
 The following terms are defined in {{RFC7950}}: client, deviation, feature, module, submodule and server.
 
-The following term is defined in {{-core-yang-cbor}}: YANG Schema Item iDentifier (SID).
+The following term is defined in {{-core-sid}}: YANG Schema Item iDentifier (SID).
 
-The following terms are defined in {{-netconf-rfc7895bis}}: YANG library and YANG library checksum.
+The following terms are defined in {{RFC8525}}: YANG library and YANG library checksum.
 
 # Overview
 
@@ -78,13 +87,13 @@ The conceptual model of the YANG library is depicted in {{model}}.
 |  schema   |----------->|  set   |--------------->| submodules |
 +-----------+            +--------+                +------------+
 ~~~~
-{: #model title='Abstract CoMI architecture' artwork-align="left"}
+{: #model title='Conceptual model of the YANG library' artwork-align="left"}
 
 It's expected that most constrained network management servers have one datastore (e.g. a unified datastore). However, some servers may have multiples datastore as described by NMDA {{RFC8342}}. The YANG library data model supports both cases.
 
 In this model, every datastore has an associated datastore schema, which is the union of module sets, which is a collection of modules. Multiple datastores may refer to the same datastore schema and individual datastore schemas may share module sets.
 
-For each module, the YANG library provide:
+For each module, the YANG library provides:
 
 * the YANG module identifier (i.e. SID)
 
@@ -104,36 +113,36 @@ The tree diagram of YANG module ietf-constrained-yang-library is provided below.
 
 ~~~~
 module: ietf-constrained-yang-library
-    +--ro yang-library
-       +--ro module-set* [index]
-       |  +--ro index                 uint8
-       |  +--ro module* [identifier]
-       |  |  +--ro identifier    comi:sid
-       |  |  +--ro revision?     revision-identifier
-       |  |  +--ro namespace?    inet:uri
-       |  |  +--ro location*     inet:uri
-       |  |  +--ro submodule* [identifier]
-       |  |  |  +--ro identifier    comi:sid
-       |  |  |  +--ro revision?     revision-identifier
-       |  |  |  +--ro location*     inet:uri
-       |  |  +--ro feature*      comi:sid
-       |  |  +--ro deviation*    -> ../../module/identifier
-       |  +--ro import-only-module* [identifier revision]
-       |     +--ro identifier    comi:sid
-       |     +--ro revision      union
-       |     +--ro namespace     inet:uri
-       |     +--ro location*     inet:uri
-       |     +--ro submodule* [identifier]
-       |        +--ro identifier    comi:sid
-       |        +--ro revision?     revision-identifier
-       |        +--ro location*     inet:uri
-       +--ro schema* [index]
-       |  +--ro index         uint8
-       |  +--ro module-set*   -> ../../module-set/index
-       +--ro datastore* [identifier]
-       |  +--ro identifier    ds:datastore-ref
-       |  +--ro schema        -> ../../schema/index
-       +--ro checksum      binary
+  +--ro yang-library
+     +--ro module-set* [index]
+     |  +--ro index                 uint8
+     |  +--ro module* [identifier]
+     |  |  +--ro identifier    sid:sid
+     |  |  +--ro revision?     revision-identifier
+     |  |  +--ro namespace?    inet:uri
+     |  |  +--ro location*     inet:uri
+     |  |  +--ro submodule* [identifier]
+     |  |  |  +--ro identifier    sid:sid
+     |  |  |  +--ro revision?     revision-identifier
+     |  |  |  +--ro location*     inet:uri
+     |  |  +--ro feature*      sid:sid
+     |  |  +--ro deviation*    -> ../../module/identifier
+     |  +--ro import-only-module* [identifier revision]
+     |     +--ro identifier    sid:sid
+     |     +--ro revision      union
+     |     +--ro namespace?    inet:uri
+     |     +--ro location*     inet:uri
+     |     +--ro submodule* [identifier]
+     |        +--ro identifier    sid:sid
+     |        +--ro revision?     revision-identifier
+     |        +--ro location*     inet:uri
+     +--ro schema* [index]
+     |  +--ro index         uint8
+     |  +--ro module-set*   -> ../../module-set/index
+     +--ro datastore* [identifier]
+     |  +--ro identifier    ds:datastore-ref
+     |  +--ro schema        -> ../../schema/index
+     +--ro checksum      binary
 
   notifications:
     +---n yang-library-update
@@ -153,7 +162,7 @@ The list of changes between the reference data model 'ietf-yang-library' and its
 
 * 'revision' fields are implemented using a 4 bytes binary string.
 
-* the mandatory requirement of the 'namespace' fields is removed, and implementation is not recommended. SIDs used by constrained devices and protocols doesn't require namespaces.
+* the mandatory requirement of the 'namespace' fields is removed, and implementation is not recommended. SIDs used by constrained devices and protocols don't require namespaces.
 
 * the implementation of the 'location' fields are not recommended, the use of the module SID as the handle to retrieve the associated YANG module is proposed instead.
 
@@ -163,17 +172,17 @@ RFC Ed.: update the date below with the date of RFC publication
 and remove this note.
    
 ~~~~
-<CODE BEGINS> file "ietf-constrained-yang-library@2018-01-20.yang"
+<CODE BEGINS> file "ietf-constrained-yang-library@2019-03-28.yang"
 module ietf-constrained-yang-library {
   yang-version 1.1;
   namespace "urn:ietf:params:xml:ns:yang:ietf-constrained-yang-library";
   prefix "yanglib";
 
-  // RFC Ed.: update CoMI reference.
+  // RFC Ed.: update ietf-core-sid reference.
     
-  import ietf-comi {
-    prefix comi;
-    reference "I-D.ietf-core-comi";
+  import ietf-sid-file {
+    prefix sid;
+    reference "I-D.ietf-core-sid";
   }
   import ietf-inet-types {
     prefix inet;
@@ -221,13 +230,20 @@ module ietf-constrained-yang-library {
 
   // RFC Ed.: update reference.
 
+  revision 2019-03-28 {
+    description
+      "Second revision.";
+    reference
+      "[I-D.veillette-core-yang-library]  Constrained YANG Module Library";
+  }
+
   revision 2018-09-21 {
     description
       "Initial revision.";
     reference
-      "I-D.veillette-core-yang-library";
+      "[I-D.veillette-core-yang-library]  Constrained YANG Module Library";
   }
-
+  
   /*
    * Typedefs
    */
@@ -251,7 +267,7 @@ module ietf-constrained-yang-library {
       "Parameters for identifying YANG modules and submodules.";
 
     leaf identifier {
-      type comi:sid;
+      type sid:sid;
       mandatory true;
       description
         "SID assigned to this module or submodule.";
@@ -289,7 +305,7 @@ module ietf-constrained-yang-library {
       "Parameters for describing the implementation of a module.";
 
     leaf-list feature {
-      type comi:sid;
+      type sid:sid;
       description
         "List of all YANG feature names from this module that are
          supported by the server, regardless whether they are defined
@@ -370,7 +386,7 @@ module ietf-constrained-yang-library {
          specify different revision-dates in the import statements.";
 
       leaf identifier {
-        type comi:sid;
+        type sid:sid;
         description
           "The YANG module name.";
       }
@@ -386,7 +402,6 @@ module ietf-constrained-yang-library {
       }
       leaf namespace {
         type inet:uri;
-        mandatory true;
         description
           "The XML namespace identifier for this module.
            This leaf is present in the model to keep the alignment 
@@ -549,13 +564,13 @@ reference:    RFC XXXX
 
 # Security Considerations
 
-This YANG module is designed to be accessed via the CoMI protocol {{-comi}}.  Some of the readable data nodes in this YANG module may be considered sensitive or vulnerable in some network environments.  It is thus important to control read access to these data nodes.
+Some of the readable data nodes in this YANG module may be considered sensitive or vulnerable in some network environments.  It is thus important to control read access to these data nodes.
 
-Specifically, the 'module' list may help an attacker to identify the server capabilities and server implementations with known bugs. Server vulnerabilities may be specific to particular modules, module revisions, module features, or even module deviations.  This information is included in each module entry.  For example, if a particular operation on a particular data node is known to cause a server to crash or significantly degrade device performance, then the module list information will help an attacker identify server implementations with such a defect, in order to launch a denial of service attack on the device.
+Specifically, the 'module' list may help an attacker to identify the server capabilities and server implementations with known bugs. Server vulnerabilities may be specific to particular modules, module revisions, module features, or even module deviations.  This information is included in each module entry.  For example, if a particular operation on a particular data node is known to cause a server to crash or significantly degrade device performance, then the module list information will help an attacker to identify server implementations with such a defect, in order to launch a denial of service attack on these devices.
 
 # Acknowledgments
 
-The YANG module defined by this memo have been derived from an already existing YANG module, ietf-yang-library {{-netconf-rfc7895bis}}, we will like to thanks to the authors of this YANG module. A special thank also to Andy Bierman for his initial recommendations for the creation of this YANG module.
+The YANG module defined by this memo have been derived from an already existing YANG module, ietf-yang-library {{RFC8525}}, we will like to thanks to the authors of this YANG module. A special thank also to Andy Bierman for his initial recommendations for the creation of this YANG module.
 
 --- back
 
