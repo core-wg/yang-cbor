@@ -1043,7 +1043,7 @@ CBOR diagnostic notation: h'06'
 
 CBOR encoding: 41 06
 
-To avoid overlap of 'bit' defined in different 'bits' statement, 'bits' defined in a Leafs of type 'union' MUST be encoded using a CBOR text string data item (major type 3) and MUST contain a space-separated sequence of names of 'bit' that are set. The encoding MUST be prefixed with the bits CBOR tag as specified in {{tag-registry}}.
+To avoid overlap of 'bit' defined in different 'bits' statements, 'bits' defined in a Leafs of type 'union' MUST be encoded using a CBOR text string data item (major type 3) and MUST contain a space-separated sequence of names of 'bit' that are set. The encoding MUST be prefixed with the bits CBOR tag as specified in {{tag-registry}}.
 
 The following example shows the encoding of an 'alarm-state' leaf instance defined using a union type with the 'under-repair' and 'critical' flags set.
 
