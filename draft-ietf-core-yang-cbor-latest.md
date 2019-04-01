@@ -1,7 +1,7 @@
 ﻿---
 stand_alone: true
 ipr: trust200902
-docname: draft-ietf-core-yang-cbor-08
+docname: draft-ietf-core-yang-cbor-09
 title: CBOR Encoding of Data Modeled with YANG
 area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
@@ -25,50 +25,26 @@ author:
   city: Granby
   region: Quebec
   country: Canada
-  phone: "+14503750556"
   email: michel.veillette@trilliantinc.com
 - role: editor
-  ins: A. P. Pelov
+  ins: I. P. Petrov
+  name: Ivaylo Petrov
+  org: Acklio 
+  street: 1137A avenue des Champs Blancs
+  code: '35510'
+  city: Cesson-Sevigne
+  region: Bretagne
+  country: France
+  email: ivaylo@ackl.io
+- ins: A. P. Pelov
   name: Alexander Pelov
   org: Acklio
-  street: 2bis rue de la Chataigneraie
+  street: 1137A avenue des Champs Blancs
   code: '35510'
   city: Cesson-Sevigne
   region: Bretagne
   country: France
   email: a@ackl.io
-- ins: A.  S. Somaraju
-  name: Abhinav Somaraju
-  org: Tridonic GmbH & Co KG
-  street: Farbergasse 15
-  code: '6850'
-  city: Dornbirn
-  region: Vorarlberg
-  country: Austria
-  phone: "+43664808926169"
-  email: abhinav.somaraju@tridonic.com
-- ins: R. T. Turner
-  name: Randy Turner
-  org: Landis+Gyr
-  street:
-  - 30000 Mill Creek Ave
-  - Suite 100
-  code: '30022'
-  city: Alpharetta
-  region: GA
-  country: US
-  phone: "++16782581292"
-  email: randy.turner@landisgyr.com
-  uri: http://www.landisgyr.com/
-- ins: A. M.  Minaburo
-  name: Ana Minaburo
-  org: Acklio
-  street: 2bis rue de la châtaigneraie
-  code: '35510'
-  city: Cesson-Sévigné
-  region: Bretagne
-  country: France
-  email: ana@ackl.io
 normative:
   RFC7950:
   RFC2119:
@@ -84,6 +60,7 @@ informative:
   RFC7277:
   RFC7317:
   RFC8040:
+  RFC8348:
 
 --- abstract
 
@@ -985,7 +962,7 @@ CBOR diagnostic notation: true
 
 CBOR encoding: F5
 
-## The 'enumeration' Type
+## The 'enumeration' Type {#enumeration}
 
 Leafs of type enumeration MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR negative integer (major type 1), depending on the actual value. Enumeration values are either explicitly assigned using the YANG statement 'value' or automatically assigned based on the algorithm defined in {{RFC7950}} section 9.6.4.2.
 
@@ -1011,7 +988,26 @@ CBOR diagnostic notation: 3
 
 CBOR encoding: 03
 
-## The 'bits' Type
+To avoid overlap of 'value' defined in different 'enumeration' statements, 'enumeration' defined in a Leafs of type 'union' MUST be encoded using a CBOR text string data item (major type 3) and MUST contain one of the names assigned by 'enum' statements in YANG. The encoding MUST be prefixed with the enumeration CBOR tag as specified in {{tag-registry}}.
+
+Definition example from {{RFC7950}}:
+
+~~~~ yang
+type union {
+  type int32;
+  type enumeration {
+    enum "unbounded";
+  }
+}
+~~~~
+
+CBOR diagnostic notation: 99("unbounded")
+
+CBOR encoding: D8 63 69 756E626F756E646564
+
+// RFC Ed.: update 99 and D8 63 with the enumerator CBOR tag allocated.
+   
+## The 'bits' Type {#bits}
 
 Leafs of type bits MUST be encoded using a CBOR byte string data item (major
 type 2). Bits position are either explicitly assigned using the YANG statement
@@ -1021,30 +1017,53 @@ Bits position 0 to 7 are assigned to the first byte within the byte
 string, bits 8 to 15 to the second byte, and subsequent bytes are assigned
 similarly. Within each byte, bits are assigned from least to most significant.
 
-The following example shows the encoding of a 'mybits' leaf instance with the 'disable-nagle' and '10-Mb-only' flags set.
+The following example shows the encoding of an 'alarm-state' leaf instance with the 'under-repair' and 'critical' flags set.
 
-Definition example from {{RFC7950}}:
+Definition example from {{RFC8348}}:
 
 ~~~~ yang
-leaf mybits {
+typedef alarm-state {
   type bits {
-    bit disable-nagle {
-      position 0;
-    }
-    bit auto-sense-speed {
-      position 1;
-    }
-    bit 10-Mb-only {
-      position 2;
-    }
+    bit unknown;
+    bit under-repair;
+    bit critical;
+    bit major;
+    bit minor;
+    bit warning;
+    bit indeterminate;
+  }
+}
+
+leaf alarm-state {
+  type alarm-state;
+}
+~~~~
+
+CBOR diagnostic notation: h'06'
+
+CBOR encoding: 41 06
+
+To avoid overlap of 'bit' defined in different 'bits' statement, 'bits' defined in a Leafs of type 'union' MUST be encoded using a CBOR text string data item (major type 3) and MUST contain a space-separated sequence of names of 'bit' that are set. The encoding MUST be prefixed with the bits CBOR tag as specified in {{tag-registry}}.
+
+The following example shows the encoding of an 'alarm-state' leaf instance defined using a union type with the 'under-repair' and 'critical' flags set.
+
+Definition example:
+
+~~~~ yang
+leaf alarm-state {
+  type type union {
+    type alarm-state;
+    type empty;
   }
 }
 ~~~~
 
-CBOR diagnostic notation: h'05'
+CBOR diagnostic notation: 99("under-repair critical")
 
-CBOR encoding: 41 05
+CBOR encoding: D8 63 75 756E6465722D72657061697220637269746963616C
 
+// RFC Ed.: update 99 and D8 63 with the bits CBOR tag allocated.
+  
 ## The 'binary' Type
 
 Leafs of type binary MUST be encoded using a CBOR byte string data item (major
@@ -1163,7 +1182,7 @@ CBOR diagnostic notation: null
 
 CBOR encoding: F6
 
-## The 'union' Type
+## The 'union' Type {#union}
 
 Leafs of type union MUST be encoded using the rules associated with one of the types listed.
 When used in a union, the following YANG datatypes are prefixed by CBOR tag to avoid confusion
@@ -1178,6 +1197,8 @@ between different YANG datatypes encoded using the same CBOR major type.
 * instance-identifier
 
 See {{tag-registry}} for the assigned value of these CBOR tags.
+
+As mentioned in {{enumeration}} and in {{bits}}, 'enumeration' and 'bits' are encoded as CBOR text string data item (major type 3) when defined within a 'union' type.
 
 The following example shows the encoding of an 'ip-address' leaf instance when set to "2001:db8:a0b:12f0::1".
 
