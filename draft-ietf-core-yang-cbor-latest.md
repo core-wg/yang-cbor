@@ -1050,10 +1050,12 @@ The following example shows the encoding of an 'alarm-state' leaf instance defin
 Definition example:
 
 ~~~~ yang
-leaf alarm-state {
-  type type union {
+leaf alarm-state-2 {
+  type union {
     type alarm-state;
-    type empty;
+    type bits {
+      bit extra-flag;
+    }
   }
 }
 ~~~~
