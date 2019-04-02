@@ -17,7 +17,7 @@ pi:
   subcompact: 'no'
 author:
 - role: editor
-  ins: M. V. Veillette
+  ins: M. Veillette
   name: Michel Veillette
   org: Trilliant Networks Inc.
   street: 610 Rue du Luxembourg
@@ -27,7 +27,7 @@ author:
   country: Canada
   email: michel.veillette@trilliantinc.com
 - role: editor
-  ins: I. P. Petrov
+  ins: I. Petrov
   name: Ivaylo Petrov
   org: Acklio 
   street: 1137A avenue des Champs Blancs
@@ -36,7 +36,7 @@ author:
   region: Bretagne
   country: France
   email: ivaylo@ackl.io
-- ins: A. P. Pelov
+- ins: A. Pelov
   name: Alexander Pelov
   org: Acklio
   street: 1137A avenue des Champs Blancs
