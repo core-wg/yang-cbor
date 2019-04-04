@@ -1447,16 +1447,13 @@ To minimize security risks, software on the receiving side SHOULD reject all mes
 This specification requires the assignment of CBOR tags for the following YANG datatypes.
 These tags are added to the Tags Registry as defined in section 7.2 of {{RFC7049}}.
 
-| Tag | Data Item         | Semantics                                             | Reference                   |
-|-----|-------------------+-------------------------------------------------------+-----------------------------|
-| 42  | unsigned integer  | YANG Schema Item iDentifier (sid); see Section 3.2.   | [draft-ietf-core-yang-cbor] |
-| 43  | byte string       | YANG bits datatype; see Section 6.7.                  | [draft-ietf-core-yang-cbor] |
-| 44  | unsigned integer  | YANG enumeration datatype; see Section 6.6.           | [draft-ietf-core-yang-cbor] |
-| 45  | unsigned integer  | YANG identityref datatype; see Section 6.10.          | [draft-ietf-core-yang-cbor] |
-|     | or text string    |                                                       |                             |
-| 46  | unsigned integer  | YANG instance-identifier  datatype; see Section 6.13. | [draft-ietf-core-yang-cbor] |
-|     | or text string    |                                                       |                             |
-|     | or array          |                                                       |                             |     
+| Tag | Data Item                                | Semantics                                            | Reference                   |
+|-----|------------------------------------------+------------------------------------------------------+-----------------------------|
+| 42  | unsigned integer                         | YANG Schema Item iDentifier (sid); see Section 3.2.  | [draft-ietf-core-yang-cbor] |
+| 43  | byte string                              | YANG bits datatype; see Section 6.7.                 | [draft-ietf-core-yang-cbor] |
+| 44  | unsigned integer                         | YANG enumeration datatype; see Section 6.6.          | [draft-ietf-core-yang-cbor] |
+| 45  | unsigned integer or text string          | YANG identityref datatype; see Section 6.10.         | [draft-ietf-core-yang-cbor] |
+| 46  | unsigned integer or text string or array | YANG instance-identifier  datatype; see Section 6.13.| [draft-ietf-core-yang-cbor] |
 {: align="left"}
 
 // RFC Ed.: replace [draft-ietf-core-yang-cbor] with RFC number and remove this note
