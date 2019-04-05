@@ -291,9 +291,7 @@ container system-state {
 
 ### SIDs as keys {#container-with-sid}
 
-CBOR map keys implemented using SIDs MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR negative integer (major type 1), depending on the actual delta or to a SID preceded by the CBOR tag 99.
-
-// RFC Ed.: replace 99 by the allocated CBOR tag.
+CBOR map keys implemented using SIDs MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR negative integer (major type 1), depending on the actual delta or to a SID preceded by the CBOR tag 42.
 
 Delta values are computed as follows:
 
@@ -695,15 +693,13 @@ In some implementations, it might be simpler to use the absolute SID tag encodin
 ~~~~ CBORdiag
 {
   60123 : {                   / last-event (SID=60123) /
-    99(60200) : {             / event (SID=60123) /
+    42(60200) : {             / event (SID=60123) /
       +1 : "0/4/21",          / port-name (SID=60201) /
       +2 : "Open pin 2"       / port-fault (SID=60202) /
     }
   }
 }
 ~~~~
-
-// RFC Ed.: replace 99 by the allocated CBOR tag.
 
 ## The 'anyxml'
 
@@ -1001,11 +997,9 @@ type union {
 }
 ~~~~
 
-CBOR diagnostic notation: 99("unbounded")
+CBOR diagnostic notation: 44("unbounded")
 
-CBOR encoding: D8 63 69 756E626F756E646564
-
-// RFC Ed.: update 99 and D8 63 with the enumerator CBOR tag allocated.
+CBOR encoding: D8 2C 69 756E626F756E646564
    
 ## The 'bits' Type {#bits}
 
@@ -1060,11 +1054,9 @@ leaf alarm-state-2 {
 }
 ~~~~
 
-CBOR diagnostic notation: 99("under-repair critical")
+CBOR diagnostic notation: 43("under-repair critical")
 
-CBOR encoding: D8 63 75 756E6465722D72657061697220637269746963616C
-
-// RFC Ed.: update 99 and D8 63 with the bits CBOR tag allocated.
+CBOR encoding: D8 2B 75 756E6465722D72657061697220637269746963616C
   
 ## The 'binary' Type
 
