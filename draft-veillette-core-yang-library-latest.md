@@ -167,8 +167,7 @@ The changes between the reference data model 'ietf-yang-library' and its constra
 
 # YANG Module "ietf-constrained-yang-library"
 
-RFC Ed.: update the date below with the date of RFC publication
-and remove this note.
+RFC Ed.: update the date below with the date of RFC publication and remove this note.
    
 ~~~~
 <CODE BEGINS> file "ietf-constrained-yang-library@2019-03-28.yang"
