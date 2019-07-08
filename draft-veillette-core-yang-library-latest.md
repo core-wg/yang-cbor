@@ -188,7 +188,8 @@ module ietf-constrained-yang-library {
   }
   import ietf-datastores {
     prefix ds;
-    reference "RFC 8342: Network Management Datastore Architecture (NMDA).";
+    reference
+      "RFC 8342: Network Management Datastore Architecture (NMDA).";
   }
   
   organization
@@ -232,14 +233,14 @@ module ietf-constrained-yang-library {
     description
       "Second revision.";
     reference
-      "[I-D.veillette-core-yang-library]  Constrained YANG Module Library";
+      "[I-D.veillette-core-yang-library]";
   }
 
   revision 2018-09-21 {
     description
       "Initial revision.";
     reference
-      "[I-D.veillette-core-yang-library]  Constrained YANG Module Library";
+      "[I-D.veillette-core-yang-library]";
   }
   
   /*
@@ -251,9 +252,9 @@ module ietf-constrained-yang-library {
       length "4";
     }
     description
-      "Revision date encoded as a binary string, each nibble representing
-       a digit of the of revision date. For example, revision 2018-09-21
-       is encoded as 0x20 0x18 0x09 0x21.";
+      "Revision date encoded as a binary string, each nibble
+       representing a digit of the of revision date. For example,
+       revision 2018-09-21 is encoded as 0x20 0x18 0x09 0x21.";
   }
 
   /*
