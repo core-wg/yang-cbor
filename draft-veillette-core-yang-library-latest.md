@@ -173,7 +173,8 @@ RFC Ed.: update the date below with the date of RFC publication and remove this 
 <CODE BEGINS> file "ietf-constrained-yang-library@2019-03-28.yang"
 module ietf-constrained-yang-library {
   yang-version 1.1;
-  namespace "urn:ietf:params:xml:ns:yang:ietf-constrained-yang-library";
+  namespace
+    "urn:ietf:params:xml:ns:yang:ietf-constrained-yang-library";
   prefix "yanglib";
 
   // RFC Ed.: update ietf-core-sid reference.
@@ -211,8 +212,8 @@ module ietf-constrained-yang-library {
 
   description
     "This module provides information about the YANG modules,
-     datastores, and datastore schemas implemented by a constrained
-     network management server.
+     datastores, and datastore schemas implemented by a
+     constrained network management server.
 
      Copyright (c) 2018 IETF Trust and the persons identified as
      authors of the code.  All rights reserved.
@@ -274,9 +275,9 @@ module ietf-constrained-yang-library {
     leaf revision {
       type revision-identifier;
       description
-        "The YANG module or submodule revision date.  If no revision
-         statement is present in the YANG module or submodule, this
-         leaf is not instantiated.";
+        "The YANG module or submodule revision date.  If no
+         revision statement is present in the YANG module
+         or submodule, this leaf is not instantiated.";
     }
   }
 
@@ -291,11 +292,12 @@ module ietf-constrained-yang-library {
         "Contains a URL that represents the YANG schema resource
          for this module or submodule.
 
-         This leaf is present in the model to keep the alignment with
-         'ietf-yang-library'. Support of this leaf in constrained
-         devices is not necessarily required, nor expected. It is
-         recommended that clients used the module or sub-module SID
-         as the handle used to retrieve the corresponding YANG module";
+         This leaf is present in the model to keep the alignment
+         with 'ietf-yang-library'. Support of this leaf in
+         constrained devices is not necessarily required, nor
+         expected. It is recommended that clients used the module
+         or sub-module SID as the handle used to retrieve the
+         corresponding YANG module";
     }
   }
 
@@ -307,8 +309,8 @@ module ietf-constrained-yang-library {
       type sid:sid;
       description
         "List of all YANG feature names from this module that are
-         supported by the server, regardless whether they are defined
-         in the module or any included submodule.";
+         supported by the server, regardless whether they are
+         defined in the module or any included submodule.";
     }
     leaf-list deviation {
       type leafref {
@@ -317,9 +319,9 @@ module ietf-constrained-yang-library {
       description
         "List of all YANG deviation modules used by this server to
          modify the conformance of the module associated with this
-         entry.  Note that the same module can be used for deviations
-         for multiple modules, so the same entry MAY appear within
-         multiple 'module' entries.
+         entry.  Note that the same module can be used for
+         deviations for multiple modules, so the same entry MAY
+         appear within multiple 'module' entries.
 
          This reference MUST NOT (directly or indirectly)
          refer to the module being deviated.
@@ -342,9 +344,9 @@ module ietf-constrained-yang-library {
     list module {
       key "identifier";
       description
-        "An entry in this list represents a module implemented by the
-         server, as per RFC 7950 section 5.6.5, with a particular set
-         of supported features and deviations.";
+        "An entry in this list represents a module implemented
+         by the server, as per RFC 7950 section 5.6.5, with a
+         particular set of supported features and deviations.";
       reference
         "RFC 7950: The YANG 1.1 Data Modeling Language.";
 
@@ -354,7 +356,7 @@ module ietf-constrained-yang-library {
         type inet:uri;
         description
           "The XML namespace identifier for this module.
-           This leaf is present in the model to keep the alignment 
+           This leaf is present in the model to keep the alignment
            with 'ietf-yang-library'. Support of this leaf in
            constrained devices is not required, nor expected.";
       }
@@ -380,9 +382,10 @@ module ietf-constrained-yang-library {
          module, but does not implement any protocol accessible
          objects from this revision.
 
-         Multiple entries for the same module name MAY exist.  This
-         can occur if multiple modules import the same module, but
-         specify different revision-dates in the import statements.";
+         Multiple entries for the same module name MAY exist.
+         This can occur if multiple modules import the same
+         module, but specify different revision-dates in the
+         import statements.";
 
       leaf identifier {
         type sid:sid;
@@ -403,7 +406,7 @@ module ietf-constrained-yang-library {
         type inet:uri;
         description
           "The XML namespace identifier for this module.
-           This leaf is present in the model to keep the alignment 
+           This leaf is present in the model to keep the alignment
            with 'ietf-yang-library'. Support of this leaf in
            constrained devices is not required, nor expected.";
       }
@@ -446,8 +449,8 @@ module ietf-constrained-yang-library {
         "A datastore schema that may be used by one or more
          datastores.
 
-         The schema must be valid and referentially complete, i.e.,
-         it must contain modules to satisfy all used import
+         The schema must be valid and referentially complete,
+         i.e., it must contain modules to satisfy all used import
          statements for all modules specified in the schema.";
 
       leaf index {
@@ -462,8 +465,8 @@ module ietf-constrained-yang-library {
         description
           "A set of module-sets that are included in this schema.
            If a non import-only module appears in multiple module
-           sets, then the module revision and the associated features
-           and deviations must be identical.";
+           sets, then the module revision and the associated
+           features and deviations must be identical.";
       }
     }
 
@@ -474,11 +477,11 @@ module ietf-constrained-yang-library {
 
          Each datastore indicates which schema it supports.
 
-         The server MUST instantiate one entry in this list per
-         specific datastore it supports.
+         The server MUST instantiate one entry in this list
+         per specific datastore it supports.
 
-         Each datstore entry with the same datastore schema SHOULD
-         reference the same schema.";
+         Each datstore entry with the same datastore schema
+         SHOULD reference the same schema.";
 
       leaf identifier {
         type ds:datastore-ref;
@@ -492,8 +495,9 @@ module ietf-constrained-yang-library {
         mandatory true;
         description
           "A reference to the schema supported by this datastore.
-           All non import-only modules of the schema are implemented
-           with their associated features and deviations.";
+           All non import-only modules of the schema are 
+           implementedwith their associated features and
+           deviations.";
       }
     }
   }
@@ -513,11 +517,11 @@ module ietf-constrained-yang-library {
       type binary;
       mandatory true;
       description
-        "A server-generated checksum or digest of the contents of the
-         'yang-library' tree.  The server MUST change the value of
-         this leaf if the information represented by the
-         'yang-library' tree, except 'yang-library/checksum', has
-         changed.";
+        "A server-generated checksum or digest of the contents of
+         the 'yang-library' tree.  The server MUST change the
+         value of this leaf if the information represented by
+         the 'yang-library' tree, except 'yang-library/checksum',
+         has changed.";
     }
   }
 
@@ -536,8 +540,9 @@ module ietf-constrained-yang-library {
       }
       mandatory true;
       description
-        "Contains the YANG library checksum or digest for the updated
-         YANG library at the time the notification is generated.";
+        "Contains the YANG library checksum or digest for the 
+         updated YANG library at the time the notification is
+         generated.";
     }
   }
 }
