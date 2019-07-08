@@ -51,24 +51,25 @@ normative:
   RFC7950:
   RFC7951:
   RFC2119:
+  RFC8174:
   RFC7049:
   RFC7120:
 informative:
   RFC8126:
   RFC6020:
-  RFC6021:
+  RFC6991:
   RFC6241:
-  RFC6536:
-  RFC7223:
+  RFC8341:
+  RFC8343:
   RFC7224:
-  RFC7277:
+  RFC8344:
   RFC7317:
   RFC8040:
   I-D.ietf-core-comi: comi
 
 --- abstract
 
-YANG Schema Item iDentifiers (SID) are globally unique 64-bit unsigned numbers used to identify YANG items.  This document defines the semantics, the registration, and assignment processes of SIDs.  To enable the implementation of these processes, this document also defines a file format used to persist and publish assigned SIDs.
+YANG Schema Item iDentifiers (SID) are globally unique 64-bit unsigned integers used to identify YANG items.  This document defines the semantics, the registration, and assignment processes of SIDs.  To enable the implementation of these processes, this document also defines a file format used to persist and publish assigned SIDs.
 
 --- middle
 
@@ -78,7 +79,7 @@ Some of the items defined in YANG {{RFC7950}} require the use of a unique identi
 
 * identities
 
-* data nodes (Note: including those part of a YANG template as defined by the 'yang-data' extension.)
+* data nodes (Note: including those parts of a YANG template as defined by the 'yang-data' extension.)
 
 * RPCs and associated input(s) and output(s)
 
@@ -88,14 +89,7 @@ Some of the items defined in YANG {{RFC7950}} require the use of a unique identi
 
 * YANG modules, submodules and features
 
-To minimize their size, in certain positions, SIDs could be represented using a
-(signed) delta from a reference SID and the current SID (for example during
-transmissions). Such difference is itself called "delta", shorthand for
-"delta-encoded SID". Conversion from SIDs to deltas and back to SIDs is a
-stateless process. Each protocol implementing deltas must unambiguously define
-the reference SID for each YANG item.
-
-SIDs are globally unique numbers, a registration system is used in order to
+SIDs are globally unique integers, a registration system is used in order to
 guarantee their uniqueness. SIDs are registered in blocks called "SID ranges".
 
 Assignment of SIDs to YANG items can be automated. For more details how this
@@ -112,8 +106,9 @@ SIDs.
 # Terminology and Notation
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
-"SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to
-be interpreted as described in {{RFC2119}}.
+"SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this
+document are to be interpreted as described in BCP 14 {{RFC2119}} {{RFC8174}}
+when, and only when, they appear in all capitals, as shown here.
 
 The following terms are defined in {{RFC7950}}:
 
@@ -132,7 +127,6 @@ The following term is defined in {{RFC8040}}:
 
 This specification also makes use of the following terminology:
 
-* delta : Difference between the current SID and a reference SID. Each protocol that uses delta encoded SIDs MUST define how the reference SID is obtained.
 * item:  A schema node, an identity, a module, a submodule or a feature defined using the YANG modeling language.
 * path: A path is a string that identifies a schema node within the schema tree. A path consists of the list of schema node identifier(s) separated by slashes ("/"). Schema node identifier(s) are always listed from the top-level schema node up to the targeted schema node. (e.g. "/ietf-system:system-state/clock/current-datetime")
 * YANG Schema Item iDentifier (SID): Unsigned integer used to identify different YANG items.
@@ -140,11 +134,11 @@ This specification also makes use of the following terminology:
 # ".sid" file lifecycle  {#sid-lifecycle}
 
 YANG is a language designed to model data accessed using one of the compatible
-protocols (e.g. NETCONF {{RFC6241}}, RESCONF {{RFC8040}} and CoMI {{-comi}}). A
+protocols (e.g. NETCONF {{RFC6241}}, RESCONF {{RFC8040}} and CoRECONF {{-comi}}). A
 YANG module defines hierarchies of data, including configuration, state data,
 RPCs, actions and notifications.
 
-YANG modules are not necessarily created in the context of constrained
+Many YANG modules are not created in the context of constrained
 applications. YANG modules can be implemented using NETCONF {{RFC6241}} or
 RESTCONF {{RFC8040}} without the need to assign SIDs.
 
@@ -358,15 +352,13 @@ module ietf-sid-file {
 
 # Security Considerations
 
-The security considerations of {{RFC7049}} and {{RFC7950}} apply.
-
 This document defines a new type of identifier used to encode data models defined in YANG {{RFC7950}}. As such, this identifier does not contribute to any new security issues in addition of those identified for the specific protocols or contexts for which it is used.
 
 # IANA Considerations  {#IANA}
 
 ## Register SID File Format Module {#iana-module-registration}
 
-This document registers one YANG modules in the "YANG Module Names" registry {{RFC6020}}:
+This document registers one YANG module in the "YANG Module Names" registry {{RFC6020}}:
 
 * name:         ietf-sid-file
 * namespace:    urn:ietf:params:xml:ns:yang:ietf-sid-file
@@ -375,7 +367,7 @@ This document registers one YANG modules in the "YANG Module Names" registry {{R
 
 ## Create new IANA Registry: "SID Mega-Range" registry {#mega-range-registry}
 
-The name of this registry is "SID Mega-Range". This registry is used to record the delegation of the management of a block of SIDs to third parties (e.g. SDOs, registrars, etc).
+The name of this registry is "SID Mega-Range". This registry is used to record the delegation of the management of a block of SIDs to third parties (such as SDOs or registrars).
 
 ### Structure
 
@@ -394,7 +386,7 @@ contact email and phone number and change controller email and phone number.
 
 ### Allocation policy
 
-The IANA policies for future additions to this registry are "Expert Review" {{RFC8126}}.
+The IANA policy for future additions to this registry is "Expert Review" {{RFC8126}}.
 
 An organization requesting to manage a SID Range (and thus have an entry in the SID Mega-Range Registry), must ensure the following capacities:
 
@@ -420,7 +412,7 @@ assigned expert(s).
 
 If that extra-allocation is done within 3 years from the last allocation, the
 experts need to discuss this request on the CORE working group mailing list and
-consensus needs to be obtained before allocating new Mega-Range.
+consensus needs to be obtained before allocating a new Mega-Range.
 
 
 ### Initial contents of the Registry
@@ -476,13 +468,13 @@ Initial entries in this registry are as follows:
 | Entry Point | Size | Module name      | Document reference     |
 |-------------+------+------------------+------------------------|
 | 1000        | 100  | ietf-comi        | {{-comi}}              |
-| 1100        |  50  | ietf-yang-types  | {{RFC6021}}            |
-| 1150        |  50  | ietf-inet-types  | {{RFC6021}}            |
+| 1100        |  50  | ietf-yang-types  | {{RFC6991}}            |
+| 1150        |  50  | ietf-inet-types  | {{RFC6991}}            |
 | 1200        |  50  | iana-crypt-hash  | {{RFC7317}}            |
-| 1250        |  50  | ietf-netconf-acm | {{RFC6536}}            |
+| 1250        |  50  | ietf-netconf-acm | {{RFC8341}}            |
 | 1300        |  50  | ietf-sid-file    | RFCXXXX                |
-| 1500        | 100  | ietf-interfaces  | {{RFC7223}}            |
-| 1600        | 100  | ietf-ip          | {{RFC7277}}            |
+| 1500        | 100  | ietf-interfaces  | {{RFC8343}}            |
+| 1600        | 100  | ietf-ip          | {{RFC8344}}            |
 | 1700        | 100  | ietf-system      | {{RFC7317}}            |
 | 1800        | 400  | iana-if-type     | {{RFC7224}}            |
 {: align="left"}
@@ -494,7 +486,7 @@ For allocation, RFC publication of the YANG module is required as per {{RFC8126}
 ## Create new IANA Registry: “IETF SID Registry” {#ietf-sid-registry}
 
 The name of this registry is "IETF SID Registry".  This registry is used to
-record the allocation of individual SIDs YANG module items.
+record the allocation of SIDs for individual YANG module items.
 
 ### Structure
 
@@ -965,11 +957,11 @@ Assignment of SIDs to YANG items can be automated, the recommended process to as
 
 2. The list of items is sorted in alphabetical order, 'namespace' in descending order, 'identifier' in ascending order. The 'namespace' and 'identifier' formats are described in the YANG module 'ietf-sid-file' defined in {{sid-file-format}}.
 
-3. SIDs are assigned sequentially from the entry point up to the size of the registered SID range. This approach is recommended to minimize the serialization overhead, especially when delta encoding is implemented.
+3. SIDs are assigned sequentially from the entry point up to the size of the registered SID range. This approach is recommended to minimize the serialization overhead, especially when delta between a reference SID and the current SID is used by protocols aiming to reduce message size.
 
 4. If the number of items exceeds the SID range(s) allocated to a YANG module, an extra range is added for subsequent assignments.
 
-Changes of SID files can also be automated using the same method described above, only unassigned YÀNG items are processed at step #3.
+Changes of SID files can also be automated using the same method described above, only unassigned YÀNG items are processed at step #3. Already existing items in the SID file should not be given new SIDs.
 
 # ".sid" file lifecycle {#sid-lifecycle-ex}
 
