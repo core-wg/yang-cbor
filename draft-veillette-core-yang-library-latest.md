@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-veillette-core-yang-library-04
+docname: draft-veillette-core-yang-library-05
 title: Constrained YANG Module Library
 area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
@@ -39,12 +39,13 @@ author:
   
 normative:
   RFC2119:
-  RFC7228:
   RFC7950:
+  RFC8174:
   RFC8340:
   RFC8342:
   RFC8525:
 informative:
+  RFC7228:
   I-D.ietf-core-sid: core-sid
 
 --- abstract
@@ -61,9 +62,7 @@ YANG module 'ietf-constrained-yang-library' shares the same data model and objec
 
 # Terminology and Notation
 
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
-"SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to
-be interpreted as described in {{RFC2119}}.
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 {{RFC2119}} {{RFC8174}} when, and only when, they appear in all capitals, as shown here.
 
 The following terms are defined in {{RFC7950}}: client, deviation, feature, module, submodule and server.
 
@@ -152,7 +151,7 @@ module: ietf-constrained-yang-library
 
 ## Major differences between ietf-constrained-yang-library and ietf-yang-library
 
-The list of changes between the reference data model 'ietf-yang-library' and its constrained version 'ietf-constrained-yang-library' are listed below:
+The changes between the reference data model 'ietf-yang-library' and its constrained version 'ietf-constrained-yang-library' are listed below:
 
 * module-set 'name' and schema 'name' are implemented using an 8 bits unsigned integer and renamed 'index'.
 
