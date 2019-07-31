@@ -142,7 +142,9 @@ Unless specified otherwise by the protocol or mechanism implementing this specif
 
 Data nodes implemented using a CBOR array, map, byte string, and text string can be instantiated but empty. In this case, they are encoded with a length of zero.
 
-Application payloads carrying a value serialized using the rules defined by this specification (e.g. CoAP Content-Format) SHOULD include the identifier (e.g. SID, namespace qualified name, instance-identifier) of this value. When SIDs are used as identifiers, the reference SID SHALL be included in the payload to allow stateless conversion of delta values to SIDs. Formats of these application payloads are not defined by the current specification.
+Application payloads carrying a value serialized using the rules defined by this specification (e.g. CoAP Content-Format) SHOULD include the identifier (e.g. SID, namespace qualified name, instance-identifier) of this value. When SIDs are used as identifiers, the reference SID SHALL be included in the payload to allow stateless conversion of delta values to SIDs.
+
+Examples in section {{instance-encoding}} include a root CBOR map with a single entry having a key set to either a namespace qualified name or a sid. This root CBOR map is provided only as a typical usage example and is not part of the present encoding rules. Only the value within this CBOR map is compulsory.
 
 ## CBOR diagnostic notation
 
@@ -184,7 +186,7 @@ Some of the items defined in YANG {{RFC7950}} require the use of a unique identi
 
 * YANG modules, submodules and features
 
-To minimize its size, in certain positions, SIDs are represented using a (signed) delta from a reference SID and the current SID. Conversion from SIDs to deltas and back to SIDs are stateless processes solely based on the data serialized or deserialized.
+To minimize its size, SIDs within inner CBOR maps are represented using a (signed) delta from a reference SID and the current SID unless they are enclosed in CBOR tag in which case the complete SID value is given. Conversion from SIDs to deltas and back to SIDs are stateless processes solely based on the data serialized or deserialized.
 
 Mechanisms and processes used to assign SIDs to YANG items and to guarantee their uniqueness is outside the scope of the present specification. If SIDs are to be used, the present specification is used in conjunction with a specification defining this management. One example for such a specification is under development as {{-core-sid}}.
 
@@ -257,6 +259,55 @@ already familiar with both YANG {{RFC7950}} and CBOR {{RFC7049}}.
 
 A 'leaf' MUST be encoded accordingly to its datatype using one of the encoding rules specified in {{data-types-mapping}}.
 
+The following examples shows the encoding of a 'hostname' leaf using a SID or a name.
+
+Definition example from [RFC7317]:
+
+~~~~ yang
+leaf hostname {
+  type inet:domain-name;
+}
+~~~~
+
+### Using SIDs in keys
+
+CBOR diagnostic notation:
+
+~~~~ CBORdiag
+{
+  1752 : "myhost.example.com"     / hostname (SID= 1752) /
+}
+~~~~
+
+CBOR encoding:
+
+~~~~ CBORbytes
+A1                                         # map(1)
+   19 06D8                                 # unsigned(1752)
+   72                                      # text(18)
+      6D79686F73742E6578616D706C652E636F6D # "myhost.example.com"
+~~~~
+
+### Using names in keys
+
+CBOR diagnostic notation:
+
+~~~~ CBORdiag
+{
+  "ietf-system:hostname" : "myhost.example.com"
+}
+~~~~
+
+CBOR encoding:
+
+~~~~ CBORbytes
+A1                                         # map(1)
+   74                                      # text(20)
+      696574662D73797374656D3A686F73746E616D65
+   72                                      # text(18)
+      6D79686F73742E6578616D706C652E636F6D
+~~~~
+
 ## The 'container' and other collections {#container}
 
 Collections such as containers, list instances, notification contents, rpc inputs, rpc outputs, action inputs and action outputs MUST be encoded using a CBOR map data item (major type 5). A map is comprised of pairs of data items, with each data item consisting of a key and a value. Each key within the CBOR map is set to a schema node identifier, each value is set to the value of this schema node instance according to the instance datatype.
@@ -289,7 +340,7 @@ container system-state {
 }
 ~~~~
 
-### SIDs as keys {#container-with-sid}
+### Using SIDs in keys {#container-with-sid}
 
 CBOR map keys implemented using SIDs MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR negative integer (major type 1), depending on the actual delta or to a SID preceded by the CBOR tag 42.
 
@@ -304,8 +355,6 @@ Delta values are computed as follows:
 * In the case of an 'action input' or 'action output', deltas are equal to the SID of the current schema node minus the SID of the 'action'.
 
 * In the case of an 'notification content', deltas are equal to the SID of the current schema node minus the SID of the 'notification'.
-
-This example assumes that the Media Type used to carry this container consists of a CBOR map composed of the data node SID and data node encoding. This root CBOR map is not part of the present encoding rules and is not compulsory.
 
 CBOR diagnostic notation:
 
@@ -336,7 +385,7 @@ A1                                      # map(1)
             323031352D30392D31355430393A31323A35385A2D30353A3030
 ~~~~
 
-### Names as keys {#container-with-name}
+### Using names in keys {#container-with-name}
 
 CBOR map keys implemented using names MUST be encoded using a CBOR text string data item (major type 3). A namespace-qualified name MUST be used each time the namespace of a schema node and its parent differ. In all other cases, the simple form of the name MUST be used. Names and namespaces are defined in {{RFC7951}} section 4.
 
@@ -366,14 +415,12 @@ container system-state {
 }
 ~~~~
 
-This example assumes that the Media Type used to carry this container consists of a CBOR map composed of the data node namespace qualified name and data node encoding. This root CBOR map is not part of the present encoding rules and is not compulsory.
-
 CBOR diagnostic notation:
 
 ~~~~ CBORdiag
 {
   "ietf-system:system-state" : {
-    "ietf-system:clock" : {
+    "clock" : {
       "current-datetime" : "2015-10-02T14:47:24Z-05:00",
       "boot-datetime" : "2015-09-15T09:12:58Z-05:00"
     }
@@ -388,8 +435,8 @@ A1                                      # map(1)
    78 18                                # text(24)
       696574662D73797374656D3A73797374656D2D7374617465 
    A1                                   # map(1)
-      71                                # text(17)
-         696574662D73797374656D3A636C6F636B
+      65                                # text(5)
+         636C6F636B                     # "clock"
       A2                                # map(2)
          70                             # text(16)
             63757272656E742D6461746574696D65
@@ -425,9 +472,50 @@ leaf-list search {
 }
 ~~~~
 
-CBOR diagnostic notation: [ "ietf.org", "ieee.org" ]
+### Using SIDs in keys
 
-CBOR encoding: 82  68 696574662E6F7267  68 696565652E6F7267
+~~~~ CBORdiag
+CBOR diagnostic notation:
+
+{
+  1746 : [ "ietf.org", "ieee.org" ]     / search (SID= 1746) /
+}
+~~~~
+
+CBOR encoding:
+
+~~~~ CBORbytes
+A1                        # map(1)
+   19 06D2                # unsigned(1746)
+   82                     # array(2)
+      68                  # text(8)
+         696574662E6F7267 # "ietf.org"
+      68                  # text(8)
+         696565652E6F7267 # "ieee.org"
+~~~~
+
+### Using names in keys
+
+CBOR diagnostic notation:
+
+~~~~ CBORdiag
+{
+  "ietf-system:search" : [ "ietf.org", "ieee.org" ]
+}
+~~~~
+
+CBOR encoding:
+
+~~~~ CBORbytes
+A1                                         # map(1)
+   72                                      # text(18)
+      696574662D73797374656D3A736561726368 # "ietf-system:search"
+   82                                      # array(2)
+      68                                   # text(8)
+         696574662E6F7267                  # "ietf.org"
+      68                                   # text(8)
+         696565652E6F7267                  # "ieee.org"
+~~~~
 
 ## The 'list' and 'list' instance(s) {#list}
 
@@ -478,11 +566,9 @@ list server {
 }
 ~~~~
 
-### SIDs as keys {#list-with-sid}
+### Using SIDs in keys {#list-with-sid}
 
 The encoding rules of each 'list' instance are defined in {{container-with-sid}}. Deltas of list members are equal to the SID of the current schema node minus the SID of the 'list'.
-
-This example assumes that the Media Type used to carry this list consists of a CBOR map composed of the data node SID and data node encoding. This root CBOR map is not part of the present encoding rules and is not compulsory.
 
 CBOR diagnostic notation:
 
@@ -543,11 +629,9 @@ A1                                      # map(1)
                7461632E6E72632E6361     # "tac.nrc.ca"
 ~~~~
 
-### Names as keys
+### Using names in keys
 
 The encoding rules of each 'list' instance are defined in {{container-with-name}}.
-
-This example assumes that the Media Type used to carry this container consists of a CBOR map composed of the data node namespace qualified name and data node encoding. This root CBOR map is not part of the present encoding rules and is not compulsory.
 
 CBOR diagnostic notation:
 
@@ -656,7 +740,7 @@ module example-port {
 }
 ~~~~
 
-This example assumes that the Media Type used to carry this anydata consists of a CBOR map composed of the data node SID and data node encoding. This root CBOR map is not part of the present encoding rules and is not compulsory.
+### Using SIDs in keys
 
 CBOR diagnostic notation:
 
@@ -701,6 +785,41 @@ In some implementations, it might be simpler to use the absolute SID tag encodin
 }
 ~~~~
 
+### Using names in keys
+
+CBOR diagnostic notation:
+
+~~~~ CBORdiag
+{
+  "event-log:last-event" : {
+    "example-port: example-port-fault" : {
+      "port-name" : "0/4/21",
+      "port-fault" : "Open pin 2"
+    }
+  }
+}
+~~~~
+
+CBOR encoding:
+
+~~~~ CBORbytes
+A1                                      # map(1)
+   74                                   # text(20)
+      6576656E742D6C6F673A6C6173742D6576656E74
+   A1                                   # map(1)
+      78 20                             # text(32)
+         6578616D706C652D706F72743A206578616D706C652D706F72742D6661756C74
+      A2                                # map(2)
+         69                             # text(9)
+            706F72742D6E616D65          # "port-name"
+         66                             # text(6)
+            302F342F3231                # "0/4/21"
+         6A                             # text(10)
+            706F72742D6661756C74        # "port-fault"
+         6A                             # text(10)
+            4F70656E2070696E2032        # "Open pin 2"
+~~~~
+
 ## The 'anyxml'
 
 An anyxml schema node is used to serialize an arbitrary CBOR content, i.e., its value can be any CBOR binary object. anyxml value MAY contain CBOR data items tagged with one of the tag listed in {{tag-registry}}, these tags shall be supported.
@@ -710,10 +829,12 @@ The following example shows a valid CBOR encoded instance consisting of a CBOR a
 Definition example from {{RFC7951}}:
 
 ~~~~ yang
-anyxml bar;
+module bar-module {
+  ...
+  anyxml bar;
 ~~~~
 
-Note: This example assumes that the Media Type used to carry this anyxml consists of a CBOR map composed of the data node SID and data node encoding. This root CBOR map is not part of the present encoding rules and is not compulsory.
+### Using SIDs in keys
 
 CBOR diagnostic notation:
 
@@ -732,6 +853,28 @@ A1         # map(1)
       F5   # primitive(21)
       F6   # primitive(22)
       F5   # primitive(21)
+~~~~
+
+### Using names in keys
+
+CBOR diagnostic notation:
+
+~~~~ CBORdiag
+{
+  "bar-module:bar" : [true, null, true]   / bar (SID 60000) /
+}
+~~~~
+
+CBOR encoding:
+
+~~~~ CBORbytes
+A1                                 # map(1)
+   6E                              # text(14)
+      6261722D6D6F64756C653A626172 # "bar-module:bar"
+   83                              # array(3)
+      F5                           # primitive(21)
+      F6                           # primitive(22)
+      F5                           # primitive(21)
 ~~~~
 
 # Encoding of YANG data templates
