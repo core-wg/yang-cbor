@@ -342,7 +342,7 @@ container system-state {
 
 ### Using SIDs in keys {#container-with-sid}
 
-CBOR map keys implemented using SIDs MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR negative integer (major type 1), depending on the actual delta or to a SID preceded by the CBOR tag 42.
+CBOR map keys implemented using SIDs MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR negative integer (major type 1), depending on the actual delta or to a SID preceded by the CBOR tag 47.
 
 Delta values are computed as follows:
 
@@ -777,7 +777,7 @@ In some implementations, it might be simpler to use the absolute SID tag encodin
 ~~~~ CBORdiag
 {
   60123 : {                   / last-event (SID=60123) /
-    42(60200) : {             / event (SID=60123) /
+    47(60200) : {             / event (SID=60123) /
       +1 : "0/4/21",          / port-name (SID=60201) /
       +2 : "Open pin 2"       / port-fault (SID=60202) /
     }
@@ -1584,11 +1584,11 @@ These tags are added to the Tags Registry as defined in section 7.2 of {{RFC7049
 
 | Tag | Data Item                                | Semantics                                            | Reference                   |
 |-----|------------------------------------------+------------------------------------------------------+-----------------------------|
-| 42  | unsigned integer                         | YANG Schema Item iDentifier (sid); see Section 3.2.  | [draft-ietf-core-yang-cbor] |
 | 43  | byte string                              | YANG bits datatype; see Section 6.7.                 | [draft-ietf-core-yang-cbor] |
 | 44  | unsigned integer                         | YANG enumeration datatype; see Section 6.6.          | [draft-ietf-core-yang-cbor] |
 | 45  | unsigned integer or text string          | YANG identityref datatype; see Section 6.10.         | [draft-ietf-core-yang-cbor] |
 | 46  | unsigned integer or text string or array | YANG instance-identifier  datatype; see Section 6.13.| [draft-ietf-core-yang-cbor] |
+| 47  | unsigned integer                         | YANG Schema Item iDentifier (sid); see Section 3.2.  | [draft-ietf-core-yang-cbor] |
 {: align="left"}
 
 // RFC Ed.: replace [draft-ietf-core-yang-cbor] with RFC number and remove this note
