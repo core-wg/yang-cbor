@@ -67,7 +67,7 @@ informative:
 
 --- abstract
 
-This document defines encoding rules for serializing configuration data, state data, RPC input and RPC output, Action input, Action output and notifications defined within YANG modules using the Concise Binary Object Representation (CBOR) {{RFC7049}}.
+This document defines encoding rules for serializing configuration data, state data, RPC input and RPC output, Action input, Action output, notifications and yang data template defined within YANG modules using the Concise Binary Object Representation (CBOR) {{RFC7049}}.
 
 --- middle
 
@@ -148,7 +148,7 @@ Data nodes implemented using a CBOR array, map, byte string, and text string can
 
 Application payloads carrying a value serialized using the rules defined by this specification (e.g. CoAP Content-Format) SHOULD include the identifier (e.g. SID, namespace qualified name, instance-identifier) of this value. When SIDs are used as identifiers, the reference SID SHALL be included in the payload to allow stateless conversion of delta values to SIDs.
 
-Examples in section {{instance-encoding}} include a root CBOR map with a single entry having a key set to either a namespace qualified name or a sid. This root CBOR map is provided only as a typical usage example and is not part of the present encoding rules. Only the value within this CBOR map is compulsory.
+Examples in section {{instance-encoding}} include a root CBOR map with a single entry having a key set to either a namespace qualified name or a SID. This root CBOR map is provided only as a typical usage example and is not part of the present encoding rules. Only the value within this CBOR map is compulsory.
 
 ## CBOR diagnostic notation
 
@@ -168,7 +168,7 @@ Within this document, CBOR binary contents are represented using an equivalent t
 | Not assigned     |      7/23 | undefined                                                               | undefined          | F7                 |
 {: #diagnostic-notation-summary title="CBOR diagnostic notation summary"}
 
-CBOR diagnostic notation may include comments delimited by slashes ("/") as defined in {{RFC8610}} Appendix G.6.
+Note: CBOR binary contents shown in this specification are annotated with comments. These comments are delimited by slashes ("/") as defined in {{RFC8610}} Appendix G.6.
 
 ## YANG Schema Item iDentifier (SID) {#sid}
 
@@ -342,7 +342,7 @@ container system-state {
 
 ### Using SIDs in keys {#container-with-sid}
 
-In the context of containers and other collections, CBOR map keys can be represented using deltas or SIDs. In the case of deltas, they MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR negative integer (major type 1), depending on the actual delta value. In the case of SID, they are encoded using the SID value enclosed by the CBOR tag 47 as defined in {{tag-registry}}.
+In the context of containers and other collections, CBOR map keys can be represented using deltas or SIDs. In the case of deltas, they MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR negative integer (major type 1), depending on the actual delta value. In the case of SID, they are encoded using the SID value enclosed by CBOR tag 47 as defined in {{tag-registry}}.
 
 Delta values are computed as follows:
 
@@ -1130,7 +1130,7 @@ CBOR diagnostic notation: 3
 
 CBOR encoding: 03
 
-To avoid overlap of 'value' defined in different 'enumeration' statements, 'enumeration' defined in a Leafs of type 'union' MUST be encoded using a CBOR text string data item (major type 3) and MUST contain one of the names assigned by 'enum' statements in YANG. The encoding MUST be enclosed with the enumeration CBOR tag as specified in {{tag-registry}}.
+To avoid overlap of 'value' defined in different 'enumeration' statements, 'enumeration' defined in a Leafs of type 'union' MUST be encoded using a CBOR text string data item (major type 3) and MUST contain one of the names assigned by 'enum' statements in YANG. The encoding MUST be enclosed by the enumeration CBOR tag as specified in {{tag-registry}}.
 
 Definition example from {{RFC7950}}:
 
@@ -1183,7 +1183,7 @@ CBOR diagnostic notation: h'06'
 
 CBOR encoding: 41 06
 
-To avoid overlap of 'bit' defined in different 'bits' statements, 'bits' defined in a Leafs of type 'union' MUST be encoded using a CBOR text string data item (major type 3) and MUST contain a space-separated sequence of names of 'bit' that are set. The encoding MUST be enclosed with the bits CBOR tag as specified in {{tag-registry}}.
+To avoid overlap of 'bit' defined in different 'bits' statements, 'bits' defined in a Leafs of type 'union' MUST be encoded using a CBOR text string data item (major type 3) and MUST contain a space-separated sequence of names of 'bit' that are set. The encoding MUST be enclosed by the bits CBOR tag as specified in {{tag-registry}}.
 
 The following example shows the encoding of an 'alarm-state' leaf instance defined using a union type with the 'under-repair' and 'critical' flags set.
 
@@ -1325,7 +1325,7 @@ CBOR encoding: F6
 ## The 'union' Type {#union}
 
 Leafs of type union MUST be encoded using the rules associated with one of the types listed.
-When used in a union, the following YANG datatypes are enclosed by CBOR tag to avoid confusion
+When used in a union, the following YANG datatypes are enclosed by a CBOR tag to avoid confusion
 between different YANG datatypes encoded using the same CBOR major type.
 
 * bits
