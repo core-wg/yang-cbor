@@ -342,7 +342,7 @@ container system-state {
 
 ### Using SIDs in keys {#container-with-sid}
 
-In the context of containers and other collections, CBOR map keys can be represented using deltas or SIDs. In the case of deltas, they MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR negative integer (major type 1), depending on the actual delta value. In the case of SID, they are encoded using the SID value enclosed by CBOR tag 47 as defined in {{tag-registry}}.
+In the context of containers and other collections, CBOR map keys within inner CBOR maps can be encoded using deltas or SIDs. In the case of deltas, they MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR negative integer (major type 1), depending on the actual delta value. In the case of SID, they are encoded using the SID value enclosed by CBOR tag 47 as defined in {{tag-registry}}.
 
 Delta values are computed as follows:
 
