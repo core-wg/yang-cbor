@@ -48,18 +48,21 @@ author:
 normative:
   RFC7950:
   RFC2119:
+  RFC5234:
   RFC6241:
   RFC7049:
+  RFC8174:
+  RFC8610:
 informative:
   I-D.ietf-core-comi: comi
   I-D.ietf-core-sid: core-sid
   RFC7951:
-  RFC7159:
-  RFC7223:
   RFC7228:
-  RFC7277:
   RFC7317:
   RFC8040:
+  RFC8259:
+  RFC8343:
+  RFC8344:
   RFC8348:
 
 --- abstract
@@ -70,17 +73,18 @@ This document defines encoding rules for serializing configuration data, state d
 
 # Introduction
 
-The specification of the YANG 1.1 data modelling language {{RFC7950}} defines an XML encoding for data instances, i.e. contents of configuration datastores, state data, RPC inputs and outputs, action inputs and outputs, and event notifications.
+The specification of the YANG 1.1 data modeling language {{RFC7950}} defines an XML encoding for data instances, i.e. contents of configuration datastores, state data, RPC inputs and outputs, action inputs and outputs, and event notifications.
 
-A new set of encoding rules has been defined to allow the use of the same data models in environments based on the JavaScript Object Notation (JSON) Data Interchange Format {{RFC7159}}. This is accomplished in the JSON Encoding of Data Modeled with YANG specification {{RFC7951}}.
+A new set of encoding rules has been defined to allow the use of the same data models in environments based on the JavaScript Object Notation (JSON) Data Interchange Format {{RFC8259}}. This is accomplished in the JSON Encoding of Data Modeled with YANG specification {{RFC7951}}.
 
 The aim of this document is to define a set of encoding rules for the Concise Binary Object Representation (CBOR) {{RFC7049}}. The resulting encoding is more compact compared to XML and JSON and more suitable for Constrained Nodes and/or Constrained Networks as defined by {{RFC7228}}.
 
 # Terminology and Notation
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
-"SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to
-be interpreted as described in {{RFC2119}}.
+"SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this
+document are to be interpreted as described in BCP 14 {{RFC2119}} {{RFC8174}}
+when, and only when, they appear in all capitals, as shown here.
 
 The following terms are defined in {{RFC7950}}:
 
@@ -130,15 +134,15 @@ This specification also makes use of the following terminology:
 
 * YANG Schema Item iDentifier (SID): Unsigned integer used to identify different YANG items.
 
-# Properties of the CBOR Encoding
+# Properties of the CBOR Encoding {#properties-of-cbor-encoding}
 
 This document defines CBOR encoding rules for YANG schema trees and their subtrees.
 
 A collection such as container, list instance, notification, RPC input, RPC output, action input and action output is serialized using a CBOR map in which each child schema node is encoded using a key and a value. This specification supports two type of CBOR keys; YANG Schema Item iDentifier (SID) as defined in {{sid}} and names as defined in {{name}}. Each of these key types is encoded using a specific CBOR type which allows their interpretation during the deserialization process. Protocols or mechanisms implementing this specification can mandate the use of a specific key type.
 
-In order to minimize the size of the encoded data, the proposed mapping avoids any unnecessary meta-information beyond those natively supported by CBOR. For instance, CBOR tags are used solely in the case of anyxml schema nodes and the union datatype to distinguish explicitly the use of different YANG datatypes encoded using the same CBOR major type.
+In order to minimize the size of the encoded data, the proposed mapping avoids any unnecessary meta-information beyond those natively supported by CBOR. For instance, CBOR tags are used solely in the case of SID not encoded as delta, anyxml schema nodes and the union datatype to distinguish explicitly the use of different YANG datatypes encoded using the same CBOR major type.
 
-Unless specified otherwise by the protocol or mechanism implementing this specification, the infinite lengths encoding as defined in {{RFC7049}} section 2.2 SHALL be supported by CBOR decoders.
+Unless specified otherwise by the protocol or mechanism implementing this specification, the indefinite lengths encoding as defined in {{RFC7049}} section 2.2 SHALL be supported by CBOR decoders.
 
 Data nodes implemented using a CBOR array, map, byte string, and text string can be instantiated but empty. In this case, they are encoded with a length of zero.
 
@@ -164,11 +168,7 @@ Within this document, CBOR binary contents are represented using an equivalent t
 | Not assigned     |      7/23 | undefined                                                               | undefined          | F7                 |
 {: #diagnostic-notation-summary title="CBOR diagnostic notation summary"}
 
-The following extensions to the CBOR diagnostic notation are supported:
-
-* Any text within and including a pair of slashes is considered a comment.
-
-* Deltas are visualized as numbers preceded by a '+' or '–' sign. The use of the '+' sign for positive deltas represents an extension to the CBOR diagnostic notation as defined by {{RFC7049}} section 6.
+CBOR diagnostic notation may include comments delimited by slashes ("/") as defined in {{RFC8610}} Appendix G.6.
 
 ## YANG Schema Item iDentifier (SID) {#sid}
 
@@ -186,15 +186,15 @@ Some of the items defined in YANG {{RFC7950}} require the use of a unique identi
 
 * YANG modules, submodules and features
 
-To minimize its size, SIDs within inner CBOR maps are represented using a (signed) delta from a reference SID and the current SID unless they are enclosed in CBOR tag in which case the complete SID value is given. Conversion from SIDs to deltas and back to SIDs are stateless processes solely based on the data serialized or deserialized.
+To minimize their size, SIDs used as keys in inner CBOR maps are typically encoded using deltas. Conversion from SIDs to deltas and back to SIDs are stateless processes solely based on the data serialized or deserialized. These SIDs may also be encoded as absolute number when enclosed by CBOR tag 47.
 
-Mechanisms and processes used to assign SIDs to YANG items and to guarantee their uniqueness is outside the scope of the present specification. If SIDs are to be used, the present specification is used in conjunction with a specification defining this management. One example for such a specification is under development as {{-core-sid}}.
+Mechanisms and processes used to assign SIDs to YANG items and to guarantee their uniqueness are outside the scope of the present specification. If SIDs are to be used, the present specification is used in conjunction with a specification defining this management. One example for such a specification is {{-core-sid}}.
 
 ## Name {#name}
 
-This specification also supports the encoding of YANG item identifiers as string, similar as those used by the JSON Encoding of Data Modeled with YANG [RFC7951]. This approach can be used to avoid the management overhead associated to SIDs allocation. The main drawback is the significant increase is size of the encoded data.
+This specification also supports the encoding of YANG item identifiers as string, similar as those used by the JSON Encoding of Data Modeled with YANG {{RFC7951}}. This approach can be used to avoid the management overhead associated to SIDs allocation. The main drawback is the significant increase in size of the encoded data.
 
-YANG items identifiers implemented using names MUST be in one of the following forms:
+YANG item identifiers implemented using names MUST be in one of the following forms:
 
 * simple - the identifier of the YANG item (i.e. schema node or identity).
 
@@ -202,7 +202,7 @@ YANG items identifiers implemented using names MUST be in one of the following f
 
 The name of a module determines the namespace of all YANG items defined in that module. If an item is defined in a submodule, then the namespace qualified name uses the name of the main module to which the submodule belongs.
 
-ABNF syntax [RFC5234] of a name is shown in {{namesyntax}}, where the production for "identifier" is defined in Section 14 of [RFC7950].
+ABNF syntax {{RFC5234}} of a name is shown in {{namesyntax}}, where the production for "identifier" is defined in Section 14 of {{RFC7950}}.
 
 ~~~~
 name = [identifier ":"] identifier
@@ -275,7 +275,7 @@ CBOR diagnostic notation:
 
 ~~~~ CBORdiag
 {
-  1752 : "myhost.example.com"     / hostname (SID= 1752) /
+  1752 : "myhost.example.com"     / hostname (SID 1752) /
 }
 ~~~~
 
@@ -342,7 +342,7 @@ container system-state {
 
 ### Using SIDs in keys {#container-with-sid}
 
-CBOR map keys implemented using SIDs MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR negative integer (major type 1), depending on the actual delta or to a SID preceded by the CBOR tag 47.
+In the context of containers and other collections, CBOR map keys can be represented using deltas or SIDs. In the case of deltas, they MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR negative integer (major type 1), depending on the actual delta value. In the case of SID, they are encoded using the SID value enclosed by the CBOR tag 47 as defined in {{tag-registry}}.
 
 Delta values are computed as follows:
 
@@ -360,10 +360,10 @@ CBOR diagnostic notation:
 
 ~~~~ CBORdiag
 {
-  1720 : {                              / system-state /
-    +1 : {                              / clock  (SID 1721) /
-      +2 : "2015-10-02T14:47:24Z-05:00",/ current-datetime (SID 1723) /
-      +1 : "2015-09-15T09:12:58Z-05:00" / boot-datetime (SID 1722) /
+  1720 : {                              / system-state (SID 1720) /
+    1 : {                               / clock  (SID 1721) /
+      2 : "2015-10-02T14:47:24Z-05:00", / current-datetime(SID 1723)/
+      1 : "2015-09-15T09:12:58Z-05:00"  / boot-datetime (SID 1722) /
     }
   }
 }
@@ -384,6 +384,7 @@ A1                                      # map(1)
          78 1A                          # text(26)
             323031352D30392D31355430393A31323A35385A2D30353A3030
 ~~~~
+{: #Fig-system-clock title='System state clock encoding'}
 
 ### Using names in keys {#container-with-name}
 
@@ -478,7 +479,7 @@ leaf-list search {
 CBOR diagnostic notation:
 
 {
-  1746 : [ "ietf.org", "ieee.org" ]     / search (SID= 1746) /
+  1746 : [ "ietf.org", "ieee.org" ]     / search (SID 1746) /
 }
 ~~~~
 
@@ -576,19 +577,19 @@ CBOR diagnostic notation:
 {
   1756 : [                      / server (SID 1756) /
     {
-      +3 : "NRC TIC server",    / name (SID 1759) /
-      +5 : {                    / udp (SID 1761) /
-        +1 : "tic.nrc.ca",      / address (SID 1762) /
-        +2 : 123                / port (SID 1763) /
+      3 : "NRC TIC server",     / name (SID 1759) /
+      5 : {                     / udp (SID 1761) /
+        1 : "tic.nrc.ca",       / address (SID 1762) /
+        2 : 123                 / port (SID 1763) /
       },
-      +1 : 0,                   / association-type (SID 1757) /
-      +2 : false,               / iburst (SID 1758) /
-      +4 : true                 / prefer (SID 1760) /
+      1 : 0,                    / association-type (SID 1757) /
+      2 : false,                / iburst (SID 1758) /
+      4 : true                  / prefer (SID 1760) /
     },
     {
-      +3 : "NRC TAC server",    / name (SID 1759) /
-      +5 : {                    / udp (SID 1761) /
-        +1 : "tac.nrc.ca"       / address (SID 1762) /
+      3 : "NRC TAC server",     / name (SID 1759) /
+      5 : {                     / udp (SID 1761) /
+        1 : "tac.nrc.ca"        / address (SID 1762) /
       }
     }
   ]
@@ -746,10 +747,10 @@ CBOR diagnostic notation:
 
 ~~~~ CBORdiag
 {
-  60123 : {                   / last-event (SID=60123) /
-    +77 : {                   / event (SID=60200) /
-      +1 : "0/4/21",          / port-name (SID=60201) /
-      +2 : "Open pin 2"       / port-fault (SID=60202) /
+  60123 : {                   / last-event (SID 60123) /
+    77 : {                    / event (SID 60200) /
+      1 : "0/4/21",           / port-name (SID 60201) /
+      2 : "Open pin 2"        / port-fault (SID 60202) /
     }
   }
 }
@@ -776,10 +777,10 @@ In some implementations, it might be simpler to use the absolute SID tag encodin
 
 ~~~~ CBORdiag
 {
-  60123 : {                   / last-event (SID=60123) /
-    47(60200) : {             / event (SID=60123) /
-      +1 : "0/4/21",          / port-name (SID=60201) /
-      +2 : "Open pin 2"       / port-fault (SID=60202) /
+  60123 : {                   / last-event (SID 60123) /
+    47(60200) : {             / event (SID 60123) /
+      1 : "0/4/21",           / port-name (SID 60201) /
+      2 : "Open pin 2"        / port-fault (SID 60202) /
     }
   }
 }
@@ -808,7 +809,8 @@ A1                                      # map(1)
       6576656E742D6C6F673A6C6173742D6576656E74
    A1                                   # map(1)
       78 20                             # text(32)
-         6578616D706C652D706F72743A206578616D706C652D706F72742D6661756C74
+         6578616D706C652D706F72743A206578616D7
+         06C652D706F72742D6661756C74
       A2                                # map(2)
          69                             # text(9)
             706F72742D6E616D65          # "port-name"
@@ -879,13 +881,13 @@ A1                                 # map(1)
 
 # Encoding of YANG data templates
 
-YANG data templates are data structures defined in YANG but not intended to be implemented as part of a datastore. YANG data templates are defined using the 'yang-data' extension as described by RFC 8040.
+YANG data templates are data structures defined in YANG but not intended to be implemented as part of a datastore. YANG data templates are defined using the 'yang-data' extension as described by {{RFC8040}}.
 
-YANG data templates SHOULD be encoded using the encoding rules of a collection as defined in {{container}}.
+YANG data templates MUST be encoded using the encoding rules of a collection as defined in {{container}}.
 
 Just like YANG containers, YANG data templates can be encoded using either SIDs or names.
 
-Definition example from [I-D.ietf-core-comi]:
+Definition example from {{-comi}}:
 
 ~~~~ yang
 import ietf-restconf {
@@ -914,7 +916,7 @@ rc:yang-data yang-errors {
 }
 ~~~~
 
-## SIDs as keys
+## Using SIDs in keys
 
 YANG template encoded using SIDs are carried in a CBOR map containing a single item pair. The key of this item is set to the SID assigned to the YANG template container, the value is set the CBOR encoding of this container as defined in {{container}}.
 
@@ -925,13 +927,13 @@ CBOR diagnostic notation:
 ~~~~ CBORdiag
 {
   1024 : {                      / error  (SID 1024) /
-    +4 : 1011,                  / error-tag (SID 1028) /
+    4 : 1011,                   / error-tag (SID 1028) /
                                 / = invalid-value (SID 1011) /
-    +1 : 1018,                  / error-app-tag (SID 1025) /
+    1 : 1018,                   / error-app-tag (SID 1025) /
                                 / = not-in-range (SID 1018) /
-    +2 : 1740,                  / error-data-node (SID 1026) /
+    2 : 1740,                   / error-data-node (SID 1026) /
                                 / = timezone-utc-offset (SID 1740) /
-    +3 : "Maximum exceeded"     / error-message (SID 1027) /
+    3 : "Maximum exceeded"      / error-message (SID 1027) /
       }
 }
 ~~~~
@@ -953,7 +955,7 @@ A1                                      # map(1)
          4D6178696D756D206578636565646564
 ~~~~
 
-## Names as keys
+## Using names in keys
 
 YANG template encoded using names are carried in a CBOR map containing a single item pair. The key of this item is set to the namespace qualified name of the YANG template container, the value is set the CBOR encoding of this container as defined in {{name}}.
 
@@ -990,7 +992,8 @@ A1                                      # map(1)
       6F                                # text(15)
          6572726F722D646174612D6E6F6465 # "error-data-node"
       73                                # text(19)
-         74696D657A6F6E652D7574632D6F6666736574 # "timezone-utc-offset"
+         74696D657A6F6E652D7574632D6F6666736574
+                                        # "timezone-utc-offset"
       6D                                # text(13)
          6572726F722D6D657373616765     # "error-message"
       70                                # text(16)
@@ -1008,7 +1011,7 @@ unsigned integer data item (major type 0).
 
 The following example shows the encoding of a 'mtu' leaf instance set to 1280 bytes.
 
-Definition example from {{RFC7277}}:
+Definition example from {{RFC8344}}:
 
 ~~~~ yang
 leaf mtu {
@@ -1071,7 +1074,7 @@ type 3).
 
 The following example shows the encoding of a 'name' leaf instance set to "eth0".
 
-Definition example from {{RFC7223}}:
+Definition example from {{RFC8343}}:
 
 ~~~~ yang
 leaf name {
@@ -1127,7 +1130,7 @@ CBOR diagnostic notation: 3
 
 CBOR encoding: 03
 
-To avoid overlap of 'value' defined in different 'enumeration' statements, 'enumeration' defined in a Leafs of type 'union' MUST be encoded using a CBOR text string data item (major type 3) and MUST contain one of the names assigned by 'enum' statements in YANG. The encoding MUST be prefixed with the enumeration CBOR tag as specified in {{tag-registry}}.
+To avoid overlap of 'value' defined in different 'enumeration' statements, 'enumeration' defined in a Leafs of type 'union' MUST be encoded using a CBOR text string data item (major type 3) and MUST contain one of the names assigned by 'enum' statements in YANG. The encoding MUST be enclosed with the enumeration CBOR tag as specified in {{tag-registry}}.
 
 Definition example from {{RFC7950}}:
 
@@ -1180,7 +1183,7 @@ CBOR diagnostic notation: h'06'
 
 CBOR encoding: 41 06
 
-To avoid overlap of 'bit' defined in different 'bits' statements, 'bits' defined in a Leafs of type 'union' MUST be encoded using a CBOR text string data item (major type 3) and MUST contain a space-separated sequence of names of 'bit' that are set. The encoding MUST be prefixed with the bits CBOR tag as specified in {{tag-registry}}.
+To avoid overlap of 'bit' defined in different 'bits' statements, 'bits' defined in a Leafs of type 'union' MUST be encoded using a CBOR text string data item (major type 3) and MUST contain a space-separated sequence of names of 'bit' that are set. The encoding MUST be enclosed with the bits CBOR tag as specified in {{tag-registry}}.
 
 The following example shows the encoding of an 'alarm-state' leaf instance defined using a union type with the 'under-repair' and 'critical' flags set.
 
@@ -1229,7 +1232,7 @@ by the 'path' YANG statement.
 
 The following example shows the encoding of an 'interface-state-ref' leaf instance set to "eth1".
 
-Definition example from {{RFC7223}}:
+Definition example from {{RFC8343}}:
 
 ~~~~ yang
 typedef interface-state-ref {
@@ -1307,7 +1310,7 @@ Leafs of type empty MUST be encoded using the CBOR null value (major type
 
 The following example shows the encoding of a 'is-router' leaf instance when present.
 
-Definition example from {{RFC7277}}:
+Definition example from {{RFC8344}}:
 
 ~~~~ yang
 leaf is-router {
@@ -1322,7 +1325,7 @@ CBOR encoding: F6
 ## The 'union' Type {#union}
 
 Leafs of type union MUST be encoded using the rules associated with one of the types listed.
-When used in a union, the following YANG datatypes are prefixed by CBOR tag to avoid confusion
+When used in a union, the following YANG datatypes are enclosed by CBOR tag to avoid confusion
 between different YANG datatypes encoded using the same CBOR major type.
 
 * bits
@@ -1397,7 +1400,7 @@ Schema nodes member of a YANG list MUST be encoded using a CBOR array data item 
 
 Examples within this section assume the definition of a schema node of type 'instance-identifier':
 
-Definition example from [RFC7950]:
+Definition example from {{RFC7950}}:
 
 ~~~~ yang
 container system {
@@ -1577,21 +1580,27 @@ To minimize security risks, software on the receiving side SHOULD reject all mes
 
 # IANA Considerations
 
-##  Tags Registry {#tag-registry}
+##  CBOR Tags Registry {#tag-registry}
 
 This specification requires the assignment of CBOR tags for the following YANG datatypes.
-These tags are added to the Tags Registry as defined in section 7.2 of {{RFC7049}}.
+These tags are added to the CBOR  Tags Registry as defined in section 7.2 of {{RFC7049}}.
 
-| Tag | Data Item                                | Semantics                                            | Reference                   |
-|-----|------------------------------------------+------------------------------------------------------+-----------------------------|
-| 43  | byte string                              | YANG bits datatype; see Section 6.7.                 | [draft-ietf-core-yang-cbor] |
-| 44  | unsigned integer                         | YANG enumeration datatype; see Section 6.6.          | [draft-ietf-core-yang-cbor] |
-| 45  | unsigned integer or text string          | YANG identityref datatype; see Section 6.10.         | [draft-ietf-core-yang-cbor] |
-| 46  | unsigned integer or text string or array | YANG instance-identifier  datatype; see Section 6.13.| [draft-ietf-core-yang-cbor] |
-| 47  | unsigned integer                         | YANG Schema Item iDentifier (sid); see Section 3.2.  | [draft-ietf-core-yang-cbor] |
+| Tag | Data Item        | Semantics                   | Reference  |
+|-----|------------------+-----------------------------+------------|
+| 43  | byte string      | YANG bits datatype          | [this]     |
+|     |                  | ; see Section 6.7.          |            |
+| 44  | unsigned integer | YANG enumeration datatype   | [this]     |
+|     |                  | ;see Section 6.6.           |            |
+| 45  | unsigned integer | YANG identityref datatype   | [this]     |
+|     | or text string   | ; see Section 6.10.         |            |
+| 46  | unsigned integer | YANG instance-identifier    | [this]     |
+|     | or text string   | datatype; see Section 6.13. | [this]     |
+|     | or array         |                             |            |
+| 47  | unsigned integer | YANG Schema Item iDentifier |            |
+|     |                  | ; see Section 3.2.          | [this]     |
 {: align="left"}
 
-// RFC Ed.: replace [draft-ietf-core-yang-cbor] with RFC number and remove this note
+// RFC Ed.: replace [this] with RFC number and remove this note
 
 # Acknowledgments
 
