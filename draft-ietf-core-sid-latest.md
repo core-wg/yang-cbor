@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-ietf-core-sid-07
+docname: draft-ietf-core-sid-08
 title: YANG Schema Item iDentifier (SID)
 area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
@@ -52,7 +52,6 @@ normative:
   RFC7951:
   RFC2119:
   RFC8174:
-  RFC7049:
   RFC7120:
 informative:
   RFC8126:
@@ -69,13 +68,15 @@ informative:
 
 --- abstract
 
-YANG Schema Item iDentifiers (SID) are globally unique 64-bit unsigned integers used to identify YANG items.  This document defines the semantics, the registration, and assignment processes of SIDs.  To enable the implementation of these processes, this document also defines a file format used to persist and publish assigned SIDs.
+YANG Schema Item iDentifiers (SID) are globally unique 63-bit unsigned integers used to identify YANG items.  This document defines the semantics, the registration, and assignment processes of SIDs.  To enable the implementation of these processes, this document also defines a file format used to persist and publish assigned SIDs.
 
 --- middle
 
 # Introduction
 
-Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier.  In both NETCONF {{RFC6241}} and RESTCONF {{RFC8040}}, these identifiers are implemented using names.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called SID, is encoded using a 64-bit unsigned integer. The following items are identified using SIDs:
+Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier.  In both NETCONF {{RFC6241}} and RESTCONF {{RFC8040}}, these identifiers are implemented using names.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called SID, is encoded using a 63-bit unsigned integer. The reason not to use 64-bit unsigned integers is that otherwise protocols doing arithmetical operations with the SIDs could be very difficult to implement.
+
+The following items are identified using SIDs:
 
 * identities
 
@@ -157,7 +158,7 @@ diagram on {{fig-sid-file-creation}} in {{sid-lifecycle-ex}}.
 
 Each time a YANG module or one of its imported module(s) or included
 sub-module(s) is updated, the ".sid" file MAY need to be updated. This update
-SHOULD also be performed using an automated tool.
+SHOULD be performed using an automated tool.
 
 If a new revision requires more SIDs than initially allocated, a new SID range
 MUST be added to the 'assignment-ranges' as defined in {{sid-file-format}}.
@@ -441,7 +442,7 @@ The first million SIDs assigned to IANA is sub-divided as follows:
 
 * The range of 0 to 999 (size 1000) is "Reserved" as defined in {{RFC8126}}.
 * The range of 1000 to 59,999 (size 59,000) is reserved for YANG modules defined in RFCs. The IANA policy for additions to this registry is "Expert Review" {{RFC8126}}.
-    * The Expert MUST verify that the YANG module for which this allocation is made has an RFC (existing RFC) OR is on track to become RFC (early allocation with a request from the WG chairs).
+    * The Expert MUST verify that the YANG module for which this allocation is made has an RFC (existing RFC) OR is on track to become RFC (early allocation with a request from the WG chairs as defined by {{RFC7120}}).
 
 * The SID range allocated for a YANG module can follow in one of the four categories:
     * SMALL (50 SIDs)
