@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-ietf-core-sid-08
+docname: draft-ietf-core-sid-09
 title: YANG Schema Item iDentifier (SID)
 area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
@@ -61,10 +61,12 @@ informative:
   RFC8341:
   RFC8343:
   RFC7224:
+  RFC8366:
   RFC8344:
   RFC7317:
   RFC8040:
   I-D.ietf-core-comi: comi
+  I-D.ietf-anima-constrained-voucher: constrained-voucher
 
 --- abstract
 
@@ -74,7 +76,7 @@ YANG Schema Item iDentifiers (SID) are globally unique 63-bit unsigned integers 
 
 # Introduction
 
-Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier.  In both NETCONF {{RFC6241}} and RESTCONF {{RFC8040}}, these identifiers are implemented using names.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called SID, is encoded using a 63-bit unsigned integer. The reason not to use 64-bit unsigned integers is that otherwise protocols doing arithmetical operations with the SIDs could be very difficult to implement.
+Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier.  In both NETCONF {{RFC6241}} and RESTCONF {{RFC8040}}, these identifiers are implemented using names.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called SID, is encoded using a 63-bit unsigned integer. The use of 63-bit unsigned integers allows SIDs to be manipulated more easily on architectures that might otherwise lack native 64-bit unsigned arithmetic. The loss a single bit of precision is not significant given the size of the space.
 
 The following items are identified using SIDs:
 
@@ -466,18 +468,21 @@ The first million SIDs assigned to IANA is sub-divided as follows:
 
 Initial entries in this registry are as follows:
 
-| Entry Point | Size | Module name      | Document reference     |
-|-------------+------+------------------+------------------------|
-| 1000        | 100  | ietf-comi        | {{-comi}}              |
-| 1100        |  50  | ietf-yang-types  | {{RFC6991}}            |
-| 1150        |  50  | ietf-inet-types  | {{RFC6991}}            |
-| 1200        |  50  | iana-crypt-hash  | {{RFC7317}}            |
-| 1250        |  50  | ietf-netconf-acm | {{RFC8341}}            |
-| 1300        |  50  | ietf-sid-file    | RFCXXXX                |
-| 1500        | 100  | ietf-interfaces  | {{RFC8343}}            |
-| 1600        | 100  | ietf-ip          | {{RFC8344}}            |
-| 1700        | 100  | ietf-system      | {{RFC7317}}            |
-| 1800        | 400  | iana-if-type     | {{RFC7224}}            |
+| Entry Point | Size | Module name                      | Document reference       |
+|-------------+------+----------------------------------+--------------------------|
+| 1000        | 100  | ietf-comi                        | {{-comi}}                |
+| 1100        |  50  | ietf-yang-types                  | {{RFC6991}}              |
+| 1150        |  50  | ietf-inet-types                  | {{RFC6991}}              |
+| 1200        |  50  | iana-crypt-hash                  | {{RFC7317}}              |
+| 1250        |  50  | ietf-netconf-acm                 | {{RFC8341}}              |
+| 1300        |  50  | ietf-sid-file                    | RFCXXXX                  |
+| 1500        | 100  | ietf-interfaces                  | {{RFC8343}}              |
+| 1600        | 100  | ietf-ip                          | {{RFC8344}}              |
+| 1700        | 100  | ietf-system                      | {{RFC7317}}              |
+| 1800        | 400  | iana-if-type                     | {{RFC7224}}              |
+| 2400        |  50  | ietf-voucher                     | {{RFC8366}}              |
+| 2450        |  50  | ietf-constrained-voucher         | {{-constrained-voucher}} |
+| 2500        |  50  | ietf-constrained-voucher-request | {{-constrained-voucher}} |
 {: align="left"}
 
 // RFC Ed.: replace XXXX with RFC number assigned to this draft.
@@ -495,10 +500,8 @@ Each entry in this registry must include:
 
 * The YANG module name. This module name must be present in the "Name" column of the “YANG Module Names” registry.
 * A link to the associated ".yang" file.  This file link must be present in the "File" column of the “YANG Module Names” registry.
-* The link to the ".sid" file which defines the allocation.
+* The link to the ".sid" file which defines the allocation. The ".sid" file is stored by IANA.
 * The number of actually allocated SIDs in the “.sid” file.
-
-The “.sid” file is stored by IANA.
 
 ### Allocation policy
 
@@ -517,13 +520,78 @@ The allocation policy is Expert review. The Expert MUST ensure that the followin
   the same SIDs as in the the other ".sid" file.
 * SIDs never change.
 
+### Recursive Allocation of SID Range at Document Adoption
+
+Due to the difficulty in changing SID values during IETF document processing,
+it is expected that most documents will ask for SID allocations using Early
+Allocations [BCP100]. The details of the Early Allocation should be included
+in any Working Group Adoption call.
+
+During the early use of SIDs, many existing, previously published YANG modules
+will not have SID allocations.  For an allocation to be useful the included
+YANG modules may also need to have SID allocations made.
+
+The Expert Reviewer who performs the (Early) Allocation analysis will need to
+go through the list of included YANG modules and perform SID allocations for
+those modules as well.
+
+* If the document is a published RFC, then the allocation of SIDs for its
+  referenced YANG modules is permanent.  The Expert Reviewer provides the
+  generated SID file to IANA for registration.  This process may be time
+  consuming during a bootstrap period (there are over 100 YANG modules to date,
+  none of which have SID allocations), but should quiet down once needed
+  entries are allocated.
+* If the document is an unprocessed Internet-Draft adopted in a WG, then an
+  Early Allocation is performed for this document as well. Early Allocations
+  require approval by an IESG Area Director.  An early allocation which
+  requires additional allocations will list the other allocations in it's
+  description, and will be cross-posted to the any other working group mailing
+  lists.
+* A YANG module which references a module in an document which has not yet been
+  adopted by any working group will be unable to perform an Early Allocation
+  for that other document until it is adopted by a working group.  As described
+  in [BCP100], an AD Sponsored document acts as if it had a working group.  The
+  approving AD may also exempt a document from this policy by agreeing to AD
+  Sponsor the document.
+
+Critically, the original document should never get through the IETF process and
+then be surprised to be referencing a document whose progress is not certain.
+
+A previously SID-allocated YANG module which changes its references to include
+a YANG module for which there is no SID allocation needs to repeat the Early
+Allocation process.
+
+Early Allocations are made with a one-year period, after which they are
+expired.  [BCP100] indicates that at most one renewal may be made.  For the
+SID allocation a far more lenient stance is desired.
+
+1. An extension of a referencing documents Early Allocation should update any
+   referenced Early Allocations to expire no sooner than the referencing
+   document.
+2. The [BCP100] mechanism allows the IESG to provide a second renewal,
+   and such an event may prompt some thought about how the collection of
+   documents are being processed.
+
+This is driven by the very generous size of the SID space and the often complex
+and deep dependencies of YANG modules.  Often a core module with many
+dependencies will undergo extensive review, delaying the publication of other
+documents.
+
+[BCP100] also says
+
+    Note that if a document is submitted for review to the IESG and at
+    the time of submission some early allocations are valid (not
+    expired), these allocations should not be expired while the document
+    is under IESG consideration or waiting in the RFC Editor's queue
+    after approval by the IESG.
+
 ### Initial contents of the registry
 
 None.
 
 # Acknowledgments
 
-The authors would like to thank Andy Bierman, Carsten Bormann, Abhinav Somaraju, Laurent Toutain, Randy Turner and Peter van der Stok for their help during the development of this document and their useful comments during the review process.
+The authors would like to thank Andy Bierman, Carsten Bormann, Michael Richardson, Abhinav Somaraju, Peter van der Stok, Laurent Toutain and Randy Turner for their help during the development of this document and their useful comments during the review process.
 
 --- back
 
