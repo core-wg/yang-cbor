@@ -52,7 +52,7 @@ normative:
   RFC7951:
   RFC2119:
   RFC8174:
-  RFC7120:
+  RFC7120: BCP100
 informative:
   RFC8126:
   RFC6020:
@@ -516,6 +516,54 @@ The allocation policy is Expert review. The Expert MUST ensure that the followin
   for older or newer versions of the YANG module), the YANG items are assigned
   the same SIDs as in the the other ".sid" file.
 * SIDs never change.
+
+* IANA is expected to store the SID files and make them available along with the associated YANG files in the YANG Module Names registry.   
+
+* SID files SHOULD be included in documents using the same CODE BEGINS mechanism that is used for attaching YANG modules
+
+### Recursive Allocation of SID Range at Document Adoption time
+
+Due to the difficulty in changing SID values during IETF document processing, it is expected that most documents will ask for SID allocations using Early Allocations {{-BCP100}}.   
+The details of the Early Allocation should be included in any Working Group Adoption call.
+
+During the early use of SIDs, many existing, previously published YANG modules will not have SID allocations.  
+For an allocation to be useful the included YANG modules may also need to have SID allocations made.
+
+The Expert Reviewer who performs the (Early) Allocation analysis will need to go through the list of included YANG modules and perform SID allocations for those modules as well.
+
+If the document is a published RFC, then the allocation is permanent.
+The Expert Reviewer provides the generated SID file to IANA for registration.
+This process may be someone busy during a bootstrap period (there are over 100 YANG modules to date, none of which have SID allocations), but should quiet down once needed entries are allocated.
+
+If the document is an unprocessed Internet-Draft adopted in a WG, then an Early Allocation is performed for this document as well.
+Early Allocations require approval by an IESG Area Director.
+An early allocation which requires additional allocations will list the other allocations in it's description, and will be cross-posted to the any other working group mailing lists.
+
+A YANG module which references a module in an document which has not yet been adopted by any working group will be unable to perform an Early Allocation for that other document until it is adopted by a working group.
+
+As described in {{-BCP100}}, an AD Sponsored document acts as if it had a working group.  
+The approving AD may also exempt a document from this policy by agreeing to AD Sponsor the document.
+Critically, the original document should never get through the IETF process and then be surprised to be referencing a document whose progress is not certain.
+
+A previously SID-allocated YANG module which changes it's references to include a YANG module for which there is no SID allocation needs to repeat the Early Allocation process.
+
+Early Allocations are made with a one-year period, after which they are expired.  
+{{-BCP100}} indicates that at most one renewal may be made.
+For the SID allocation a far more lenient stance is desired.
+
+1. An extension of a referencing documents Early Allocation should update any referenced Early Allocations to expire no sooner than the referencing document.
+2. The {{-BCP100}} mechanism allows the IESG to provide a second renewal, and such an event may prompt some thought about how the collection of documents are being processed.
+
+This is driven by the very generous size of the SID space and the often complex and deep depencies of YANG modules.  
+Often a core module with many dependancies will undergo extensive review, delaying the publication of other documents.
+
+{{-BCP100}} also says
+
+      Note that if a document is submitted for review to the IESG and at
+      the time of submission some early allocations are valid (not
+      expired), these allocations should not be expired while the document
+      is under IESG consideration or waiting in the RFC Editor's queue
+      after approval by the IESG.
 
 ### Initial contents of the registry
 
