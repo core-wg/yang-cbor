@@ -52,7 +52,7 @@ normative:
   RFC7951:
   RFC2119:
   RFC8174:
-  RFC7120:
+  RFC7120: BCP100
 informative:
   RFC8126:
   RFC6020:
@@ -76,7 +76,7 @@ YANG Schema Item iDentifiers (SID) are globally unique 63-bit unsigned integers 
 
 # Introduction
 
-Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier.  In both NETCONF {{RFC6241}} and RESTCONF {{RFC8040}}, these identifiers are implemented using names.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called SID, is encoded using a 63-bit unsigned integer. The use of 63-bit unsigned integers allows SIDs to be manipulated more easily on architectures that might otherwise lack native 64-bit unsigned arithmetic. The loss a single bit of precision is not significant given the size of the space.
+Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier.  In both NETCONF {{RFC6241}} and RESTCONF {{RFC8040}}, these identifiers are implemented using names.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called SID, is encoded using a 63-bit unsigned integer. The limitation to 63-bit unsigned integers allows SIDs to be manipulated more easily on platforms that might otherwise lack native 64-bit unsigned arithmetic. The loss a single bit of range is not significant given the size of the remaining space.
 
 The following items are identified using SIDs:
 
@@ -444,7 +444,7 @@ The first million SIDs assigned to IANA is sub-divided as follows:
 
 * The range of 0 to 999 (size 1000) is "Reserved" as defined in {{RFC8126}}.
 * The range of 1000 to 59,999 (size 59,000) is reserved for YANG modules defined in RFCs. The IANA policy for additions to this registry is "Expert Review" {{RFC8126}}.
-    * The Expert MUST verify that the YANG module for which this allocation is made has an RFC (existing RFC) OR is on track to become RFC (early allocation with a request from the WG chairs as defined by {{RFC7120}}).
+    * The Expert MUST verify that the YANG module for which this allocation is made has an RFC (existing RFC) OR is on track to become RFC (early allocation with a request from the WG chairs as defined by {{-BCP100}}).
 
 * The SID range allocated for a YANG module can follow in one of the four categories:
     * SMALL (50 SIDs)
@@ -524,7 +524,7 @@ The allocation policy is Expert review. The Expert MUST ensure that the followin
 
 Due to the difficulty in changing SID values during IETF document processing,
 it is expected that most documents will ask for SID allocations using Early
-Allocations [BCP100]. The details of the Early Allocation should be included
+Allocations {{-BCP100}}. The details of the Early Allocation should be included
 in any Working Group Adoption call.
 
 During the early use of SIDs, many existing, previously published YANG modules
@@ -550,7 +550,7 @@ those modules as well.
 * A YANG module which references a module in an document which has not yet been
   adopted by any working group will be unable to perform an Early Allocation
   for that other document until it is adopted by a working group.  As described
-  in [BCP100], an AD Sponsored document acts as if it had a working group.  The
+  in {{-BCP100}}, an AD Sponsored document acts as if it had a working group.  The
   approving AD may also exempt a document from this policy by agreeing to AD
   Sponsor the document.
 
@@ -562,13 +562,13 @@ a YANG module for which there is no SID allocation needs to repeat the Early
 Allocation process.
 
 Early Allocations are made with a one-year period, after which they are
-expired.  [BCP100] indicates that at most one renewal may be made.  For the
+expired.  {{-BCP100}} indicates that at most one renewal may be made.  For the
 SID allocation a far more lenient stance is desired.
 
 1. An extension of a referencing documents Early Allocation should update any
    referenced Early Allocations to expire no sooner than the referencing
    document.
-2. The [BCP100] mechanism allows the IESG to provide a second renewal,
+2. The {{-BCP100}} mechanism allows the IESG to provide a second renewal,
    and such an event may prompt some thought about how the collection of
    documents are being processed.
 
@@ -577,7 +577,7 @@ and deep dependencies of YANG modules.  Often a core module with many
 dependencies will undergo extensive review, delaying the publication of other
 documents.
 
-[BCP100] also says
+{{-BCP100}} also says
 
     Note that if a document is submitted for review to the IESG and at
     the time of submission some early allocations are valid (not
