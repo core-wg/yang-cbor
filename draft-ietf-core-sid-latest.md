@@ -76,7 +76,7 @@ YANG Schema Item iDentifiers (SID) are globally unique 63-bit unsigned integers 
 
 # Introduction
 
-Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier.  In both NETCONF {{RFC6241}} and RESTCONF {{RFC8040}}, these identifiers are implemented using names.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called SID, is encoded using a 63-bit unsigned integer. The limitation to 63-bit unsigned integers allows SIDs to be manipulated more easily on platforms that might otherwise lack native 64-bit unsigned arithmetic. The loss a single bit of range is not significant given the size of the remaining space.
+Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier.  In both NETCONF {{RFC6241}} and RESTCONF {{RFC8040}}, these identifiers are implemented using names.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called SID, is encoded using a 63-bit unsigned integer. The limitation to 63-bit unsigned integers allows SIDs to be manipulated more easily on platforms that might otherwise lack native 64-bit unsigned arithmetic. The loss of a single bit of range is not significant given the size of the remaining space.
 
 The following items are identified using SIDs:
 
@@ -525,7 +525,19 @@ The allocation policy is Expert review. The Expert MUST ensure that the followin
 Due to the difficulty in changing SID values during IETF document processing,
 it is expected that most documents will ask for SID allocations using Early
 Allocations {{-BCP100}}. The details of the Early Allocation should be included
-in any Working Group Adoption call.
+in any Working Group Adoption call. Prior to Working Group Adoption, an internet
+draft authors can use the experimental SID range (as per
+{{ietf-iana-sid-range-allocation-policy}}) for their SIDs allocations or
+other values that do not create ambiguity with other SID uses (for example
+they can use a range that comes from a non-IANA managed "SID Mega-Range"
+registry).
+
+After Working Group Adoption, any modification of a .sid file is expected to be
+discussed on the mailing list of the appropriate Working Groups. Specific
+attention should be paid to implementers' opinion after Working Group Last Call
+if a SID value is to change its meaning. In all cases, a .sid file and the SIDs
+associated with it are subject to change before the publication of an internet
+draft as an RFC.
 
 During the early use of SIDs, many existing, previously published YANG modules
 will not have SID allocations.  For an allocation to be useful the included
