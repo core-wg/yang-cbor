@@ -295,9 +295,11 @@ module ietf-sid-file {
   leaf sid-file-version {
     type sid-file-version-identifier;
     description
-      "Version number of the \".sid\" file. Useful to distinguish \".sid\"
-       files generated using different YANG module dependencies that might not
-       be reflected in the YANG module revision.";
+      "The version number of the \".sid\" file. \".sid\" files and the version
+       sequence are specific to a given YANG module revision.
+       This number starts at zero when there is a YANG module update.
+       This number can distinguish updates to the SID file which are the result of
+       new processing, or the result of reported errata.";
   }
 
   list dependencies-revisions {
