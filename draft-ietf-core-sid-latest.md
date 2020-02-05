@@ -1114,6 +1114,10 @@ of the old version of the ".sid" file and the version number is 1 for the new
 the same method described above, only unassigned YÀNG items are processed at
 step #3. Already existing items in the SID file should not be given new SIDs.
 
+Note that ".sid" file versions are specific to a YANG module revision. For each
+new YANG module or each new revision of an existing YANG module, the version
+number of the initial ".sid" file should either be 0 or should not be present.
+
 # ".sid" file lifecycle {#sid-lifecycle-ex}
 
 Before assigning SIDs to their YANG modules, YANG module authors must acquire a
