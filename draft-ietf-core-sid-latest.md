@@ -147,20 +147,22 @@ RESTCONF {{RFC8040}} without the need to assign SIDs.
 
 As needed, authors of YANG modules can assign SIDs to their YANG modules. In
 order to do that, they should first obtain a SID range from a registry and use
-that range to assign or generate SIDs to items of their YANG module. For
+that range to assign or generate SIDs to items of their YANG module. The
+assignments can then be stored in a ".sid" file. For
 example how this could be achieved, please refer to {{sid-lifecycle-ex}}.
 
-Registration of the .sid file associated to a YANG module is optional but
+Registration of the ".sid" file associated to a YANG module is optional but
 recommended to promote interoperability between devices and to avoid duplicate
 allocation of SIDs to a single YANG module. Different registries might have
-different requirements for the registration and publication of the “.sid“
+different requirements for the registration and publication of the ".sid"
 files. For diagram of one of the possibilities, please refer to the activity
 diagram on {{fig-sid-file-creation}} in {{sid-lifecycle-ex}}.
 
-
 Each time a YANG module or one of its imported module(s) or included
-sub-module(s) is updated, the ".sid" file MAY need to be updated. This update
-SHOULD be performed using an automated tool.
+sub-module(s) is updated, a new ".sid" file MAY need to be created. All the
+SIDs present in the previous version of the ".sid" file MUST be present in the
+new version as well. The creation of this new version of the ".sid" file SHOULD
+be performed using an automated tool.
 
 If a new revision requires more SIDs than initially allocated, a new SID range
 MUST be added to the 'assignment-ranges' as defined in {{sid-file-format}}.
@@ -174,7 +176,7 @@ For an example of this update process, see activity diagram
 ".sid" files are used to persist and publish SIDs assigned to the different YANG items of a specific YANG module. The following YANG module defined the structure of this file, encoding is performed using the rules defined in {{RFC7951}}.
 
 ~~~~
-<CODE BEGINS> file "ietf-sid-file@2017-11-26.yang"
+<CODE BEGINS> file "ietf-sid-file@2020-02-05.yang"
 module ietf-sid-file {
   namespace "urn:ietf:params:xml:ns:yang:ietf-sid-file";
   prefix sid;
@@ -197,13 +199,34 @@ module ietf-sid-file {
      <mailto:a@ackl.io>";
 
   description
-    "This module defines the structure of the .sid files.
-    
-     Each .sid file contains the mapping between the different
+    "Copyright (c) 2016 IETF Trust and the persons identified as
+     authors of the code.  All rights reserved.
+
+     Redistribution and use in source and binary forms, with or
+     without modification, is permitted pursuant to, and subject to
+     the license terms contained in, the Simplified BSD License set
+     forth in Section 4.c of the IETF Trust's Legal Provisions
+     Relating to IETF Documents
+     (https://trustee.ietf.org/license-info).
+
+     This version of this YANG module is part of RFC XXXX
+     (https://www.rfc-editor.org/info/rfcXXXX); see the RFC itself
+     for full legal notices.
+
+     The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
+     NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
+     'MAY', and 'OPTIONAL' in this document are to be interpreted as
+     described in BCP 14 (RFC 2119) (RFC 8174) when, and only when,
+     they appear in all capitals, as shown here.
+
+
+     This module defines the structure of the \".sid\" files.
+
+     Each \".sid\" file contains the mapping between the different
      string identifiers defined by a YANG module and a
      corresponding numeric value called SID.";
 
-  revision 2017-11-26 {
+  revision 2020-02-05 {
     description
       "Initial revision.";
     reference
@@ -216,6 +239,13 @@ module ietf-sid-file {
     }
     description
       "Represents a date in YYYY-MM-DD format.";
+  }
+
+  typedef sid-file-version-identifier {
+    type uint64;
+    description
+      "Optional attribute that gives information about the \".sid\" file
+       version.";
   }
 
   typedef sid {
@@ -251,15 +281,46 @@ module ietf-sid-file {
   leaf module-name {
     type yang:yang-identifier;
     description
-      "Name of the YANG module associated with this .sid file.";
+      "Name of the YANG module associated with this \".sid\" file.";
   }
 
   leaf module-revision {
     type revision-identifier;
     description
-      "Revision of the YANG module associated with this .sid file.
+      "Revision of the YANG module associated with this \".sid\" file.
        This leaf is not present if no revision statement is
        defined in the YANG module.";
+  }
+
+  leaf sid-file-version {
+    type sid-file-version-identifier;
+    description
+      "Version number of the \".sid\" file. Useful to distinguish \".sid\"
+       files generated using different YANG module dependencies that might not
+       be reflected in the YANG module revision.";
+  }
+
+  list dependencies-revisions {
+    key "module-name";
+
+    description
+      "Information about the revision of each YANG module that the module in
+       'module-name' includes used during the \".sid\" file generation.";
+
+    leaf module-name {
+      type yang:yang-identifier;
+      mandatory true;
+      description
+        "Name of the YANG module, dependency of 'module-name', for which
+         revision information is provided.";
+    }
+    leaf module-revision {
+      type revision-identifier;
+      mandatory true;
+      description
+        "Revision of the YANG module, dependency of 'module-name', for which
+         revision information is provided.";
+    }
   }
 
   list assigment-ranges {
@@ -331,13 +392,13 @@ module ietf-sid-file {
       }
       description
         "String identifier of the YANG item for this mapping entry.
-        
+
          If the corresponding 'namespace' field is 'module',
          'feature', or 'identity', then this field MUST
          contain a valid YANG identifier string.
 
          If the corresponding 'namespace' field is 'data',
-         then this field MUST contain a valid schema node 
+         then this field MUST contain a valid schema node
          path.";
      }
 
@@ -489,7 +550,7 @@ Initial entries in this registry are as follows:
 
 For allocation, RFC publication of the YANG module is required as per {{RFC8126}}. The YANG module must be registered in the "YANG module Name" registry according to the rules specified in section 14 of {{RFC6020}}.
 
-## Create new IANA Registry: “IETF SID Registry” {#ietf-sid-registry}
+## Create new IANA Registry: "IETF SID Registry" {#ietf-sid-registry}
 
 The name of this registry is "IETF SID Registry".  This registry is used to
 record the allocation of SIDs for individual YANG module items.
@@ -498,26 +559,28 @@ record the allocation of SIDs for individual YANG module items.
 
 Each entry in this registry must include:
 
-* The YANG module name. This module name must be present in the "Name" column of the “YANG Module Names” registry.
-* A link to the associated ".yang" file.  This file link must be present in the "File" column of the “YANG Module Names” registry.
+* The YANG module name. This module name must be present in the "Name" column of the "YANG Module Names" registry.
+* A link to the associated ".yang" file.  This file link must be present in the "File" column of the "YANG Module Names" registry.
 * The link to the ".sid" file which defines the allocation. The ".sid" file is stored by IANA.
-* The number of actually allocated SIDs in the “.sid” file.
+* The number of actually allocated SIDs in the ".sid" file.
 
 ### Allocation policy
 
 The allocation policy is Expert review. The Expert MUST ensure that the following conditions are met:
 
 * The ".sid" file has a valid structure:
-    * The “.sid” file MUST be a valid JSON file following the structure of the
+    * The ".sid" file MUST be a valid JSON file following the structure of the
       module defined in RFCXXXX (RFC Ed: replace XXX with RFC number assigned
       to this draft).
 * The ".sid" file allocates individual SIDs ONLY in the SID Ranges for this
   YANG module (as allocated in the IETF SID Range Registry):
-    * All SIDs in this “.sid” file MUST be within the ranges allocated to this
-      YANG module in the “IETF SID Range Registry”.
+    * All SIDs in this ".sid" file MUST be within the ranges allocated to this
+      YANG module in the "IETF SID Range Registry".
 * If another ".sid" file has already allocated SIDs for this YANG module (e.g.
   for older or newer versions of the YANG module), the YANG items are assigned
-  the same SIDs as in the the other ".sid" file.
+  the same SIDs as in the other ".sid" file.
+* If there is an older version of the ".sid" file, all allocated SIDs from that
+  version are still present in the current version of the ".sid" file.
 * SIDs never change.
 
 ### Recursive Allocation of SID Range at Document Adoption
@@ -532,10 +595,10 @@ other values that do not create ambiguity with other SID uses (for example
 they can use a range that comes from a non-IANA managed "SID Mega-Range"
 registry).
 
-After Working Group Adoption, any modification of a .sid file is expected to be
+After Working Group Adoption, any modification of a ".sid" file is expected to be
 discussed on the mailing list of the appropriate Working Groups. Specific
 attention should be paid to implementers' opinion after Working Group Last Call
-if a SID value is to change its meaning. In all cases, a .sid file and the SIDs
+if a SID value is to change its meaning. In all cases, a ".sid" file and the SIDs
 associated with it are subject to change before the publication of an internet
 draft as an RFC.
 
@@ -609,7 +672,7 @@ The authors would like to thank Andy Bierman, Carsten Bormann, Michael Richardso
 
 # ".sid" file example  {#sid-file-example}
 
-The following .sid file (ietf-system@2014-08-06.sid) have been generated using the following yang modules:
+The following ".sid" file (ietf-system@2014-08-06.sid) have been generated using the following yang modules:
 
 * ietf-system@2014-08-06.yang
 
@@ -1035,14 +1098,19 @@ The following .sid file (ietf-system@2014-08-06.sid) have been generated using t
 Assignment of SIDs to YANG items can be automated, the recommended process to assign SIDs is as follows:
 
 1. A tool extracts the different items defined for a specific YANG module.
-
 2. The list of items is sorted in alphabetical order, 'namespace' in descending order, 'identifier' in ascending order. The 'namespace' and 'identifier' formats are described in the YANG module 'ietf-sid-file' defined in {{sid-file-format}}.
-
 3. SIDs are assigned sequentially from the entry point up to the size of the registered SID range. This approach is recommended to minimize the serialization overhead, especially when delta between a reference SID and the current SID is used by protocols aiming to reduce message size.
-
 4. If the number of items exceeds the SID range(s) allocated to a YANG module, an extra range is added for subsequent assignments.
+5. The "dependencies-revisions" should reflect the revision numbers of each
+   YANG module that the YANG module imports at the moment of the generation.
 
-Changes of SID files can also be automated using the same method described above, only unassigned YÀNG items are processed at step #3. Already existing items in the SID file should not be given new SIDs.
+In case of an update to an existing ".sid" file, an additional step is needed
+that increments the ".sid" file version number. If there was no version number
+in the previous version of the ".sid" file, 0 is assumed as the version number
+of the old version of the ".sid" file and the version number is 1 for the new
+".sid" file. Apart from that, changes of SID files can also be automated using
+the same method described above, only unassigned YÀNG items are processed at
+step #3. Already existing items in the SID file should not be given new SIDs.
 
 # ".sid" file lifecycle {#sid-lifecycle-ex}
 
@@ -1062,7 +1130,7 @@ generated for YANG modules and not for submodules.
 
 ## SID File Creation
 
-The following activity diagram summarizes the creation of a YANG module and its associated .sid file.
+The following activity diagram summarizes the creation of a YANG module and its associated ".sid" file.
 
 ~~~~
        +---------------+
@@ -1090,7 +1158,7 @@ The following activity diagram summarizes the creation of a YANG module and its 
                                      |                   |
                                      V                   |
                              +---------------+    +-------------+
-                             | .sid file     |    | Rework YANG |
+                             | ".sid" file   |    | Rework YANG |
                              | generation    |    |    model    |
                              +---------------+    +-------------+
                                      |                   ^
@@ -1121,7 +1189,7 @@ The following activity diagram summarizes the creation of a YANG module and its 
 
 ## SID File Update
 
-The following Activity diagram summarizes the update of a YANG module and its associated .sid file.
+The following Activity diagram summarizes the update of a YANG module and its associated ".sid" file.
 
 ~~~~
        +---------------+
@@ -1146,10 +1214,10 @@ The following Activity diagram summarizes the update of a YANG module and its as
                   |              |
                   |              V
                   |      +---------------+
-                  |      | .sid file     |
+                  |      | ".sid" file   |
                   |      | update based  |
                   |      | on previous   |
-                  |      | .sid file     |
+                  |      | ".sid" file   |
                   |      +---------------+
                   |              |
                   |              V
