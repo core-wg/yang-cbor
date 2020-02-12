@@ -220,9 +220,9 @@ module ietf-sid-file {
      they appear in all capitals, as shown here.
 
 
-     This module defines the structure of the \".sid\" files.
+     This module defines the structure of the .sid files.
 
-     Each \".sid\" file contains the mapping between the different
+     Each .sid file contains the mapping between the different
      string identifiers defined by a YANG module and a
      corresponding numeric value called SID.";
 
@@ -244,7 +244,7 @@ module ietf-sid-file {
   typedef sid-file-version-identifier {
     type uint64;
     description
-      "Optional attribute that gives information about the \".sid\" file
+      "Optional attribute that gives information about the .sid file
        version.";
   }
 
@@ -281,13 +281,13 @@ module ietf-sid-file {
   leaf module-name {
     type yang:yang-identifier;
     description
-      "Name of the YANG module associated with this \".sid\" file.";
+      "Name of the YANG module associated with this .sid file.";
   }
 
   leaf module-revision {
     type revision-identifier;
     description
-      "Revision of the YANG module associated with this \".sid\" file.
+      "Revision of the YANG module associated with this .sid file.
        This leaf is not present if no revision statement is
        defined in the YANG module.";
   }
@@ -295,7 +295,7 @@ module ietf-sid-file {
   leaf sid-file-version {
     type sid-file-version-identifier;
     description
-      "The version number of the \".sid\" file. \".sid\" files and the version
+      "The version number of the .sid file. .sid files and the version
        sequence are specific to a given YANG module revision.
        This number starts at zero when there is a YANG module update.
        This number can distinguish updates to the SID file which are the result of
@@ -307,7 +307,7 @@ module ietf-sid-file {
 
     description
       "Information about the revision of each YANG module that the module in
-       'module-name' includes used during the \".sid\" file generation.";
+       'module-name' includes used during the .sid file generation.";
 
     leaf module-name {
       type yang:yang-identifier;
