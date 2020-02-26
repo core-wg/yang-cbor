@@ -66,6 +66,7 @@ informative:
   RFC7317:
   RFC8040:
   I-D.ietf-core-comi: comi
+  I-D.ietf-core-yang-library: yang-library
   I-D.ietf-anima-constrained-voucher: constrained-voucher
 
 --- abstract
@@ -91,6 +92,12 @@ The following items are identified using SIDs:
 * notifications and associated information
 
 * YANG modules, submodules and features
+
+It is possible that some protocols use only a subset of the assigned SIDs, for
+example, for protocols equivalent to NETCONF {{RFC6241}} like {{-comi}} the
+transportation of YANG modules SIDs might be unnecessary. Others protocols
+might need to be able to transport this information, for example protocols
+related to discovery such as Constrained YANG Module Library {{-yang-library}}.
 
 SIDs are globally unique integers, a registration system is used in order to
 guarantee their uniqueness. SIDs are registered in blocks called "SID ranges".
@@ -173,7 +180,27 @@ For an example of this update process, see activity diagram
 
 # ".sid" file format  {#sid-file-format}
 
-".sid" files are used to persist and publish SIDs assigned to the different YANG items of a specific YANG module. The following YANG module defined the structure of this file, encoding is performed using the rules defined in {{RFC7951}}.
+".sid" files are used to persist and publish SIDs assigned to the different
+YANG items of a specific YANG module. It has the following structure.
+
+~~~~
+module: ietf-sid-file
+  +--rw module-name?              yang:yang-identifier
+  +--rw module-revision?          revision-identifier
+  +--rw sid-file-version?         sid-file-version-identifier
+  +--rw dependency-revision* [module-name]
+  |  +--rw module-name        yang:yang-identifier
+  |  +--rw module-revision    revision-identifier
+  +--rw assigment-ranges* [entry-point]
+  |  +--rw entry-point    sid
+  |  +--rw size           uint64
+  +--rw items* [namespace identifier]
+     +--rw namespace     enumeration
+     +--rw identifier    union
+     +--rw sid           sid
+~~~~
+
+The following YANG module defined the structure of this file, encoding is performed using the rules defined in {{RFC7951}}.
 
 ~~~~
 <CODE BEGINS> file "ietf-sid-file@2020-02-05.yang"
@@ -183,6 +210,9 @@ module ietf-sid-file {
 
   import ietf-yang-types {
     prefix yang;
+  }
+  import ietf-restconf {
+    prefix rc;
   }
 
   organization
@@ -199,7 +229,7 @@ module ietf-sid-file {
      <mailto:a@ackl.io>";
 
   description
-    "Copyright (c) 2016 IETF Trust and the persons identified as
+    "Copyright (c) 2020 IETF Trust and the persons identified as
      authors of the code.  All rights reserved.
 
      Redistribution and use in source and binary forms, with or
@@ -278,137 +308,143 @@ module ietf-sid-file {
        Section 6.11: The instance-identifier type";
   }
 
-  leaf module-name {
-    type yang:yang-identifier;
-    description
-      "Name of the YANG module associated with this .sid file.";
-  }
-
-  leaf module-revision {
-    type revision-identifier;
-    description
-      "Revision of the YANG module associated with this .sid file.
-       This leaf is not present if no revision statement is
-       defined in the YANG module.";
-  }
-
-  leaf sid-file-version {
-    type sid-file-version-identifier;
-    description
-      "The version number of the .sid file. .sid files and the version
-       sequence are specific to a given YANG module revision.
-       This number starts at zero when there is a YANG module update.
-       This number can distinguish updates to the SID file which are the result of
-       new processing, or the result of reported errata.";
-  }
-
-  list dependencies-revisions {
-    key "module-name";
-
-    description
-      "Information about the revision of each YANG module that the module in
-       'module-name' includes used during the .sid file generation.";
-
+  rc:yang-data sid-file {
     leaf module-name {
       type yang:yang-identifier;
-      mandatory true;
       description
-        "Name of the YANG module, dependency of 'module-name', for which
-         revision information is provided.";
+        "Name of the YANG module associated with this .sid file.";
     }
+
     leaf module-revision {
       type revision-identifier;
-      mandatory true;
       description
-        "Revision of the YANG module, dependency of 'module-name', for which
-         revision information is provided.";
-    }
-  }
-
-  list assigment-ranges {
-    key "entry-point";
-    description
-      "SID range(s) allocated to the YANG module identified by
-       'module-name' and 'module-revision'.";
-
-    leaf entry-point {
-      type sid;
-      mandatory true;
-      description
-        "Lowest SID available for assignment.";
+        "Revision of the YANG module associated with this .sid file.
+        This leaf is not present if no revision statement is
+        defined in the YANG module.";
     }
 
-    leaf size {
-      type uint64;
-      mandatory true;
+    leaf sid-file-version {
+      type sid-file-version-identifier;
       description
-        "Number of SIDs available for assignment.";
-    }
-  }
-
-  list items {
-    key "namespace identifier";
-    description
-      "Each entry within this list defined the mapping between
-       a YANG item string identifier and a SID. This list MUST
-       include a mapping entry for each YANG item defined by
-       the YANG module identified by 'module-name' and
-       'module-revision'.";
-
-    leaf namespace {
-      type enumeration {
-        enum module {
-          value 0;
-          description
-            "All module and submodule names share the same
-             global module identifier namespace.";
-        }
-        enum identity {
-          value 1;
-          description
-            "All identity names defined in a module and its
-             submodules share the same identity identifier
-             namespace.";
-        }
-        enum feature {
-          value 2;
-          description
-            "All feature names defined in a module and its
-             submodules share the same feature identifier
-             namespace.";
-        }
-        enum data {
-          value 3;
-          description
-            "The namespace for all data nodes, as defined in YANG.";
-        }
-      }
-      description
-        "Namespace of the YANG item for this mapping entry.";
+        "The version number of the .sid file. .sid files and the version
+        sequence are specific to a given YANG module revision.
+        This number starts at zero when there is a YANG module update.
+        This number can distinguish updates to the SID file which are the result of
+        new processing, or the result of reported errata.";
     }
 
-    leaf identifier {
-      type union {
+    list dependency-revision {
+      key "module-name";
+
+      description
+        "Information about the revision of each YANG module that the module in
+        'module-name' includes used during the .sid file generation.";
+
+      leaf module-name {
         type yang:yang-identifier;
-        type schema-node-path;
+        mandatory true;
+        description
+          "Name of the YANG module, dependency of 'module-name', for which
+          revision information is provided.";
       }
+      leaf module-revision {
+        type revision-identifier;
+        mandatory true;
+        description
+          "Revision of the YANG module, dependency of 'module-name', for which
+          revision information is provided.";
+      }
+    }
+
+    list assigment-ranges {
+      key "entry-point";
       description
-        "String identifier of the YANG item for this mapping entry.
+        "SID range(s) allocated to the YANG module identified by
+        'module-name' and 'module-revision'.
 
-         If the corresponding 'namespace' field is 'module',
-         'feature', or 'identity', then this field MUST
-         contain a valid YANG identifier string.
+        - The SID range first available value is entry-point and the the last
+          available value in the range is (entry-point + size - 1).
+        - The SID ranges specified by all assignment-rages MUST NOT overlap.";
 
-         If the corresponding 'namespace' field is 'data',
-         then this field MUST contain a valid schema node
-         path.";
-     }
+      leaf entry-point {
+        type sid;
+        mandatory true;
+        description
+          "Lowest SID available for assignment.";
+      }
 
-    leaf sid {
-      type sid;
-      mandatory true;
+      leaf size {
+        type uint64;
+        mandatory true;
+        description
+          "Number of SIDs available for assignment.";
+      }
+    }
+
+    list items {
+      key "namespace identifier";
       description
-        "SID assigned to the YANG item for this mapping entry.";
+        "Each entry within this list defined the mapping between
+        a YANG item string identifier and a SID. This list MUST
+        include a mapping entry for each YANG item defined by
+        the YANG module identified by 'module-name' and
+        'module-revision'.";
+
+      leaf namespace {
+        type enumeration {
+          enum module {
+            value 0;
+            description
+              "All module and submodule names share the same
+              global module identifier namespace.";
+          }
+          enum identity {
+            value 1;
+            description
+              "All identity names defined in a module and its
+              submodules share the same identity identifier
+              namespace.";
+          }
+          enum feature {
+            value 2;
+            description
+              "All feature names defined in a module and its
+              submodules share the same feature identifier
+              namespace.";
+          }
+          enum data {
+            value 3;
+            description
+              "The namespace for all data nodes, as defined in YANG.";
+          }
+        }
+        description
+          "Namespace of the YANG item for this mapping entry.";
+      }
+
+      leaf identifier {
+        type union {
+          type yang:yang-identifier;
+          type schema-node-path;
+        }
+        description
+          "String identifier of the YANG item for this mapping entry.
+
+          If the corresponding 'namespace' field is 'module',
+          'feature', or 'identity', then this field MUST
+          contain a valid YANG identifier string.
+
+          If the corresponding 'namespace' field is 'data',
+          then this field MUST contain a valid schema node
+          path.";
+      }
+
+      leaf sid {
+        type sid;
+        mandatory true;
+        description
+          "SID assigned to the YANG item for this mapping entry.";
+      }
     }
   }
 }
@@ -583,9 +619,8 @@ The allocation policy is Expert review. The Expert MUST ensure that the followin
   the same SIDs as in the other ".sid" file.
 * If there is an older version of the ".sid" file, all allocated SIDs from that
   version are still present in the current version of the ".sid" file.
-* SIDs never change.
 
-### Recursive Allocation of SID Range at Document Adoption
+### Recursive Allocation of SID Range at Document Adoption {#recursive-allocation-at-adoption}
 
 Due to the difficulty in changing SID values during IETF document processing,
 it is expected that most documents will ask for SID allocations using Early
@@ -631,8 +666,9 @@ those modules as well.
   approving AD may also exempt a document from this policy by agreeing to AD
   Sponsor the document.
 
-Critically, the original document should never get through the IETF process and
-then be surprised to be referencing a document whose progress is not certain.
+At the end of the IETF process all the dependencies of a given module for which
+SIDs are assigned, should also have SIDs assigned. Those dependencies'
+assignments should be permanent (not Early Allocation).
 
 A previously SID-allocated YANG module which changes its references to include
 a YANG module for which there is no SID allocation needs to repeat the Early
@@ -1103,7 +1139,7 @@ Assignment of SIDs to YANG items can be automated, the recommended process to as
 2. The list of items is sorted in alphabetical order, 'namespace' in descending order, 'identifier' in ascending order. The 'namespace' and 'identifier' formats are described in the YANG module 'ietf-sid-file' defined in {{sid-file-format}}.
 3. SIDs are assigned sequentially from the entry point up to the size of the registered SID range. This approach is recommended to minimize the serialization overhead, especially when delta between a reference SID and the current SID is used by protocols aiming to reduce message size.
 4. If the number of items exceeds the SID range(s) allocated to a YANG module, an extra range is added for subsequent assignments.
-5. The "dependencies-revisions" should reflect the revision numbers of each
+5. The "dependency-revision" should reflect the revision numbers of each
    YANG module that the YANG module imports at the moment of the generation.
 
 In case of an update to an existing ".sid" file, an additional step is needed
@@ -1117,6 +1153,11 @@ step #3. Already existing items in the SID file should not be given new SIDs.
 Note that ".sid" file versions are specific to a YANG module revision. For each
 new YANG module or each new revision of an existing YANG module, the version
 number of the initial ".sid" file should either be 0 or should not be present.
+
+Note also that RPC or action "input" and "output" data nodes MUST always be
+assigned SID even if they don't contain data nodes. The reason for this
+requirement is that other modules can augment the given module and those SIDs
+might be necessary.
 
 # ".sid" file lifecycle {#sid-lifecycle-ex}
 
