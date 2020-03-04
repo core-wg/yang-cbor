@@ -309,141 +309,148 @@ module ietf-sid-file {
   }
 
   rc:yang-data sid-file {
-    leaf module-name {
-      type yang:yang-identifier;
+    container content {
       description
-        "Name of the YANG module associated with this .sid file.";
-    }
-
-    leaf module-revision {
-      type revision-identifier;
-      description
-        "Revision of the YANG module associated with this .sid file.
-        This leaf is not present if no revision statement is
-        defined in the YANG module.";
-    }
-
-    leaf sid-file-version {
-      type sid-file-version-identifier;
-      description
-        "The version number of the .sid file. .sid files and the version
-        sequence are specific to a given YANG module revision.
-        This number starts at zero when there is a YANG module update.
-        This number can distinguish updates to the SID file which are the result of
-        new processing, or the result of reported errata.";
-    }
-
-    list dependency-revision {
-      key "module-name";
-
-      description
-        "Information about the revision of each YANG module that the module in
-        'module-name' includes used during the .sid file generation.";
-
+        "A Wrapper container that together with the rc:yang-data extension
+         marks the YANG data structures inside as not being intended to be
+         implemented as part of a configuration datastore or as an operational
+         state within the server.";
       leaf module-name {
         type yang:yang-identifier;
-        mandatory true;
         description
-          "Name of the YANG module, dependency of 'module-name', for which
-          revision information is provided.";
+          "Name of the YANG module associated with this .sid file.";
       }
+
       leaf module-revision {
         type revision-identifier;
-        mandatory true;
         description
-          "Revision of the YANG module, dependency of 'module-name', for which
-          revision information is provided.";
-      }
-    }
-
-    list assigment-ranges {
-      key "entry-point";
-      description
-        "SID range(s) allocated to the YANG module identified by
-        'module-name' and 'module-revision'.
-
-        - The SID range first available value is entry-point and the the last
-          available value in the range is (entry-point + size - 1).
-        - The SID ranges specified by all assignment-rages MUST NOT overlap.";
-
-      leaf entry-point {
-        type sid;
-        mandatory true;
-        description
-          "Lowest SID available for assignment.";
+          "Revision of the YANG module associated with this .sid file.
+          This leaf is not present if no revision statement is
+          defined in the YANG module.";
       }
 
-      leaf size {
-        type uint64;
-        mandatory true;
+      leaf sid-file-version {
+        type sid-file-version-identifier;
         description
-          "Number of SIDs available for assignment.";
-      }
-    }
-
-    list items {
-      key "namespace identifier";
-      description
-        "Each entry within this list defined the mapping between
-        a YANG item string identifier and a SID. This list MUST
-        include a mapping entry for each YANG item defined by
-        the YANG module identified by 'module-name' and
-        'module-revision'.";
-
-      leaf namespace {
-        type enumeration {
-          enum module {
-            value 0;
-            description
-              "All module and submodule names share the same
-              global module identifier namespace.";
-          }
-          enum identity {
-            value 1;
-            description
-              "All identity names defined in a module and its
-              submodules share the same identity identifier
-              namespace.";
-          }
-          enum feature {
-            value 2;
-            description
-              "All feature names defined in a module and its
-              submodules share the same feature identifier
-              namespace.";
-          }
-          enum data {
-            value 3;
-            description
-              "The namespace for all data nodes, as defined in YANG.";
-          }
-        }
-        description
-          "Namespace of the YANG item for this mapping entry.";
+          "The version number of the .sid file. .sid files and the version
+          sequence are specific to a given YANG module revision.
+          This number starts at zero when there is a YANG module update.
+          This number can distinguish updates to the SID file which are the result of
+          new processing, or the result of reported errata.";
       }
 
-      leaf identifier {
-        type union {
+      list dependency-revision {
+        key "module-name";
+
+        description
+          "Information about the revision of each YANG module that the module in
+          'module-name' includes used during the .sid file generation.";
+
+        leaf module-name {
           type yang:yang-identifier;
-          type schema-node-path;
+          mandatory true;
+          description
+            "Name of the YANG module, dependency of 'module-name', for which
+            revision information is provided.";
         }
-        description
-          "String identifier of the YANG item for this mapping entry.
-
-          If the corresponding 'namespace' field is 'module',
-          'feature', or 'identity', then this field MUST
-          contain a valid YANG identifier string.
-
-          If the corresponding 'namespace' field is 'data',
-          then this field MUST contain a valid schema node
-          path.";
+        leaf module-revision {
+          type revision-identifier;
+          mandatory true;
+          description
+            "Revision of the YANG module, dependency of 'module-name', for which
+            revision information is provided.";
+        }
       }
 
-      leaf sid {
-        type sid;
-        mandatory true;
+      list assigment-ranges {
+        key "entry-point";
         description
-          "SID assigned to the YANG item for this mapping entry.";
+          "SID range(s) allocated to the YANG module identified by
+          'module-name' and 'module-revision'.
+
+          - The SID range first available value is entry-point and the the last
+            available value in the range is (entry-point + size - 1).
+          - The SID ranges specified by all assignment-rages MUST NOT overlap.";
+
+        leaf entry-point {
+          type sid;
+          mandatory true;
+          description
+            "Lowest SID available for assignment.";
+        }
+
+        leaf size {
+          type uint64;
+          mandatory true;
+          description
+            "Number of SIDs available for assignment.";
+        }
+      }
+
+      list items {
+        key "namespace identifier";
+        description
+          "Each entry within this list defined the mapping between
+          a YANG item string identifier and a SID. This list MUST
+          include a mapping entry for each YANG item defined by
+          the YANG module identified by 'module-name' and
+          'module-revision'.";
+
+        leaf namespace {
+          type enumeration {
+            enum module {
+              value 0;
+              description
+                "All module and submodule names share the same
+                global module identifier namespace.";
+            }
+            enum identity {
+              value 1;
+              description
+                "All identity names defined in a module and its
+                submodules share the same identity identifier
+                namespace.";
+            }
+            enum feature {
+              value 2;
+              description
+                "All feature names defined in a module and its
+                submodules share the same feature identifier
+                namespace.";
+            }
+            enum data {
+              value 3;
+              description
+                "The namespace for all data nodes, as defined in YANG.";
+            }
+          }
+          description
+            "Namespace of the YANG item for this mapping entry.";
+        }
+
+        leaf identifier {
+          type union {
+            type yang:yang-identifier;
+            type schema-node-path;
+          }
+          description
+            "String identifier of the YANG item for this mapping entry.
+
+            If the corresponding 'namespace' field is 'module',
+            'feature', or 'identity', then this field MUST
+            contain a valid YANG identifier string.
+
+            If the corresponding 'namespace' field is 'data',
+            then this field MUST contain a valid schema node
+            path.";
+        }
+
+        leaf sid {
+          type sid;
+          mandatory true;
+          description
+            "SID assigned to the YANG item for this mapping entry.";
+        }
       }
     }
   }
