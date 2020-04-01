@@ -607,7 +607,7 @@ Initial entries in this registry are as follows:
 | 2400        |  50  | ietf-voucher                     | {{RFC8366}}              |
 | 2450        |  50  | ietf-constrained-voucher         | {{-constrained-voucher}} |
 | 2500        |  50  | ietf-constrained-voucher-request | {{-constrained-voucher}} |
-{: align="left"}
+{: align="left" cols="5r 4r 26l 22l"}
 
 // RFC Ed.: replace XXXX with RFC number assigned to this draft.
 
