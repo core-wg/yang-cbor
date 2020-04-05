@@ -83,7 +83,7 @@ The following items are identified using SIDs:
 
 * identities
 
-* data nodes (Note: including those parts of a YANG template as defined by the 'yang-data' extension.)
+* data nodes (Note: including those nodes defined by the 'yang-data' extension.)
 
 * RPCs and associated input(s) and output(s)
 
@@ -138,13 +138,13 @@ The following term is defined in {{RFC8040}}:
 This specification also makes use of the following terminology:
 
 * item:  A schema node, an identity, a module, a submodule or a feature defined using the YANG modeling language.
-* path: A path is a string that identifies a schema node within the schema tree. A path consists of the list of schema node identifier(s) separated by slashes ("/"). Schema node identifier(s) are always listed from the top-level schema node up to the targeted schema node. (e.g. "/ietf-system:system-state/clock/current-datetime")
+* path: A path is a string that identifies a schema node within the schema tree. A path consists of the list of consecutive schema node identifier(s) separated by slashes ("/"). Schema node identifier(s) are always listed from the top-level schema node up to the targeted schema node and could contain namespace information. (e.g. "/ietf-system:system-state/clock/current-datetime")
 * YANG Schema Item iDentifier (SID): Unsigned integer used to identify different YANG items.
 
 # ".sid" file lifecycle  {#sid-lifecycle}
 
 YANG is a language designed to model data accessed using one of the compatible
-protocols (e.g. NETCONF {{RFC6241}}, RESCONF {{RFC8040}} and CoRECONF {{-comi}}). A
+protocols (e.g. NETCONF {{RFC6241}}, RESTCONF {{RFC8040}} and CORECONF {{-comi}}). A
 YANG module defines hierarchies of data, including configuration, state data,
 RPCs, actions and notifications.
 
@@ -156,13 +156,13 @@ As needed, authors of YANG modules can assign SIDs to their YANG modules. In
 order to do that, they should first obtain a SID range from a registry and use
 that range to assign or generate SIDs to items of their YANG module. The
 assignments can then be stored in a ".sid" file. For
-example how this could be achieved, please refer to {{sid-lifecycle-ex}}.
+example on how this could be achieved, please refer to {{sid-lifecycle-ex}}.
 
 Registration of the ".sid" file associated to a YANG module is optional but
 recommended to promote interoperability between devices and to avoid duplicate
 allocation of SIDs to a single YANG module. Different registries might have
 different requirements for the registration and publication of the ".sid"
-files. For diagram of one of the possibilities, please refer to the activity
+files. For a diagram of one of the possibilities, please refer to the activity
 diagram on {{fig-sid-file-creation}} in {{sid-lifecycle-ex}}.
 
 Each time a YANG module or one of its imported module(s) or included
@@ -278,8 +278,7 @@ module ietf-sid-file {
   typedef sid-file-version-identifier {
     type uint64;
     description
-      "Optional attribute that gives information about the .sid file
-       version.";
+      "Represents the version of a .sid file.";
   }
 
   typedef sid {
@@ -299,7 +298,7 @@ module ietf-sid-file {
     description
       "Identifies a schema-node path string for use in the
        SID registry. This string format follows the rules
-       for an instance-identifier, as defined in RFC 7959,
+       for an instance-identifier, as defined in RFC 7951,
        except that no predicates are allowed.
 
        This format is intended to support the YANG 1.1 ABNF
@@ -343,7 +342,8 @@ module ietf-sid-file {
       leaf sid-file-version {
         type sid-file-version-identifier;
         description
-          "The version number of the .sid file. .sid files and the version
+          "Optional leaf that specifies the version number of the .sid file.
+          .sid files and the version
           sequence are specific to a given YANG module revision.
           This number starts at zero when there is a YANG module update.
           This number can distinguish updates to the SID file which are the result of
@@ -715,7 +715,7 @@ and deep dependencies of YANG modules.  Often a core module with many
 dependencies will undergo extensive review, delaying the publication of other
 documents.
 
-{{-BCP100}} also says
+{{-BCP100}} also says:
 
     Note that if a document is submitted for review to the IESG and at
     the time of submission some early allocations are valid (not
