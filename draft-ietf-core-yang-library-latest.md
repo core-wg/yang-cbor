@@ -39,14 +39,19 @@ author:
   
 normative:
   RFC2119:
+  RFC3688:
+  RFC6991:
   RFC7950:
   RFC8174:
   RFC8340:
   RFC8342:
   RFC8525:
+  I-D.ietf-core-sid: core-sid
 informative:
   RFC7228:
-  I-D.ietf-core-sid: core-sid
+  RFC8040:
+  RFC6241:
+  I-D.ietf-core-comi: comi
 
 --- abstract
 
@@ -181,7 +186,8 @@ module ietf-constrained-yang-library {
     
   import ietf-sid-file {
     prefix sid;
-    reference "I-D.ietf-core-sid";
+    reference "RFC YYYY: YANG Schema Item iDentifier (SID)";
+    // RFC Editor: Please replace YYYY with RFC number of I-D.ietf-core-sid.
   }
   import ietf-inet-types {
     prefix inet;
@@ -194,21 +200,18 @@ module ietf-constrained-yang-library {
   }
   
   organization
-    "IETF NETCONF (Network Configuration) Working Group";
+    "IETF Core Working Group";
 
   contact
     "WG Web:   <http://datatracker.ietf.org/wg/core/>
     
      WG List:  <mailto:core@ietf.org>
 
-     WG Chair: Carsten Bormann 
-               <mailto:cabo@tzi.org>
-
-     WG Chair: Jaime Jimenez 
-               <mailto:jaime.jimenez@ericsson.com>
-
      Editor:   Michel Veillette
-               <mailto:michel.veillette@trilliantinc.com>";
+               <mailto:michel.veillette@trilliantinc.com>
+
+     Editor:   Ivaylo Petrov
+               <mailto:ivaylo@ackl.io>";
 
   description
     "This module provides information about the YANG modules,
@@ -228,20 +231,14 @@ module ietf-constrained-yang-library {
      This version of this YANG module is part of RFC XXXX; see
      the RFC itself for full legal notices.";
 
-  // RFC Ed.: update reference.
+  // RFC Editor: Please replace XXXX with RFC number and remove this note
 
   revision 2019-03-28 {
     description
       "Second revision.";
     reference
-      "[I-D.veillette-core-yang-library]";
-  }
-
-  revision 2018-09-21 {
-    description
-      "Initial revision.";
-    reference
-      "[I-D.veillette-core-yang-library]";
+      "RFC XXXX: Constrained YANG Module Library";
+    // RFC Editor: Please replace XXXX with RFC number and remove this note
   }
   
   /*
@@ -552,7 +549,7 @@ module ietf-constrained-yang-library {
 
 # IANA Considerations
 
-## YANG Module Registry
+## YANG Module Registration
 
 This document registers one YANG module in the YANG Module Names registry {{RFC7950}}.
 
@@ -566,11 +563,36 @@ reference:    RFC XXXX
 
 // RFC Ed.: replace XXXX with RFC number and remove this note
 
+## YANG Namespace Registration
+
+This document registers the following XML namespace URN in the "IETF XML
+Registry", following the format defined in {{RFC3688}}:
+
+URI: please assign urn:ietf:params:xml:ns:yang:ietf-constrained-yang-library
+
+Registrant Contact: The IESG.
+
+XML: N/A, the requested URI is an XML namespace.
+
 # Security Considerations
 
-Some of the readable data nodes in this YANG module may be considered sensitive or vulnerable in some network environments.  It is thus important to control read access to these data nodes.
+The YANG module defined in this memo is designed to be accessed via CORECONF
+{{-comi}}, NETCONF {{RFC6241}} or RESTCONF {{RFC8040}}. Depending on the used
+protocol, the security considerations of some or all of those will apply.
 
-Specifically, the 'module' list may help an attacker to identify the server capabilities and server implementations with known bugs. Server vulnerabilities may be specific to particular modules, module revisions, module features, or even module deviations.  This information is included in each module entry.  For example, if a particular operation on a particular data node is known to cause a server to crash or significantly degrade device performance, then the module list information will help an attacker to identify server implementations with such a defect, in order to launch a denial of service attack on these devices.
+Some of the readable data nodes in this YANG module may be considered sensitive
+or vulnerable in some network environments.  It is thus important to control
+read access to these data nodes.
+
+Specifically, the 'module' list may help an attacker to identify the server
+capabilities and server implementations with known bugs. Server vulnerabilities
+may be specific to particular modules, module revisions, module features, or
+even module deviations.  This information is included in each module entry.
+For example, if a particular operation on a particular data node is known to
+cause a server to crash or significantly degrade device performance, then the
+module list information will help an attacker to identify server
+implementations with such a defect, in order to launch a denial of service
+attack on these devices.
 
 # Acknowledgments
 
