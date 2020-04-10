@@ -40,18 +40,24 @@ author:
 normative:
   RFC2119:
   RFC3688:
+  RFC6241:
+  RFC6242:
+  RFC6347:
   RFC6991:
+  RFC7252:
   RFC7950:
+  RFC8040:
   RFC8174:
   RFC8340:
+  RFC8341:
   RFC8342:
+  RFC8446:
   RFC8525:
+  RFC8613:
+  I-D.ietf-core-comi: comi
   I-D.ietf-core-sid: core-sid
 informative:
   RFC7228:
-  RFC8040:
-  RFC6241:
-  I-D.ietf-core-comi: comi
 
 --- abstract
 
@@ -576,13 +582,23 @@ XML: N/A, the requested URI is an XML namespace.
 
 # Security Considerations
 
-The YANG module defined in this memo is designed to be accessed via CORECONF
-{{-comi}}, NETCONF {{RFC6241}} or RESTCONF {{RFC8040}}. Depending on the used
-protocol, the security considerations of some or all of those will apply.
+The YANG module specified in this document defines a schema for data that is
+designed to be accessed via network management protocols such as NETCONF
+{{RFC6241}}, RESTCONF {{RFC8040}} or CORECONF {{-comi}}. The lowest NETCONF
+layer is the secure transport layer, and the mandatory-to-implement secure
+transport is Secure Shell (SSH) {{RFC6242}}. The lowest RESTCONF layer is HTTPS,
+and the mandatory-to-implement secure transport is TLS {{RFC8446}}. The lowest
+CORECONF layer is CoAP {{RFC7252}} and the mandatory-to-implement security
+transport is any one of DTLS {{RFC6347}} and OSCORE {{RFC8613}}.
+
+The Network Configuration Access Control Model (NACM) {{RFC8341}} provides the
+means to restrict access for particular NETCONF or RESTCONF users to a
+preconfigured subset of all available NETCONF or RESTCONF protocol operations
+and content.
 
 Some of the readable data nodes in this YANG module may be considered sensitive
 or vulnerable in some network environments.  It is thus important to control
-read access to these data nodes.
+read access (e.g., via get, get-config, or notification) to these data nodes.
 
 Specifically, the 'module' list may help an attacker to identify the server
 capabilities and server implementations with known bugs. Server vulnerabilities
@@ -599,4 +615,3 @@ attack on these devices.
 The YANG module defined by this memo have been derived from an already existing YANG module, ietf-yang-library {{RFC8525}}, we will like to thanks to the authors of this YANG module. A special thank also to Andy Bierman for his initial recommendations for the creation of this YANG module.
 
 --- back
-
