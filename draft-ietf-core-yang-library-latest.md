@@ -69,13 +69,13 @@ This document describes a constrained version of the YANG library that provides 
 
 There is a need for a standard mechanism to expose which YANG modules, datastores and datastore schemas are in use by a constrained network management server. This document defines the YANG module 'ietf-constrained-yang-library' that provides this information.
 
-YANG module 'ietf-constrained-yang-library' shares the same data model and objectives as 'ietf-yang-library', only datatypes and mandatory requirements have been updated to minimize its size to allow its implementation by Constrained Nodes and/or Constrained Networks as defined by {{RFC7228}}. To review the list of objectives and proposed data model, please refer to {{RFC8525}} section 2 and 3.
+YANG module 'ietf-constrained-yang-library' shares the same data model and objectives as 'ietf-yang-library', only datatypes and mandatory requirements have been updated to minimize its size to allow its implementation by Constrained Nodes and/or Constrained Networks as defined by {{RFC7228}}. To review the list of objectives and the proposed data model, please refer to {{RFC8525}} section 2 and 3.
 
 # Terminology and Notation
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 {{RFC2119}} {{RFC8174}} when, and only when, they appear in all capitals, as shown here.
 
-The following terms are defined in {{RFC7950}}: client, deviation, feature, module, submodule and server.
+The following terms are defined in {{RFC7950}}: client, deviation, feature, module, submodule, and server.
 
 The following term is defined in {{-core-sid}}: YANG Schema Item iDentifier (SID).
 
@@ -164,7 +164,7 @@ module: ietf-constrained-yang-library
 
 The changes between the reference data model 'ietf-yang-library' and its constrained version 'ietf-constrained-yang-library' are listed below:
 
-* module-set 'name' and schema 'name' are implemented using an 8 bits unsigned integer and renamed 'index'.
+* module-set 'name' and schema 'name' are implemented using 8 bits unsigned integers and renamed 'index'.
 
 * module 'name', submodule 'name' and datastore 'name' are implemented using a SID (i.e. an unsigned integer) and renamed 'identifier'.
 
@@ -257,7 +257,7 @@ module ietf-constrained-yang-library {
     }
     description
       "Revision date encoded as a binary string, each nibble
-       representing a digit of the of revision date. For example,
+       representing a digit of the revision date. For example,
        revision 2018-09-21 is encoded as 0x20 0x18 0x09 0x21.";
   }
 
@@ -612,6 +612,6 @@ attack on these devices.
 
 # Acknowledgments
 
-The YANG module defined by this memo have been derived from an already existing YANG module, ietf-yang-library {{RFC8525}}, we will like to thanks to the authors of this YANG module. A special thank also to Andy Bierman for his initial recommendations for the creation of this YANG module.
+The YANG module defined by this memo has been derived from an already existing YANG module, ietf-yang-library {{RFC8525}}, we will like to thank the authors of this YANG module. A special thank also to Andy Bierman for his initial recommendations for the creation of this YANG module.
 
 --- back
