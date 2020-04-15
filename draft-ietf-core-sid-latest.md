@@ -48,23 +48,25 @@ author:
   country: France
   email: ivaylo@ackl.io
 normative:
+  RFC2119:
+  RFC6991:
+  RFC7120: BCP100
   RFC7950:
   RFC7951:
-  RFC2119:
+  RFC8040:
   RFC8174:
-  RFC7120: BCP100
 informative:
-  RFC8126:
   RFC6020:
-  RFC6991:
   RFC6241:
+  RFC6536:
+  RFC7224:
+  RFC7317:
+  RFC8126:
   RFC8341:
   RFC8343:
-  RFC7224:
-  RFC8366:
   RFC8344:
+  RFC8366:
   RFC7317:
-  RFC8040:
   I-D.ietf-core-comi: comi
   I-D.ietf-core-yang-library: yang-library
   I-D.ietf-anima-constrained-voucher: constrained-voucher
@@ -201,7 +203,11 @@ module: ietf-sid-file
      +--rw sid           sid
 ~~~~
 
-The following YANG module defined the structure of this file, encoding is performed using the rules defined in {{RFC7951}}.
+The following YANG module defined the structure of this file, encoding is
+performed using the rules defined in {{RFC7951}}. It references ietf-yang-types
+defined in {{RFC6991}} and ietf-restconf defined in {{RFC8040}}.
+
+RFC Ed.: please update the date of the module and Copyright if needed and remove this note.
 
 ~~~~
 <CODE BEGINS> file "ietf-sid-file@2020-02-05.yang"
@@ -211,26 +217,32 @@ module ietf-sid-file {
 
   import ietf-yang-types {
     prefix yang;
+    reference "RFC 6991: Common YANG Data Types.";
   }
   import ietf-restconf {
     prefix rc;
+    reference "RFC 8040: RESTCONF Protocol.";
   }
 
   organization
     "IETF Core Working Group";
 
   contact
-    "Michel Veillette
-     <mailto:michel.veillette@trilliant.com>
+    "WG Web:   <http://datatracker.ietf.org/wg/core/>
 
-     Andy Bierman
-     <mailto:andy@yumaworks.com>
+     WG List:  <mailto:core@ietf.org>
 
-     Alexander Pelov
-     <mailto:a@ackl.io>
+     Editor:   Michel Veillette
+               <mailto:michel.veillette@trilliant.com>
 
-     Ivaylo Petrov
-     <mailto:ivaylo@ackl.io>";
+     Editor:   Andy Bierman
+               <mailto:andy@yumaworks.com>
+
+     Editor:   Alexander Pelov
+               <mailto:a@ackl.io>
+
+     Editor:   Ivaylo Petrov
+               <mailto:ivaylo@ackl.io>";
 
   description
     "Copyright (c) 2020 IETF Trust and the persons identified as
@@ -282,7 +294,9 @@ module ietf-sid-file {
   }
 
   typedef sid {
-    type uint64;
+    type uint64 {
+      range "0..9223372036854775807";
+    }
     description
       "YANG Schema Item iDentifier";
     reference
@@ -296,7 +310,7 @@ module ietf-sid-file {
         '(/[a-zA-Z_][a-zA-Z0-9\-_.]*(:[a-zA-Z_][a-zA-Z0-9\-_.]*)?)*';
     }
     description
-      "Identifies a schema-node path string for use in the
+      "A schema-node path string for use in the
        SID registry. This string format follows the rules
        for an instance-identifier, as defined in RFC 7951,
        except that no predicates are allowed.
@@ -361,8 +375,8 @@ module ietf-sid-file {
         key "module-name";
 
         description
-          "Information about the revision of each YANG module that the module in
-          'module-name' includes used during the .sid file generation.";
+          "Information about the used revision during the .sid file generation
+          of each YANG module that the module in 'module-name' imported.";
 
         leaf module-name {
           type yang:yang-identifier;
@@ -482,6 +496,21 @@ module ietf-sid-file {
 This document defines a new type of identifier used to encode data models defined in YANG {{RFC7950}}. As such, this identifier does not contribute to any new security issues in addition of those identified for the specific protocols or contexts for which it is used.
 
 # IANA Considerations  {#IANA}
+
+## YANG Namespace Registration
+
+This document registers the following XML namespace URN in the "IETF XML
+Registry", following the format defined in {{RFC3688}}:
+
+URI: please assign urn:ietf:params:xml:ns:yang:ietf-sid-file
+
+Registrant Contact: The IESG.
+
+XML: N/A, the requested URI is an XML namespace.
+
+Reference:    RFC XXXX
+
+// RFC Ed.: please replace XXXX with RFC number and remove this note
 
 ## Register SID File Format Module {#iana-module-registration}
 
@@ -737,21 +766,39 @@ The authors would like to thank Andy Bierman, Carsten Bormann, Michael Richardso
 
 The following ".sid" file (ietf-system@2014-08-06.sid) have been generated using the following yang modules:
 
-* ietf-system@2014-08-06.yang
+* ietf-system@2014-08-06.yang (defined in {{RFC7317}})
 
-* ietf-yang-types@2013-07-15.yang
+* ietf-yang-types@2013-07-15.yang (defined in {{RFC6991}})
 
-* ietf-inet-types@2013-07-15.yang
+* ietf-inet-types@2013-07-15.yang (defined in {{RFC6991}})
 
-* ietf-netconf-acm@2012-02-22.yang
+* ietf-netconf-acm@2012-02-22.yang (defined in {{RFC6536}})
 
-* iana-crypt-hash@2014-04-04.yang
+* iana-crypt-hash@2014-04-04.yang (defined in {{RFC7317}})
 
 ~~~~
 {
   "ietf-sid-file:sid-file" : {
     "module-name": "ietf-system",
     "module-revision": "2020-02-05",
+    "dependency-revision": [
+      {
+        "module-name": "ietf-yang-types",
+        "module-revision": "2013-07-15.yang"
+      },
+      {
+        "module-name": "ietf-inet-types",
+        "module-revision": "2013-07-15.yang"
+      },
+      {
+        "module-name": "ietf-netconf-acm",
+        "module-revision": "2012-02-22.yang"
+      },
+      {
+        "module-name": "iana-crypt-hash",
+        "module-revision": "2014-04-04.yang"
+      }
+    ],
     "description": "Example sid file",
     "assignment-ranges": [
       {
