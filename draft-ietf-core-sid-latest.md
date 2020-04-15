@@ -147,7 +147,7 @@ This specification also makes use of the following terminology:
 # ".sid" file lifecycle  {#sid-lifecycle}
 
 YANG is a language designed to model data accessed using one of the compatible
-protocols (e.g. NETCONF {{RFC6241}}, RESTCONF {{RFC8040}} and CORECONF {{-comi}}). A
+protocols (e.g. NETCONF {{RFC6241}}, RESTCONF {{RFC8040}} and CoMI {{-comi}}). A
 YANG module defines hierarchies of data, including configuration, state data,
 RPCs, actions and notifications.
 
