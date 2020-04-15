@@ -49,6 +49,7 @@ author:
   email: ivaylo@ackl.io
 normative:
   RFC2119:
+  RFC3688:
   RFC6991:
   RFC7120: BCP100
   RFC7950:
