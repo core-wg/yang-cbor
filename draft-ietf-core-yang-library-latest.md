@@ -580,6 +580,10 @@ Registrant Contact: The IESG.
 
 XML: N/A, the requested URI is an XML namespace.
 
+Reference:    RFC XXXX
+
+// RFC Ed.: replace XXXX with RFC number and remove this note
+
 # Security Considerations
 
 The YANG module specified in this document defines a schema for data that is
