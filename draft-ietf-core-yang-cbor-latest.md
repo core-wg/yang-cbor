@@ -922,9 +922,9 @@ module ietf-comi {
 
 ## Using SIDs in keys
 
-The yang-data extensions encoded using SIDs are carried in a CBOR map containing a single item pair. The key of this item is set to the SID assigned to the YANG template container, the value is set the CBOR encoding of this container as defined in {{container}}.
+The yang-data extensions encoded using SIDs are carried in a CBOR map containing a single item pair. The key of this item is set to the SID assigned to the yang-data extension container, the value is set the CBOR encoding of this container as defined in {{container}}.
 
-This example shows a serialization example of the yang-errors template as defined in {{-comi}} using SIDs as defined in {{sid}}.
+This example shows a serialization example of the yang-errors yang-data extension as defined in {{-comi}} using SIDs as defined in {{sid}}.
 
 CBOR diagnostic notation:
 
@@ -961,9 +961,9 @@ A1                                      # map(1)
 
 ## Using names in keys
 
-The yang-data extensions encoded using names are carried in a CBOR map containing a single item pair. The key of this item is set to the namespace qualified name of the YANG template container, the value is set the CBOR encoding of this container as defined in {{name}}.
+The yang-data extensions encoded using names are carried in a CBOR map containing a single item pair. The key of this item is set to the namespace qualified name of the yang-data extension container, the value is set the CBOR encoding of this container as defined in {{name}}.
 
-This example shows a serialization example of the yang-errors template as defined in {{-comi}} using names as defined {{name}}.
+This example shows a serialization example of the yang-errors yang-data extension as defined in {{-comi}} using names as defined {{name}}.
 
 CBOR diagnostic notation:
 
