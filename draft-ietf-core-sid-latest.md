@@ -109,7 +109,9 @@ Assignment of SIDs to YANG items can be automated. For more details how this
 could be achieved, please consult {{sid-auto-generation}}.
 
 SIDs are assigned permanently, items introduced by a new revision of a YANG
-module are added to the list of SIDs already assigned.
+module are added to the list of SIDs already assigned. If the meaning of an
+item changes, for example as a result from a non-backward compatible update of
+the YANG module, a new SID should be assigned to it.
 
 {{sid-lifecycle}} provides more details about the registration process of YANG
 modules and associated SIDs. To enable the implementation of this registry,
@@ -332,7 +334,7 @@ module ietf-sid-file {
 
   grouping sid-file {
     description "A grouping that contains a YANG container representing the
-      file structure of a sid files.";
+      file structure of a .sid files.";
 
     container sid-file {
       description
@@ -358,18 +360,18 @@ module ietf-sid-file {
         type sid-file-version-identifier;
         description
           "Optional leaf that specifies the version number of the .sid file.
-          .sid files and the version
-          sequence are specific to a given YANG module revision.
-          This number starts at zero when there is a YANG module update.
-          This number can distinguish updates to the SID file which are the result of
-          new processing, or the result of reported errata.";
+          .sid files and the version sequence are specific to a given YANG
+          module revision. This number starts at zero when there is a new YANG
+          module revision and increases monotonically.  This number can
+          distinguish updates to the .sid file which are the result of new
+          processing, or the result of reported errata.";
       }
 
       leaf description {
         type string;
         description
           "Free-form meta information about the generated file. It might
-          include sid file generation tool and time among other things.";
+          include .sid file generation tool and time among other things.";
       }
 
       list dependency-revision {
@@ -513,7 +515,7 @@ Reference:    RFC XXXX
 
 // RFC Ed.: please replace XXXX with RFC number and remove this note
 
-## Register SID File Format Module {#iana-module-registration}
+## Register ".sid" File Format Module {#iana-module-registration}
 
 This document registers one YANG module in the "YANG Module Names" registry {{RFC6020}}:
 
@@ -597,26 +599,34 @@ Each entry in this registry must include:
 The first million SIDs assigned to IANA is sub-divided as follows:
 
 * The range of 0 to 999 (size 1000) is "Reserved" as defined in {{RFC8126}}.
-* The range of 1000 to 59,999 (size 59,000) is reserved for YANG modules defined in RFCs. The IANA policy for additions to this registry is "Expert Review" {{RFC8126}}.
+* The range of 1000 to 59,999 (size 59,000) is reserved for YANG modules defined in RFCs.
+    * The IANA policy for additions to this registry is either:
+        * "Expert Review" {{RFC8126}} in case the ".sid" file comes from a YANG module from an existing RFC, or
+        * "RFC Required" {{RFC8126}} otherwise.
     * The Expert MUST verify that the YANG module for which this allocation is made has an RFC (existing RFC) OR is on track to become RFC (early allocation with a request from the WG chairs as defined by {{-BCP100}}).
-
-* The SID range allocated for a YANG module can follow in one of the four categories:
-    * SMALL (50 SIDs)
-    * MEDIUM (100 SIDs)
-    * LARGE (250 SIDs)
-    * CUSTOM (requested by the YANG module author, with a maximum of 1000 SIDs).
-  In all cases, the size of a SID range assigned to a YANG module should be at least 33% above the current number of YANG items. This headroom allows assignment within the same range of new YANG items introduced by subsequent revisions. A larger SID range size may be requested by the authors if this recommendation is considered insufficient. It is important to note that an additional SID range can be allocated to an existing YANG module if the initial range is exhausted.
-* The range of 60,000 to 99,999 (size 40,000)is reserved for experimental YANG modules. This range MUST NOT be used in operational deployments since these SIDs are not globally unique which limit their interoperability. The IANA policy for this range is "Experimental use" {{RFC8126}}.
+* The range of 60,000 to 99,999 (size 40,000) is reserved for experimental YANG modules. This range MUST NOT be used in operational deployments since these SIDs are not globally unique which limit their interoperability. The IANA policy for this range is "Experimental use" {{RFC8126}}.
 * The range of 100,000 to 999,999 (size 900,000) is "Reserved" as defined in {{RFC8126}}.
 
 | Entry Point   | Size       | IANA policy                       |
 |---------------+------------+-----------------------------------|
 | 0             | 1,000      | Reserved                          |
-| 1,000         | 59,000     | Expert Review                     |
+| 1,000         | 59,000     | Expert Review or RFC Required     |
 | 60,000        | 40,000     | Experimental use                  |
 | 100,000       | 900,000    | Reserved                          |
 {: align="left"}
 
+The size of the SID range allocated for a YANG module is recommended to be a multiple of 50 and to be at least 33% above the current number of YANG items. This headroom allows assignment within the same range of new YANG items introduced by subsequent revisions. The maximum SID range size is 1000. A larger size may be requested by the authors if this recommendation is considered insufficient. It is important to note that an additional SID range can be allocated to an existing YANG module if the initial range is exhausted.
+
+In case a SID range is allocated for an existing RFC through the "Expert
+Review" policy, the Document reference field for the given allocation should
+point to the RFC that the YANG module is defined in.
+
+In case a SID range is required before publishing the RFC due to
+implementations needing stable SID values, early allocation as defined in
+{{-BCP100}} can be employed. As specified in section 4.6 of {{RFC8126}}, RFCs
+and by extension documents that are expected to become an RFC fulfill the
+requirement for "Specification Required" stated in section 2 of {{-BCP100}},
+which allows for the early allocation process to be employed.
 
 ### Initial contents of the registry {#ietf-iana-sid-range-initial-contents}
 
@@ -1222,9 +1232,9 @@ In case of an update to an existing ".sid" file, an additional step is needed
 that increments the ".sid" file version number. If there was no version number
 in the previous version of the ".sid" file, 0 is assumed as the version number
 of the old version of the ".sid" file and the version number is 1 for the new
-".sid" file. Apart from that, changes of SID files can also be automated using
+".sid" file. Apart from that, changes of ".sid" files can also be automated using
 the same method described above, only unassigned YÀNG items are processed at
-step #3. Already existing items in the SID file should not be given new SIDs.
+step #3. Already existing items in the ".sid" file should not be given new SIDs.
 
 Note that ".sid" file versions are specific to a YANG module revision. For each
 new YANG module or each new revision of an existing YANG module, the version
@@ -1251,7 +1261,7 @@ evolution of the YANG module in the future.  Generation of ".sid" files should
 be performed using an automated tool.  Note that ".sid" files can only be
 generated for YANG modules and not for submodules.
 
-## SID File Creation
+## ".sid" File Creation
 
 The following activity diagram summarizes the creation of a YANG module and its associated ".sid" file.
 
@@ -1310,7 +1320,7 @@ The following activity diagram summarizes the creation of a YANG module and its 
 ~~~~
 {: #fig-sid-file-creation title='SID Lifecycle' align="left"}
 
-## SID File Update
+## ".sid" File Update
 
 The following Activity diagram summarizes the update of a YANG module and its associated ".sid" file.
 
@@ -1354,4 +1364,4 @@ The following Activity diagram summarizes the update of a YANG module and its as
                                [DONE]
 
 ~~~~
-{: #fig-sid-file-update title="YANG and SID file update" align="left"}
+{: #fig-sid-file-update title="YANG and \".sid\" file update" align="left"}
