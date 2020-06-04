@@ -1156,17 +1156,26 @@ CBOR encoding: D8 2C 69 756E626F756E646564
 
 ## The 'bits' Type {#bits}
 
-Leafs of type bits MUST be encoded using a CBOR byte string data item (major
-type 2). Bits position are either explicitly assigned using the YANG statement
-'position' or automatically assigned based on the algorithm defined in {{RFC7950}} section 9.7.4.2.
+Keeping in mind that bit positions are either explicitly assigned using the
+YANG statement 'position' or automatically assigned based on the algorithm
+defined in {{RFC7950}} section 9.7.4.2, each element of type bits could be seen
+as a set of bit offsets that have a value of ether 1, which represents the bit
+being set or 0, which represents that the bit is not set.
 
-Bits position 0 to 7 are assigned to the first byte within the byte
-string, bits 8 to 15 to the second byte, and subsequent bytes are assigned
-similarly. Within each byte, bits are assigned from least to most significant.
+Leafs of type bits MUST be encoded using a CBOR array where each element is
+either an unsigned integer that can be used to calculate the offset, or a byte
+string (major type 2) that carries the information whether certain bits are set
+or not. The initial offset value is 0 and each unsigned integer modifies the
+offset value of the next byte string by the integer value multiplied by 8. For
+example, if the bit offset is 0 and there is an integer with value 5, the first
+byte of the byte string that follows will represent bit positions 40 to 47 both
+ends included. If the byte string has a second byte, it will carry information
+about bits 48 to 55 and so on. Within each byte, bits are assigned from least
+to most significant. After the byte string the offset is modified by the number
+of bytes in the byte string multiplied by 8. An example follows.
 
-The following example shows the encoding of an 'alarm-state' leaf instance with the 'under-repair' and 'critical' flags set.
-
-Definition example from {{RFC8348}}:
+The following example shows the encoding of an 'alarm-state' leaf instance with
+the 'critical', 'warning' and 'indeterminate' flags set.
 
 ~~~~ yang
 typedef alarm-state {
@@ -1176,8 +1185,12 @@ typedef alarm-state {
     bit critical;
     bit major;
     bit minor;
-    bit warning;
-    bit indeterminate;
+    bit warning {
+      position 8;
+    }
+    bit indeterminate {
+      position 128;
+    }
   }
 }
 
@@ -1186,9 +1199,13 @@ leaf alarm-state {
 }
 ~~~~
 
-CBOR diagnostic notation: h'06'
+CBOR diagnostic notation: [h'0401', 14, h'01']
 
-CBOR encoding: 41 06
+CBOR encoding: 83 42 0401 0E 41 01
+
+Having two consecutive unsigned integers, byte strings or having elements that
+are neither unsigned integer nor byte string inside the array SHOULD be
+considered an error.
 
 Values of 'bit' types defined in a 'union' type MUST be encoded using a
 CBOR text string data item (major type 3) and MUST contain a space-separated
