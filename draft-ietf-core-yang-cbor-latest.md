@@ -1598,6 +1598,22 @@ CBOR encoding:
    74696F6E2F757365725B6E616D653D27626F62275D
 ~~~~
 
+# Content-Types {#content-type}
+
+The following Content-Type is defined:
+
+application/yang-data+cbor; id=name:
+
+: This Content-Type represents a CBOR YANG document containing one or multiple data node values.
+  Each data node is identified by its associated namespace qualified name as defined in {{name}}.
+
+: FORMAT: CBOR map of name, instance-value
+
+: The message payload of Content-Type 'application/yang-data+cbor' is encoded using a CBOR map.
+  Each entry within the CBOR map contains the data node identifier (i.e. its
+  namespace qualified name) and the associated instance-value.  Instance-values
+  are encoded using the rules defined in {{instance-encoding}}
+
 # Security Considerations
 
 The security considerations of {{RFC7049}} and {{RFC7950}} apply.
@@ -1607,6 +1623,28 @@ This document defines an alternative encoding for data modeled in the YANG data 
 To minimize security risks, software on the receiving side SHOULD reject all messages that do not comply to the rules of this document and reply with an appropriate error message to the sender.
 
 # IANA Considerations
+
+## Media-Types Registry
+
+This document adds the following Media-Type to the "Media Types" registry.
+
+| Name                  | Template                    | Reference |
+| yang-data+cbor        | application/yang-data+cbor  | RFC XXXX  |
+{: align="left"}
+
+// RFC Ed.: replace RFC XXXX with this RFC number and remove this note.
+
+## CoAP Content-Formats Registry
+
+This document adds the following Content-Format to the "CoAP Content-Formats",
+within the "Constrained RESTful Environments (CoRE) Parameters" registry.
+
+| Media Type                             | Content Coding | ID   | Reference |
+| application/yang-data+cbor; id=name    |                | TBD1 | RFC XXXX  |
+{: align="left"}
+
+// RFC Ed.: replace TBD1 with assigned IDs and remove this note.
+// RFC Ed.: replace RFC XXXX with this RFC number and remove this note.
 
 ##  CBOR Tags Registry {#tag-registry}
 

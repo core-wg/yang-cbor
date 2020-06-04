@@ -56,6 +56,7 @@ normative:
   RFC7951:
   RFC8040:
   RFC8174:
+  I-D.ietf-core-yang-cbor:
 informative:
   RFC6020:
   RFC6241:
@@ -495,6 +496,21 @@ module ietf-sid-file {
 ~~~~
 {: align="left"}
 
+# Content-Types {#content-type}
+
+The following Content-Type is defined:
+
+application/yang-data+cbor; id=sid:
+
+: This Content-Type represents a CBOR YANG document containing one or multiple data node values.
+  Each data node is identified by its associated SID.
+
+: FORMAT: CBOR map of SID, instance-value
+
+: The message payload of Content-Type 'application/yang-data+cbor' is encoded using a CBOR map.
+  Each entry within the CBOR map contains the data node identifier (i.e. SID) and the associated instance-value.
+  Instance-values are encoded using the rules defined in {{I-D.ietf-core-yang-cbor}} section 4.
+
 # Security Considerations
 
 This document defines a new type of identifier used to encode data models defined in YANG {{RFC7950}}. As such, this identifier does not contribute to any new security issues in addition of those identified for the specific protocols or contexts for which it is used.
@@ -524,6 +540,17 @@ This document registers one YANG module in the "YANG Module Names" registry {{RF
 * namespace:    urn:ietf:params:xml:ns:yang:ietf-sid-file
 * prefix:       sid
 * reference:    [[THISRFC]]
+
+## CoAP Content-Formats Registry
+
+This document adds the following Content-Format to the "CoAP Content-Formats", within the "Constrained RESTful Environments (CoRE) Parameters" registry.
+
+| Media Type                            | Content Coding | ID   | Reference |
+| application/yang-data+cbor; id=sid    |                | TBD1 | RFC XXXX  |
+{: align="left"}
+
+// RFC Ed.: replace TBD1 with assigned IDs and remove this note.
+// RFC Ed.: replace RFC XXXX with this RFC number and remove this note.
 
 ## Create new IANA Registry: "SID Mega-Range" registry {#mega-range-registry}
 
