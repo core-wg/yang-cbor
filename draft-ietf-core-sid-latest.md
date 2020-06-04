@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-ietf-core-sid-12
+docname: draft-ietf-core-sid-13
 title: YANG Schema Item iDentifier (SID)
 area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
@@ -215,6 +215,7 @@ RFC Ed.: please update the date of the module and Copyright if needed and remove
 ~~~~
 <CODE BEGINS> file "ietf-sid-file@2020-02-05.yang"
 module ietf-sid-file {
+  yang-version 1.1;
   namespace "urn:ietf:params:xml:ns:yang:ietf-sid-file";
   prefix sid;
 
