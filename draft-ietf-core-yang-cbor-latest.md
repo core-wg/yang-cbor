@@ -125,19 +125,19 @@ This specification also makes use of the following terminology:
 
 * child: A schema node defined as a child node of a container, a list, a case, a notification, an RPC input, an RPC output, an action input, an action output.
 
-* delta: Difference between the current SID and a reference SID. A reference SID is defined for each context for which deltas are used.
+* delta: Difference between the current YANG SID and a reference YANG SID. A reference YANG SID is defined for each context for which deltas are used.
 
 * item: A schema node, an identity, a module, a submodule or a feature defined using the YANG modeling language.
 
 * parent: The container, list, case, notification, RPC input, RPC output, action input or action output node in which a schema node is defined.
 
-* YANG Schema Item iDentifier (SID): Unsigned integer used to identify different YANG items.
+* YANG Schema Item iDentifier (YANG SID or simply SID): Unsigned integer used to identify different YANG items.
 
 # Properties of the CBOR Encoding {#properties-of-cbor-encoding}
 
 This document defines CBOR encoding rules for YANG data trees and their subtrees.
 
-A node from the data tree such as container, list instance, notification, RPC input, RPC output, action input and action output is serialized using a CBOR map in which each child schema node is encoded using a key and a value. This specification supports two types of CBOR keys; YANG Schema Item iDentifier (SID) as defined in {{sid}} and names as defined in {{name}}. Each of these key types is encoded using a specific CBOR type which allows their interpretation during the deserialization process. Protocols or mechanisms implementing this specification can mandate the use of a specific key type.
+A node from the data tree such as container, list instance, notification, RPC input, RPC output, action input and action output is serialized using a CBOR map in which each child schema node is encoded using a key and a value. This specification supports two types of CBOR keys; YANG Schema Item iDentifier (YANG SID) as defined in {{sid}} and names as defined in {{name}}. Each of these key types is encoded using a specific CBOR type which allows their interpretation during the deserialization process. Protocols or mechanisms implementing this specification can mandate the use of a specific key type.
 
 In order to minimize the size of the encoded data, the proposed mapping avoids any unnecessary meta-information beyond those natively supported by CBOR. For instance, CBOR tags are used solely in the case of SID not encoded as delta, anyxml schema nodes and the union datatype to distinguish explicitly the use of different YANG datatypes encoded using the same CBOR major type.
 
@@ -169,9 +169,9 @@ Within this document, CBOR binary contents are represented using an equivalent t
 
 Note: CBOR binary contents shown in this specification are annotated with comments. These comments are delimited by slashes ("/") as defined in {{RFC8610}} Appendix G.6.
 
-## YANG Schema Item iDentifier (SID) {#sid}
+## YANG Schema Item iDentifier {#sid}
 
-Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier.  In both NETCONF {{RFC6241}} and RESTCONF {{RFC8040}}, these identifiers are implemented using strings.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called YANG Schema Item iDentifier (SID), is an unsigned integer. The following items are identified using SIDs:
+Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier.  In both NETCONF {{RFC6241}} and RESTCONF {{RFC8040}}, these identifiers are implemented using strings.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called YANG Schema Item iDentifier, is an unsigned integer. The following items are identified using YANG SIDs (often shortened to SIDs):
 
 * identities
 
@@ -1305,7 +1305,7 @@ CBOR encoding: 64 65746831
 
 ## The 'identityref' Type
 
-This specification supports two approaches for encoding identityref, a YANG Schema Item iDentifier (SID) as defined in {{sid}} or a name as defined in {{RFC7951}} section 6.8.
+This specification supports two approaches for encoding identityref, a YANG Schema Item iDentifier as defined in {{sid}} or a name as defined in {{RFC7951}} section 6.8.
 
 ### SIDs as identityref {#identityref-with-sid}
 
@@ -1427,7 +1427,7 @@ CBOR encoding: 74 323030313A6462383A6130623A313266303A3A31
 
 ## The 'instance-identifier' Type
 
-This specification supports two approaches for encoding an instance-identifier, one based on YANG Schema Item iDentifier (SID) as defined in {{sid}} and one based on names as defined in {{name}}.
+This specification supports two approaches for encoding an instance-identifier, one based on YANG Schema Item iDentifier as defined in {{sid}} and one based on names as defined in {{name}}.
 
 ### SIDs as instance-identifier {#instance-identifier-with-sid}
 

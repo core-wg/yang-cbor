@@ -2,7 +2,7 @@
 stand_alone: true
 ipr: trust200902
 docname: draft-ietf-core-sid-13
-title: YANG Schema Item iDentifier (SID)
+title: YANG Schema Item iDentifier (YANG SID)
 area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
 kw: CBOR
@@ -74,13 +74,13 @@ informative:
 
 --- abstract
 
-YANG Schema Item iDentifiers (SID) are globally unique 63-bit unsigned integers used to identify YANG items.  This document defines the semantics, the registration, and assignment processes of SIDs.  To enable the implementation of these processes, this document also defines a file format used to persist and publish assigned SIDs.
+YANG Schema Item iDentifiers (YANG SID) are globally unique 63-bit unsigned integers used to identify YANG items.  This document defines the semantics, the registration, and assignment processes of YANG SIDs.  To enable the implementation of these processes, this document also defines a file format used to persist and publish assigned YANG SIDs.
 
 --- middle
 
 # Introduction
 
-Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier.  In both NETCONF {{RFC6241}} and RESTCONF {{RFC8040}}, these identifiers are implemented using names.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called SID, is encoded using a 63-bit unsigned integer. The limitation to 63-bit unsigned integers allows SIDs to be manipulated more easily on platforms that might otherwise lack native 64-bit unsigned arithmetic. The loss of a single bit of range is not significant given the size of the remaining space.
+Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier.  In both NETCONF {{RFC6241}} and RESTCONF {{RFC8040}}, these identifiers are implemented using names.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called YANG SID or simply SID in this document and when the context is clear, is encoded using a 63-bit unsigned integer. The limitation to 63-bit unsigned integers allows SIDs to be manipulated more easily on platforms that might otherwise lack native 64-bit unsigned arithmetic. The loss of a single bit of range is not significant given the size of the remaining space.
 
 The following items are identified using SIDs:
 
@@ -144,7 +144,7 @@ This specification also makes use of the following terminology:
 
 * item:  A schema node, an identity, a module, a submodule or a feature defined using the YANG modeling language.
 * path: A path is a string that identifies a schema node within the schema tree. A path consists of the list of consecutive schema node identifier(s) separated by slashes ("/"). Schema node identifier(s) are always listed from the top-level schema node up to the targeted schema node and could contain namespace information. (e.g. "/ietf-system:system-state/clock/current-datetime")
-* YANG Schema Item iDentifier (SID): Unsigned integer used to identify different YANG items.
+* YANG Schema Item iDentifier (YANG SID or simply SID): Unsigned integer used to identify different YANG items.
 
 # ".sid" file lifecycle  {#sid-lifecycle}
 
@@ -274,13 +274,13 @@ module ietf-sid-file {
 
      Each .sid file contains the mapping between the different
      string identifiers defined by a YANG module and a
-     corresponding numeric value called SID.";
+     corresponding numeric value called YANG SID.";
 
   revision 2020-02-05 {
     description
       "Initial revision.";
     reference
-      "[I-D.ietf-core-sid] YANG Schema Item iDentifier (SID)";
+      "[I-D.ietf-core-sid] YANG Schema Item iDentifier (YANG SID)";
   }
 
   typedef revision-identifier {
@@ -304,7 +304,7 @@ module ietf-sid-file {
     description
       "YANG Schema Item iDentifier";
     reference
-      "[I-D.ietf-core-sid] YANG Schema Item iDentifier (SID)";
+      "[I-D.ietf-core-sid] YANG Schema Item iDentifier (YANG SID)";
   }
 
   typedef schema-node-path {
@@ -315,7 +315,7 @@ module ietf-sid-file {
     }
     description
       "A schema-node path string for use in the
-       SID registry. This string format follows the rules
+       YANG SID registry. This string format follows the rules
        for an instance-identifier, as defined in RFC 7951,
        except that no predicates are allowed.
 
@@ -401,25 +401,26 @@ module ietf-sid-file {
       list assigment-ranges {
         key "entry-point";
         description
-          "SID range(s) allocated to the YANG module identified by
+          "YANG SID range(s) allocated to the YANG module identified by
           'module-name' and 'module-revision'.
 
-          - The SID range first available value is entry-point and the the last
-            available value in the range is (entry-point + size - 1).
-          - The SID ranges specified by all assignment-rages MUST NOT overlap.";
+          - The YANG SID range first available value is entry-point and the the
+            last available value in the range is (entry-point + size - 1).
+          - The YANG SID ranges specified by all assignment-rages MUST NOT
+            overlap.";
 
         leaf entry-point {
           type sid;
           mandatory true;
           description
-            "Lowest SID available for assignment.";
+            "Lowest YANG SID available for assignment.";
         }
 
         leaf size {
           type uint64;
           mandatory true;
           description
-            "Number of SIDs available for assignment.";
+            "Number of YANG SIDs available for assignment.";
         }
       }
 
@@ -427,7 +428,7 @@ module ietf-sid-file {
         key "namespace identifier";
         description
           "Each entry within this list defined the mapping between
-          a YANG item string identifier and a SID. This list MUST
+          a YANG item string identifier and a YANG SID. This list MUST
           include a mapping entry for each YANG item defined by
           the YANG module identified by 'module-name' and
           'module-revision'.";
@@ -485,7 +486,7 @@ module ietf-sid-file {
           type sid;
           mandatory true;
           description
-            "SID assigned to the YANG item for this mapping entry.";
+            "YANG SID assigned to the YANG item for this mapping entry.";
         }
       }
     }
@@ -525,9 +526,9 @@ This document registers one YANG module in the "YANG Module Names" registry {{RF
 * prefix:       sid
 * reference:    [[THISRFC]]
 
-## Create new IANA Registry: "SID Mega-Range" registry {#mega-range-registry}
+## Create new IANA Registry: "YANG SID Mega-Range" registry {#mega-range-registry}
 
-The name of this registry is "SID Mega-Range". This registry is used to record the delegation of the management of a block of SIDs to third parties (such as SDOs or registrars).
+The name of this registry is "YANG SID Mega-Range". This registry is used to record the delegation of the management of a block of SIDs to third parties (such as SDOs or registrars).
 
 ### Structure
 
@@ -548,15 +549,15 @@ contact email and phone number and change controller email and phone number.
 
 The IANA policy for future additions to this registry is "Expert Review" {{RFC8126}}.
 
-An organization requesting to manage a SID Range (and thus have an entry in the SID Mega-Range Registry), must ensure the following capacities:
+An organization requesting to manage a YANG SID Range (and thus have an entry in the YANG SID Mega-Range Registry), must ensure the following capacities:
 
-* The capacity to manage and operate a SID Range Registry. A SID Range Registry MUST provide the following information for all SID Ranges allocated by the Registry:
-    * Entry Point of allocated SID Range
-    * Size of allocated SID Range
+* The capacity to manage and operate a YANG SID Range Registry. A YANG SID Range Registry MUST provide the following information for all YANG SID Ranges allocated by the Registry:
+    * Entry Point of allocated YANG SID Range
+    * Size of allocated YANG SID Range
     * Type: Public or Private
-        * Public Ranges MUST include at least a reference to the YANG module and ".sid" files for that SID Range.
+        * Public Ranges MUST include at least a reference to the YANG module and ".sid" files for that YANG SID Range.
         * Private Ranges MUST be marked as "Private"
-* A Policy of allocation, which clearly identifies if the SID Range allocations would be Private, Public or Both.
+* A Policy of allocation, which clearly identifies if the YANG SID Range allocations would be Private, Public or Both.
 * Technical capacity to ensure the sustained operation of the registry for a period of at least 5 years. If Private Registrations are allowed, the period must be of at least 10 years.
 
 
@@ -584,7 +585,7 @@ The initial entry in this registry is allocated to IANA:
 | 0           | 1000000 | Public     | IANA              | iana.org |
 {: align="left"}
 
-## Create a new IANA Registry: IETF SID Range Registry (managed by IANA) {#ietf-iana-sid-range-allocation}
+## Create a new IANA Registry: IETF YANG SID Range Registry (managed by IANA) {#ietf-iana-sid-range-allocation}
 
 ### Structure {#ietf-iana-sid-range-structure}
 
@@ -654,9 +655,9 @@ Initial entries in this registry are as follows:
 
 For allocation, RFC publication of the YANG module is required as per {{RFC8126}}. The YANG module must be registered in the "YANG module Name" registry according to the rules specified in section 14 of {{RFC6020}}.
 
-## Create new IANA Registry: "IETF SID Registry" {#ietf-sid-registry}
+## Create new IANA Registry: "IETF YANG SID Registry" {#ietf-sid-registry}
 
-The name of this registry is "IETF SID Registry".  This registry is used to
+The name of this registry is "IETF YANG SID Registry".  This registry is used to
 record the allocation of SIDs for individual YANG module items.
 
 ### Structure
@@ -676,17 +677,17 @@ The allocation policy is Expert review. The Expert MUST ensure that the followin
     * The ".sid" file MUST be a valid JSON file following the structure of the
       module defined in RFCXXXX (RFC Ed: replace XXX with RFC number assigned
       to this draft).
-* The ".sid" file allocates individual SIDs ONLY in the SID Ranges for this
-  YANG module (as allocated in the IETF SID Range Registry):
+* The ".sid" file allocates individual SIDs ONLY in the YANG SID Ranges for this
+  YANG module (as allocated in the IETF YANG SID Range Registry):
     * All SIDs in this ".sid" file MUST be within the ranges allocated to this
-      YANG module in the "IETF SID Range Registry".
+      YANG module in the "IETF YANG SID Range Registry".
 * If another ".sid" file has already allocated SIDs for this YANG module (e.g.
   for older or newer versions of the YANG module), the YANG items are assigned
   the same SIDs as in the other ".sid" file.
 * If there is an older version of the ".sid" file, all allocated SIDs from that
   version are still present in the current version of the ".sid" file.
 
-### Recursive Allocation of SID Range at Document Adoption {#recursive-allocation-at-adoption}
+### Recursive Allocation of YANG SID Range at Document Adoption {#recursive-allocation-at-adoption}
 
 Due to the difficulty in changing SID values during IETF document processing,
 it is expected that most documents will ask for SID allocations using Early
@@ -695,7 +696,7 @@ in any Working Group Adoption call. Prior to Working Group Adoption, an internet
 draft authors can use the experimental SID range (as per
 {{ietf-iana-sid-range-allocation-policy}}) for their SIDs allocations or
 other values that do not create ambiguity with other SID uses (for example
-they can use a range that comes from a non-IANA managed "SID Mega-Range"
+they can use a range that comes from a non-IANA managed "YANG SID Mega-Range"
 registry).
 
 After Working Group Adoption, any modification of a ".sid" file is expected to be
@@ -1249,10 +1250,10 @@ might be necessary.
 # ".sid" file lifecycle {#sid-lifecycle-ex}
 
 Before assigning SIDs to their YANG modules, YANG module authors must acquire a
-SID range from a "SID Range Registry". If the YANG module is part of an IETF
-draft or RFC, the SID range need to be acquired from the "IETF SID Range
+SID range from a "YANG SID Range Registry". If the YANG module is part of an IETF
+draft or RFC, the SID range need to be acquired from the "IETF YANG SID Range
 Registry" as defined in {{ietf-iana-sid-range-allocation}}. For the other YANG
-modules, the authors can acquire a SID range from any "SID Range Registry" of
+modules, the authors can acquire a SID range from any "YANG SID Range Registry" of
 their choice.
 
 Once the SID range is acquired, the owner can use it to generate ".sid" file/s
