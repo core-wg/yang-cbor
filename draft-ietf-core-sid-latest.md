@@ -144,13 +144,14 @@ The following term is defined in {{RFC8040}}:
 This specification also makes use of the following terminology:
 
 * item:  A schema node, an identity, a module, a submodule or a feature defined using the YANG modeling language.
-* path: A path is a string that identifies a schema node within the schema tree. A path consists of the list of consecutive schema node identifier(s) separated by slashes ("/"). Schema node identifier(s) are always listed from the top-level schema node up to the targeted schema node and could contain namespace information. (e.g. "/ietf-system:system-state/clock/current-datetime")
+* schema-node path: A schema-node path is a string that identifies a schema node within the schema tree. A path consists of the list of consecutive schema node identifier(s) separated by slashes ("/"). Schema node identifier(s) are always listed from the top-level schema node up to the targeted schema node and could contain namespace information. (e.g. "/ietf-system:system-state/clock/current-datetime")
+* Namespace-qualified form - a schema node identifier is prefixed with the name of the module in which the schema node is defined, separated from the schema node identifier by the colon character (":").
 * YANG Schema Item iDentifier (YANG SID or simply SID): Unsigned integer used to identify different YANG items.
 
 # ".sid" file lifecycle  {#sid-lifecycle}
 
 YANG is a language designed to model data accessed using one of the compatible
-protocols (e.g. NETCONF {{RFC6241}}, RESTCONF {{RFC8040}} and CoMI {{-comi}}). A
+protocols (e.g. NETCONF {{RFC6241}}, RESTCONF {{RFC8040}} and CORECONF {{-comi}}). A
 YANG module defines hierarchies of data, including configuration, state data,
 RPCs, actions and notifications.
 
@@ -316,18 +317,20 @@ module ietf-sid-file {
     }
     description
       "A schema-node path string for use in the
-       YANG SID registry. This string format follows the rules
-       for an instance-identifier, as defined in RFC 7951,
-       except that no predicates are allowed.
+       YANG SID registry. This string additionally follows the following rules:
+
+       o  The leftmost (top-level) data node name is always in the
+          namespace-qualified form.
+       o  Any subsequent schema node name is in the namespace-qualified form
+          if the node is defined in a module other than its parent node, and
+          the simple form is used otherwise. No predicates are allowed.
 
        This format is intended to support the YANG 1.1 ABNF
        for a schema node identifier, except module names
-       are used instead of prefixes, as specified in RFC 7951.";
+       are used instead of prefixes.";
     reference
       "RFC 7950, The YANG 1.1 Data Modeling Language;
-       Section 6.5: Schema Node Identifier;
-       RFC 7951, JSON Encoding of YANG Data;
-       Section 6.11: The instance-identifier type";
+       Section 6.5: Schema Node Identifier;";
   }
 
   rc:yang-data sid-file {
