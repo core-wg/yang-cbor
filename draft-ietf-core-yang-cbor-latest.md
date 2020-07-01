@@ -890,7 +890,7 @@ Just like YANG containers, yang-data extension can be encoded using either SIDs 
 Definition example from {{-comi}} Appendix A:
 
 ~~~~ yang
-module ietf-comi {
+module ietf-coreconf {
   ...
 
   import ietf-restconf {
@@ -969,7 +969,7 @@ CBOR diagnostic notation:
 
 ~~~~ CBORdiag
 {
-  "ietf-comi:error" : {
+  "ietf-coreconf:error" : {
     "error-tag" : "invalid-value",
     "error-app-tag" : "not-in-range",
     "error-data-node" : "timezone-utc-offset",
@@ -981,26 +981,26 @@ CBOR diagnostic notation:
 CBOR encoding:
 
 ~~~~ CBORbytes
-A1                                      # map(1)
-   6F                                   # text(15)
-      696574662D636F6D693A6572726F72    # "ietf-comi:error"
-   A4                                   # map(4)
-      69                                # text(9)
-         6572726F722D746167             # "error-tag"
-      6D                                # text(13)
-         696E76616C69642D76616C7565     # "invalid-value"
-      6D                                # text(13)
-         6572726F722D6170702D746167     # "error-app-tag"
-      6C                                # text(12)
-         6E6F742D696E2D72616E6765       # "not-in-range"
-      6F                                # text(15)
-         6572726F722D646174612D6E6F6465 # "error-data-node"
-      73                                # text(19)
+A1                                           # map(1)
+   73                                        # text(19)
+      696574662D636F7265636F6E663A6572726F72 # "ietf-coreconf:error"
+   A4                                        # map(4)
+      69                                     # text(9)
+         6572726F722D746167                  # "error-tag"
+      6D                                     # text(13)
+         696E76616C69642D76616C7565          # "invalid-value"
+      6D                                     # text(13)
+         6572726F722D6170702D746167          # "error-app-tag"
+      6C                                     # text(12)
+         6E6F742D696E2D72616E6765            # "not-in-range"
+      6F                                     # text(15)
+         6572726F722D646174612D6E6F6465      # "error-data-node"
+      73                                     # text(19)
          74696D657A6F6E652D7574632D6F6666736574
-                                        # "timezone-utc-offset"
-      6D                                # text(13)
-         6572726F722D6D657373616765     # "error-message"
-      70                                # text(16)
+                                             # "timezone-utc-offset"
+      6D                                     # text(13)
+         6572726F722D6D657373616765          # "error-message"
+      70                                     # text(16)
          4D6178696D756D206578636565646564
 ~~~~
 
