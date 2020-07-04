@@ -316,18 +316,17 @@ module ietf-sid-file {
         '(/[a-zA-Z_][a-zA-Z0-9\-_.]*(:[a-zA-Z_][a-zA-Z0-9\-_.]*)?)*';
     }
     description
-      "A schema-node path string for use in the
-       YANG SID registry. This string additionally follows the following rules:
+      "A schema-node path is an absolute YANG schema node identifier as
+      defined by the YANG ABNF rule absolute-schema-nodeid, except
+      that module names are used instead of prefixes.
+
+      This string additionally follows the following rules:
 
        o  The leftmost (top-level) data node name is always in the
           namespace-qualified form.
        o  Any subsequent schema node name is in the namespace-qualified form
           if the node is defined in a module other than its parent node, and
-          the simple form is used otherwise. No predicates are allowed.
-
-       This format is intended to support the YANG 1.1 ABNF
-       for a schema node identifier, except module names
-       are used instead of prefixes.";
+          the simple form is used otherwise. No predicates are allowed.";
     reference
       "RFC 7950, The YANG 1.1 Data Modeling Language;
        Section 6.5: Schema Node Identifier;";
