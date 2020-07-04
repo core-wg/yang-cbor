@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-ietf-core-sid-13
+docname: draft-ietf-core-sid-14
 title: YANG Schema Item iDentifier (YANG SID)
 area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
@@ -665,7 +665,7 @@ Initial entries in this registry are as follows:
 
 | Entry Point | Size | Module name                      | Document reference       |
 |-------------+------+----------------------------------+--------------------------|
-| 1000        | 100  | ietf-comi                        | {{-comi}}                |
+| 1000        | 100  | ietf-coreconf                    | {{-comi}}                |
 | 1100        |  50  | ietf-yang-types                  | {{RFC6991}}              |
 | 1150        |  50  | ietf-inet-types                  | {{RFC6991}}              |
 | 1200        |  50  | iana-crypt-hash                  | {{RFC7317}}              |
