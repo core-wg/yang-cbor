@@ -206,7 +206,7 @@ module ietf-constrained-yang-library {
   }
   
   organization
-    "IETF Core Working Group";
+    "IETF CoRE Working Group";
 
   contact
     "WG Web:   <http://datatracker.ietf.org/wg/core/>
