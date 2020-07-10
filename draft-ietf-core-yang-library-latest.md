@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-ietf-core-yang-library-01
+docname: draft-ietf-core-yang-library-02
 title: Constrained YANG Module Library
 area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
