@@ -616,6 +616,11 @@ attack on these devices.
 
 # Acknowledgments
 
-The YANG module defined by this memo has been derived from an already existing YANG module, ietf-yang-library {{RFC8525}}, we will like to thank the authors of this YANG module. A special thank also to Andy Bierman for his initial recommendations for the creation of this YANG module.
+The YANG module defined by this memo has been derived from an already existing
+YANG module, ietf-yang-library {{RFC8525}}, we will like to thank the authors
+of this YANG module. A special thank also to Andy Bierman for his initial
+recommendations for the creation of this YANG module. The authors would also
+like to thank Tom Petch for his help during the development of this document
+and his useful comments during the review process.
 
 --- back
