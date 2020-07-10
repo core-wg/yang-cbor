@@ -1,0 +1,5 @@
+-e general:
+ branches:
+ ignore:
+ - gh-pages
+

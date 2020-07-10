@@ -1,0 +1,473 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+
+  <title>Uri-CBOR-Query: A stopgap for working around the lack of FETCH</title>
+
+  <style type="text/css">/*<![CDATA[*/
+@viewport {
+  zoom: 1.0;
+  width: extend-to-zoom;
+}
+@-ms-viewport {
+  width: extend-to-zoom;
+  zoom: 1.0;
+}
+
+@media screen and (min-width: 1024px) {
+  ul.toc, #rfc\.toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 500px);
+    width: 300px;
+    padding: 0 1em;
+    z-index: 1;
+  }
+  #rfc\.toc {
+    top: 16px;
+  }
+  ul.toc {
+    top: 80px;
+    overflow: auto;
+  }
+
+  body {
+    padding-left: 1.5em;
+    padding-right: 29em;
+  }
+}
+
+body {
+  font: 15px "Helvetica Neue",Helvetica,Arial,sans-serif;
+  color: #333;
+  font-size-adjust: 0.5;
+  line-height: 130%;
+  margin: 2.5em auto;
+  max-width: 724px;
+}
+
+.title, .filename, h1, h2, h3, h4 {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size-adjust: 0.5;
+  font-weight: 500;
+  color: #333;
+  line-height: 100%;
+  margin: 0.8em 0 0.3em;
+}
+.title { font-size: 36px; }
+h1 { font-size: 30px; }
+h2 { font-size: 24px; }
+h3, h4 { font-size: 18px; }
+h1 a[href], h2 a[href], h3 a[href], h4 a[href] {
+  color: #333;
+}
+
+ul.toc li {
+  list-style: none;
+  text-indent: -2.5em;
+  padding-left: 2.5em;
+  padding-bottom: 5px;
+  margin: 0;
+}
+ul.toc, ul.toc ul {
+  margin: 0 0 0 1.5em;
+}
+
+table {
+  margin-left: 0em;
+  border-collapse: collapse;
+}
+th {
+  text-align: left;
+  border-bottom: 2px solid #ddd;
+}
+td {
+  border-top: 1px solid #ddd;
+  vertical-align: top;
+}
+tr:nth-child(2n+1) > td,
+tr:nth-child(2n+1) > th {
+  background-color: #f9f9f9;
+}
+td.reference {
+  max-width: 200px;
+  border-top: none;
+  padding-right: 1em;
+}
+.right {
+  text-align: right;
+}
+
+
+table.header {
+  width: 100%;
+}
+table.header td {
+  border: none;
+  background-color: transparent;
+  color: black;
+}
+.filename {
+  color: rgb(119, 119, 119);
+  font-size: 23px;
+  font-weight: normal;
+  height: auto;
+  line-height: 100%;
+}
+#rfc\.abstract+p {
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 130%;
+}
+
+samp, tt, code, pre {
+  font: 11pt consolas, monospace;
+  font-size-adjust: none;
+}
+pre {
+  background-color: #eee;
+  border: 1px solid #ddd;
+  overflow-x: auto;
+  padding: 5px;
+  margin: 5px;
+}
+.figure {
+  font-style: italic;
+  margin: 0 1.5em;
+}
+
+address {
+  margin: 10px 0 0;
+}
+.vcard {
+  font-style: normal;
+}
+.vcardline {
+  display: block;
+}
+.vcardline .fn {
+  font-weight: bold;
+}
+.vcardline .hidden {
+  display: none;
+}
+
+dl {
+  margin-left: 1em;
+}
+dl.dl-horizontal: {
+  margin-left: 0;
+}
+dl > dt {
+  float: left;
+  margin-right: 1em;
+}
+dl.nohang > dt {
+  float: none;
+}
+dl > dd {
+  margin-bottom: .5em;
+}
+dl.compact > dd {
+  margin-bottom: 0em;
+}
+dl > dd > dl {
+  margin-top: 0.5em;
+  margin-bottom: 0em;
+}
+ul.empty {
+  list-style-type: none;
+}
+ul.empty li {
+  margin-top: .5em;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #eee;
+}
+
+a {
+  text-decoration: none;
+}
+a[href] {
+  color: #2a6496;
+}
+a[href]:hover {
+  background-color: #eee;
+}
+
+ol, ul, li, p {
+  padding: 0;
+  margin: 0.5em 0 0.5em 2em;
+}
+li, p {
+  margin-left: 0;
+}
+
+.github-fork-ribbon-wrapper {
+  display: none;
+}
+@media screen and (min-width: 800px) {
+  /* "Fork me on GitHub" CSS ribbon based on
+   * https://github.com/simonwhitaker/github-fork-ribbon-css
+   */
+  .github-fork-ribbon {
+    position: absolute;
+    padding: 2px 0;
+    background-color: #a00;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15));
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.5);
+    font: 700 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    pointer-events: auto;
+
+    top: 38px;
+    right: -45px;
+
+    transform: rotate(45deg);
+  }
+
+  .github-fork-ribbon a[href],
+  .github-fork-ribbon a[href]:hover {
+    color: #fff;
+    background-color: transparent;
+    text-decoration: none;
+    text-shadow: 0 -1px rgba(0, 0, 0, 0.5);
+    text-align: center;
+
+    width: 190px;
+    line-height: 18px;
+
+    display: inline-block;
+    padding: 2px 0;
+
+    border: 1.5px dotted #fff;
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .github-fork-ribbon-wrapper {
+    display: block;
+    width: 130px;
+    height: 130px;
+    position: absolute;
+    overflow: hidden;
+    top: 0; right: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+}
+@media screen and (min-width: 1000px) {
+  .github-fork-ribbon-wrapper {
+    position: fixed;
+  }
+  /*]]>*/</style>
+
+  <link href="#rfc.toc" rel="Contents">
+<link href="#rfc.section.1" rel="Chapter" title="1 Introduction">
+<link href="#rfc.section.2" rel="Chapter" title="2 The Uri-CBOR-Query Option">
+<link href="#rfc.section.3" rel="Chapter" title="3 HTTP compatibility">
+<link href="#rfc.section.4" rel="Chapter" title="4 Usage Guidelines">
+<link href="#rfc.section.5" rel="Chapter" title="5 Acknowledgements">
+<link href="#rfc.references" rel="Chapter" title="6 References">
+<link href="#rfc.references.1" rel="Chapter" title="6.1 Normative References">
+<link href="#rfc.references.2" rel="Chapter" title="6.2 Informative References">
+<link href="#rfc.authors" rel="Chapter">
+
+
+  <meta name="generator" content="xml2rfc version 2.22.2 - https://tools.ietf.org/tools/xml2rfc" />
+  <link rel="schema.dct" href="http://purl.org/dc/terms/" />
+
+  <meta name="dct.creator" content="Bormann, C." />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-bormann-core-uri-cbor-query-latest" />
+  <meta name="dct.issued" scheme="ISO8601" content="2016-02-17" />
+  <meta name="dct.abstract" content="draft-bormann-core-coap-fetch and draft-vanderstok-core-patch define two (or three) new methods for CoAP that allow read and update requests with more control than the traditional four CRUD requests.There is some concern that the FETCH and PATCH operations may not be ready in time.  In the interest of exploring alternatives, this draft examines a new CoAP Option, Uri-CBOR-Query.  This option enables the transfer of information similar to a FETCH request payload with a GET request, and similar to part of the PATCH request payload with POST, PUT, and/or DELETE." />
+  <meta name="description" content="draft-bormann-core-coap-fetch and draft-vanderstok-core-patch define two (or three) new methods for CoAP that allow read and update requests with more control than the traditional four CRUD requests.There is some concern that the FETCH and PATCH operations may not be ready in time.  In the interest of exploring alternatives, this draft examines a new CoAP Option, Uri-CBOR-Query.  This option enables the transfer of information similar to a FETCH request payload with a GET request, and similar to part of the PATCH request payload with POST, PUT, and/or DELETE." />
+
+</head>
+
+<body>
+
+  <table class="header">
+    <tbody>
+    
+    	<tr>
+<td class="left">Network Working Group</td>
+<td class="right">C. Bormann</td>
+</tr>
+<tr>
+<td class="left">Internet-Draft</td>
+<td class="right">Universitaet Bremen TZI</td>
+</tr>
+<tr>
+<td class="left">Intended status: Standards Track</td>
+<td class="right">February 17, 2016</td>
+</tr>
+<tr>
+<td class="left">Expires: August 20, 2016</td>
+<td class="right"></td>
+</tr>
+
+    	
+    </tbody>
+  </table>
+
+  <p class="title">Uri-CBOR-Query: A stopgap for working around the lack of FETCH<br />
+  <span class="filename">draft-bormann-core-uri-cbor-query-latest</span></p>
+  
+  <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
+<p>draft-bormann-core-coap-fetch and draft-vanderstok-core-patch define two (or three) new methods for CoAP that allow read and update requests with more control than the traditional four CRUD requests.</p>
+<p>There is some concern that the FETCH and PATCH operations may not be ready in time.  In the interest of exploring alternatives, this draft examines a new CoAP Option, Uri-CBOR-Query.  This option enables the transfer of information similar to a FETCH request payload with a GET request, and similar to part of the PATCH request payload with POST, PUT, and/or DELETE.</p>
+<h1 id="rfc.status"><a href="#rfc.status">Status of This Memo</a></h1>
+<p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
+<p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
+<p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
+<p>This Internet-Draft will expire on August 20, 2016.</p>
+<h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
+<p>Copyright (c) 2016 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
+<p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (http://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
+
+  
+  <hr class="noprint" />
+  <h1 class="np" id="rfc.toc"><a href="#rfc.toc">Table of Contents</a></h1>
+  <ul class="toc">
+
+  	<li>1.   <a href="#rfc.section.1">Introduction</a>
+</li>
+<li>2.   <a href="#rfc.section.2">The Uri-CBOR-Query Option</a>
+</li>
+<li>3.   <a href="#rfc.section.3">HTTP compatibility</a>
+</li>
+<li>4.   <a href="#rfc.section.4">Usage Guidelines</a>
+</li>
+<li>5.   <a href="#rfc.section.5">Acknowledgements</a>
+</li>
+<li>6.   <a href="#rfc.references">References</a>
+</li>
+<ul><li>6.1.   <a href="#rfc.references.1">Normative References</a>
+</li>
+<li>6.2.   <a href="#rfc.references.2">Informative References</a>
+</li>
+</ul><li><a href="#rfc.authors">Author's Address</a>
+</li>
+
+
+  </ul>
+
+  <h1 id="rfc.section.1">
+<a href="#rfc.section.1">1.</a> <a href="#intro" id="intro">Introduction</a>
+</h1>
+<p id="rfc.section.1.p.1">(See Abstract for now.)</p>
+<h1 id="rfc.section.2">
+<a href="#rfc.section.2">2.</a> <a href="#the-uri-cbor-query-option" id="the-uri-cbor-query-option">The Uri-CBOR-Query Option</a>
+</h1>
+<p id="rfc.section.2.p.1">The Uri-CBOR-Query Option is an Option analogous to the Uri-Query Option, with the exception that its value is opaque and not string.  The value is intended to carry a single CBOR data item &#8211; <em>discussion</em>: maybe a sequence of these so we can leave off any outer array markers.</p>
+<table cellpadding="3" cellspacing="0" class="tt full center">
+<thead><tr>
+<th class="left">No.</th>
+<th class="left">C</th>
+<th class="left">U</th>
+<th class="left">N</th>
+<th class="left">R</th>
+<th class="left">Name</th>
+<th class="left">Format</th>
+<th class="left">Length</th>
+<th class="left">Default</th>
+</tr></thead>
+<tbody><tr>
+<td class="left">19</td>
+<td class="left">x</td>
+<td class="left">x</td>
+<td class="left">-</td>
+<td class="left">x</td>
+<td class="left">Uri-CBOR-Query</td>
+<td class="left">opaque</td>
+<td class="left">0-255</td>
+<td class="left">(none)</td>
+</tr></tbody>
+</table>
+<h1 id="rfc.section.3">
+<a href="#rfc.section.3">3.</a> <a href="#http-compatibility" id="http-compatibility">HTTP compatibility</a>
+</h1>
+<p id="rfc.section.3.p.1">Where the Options of a CoAP request need to be translated into a URI (see Section 6.5 of <a href="#RFC7252" class="xref">[RFC7252]</a>), e.g. where a request with a Uri-CBOR-Query Option needs to be translated to an HTTP request, the Option value is translated to a text string as defined below and treated like a Uri-Query Option that has this text string as its Option value and is appended after all other Uri-Query Options.</p>
+<p id="rfc.section.3.p.2">The specific way the translation is performed is up for <em>discussion</em>; as a strawman: the two characters &#8220;??&#8221; followed by the base64url encoding (Section 3.2 of <a href="#RFC4648" class="xref">[RFC4648]</a>) of the CoAP Option value:</p>
+<pre>
+CoAP:
+  Uri-Path: c
+  Uri-CBOR-Query: [1, 2, 3]
+
+HTTP:
+  /c???gwECAw
+</pre>
+<p id="rfc.section.3.p.3">The two question marks are added as a marker that might also enable the inverse translation from HTTP to the CoAP Option, assuming that other uses of this marker are infrequent. (The use of question mark characters in URI query parts traditionally has been risky and therefore is not current practice.)</p>
+<h1 id="rfc.section.4">
+<a href="#rfc.section.4">4.</a> <a href="#usage-guidelines" id="usage-guidelines">Usage Guidelines</a>
+</h1>
+<p id="rfc.section.4.p.1">To emulate a FETCH, what would be the FETCH payload is instead encoded in a Uri-CBOR-Query Option.  The FETCH payload is assumed to of Content-Format application/cbor, which is not as specific as it could be &#8211; <em>discussion</em>: Should we send along a Content-Format within the Uri-CBOR-Query???.</p>
+<p id="rfc.section.4.p.2">To emulate an iPATCH, a POST operation with the same parameters as an iPATCH is performed; there fundamentally is no need for Uri-CBOR-Query, except maybe to distinguish the emulated iPATCH from a real POST operation.  However, an iPATCH that is just a sequence of in-tree deletes can be mapped to a DELETE operation with a Uri-CBOR-Query Option that indicates which parts of the tree need to be deleted.  Similarly, an iPATCH that puts new values to several places in the tree (as in a merge-patch <a href="#RFC7396" class="xref">[RFC7396]</a>) can be mapped to a PUT with a Uri-CBOR-Query Option that indicates those places and a payload that is a CBOR representation of an array of the values for these places.</p>
+<h1 id="rfc.section.5">
+<a href="#rfc.section.5">5.</a> <a href="#acknowledgements" id="acknowledgements">Acknowledgements</a>
+</h1>
+<p id="rfc.section.5.p.1">The idea for this draft was created in discussions with Alexander Pelov, Laurent Toutain, Michel Veillette, Randy Turner, and Somaraju Abhinav.</p>
+<h1 id="rfc.references">
+<a href="#rfc.references">6.</a> References</h1>
+<h1 id="rfc.references.1">
+<a href="#rfc.references.1">6.1.</a> Normative References</h1>
+<table><tbody>
+<tr>
+<td class="reference"><b id="RFC4648">[RFC4648]</b></td>
+<td class="top">
+<a>Josefsson, S.</a>, "<a href="https://tools.ietf.org/html/rfc4648">The Base16, Base32, and Base64 Data Encodings</a>", RFC 4648, DOI 10.17487/RFC4648, October 2006.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7049">[RFC7049]</b></td>
+<td class="top">
+<a>Bormann, C.</a> and <a>P. Hoffman</a>, "<a href="https://tools.ietf.org/html/rfc7049">Concise Binary Object Representation (CBOR)</a>", RFC 7049, DOI 10.17487/RFC7049, October 2013.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7252">[RFC7252]</b></td>
+<td class="top">
+<a>Shelby, Z.</a>, <a>Hartke, K.</a> and <a>C. Bormann</a>, "<a href="https://tools.ietf.org/html/rfc7252">The Constrained Application Protocol (CoAP)</a>", RFC 7252, DOI 10.17487/RFC7252, June 2014.</td>
+</tr>
+</tbody></table>
+<h1 id="rfc.references.2">
+<a href="#rfc.references.2">6.2.</a> Informative References</h1>
+<table><tbody><tr>
+<td class="reference"><b id="RFC7396">[RFC7396]</b></td>
+<td class="top">
+<a>Hoffman, P.</a> and <a>J. Snell</a>, "<a href="https://tools.ietf.org/html/rfc7396">JSON Merge Patch</a>", RFC 7396, DOI 10.17487/RFC7396, October 2014.</td>
+</tr></tbody></table>
+<h1 id="rfc.authors"><a href="#rfc.authors">Author's Address</a></h1>
+<div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Carsten Bormann</span> 
+	  <span class="n hidden">
+		<span class="family-name">Bormann</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Universitaet Bremen TZI</span>
+	<span class="adr">
+	  <span class="vcardline">Postfach 330440</span>
+
+	  <span class="vcardline">
+		<span class="locality">Bremen</span>,  
+		<span class="region"></span>
+		<span class="code">D-28359</span>
+	  </span>
+	  <span class="country-name vcardline">Germany</span>
+	</span>
+	<span class="vcardline">Phone: +49-421-218-63921</span>
+
+<span class="vcardline">EMail: <a href="mailto:cabo@tzi.org">cabo@tzi.org</a></span>
+
+  </address>
+</div>
+
+  <div class="github-fork-ribbon-wrapper"><div class="github-fork-ribbon"><a href="https://github.com/core-wg/yang-cbor">Fork me on GitHub</a></div></div>
+</body>
+</html>

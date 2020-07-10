@@ -1,0 +1,1880 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+
+  <title>Constrained Objects Language</title>
+
+  <style type="text/css">/*<![CDATA[*/
+@viewport {
+  zoom: 1.0;
+  width: extend-to-zoom;
+}
+@-ms-viewport {
+  width: extend-to-zoom;
+  zoom: 1.0;
+}
+
+@media screen and (min-width: 1024px) {
+  ul.toc, #rfc\.toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 500px);
+    width: 300px;
+    padding: 0 1em;
+    z-index: 1;
+  }
+  #rfc\.toc {
+    top: 16px;
+  }
+  ul.toc {
+    top: 80px;
+    overflow: auto;
+  }
+
+  body {
+    padding-left: 1.5em;
+    padding-right: 29em;
+  }
+}
+
+body {
+  font: 15px "Helvetica Neue",Helvetica,Arial,sans-serif;
+  color: #333;
+  font-size-adjust: 0.5;
+  line-height: 130%;
+  margin: 2.5em auto;
+  max-width: 724px;
+}
+
+.title, .filename, h1, h2, h3, h4 {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size-adjust: 0.5;
+  font-weight: 500;
+  color: #333;
+  line-height: 100%;
+  margin: 0.8em 0 0.3em;
+}
+.title { font-size: 36px; }
+h1 { font-size: 30px; }
+h2 { font-size: 24px; }
+h3, h4 { font-size: 18px; }
+h1 a[href], h2 a[href], h3 a[href], h4 a[href] {
+  color: #333;
+}
+
+ul.toc li {
+  list-style: none;
+  text-indent: -2.5em;
+  padding-left: 2.5em;
+  padding-bottom: 5px;
+  margin: 0;
+}
+ul.toc, ul.toc ul {
+  margin: 0 0 0 1.5em;
+}
+
+table {
+  margin-left: 0em;
+  border-collapse: collapse;
+}
+th {
+  text-align: left;
+  border-bottom: 2px solid #ddd;
+}
+td {
+  border-top: 1px solid #ddd;
+  vertical-align: top;
+}
+tr:nth-child(2n+1) > td,
+tr:nth-child(2n+1) > th {
+  background-color: #f9f9f9;
+}
+td.reference {
+  max-width: 200px;
+  border-top: none;
+  padding-right: 1em;
+}
+.right {
+  text-align: right;
+}
+
+
+table.header {
+  width: 100%;
+}
+table.header td {
+  border: none;
+  background-color: transparent;
+  color: black;
+}
+.filename {
+  color: rgb(119, 119, 119);
+  font-size: 23px;
+  font-weight: normal;
+  height: auto;
+  line-height: 100%;
+}
+#rfc\.abstract+p {
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 130%;
+}
+
+samp, tt, code, pre {
+  font: 11pt consolas, monospace;
+  font-size-adjust: none;
+}
+pre {
+  background-color: #eee;
+  border: 1px solid #ddd;
+  overflow-x: auto;
+  padding: 5px;
+  margin: 5px;
+}
+.figure {
+  font-style: italic;
+  margin: 0 1.5em;
+}
+
+address {
+  margin: 10px 0 0;
+}
+.vcard {
+  font-style: normal;
+}
+.vcardline {
+  display: block;
+}
+.vcardline .fn {
+  font-weight: bold;
+}
+.vcardline .hidden {
+  display: none;
+}
+
+dl {
+  margin-left: 1em;
+}
+dl.dl-horizontal: {
+  margin-left: 0;
+}
+dl > dt {
+  float: left;
+  margin-right: 1em;
+}
+dl.nohang > dt {
+  float: none;
+}
+dl > dd {
+  margin-bottom: .5em;
+}
+dl.compact > dd {
+  margin-bottom: 0em;
+}
+dl > dd > dl {
+  margin-top: 0.5em;
+  margin-bottom: 0em;
+}
+ul.empty {
+  list-style-type: none;
+}
+ul.empty li {
+  margin-top: .5em;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #eee;
+}
+
+a {
+  text-decoration: none;
+}
+a[href] {
+  color: #2a6496;
+}
+a[href]:hover {
+  background-color: #eee;
+}
+
+ol, ul, li, p {
+  padding: 0;
+  margin: 0.5em 0 0.5em 2em;
+}
+li, p {
+  margin-left: 0;
+}
+
+.github-fork-ribbon-wrapper {
+  display: none;
+}
+@media screen and (min-width: 800px) {
+  /* "Fork me on GitHub" CSS ribbon based on
+   * https://github.com/simonwhitaker/github-fork-ribbon-css
+   */
+  .github-fork-ribbon {
+    position: absolute;
+    padding: 2px 0;
+    background-color: #a00;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15));
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.5);
+    font: 700 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    pointer-events: auto;
+
+    top: 38px;
+    right: -45px;
+
+    transform: rotate(45deg);
+  }
+
+  .github-fork-ribbon a[href],
+  .github-fork-ribbon a[href]:hover {
+    color: #fff;
+    background-color: transparent;
+    text-decoration: none;
+    text-shadow: 0 -1px rgba(0, 0, 0, 0.5);
+    text-align: center;
+
+    width: 190px;
+    line-height: 18px;
+
+    display: inline-block;
+    padding: 2px 0;
+
+    border: 1.5px dotted #fff;
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .github-fork-ribbon-wrapper {
+    display: block;
+    width: 130px;
+    height: 130px;
+    position: absolute;
+    overflow: hidden;
+    top: 0; right: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+}
+@media screen and (min-width: 1000px) {
+  .github-fork-ribbon-wrapper {
+    position: fixed;
+  }
+  /*]]>*/</style>
+
+  <link href="#rfc.toc" rel="Contents"/>
+<link href="#rfc.section.1" rel="Chapter" title="1 Introduction"/>
+<link href="#rfc.section.2" rel="Chapter" title="2 Terminology and Notation"/>
+<link href="#rfc.section.3" rel="Chapter" title="3 Architecture"/>
+<link href="#rfc.section.4" rel="Chapter" title="4 Resources"/>
+<link href="#rfc.section.5" rel="Chapter" title="5 Operations"/>
+<link href="#rfc.section.5.1" rel="Chapter" title="5.1 GET - Retrieving all data nodes of a datastore"/>
+<link href="#rfc.section.5.2" rel="Chapter" title="5.2 FETCH - Retrieving specific data nodes"/>
+<link href="#rfc.section.5.2.1" rel="Chapter" title="5.2.1 Example #1 - Simple data node"/>
+<link href="#rfc.section.5.2.2" rel="Chapter" title="5.2.2 Example #2 - Data node instance within a YANG list"/>
+<link href="#rfc.section.5.2.3" rel="Chapter" title="5.2.3 Example #3 - YANG list"/>
+<link href="#rfc.section.5.2.4" rel="Chapter" title="5.2.4 Example #4 - YANG list instance"/>
+<link href="#rfc.section.5.2.5" rel="Chapter" title="5.2.5 Example #5 - YANG list instance filtering"/>
+<link href="#rfc.section.5.2.6" rel="Chapter" title="5.2.6 Example #6 - All instances of a data node within a YANG list"/>
+<link href="#rfc.section.5.3" rel="Chapter" title="5.3 PUT - Updating all data nodes of a datastore"/>
+<link href="#rfc.section.5.4" rel="Chapter" title="5.4 iPATCH - Updating specific data nodes"/>
+<link href="#rfc.section.5.5" rel="Chapter" title="5.5 POST - Protocol operation"/>
+<link href="#rfc.section.5.5.1" rel="Chapter" title="5.5.1 Example #1 - RPC"/>
+<link href="#rfc.section.5.5.2" rel="Chapter" title="5.5.2 Example #2 - Action"/>
+<link href="#rfc.section.5.6" rel="Chapter" title="5.6 Event stream"/>
+<link href="#rfc.section.6" rel="Chapter" title="6 Uri-Query"/>
+<link href="#rfc.section.6.1" rel="Chapter" title="6.1 The &#x2018;a&#x2019; Query Parameter"/>
+<link href="#rfc.section.7" rel="Chapter" title="7 CoAP compatibility"/>
+<link href="#rfc.section.7.1" rel="Chapter" title="7.1 Working with Uri-Host, Uri-Port, Uri-Path, and Uri-Query"/>
+<link href="#rfc.section.7.2" rel="Chapter" title="7.2 Working with Location-Path and Location-Query"/>
+<link href="#rfc.section.7.3" rel="Chapter" title="7.3 Working with Accept"/>
+<link href="#rfc.section.7.4" rel="Chapter" title="7.4 Working with Max-Age"/>
+<link href="#rfc.section.7.5" rel="Chapter" title="7.5 Working with Proxy-Uri and Proxy-Scheme"/>
+<link href="#rfc.section.7.6" rel="Chapter" title="7.6 Working with If-Match, If-None-Match and ETag"/>
+<link href="#rfc.section.7.7" rel="Chapter" title="7.7 Working with Size1, Size2, Block1 and Block2"/>
+<link href="#rfc.section.7.8" rel="Chapter" title="7.8 Working with Observe"/>
+<link href="#rfc.section.7.9" rel="Chapter" title="7.9 Working with resource discovery"/>
+<link href="#rfc.section.8" rel="Chapter" title="8 Error Handling"/>
+<link href="#rfc.section.9" rel="Chapter" title="9 Security Considerations"/>
+<link href="#rfc.section.10" rel="Chapter" title="10 IANA Considerations"/>
+<link href="#rfc.section.10.1" rel="Chapter" title="10.1 CoAP Content-Formats"/>
+<link href="#rfc.section.10.2" rel="Chapter" title="10.2 CBOR simple value"/>
+<link href="#rfc.section.11" rel="Chapter" title="11 Acknowledgments"/>
+<link href="#rfc.references" rel="Chapter" title="12 References"/>
+<link href="#rfc.references.1" rel="Chapter" title="12.1 Normative References"/>
+<link href="#rfc.references.2" rel="Chapter" title="12.2 Informative References"/>
+<link href="#rfc.appendix.A" rel="Chapter" title="A File &#x201C;ietf-cool.yang&#x201D;"/>
+<link href="#rfc.appendix.B" rel="Chapter" title="B File &#x201C;ietf-cool@2016-01-01.sid&#x201D;"/>
+<link href="#rfc.authors" rel="Chapter"/>
+
+
+  <meta name="generator" content="xml2rfc version 2.5.2 - http://tools.ietf.org/tools/xml2rfc" />
+  <link rel="schema.dct" href="http://purl.org/dc/terms/" />
+
+  <meta name="dct.creator" content="Veillette, M., Ed., Pelov, A., Ed., Somaraju, A., Turner, R., and A. Minaburo" />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-veillette-core-cool-02" />
+  <meta name="dct.issued" scheme="ISO8601" content="2017-1-31" />
+  <meta name="dct.abstract" content="This document describes a management function set adapted to constrained devices and constrained networks (e.g., low-power, lossy). CoOL objects (datastores, RPCs, actions and notifications) are defined using the YANG modelling language " />
+  <meta name="description" content="This document describes a management function set adapted to constrained devices and constrained networks (e.g., low-power, lossy). CoOL objects (datastores, RPCs, actions and notifications) are defined using the YANG modelling language " />
+
+</head>
+
+<body>
+
+  <table class="header">
+    <tbody>
+    
+    	<tr>
+  <td class="left">Internet Engineering Task Force</td>
+  <td class="right">M. Veillette, Ed.</td>
+</tr>
+<tr>
+  <td class="left">Internet-Draft</td>
+  <td class="right">Trilliant Networks Inc.</td>
+</tr>
+<tr>
+  <td class="left">Intended status: Informational</td>
+  <td class="right">A. Pelov, Ed.</td>
+</tr>
+<tr>
+  <td class="left">Expires: August 4, 2017</td>
+  <td class="right">Acklio</td>
+</tr>
+<tr>
+  <td class="left"></td>
+  <td class="right">A. Somaraju</td>
+</tr>
+<tr>
+  <td class="left"></td>
+  <td class="right">Tridonic GmbH &amp; Co KG</td>
+</tr>
+<tr>
+  <td class="left"></td>
+  <td class="right">R. Turner</td>
+</tr>
+<tr>
+  <td class="left"></td>
+  <td class="right">Landis+Gyr</td>
+</tr>
+<tr>
+  <td class="left"></td>
+  <td class="right">A. Minaburo</td>
+</tr>
+<tr>
+  <td class="left"></td>
+  <td class="right">Acklio</td>
+</tr>
+<tr>
+  <td class="left"></td>
+  <td class="right">January 31, 2017</td>
+</tr>
+
+    	
+    </tbody>
+  </table>
+
+  <p class="title">Constrained Objects Language<br />
+  <span class="filename">draft-veillette-core-cool-02</span></p>
+  
+  <h1 id="rfc.abstract">
+  <a href="#rfc.abstract">Abstract</a>
+</h1>
+<p>This document describes a management function set adapted to constrained devices and constrained networks (e.g., low-power, lossy). CoOL objects (datastores, RPCs, actions and notifications) are defined using the YANG modelling language <a href="#I-D.ietf-netmod-rfc6020bis">[I-D.ietf-netmod-rfc6020bis]</a>. Interactions with these objects are performed using the CoAP web transfer protocol <a href="#RFC7252">[RFC7252]</a>. Payloads are encoded using the CBOR data format <a href="#RFC7049">[RFC7049]</a>. The mapping between YANG data models and the CBOR data format is defined in <a href="#I-D.ietf-core-yang-cbor">[I-D.ietf-core-yang-cbor]</a>.</p>
+<h1 id="rfc.status">
+  <a href="#rfc.status">Status of This Memo</a>
+</h1>
+<p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
+<p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
+<p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
+<p>This Internet-Draft will expire on August 4, 2017.</p>
+<h1 id="rfc.copyrightnotice">
+  <a href="#rfc.copyrightnotice">Copyright Notice</a>
+</h1>
+<p>Copyright (c) 2017 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
+<p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (http://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
+
+  
+  <hr class="noprint" />
+  <h1 class="np" id="rfc.toc"><a href="#rfc.toc">Table of Contents</a></h1>
+  <ul class="toc">
+
+  	<li>1.   <a href="#rfc.section.1">Introduction</a></li>
+<li>2.   <a href="#rfc.section.2">Terminology and Notation</a></li>
+<li>3.   <a href="#rfc.section.3">Architecture</a></li>
+<li>4.   <a href="#rfc.section.4">Resources</a></li>
+<li>5.   <a href="#rfc.section.5">Operations</a></li>
+<ul><li>5.1.   <a href="#rfc.section.5.1">GET - Retrieving all data nodes of a datastore</a></li>
+<li>5.2.   <a href="#rfc.section.5.2">FETCH - Retrieving specific data nodes</a></li>
+<ul><li>5.2.1.   <a href="#rfc.section.5.2.1">Example #1 - Simple data node</a></li>
+<li>5.2.2.   <a href="#rfc.section.5.2.2">Example #2 - Data node instance within a YANG list</a></li>
+<li>5.2.3.   <a href="#rfc.section.5.2.3">Example #3 - YANG list</a></li>
+<li>5.2.4.   <a href="#rfc.section.5.2.4">Example #4 - YANG list instance</a></li>
+<li>5.2.5.   <a href="#rfc.section.5.2.5">Example #5 - YANG list instance filtering</a></li>
+<li>5.2.6.   <a href="#rfc.section.5.2.6">Example #6 - All instances of a data node within a YANG list</a></li>
+</ul><li>5.3.   <a href="#rfc.section.5.3">PUT - Updating all data nodes of a datastore</a></li>
+<li>5.4.   <a href="#rfc.section.5.4">iPATCH - Updating specific data nodes</a></li>
+<li>5.5.   <a href="#rfc.section.5.5">POST - Protocol operation</a></li>
+<ul><li>5.5.1.   <a href="#rfc.section.5.5.1">Example #1 - RPC</a></li>
+<li>5.5.2.   <a href="#rfc.section.5.5.2">Example #2 - Action</a></li>
+</ul><li>5.6.   <a href="#rfc.section.5.6">Event stream</a></li>
+</ul><li>6.   <a href="#rfc.section.6">Uri-Query</a></li>
+<ul><li>6.1.   <a href="#rfc.section.6.1">The &#8216;a&#8217; Query Parameter</a></li>
+</ul><li>7.   <a href="#rfc.section.7">CoAP compatibility</a></li>
+<ul><li>7.1.   <a href="#rfc.section.7.1">Working with Uri-Host, Uri-Port, Uri-Path, and Uri-Query</a></li>
+<li>7.2.   <a href="#rfc.section.7.2">Working with Location-Path and Location-Query</a></li>
+<li>7.3.   <a href="#rfc.section.7.3">Working with Accept</a></li>
+<li>7.4.   <a href="#rfc.section.7.4">Working with Max-Age</a></li>
+<li>7.5.   <a href="#rfc.section.7.5">Working with Proxy-Uri and Proxy-Scheme</a></li>
+<li>7.6.   <a href="#rfc.section.7.6">Working with If-Match, If-None-Match and ETag</a></li>
+<li>7.7.   <a href="#rfc.section.7.7">Working with Size1, Size2, Block1 and Block2</a></li>
+<li>7.8.   <a href="#rfc.section.7.8">Working with Observe</a></li>
+<li>7.9.   <a href="#rfc.section.7.9">Working with resource discovery</a></li>
+</ul><li>8.   <a href="#rfc.section.8">Error Handling</a></li>
+<li>9.   <a href="#rfc.section.9">Security Considerations</a></li>
+<li>10.   <a href="#rfc.section.10">IANA Considerations</a></li>
+<ul><li>10.1.   <a href="#rfc.section.10.1">CoAP Content-Formats</a></li>
+<li>10.2.   <a href="#rfc.section.10.2">CBOR simple value</a></li>
+</ul><li>11.   <a href="#rfc.section.11">Acknowledgments</a></li>
+<li>12.   <a href="#rfc.references">References</a></li>
+<ul><li>12.1.   <a href="#rfc.references.1">Normative References</a></li>
+<li>12.2.   <a href="#rfc.references.2">Informative References</a></li>
+</ul><li>Appendix A.   <a href="#rfc.appendix.A">File &#8220;ietf-cool.yang&#8221;</a></li>
+<li>Appendix B.   <a href="#rfc.appendix.B">File &#8220;ietf-cool@2016-01-01.sid&#8221;</a></li>
+<li><a href="#rfc.authors">Authors' Addresses</a></li>
+
+
+  </ul>
+
+  <h1 id="rfc.section.1"><a href="#rfc.section.1">1.</a> <a href="#introduction" id="introduction">Introduction</a></h1>
+<p id="rfc.section.1.p.1">This document defines a CoAP function set for accessing YANG defined resources. YANG data models are encoded in CBOR based on the mapping rules defined in <a href="#I-D.ietf-core-yang-cbor">[I-D.ietf-core-yang-cbor]</a>. YANG items are identified using a compact identifier called Structured Identifiers (SIDs) as defined in <a href="#I-D.somaraju-core-sid">[I-D.somaraju-core-sid]</a>.</p>
+<p id="rfc.section.1.p.2">The resulting protocol based on CoAP, CBOR encoded data and structured identifiers (SID) has a low implementation footprint and low network bandwidth requirements and is suitable for both constrained devices and constrained networks as defined by <a href="#RFC7228">[RFC7228]</a>. This protocol is applicable to the different management topology options described by <a href="#I-D.ersue-constrained-mgmt">[I-D.ersue-constrained-mgmt]</a>; centralized, distributed and hierarchical.</p>
+<h1 id="rfc.section.2"><a href="#rfc.section.2">2.</a> <a href="#terminology-and-notation" id="terminology-and-notation">Terminology and Notation</a></h1>
+<p id="rfc.section.2.p.1">The key words &#8220;MUST&#8221;, &#8220;MUST NOT&#8221;, &#8220;REQUIRED&#8221;, &#8220;SHALL&#8221;, &#8220;SHALL NOT&#8221;, &#8220;SHOULD&#8221;, &#8220;SHOULD NOT&#8221;, &#8220;RECOMMENDED&#8221;, &#8220;MAY&#8221;, and &#8220;OPTIONAL&#8221; in this document are to be interpreted as described in <a href="#RFC2119">[RFC2119]</a>.</p>
+<p id="rfc.section.2.p.2">The following terms are defined in <a href="#I-D.ietf-netmod-rfc6020bis">[I-D.ietf-netmod-rfc6020bis]</a>:</p>
+<p/>
+
+<ul>
+  <li>action</li>
+  <li>data node</li>
+  <li>data tree</li>
+  <li>module</li>
+  <li>notification</li>
+  <li>RPC</li>
+  <li>schema node</li>
+  <li>schema tree</li>
+  <li>submodule</li>
+</ul>
+<p id="rfc.section.2.p.4">This specification also makes use of the following terminology:</p>
+<p/>
+
+<ul>
+  <li>candidate configuration datastore: A configuration datastore that can be manipulated without impacting the device&#8217;s current configuration and that can be committed to the running configuration datastore. Not all devices support a candidate configuration datastore.</li>
+  <li>CoOL client: The originating endpoint of a request, and the destination endpoint of a response.</li>
+  <li>CoOL server: The destination endpoint of a request, and the originating endpoint of a response.</li>
+  <li>delta: Within a list, a delta represents the different between the current SID and the SID of the previous entry within this list. Within a collection, a delta represents the difference between the SID assigned to the current schema node and the SID assigned to the parent. When no previous entry or parent exist, the delta is set to the absolute SID value.</li>
+  <li>child: A schema node defined within a collection such as a container, a list, a case, a notification, a RPC input, a RPC output, an action input, an action output.</li>
+  <li>datastore: Resource used to store and access information.</li>
+  <li>endpoint: An entity participating in the CoOL protocol. Multiple CoOL endpoints may be accessible using a single CoAP endpoint. In this case, each CoOL endpoint is accessed using a distinct URI.</li>
+  <li>event stream: Resource used to access notifications generated by a CoOL server. Events are defined using the YANG notification statement.</li>
+  <li>function set: A group of well-known resources that provides a particular service.</li>
+  <li>object: Within CoOL, an object is a data node, an RPC or an action within a datastore resource or a notification within an event stream resource.</li>
+  <li>parent: The collection in which a schema node is defined.</li>
+  <li>resource: Content identified by a URI.</li>
+  <li>running configuration datastore: A configuration datastore holding the complete configuration currently active on the device. The running configuration datastore always exists.</li>
+  <li>Structured IDentifier (SID). Unsigned integer used to identify different YANG items.</li>
+</ul>
+<h1 id="rfc.section.3"><a href="#rfc.section.3">3.</a> <a href="#architecture" id="architecture">Architecture</a></h1>
+<p id="rfc.section.3.p.1">The CoOL protocol is based on the client-server model. The CoOL server is the provider of the datastore resource(s) and the event stream resource(s). The CoOL client is the requester of these resources.</p>
+<p id="rfc.section.3.p.2">CoOL objects are defined using the YANG modeling language <a href="#RFC6020">[RFC6020]</a>. Interactions with these objects are performed using the Constrained Application Protocol (CoAP) <a href="#RFC7252">[RFC7252]</a>. Payloads are encoded using the Concise Binary Object Representation (CBOR) <a href="#RFC7049">[RFC7049]</a>.</p>
+<p id="rfc.section.3.p.3">This specification is applicable to any transport and security protocols supported by CoAP. Implementers are free to select the most appropriate transport for the targeted applications.</p>
+<pre>
+ +--------------+           +----------------------------------+
+ | CoOL client  |           | CoOL Server                      |
+ |              |           | - Datastore resource(s)          |
+ |              |           | - Event stream resource(s)       |
+ +--------------+           +----------------------------------+
+ | CoAP client  | &lt;-------&gt; | CoAP Server                      |
+ +--------------+           +----------------------------------+
+ |              |           |                                  |
+ | Lower layers |           | Lower layers                     |
+ |              |           |                                  |
+ +--------------+           +----------------------------------+
+</pre>
+<h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> <a href="#resources" id="resources">Resources</a></h1>
+<p id="rfc.section.4.p.1">This section lists the URIs recommended for the different CoOL resources. A CoOL server MAY implement a different set of URIs. See the Resource discovery section (Section 7.15) for more details on how a CoOL client can discover the list of URIs supported by a CoOL server using the &#8220;/.well-known/core&#8221; resource.</p>
+<p/>
+
+<ul>
+  <li>/c &#8211; The default datastore resource</li>
+  <li>/c/c &#8211; The candidate configuration datastore resource</li>
+  <li>/c/r - The running configuration datastore resource</li>
+  <li>/c/b &#8211; The backup configuration datastore (use to implement rollbacks)</li>
+  <li>/c/e - URI used to access the default event stream for this device.</li>
+  <li>/c/e0, /c/e1, &#8230; - URI used to access alternate event streams.</li>
+  <li>/c/0, /c/1, &#8230; - URI used to access a specific endpoint. Each end point represents a virtual device which can support any of the resources listed above.</li>
+</ul>
+<p id="rfc.section.4.p.3">For example:</p>
+<p/>
+
+<ul>
+  <li>/c/1 is the default datastore resource for endpoint 1</li>
+  <li>/c/1/c is the candidate datastore resource for endpoint 1</li>
+  <li>/c/1/r is the running configuration datastore resource for endpoint 1</li>
+  <li>/c/1/b is the backup configuration datastore resource for endpoint 1</li>
+  <li>/c/1/e is the default event stream resource for endpoint 1</li>
+  <li>/c/1/e0 is an alternate event stream resource for endpoint 1</li>
+</ul>
+<p id="rfc.section.4.p.5">All these resources are optional at the exception of the default datastore resource. The CoAP response code 4.04 (Not Found) MUST be returned when a CoOL client tries to access a resource that is unavailable.</p>
+<p id="rfc.section.4.p.6">RPCs commit and cancel-commit defined in ietf-cool YANG module are available to perform the following operations on datastores:</p>
+<p/>
+
+<ul>
+  <li>Immediate or differed commit of a candidate or backup datastore.</li>
+  <li>Confirmed commit</li>
+  <li>Cancel of a different or confirmed commit.</li>
+</ul>
+<h1 id="rfc.section.5"><a href="#rfc.section.5">5.</a> <a href="#operations" id="operations">Operations</a></h1>
+<p id="rfc.section.5.p.1">This section defines the different interactions supported between a CoOL client and a CoOL server.</p>
+<h1 id="rfc.section.5.1"><a href="#rfc.section.5.1">5.1.</a> <a href="#get-retrieving-all-data-nodes-of-a-datastore" id="get-retrieving-all-data-nodes-of-a-datastore">GET - Retrieving all data nodes of a datastore</a></h1>
+<p id="rfc.section.5.1.p.1">The GET method is used by CoOL clients to retrieve the entire contents of a datastore. Implementation of this function is optional and dependent of the capability of the CoOL server to transfer a relatively large response.</p>
+<p id="rfc.section.5.1.p.2">To retrieve all instantiated data nodes of a datastore resource, a CoOL client sends a CoAP GET request to the URI of the targeted datastore. If the request is accepted by the CoOL server, a 2.05 (Content) response code is returned. The payload of the GET response MUST carry a CBOR array containing the contents of the targeted datastore. The CBOR array MUST contain a list of pairs of delta and associated value. A delta represents the difference between the current SID and the SID of the previous pair within the CBOR array. Each value is encoded using the rules defined by <a href="#I-D.ietf-core-yang-cbor">[I-D.ietf-core-yang-cbor]</a>.</p>
+<p id="rfc.section.5.1.p.3">The normal behaviour of a CoOL server is to exclude from the GET response, any data node currently set to its default value. When this behaviour is not appropriate for the CoOL client, this client can force the retrieval of all data nodes by using the &#8216;a&#8217; Uri-Query parameter, see <a href="#a-uri-query">Section 6.1</a> for more details.</p>
+<p id="rfc.section.5.1.p.4">If the request is rejected by the CoOL server, a 5.01 Not implemented or 4.13 Request Entity Too Large response code is returned.</p>
+<p id="rfc.section.5.1.p.5">Example:</p>
+<p id="rfc.section.5.1.p.6">In this example, the CoOL server returns a datastore containing the following data nodes defined in the YANG module &#8220;ietf-system&#8221; <a href="#RFC7317">[RFC7317]</a> and YANG module &#8216;ietf-interfaces&#8217; <a href="#RFC7223">[RFC7223]</a>:</p>
+<p/>
+
+<ul>
+  <li>&#8220;/interfaces/interface&#8221; (SID 1533)</li>
+  <li>&#8220;/interfaces/interface/description&#8221; (SID 1534)</li>
+  <li>&#8220;/interfaces/interface/enabled&#8221; (SID 1535)</li>
+  <li>&#8220;/interfaces/interface/name&#8221; (SID 1537)</li>
+  <li>&#8220;/interfaces/interface/description&#8221; (SID 1534)</li>
+  <li>&#8220;/system-state/clock&#8221; (SID 1717)</li>
+  <li>&#8220;/system-state/clock/boot-datetime&#8221; (SID 1718)</li>
+  <li>&#8220;/system-state/clock/current-datetime&#8221; (SID 1719)</li>
+  <li>&#8220;/system/clock/timezone/timezone-utc-offset/timezone-utc-offset&#8221; (SID 1736)</li>
+</ul>
+<p id="rfc.section.5.1.p.8">CoAP request:</p>
+<pre>
+GET /c
+</pre>
+<p id="rfc.section.5.1.p.9">CoAP response:</p>
+<pre>
+2.05 Content Content-Format(application/cool-value-pairs+cbor)
+[
+  1533,                       # interface (SID 1533)
+    {
+     +4 : "eth0",             # name (SID 1537)
+     +1 : "Ethernet adaptor", # description (SID 1534)
+     +5 : 1179,               # type (SID 1538), identity ethernetCsmacd
+     +2 : true                # enabled (SID 1535)
+    },
+  +184,                       # clock (SID 1717)
+    {
+      +1 : "2015-02-08T14:10:08Z09:00",  # boot-datetime (SID 1718)
+      +2 : "2015-04-04T09:32:51Z09:00"   # current-datetime (SID 1719)
+    },
+  +19, 60                     # timezone-utc-offset (SID 1736)
+]
+</pre>
+<h1 id="rfc.section.5.2"><a href="#rfc.section.5.2">5.2.</a> <a href="#fetch-retrieving-specific-data-nodes" id="fetch-retrieving-specific-data-nodes">FETCH - Retrieving specific data nodes</a></h1>
+<p id="rfc.section.5.2.p.1">The FETCH method is used by the CoOL client of retrieve a subset of the data node instances within a datastore.</p>
+<p id="rfc.section.5.2.p.2">To retrieve a list of data node instances, the CoOL client sends a CoAP FETCH request to the URI of the targeted datastore. The payload of the FETCH request contains the list of data node(s) instance to be retrieved. This list is encoded using a CBOR array, each entry containing an &#8216;instance-identifier&#8217; as defined by <a href="#I-D.ietf-core-yang-cbor">[I-D.ietf-core-yang-cbor]</a>. Within each &#8216;instance-identifier&#8217;, data nodes are identified using SIDs as defined by <a href="#I-D.somaraju-core-sid">[I-D.somaraju-core-sid]</a>.</p>
+<p id="rfc.section.5.2.p.3">SIDs within the list of &#8216;instance-identifier&#8217; are encoded using delta. A delta represents the different between the current SID and the SID of the previous entry within this list. The delta of the first entry within the list is set to the absolute SID value.</p>
+<p id="rfc.section.5.2.p.4">On successful processing of the CoAP request, the CoOL server MUST return a CoAP response with a response code 2.05 (Content).</p>
+<p id="rfc.section.5.2.p.5">When a single data node is requested, the payload of the FETCH response carries the value of the data node instance requested. When multiple data nodes are requested, the payload of the FETCH response carries a CBOR array containing the value of each data node instance(s) requested. The number of entries in this CBOR array MUST match the number of &#8220;instance-identifier&#8221; requested to allow a proper interpretation of this information. The following values can be returned for each &#8216;instance-identifier&#8217; requested:</p>
+<p/>
+
+<ul>
+  <li>If the data node requested is not implemented or not instantiated, the CBOR simple value &#8216;undefined&#8217; is returned.</li>
+  <li>If the URI-Query parameter &#8216;a&#8217; is not present in the FETCH request and the value of the data node instance is equal to the default value for this data node, the CBOR simple value &#8216;default&#8217; is returned.</li>
+  <li>Otherwise, the data node instance is encoded using the rules defined in <a href="#I-D.ietf-core-yang-cbor">[I-D.ietf-core-yang-cbor]</a>.</li>
+</ul>
+<p id="rfc.section.5.2.p.7">The normal behaviour of a CoOL server is to exclude from containers and list instances of a FETCH response, any data node currently set to its default value. When this behaviour is not appropriate for the CoOL client, this client can force the retrieval of all data nodes by using the &#8216;a&#8217; Uri-Query parameter, see <a href="#a-uri-query">Section 6.1</a> for more details.</p>
+<h1 id="rfc.section.5.2.1"><a href="#rfc.section.5.2.1">5.2.1.</a> <a href="#example-1-simple-data-node" id="example-1-simple-data-node">Example #1 - Simple data node</a></h1>
+<p id="rfc.section.5.2.1.p.1">In this example, a CoOL client retrieves the leaf &#8220;/system-state/clock/current-datetime&#8221; (SID 1719) and the container &#8220;/system/clock&#8221; (SID 1734) containing the leaf &#8220;/system/clock/timezone/timezone-utc-offset/timezone-utc-offset&#8221; (SID 1736). These data nodes are defined in the YANG module &#8220;ietf-system&#8221; <a href="#RFC7317">[RFC7317]</a>.</p>
+<p id="rfc.section.5.2.1.p.2">CoAP request:</p>
+<pre>
+FETCH /c Content-Format(application/cool-instance-id-list+cbor)
+[1719, +15]
+</pre>
+<p id="rfc.section.5.2.1.p.3">CoAP response:</p>
+<pre>
+2.05 Content Content-Format(application/cool-value-list+cbor)
+[
+  "2015-10-08T14:10:08Z09:00",    # current-datetime (SID 1719)
+  {                               # clock (SID 1734)
+    +2 : 540                      # timezone-utc-offset (SID 1736)
+  }
+]
+</pre>
+<p id="rfc.section.5.2.1.p.4">CoAP requests and responses MUST be encoded in accordance with <a href="#RFC7252">[RFC7252]</a> or <a href="#I-D.ietf-core-coap-tcp-tls">[I-D.ietf-core-coap-tcp-tls]</a>. An encoding example is shown below:</p>
+<p id="rfc.section.5.2.1.p.5">CoAP request:</p>
+<pre>
+ 0                   1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|Ver| T |  TKL  |  Code (0x05)  |          Message ID           |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|   Token (0 to 8 bytes) ...
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+| Opt Delta (12)| Opt Length (1)|      na       | Opt Delta (3) |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+| Opt Length (2)|     '/'       |      'c'      |1 1 1 1 1 1 1 1|
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|     0x82      |     0x19      |     0x06      |     0xb7      |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|     0x0f      |
++-+-+-+-+-+-+-+-+
+</pre>
+<p id="rfc.section.5.2.1.p.6">CoAP response:</p>
+<pre>
+ 0                   1                   2                   3
+ 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|Ver| T |  TKL  |  Code (0x45)  |          Message ID           |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|   Token (0 to 8 bytes) ...
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+| Opt Delta (12)| Opt Length (1)|      na       |1 1 1 1 1 1 1 1|
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|     0x82      |     0x78      |     0x19      |     0x32      |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|     0x30      |     0x31      |     0x35      |     0x2d      |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|     0x31      |     0x30      |     0x2d      |     0x30      |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|     0x38      |     0x54      |     0x31      |     0x34      |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|     0x3a      |     0x31      |     0x30      |     0x3a      |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|     0x30      |     0x38      |     0x5a      |     0x30      |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|     0x39      |     0x3a      |     0x30      |     0x30      |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|     0xa1      |     0x02      |     0x19      |     0x02      |
++-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|     0x1c      |
++-+-+-+-+-+-+-+-+
+</pre>
+<h1 id="rfc.section.5.2.2"><a href="#rfc.section.5.2.2">5.2.2.</a> <a href="#example-2-data-node-instance-within-a-yang-list" id="example-2-data-node-instance-within-a-yang-list">Example #2 - Data node instance within a YANG list</a></h1>
+<p id="rfc.section.5.2.2.p.1">The data type &#8216;instance-identifier&#8217; allows the selection of an instance of a specific data node within a list. In this example, a CoOL client retrieves the &#8220;/interfaces/interface/description&#8221; (SID 1534) leaf from the &#8220;/interfaces/interface&#8221; list. The &#8220;/interfaces/interface/name&#8221; associated to this interface is equal to &#8220;eth0&#8221;. This example is based on the YANG module &#8220;ietf-interfaces&#8221; <a href="#RFC7223">[RFC7223]</a>.</p>
+<p id="rfc.section.5.2.2.p.2">CoAP request:</p>
+<pre>
+FETCH /c Content-Format(application/cool-instance-id-list+cbor)
+[[1534, "eth0"]]
+</pre>
+<p id="rfc.section.5.2.2.p.3">CoAP response:</p>
+<pre>
+2.05 Content Content-Format(application/cool-value+cbor)
+"Ethernet adaptor"
+</pre>
+<h1 id="rfc.section.5.2.3"><a href="#rfc.section.5.2.3">5.2.3.</a> <a href="#example-3-yang-list" id="example-3-yang-list">Example #3 - YANG list</a></h1>
+<p id="rfc.section.5.2.3.p.1">This &#8220;instance-identifier&#8221; extension allows the retrieval of all instances of a YANG list. To perform this operation, the CoOL client excludes from the &#8216;instance-identifier&#8217; the key(s) of the targeted list. The list returned is encoded using the rules defined in <a href="#I-D.ietf-core-yang-cbor">[I-D.ietf-core-yang-cbor]</a> section 4.4.</p>
+<p id="rfc.section.5.2.3.p.2">In this example, a CoOL client retrieves the list &#8220;/interfaces/interface&#8221; (SID 1533). The response returned contain two instances, one for an Ethernet adaptor and one for a WIFI interface.</p>
+<p id="rfc.section.5.2.3.p.3">CoAP request:</p>
+<pre>
+FETCH /c Content-Format(application/cool-instance-id-list+cbor)
+[1533]
+</pre>
+<p id="rfc.section.5.2.3.p.4">CoAP response:</p>
+<pre>
+2.05 Content Content-Format(application/cool-value+cbor)
+[
+  {
+    +4 : "eth0",             # name (SID 1537)
+    +1 : "Ethernet adaptor", # description (SID 1534)
+    +5 : 1179,               # type (SID 1538), identity ethernetCsmacd
+    +2 : true                # enabled (SID 1535)
+  },
+  {
+    +4 : "wlan0",            # name (SID 1537)
+    +1 : "WIFI ",            # description (SID 1534)
+    +5 : 1220,               # type (SID 1538), identity ieee80211
+    +2 : false               # enabled (SID 1535)
+  }
+]
+</pre>
+<h1 id="rfc.section.5.2.4"><a href="#rfc.section.5.2.4">5.2.4.</a> <a href="#example-4-yang-list-instance" id="example-4-yang-list-instance">Example #4 - YANG list instance</a></h1>
+<p id="rfc.section.5.2.4.p.1">To retrieve a list instance, the CoOL client MUST use an &#8216;instance-identifier&#8217; with a SID set to the targeted list and the key(s) set to the value(s) associated to the targeted instance.</p>
+<p id="rfc.section.5.2.4.p.2">In this example, the CoOL client requests the instance of the list &#8220;/interfaces/interface&#8221; (SID 1533) associated to the name &#8220;eth0&#8221;. The response returned by the CoOL server contains the targeted list instance formatted as YANG container.</p>
+<p id="rfc.section.5.2.4.p.3">CoAP request:</p>
+<pre>
+FETCH /c Content-Format(application/cool-instance-id-list+cbor)
+[[1533, "eth0"]]
+</pre>
+<p id="rfc.section.5.2.4.p.4">CoAP response:</p>
+<pre>
+2.05 Content Content-Format(application/cool-value+cbor)
+{
+  +4 : "eth0"               # name (SID 1537)
+  +1 : "Ethernet adaptor"   # description (SID 1534)
+  +5 : 1179                 # type (SID 1538), identity ethernetCsmacd
+  +2 : true                 # enabled (SID 1535)
+}
+</pre>
+<h1 id="rfc.section.5.2.5"><a href="#rfc.section.5.2.5">5.2.5.</a> <a href="#example-5-yang-list-instance-filtering" id="example-5-yang-list-instance-filtering">Example #5 - YANG list instance filtering</a></h1>
+<p id="rfc.section.5.2.5.p.1">This &#8216;instance-identifier&#8217; extension allows the selection of a subset of data nodes within a list. This is accomplished by adding an extra element to the &#8216;instance-identifier&#8217;. This element contains the subset of data nodes to be returned encoded as CBOR array. Each entry within this CBOR array is set to the delta between the current SID and the SID of targeted container as specified in the first entry of the &#8216;instance-identifier&#8217;.</p>
+<p id="rfc.section.5.2.5.p.2">CoOL servers SHOULD implement this &#8216;instance-identifier&#8217; extension. When this extension is not supported, the CoOL server MUST ignore the third element of the &#8216;instance-identifier&#8217; and return the list instance as specified by the first two elements of the &#8216;instance-identifier&#8217;.</p>
+<p id="rfc.section.5.2.5.p.3">In this example, a CoOL client retrieves from within the &#8220;/interfaces/interface&#8221; list (SID 1533) the leafs &#8220;/interfaces/interface/type&#8221; (SID 1538) and &#8220;/interfaces/interface/enabled&#8221; (SID 1535). The CoOL client also includes in this request the selection of the leaf &#8220;/system/hostname&#8221; (SID 1748) defined in &#8220;ietf-system&#8221; <a href="#RFC7317">[RFC7317]</a>.</p>
+<p id="rfc.section.5.2.5.p.4">For example:</p>
+<p id="rfc.section.5.2.5.p.5">CoAP request:</p>
+<pre>
+FETCH /c Content-Format(application/cool-instance-id-list+cbor)
+[ [1533, "eth0", [+5, +2]], +215]
+</pre>
+<p id="rfc.section.5.2.5.p.6">CoAP response:</p>
+<pre>
+2.05 Content Content-Format(application/cool-value-list+cbor)
+[
+  {
+    +5 : 1179,             # type (SID 1538), identity ethernetCsmacd
+    +2 : true              # enabled (SID 1535)
+  },
+  "datatracker.ietf.org",  # hostname (SID 1748)
+]
+</pre>
+<h1 id="rfc.section.5.2.6"><a href="#rfc.section.5.2.6">5.2.6.</a> <a href="#example-6-all-instances-of-a-data-node-within-a-yang-list" id="example-6-all-instances-of-a-data-node-within-a-yang-list">Example #6 - All instances of a data node within a YANG list</a></h1>
+<p id="rfc.section.5.2.6.p.1">This &#8216;instance-identifier&#8217; extension allows the efficient transfer of all instances of a data node within a YANG list. To retrieve all instances, the CoOL client excludes form the &#8216;instance-identifier&#8217; the key(s) of the list containing the targeted data node.</p>
+<p id="rfc.section.5.2.6.p.2">The response MUST be encoded as a CBOR ARRAY containing the available instances of the requested data node. This special encoding minimizes significantly this commonly used type of request.</p>
+<p id="rfc.section.5.2.6.p.3">In this example, a CoOL client retrieves all instances of data node &#8220;/interfaces/interface/name&#8221; (SID 1537).</p>
+<p id="rfc.section.5.2.6.p.4">Example:</p>
+<p id="rfc.section.5.2.6.p.5">CoAP request:</p>
+<pre>
+FETCH /c Content-Format(application/cool-instance-id-list+cbor)
+[1537]
+</pre>
+<p id="rfc.section.5.2.6.p.6">CoAP response:</p>
+<pre>
+2.05 Content Content-Format(application/cool-value+cbor)
+["eth0", "eth1", "wlan0"]
+</pre>
+<h1 id="rfc.section.5.3"><a href="#rfc.section.5.3">5.3.</a> <a href="#put-updating-all-data-nodes-of-a-datastore" id="put-updating-all-data-nodes-of-a-datastore">PUT - Updating all data nodes of a datastore</a></h1>
+<p id="rfc.section.5.3.p.1">The CoAP PUT method is used by CoOL clients to update the content of a datastore.</p>
+<p id="rfc.section.5.3.p.2">The URI of the PUT request MUST be set to the URI of the targeted datastore.</p>
+<p id="rfc.section.5.3.p.3">The payload of the PUT request MUST carry a CBOR array containing the new content of the datastore. The CBOR array MUST contain a list of pairs of delta and associated value. A delta represents the different between the current SID and the SID of the previous pair within the CBOR array. Each value is encoded using the rules defined by <a href="#I-D.ietf-core-yang-cbor">[I-D.ietf-core-yang-cbor]</a>.</p>
+<p id="rfc.section.5.3.p.4">On successful processing of the CoAP request, the CoOL server MUST return a CoAP response with a response code 2.04 (Changed).</p>
+<p id="rfc.section.5.3.p.5">A PUT request MUST be processed as an atomic transaction, if any of the data node transferred is rejected for any reason, the entire PUT request MUST be rejected and the CoOL server MUST return an appropriate error response as defined in section 6.</p>
+<p id="rfc.section.5.3.p.6">Example:</p>
+<p id="rfc.section.5.3.p.7">In this example, a CoOL client sets the default runtime datastore with these data nodes:</p>
+<p/>
+
+<ul>
+  <li>&#8220;/system/clock/timezone/timezone-utc-offset/timezone-utc-offset&#8221; (SID 1736)</li>
+  <li>&#8220;/system/ntp/enabled&#8221; (SID 1751)</li>
+  <li>&#8220;/system/ntp/server&#8221; (SID 1752)</li>
+  <li>&#8220;/system/ntp/server/name&#8221; (SID 1755)</li>
+  <li>&#8220;/system/ntp/server/prefer&#8221; (SID 1756)</li>
+  <li>&#8220;/system/ntp/server/transport/udp/udp&#8221; (SID 1757)</li>
+  <li>&#8220;/system/ntp/server/transport/udp/udp/address&#8221; (SID 1758)</li>
+  <li>&#8220;/system/ntp/server/transport/udp/udp/port&#8221; (SID 1759)</li>
+</ul>
+<p id="rfc.section.5.3.p.9">CoAP request:</p>
+<pre>
+PUT /c/r Content-Format(application/cool-value-pairs+cbor)
+[
+  1736, 540,                     # timezone-utc-offset (SID 1736)
+  +15, true,                     # enabled (SID 1751)
+  +1, [                          # server (SID 1752)
+    {
+      +3 : "tic.nrc.ca",         # name (SID 1755)
+      +4 : true,                 # prefer (SID 1756)
+      +5 : {                     # udp (SID 1757)
+        +1 : "132.246.11.231",   # address (SID 1758)
+        +2 : 123                 # port (SID 1759)
+      }
+    },
+    {
+      +3 : "tac.nrc.ca",         # name (SID 1755)
+      +4 : false,                # prefer (SID 1756)
+      +5 : {                     # udp (SID 1757)
+        +1 : "132.246.11.232"    # address (SID 1758)
+      }
+    }
+  ] 
+]
+</pre>
+<p id="rfc.section.5.3.p.10">CoAP response:</p>
+<pre>
+2.04 Changed
+</pre>
+<h1 id="rfc.section.5.4"><a href="#rfc.section.5.4">5.4.</a> <a href="#ipatch-updating-specific-data-nodes" id="ipatch-updating-specific-data-nodes">iPATCH - Updating specific data nodes</a></h1>
+<p id="rfc.section.5.4.p.1">The iPATCH method is used by CoOL clients to modify a subset of a datastore.</p>
+<p id="rfc.section.5.4.p.2">To modify a datastore, the CoOL client sends a CoAP PATH request to the URI of the targeted datastore. The payload of the FETCH request contains the list of data node instance(s) to be updated, inserted or deleted. This list is encoded using a CBOR array and contains a sequence of pairs of &#8216;instance-identifier&#8217; and associated values.</p>
+<p id="rfc.section.5.4.p.3">Within each &#8216;instance-identifier&#8217;, data nodes are identified using SIDs as defined by <a href="#I-D.somaraju-core-sid">[I-D.somaraju-core-sid]</a>. SIDs within the list are encoded as delta.</p>
+<p id="rfc.section.5.4.p.4">On reception, the list is processed by the CoOL server as follows:</p>
+<p/>
+
+<ul>
+  <li>If the targeted data instance already exists, this instance is replaced by the associated value (not merged). To update only some children of a collection, each child data node MUST be provided individually.</li>
+  <li>If the targeted data instance doesn&#8217;t exist, this instance is created.</li>
+  <li>If the targeted data instance already exists but is associated with the value &#8216;null&#8217;, this instance is deleted.</li>
+</ul>
+<p id="rfc.section.5.4.p.6">On successful processing of the CoAP request, the CoOL server MUST return a CoAP response with a response code 2.05 (Content).</p>
+<p id="rfc.section.5.4.p.7">A iPATCH request MUST be processed as an atomic transaction, if any of the data nodes transferred is rejected for any reasons, the entire iPATCH request MUST be rejected and the CoOL server MUST return an appropriate error response as defined in section 6.</p>
+<p id="rfc.section.5.4.p.8">Example:</p>
+<p id="rfc.section.5.4.p.9">In this example, a CoOL client performs the following operations:</p>
+<p/>
+
+<ul>
+  <li>Set &#8220;/system/ntp/enabled&#8221; (SID 1751) to true.</li>
+  <li>Remove the server &#8220;tac.nrc.ca&#8221; from the&#8221;/system/ntp/server&#8221; (SID 1752) list.</li>
+  <li>Add the server &#8220;NTP Pool server 2&#8221; to the list &#8220;/system/ntp/server&#8221; (SID 1752).</li>
+  <li>Set &#8220;/system/ntp/server/prefer&#8221; (SID 1756) to false for the server &#8220;tic.nrc.ca&#8221;.</li>
+</ul>
+<p id="rfc.section.5.4.p.11">CoAP request:</p>
+<pre>
+iPATCH /c/r Content-Format(application/cool-value-pairs+cbor)
+[
+  1751 , true,                          # enabled (1751)
+  [+1, "tac.nrc.ca"], null,             # server (SID 1752)
+  +0,                                   # server (SID 1752)
+    {
+      +3 : "NTP Pool server 2",         # name (SID 1755)
+      +4 : true,                        # prefer (SID 1756)
+      +5 : {                            # udp (SID 1757)
+        +1 : "2620:10a:800f::11",       # address (SID 1758)
+      }
+    }
+  [+4, "tic.nrc.ca"], false             # prefer (SID 1756)
+]
+</pre>
+<p id="rfc.section.5.4.p.12">CoAP response:</p>
+<pre>
+2.04 Changed
+</pre>
+<h1 id="rfc.section.5.5"><a href="#rfc.section.5.5">5.5.</a> <a href="#post-protocol-operation" id="post-protocol-operation">POST - Protocol operation</a></h1>
+<p id="rfc.section.5.5.p.1">Protocol operations are defined using the YANG &#8216;rpc&#8217; or YANG &#8216;action&#8217; statements.</p>
+<p id="rfc.section.5.5.p.2">To execute a protocol operation, the CoOL client sents a CoAP POST request to the URI of the targeted datastore.</p>
+<p id="rfc.section.5.5.p.3">The payload of the POST request carries a CBOR array with up to two entries. The first entry carries the instance-identifier identifying the targeted protocol operation. The second entry carries the protocol operation input(s). Input(s) are present only if defined for the invoked protocol operation and used by the CoOL client. Input(s) are encoded using the rules defined for a YANG container, deltas are relative to the SID assigned to the protocol operation.</p>
+<p id="rfc.section.5.5.p.4">On successful completion on the protocol operation, the CoOL server returns a CoAP response with the response code set to 2.05 (Content). When output parameters are returned by the CoOL server, these parameter(s) are carried in the CoAP response payload. Output(s) are encoded using the rules defined for a YANG container, deltas are relative to the SID assigned to the protocol operation.</p>
+<h1 id="rfc.section.5.5.1"><a href="#rfc.section.5.5.1">5.5.1.</a> <a href="#example-1-rpc" id="example-1-rpc">Example #1 - RPC</a></h1>
+<p id="rfc.section.5.5.1.p.1">This example is based on the &#8216;activate-software-image&#8217; RPC defined in <a href="#I-D.ietf-netmod-rfc6020bis">[I-D.ietf-netmod-rfc6020bis]</a>, assuming that this RPC is assigned to SID 1932, leaf image-name to SID 1933 and leaf status to SID 1934. These SIDs are defined strictly for the purpose of this example.</p>
+<pre>
+rpc activate-software-image {
+  input {
+    leaf image-name {
+      type string;
+    }
+  }
+  output {
+    leaf status {
+      type string;
+    }
+  }
+}
+</pre>
+<p id="rfc.section.5.5.1.p.2">CoAP request:</p>
+<pre>
+POST /c Content-Format(application/cool-value-pairs+cbor)
+[
+  1932,
+  {
+    +1 : "acmefw-2.3"                   # image-name (SID 1933)
+  }
+]
+</pre>
+<p id="rfc.section.5.5.1.p.3">CoAP response:</p>
+<pre>
+2.05 Content Content-Format(application/cool-value+cbor)
+{
+  +2 : "installed"                      # status (SID 1934)
+}
+</pre>
+<h1 id="rfc.section.5.5.2"><a href="#rfc.section.5.5.2">5.5.2.</a> <a href="#example-2-action" id="example-2-action">Example #2 - Action</a></h1>
+<p id="rfc.section.5.5.2.p.1">This example is based on the &#8216;reset&#8217; action defined in <a href="#I-D.ietf-netmod-rfc6020bis">[I-D.ietf-netmod-rfc6020bis]</a> assuming that this action is assigned to SID 1902, leaf reset-at to SID 1903 and leaf reset-finished-at to SID 1904. These SIDs are defined strictly for the purpose of this example.</p>
+<pre>
+list server {
+  key name;
+  leaf name {
+    type string;
+  }
+  action reset {
+    input {
+      leaf reset-at {
+        type yang:date-and-time;
+        mandatory true;
+      }
+    }
+    output {
+      leaf reset-finished-at {
+        type yang:date-and-time;
+        mandatory true;
+      }
+    }
+  }
+}
+</pre>
+<p id="rfc.section.5.5.2.p.2">CoAP request:</p>
+<pre>
+POST /c Content-Format(application/cool-value-pairs+cbor)
+[
+  [1902, "myServer"],
+  {
+    +1 : "2016-02-08T14:10:08Z09:00"    # reset-at (SID 1903)
+  }
+]
+</pre>
+<p id="rfc.section.5.5.2.p.3">CoAP response:</p>
+<pre>
+2.05 Content Content-Format(application/cool-value+cbor)
+{
+  +2 : "2016-02-08T14:10:08Z09:18"         # reset-finished-at (SID 1904)
+}
+</pre>
+<h1 id="rfc.section.5.6"><a href="#rfc.section.5.6">5.6.</a> <a href="#event-stream" id="event-stream">Event stream</a></h1>
+<pre>
+WARNING
+This section requires more work to address the following identified issues:
+
+* Retrieval of past events (e.g. start-time, stop-time)
+* Retrieval of specific events (e.g. filter)
+* Configuration persistence
+* Configuration of by a third entity (configuration tool)
+* Support of multicast
+* Event congestion-avoidance
+* Transfer reliability
+
+The current solution based on the observe CoAP option can be augmented
+or completely replaced by a future version of this draft.
+</pre>
+<p id="rfc.section.5.6.p.1">Notifications are defined using the YANG &#8216;notification&#8217; statement. Subscriptions to an event stream and notification reporting are performed using an event stream resource. When multiple event stream resources are supported, the list of notifications associated with each stream is either pre-defined or configured in the CoOL server. CoOL clients MAY subscribe to one or more event stream resources.</p>
+<p id="rfc.section.5.6.p.2">To subscribe to an event stream resource, a CoOL client MUST send a CoAP GET with the Observe CoAP option set to 0. To unsubscribe, a CoOL client MAY send a CoAP reset or a CoAP GET with the Observe option set to 1. For more information on the observe mechanism, see <a href="#RFC7641">[RFC7641]</a>.</p>
+<p id="rfc.section.5.6.p.3">Each notification transferred by a CoOL server to each of the registered CoOL clients is carried in a CoAP response with a response code set to 2.05 (Content). Each CoAP response MUST carry in its payload at least one notification but MAY carry multiple. Each notification is carried in a notification-payload defined in ietf-cool, see <a href="#cool-module">Appendix A</a>. The notification-payload supports different meta-data associated to this notification, such as the notification identifier, event timestamp, sequence number, severity level and facility. All of these meta information are optional with the exception of the notification identifier.</p>
+<p id="rfc.section.5.6.p.4">The CoAP response payload is encoded using the rules defined for the PUT request. When multiple notifications are reported, the CoAP response payload carries a CBOR array, with each entry containing a notification.</p>
+<p id="rfc.section.5.6.p.5">This example is based on the &#8216;link-failure&#8217; and &#8216;interface-enabled&#8217; notifications defined in <a href="#I-D.ietf-netmod-rfc6020bis">[I-D.ietf-netmod-rfc6020bis]</a> assuming the following SID assignment:</p>
+<p/>
+
+<ul>
+  <li>&#8220;/link-failure&#8221; (SID 1942)</li>
+  <li>&#8220;/link-failure/if-name&#8221; (SID 1943)</li>
+  <li>&#8220;/link-failure/admin-status&#8221; (SID 1944)</li>
+  <li>&#8220;/interfaces/interface/interface-enabled&#8221; (SID 1538)</li>
+  <li>&#8220;/interfaces/interface/interface-enabled/by-user&#8221; (SID 1539)</li>
+</ul>
+<p id="rfc.section.5.6.p.7">These SIDs are defined strictly for the purpose of this example.</p>
+<pre>
+notification link-failure {
+  leaf if-name {
+    type leafref {
+      path "/interface/name";
+    }
+  }
+  leaf admin-status {
+    type leafref {
+      path "/interface[name = current()/../if-name]/admin-status";
+    }
+  }
+}
+</pre>
+<pre>
+container interfaces {
+  list interface {
+    key "name";
+
+    leaf name {
+      type string;
+    }
+
+    notification interface-enabled {
+      leaf by-user {
+        type string;
+      }
+    }
+  }
+}
+</pre>
+<p id="rfc.section.5.6.p.8">In this example, a CoOL client starts by registering to the default event stream resource &#8220;/c/e&#8221;.</p>
+<p id="rfc.section.5.6.p.9">CoAP request:</p>
+<pre>
+GET /c/e observe(0) Token(0x9372)
+</pre>
+<p id="rfc.section.5.6.p.10">The CoOL server confirms this registration by returning a first CoAP response. The payload of this CoAP response may be empty or may carry the last notification reported by this server.</p>
+<p id="rfc.section.5.6.p.11">CoAP response:</p>
+<pre>
+2.05 Content Observe(52) Token(0xD937)
+</pre>
+<p id="rfc.section.5.6.p.12">After detecting an event, the CoOL server sends its first notification to the registered CoOL client.</p>
+<p id="rfc.section.5.6.p.13">CoAP response:</p>
+<pre>
+2.05 Content Observe(53) Token(0xD937)
+Content-Format(application/cool-value-pairs+cbor)
+[
+  1011 , [1538, "eth0"],              # _id (SID 1011)
+  +1,{                                # content (SID 1012)
+    +1 : "bob"                        # by-user  (SID 1539)
+  }
+  +5 , "2016-03-08T14:10:08Z09:00",   # timestamp (SID 1016)
+]
+</pre>
+<p id="rfc.section.5.6.p.14">To optimize communications or because of other constraints, the CoOL server might transfer multiple notifications in a single CoAP response.</p>
+<p id="rfc.section.5.6.p.15">CoAP response:</p>
+<pre>
+2.05 Content Observe(52) Token(0xD937)
+Content-Format(application/cool-value-pairs+cbor)
+[
+  [
+    1011 , [1538, "eth0"],      # _id = interface-enabled (SID 1011)
+    +1,{                         # content (SID 1012)
+      +1 : "jack"                # by-user (SID 1539)
+    }
+    +5 , "2016-03-12T15:49:51Z09:00",  # timestamp (SID 1016)
+  ],
+  [
+    +1011 , 1942,                # _id = link-failure (SID 1011)
+    +1,{                         # content (SID 1011)
+      +1 : "eth0",               # if-name (SID 1943)
+      +1 : 1                     # admin-status = up (SID 1944)
+    }
+    +5 , "2016-03-12T15:50:06Z09:00",  # timestamp (SID 1016)
+  ]
+]
+</pre>
+<h1 id="rfc.section.6"><a href="#rfc.section.6">6.</a> <a href="#uri-query" id="uri-query">Uri-Query</a></h1>
+<h1 id="rfc.section.6.1"><a href="#rfc.section.6.1">6.1.</a> <a href="#a-uri-query" id="a-uri-query">The &#8216;a&#8217; Query Parameter</a></h1>
+<p id="rfc.section.6.1.p.1">When performing a GET, the normal behaviour of a CoOL server is to exclude from the GET response, data nodes currently set to their default values as defined by the YANG &#8216;default&#8217; statement. This behaviour called &#8216;trim&#8217; is defined in <a href="#RFC6243">[RFC6243]</a> section 3.2.</p>
+<p id="rfc.section.6.1.p.2">This rule also applies to the FETCH for containers and list instances but not for the root data nodes. To minimize the payload size of the FETCH responses, root data nodes are returned in a CBOR array without associated SID. To keep the symmetry between the FETCH request and the FETCH response, a CBOR content must be returned for each data node requested as follows:</p>
+<p/>
+
+<ul>
+  <li>a CBOR simple type &#8216;default&#8217; is returned for each data node currently set to its default value</li>
+  <li>a CBOR simple type &#8216;undefined value&#8217; is returned for each data node not instantiated or not supported</li>
+  <li>otherwise, the value is encoded based on the rules defined in <a href="#I-D.ietf-core-yang-cbor">[I-D.ietf-core-yang-cbor]</a></li>
+</ul>
+<p id="rfc.section.6.1.p.4">There are use-cases when a CoOL client will need the default data from the server, for example:</p>
+<p/>
+
+<ul>
+  <li>The management application often needs a single, definitive, and complete set of configuration values that determine how the networking device works.</li>
+  <li>Documentation about default values can be unreliable or unavailable.</li>
+  <li>Some management applications might not have the capabilities to correctly parse and interpret formal data models.</li>
+  <li>Human users might want to understand the received data without consultation of the documentation.</li>
+</ul>
+<p id="rfc.section.6.1.p.6">In all these cases, the CoOL client will need a mechanism to retrieve default data from a CoOL server.</p>
+<p id="rfc.section.6.1.p.7">This is accomplished by including the &#8216;a&#8217; Uri-Query parameter in the GET or FETCH request. This behaviour called &#8216;report-all&#8217; is defined in <a href="#RFC6243">[RFC6243]</a> section 3.1.</p>
+<h1 id="rfc.section.7"><a href="#rfc.section.7">7.</a> <a href="#coap-compatibility" id="coap-compatibility">CoAP compatibility</a></h1>
+<h1 id="rfc.section.7.1"><a href="#rfc.section.7.1">7.1.</a> <a href="#working-with-uri-host-uri-port-uri-path-and-uri-query" id="working-with-uri-host-uri-port-uri-path-and-uri-query">Working with Uri-Host, Uri-Port, Uri-Path, and Uri-Query</a></h1>
+<p id="rfc.section.7.1.p.1">Supported Uri-Query parameters are defined in <a href="#uri-query">Section 6</a>. Uri-Host, Uri-Port and Uri-Path MUST be used as specified by <a href="#RFC6690">[RFC6690]</a> to target the CoOL resources as defined by section 3.</p>
+<h1 id="rfc.section.7.2"><a href="#rfc.section.7.2">7.2.</a> <a href="#working-with-location-path-and-location-query" id="working-with-location-path-and-location-query">Working with Location-Path and Location-Query</a></h1>
+<p id="rfc.section.7.2.p.1">This version of CoOL doesn&#8217;t support the creation of resources (datastore or event stream). For this reason, the use of Location-Path and Location-Query is not required.</p>
+<h1 id="rfc.section.7.3"><a href="#rfc.section.7.3">7.3.</a> <a href="#working-with-accept" id="working-with-accept">Working with Accept</a></h1>
+<p id="rfc.section.7.3.p.1">This option is not required since this protocol don&#8217;t support multiple choices of Content-Format.</p>
+<h1 id="rfc.section.7.4"><a href="#rfc.section.7.4">7.4.</a> <a href="#working-with-max-age" id="working-with-max-age">Working with Max-Age</a></h1>
+<p id="rfc.section.7.4.p.1">This option MUST be supported as specified by <a href="#RFC6690">[RFC6690]</a>.</p>
+<h1 id="rfc.section.7.5"><a href="#rfc.section.7.5">7.5.</a> <a href="#working-with-proxy-uri-and-proxy-scheme" id="working-with-proxy-uri-and-proxy-scheme">Working with Proxy-Uri and Proxy-Scheme</a></h1>
+<p id="rfc.section.7.5.p.1">This option MUST be supported as specified by <a href="#RFC6690">[RFC6690]</a>.</p>
+<h1 id="rfc.section.7.6"><a href="#rfc.section.7.6">7.6.</a> <a href="#working-with-if-match-if-none-match-and-etag" id="working-with-if-match-if-none-match-and-etag">Working with If-Match, If-None-Match and ETag</a></h1>
+<p id="rfc.section.7.6.p.1">This option MUST be supported as specified by <a href="#RFC6690">[RFC6690]</a>. Each ETag is associated to all schema nodes within a datastore.</p>
+<h1 id="rfc.section.7.7"><a href="#rfc.section.7.7">7.7.</a> <a href="#working-with-size1-size2-block1-and-block2" id="working-with-size1-size2-block1-and-block2">Working with Size1, Size2, Block1 and Block2</a></h1>
+<p id="rfc.section.7.7.p.1">When the UDP transport is used and a large payload need to be transferred, support of the CoAP block transfer as defined by <a href="#I-D.ietf-core-block">[I-D.ietf-core-block]</a> is recommended.</p>
+<h1 id="rfc.section.7.8"><a href="#rfc.section.7.8">7.8.</a> <a href="#working-with-observe" id="working-with-observe">Working with Observe</a></h1>
+<p id="rfc.section.7.8.p.1">A CoOL server MAY support state change notifications to some or all its leaf data nodes. When supported the CoOL server MUST implement the Server-Side requirements defined in <a href="#RFC7641">[RFC7641]</a> section 3 and the CoOL client MUST implement the Client-Side requirements defined in <a href="#RFC7641">[RFC7641]</a> section 4.</p>
+<p id="rfc.section.7.8.p.2">To start observing a leaf data node, a CoOL client MUST send a CoAP FETCH with the Observe CoAP option set to 0.</p>
+<p id="rfc.section.7.8.p.3">The payload of the FETCH request carries a CBOR array of instance-identifier.  The first entry MUST be set to the &#8216;instance-identifier&#8217; of the data node instance observed. The following entries are optional and allow the selection of coincidental values, data nodes reported at the same time as the observed data node. Coincidental values are included in each notification reported, but changes to these extra data nodes MUST not trigger notification messages.</p>
+<p id="rfc.section.7.8.p.4">A subscription can be terminated by the CoOL client by returning a CoAP Reset message or by sending a GET request with an Observe CoAP option set to deregister (1). More details are available in <a href="#RFC7641">[RFC7641]</a>.</p>
+<p id="rfc.section.7.8.p.5">Example:</p>
+<p id="rfc.section.7.8.p.6">In this example, a CoOL client subscribes to state changes of the data node &#8220;/system/ntp/enabled&#8221; (SID = 1751) and requests that data node &#8220;/system/hostname&#8221; (SID 1748) is reported as coincidental value.</p>
+<p id="rfc.section.7.8.p.7">A first response is immediately returned by the CoOL server to confirm the subscription and to report the current values of the requested data nodes.</p>
+<p id="rfc.section.7.8.p.8">Subsequent responses are returned by the CoOL server each time the state of data node &#8220;/system/ntp/enabled&#8221; changes.</p>
+<p id="rfc.section.7.8.p.9">CoAP request:</p>
+<pre>
+FETCH /c Content-Format(application/cool-instance-id-list+cbor) Observe(0)
+[ [1751, "tic.nrc.ca"], -3 ]
+</pre>
+<p id="rfc.section.7.8.p.10">CoAP response:</p>
+<pre>
+2.05 Content Content-Format(application/cool-value-pairs+cbor) Observe(2631)
+[
+  false,                     # enabled (SID 1751)
+  "tic"                      # hostname (SID 1748)
+]
+</pre>
+<p id="rfc.section.7.8.p.11">CoAP response:</p>
+<pre>
+2.05 Content Content-Format(application/cool-value-pairs+cbor) Observe(2632)
+[
+  true,                      # enabled (SID 1751)
+  "tic"                      # hostname (SID 1748)
+]
+</pre>
+<h1 id="rfc.section.7.9"><a href="#rfc.section.7.9">7.9.</a> <a href="#working-with-resource-discovery" id="working-with-resource-discovery">Working with resource discovery</a></h1>
+<p id="rfc.section.7.9.p.1">The &#8220;/.well-known/core&#8221; resource is used by CoOL clients to discover resources implemented by CoOL servers. Each CoOL server MUST have an entry in the &#8220;/.well-known/core&#8221; resource for each datastore resource and event stream resource supported.</p>
+<p id="rfc.section.7.9.p.2">Resource discovery can be performed using a CoAP GET request. If successful, the CoAP response MUST have a response code set to 2.05 (Content), a Content-Format set to &#8220;application/link-format&#8221;, and a payload containing a list of web links.</p>
+<p id="rfc.section.7.9.p.3">To enable discovery of specific resource types, the CoAP server MUST support the query string &#8220;rt&#8221;.</p>
+<p id="rfc.section.7.9.p.4">Link format and the &#8220;/.well-known/core&#8221; resource are defined in <a href="#RFC6690">[RFC6690]</a>.</p>
+<p id="rfc.section.7.9.p.5">Example:</p>
+<p id="rfc.section.7.9.p.6">CoAP request:</p>
+<pre>
+GET /.well-known/core
+</pre>
+<p id="rfc.section.7.9.p.7">CoAP response:</p>
+<pre>
+2.05 Content Content-Format(application/link-format)
+&lt;/c&gt;;rt="cool.datastore",
+&lt;/c/r&gt;;rt="cool.datastore",
+&lt;/c/b&gt;;rt="cool.datastore",
+&lt;/c/e&gt;;rt="cool.event-stream",
+</pre>
+<p id="rfc.section.7.9.p.8">In this example, a CoOL client retrieves the list of all resources available on a CoOL server.</p>
+<p id="rfc.section.7.9.p.9">Alternatively, the CoOL client may query for a specific resource type. In this example, the CoOL client queries for resource type (rt) &#8220;cool.datastore&#8221;.</p>
+<p id="rfc.section.7.9.p.10">CoAP request:</p>
+<pre>
+GET /.well-known/core?rt=cool.datastore
+</pre>
+<p id="rfc.section.7.9.p.11">CoAP response:</p>
+<pre>
+2.05 Content Content-Format(application/link-format)
+&lt;/c&gt;;rt="cool.datastore",
+</pre>
+<h1 id="rfc.section.8"><a href="#rfc.section.8">8.</a> <a href="#error-handling" id="error-handling">Error Handling</a></h1>
+<p id="rfc.section.8.p.1">All CoAP response codes defined by <a href="#RFC7252">[RFC7252]</a> MUST be accepted and processed accordingly by CoOL clients. Optionally, client errors (CoAP response codes 4.xx) or server errors (CoAP response codes 5.xx) MAY have a payload providing further information about the cause of the error. This payload contains the &#8220;error-payload&#8221; container (SID 1007) defined in the &#8220;ietf-cool&#8221; YANG module, see <a href="#cool-module">Appendix A</a>.</p>
+<p id="rfc.section.8.p.2">Example:</p>
+<p id="rfc.section.8.p.3">CoAP response:</p>
+<pre>
+4.00 Bad Request (Content-Format: application/cool-value-pairs+cbor)
+[
+  1007 , {                                   # error-payload (SID 1007)
+    +1 : 2,                                  # error-code (SID 1008)
+    +2 : "Unknown data node 69687"           # error-text (SID 1009)
+  }
+]
+</pre>
+<h1 id="rfc.section.9"><a href="#rfc.section.9">9.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a></h1>
+<p id="rfc.section.9.p.1">This application protocol relies on the lower layers to provide confidentiality, integrity, and availability. A typical approach to archive these requirements is to implement CoAP using the DTLS binding as defined in <a href="#RFC7252">[RFC7252]</a> section 9. Other approaches are possible to fulfill these requirements, such as the use of a network layer security mechanism as discussed in <a href="#I-D.bormann-core-ipsec-for-coap">[I-D.bormann-core-ipsec-for-coap]</a> or a link layer security mechanism for exchanges done within a single sub-network.</p>
+<p id="rfc.section.9.p.2">In some applications, different access rights to objects (data nodes, protocol operations and notifications) need to be granted to different CoOL clients. Different solutions are possible, such as the implementation of Access Control Lists (ACL) using YANG module(s) or the use of an authorization certificate as defined in <a href="#RFC5755">[RFC5755]</a>. These access control mechanisms need to be addressed in complementary specifications.</p>
+<p id="rfc.section.9.p.3">The Security Considerations section of CoAP <a href="#RFC7252">[RFC7252]</a> is especially relevant to this application protocol and should be reviewed carefully by implementers.</p>
+<h1 id="rfc.section.10"><a href="#rfc.section.10">10.</a> <a href="#iana-considerations" id="iana-considerations">IANA Considerations</a></h1>
+<h1 id="rfc.section.10.1"><a href="#rfc.section.10.1">10.1.</a> <a href="#coap-content-formats" id="coap-content-formats">CoAP Content-Formats</a></h1>
+<p id="rfc.section.10.1.p.1">This draft introduces the following CoAP Content-Formats. These entries need to be registered in the CoAP Content-Formats Registry as defined in <a href="#RFC7252">[RFC7252]</a> section 12.3.</p>
+<p id="rfc.section.10.1.p.2">First entry:</p>
+<p/>
+
+<ul>
+  <li>Media type = application/cool-instance-id-list</li>
+  <li>Encoding = CBOR</li>
+  <li>ID = 61</li>
+  <li>Reference = RFC XXXX</li>
+</ul>
+<p id="rfc.section.10.1.p.4">Second entry:</p>
+<p/>
+
+<ul>
+  <li>Media type = application/cool-value</li>
+  <li>Encoding = CBOR</li>
+  <li>ID = 62</li>
+  <li>Reference = RFC XXXX</li>
+</ul>
+<p id="rfc.section.10.1.p.6">Third entry:</p>
+<p/>
+
+<ul>
+  <li>Media type = application/cool-value-list</li>
+  <li>Encoding = CBOR</li>
+  <li>ID = 63</li>
+  <li>Reference = RFC XXXX</li>
+</ul>
+<p id="rfc.section.10.1.p.8">Fourth entry:</p>
+<p/>
+
+<ul>
+  <li>Media type = application/cool-value-pairs+cbor</li>
+  <li>Encoding = CBOR</li>
+  <li>ID = 64</li>
+  <li>Reference = RFC XXXX</li>
+</ul>
+<p id="rfc.section.10.1.p.10">RFC Ed.: update XXXX to the RFC number assigned to this draft, update the ID if different than the one allocated, remove this note.</p>
+<p id="rfc.section.10.1.p.11">TO DO If this set of Content-Formats is accepted, requirements and description need to be added where appropriate.</p>
+<h1 id="rfc.section.10.2"><a href="#rfc.section.10.2">10.2.</a> <a href="#cbor-simple-value" id="cbor-simple-value">CBOR simple value</a></h1>
+<p id="rfc.section.10.2.p.1">This draft introduces the following CBOR simple value. This entry needs to be registered in the Simple Values Registry as defined in <a href="#RFC7049">[RFC7049]</a> section 7.1.</p>
+<p/>
+
+<ul>
+  <li>Value = 19</li>
+  <li>Semantics = Default value</li>
+  <li>Reference = RFC XXXX</li>
+</ul>
+<p id="rfc.section.10.2.p.3">RFC Ed.: update XXXX to the RFC number assigned to this draft, update the value if different than the one allocated, remove this note.</p>
+<h1 id="rfc.section.11"><a href="#rfc.section.11">11.</a> <a href="#acknowledgments" id="acknowledgments">Acknowledgments</a></h1>
+<p id="rfc.section.11.p.1">This document have been largely inspired by the extensive works done by Andy Bierman and Peter van der Stok on <a href="#I-D.vanderstok-core-comi">[I-D.vanderstok-core-comi]</a>. <a href="#I-D.ietf-netconf-restconf">[I-D.ietf-netconf-restconf]</a> have also been a critical input to this work. The authors would like to thank the authors and contributors to these two drafts.</p>
+<p id="rfc.section.11.p.2">The authors would also like to thank Carsten Bormann for his help during the development of this document and his useful comments during the review process.</p>
+<h1 id="rfc.references"><a href="#rfc.references">12.</a> References</h1>
+<h1 id="rfc.references.1"><a href="#rfc.references.1">12.1.</a> Normative References</h1>
+<table>
+  <tbody>
+    <tr>
+      <td class="reference">
+        <b id="I-D.ietf-core-block">[I-D.ietf-core-block]</b>
+      </td>
+      <td class="top"><a>Bormann, C.</a> and <a>Z. Shelby</a>, "<a href="http://tools.ietf.org/html/draft-ietf-core-block-21">Block-wise transfers in CoAP</a>", Internet-Draft draft-ietf-core-block-21, July 2016.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="I-D.ietf-netmod-rfc6020bis">[I-D.ietf-netmod-rfc6020bis]</b>
+      </td>
+      <td class="top"><a>Bjorklund, M.</a>, "<a href="http://tools.ietf.org/html/draft-ietf-netmod-rfc6020bis-14">The YANG 1.1 Data Modeling Language</a>", Internet-Draft draft-ietf-netmod-rfc6020bis-14, June 2016.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="I-D.vanderstok-core-etch">[I-D.vanderstok-core-etch]</b>
+      </td>
+      <td class="top"><a>Stok, P.</a>, <a>Bormann, C.</a> and <a>A. Sehgal</a>, "<a href="http://tools.ietf.org/html/draft-vanderstok-core-etch-00">Patch and Fetch Methods for Constrained Application Protocol (CoAP)</a>", Internet-Draft draft-vanderstok-core-etch-00, March 2016.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC2119">[RFC2119]</b>
+      </td>
+      <td class="top"><a>Bradner, S.</a>, "<a href="http://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>", BCP 14, RFC 2119, DOI 10.17487/RFC2119, March 1997.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC6020">[RFC6020]</b>
+      </td>
+      <td class="top"><a>Bjorklund, M.</a>, "<a href="http://tools.ietf.org/html/rfc6020">YANG - A Data Modeling Language for the Network Configuration Protocol (NETCONF)</a>", RFC 6020, DOI 10.17487/RFC6020, October 2010.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC6243">[RFC6243]</b>
+      </td>
+      <td class="top"><a>Bierman, A.</a> and <a>B. Lengyel</a>, "<a href="http://tools.ietf.org/html/rfc6243">With-defaults Capability for NETCONF</a>", RFC 6243, DOI 10.17487/RFC6243, June 2011.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC6690">[RFC6690]</b>
+      </td>
+      <td class="top"><a>Shelby, Z.</a>, "<a href="http://tools.ietf.org/html/rfc6690">Constrained RESTful Environments (CoRE) Link Format</a>", RFC 6690, DOI 10.17487/RFC6690, August 2012.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC7049">[RFC7049]</b>
+      </td>
+      <td class="top"><a>Bormann, C.</a> and <a>P. Hoffman</a>, "<a href="http://tools.ietf.org/html/rfc7049">Concise Binary Object Representation (CBOR)</a>", RFC 7049, DOI 10.17487/RFC7049, October 2013.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC7252">[RFC7252]</b>
+      </td>
+      <td class="top"><a>Shelby, Z.</a>, <a>Hartke, K.</a> and <a>C. Bormann</a>, "<a href="http://tools.ietf.org/html/rfc7252">The Constrained Application Protocol (CoAP)</a>", RFC 7252, DOI 10.17487/RFC7252, June 2014.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC7317">[RFC7317]</b>
+      </td>
+      <td class="top"><a>Bierman, A.</a> and <a>M. Bjorklund</a>, "<a href="http://tools.ietf.org/html/rfc7317">A YANG Data Model for System Management</a>", RFC 7317, DOI 10.17487/RFC7317, August 2014.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC7641">[RFC7641]</b>
+      </td>
+      <td class="top"><a>Hartke, K.</a>, "<a href="http://tools.ietf.org/html/rfc7641">Observing Resources in the Constrained Application Protocol (CoAP)</a>", RFC 7641, DOI 10.17487/RFC7641, September 2015.</td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="rfc.references.2"><a href="#rfc.references.2">12.2.</a> Informative References</h1>
+<table>
+  <tbody>
+    <tr>
+      <td class="reference">
+        <b id="I-D.bormann-core-ipsec-for-coap">[I-D.bormann-core-ipsec-for-coap]</b>
+      </td>
+      <td class="top"><a>Bormann, C.</a>, "<a href="http://tools.ietf.org/html/draft-bormann-core-ipsec-for-coap-00">Using CoAP with IPsec</a>", Internet-Draft draft-bormann-core-ipsec-for-coap-00, December 2012.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="I-D.ersue-constrained-mgmt">[I-D.ersue-constrained-mgmt]</b>
+      </td>
+      <td class="top"><a>Ersue, M.</a>, <a>Romascanu, D.</a> and <a>J. Schoenwaelder</a>, "<a href="http://tools.ietf.org/html/draft-ersue-constrained-mgmt-03">Management of Networks with Constrained Devices: Problem Statement, Use Cases and Requirements</a>", Internet-Draft draft-ersue-constrained-mgmt-03, February 2013.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="I-D.ietf-core-coap-tcp-tls">[I-D.ietf-core-coap-tcp-tls]</b>
+      </td>
+      <td class="top"><a>Bormann, C.</a>, <a>Lemay, S.</a>, <a>Tschofenig, H.</a>, <a>Hartke, K.</a>, <a>Silverajan, B.</a> and <a>B. Raymor</a>, "<a href="http://tools.ietf.org/html/draft-ietf-core-coap-tcp-tls-05">CoAP (Constrained Application Protocol) over TCP, TLS, and WebSockets</a>", Internet-Draft draft-ietf-core-coap-tcp-tls-05, October 2016.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="I-D.ietf-core-yang-cbor">[I-D.ietf-core-yang-cbor]</b>
+      </td>
+      <td class="top"><a>Veillette, M.</a>, <a>Pelov, A.</a>, <a>Somaraju, A.</a>, <a>Turner, R.</a> and <a>A. Minaburo</a>, "<a href="http://tools.ietf.org/html/draft-ietf-core-yang-cbor-03">CBOR Encoding of Data Modeled with YANG</a>", Internet-Draft draft-ietf-core-yang-cbor-03, October 2016.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="I-D.ietf-netconf-restconf">[I-D.ietf-netconf-restconf]</b>
+      </td>
+      <td class="top"><a>Bierman, A.</a>, <a>Bjorklund, M.</a> and <a>K. Watsen</a>, "<a href="http://tools.ietf.org/html/draft-ietf-netconf-restconf-18">RESTCONF Protocol</a>", Internet-Draft draft-ietf-netconf-restconf-18, October 2016.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="I-D.somaraju-core-sid">[I-D.somaraju-core-sid]</b>
+      </td>
+      <td class="top"><a>Somaraju, A.</a>, <a>Veillette, M.</a>, <a>Pelov, A.</a>, <a>Turner, R.</a> and <a>A. Minaburo</a>, "<a href="http://tools.ietf.org/html/draft-somaraju-core-sid-01">Structure Identifier (SID)</a>", Internet-Draft draft-somaraju-core-sid-01, July 2016.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="I-D.vanderstok-core-comi">[I-D.vanderstok-core-comi]</b>
+      </td>
+      <td class="top"><a>Stok, P.</a>, <a>Bierman, A.</a>, <a>Veillette, M.</a> and <a>A. Pelov</a>, "<a href="http://tools.ietf.org/html/draft-vanderstok-core-comi-11">CoAP Management Interface</a>", Internet-Draft draft-vanderstok-core-comi-11, January 2017.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC5755">[RFC5755]</b>
+      </td>
+      <td class="top"><a>Farrell, S.</a>, <a>Housley, R.</a> and <a>S. Turner</a>, "<a href="http://tools.ietf.org/html/rfc5755">An Internet Attribute Certificate Profile for Authorization</a>", RFC 5755, DOI 10.17487/RFC5755, January 2010.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC7223">[RFC7223]</b>
+      </td>
+      <td class="top"><a>Bjorklund, M.</a>, "<a href="http://tools.ietf.org/html/rfc7223">A YANG Data Model for Interface Management</a>", RFC 7223, DOI 10.17487/RFC7223, May 2014.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC7228">[RFC7228]</b>
+      </td>
+      <td class="top"><a>Bormann, C.</a>, <a>Ersue, M.</a> and <a>A. Keranen</a>, "<a href="http://tools.ietf.org/html/rfc7228">Terminology for Constrained-Node Networks</a>", RFC 7228, DOI 10.17487/RFC7228, May 2014.</td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="rfc.appendix.A"><a href="#rfc.appendix.A">Appendix A.</a> <a href="#cool-module" id="cool-module">File &#8220;ietf-cool.yang&#8221;</a></h1>
+<p id="rfc.section.A.p.1">Module containing the different definitions required by the CoOL protocol.</p>
+<pre>
+&lt;CODE BEGINS&gt; file "ietf-cool@2016-01-01.yang"
+module ietf-cool {
+  yang-version 1.1;
+  namespace "urn:ietf:params:xml:ns:yang:ietf-cool";
+  prefix cool;
+
+  organization
+    "IETF Core Working Group";
+
+  contact
+    "Ana Minaburo
+     &lt;mailto:ana@ackl.io&gt;
+     
+     Abhinav Somaraju
+     &lt;mailto:abhinav.somaraju@tridonic.com&gt;
+     
+     Alexander Pelov
+     &lt;mailto:a@ackl.io&gt;
+
+     Michel Veillette
+     &lt;mailto:michel.veillette@trilliantinc.com&gt;
+
+     Randy Turner
+     &lt;mailto:Randy.Turner@landisgyr.com&gt;";
+
+  description
+    "This module contains the different definitions required
+     by the CoOL protocol.";
+
+  revision 2016-01-01 {
+     description
+      "Initial revision.";
+    reference
+      "draft-veillette-core-cool";
+  }
+
+  // List of useful derived YANG data types for constrained devices
+  
+  typedef sid {
+    type uint32;
+    description
+      "Structure Identifier value (SID).";
+  }
+  
+  typedef utc-time {
+    type uint32;
+    description
+      "Unsigned 32-bit value representing the number of seconds
+      since 0 hours, 0 minutes, 0 seconds, on the 1st of January,
+      2000 UTC (Universal Coordinated Time).";
+  }
+
+  // Error payload 
+   
+  container error-payload {
+    presence "Defines the format of an error paylaod.";
+    description
+      "Optional payload of a client error (CoAP response 4.xx)
+       or server error (CoAP response 5.xx).";
+
+    leaf error-code {
+      type enumeration {
+        enum error {
+          value 1;
+          description "Unspecified error.";
+        }
+
+        enum malformed {
+          value 2;
+          description "Malformed CBOR payload.";
+        }
+
+        enum invalid {
+          value 3;
+          description "The value specified in the request can't be
+                      apply to the target data node.";
+        }
+
+        enum doesNotExist {
+          value 4;
+          description "The target data node instance specified in 
+                      the request doesn't exist.";
+        }
+
+        enum alreadyExist {
+          value 5;
+          description "The target data node instance specified in 
+                      the request already exists.";
+        }
+
+        enum readOnly {
+          value 6;
+          description "Attempt to update a read-only data node.";
+        }
+      }
+      mandatory true;
+      description
+        "Error code.";
+    }
+
+    leaf error-text {
+      type string;
+      description "Textual descriptions of the error.";
+    }
+  }
+
+  // Notification payload
+
+  identity facility-type {
+    description
+      "A facility code is used to specify the type of process that
+      is logging the message. Notifications from different facilities
+      may be handled differently. Other YANG module may add new
+      facility type as needed.";
+  }
+
+  identity os {
+    base facility-type;
+    description
+      "Notification generated by the operating system.";
+  }
+
+  identity protocol-stack {
+    base facility-type;
+    description
+      "Notification generated by one of the layers of the IP protocol stack.";
+  }
+
+  identity security {
+    base facility-type;
+    description
+      "Security related notification.";
+  }
+
+  identity hardware-monitoring {
+    base facility-type;
+    description
+      "Hardware related notification.";
+  }
+
+  identity application {
+    base facility-type;
+    description
+      "Notification generated by an application process.";
+  }
+  
+  container notification-payload {
+    presence "Defines the format of a notification paylaod.";
+    description
+      "Definition of the payload of a notification transfered using CoOL.";
+  
+    leaf _id {
+      type instance-identifier;
+      mandatory true;
+      description
+        "Identifier associated to the notification reported.";
+    }
+      
+    leaf timestamp {
+      type utc-time;
+      description
+        "Event timestamp. Support of this field is optional
+        since its not expected that all implementations have
+        implement a real time clock and if so, this clock is
+        available at all time.";
+    }
+
+    leaf sequence-number {
+      type uint32;
+      description
+        "Sequence number associated to each event created by CoOL
+        server within a specific event stream.";
+    }
+
+    leaf severity-level {
+      type enumeration {
+        enum emergency {
+          value 0;
+          description
+            "System is unusable.";
+        }
+        enum alert {
+          value 1;
+          description
+            "Should be corrected immediately.";
+        }
+        enum critical {
+          value 2;
+          description
+            "Critical conditions.";
+        }
+        enum error {
+          value 3;
+          description
+            "Error conditions.";
+        }
+        enum warning {
+          value 4;
+          description
+            "May indicate that an error will occur if action is
+            not taken.";
+        }
+        enum notice {
+          value 5;
+          description
+            "Events that are unusual, but not error conditions.";
+        }
+        enum informational {
+          value 6;
+          description
+            "Normal operational messages that require no action.";
+        }
+        enum debug {
+          value 7;
+          description
+            "Information useful to developers for debugging the
+            application.";
+        }
+      }
+      description
+        "Severity associated with this event.";
+      reference "RFC 5424";
+    }
+
+    leaf facility {
+      type identityref {
+        base facility-type;
+      }
+      description
+        "Type of process that is logging the message.";
+      reference "RFC 5424";
+    }
+
+    anydata content {
+      description
+        "Notification container as defined by the notification YANG
+        statement.";
+    }
+  }
+  
+  rpc commit {
+    description
+      "Used to commit the changes present in a candidate datastore on
+      the runtime datastore specify by the URI used to execute this
+      operation.";
+    input {
+      leaf datastore {
+        type string;
+        description
+          "Path of the datastore resource used as the source of the
+          commit operation. When not present, the default candidate
+          datastore resource is used.";
+      }
+      
+      leaf commit-date-time {
+        type utc-time;
+        description
+          "When specified, the commit operation is postponed at the
+          specified date and time. When not present, the commit is
+          performed on reception of this RPC. Supports of this feature
+          is optional.";
+      }
+      
+      leaf confirm-timeout {
+        type string;
+        description
+          "When present, a confirming commit MUST be received within
+          this period after the start of the commit process.
+          A confirming commit is a commit RPC without the
+          confirm-timeout field presents. Supports of this feature
+          is optional.";
+      }
+    }
+  }
+
+  rpc cancel-commit {
+    description
+      "Cancels an ongoing scheduled or confirmed commit.";
+  }
+}
+&lt;CODE ENDS&gt;
+</pre>
+<h1 id="rfc.appendix.B"><a href="#rfc.appendix.B">Appendix B.</a> <a href="#cool-sid-file" id="cool-sid-file">File &#8220;ietf-cool@2016-01-01.sid&#8221;</a></h1>
+<p id="rfc.section.B.p.1">Following is the &#8220;.sid&#8221; file generated for the &#8220;ietf-cool&#8221; YANG module. See <a href="#I-D.somaraju-core-sid">[I-D.somaraju-core-sid]</a> for more details on SID and &#8220;.sid&#8221; file.</p>
+<pre>
+{
+  "assignment-ranges": [
+    {
+      "entry-point": 1000,
+      "size": 100
+    }
+  ],
+  "module-name": "ietf-cool",
+  "module-revision": "2016-01-01",
+  "items": [
+    {
+      "type": "Module",
+      "label": "ietf-cool",
+      "sid": 1000
+    },
+    {
+      "type": "identity",
+      "label": "/facility-type",
+      "sid": 1001
+    },
+    {
+      "type": "identity",
+      "label": "/facility-type/application",
+      "sid": 1002
+    },
+    {
+      "type": "identity",
+      "label": "/facility-type/hardware-monitoring",
+      "sid": 1003
+    },
+    {
+      "type": "identity",
+      "label": "/facility-type/os",
+      "sid": 1004
+    },
+    {
+      "type": "identity",
+      "label": "/facility-type/protocol-stack",
+      "sid": 1005
+    },
+    {
+      "type": "identity",
+      "label": "/facility-type/security",
+      "sid": 1006
+    },
+    {
+      "type": "node",
+      "label": "/error-payload",
+      "sid": 1007
+    },
+    {
+      "type": "node",
+      "label": "/error-payload/error-code",
+      "sid": 1008
+    },
+    {
+      "type": "node",
+      "label": "/error-payload/error-text",
+      "sid": 1009
+    },
+    {
+      "type": "node",
+      "label": "/notification-payload",
+      "sid": 1010
+    },
+    {
+      "type": "node",
+      "label": "/notification-payload/_id",
+      "sid": 1011
+    },
+    {
+      "type": "node",
+      "label": "/notification-payload/content",
+      "sid": 1012
+    },
+    {
+      "type": "node",
+      "label": "/notification-payload/facility",
+      "sid": 1013
+    },
+    {
+      "type": "node",
+      "label": "/notification-payload/sequence-number",
+      "sid": 1014
+    },
+    {
+      "type": "node",
+      "label": "/notification-payload/severity-level",
+      "sid": 1015
+    },
+    {
+      "type": "node",
+      "label": "/notification-payload/timestamp",
+      "sid": 1016
+    },
+    {
+      "type": "rpc",
+      "label": "/cancel-commit",
+      "sid": 1017
+    },
+    {
+      "type": "rpc",
+      "label": "/commit",
+      "sid": 1018
+    },
+    {
+      "type": "rpc",
+      "label": "/commit/input/commit-date-time",
+      "sid": 1019
+    },
+    {
+      "type": "rpc",
+      "label": "/commit/input/confirm-timeout",
+      "sid": 1020
+    },
+    {
+      "type": "rpc",
+      "label": "/commit/input/datastore",
+      "sid": 1021
+    }
+  ]
+}
+</pre>
+<h1 id="rfc.authors">
+  <a href="#rfc.authors">Authors' Addresses</a>
+</h1>
+<div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Michel Veillette</span> (editor)
+	  <span class="n hidden">
+		<span class="family-name">Veillette</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Trilliant Networks Inc.</span>
+	<span class="adr">
+	  <span class="vcardline">610 Rue du Luxembourg</span>
+
+	  <span class="vcardline">
+		<span class="locality">Granby</span>,  
+		<span class="region">Quebec</span> 
+		<span class="code">J2J 2V2</span>
+	  </span>
+	  <span class="country-name vcardline">Canada</span>
+	</span>
+	<span class="vcardline">Phone: +14503750556</span>
+
+<span class="vcardline">EMail: <a href="mailto:michel.veillette@trilliantinc.com">michel.veillette@trilliantinc.com</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Alexander Pelov</span> (editor)
+	  <span class="n hidden">
+		<span class="family-name">Pelov</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Acklio</span>
+	<span class="adr">
+	  <span class="vcardline">2bis rue de la Chataigneraie</span>
+
+	  <span class="vcardline">
+		<span class="locality">Cesson-Sevigne</span>,  
+		<span class="region">Bretagne</span> 
+		<span class="code">35510</span>
+	  </span>
+	  <span class="country-name vcardline">France</span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:a@ackl.io">a@ackl.io</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Abhinav Somaraju</span> 
+	  <span class="n hidden">
+		<span class="family-name">Somaraju</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Tridonic GmbH & Co KG</span>
+	<span class="adr">
+	  <span class="vcardline">Farbergasse 15</span>
+
+	  <span class="vcardline">
+		<span class="locality">Dornbirn</span>,  
+		<span class="region">Vorarlberg</span> 
+		<span class="code">6850</span>
+	  </span>
+	  <span class="country-name vcardline">Austria</span>
+	</span>
+	<span class="vcardline">Phone: +43664808926169</span>
+
+<span class="vcardline">EMail: <a href="mailto:abhinav.somaraju@tridonic.com">abhinav.somaraju@tridonic.com</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Randy Turner</span> 
+	  <span class="n hidden">
+		<span class="family-name">Turner</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Landis+Gyr</span>
+	<span class="adr">
+	  <span class="vcardline">30000 Mill Creek Ave</span>
+<span class="vcardline">Suite 100</span>
+
+	  <span class="vcardline">
+		<span class="locality">Alpharetta</span>,  
+		<span class="region">GA</span> 
+		<span class="code">30022</span>
+	  </span>
+	  <span class="country-name vcardline">US</span>
+	</span>
+	<span class="vcardline">Phone: ++16782581292</span>
+
+<span class="vcardline">EMail: <a href="mailto:randy.turner@landisgyr.com">randy.turner@landisgyr.com</a></span>
+
+<span class="vcardline">URI: <a href="http://www.landisgyr.com/">http://www.landisgyr.com/</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Ana Minaburo</span> 
+	  <span class="n hidden">
+		<span class="family-name">Minaburo</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Acklio</span>
+	<span class="adr">
+	  <span class="vcardline">2bis rue de la ch&#226;taigneraie</span>
+
+	  <span class="vcardline">
+		<span class="locality">Cesson-S&#233;vign&#233;</span>,  
+		<span class="region">Bretagne</span> 
+		<span class="code">35510</span>
+	  </span>
+	  <span class="country-name vcardline">France</span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:ana@ackl.io">ana@ackl.io</a></span>
+
+  </address>
+</div>
+
+  <div class="github-fork-ribbon-wrapper"><div class="github-fork-ribbon"><a href="https://github.com/core-wg/yang-cbor">Fork me on GitHub</a></div></div>
+</body>
+</html>

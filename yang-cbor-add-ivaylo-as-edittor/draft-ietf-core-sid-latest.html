@@ -1,0 +1,1446 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
+  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
+
+  <title>YANG Schema Item iDentifier (SID)</title>
+
+  <style type="text/css">/*<![CDATA[*/
+@viewport {
+  zoom: 1.0;
+  width: extend-to-zoom;
+}
+@-ms-viewport {
+  width: extend-to-zoom;
+  zoom: 1.0;
+}
+
+@media screen and (min-width: 1024px) {
+  ul.toc, #rfc\.toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 500px);
+    width: 300px;
+    padding: 0 1em;
+    z-index: 1;
+  }
+  #rfc\.toc {
+    top: 16px;
+  }
+  ul.toc {
+    top: 80px;
+    overflow: auto;
+  }
+
+  body {
+    padding-left: 1.5em;
+    padding-right: 29em;
+  }
+}
+
+body {
+  font: 15px "Helvetica Neue",Helvetica,Arial,sans-serif;
+  color: #333;
+  font-size-adjust: 0.5;
+  line-height: 130%;
+  margin: 2.5em auto;
+  max-width: 724px;
+}
+
+.title, .filename, h1, h2, h3, h4 {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  font-size-adjust: 0.5;
+  font-weight: 500;
+  color: #333;
+  line-height: 100%;
+  margin: 0.8em 0 0.3em;
+}
+.title { font-size: 36px; }
+h1 { font-size: 30px; }
+h2 { font-size: 24px; }
+h3, h4 { font-size: 18px; }
+h1 a[href], h2 a[href], h3 a[href], h4 a[href] {
+  color: #333;
+}
+
+ul.toc li {
+  list-style: none;
+  text-indent: -2.5em;
+  padding-left: 2.5em;
+  padding-bottom: 5px;
+  margin: 0;
+}
+ul.toc, ul.toc ul {
+  margin: 0 0 0 1.5em;
+}
+
+table {
+  margin-left: 0em;
+  border-collapse: collapse;
+}
+th {
+  text-align: left;
+  border-bottom: 2px solid #ddd;
+}
+td {
+  border-top: 1px solid #ddd;
+  vertical-align: top;
+}
+tr:nth-child(2n+1) > td,
+tr:nth-child(2n+1) > th {
+  background-color: #f9f9f9;
+}
+td.reference {
+  max-width: 200px;
+  border-top: none;
+  padding-right: 1em;
+}
+.right {
+  text-align: right;
+}
+
+
+table.header {
+  width: 100%;
+}
+table.header td {
+  border: none;
+  background-color: transparent;
+  color: black;
+}
+.filename {
+  color: rgb(119, 119, 119);
+  font-size: 23px;
+  font-weight: normal;
+  height: auto;
+  line-height: 100%;
+}
+#rfc\.abstract+p {
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 130%;
+}
+
+samp, tt, code, pre {
+  font: 11pt consolas, monospace;
+  font-size-adjust: none;
+}
+pre {
+  background-color: #eee;
+  border: 1px solid #ddd;
+  overflow-x: auto;
+  padding: 5px;
+  margin: 5px;
+}
+.figure {
+  font-style: italic;
+  margin: 0 1.5em;
+}
+
+address {
+  margin: 10px 0 0;
+}
+.vcard {
+  font-style: normal;
+}
+.vcardline {
+  display: block;
+}
+.vcardline .fn {
+  font-weight: bold;
+}
+.vcardline .hidden {
+  display: none;
+}
+
+dl {
+  margin-left: 1em;
+}
+dl.dl-horizontal: {
+  margin-left: 0;
+}
+dl > dt {
+  float: left;
+  margin-right: 1em;
+}
+dl.nohang > dt {
+  float: none;
+}
+dl > dd {
+  margin-bottom: .5em;
+}
+dl.compact > dd {
+  margin-bottom: 0em;
+}
+dl > dd > dl {
+  margin-top: 0.5em;
+  margin-bottom: 0em;
+}
+ul.empty {
+  list-style-type: none;
+}
+ul.empty li {
+  margin-top: .5em;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #eee;
+}
+
+a {
+  text-decoration: none;
+}
+a[href] {
+  color: #2a6496;
+}
+a[href]:hover {
+  background-color: #eee;
+}
+
+ol, ul, li, p {
+  padding: 0;
+  margin: 0.5em 0 0.5em 2em;
+}
+li, p {
+  margin-left: 0;
+}
+
+.github-fork-ribbon-wrapper {
+  display: none;
+}
+@media screen and (min-width: 800px) {
+  /* "Fork me on GitHub" CSS ribbon based on
+   * https://github.com/simonwhitaker/github-fork-ribbon-css
+   */
+  .github-fork-ribbon {
+    position: absolute;
+    padding: 2px 0;
+    background-color: #a00;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15));
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.5);
+    font: 700 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    pointer-events: auto;
+
+    top: 38px;
+    right: -45px;
+
+    transform: rotate(45deg);
+  }
+
+  .github-fork-ribbon a[href],
+  .github-fork-ribbon a[href]:hover {
+    color: #fff;
+    background-color: transparent;
+    text-decoration: none;
+    text-shadow: 0 -1px rgba(0, 0, 0, 0.5);
+    text-align: center;
+
+    width: 190px;
+    line-height: 18px;
+
+    display: inline-block;
+    padding: 2px 0;
+
+    border: 1.5px dotted #fff;
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+
+  .github-fork-ribbon-wrapper {
+    display: block;
+    width: 130px;
+    height: 130px;
+    position: absolute;
+    overflow: hidden;
+    top: 0; right: 0;
+    z-index: 2;
+    pointer-events: none;
+  }
+}
+@media screen and (min-width: 1000px) {
+  .github-fork-ribbon-wrapper {
+    position: fixed;
+  }
+  /*]]>*/</style>
+
+  <link href="#rfc.toc" rel="Contents">
+<link href="#rfc.section.1" rel="Chapter" title="1 Introduction">
+<link href="#rfc.section.2" rel="Chapter" title="2 Terminology and Notation">
+<link href="#rfc.section.3" rel="Chapter" title="3 &#8220;.sid&#8221; file lifecycle">
+<link href="#rfc.section.4" rel="Chapter" title="4 &#8220;.sid&#8221; file format">
+<link href="#rfc.section.5" rel="Chapter" title="5 Security Considerations">
+<link href="#rfc.section.6" rel="Chapter" title="6 IANA Considerations">
+<link href="#rfc.section.6.1" rel="Chapter" title="6.1 &#8220;SID mega-range&#8221; registry">
+<link href="#rfc.section.6.1.1" rel="Chapter" title="6.1.1 IANA SID Mega-Range Registry">
+<link href="#rfc.section.6.1.2" rel="Chapter" title="6.1.2 IANA &#8220;RFC SID range assignment&#8221; sub-registry">
+<link href="#rfc.section.6.2" rel="Chapter" title="6.2 &#8220;YANG module assignment&#8221; registry">
+<link href="#rfc.section.7" rel="Chapter" title="7 Acknowledgments">
+<link href="#rfc.references" rel="Chapter" title="8 References">
+<link href="#rfc.references.1" rel="Chapter" title="8.1 Normative References">
+<link href="#rfc.references.2" rel="Chapter" title="8.2 Informative References">
+<link href="#rfc.appendix.A" rel="Chapter" title="A &#8220;.sid&#8221; file example">
+<link href="#rfc.authors" rel="Chapter">
+
+
+  <meta name="generator" content="xml2rfc version 2.22.2 - https://tools.ietf.org/tools/xml2rfc" />
+  <link rel="schema.dct" href="http://purl.org/dc/terms/" />
+
+  <meta name="dct.creator" content="Veillette, M., Ed. and A. Pelov, Ed." />
+  <meta name="dct.identifier" content="urn:ietf:id:draft-ietf-core-sid-04" />
+  <meta name="dct.issued" scheme="ISO8601" content="2019-03-27" />
+  <meta name="dct.abstract" content="YANG Schema Item iDentifiers (SID) are globally unique 64-bit unsigned numbers used to identify YANG items.  This document defines the semantics, the registration, and assignment processes of SIDs.  To enable the implementation of these processes, this document also defines a file format used to persist and publish assigned SIDs." />
+  <meta name="description" content="YANG Schema Item iDentifiers (SID) are globally unique 64-bit unsigned numbers used to identify YANG items.  This document defines the semantics, the registration, and assignment processes of SIDs.  To enable the implementation of these processes, this document also defines a file format used to persist and publish assigned SIDs." />
+
+</head>
+
+<body>
+
+  <table class="header">
+    <tbody>
+    
+    	<tr>
+<td class="left">Internet Engineering Task Force</td>
+<td class="right">M. Veillette, Ed.</td>
+</tr>
+<tr>
+<td class="left">Internet-Draft</td>
+<td class="right">Trilliant Networks Inc.</td>
+</tr>
+<tr>
+<td class="left">Intended status: Standards Track</td>
+<td class="right">A. Pelov, Ed.</td>
+</tr>
+<tr>
+<td class="left">Expires: September 28, 2019</td>
+<td class="right">Acklio</td>
+</tr>
+<tr>
+<td class="left"></td>
+<td class="right">March 27, 2019</td>
+</tr>
+
+    	
+    </tbody>
+  </table>
+
+  <p class="title">YANG Schema Item iDentifier (SID)<br />
+  <span class="filename">draft-ietf-core-sid-04</span></p>
+  
+  <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
+<p>YANG Schema Item iDentifiers (SID) are globally unique 64-bit unsigned numbers used to identify YANG items.  This document defines the semantics, the registration, and assignment processes of SIDs.  To enable the implementation of these processes, this document also defines a file format used to persist and publish assigned SIDs.</p>
+<h1 id="rfc.status"><a href="#rfc.status">Status of This Memo</a></h1>
+<p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
+<p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
+<p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
+<p>This Internet-Draft will expire on September 28, 2019.</p>
+<h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
+<p>Copyright (c) 2019 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
+<p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
+
+  
+  <hr class="noprint" />
+  <h1 class="np" id="rfc.toc"><a href="#rfc.toc">Table of Contents</a></h1>
+  <ul class="toc">
+
+  	<li>1.   <a href="#rfc.section.1">Introduction</a>
+</li>
+<li>2.   <a href="#rfc.section.2">Terminology and Notation</a>
+</li>
+<li>3.   <a href="#rfc.section.3">&#8220;.sid&#8221; file lifecycle</a>
+</li>
+<li>4.   <a href="#rfc.section.4">&#8220;.sid&#8221; file format</a>
+</li>
+<li>5.   <a href="#rfc.section.5">Security Considerations</a>
+</li>
+<li>6.   <a href="#rfc.section.6">IANA Considerations</a>
+</li>
+<ul><li>6.1.   <a href="#rfc.section.6.1">&#8220;SID mega-range&#8221; registry</a>
+</li>
+<ul><li>6.1.1.   <a href="#rfc.section.6.1.1">IANA SID Mega-Range Registry</a>
+</li>
+<li>6.1.2.   <a href="#rfc.section.6.1.2">IANA &#8220;RFC SID range assignment&#8221; sub-registry</a>
+</li>
+</ul><li>6.2.   <a href="#rfc.section.6.2">&#8220;YANG module assignment&#8221; registry</a>
+</li>
+</ul><li>7.   <a href="#rfc.section.7">Acknowledgments</a>
+</li>
+<li>8.   <a href="#rfc.references">References</a>
+</li>
+<ul><li>8.1.   <a href="#rfc.references.1">Normative References</a>
+</li>
+<li>8.2.   <a href="#rfc.references.2">Informative References</a>
+</li>
+</ul><li>Appendix A.   <a href="#rfc.appendix.A">&#8220;.sid&#8221; file example</a>
+</li>
+<li><a href="#rfc.authors">Authors' Addresses</a>
+</li>
+
+
+  </ul>
+
+  <h1 id="rfc.section.1">
+<a href="#rfc.section.1">1.</a> <a href="#introduction" id="introduction">Introduction</a>
+</h1>
+<p id="rfc.section.1.p.1">Some of the items defined in YANG <a href="#RFC7950" class="xref">[RFC7950]</a> require the use of a unique identifier.  In both NETCONF <a href="#RFC6241" class="xref">[RFC6241]</a> and RESTCONF <a href="#RFC8040" class="xref">[RFC8040]</a>, these identifiers are implemented using names.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called SID, is encoded using a 64-bit unsigned integer. The following items are identified using SIDs:</p>
+<p></p>
+
+<ul>
+<li>identities</li>
+<li>data nodes (Note: including those part of a YANG template as defined by the &#8216;yang-data&#8217; extension.)</li>
+<li>RPCs and associated input(s) and output(s)</li>
+<li>actions and associated input(s) and output(s)</li>
+<li>notifications and associated information</li>
+<li>YANG modules, submodules and features</li>
+</ul>
+<p id="rfc.section.1.p.3">To minimize their size, SIDs are often represented as a difference between the current SID and a reference SID. Such difference is called &#8220;delta&#8221;, shorthand for &#8220;delta-encoded SID&#8221;.  Conversion from SIDs to deltas and back to SIDs is a stateless process. Each protocol implementing deltas must unambiguously define the reference SID for each YANG item.</p>
+<p id="rfc.section.1.p.4">SIDs are globally unique numbers, a registration system is used in order to guarantee their uniqueness. SIDs are registered in blocks called &#8220;SID ranges&#8221;.</p>
+<p id="rfc.section.1.p.5">Assignment of SIDs to YANG items can be automated, the recommended process to assign SIDs is as follows:</p>
+<p></p>
+
+<ol>
+<li>A tool extracts the different items defined for a specific YANG module.</li>
+<li>The list of items is sorted in alphabetical order, &#8216;namespace&#8217; in descending order, &#8216;identifier&#8217; in ascending order. The &#8216;namespace&#8217; and &#8216;identifier&#8217; formats are described in the YANG module &#8216;ietf-sid-file&#8217; defined in <a href="#sid-file-format" class="xref">Section 4</a>.</li>
+<li>SIDs are assigned sequentially from the entry point up to the size of the registered SID range. This approach is recommended to minimize the serialization overhead, especially when delta encoding is implemented.</li>
+<li>If the number of items exceeds the SID range(s) allocated to a YANG module, an extra range is added for subsequent assignments.</li>
+</ol>
+<p id="rfc.section.1.p.7">SIDs are assigned permanently, items introduced by a new revision of a YANG module are added to the list of SIDs already assigned. This process can also be automated using the same method described above, only unassigned Y&#192;NG items are processed at step #3.</p>
+<p><a href="#sid-lifecycle" class="xref">Section 3</a> provides more details about the registration process of YANG modules and associated SIDs. To enable the implementation of this registry, <a href="#sid-file-format" class="xref">Section 4</a> defines a standard file format used to store and publish SIDs.</p>
+<h1 id="rfc.section.2">
+<a href="#rfc.section.2">2.</a> <a href="#terminology-and-notation" id="terminology-and-notation">Terminology and Notation</a>
+</h1>
+<p id="rfc.section.2.p.1">The key words &#8220;MUST&#8221;, &#8220;MUST NOT&#8221;, &#8220;REQUIRED&#8221;, &#8220;SHALL&#8221;, &#8220;SHALL NOT&#8221;, &#8220;SHOULD&#8221;, &#8220;SHOULD NOT&#8221;, &#8220;RECOMMENDED&#8221;, &#8220;MAY&#8221;, and &#8220;OPTIONAL&#8221; in this document are to be interpreted as described in <a href="#RFC2119" class="xref">[RFC2119]</a>.</p>
+<p id="rfc.section.2.p.2">The following terms are defined in <a href="#RFC7950" class="xref">[RFC7950]</a>:</p>
+<p></p>
+
+<ul>
+<li>action</li>
+<li>feature</li>
+<li>module</li>
+<li>notification</li>
+<li>RPC</li>
+<li>schema node</li>
+<li>schema tree</li>
+<li>submodule</li>
+</ul>
+<p id="rfc.section.2.p.4">The following term is defined in <a href="#RFC8040" class="xref">[RFC8040]</a>:</p>
+<p></p>
+
+<ul><li>yang-data extension</li></ul>
+<p id="rfc.section.2.p.6">This specification also makes use of the following terminology:</p>
+<p></p>
+
+<ul>
+<li>delta : Difference between the current SID and a reference SID. A reference SID is defined for each context for which deltas are used.</li>
+<li>item:  A schema node, an identity, a module, a submodule or a feature defined using the YANG modeling language.</li>
+<li>path: A path is a string that identifies a schema node within the schema tree. A path consists of the list of schema node identifier(s) separated by slashes (&#8220;/&#8221;). Schema node identifier(s) are always listed from the top-level schema node up to the targeted schema node. (e.g. &#8220;/ietf-system:system-state/clock/current-datetime&#8221;)</li>
+<li>YANG Schema Item iDentifier (SID): Unsigned integer used to identify different YANG items.</li>
+</ul>
+<h1 id="rfc.section.3">
+<a href="#rfc.section.3">3.</a> <a href="#sid-lifecycle" id="sid-lifecycle">&#8220;.sid&#8221; file lifecycle</a>
+</h1>
+<p id="rfc.section.3.p.1">YANG is a language designed to model data accessed using one of the compatible protocols (e.g. NETCONF <a href="#RFC6241" class="xref">[RFC6241]</a>, RESCONF <a href="#RFC8040" class="xref">[RFC8040]</a> and CoMI <a href="#I-D.ietf-core-comi" class="xref">[I-D.ietf-core-comi]</a>). A YANG module defines hierarchies of data, including configuration, state data, RPCs, actions and notifications.</p>
+<p id="rfc.section.3.p.2">YANG modules are not necessary created in the context of constrained applications. YANG modules can be implemented using NETCONF <a href="#RFC6241" class="xref">[RFC6241]</a> or RESTCONF <a href="#RFC8040" class="xref">[RFC8040]</a> without the need to assign SIDs.</p>
+<p id="rfc.section.3.p.3">As needed, authors of YANG modules can assign SIDs to their YANG modules. This process starts by the registration of a SID range. Once a SID range is registered, the owner of this range assigns sub-ranges to each YANG module in order to generate the associated &#8220;.sid&#8221; files. Generation of &#8220;.sid&#8221; files SHOULD be performed using an automated tool.</p>
+<p id="rfc.section.3.p.4">Registration of the .sid file associated to a YANG module is optional but recommended to promote interoperability between devices and to avoid duplicate allocation of SIDs to a single YANG module.</p>
+<p id="rfc.section.3.p.5">The following activity diagram summarizes the creation of a YANG module and its associated .sid file.</p>
+<pre>
+       +---------------+
+  O    | Creation of a |
+ -|- -&gt;| YANG module   |
+ / \   +---------------+
+               |
+               V
+        /-------------\
+       / Standardized  \ yes
+       \ YANG module ? /-------------+
+        \-------------/              |
+               | no                  |
+               V                     V
+        /-------------\      +---------------+
+       / Constrained   \ yes | SID range     |
+   +--&gt;\ application ? /----&gt;| registration  |
+   |    \-------------/      +---------------+
+   |           | no                  |
+   |           V                     V
+   |   +---------------+     +---------------+
+   +---| YANG module   |     | SID sub-range |
+       | update        |     | assignment    |
+       +---------------+     +---------------+
+                                     |
+                                     V
+                             +---------------+
+                             | .sid file     |
+                             | generation    |
+                             +---------------+
+                                     |
+                                     V
+                              /-------------\      +---------------+
+                             /  Publicly     \ yes | YANG module   |
+                             \  available ?  /----&gt;| registration  |
+                              \-------------/      +---------------+
+                                     | no                  |
+                                     +---------------------+
+                                     |
+                                   [DONE]
+</pre>
+<p id="rfc.section.3.p.6">Each time a YANG module or one of its imported module(s) or included sub-module(s) is updated, the &#8220;.sid&#8221; file MAY need to be updated. This update SHOULD also be performed using an automated tool.</p>
+<p id="rfc.section.3.p.7">If a new revision requires more SIDs than initially allocated, a new SID range MUST be added to the &#8216;assignment-ranges&#8217;. These extra SIDs are used for subsequent assignements.</p>
+<p id="rfc.section.3.p.8">The following activity diagram summarizes the update of a YANG module and its associated .sid file.</p>
+<pre>
+       +---------------+
+  O    | Update of the |
+ -|- -&gt;| YANG module   |
+ / \   | or include(s) |
+       | or import(s)  |
+       +---------------+
+               |
+               V
+           /-------------\
+          /  New items    \ yes
+          \  created  ?   /------+
+           \-------------/       |
+                  | no           V
+                  |       /-------------\      +----------------+
+                  |      /  SID range    \ yes | Extra sub-range|
+                  |      \  exhausted ?  /----&gt;| assignment     |
+                  |       \-------------/      +----------------+
+                  |              | no                  |
+                  |              +---------------------+
+                  |              |
+                  |              V
+                  |      +---------------+
+                  |      | .sid file     |
+                  |      | update based  |
+                  |      | on previous   |
+                  |      | .sid file     |
+                  |      +---------------+
+                  |              |
+                  |              V
+                  |       /-------------\      +---------------+
+                  |      /  Publicly     \ yes | YANG module   |
+                  |      \  available ?  /----&gt;| registration  |
+                  |       \-------------/      +---------------+
+                  |              | no                  |
+                  +--------------+---------------------+
+                                 |
+                               [DONE]
+
+</pre>
+<h1 id="rfc.section.4">
+<a href="#rfc.section.4">4.</a> <a href="#sid-file-format" id="sid-file-format">&#8220;.sid&#8221; file format</a>
+</h1>
+<p id="rfc.section.4.p.1">&#8220;.sid&#8221; files are used to persist and publish SIDs assigned to the different YANG items of a specific YANG module. The following YANG module defined the structure of this file, encoding is performed using the rules defined in <a href="#RFC7951" class="xref">[RFC7951]</a>.</p>
+<pre>
+&lt;CODE BEGINS&gt; file "ietf-sid-file@2017-11-26.yang"
+module ietf-sid-file {
+  namespace "urn:ietf:params:xml:ns:yang:ietf-sid-file";
+  prefix sid;
+
+  import ietf-yang-types {
+    prefix yang;
+  }
+
+  import ietf-comi {
+    prefix comi;
+  }
+
+  organization
+    "IETF Core Working Group";
+
+  contact
+    "Michel Veillette
+     &lt;mailto:michel.veillette@trilliant.com&gt;
+
+     Andy Bierman
+     &lt;mailto:andy@yumaworks.com&gt;
+
+     Alexander Pelov
+     &lt;mailto:a@ackl.io&gt;";
+
+  description
+    "This module defines the structure of the .sid files.
+    
+     Each .sid file contains the mapping between the different
+     string identifiers defined by a YANG module and a
+     corresponding numeric value called SID.";
+
+  revision 2017-11-26 {
+    description
+      "Initial revision.";
+    reference
+      "[I-D.ietf-core-sid] YANG Schema Item iDentifier (SID)";
+  }
+
+  typedef revision-identifier {
+    type string {
+      pattern '\d{4}-\d{2}-\d{2}';
+    }
+    description
+      "Represents a date in YYYY-MM-DD format.";
+  }
+
+  typedef schema-node-path {
+    type string {
+      pattern
+        '/[a-zA-Z_][a-zA-Z0-9\-_.]*:[a-zA-Z_][a-zA-Z0-9\-_.]*' +
+        '(/[a-zA-Z_][a-zA-Z0-9\-_.]*(:[a-zA-Z_][a-zA-Z0-9\-_.]*)?)*';
+    }
+    description
+      "Identifies a schema-node path string for use in the
+       SID registry. This string format follows the rules
+       for an instance-identifier, as defined in RFC 7959,
+       except that no predicates are allowed.
+
+       This format is intended to support the YANG 1.1 ABNF
+       for a schema node identifier, except module names
+       are used instead of prefixes, as specified in RFC 7951.";
+    reference
+      "RFC 7950, The YANG 1.1 Data Modeling Language;
+       Section 6.5: Schema Node Identifier;
+       RFC 7951, JSON Encoding of YANG Data;
+       Section 6.11: The instance-identifier type";
+  }
+
+  leaf module-name {
+    type yang:yang-identifier;
+    description
+      "Name of the YANG module associated with this .sid file.";
+  }
+
+  leaf module-revision {
+    type revision-identifier;
+    description
+      "Revision of the YANG module associated with this .sid file.
+       This leaf is not present if no revision statement is
+       defined in the YANG module.";
+  }
+
+  list assigment-ranges {
+    key "entry-point";
+    description
+      "SID range(s) allocated to the YANG module identified by
+       'module-name' and 'module-revision'.";
+
+    leaf entry-point {
+      type comi:sid;
+      mandatory true;
+      description
+        "Lowest SID available for assignment.";
+    }
+
+    leaf size {
+      type uint64;
+      mandatory true;
+      description
+        "Number of SIDs available for assignment.";
+    }
+  }
+
+  list items {
+    key "namespace identifier";
+    description
+      "Each entry within this list defined the mapping between
+       a YANG item string identifier and a SID. This list MUST
+       include a mapping entry for each YANG item defined by
+       the YANG module identified by 'module-name' and
+       'module-revision'.";
+
+    leaf namespace {
+      type enumeration {
+        enum module {
+          value 0;
+          description
+            "All module and submodule names share the same
+             global module identifier namespace.";
+        }
+        enum identity {
+          value 1;
+          description
+            "All identity names defined in a module and its
+             submodules share the same identity identifier
+             namespace.";
+        }
+        enum feature {
+          value 2;
+          description
+            "All feature names defined in a module and its
+             submodules share the same feature identifier
+             namespace.";
+        }
+        enum data {
+          value 3;
+          description
+            "The namespace for all data nodes, as defined in YANG.";
+        }
+      }
+      description
+        "Namespace of the YANG item for this mapping entry.";
+    }
+
+    leaf identifier {
+      type union {
+        type yang:yang-identifier;
+        type schema-node-path;
+      }
+      description
+        "String identifier of the YANG item for this mapping entry.
+        
+         If the corresponding 'namespace' field is 'module',
+         'feature', or 'identity', then this field MUST
+         contain a valid YANG identifier string.
+
+         If the corresponding 'namespace' field is 'data',
+         then this field MUST contain a valid schema node 
+         path.";
+     }
+
+    leaf sid {
+      type comi:sid;
+      mandatory true;
+      description
+        "SID assigned to the YANG item for this mapping entry.";
+    }
+  }
+}
+&lt;CODE ENDS&gt;
+</pre>
+<h1 id="rfc.section.5">
+<a href="#rfc.section.5">5.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a>
+</h1>
+<p id="rfc.section.5.p.1">The security considerations of <a href="#RFC7049" class="xref">[RFC7049]</a> and <a href="#RFC7950" class="xref">[RFC7950]</a> apply.</p>
+<p id="rfc.section.5.p.2">This document defines a new type of identifier used to encode data models defined in YANG <a href="#RFC7950" class="xref">[RFC7950]</a>. As such, this identifier does not contribute to any new security issues in addition of those identified for the specific protocols or contexts for which it is used.</p>
+<h1 id="rfc.section.6">
+<a href="#rfc.section.6">6.</a> <a href="#IANA" id="IANA">IANA Considerations</a>
+</h1>
+<h1 id="rfc.section.6.1">
+<a href="#rfc.section.6.1">6.1.</a> <a href="#sid-range-registry" id="sid-range-registry">&#8220;SID mega-range&#8221; registry</a>
+</h1>
+<p id="rfc.section.6.1.p.1">The name of this registry is &#8220;SID mega-range&#8221;. This registry is used to delegate the management of block of SIDs for third party&#8217;s (e.g. SDO, registrar).</p>
+<p id="rfc.section.6.1.p.2">Each entry in this registry must include:</p>
+<p></p>
+
+<ul>
+<li>The entry point (first entry) of the registered SID range.</li>
+<li>The size of the registered SID range.</li>
+<li>The contact information of the requesting organization including:  <ul>
+<li>Organization name</li>
+<li>Primary contact name, email address, and phone number</li>
+<li>Secondary contact name, email address, and phone number</li>
+</ul>
+</li>
+</ul>
+<p id="rfc.section.6.1.p.4">The initial entry in this registry is allocated to IANA:</p>
+<table cellpadding="3" cellspacing="0" class="tt full left">
+<thead><tr>
+<th class="left">Entry Point</th>
+<th class="left">Size</th>
+<th class="left">Organization name</th>
+</tr></thead>
+<tbody><tr>
+<td class="left">0</td>
+<td class="left">1000000</td>
+<td class="left">IANA</td>
+</tr></tbody>
+</table>
+<p id="rfc.section.6.1.p.5">The IANA policies for future additions to this registry are &#8220;Hierarchical Allocation, Expert Review&#8221; <a href="#RFC5226" class="xref">[RFC5226]</a>. Prior to a first allocation, the requesting organization must demonstrate a functional registry infrastructure. On subsequent allocation request(s), the organization must demonstrate the exhaustion of the prior range. These conditions need to be asserted by the assigned expert(s).</p>
+<h1 id="rfc.section.6.1.1">
+<a href="#rfc.section.6.1.1">6.1.1.</a> <a href="#iana-sid-mega-range-registry" id="iana-sid-mega-range-registry">IANA SID Mega-Range Registry</a>
+</h1>
+<p id="rfc.section.6.1.1.p.1">The first million SIDs assigned to IANA is sub-divided as follow:</p>
+<p></p>
+
+<ul>
+<li>The range of 0 to 999 is reserved for future extensions. The IANA policy for this range is &#8220;IETF review&#8221; <a href="#RFC5226" class="xref">[RFC5226]</a>.</li>
+<li>The range of 1000 to 59,999 is reserved for YANG modules defined in RFCs. The IANA policy for future additions to this sub-registry is &#8220;RFC required&#8221; <a href="#RFC5226" class="xref">[RFC5226]</a>. Allocation within this range requires publishing of the associated &#8220;.yang&#8221; and &#8220;.sid&#8221; files in the YANG module registry. The allocation within this range is done prior to the RFC publication but should not be done prior to the working group adoption.</li>
+<li>The range of 60,000 to 99,999 is reserved for experimental YANG modules. This range MUST NOT be used in operational deployments since these SIDs are not globally unique which limit their interoperability. The IANA policy for this range is &#8220;Experimental use&#8221; <a href="#RFC5226" class="xref">[RFC5226]</a>.</li>
+<li>The range of 100,000 to 999,999 is reserved for standardized YANG modules. The IANA policy for future additions to this sub-registry is &#8220;Specification Required&#8221; <a href="#RFC5226" class="xref">[RFC5226]</a>. Allocation within this range requires publishing of the associated &#8220;.yang&#8221; and &#8220;.sid&#8221; files in the YANG module registry.</li>
+</ul>
+<table cellpadding="3" cellspacing="0" class="tt full left">
+<thead><tr>
+<th class="left">Entry Point</th>
+<th class="left">Size</th>
+<th class="left">IANA policy</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="left">0</td>
+<td class="left">1,000</td>
+<td class="left">IETF review</td>
+</tr>
+<tr>
+<td class="left">1,000</td>
+<td class="left">59,000</td>
+<td class="left">RFC required</td>
+</tr>
+<tr>
+<td class="left">60,000</td>
+<td class="left">40,000</td>
+<td class="left">Experimental use</td>
+</tr>
+<tr>
+<td class="left">100,000</td>
+<td class="left">900,000</td>
+<td class="left">Specification Required</td>
+</tr>
+</tbody>
+</table>
+<p id="rfc.section.6.1.1.p.3">The size of a SID range assigned to a YANG module should be at least 33% above the current number of YANG items. This headroom allows assignment within the same range of new YANG items introduced by subsequent revisions. A larger SID range size may be requested by the authors if this recommendation is considered insufficient. It is important to note that an extra SID range can be allocated to an existing YANG module if the initial range is exhausted.</p>
+<h1 id="rfc.section.6.1.2">
+<a href="#rfc.section.6.1.2">6.1.2.</a> <a href="#iana-rfc-sid-range-assignment-sub-registry" id="iana-rfc-sid-range-assignment-sub-registry">IANA &#8220;RFC SID range assignment&#8221; sub-registry</a>
+</h1>
+<p id="rfc.section.6.1.2.p.1">The name of this sub-registry is &#8220;RFC SID range assignment&#8221;. This sub-registry corresponds to the SID entry point 1000, size 59000. Each entry in this sub-registry must include the SID range entry point, the SID range size, the YANG module name, the RFC number.</p>
+<p id="rfc.section.6.1.2.p.2">Initial entries in this registry are as follows:</p>
+<table cellpadding="3" cellspacing="0" class="tt full left">
+<thead><tr>
+<th class="left">Entry Point</th>
+<th class="left">Size</th>
+<th class="left">Module name</th>
+<th class="left">RFC number</th>
+</tr></thead>
+<tbody>
+<tr>
+<td class="left">1000</td>
+<td class="left">100</td>
+<td class="left">ietf-comi</td>
+<td class="left"><a href="#I-D.ietf-core-comi" class="xref">[I-D.ietf-core-comi]</a></td>
+</tr>
+<tr>
+<td class="left">1100</td>
+<td class="left">50</td>
+<td class="left">ietf-yang-types</td>
+<td class="left"><a href="#RFC6021" class="xref">[RFC6021]</a></td>
+</tr>
+<tr>
+<td class="left">1150</td>
+<td class="left">50</td>
+<td class="left">ietf-inet-types</td>
+<td class="left"><a href="#RFC6021" class="xref">[RFC6021]</a></td>
+</tr>
+<tr>
+<td class="left">1200</td>
+<td class="left">50</td>
+<td class="left">iana-crypt-hash</td>
+<td class="left"><a href="#RFC7317" class="xref">[RFC7317]</a></td>
+</tr>
+<tr>
+<td class="left">1250</td>
+<td class="left">50</td>
+<td class="left">ietf-netconf-acm</td>
+<td class="left"><a href="#RFC6536" class="xref">[RFC6536]</a></td>
+</tr>
+<tr>
+<td class="left">1300</td>
+<td class="left">50</td>
+<td class="left">ietf-sid-file</td>
+<td class="left">RFCXXXX</td>
+</tr>
+<tr>
+<td class="left">1500</td>
+<td class="left">100</td>
+<td class="left">ietf-interfaces</td>
+<td class="left"><a href="#RFC7223" class="xref">[RFC7223]</a></td>
+</tr>
+<tr>
+<td class="left">1600</td>
+<td class="left">100</td>
+<td class="left">ietf-ip</td>
+<td class="left"><a href="#RFC7277" class="xref">[RFC7277]</a></td>
+</tr>
+<tr>
+<td class="left">1700</td>
+<td class="left">100</td>
+<td class="left">ietf-system</td>
+<td class="left"><a href="#RFC7317" class="xref">[RFC7317]</a></td>
+</tr>
+<tr>
+<td class="left">1800</td>
+<td class="left">400</td>
+<td class="left">iana-if-type</td>
+<td class="left"><a href="#RFC7224" class="xref">[RFC7224]</a></td>
+</tr>
+</tbody>
+</table>
+<p id="rfc.section.6.1.2.p.3">// RFC Ed.: replace XXXX with RFC number assigned to this draft.</p>
+<h1 id="rfc.section.6.2">
+<a href="#rfc.section.6.2">6.2.</a> <a href="#module-registry" id="module-registry">&#8220;YANG module assignment&#8221; registry</a>
+</h1>
+<p id="rfc.section.6.2.p.1">The name of this registry is &#8220;YANG module assignment&#8221;. This registry is used to track which YANG modules have been assigned and the specific YANG items assignment. Each entry in this sub-registry must include:</p>
+<p></p>
+
+<ul>
+<li>The YANG module name</li>
+<li>The associated &#8220;.yang&#8221; file(s)</li>
+<li>The associated &#8220;.sid&#8221; file</li>
+</ul>
+<p id="rfc.section.6.2.p.3">The validity of the &#8220;.yang&#8221; and &#8220;.sid&#8221; files added to this registry MUST be verified.</p>
+<p></p>
+
+<ul>
+<li>The syntax of the registered &#8220;.yang&#8221; and &#8220;.sid&#8221; files must be valid.</li>
+<li>Each YANG item defined by the registered &#8220;.yang&#8221; file must have a corresponding SID assigned in the &#8220;.sid&#8221; file.</li>
+<li>Each SID is assigned to a single YANG item, duplicate assignment is not allowed.</li>
+<li>The SID range(s) defined in the &#8220;.sid&#8221; file must be unique, must not conflict with any other SID ranges defined in already registered &#8220;.sid&#8221; files.</li>
+<li>The ownership of the SID range(s) should be verify.</li>
+</ul>
+<p id="rfc.section.6.2.p.5">The IANA policy for future additions to this registry is &#8220;First Come First Served&#8221; as described in <a href="#RFC5226" class="xref">[RFC5226]</a>.</p>
+<h1 id="rfc.section.7">
+<a href="#rfc.section.7">7.</a> <a href="#acknowledgments" id="acknowledgments">Acknowledgments</a>
+</h1>
+<p id="rfc.section.7.p.1">The authors would like to thank Andy Bierman, Carsten Bormann, Abhinav Somaraju, Laurent Toutain and Randy Turner for their help during the development of this document and their useful comments during the review process.</p>
+<h1 id="rfc.references">
+<a href="#rfc.references">8.</a> References</h1>
+<h1 id="rfc.references.1">
+<a href="#rfc.references.1">8.1.</a> Normative References</h1>
+<table><tbody>
+<tr>
+<td class="reference"><b id="RFC2119">[RFC2119]</b></td>
+<td class="top">
+<a>Bradner, S.</a>, "<a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>", BCP 14, RFC 2119, DOI 10.17487/RFC2119, March 1997.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7049">[RFC7049]</b></td>
+<td class="top">
+<a>Bormann, C.</a> and <a>P. Hoffman</a>, "<a href="https://tools.ietf.org/html/rfc7049">Concise Binary Object Representation (CBOR)</a>", RFC 7049, DOI 10.17487/RFC7049, October 2013.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7950">[RFC7950]</b></td>
+<td class="top">
+<a>Bjorklund, M.</a>, "<a href="https://tools.ietf.org/html/rfc7950">The YANG 1.1 Data Modeling Language</a>", RFC 7950, DOI 10.17487/RFC7950, August 2016.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7951">[RFC7951]</b></td>
+<td class="top">
+<a>Lhotka, L.</a>, "<a href="https://tools.ietf.org/html/rfc7951">JSON Encoding of Data Modeled with YANG</a>", RFC 7951, DOI 10.17487/RFC7951, August 2016.</td>
+</tr>
+</tbody></table>
+<h1 id="rfc.references.2">
+<a href="#rfc.references.2">8.2.</a> Informative References</h1>
+<table><tbody>
+<tr>
+<td class="reference"><b id="I-D.ietf-core-comi">[I-D.ietf-core-comi]</b></td>
+<td class="top">
+<a>Veillette, M.</a>, <a>Stok, P.</a>, <a>Pelov, A.</a> and <a>A. Bierman</a>, "<a href="https://tools.ietf.org/html/draft-ietf-core-comi-04">CoAP Management Interface</a>", Internet-Draft draft-ietf-core-comi-04, November 2018.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC5226">[RFC5226]</b></td>
+<td class="top">
+<a>Narten, T.</a> and <a>H. Alvestrand</a>, "<a href="https://tools.ietf.org/html/rfc5226">Guidelines for Writing an IANA Considerations Section in RFCs</a>", RFC 5226, DOI 10.17487/RFC5226, May 2008.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC6021">[RFC6021]</b></td>
+<td class="top">
+<a>Schoenwaelder, J.</a>, "<a href="https://tools.ietf.org/html/rfc6021">Common YANG Data Types</a>", RFC 6021, DOI 10.17487/RFC6021, October 2010.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC6241">[RFC6241]</b></td>
+<td class="top">
+<a>Enns, R.</a>, <a>Bjorklund, M.</a>, <a>Schoenwaelder, J.</a> and <a>A. Bierman</a>, "<a href="https://tools.ietf.org/html/rfc6241">Network Configuration Protocol (NETCONF)</a>", RFC 6241, DOI 10.17487/RFC6241, June 2011.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC6536">[RFC6536]</b></td>
+<td class="top">
+<a>Bierman, A.</a> and <a>M. Bjorklund</a>, "<a href="https://tools.ietf.org/html/rfc6536">Network Configuration Protocol (NETCONF) Access Control Model</a>", RFC 6536, DOI 10.17487/RFC6536, March 2012.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7223">[RFC7223]</b></td>
+<td class="top">
+<a>Bjorklund, M.</a>, "<a href="https://tools.ietf.org/html/rfc7223">A YANG Data Model for Interface Management</a>", RFC 7223, DOI 10.17487/RFC7223, May 2014.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7224">[RFC7224]</b></td>
+<td class="top">
+<a>Bjorklund, M.</a>, "<a href="https://tools.ietf.org/html/rfc7224">IANA Interface Type YANG Module</a>", RFC 7224, DOI 10.17487/RFC7224, May 2014.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7277">[RFC7277]</b></td>
+<td class="top">
+<a>Bjorklund, M.</a>, "<a href="https://tools.ietf.org/html/rfc7277">A YANG Data Model for IP Management</a>", RFC 7277, DOI 10.17487/RFC7277, June 2014.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC7317">[RFC7317]</b></td>
+<td class="top">
+<a>Bierman, A.</a> and <a>M. Bjorklund</a>, "<a href="https://tools.ietf.org/html/rfc7317">A YANG Data Model for System Management</a>", RFC 7317, DOI 10.17487/RFC7317, August 2014.</td>
+</tr>
+<tr>
+<td class="reference"><b id="RFC8040">[RFC8040]</b></td>
+<td class="top">
+<a>Bierman, A.</a>, <a>Bjorklund, M.</a> and <a>K. Watsen</a>, "<a href="https://tools.ietf.org/html/rfc8040">RESTCONF Protocol</a>", RFC 8040, DOI 10.17487/RFC8040, January 2017.</td>
+</tr>
+</tbody></table>
+<h1 id="rfc.appendix.A">
+<a href="#rfc.appendix.A">Appendix A.</a> <a href="#sid-file-example" id="sid-file-example">&#8220;.sid&#8221; file example</a>
+</h1>
+<p id="rfc.section.A.p.1">The following .sid file (ietf-system@2014-08-06.sid) have been generated using the following yang modules:</p>
+<p></p>
+
+<ul>
+<li>ietf-system@2014-08-06.yang</li>
+<li>ietf-yang-types@2013-07-15.yang</li>
+<li>ietf-inet-types@2013-07-15.yang</li>
+<li>ietf-netconf-acm@2012-02-22.yang</li>
+<li>iana-crypt-hash@2014-04-04.yang</li>
+</ul>
+<pre>
+{
+  "assignment-ranges": [
+    {
+      "entry-point": 1700,
+      "size": 100
+    }
+  ],
+  "module-name": "ietf-system",
+  "module-revision": "2014-08-06",
+  "items": [
+    {
+      "namespace": "module",
+      "identifier": "ietf-system",
+      "sid": 1700
+    },
+    {
+      "namespace": "identity",
+      "identifier": "authentication-method",
+      "sid": 1701
+    },
+    {
+      "namespace": "identity",
+      "identifier": "local-users",
+      "sid": 1702
+    },
+    {
+      "namespace": "identity",
+      "identifier": "radius",
+      "sid": 1703
+    },
+    {
+      "namespace": "identity",
+      "identifier": "radius-authentication-type",
+      "sid": 1704
+    },
+    {
+      "namespace": "identity",
+      "identifier": "radius-chap",
+      "sid": 1705
+    },
+    {
+      "namespace": "identity",
+      "identifier": "radius-pap",
+      "sid": 1706
+    },
+    {
+      "namespace": "feature",
+      "identifier": "authentication",
+      "sid": 1707
+    },
+    {
+      "namespace": "feature",
+      "identifier": "dns-udp-tcp-port",
+      "sid": 1708
+    },
+    {
+      "namespace": "feature",
+      "identifier": "local-users",
+      "sid": 1709
+    },
+    {
+      "namespace": "feature",
+      "identifier": "ntp",
+      "sid": 1710
+    },
+    {
+      "namespace": "feature",
+      "identifier": "ntp-udp-port",
+      "sid": 1711
+    },
+    {
+      "namespace": "feature",
+      "identifier": "radius",
+      "sid": 1712
+    },
+    {
+      "namespace": "feature",
+      "identifier": "radius-authentication",
+      "sid": 1713
+    },
+    {
+      "namespace": "feature",
+      "identifier": "timezone-name",
+      "sid": 1714
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:set-current-datetime",
+      "sid": 1715
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:set-current-datetime/
+                     current-datetime",
+      "sid": 1716
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system",
+      "sid": 1717
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system-restart",
+      "sid": 1718
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system-shutdown",
+      "sid": 1719
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system-state",
+      "sid": 1720
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system-state/clock",
+      "sid": 1721
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system-state/clock/boot-datetime",
+      "sid": 1722
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system-state/clock/
+                     current-datetime",
+      "sid": 1723
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system-state/platform",
+      "sid": 1724
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system-state/platform/machine",
+      "sid": 1725
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system-state/platform/os-name",
+      "sid": 1726
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system-state/platform/os-release",
+      "sid": 1727
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system-state/platform/os-version",
+      "sid": 1728
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/authentication",
+      "sid": 1729
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/authentication/user",
+      "sid": 1730
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/authentication/
+                     user-authentication-order",
+      "sid": 1731
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/authentication/user/
+                     authorized-key",
+      "sid": 1732
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/authentication/user/
+                     authorized-key/algorithm",
+      "sid": 1733
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/authentication/user/
+                     authorized-key/key-data",
+      "sid": 1734
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/authentication/user/
+                     authorized-key/name",
+      "sid": 1735
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/authentication/user/
+                     name",
+      "sid": 1736
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/authentication/user/
+                     password",
+      "sid": 1737
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/clock",
+      "sid": 1738
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/clock/timezone-name",
+      "sid": 1739
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/clock/timezone-utc-offset",
+      "sid": 1740
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/contact",
+      "sid": 1741
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/dns-resolver",
+      "sid": 1742
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/dns-resolver/options",
+      "sid": 1743
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/dns-resolver/options/
+                     attempts",
+      "sid": 1744
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/dns-resolver/options/
+                     timeout",
+      "sid": 1745
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/dns-resolver/search",
+      "sid": 1746
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/dns-resolver/server",
+      "sid": 1747
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/dns-resolver/server/name",
+      "sid": 1748
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/dns-resolver/server/
+                     udp-and-tcp",
+      "sid": 1749
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/dns-resolver/server/
+                     udp-and-tcp/address",
+      "sid": 1750
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/dns-resolver/server/
+                     udp-and-tcp/port",
+      "sid": 1751
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/hostname",
+      "sid": 1752
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/location",
+      "sid": 1753
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/ntp",
+      "sid": 1754
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/ntp/enabled",
+      "sid": 1755
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/ntp/server",
+      "sid": 1756
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/ntp/server/
+                     association-type",
+      "sid": 1757
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/ntp/server/iburst",
+      "sid": 1758
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/ntp/server/name",
+      "sid": 1759
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/ntp/server/prefer",
+      "sid": 1760
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/ntp/server/udp",
+      "sid": 1761
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/ntp/server/udp/address",
+      "sid": 1762
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/ntp/server/udp/port",
+      "sid": 1763
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/radius",
+      "sid": 1764
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/radius/options",
+      "sid": 1765
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/radius/options/attempts",
+      "sid": 1766
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/radius/options/timeout",
+      "sid": 1767
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/radius/server",
+      "sid": 1768
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/radius/server/
+                     authentication-type",
+      "sid": 1769
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/radius/server/name",
+      "sid": 1770
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/radius/server/udp",
+      "sid": 1771
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/radius/server/udp/
+                     address",
+      "sid": 1772
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/radius/server/udp/
+                     authentication-port",
+      "sid": 1773
+    },
+    {
+      "namespace": "data",
+      "identifier": "/ietf-system:system/radius/server/udp/
+                     shared-secret",
+      "sid": 1774
+    }
+  ]
+}
+</pre>
+<h1 id="rfc.authors"><a href="#rfc.authors">Authors' Addresses</a></h1>
+<div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Michel Veillette</span> (editor)
+	  <span class="n hidden">
+		<span class="family-name">Veillette</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Trilliant Networks Inc.</span>
+	<span class="adr">
+	  <span class="vcardline">610 Rue du Luxembourg</span>
+
+	  <span class="vcardline">
+		<span class="locality">Granby</span>,  
+		<span class="region">Quebec</span> 
+		<span class="code">J2J 2V2</span>
+	  </span>
+	  <span class="country-name vcardline">Canada</span>
+	</span>
+	<span class="vcardline">Phone: +14503750556</span>
+
+<span class="vcardline">EMail: <a href="mailto:michel.veillette@trilliant.com">michel.veillette@trilliant.com</a></span>
+
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Alexander Pelov</span> (editor)
+	  <span class="n hidden">
+		<span class="family-name">Pelov</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Acklio</span>
+	<span class="adr">
+	  <span class="vcardline">2bis rue de la Chataigneraie</span>
+
+	  <span class="vcardline">
+		<span class="locality">Cesson-Sevigne</span>,  
+		<span class="region">Bretagne</span> 
+		<span class="code">35510</span>
+	  </span>
+	  <span class="country-name vcardline">France</span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:a@ackl.io">a@ackl.io</a></span>
+
+  </address>
+</div>
+
+  <div class="github-fork-ribbon-wrapper"><div class="github-fork-ribbon"><a href="https://github.com/core-wg/yang-cbor">Fork me on GitHub</a></div></div>
+</body>
+</html>
