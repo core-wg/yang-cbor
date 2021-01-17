@@ -1,12 +1,38 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
-  <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
-
-  <title>Constrained YANG Module Library</title>
-
+<!DOCTYPE html>
+<html lang="en" class="Internet-Draft">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>Constrained YANG Module Library</title>
+<meta content="Michel Veillette" name="author">
+<meta content="Ivaylo Petrov" name="author">
+<meta content="
+       This document describes a constrained version of the YANG library that provides information about the YANG modules, datastores, and datastore schemas used by a constrained network management server (e.g., a CORECONF server). 
+    " name="description">
+<meta content="xml2rfc 3.5.0" name="generator">
+<meta content="YANG" name="keyword">
+<meta content="draft-ietf-core-yang-library-03" name="ietf.draft">
+<!-- Generator version information:
+  xml2rfc 3.5.0
+    Python 3.6.7
+    appdirs 1.4.4
+    ConfigArgParse 1.2.3
+    google-i18n-address 2.4.0
+    html5lib 1.1
+    intervaltree 3.1.0
+    Jinja2 2.11.2
+    kitchen 1.2.6
+    lxml 4.6.2
+    pycountry 20.7.3
+    pyflakes 2.2.0
+    PyYAML 5.3.1
+    requests 2.25.1
+    setuptools 47.3.1
+    six 1.11.0
+-->
+<link href="draft-ietf-core-yang-library-latest.xml" rel="alternate" type="application/rfc+xml">
+<link href="#copyright" rel="license">
   <style type="text/css">/*<![CDATA[*/
 @viewport {
   zoom: 1.0;
@@ -266,137 +292,190 @@ li, p {
     position: fixed;
   }
   /*]]>*/</style>
-
-  <link href="#rfc.toc" rel="Contents">
-<link href="#rfc.section.1" rel="Chapter" title="1 Introduction">
-<link href="#rfc.section.2" rel="Chapter" title="2 Terminology and Notation">
-<link href="#rfc.section.3" rel="Chapter" title="3 Overview">
-<link href="#rfc.section.3.1" rel="Chapter" title="3.1 Tree diagram">
-<link href="#rfc.section.3.2" rel="Chapter" title="3.2 Major differences between ietf-constrained-yang-library and ietf-yang-library">
-<link href="#rfc.section.4" rel="Chapter" title="4 YANG Module &#8220;ietf-constrained-yang-library&#8221;">
-<link href="#rfc.section.5" rel="Chapter" title="5 IANA Considerations">
-<link href="#rfc.section.5.1" rel="Chapter" title="5.1 YANG Module Registration">
-<link href="#rfc.section.5.2" rel="Chapter" title="5.2 YANG Namespace Registration">
-<link href="#rfc.section.6" rel="Chapter" title="6 Security Considerations">
-<link href="#rfc.section.7" rel="Chapter" title="7 Acknowledgments">
-<link href="#rfc.references" rel="Chapter" title="8 References">
-<link href="#rfc.references.1" rel="Chapter" title="8.1 Normative References">
-<link href="#rfc.references.2" rel="Chapter" title="8.2 Informative References">
-<link href="#rfc.authors" rel="Chapter">
-
-
-  <meta name="generator" content="xml2rfc version 2.46.0 - https://tools.ietf.org/tools/xml2rfc" />
-  <link rel="schema.dct" href="http://purl.org/dc/terms/" />
-
-  <meta name="dct.creator" content="Veillette, M., Ed. and I. Petrov, Ed." />
-  <meta name="dct.identifier" content="urn:ietf:id:draft-ietf-core-yang-library-02" />
-  <meta name="dct.issued" scheme="ISO8601" content="2020-07-10" />
-  <meta name="dct.abstract" content="This document describes a constrained version of the YANG library that provides information about the YANG modules, datastores, and datastore schemas used by a constrained network management server (e.g., a CORECONF server). " />
-  <meta name="description" content="This document describes a constrained version of the YANG library that provides information about the YANG modules, datastores, and datastore schemas used by a constrained network management server (e.g., a CORECONF server). " />
-
+<link href="rfc-local.css" rel="stylesheet" type="text/css">
+<script type="application/javascript">async function addMetadata(){try{const e=document.styleSheets[0].cssRules;for(let t=0;t<e.length;t++)if(/#identifiers/.exec(e[t].selectorText)){const a=e[t].cssText.replace("#identifiers","#external-updates");document.styleSheets[0].insertRule(a,document.styleSheets[0].cssRules.length)}}catch(e){console.log(e)}const e=document.getElementById("external-metadata");if(e)try{var t,a="",o=function(e){const t=document.getElementsByTagName("meta");for(let a=0;a<t.length;a++)if(t[a].getAttribute("name")===e)return t[a].getAttribute("content");return""}("rfc.number");if(o){t="https://www.rfc-editor.org/rfc/rfc"+o+".json";try{const e=await fetch(t);a=await e.json()}catch(e){t=document.URL.indexOf("html")>=0?document.URL.replace(/html$/,"json"):document.URL+".json";const o=await fetch(t);a=await o.json()}}if(!a)return;e.style.display="block";const s="",d="https://datatracker.ietf.org/doc",n="https://datatracker.ietf.org/ipr/search",c="https://www.rfc-editor.org/info",l=a.doc_id.toLowerCase(),i=a.doc_id.slice(0,3).toLowerCase(),f=a.doc_id.slice(3).replace(/^0+/,""),u={status:"Status",obsoletes:"Obsoletes",obsoleted_by:"Obsoleted By",updates:"Updates",updated_by:"Updated By",see_also:"See Also",errata_url:"Errata"};let h="<dl style='overflow:hidden' id='external-updates'>";["status","obsoletes","obsoleted_by","updates","updated_by","see_also","errata_url"].forEach(e=>{if("status"==e){a[e]=a[e].toLowerCase();var t=a[e].split(" "),o=t.length,w="",p=1;for(let e=0;e<o;e++)p<o?w=w+r(t[e])+" ":w+=r(t[e]),p++;a[e]=w}else if("obsoletes"==e||"obsoleted_by"==e||"updates"==e||"updated_by"==e){var g,m="",b=1;g=a[e].length;for(let t=0;t<g;t++)a[e][t]&&(a[e][t]=String(a[e][t]).toLowerCase(),m=b<g?m+"<a href='"+s+"/rfc/".concat(a[e][t])+"'>"+a[e][t].slice(3)+"</a>, ":m+"<a href='"+s+"/rfc/".concat(a[e][t])+"'>"+a[e][t].slice(3)+"</a>",b++);a[e]=m}else if("see_also"==e){var y,L="",C=1;y=a[e].length;for(let t=0;t<y;t++)if(a[e][t]){a[e][t]=String(a[e][t]);var _=a[e][t].slice(0,3),v=a[e][t].slice(3).replace(/^0+/,"");L=C<y?"RFC"!=_?L+"<a href='"+s+"/info/"+_.toLowerCase().concat(v.toLowerCase())+"'>"+_+" "+v+"</a>, ":L+"<a href='"+s+"/info/"+_.toLowerCase().concat(v.toLowerCase())+"'>"+v+"</a>, ":"RFC"!=_?L+"<a href='"+s+"/info/"+_.toLowerCase().concat(v.toLowerCase())+"'>"+_+" "+v+"</a>":L+"<a href='"+s+"/info/"+_.toLowerCase().concat(v.toLowerCase())+"'>"+v+"</a>",C++}a[e]=L}else if("errata_url"==e){var R="";R=a[e]?R+"<a href='"+a[e]+"'>Errata exist</a> | <a href='"+d+"/"+l+"'>Datatracker</a>| <a href='"+n+"/?"+i+"="+f+"&submit="+i+"'>IPR</a> | <a href='"+c+"/"+l+"'>Info page</a>":"<a href='"+d+"/"+l+"'>Datatracker</a> | <a href='"+n+"/?"+i+"="+f+"&submit="+i+"'>IPR</a> | <a href='"+c+"/"+l+"'>Info page</a>",a[e]=R}""!=a[e]?"Errata"==u[e]?h+=`<dt>More info:</dt><dd>${a[e]}</dd>`:h+=`<dt>${u[e]}:</dt><dd>${a[e]}</dd>`:"Errata"==u[e]&&(h+=`<dt>More info:</dt><dd>${a[e]}</dd>`)}),h+="</dl>",e.innerHTML=h}catch(e){console.log(e)}else console.log("Could not locate metadata <div> element");function r(e){return e.charAt(0).toUpperCase()+e.slice(1)}}window.removeEventListener("load",addMetadata),window.addEventListener("load",addMetadata);</script>
 </head>
-
 <body>
-
-  <table class="header">
-    <tbody>
-    
-    	<tr>
-<td class="left">Internet Engineering Task Force</td>
-<td class="right">M. Veillette, Ed.</td>
-</tr>
-<tr>
+<script src="metadata.min.js"></script>
+<table class="ears">
+<thead><tr>
 <td class="left">Internet-Draft</td>
-<td class="right">Trilliant Networks Inc.</td>
-</tr>
-<tr>
-<td class="left">Intended status: Standards Track</td>
-<td class="right">I. Petrov, Ed.</td>
-</tr>
-<tr>
-<td class="left">Expires: January 11, 2021</td>
-<td class="right">Acklio</td>
-</tr>
-<tr>
-<td class="left"></td>
-<td class="right">July 10, 2020</td>
-</tr>
-
-    	
-    </tbody>
-  </table>
-
-  <p class="title">Constrained YANG Module Library<br />
-  <span class="filename">draft-ietf-core-yang-library-02</span></p>
-  
-  <h1 id="rfc.abstract"><a href="#rfc.abstract">Abstract</a></h1>
-<p>This document describes a constrained version of the YANG library that provides information about the YANG modules, datastores, and datastore schemas used by a constrained network management server (e.g., a CORECONF server).</p>
-<h1 id="rfc.status"><a href="#rfc.status">Status of This Memo</a></h1>
-<p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
-<p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at https://datatracker.ietf.org/drafts/current/.</p>
-<p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on January 11, 2021.</p>
-<h1 id="rfc.copyrightnotice"><a href="#rfc.copyrightnotice">Copyright Notice</a></h1>
-<p>Copyright (c) 2020 IETF Trust and the persons identified as the document authors.  All rights reserved.</p>
-<p>This document is subject to BCP 78 and the IETF Trust's Legal Provisions Relating to IETF Documents (https://trustee.ietf.org/license-info) in effect on the date of publication of this document.  Please review these documents carefully, as they describe your rights and restrictions with respect to this document.  Code Components extracted from this document must include Simplified BSD License text as described in Section 4.e of the Trust Legal Provisions and are provided without warranty as described in the Simplified BSD License.</p>
-
-  
-  <hr class="noprint" />
-  <h1 class="np" id="rfc.toc"><a href="#rfc.toc">Table of Contents</a></h1>
-  <ul class="toc">
-
-  	<li>1.   <a href="#rfc.section.1">Introduction</a>
+<td class="center">Constrained YANG Module Library</td>
+<td class="right">January 2021</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Veillette &amp; Petrov</td>
+<td class="center">Expires 21 July 2021</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-workgroup">Workgroup:</dt>
+<dd class="workgroup">Internet Engineering Task Force</dd>
+<dt class="label-internet-draft">Internet-Draft:</dt>
+<dd class="internet-draft">draft-ietf-core-yang-library-03</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2021-01-17" class="published">17 January 2021</time>
+    </dd>
+<dt class="label-intended-status">Intended Status:</dt>
+<dd class="intended-status">Standards Track</dd>
+<dt class="label-expires">Expires:</dt>
+<dd class="expires"><time datetime="2021-07-21">21 July 2021</time></dd>
+<dt class="label-authors">Authors:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">M. Veillette, <span class="editor">Ed.</span>
+</div>
+<div class="org">Trilliant Networks Inc.</div>
+</div>
+<div class="author">
+      <div class="author-name">I. Petrov, <span class="editor">Ed.</span>
+</div>
+<div class="org">Acklio</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="title">Constrained YANG Module Library</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">This document describes a constrained version of the YANG library that provides information about the YANG modules, datastores, and datastore schemas used by a constrained network management server (e.g., a CORECONF server).<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+        This Internet-Draft is submitted in full conformance with the
+        provisions of BCP 78 and BCP 79.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+        Internet-Drafts are working documents of the Internet Engineering Task
+        Force (IETF). Note that other groups may also distribute working
+        documents as Internet-Drafts. The list of current Internet-Drafts is
+        at <span><a href="https://datatracker.ietf.org/drafts/current/">https://datatracker.ietf.org/drafts/current/</a></span>.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-3">
+        Internet-Drafts are draft documents valid for a maximum of six months
+        and may be updated, replaced, or obsoleted by other documents at any
+        time. It is inappropriate to use Internet-Drafts as reference
+        material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-4">
+        This Internet-Draft will expire on 21 July 2021.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2021 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document. Code Components extracted from this
+            document must include Simplified BSD License text as described in
+            Section 4.e of the Trust Legal Provisions and are provided without
+            warranty as described in the Simplified BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="toc ulEmpty compact">
+<li class="toc ulEmpty compact" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="xref">1</a>.  <a href="#name-introduction" class="xref">Introduction</a><a href="#section-toc.1-1.1.1" class="pilcrow">¶</a></p>
 </li>
-<li>2.   <a href="#rfc.section.2">Terminology and Notation</a>
+          <li class="toc ulEmpty compact" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="xref">2</a>.  <a href="#name-terminology-and-notation" class="xref">Terminology and Notation</a><a href="#section-toc.1-1.2.1" class="pilcrow">¶</a></p>
 </li>
-<li>3.   <a href="#rfc.section.3">Overview</a>
+          <li class="toc ulEmpty compact" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="xref">3</a>.  <a href="#name-overview" class="xref">Overview</a><a href="#section-toc.1-1.3.1" class="pilcrow">¶</a></p>
+<ul class="toc ulEmpty compact">
+<li class="toc ulEmpty compact" id="section-toc.1-1.3.2.1">
+                <p id="section-toc.1-1.3.2.1.1" class="keepWithNext"><a href="#section-3.1" class="xref">3.1</a>.  <a href="#name-tree-diagram" class="xref">Tree diagram</a><a href="#section-toc.1-1.3.2.1.1" class="pilcrow">¶</a></p>
 </li>
-<ul><li>3.1.   <a href="#rfc.section.3.1">Tree diagram</a>
+              <li class="toc ulEmpty compact" id="section-toc.1-1.3.2.2">
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="xref">3.2</a>.  <a href="#name-major-differences-between-i" class="xref">Major differences between ietf-constrained-yang-library and ietf-yang-library</a><a href="#section-toc.1-1.3.2.2.1" class="pilcrow">¶</a></p>
 </li>
-<li>3.2.   <a href="#rfc.section.3.2">Major differences between ietf-constrained-yang-library and ietf-yang-library</a>
+            </ul>
 </li>
-</ul><li>4.   <a href="#rfc.section.4">YANG Module &#8220;ietf-constrained-yang-library&#8221;</a>
+          <li class="toc ulEmpty compact" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="xref">4</a>.  <a href="#name-yang-module-ietf-constraine" class="xref">YANG Module "ietf-constrained-yang-library"</a><a href="#section-toc.1-1.4.1" class="pilcrow">¶</a></p>
 </li>
-<li>5.   <a href="#rfc.section.5">IANA Considerations</a>
+          <li class="toc ulEmpty compact" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-iana-considerations" class="xref">IANA Considerations</a><a href="#section-toc.1-1.5.1" class="pilcrow">¶</a></p>
+<ul class="toc ulEmpty compact">
+<li class="toc ulEmpty compact" id="section-toc.1-1.5.2.1">
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="xref">5.1</a>.  <a href="#name-yang-module-registration" class="xref">YANG Module Registration</a><a href="#section-toc.1-1.5.2.1.1" class="pilcrow">¶</a></p>
 </li>
-<ul><li>5.1.   <a href="#rfc.section.5.1">YANG Module Registration</a>
+              <li class="toc ulEmpty compact" id="section-toc.1-1.5.2.2">
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="xref">5.2</a>.  <a href="#name-yang-namespace-registration" class="xref">YANG Namespace Registration</a><a href="#section-toc.1-1.5.2.2.1" class="pilcrow">¶</a></p>
 </li>
-<li>5.2.   <a href="#rfc.section.5.2">YANG Namespace Registration</a>
+            </ul>
 </li>
-</ul><li>6.   <a href="#rfc.section.6">Security Considerations</a>
+          <li class="toc ulEmpty compact" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="xref">6</a>.  <a href="#name-security-considerations" class="xref">Security Considerations</a><a href="#section-toc.1-1.6.1" class="pilcrow">¶</a></p>
 </li>
-<li>7.   <a href="#rfc.section.7">Acknowledgments</a>
+          <li class="toc ulEmpty compact" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="xref">7</a>.  <a href="#name-acknowledgments" class="xref">Acknowledgments</a><a href="#section-toc.1-1.7.1" class="pilcrow">¶</a></p>
 </li>
-<li>8.   <a href="#rfc.references">References</a>
+          <li class="toc ulEmpty compact" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="xref">8</a>.  <a href="#name-references" class="xref">References</a><a href="#section-toc.1-1.8.1" class="pilcrow">¶</a></p>
+<ul class="toc ulEmpty compact">
+<li class="toc ulEmpty compact" id="section-toc.1-1.8.2.1">
+                <p id="section-toc.1-1.8.2.1.1"><a href="#section-8.1" class="xref">8.1</a>.  <a href="#name-normative-references" class="xref">Normative References</a><a href="#section-toc.1-1.8.2.1.1" class="pilcrow">¶</a></p>
 </li>
-<ul><li>8.1.   <a href="#rfc.references.1">Normative References</a>
+              <li class="toc ulEmpty compact" id="section-toc.1-1.8.2.2">
+                <p id="section-toc.1-1.8.2.2.1"><a href="#section-8.2" class="xref">8.2</a>.  <a href="#name-informative-references" class="xref">Informative References</a><a href="#section-toc.1-1.8.2.2.1" class="pilcrow">¶</a></p>
 </li>
-<li>8.2.   <a href="#rfc.references.2">Informative References</a>
+            </ul>
 </li>
-</ul><li><a href="#rfc.authors">Authors' Addresses</a>
+          <li class="toc ulEmpty compact" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#section-appendix.a" class="xref"></a><a href="#name-authors-addresses" class="xref">Authors' Addresses</a><a href="#section-toc.1-1.9.1" class="pilcrow">¶</a></p>
 </li>
-
-
-  </ul>
-
-  <h1 id="rfc.section.1">
-<a href="#rfc.section.1">1.</a> <a href="#introduction" id="introduction">Introduction</a>
-</h1>
-<p id="rfc.section.1.p.1">There is a need for a standard mechanism to expose which YANG modules, datastores and datastore schemas are in use by a constrained network management server. This document defines the YANG module &#8216;ietf-constrained-yang-library&#8217; that provides this information.</p>
-<p id="rfc.section.1.p.2">YANG module &#8216;ietf-constrained-yang-library&#8217; shares the same data model and objectives as &#8216;ietf-yang-library&#8217;, only datatypes and mandatory requirements have been updated to minimize its size to allow its implementation by Constrained Nodes and/or Constrained Networks as defined by <a href="#RFC7228" class="xref">[RFC7228]</a>. To review the list of objectives and the proposed data model, please refer to <a href="#RFC8525" class="xref">[RFC8525]</a> section 2 and 3.</p>
-<h1 id="rfc.section.2">
-<a href="#rfc.section.2">2.</a> <a href="#terminology-and-notation" id="terminology-and-notation">Terminology and Notation</a>
-</h1>
-<p id="rfc.section.2.p.1">The key words &#8220;MUST&#8221;, &#8220;MUST NOT&#8221;, &#8220;REQUIRED&#8221;, &#8220;SHALL&#8221;, &#8220;SHALL NOT&#8221;, &#8220;SHOULD&#8221;, &#8220;SHOULD NOT&#8221;, &#8220;RECOMMENDED&#8221;, &#8220;NOT RECOMMENDED&#8221;, &#8220;MAY&#8221;, and &#8220;OPTIONAL&#8221; in this document are to be interpreted as described in BCP 14 <a href="#RFC2119" class="xref">[RFC2119]</a> <a href="#RFC8174" class="xref">[RFC8174]</a> when, and only when, they appear in all capitals, as shown here.</p>
-<p id="rfc.section.2.p.2">The following terms are defined in <a href="#RFC7950" class="xref">[RFC7950]</a>: client, deviation, feature, module, submodule, and server.</p>
-<p id="rfc.section.2.p.3">The following term is defined in <a href="#I-D.ietf-core-sid" class="xref">[I-D.ietf-core-sid]</a>: YANG Schema Item iDentifier (SID).</p>
-<p id="rfc.section.2.p.4">The following terms are defined in <a href="#RFC8525" class="xref">[RFC8525]</a>: YANG library and YANG library checksum.</p>
-<h1 id="rfc.section.3">
-<a href="#rfc.section.3">3.</a> <a href="#overview" id="overview">Overview</a>
-</h1>
-<p id="rfc.section.3.p.1">The conceptual model of the YANG library is depicted in <a href="#model" class="xref">Figure 1</a>.</p>
-<div id="rfc.figure.1"></div>
-<div id="model"></div>
+        </ul>
+</nav>
+</section>
+</div>
+<div id="introduction">
+<section id="section-1">
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<p id="section-1-1">There is a need for a standard mechanism to expose which YANG modules, datastores and datastore schemas are in use by a constrained network management server. This document defines the YANG module 'ietf-constrained-yang-library' that provides this information.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">YANG module 'ietf-constrained-yang-library' shares the same data model and objectives as 'ietf-yang-library', only datatypes and mandatory requirements have been updated to minimize its size to allow its implementation by Constrained Nodes and/or Constrained Networks as defined by <span>[<a href="#RFC7228" class="xref">RFC7228</a>]</span>. To review the list of objectives and the proposed data model, please refer to <span>[<a href="#RFC8525" class="xref">RFC8525</a>]</span> section 2 and 3.<a href="#section-1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="terminology-and-notation">
+<section id="section-2">
+      <h2 id="name-terminology-and-notation">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-terminology-and-notation" class="section-name selfRef">Terminology and Notation</a>
+      </h2>
+<p id="section-2-1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14 <span>[<a href="#RFC2119" class="xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="xref">RFC8174</a>]</span> when, and only when, they appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<p id="section-2-2">The following terms are defined in <span>[<a href="#RFC7950" class="xref">RFC7950</a>]</span>: client, deviation, feature, module, submodule, and server.<a href="#section-2-2" class="pilcrow">¶</a></p>
+<p id="section-2-3">The following term is defined in <span>[<a href="#I-D.ietf-core-sid" class="xref">I-D.ietf-core-sid</a>]</span>: YANG Schema Item iDentifier (SID).<a href="#section-2-3" class="pilcrow">¶</a></p>
+<p id="section-2-4">The following terms are defined in <span>[<a href="#RFC8525" class="xref">RFC8525</a>]</span>: YANG library and YANG library checksum.<a href="#section-2-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="overview">
+<section id="section-3">
+      <h2 id="name-overview">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-overview" class="section-name selfRef">Overview</a>
+      </h2>
+<p id="section-3-1">The conceptual model of the YANG library is depicted in <a href="#model" class="xref">Figure 1</a>.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<span id="name-conceptual-model-of-the-yan"></span><div id="model">
+<figure id="figure-1">
+        <div class="artwork art-text alignLeft" id="section-3-2.1">
 <pre>
 +-----------+
 | datastore |
@@ -409,24 +488,34 @@ li, p {
 |  schema   |-----------&gt;|  set   |---------------&gt;| submodules |
 +-----------+            +--------+                +------------+
 </pre>
-<p class="figure">Figure 1: Conceptual model of the YANG library</p>
-<p id="rfc.section.3.p.2">It&#8217;s expected that most constrained network management servers have one datastore (e.g. a unified datastore). However, some servers may have multiples datastore as described by NMDA <a href="#RFC8342" class="xref">[RFC8342]</a>. The YANG library data model supports both cases.</p>
-<p id="rfc.section.3.p.3">In this model, every datastore has an associated datastore schema, which is the union of module sets, which is a collection of modules. Multiple datastores may refer to the same datastore schema and individual datastore schemas may share module sets.</p>
-<p id="rfc.section.3.p.4">For each module, the YANG library provides:</p>
-<p></p>
-
-<ul>
-<li>the YANG module identifier (i.e. SID)</li>
-<li>its revision</li>
-<li>its list of submodules</li>
-<li>its list of imported modules</li>
-<li>its set of features and deviations</li>
-</ul>
-<p id="rfc.section.3.p.6">YANG module namespace and location are also supported, but their implementation is not recommended for constrained servers.</p>
-<h1 id="rfc.section.3.1">
-<a href="#rfc.section.3.1">3.1.</a> <a href="#tree-diagram" id="tree-diagram">Tree diagram</a>
-</h1>
-<p id="rfc.section.3.1.p.1">The tree diagram of YANG module ietf-constrained-yang-library is provided below. This graphical representation of a YANG module is defined in <a href="#RFC8340" class="xref">[RFC8340]</a>.</p>
+</div>
+<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
+<a href="#name-conceptual-model-of-the-yan" class="selfRef">Conceptual model of the YANG library</a>
+        </figcaption></figure>
+</div>
+<p id="section-3-3">It's expected that most constrained network management servers have one datastore (e.g. a unified datastore). However, some servers may have multiples datastore as described by NMDA <span>[<a href="#RFC8342" class="xref">RFC8342</a>]</span>. The YANG library data model supports both cases.<a href="#section-3-3" class="pilcrow">¶</a></p>
+<p id="section-3-4">In this model, every datastore has an associated datastore schema, which is the union of module sets, which is a collection of modules. Multiple datastores may refer to the same datastore schema and individual datastore schemas may share module sets.<a href="#section-3-4" class="pilcrow">¶</a></p>
+<p id="section-3-5">For each module, the YANG library provides:<a href="#section-3-5" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3-6.1">the YANG module identifier (i.e., SID)<a href="#section-3-6.1" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-3-6.2">its revision<a href="#section-3-6.2" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-3-6.3">its list of submodules<a href="#section-3-6.3" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-3-6.4">its list of imported modules<a href="#section-3-6.4" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-3-6.5">its set of features and deviations<a href="#section-3-6.5" class="pilcrow">¶</a>
+</li>
+      </ul>
+<p id="section-3-7">YANG module namespace and location are also supported, but their implementation is not recommended for constrained servers.<a href="#section-3-7" class="pilcrow">¶</a></p>
+<div id="tree-diagram">
+<section id="section-3.1">
+        <h3 id="name-tree-diagram">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-tree-diagram" class="section-name selfRef">Tree diagram</a>
+        </h3>
+<p id="section-3.1-1">The tree diagram of YANG module ietf-constrained-yang-library is provided below. This graphical representation of a YANG module is defined in <span>[<a href="#RFC8340" class="xref">RFC8340</a>]</span>.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<div class="artwork art-text alignLeft" id="section-3.1-2">
 <pre>
 module: ietf-constrained-yang-library
   +--ro yang-library
@@ -463,27 +552,43 @@ module: ietf-constrained-yang-library
   notifications:
     +---n yang-library-update
        +--ro checksum    -&gt; /yang-library/checksum
-</pre>
-<h1 id="rfc.section.3.2">
-<a href="#rfc.section.3.2">3.2.</a> <a href="#major-differences-between-ietf-constrained-yang-library-and-ietf-yang-library" id="major-differences-between-ietf-constrained-yang-library-and-ietf-yang-library">Major differences between ietf-constrained-yang-library and ietf-yang-library</a>
-</h1>
-<p id="rfc.section.3.2.p.1">The changes between the reference data model &#8216;ietf-yang-library&#8217; and its constrained version &#8216;ietf-constrained-yang-library&#8217; are listed below:</p>
-<p></p>
+</pre><a href="#section-3.1-2" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="major-differences-between-ietf-constrained-yang-library-and-ietf-yang-library">
+<section id="section-3.2">
+        <h3 id="name-major-differences-between-i">
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-major-differences-between-i" class="section-name selfRef">Major differences between ietf-constrained-yang-library and ietf-yang-library</a>
+        </h3>
+<p id="section-3.2-1">The changes between the reference data model 'ietf-yang-library' and its constrained version 'ietf-constrained-yang-library' are listed below:<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.2-2.1">module-set 'name' and schema 'name' are implemented using 8 bits unsigned integers and renamed 'index'.<a href="#section-3.2-2.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.2-2.2">module 'name', submodule 'name' and datastore 'name' are implemented using a SID (i.e. an unsigned integer) and renamed 'identifier'.<a href="#section-3.2-2.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.2-2.3">'feature' and 'deviation' are implemented using a SID (i.e. an unsigned integer).<a href="#section-3.2-2.3" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.2-2.4">'revision' fields are implemented using a 4 bytes binary string.<a href="#section-3.2-2.4" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.2-2.5">the mandatory requirement of the 'namespace' fields is removed, and implementation is not recommended. SIDs used by constrained devices and protocols don't require namespaces.<a href="#section-3.2-2.5" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.2-2.6">the implementation of the 'location' fields are not recommended, the use of the module SID as the handle to retrieve the associated YANG module is proposed instead.<a href="#section-3.2-2.6" class="pilcrow">¶</a>
+</li>
+        </ul>
+</section>
+</div>
+</section>
+</div>
+<div id="yang-module-ietf-constrained-yang-library">
+<section id="section-4">
+      <h2 id="name-yang-module-ietf-constraine">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-yang-module-ietf-constraine" class="section-name selfRef">YANG Module "ietf-constrained-yang-library"</a>
+      </h2>
+<p id="section-4-1">RFC Ed.: update the date below with the date of RFC publication and remove this note.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<div id="section-4-2">
+<pre class="sourcecode">&lt;CODE BEGINS&gt; file "ietf-constrained-yang-library@2019-03-28.yang"
 
-<ul>
-<li>module-set &#8216;name&#8217; and schema &#8216;name&#8217; are implemented using 8 bits unsigned integers and renamed &#8216;index&#8217;.</li>
-<li>module &#8216;name&#8217;, submodule &#8216;name&#8217; and datastore &#8216;name&#8217; are implemented using a SID (i.e. an unsigned integer) and renamed &#8216;identifier&#8217;.</li>
-<li>&#8216;feature&#8217; and &#8216;deviation&#8217; are implemented using a SID (i.e. an unsigned integer).</li>
-<li>&#8216;revision&#8217; fields are implemented using a 4 bytes binary string.</li>
-<li>the mandatory requirement of the &#8216;namespace&#8217; fields is removed, and implementation is not recommended. SIDs used by constrained devices and protocols don&#8217;t require namespaces.</li>
-<li>the implementation of the &#8216;location&#8217; fields are not recommended, the use of the module SID as the handle to retrieve the associated YANG module is proposed instead.</li>
-</ul>
-<h1 id="rfc.section.4">
-<a href="#rfc.section.4">4.</a> <a href="#yang-module-ietf-constrained-yang-library" id="yang-module-ietf-constrained-yang-library">YANG Module &#8220;ietf-constrained-yang-library&#8221;</a>
-</h1>
-<p id="rfc.section.4.p.1">RFC Ed.: update the date below with the date of RFC publication and remove this note.</p>
-<pre>
-&lt;CODE BEGINS&gt; file "ietf-constrained-yang-library@2019-03-28.yang"
 module ietf-constrained-yang-library {
   yang-version 1.1;
   namespace
@@ -491,7 +596,7 @@ module ietf-constrained-yang-library {
   prefix "yanglib";
 
   // RFC Ed.: update ietf-core-sid reference.
-    
+
   import ietf-sid-file {
     prefix sid;
     reference "RFC YYYY: YANG Schema Item iDentifier (SID)";
@@ -506,13 +611,13 @@ module ietf-constrained-yang-library {
     reference
       "RFC 8342: Network Management Datastore Architecture (NMDA).";
   }
-  
+
   organization
     "IETF CoRE Working Group";
 
   contact
     "WG Web:   &lt;http://datatracker.ietf.org/wg/core/&gt;
-    
+
      WG List:  &lt;mailto:core@ietf.org&gt;
 
      Editor:   Michel Veillette
@@ -522,22 +627,29 @@ module ietf-constrained-yang-library {
                &lt;mailto:ivaylo@ackl.io&gt;";
 
   description
-    "This module provides information about the YANG modules,
-     datastores, and datastore schemas implemented by a
-     constrained network management server.
-
-     Copyright (c) 2018 IETF Trust and the persons identified as
+    "Copyright (c) 2021 IETF Trust and the persons identified as
      authors of the code.  All rights reserved.
 
      Redistribution and use in source and binary forms, with or
-     without modification, is permitted pursuant to, and subject
-     to the license terms contained in, the Simplified BSD License
-     set forth in Section 4.c of the IETF Trust's Legal Provisions
+     without modification, is permitted pursuant to, and subject to
+     the license terms contained in, the Simplified BSD License set
+     forth in Section 4.c of the IETF Trust's Legal Provisions
      Relating to IETF Documents
-     (http://trustee.ietf.org/license-info).
+     (https://trustee.ietf.org/license-info).
 
-     This version of this YANG module is part of RFC XXXX; see
-     the RFC itself for full legal notices.";
+     This version of this YANG module is part of RFC XXXX
+     (https://www.rfc-editor.org/info/rfcXXXX); see the RFC itself
+     for full legal notices.
+
+     The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
+     NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
+     'MAY', and 'OPTIONAL' in this document are to be interpreted as
+     described in BCP 14 (RFC 2119) (RFC 8174) when, and only when,
+     they appear in all capitals, as shown here.
+
+     This module provides information about the YANG modules,
+     datastores, and datastore schemas implemented by a
+     constrained network management server.";
 
   // RFC Editor: Please replace XXXX with RFC number and remove this note
 
@@ -548,7 +660,7 @@ module ietf-constrained-yang-library {
       "RFC XXXX: Constrained YANG Module Library";
     // RFC Editor: Please replace XXXX with RFC number and remove this note
   }
-  
+
   /*
    * Typedefs
    */
@@ -800,8 +912,8 @@ module ietf-constrained-yang-library {
         mandatory true;
         description
           "A reference to the schema supported by this datastore.
-           All non import-only modules of the schema are 
-           implementedwith their associated features and
+           All non import-only modules of the schema are
+           implemented with their associated features and
            deviations.";
       }
     }
@@ -845,196 +957,231 @@ module ietf-constrained-yang-library {
       }
       mandatory true;
       description
-        "Contains the YANG library checksum or digest for the 
+        "Contains the YANG library checksum or digest for the
          updated YANG library at the time the notification is
          generated.";
     }
   }
 }
-&lt;CODE ENDS&gt;
-</pre>
-<h1 id="rfc.section.5">
-<a href="#rfc.section.5">5.</a> <a href="#iana-considerations" id="iana-considerations">IANA Considerations</a>
-</h1>
-<h1 id="rfc.section.5.1">
-<a href="#rfc.section.5.1">5.1.</a> <a href="#yang-module-registration" id="yang-module-registration">YANG Module Registration</a>
-</h1>
-<p id="rfc.section.5.1.p.1">This document registers one YANG module in the YANG Module Names registry <a href="#RFC7950" class="xref">[RFC7950]</a>.</p>
-<p id="rfc.section.5.1.p.2">name:         ietf-constrained-yang-library</p>
-<p id="rfc.section.5.1.p.3">namespace:    urn:ietf:params:xml:ns:yang:ietf-constrained-yang-library</p>
-<p id="rfc.section.5.1.p.4">prefix:       lib</p>
-<p id="rfc.section.5.1.p.5">reference:    RFC XXXX</p>
-<p id="rfc.section.5.1.p.6">// RFC Ed.: replace XXXX with RFC number and remove this note</p>
-<h1 id="rfc.section.5.2">
-<a href="#rfc.section.5.2">5.2.</a> <a href="#yang-namespace-registration" id="yang-namespace-registration">YANG Namespace Registration</a>
-</h1>
-<p id="rfc.section.5.2.p.1">This document registers the following XML namespace URN in the &#8220;IETF XML Registry&#8221;, following the format defined in <a href="#RFC3688" class="xref">[RFC3688]</a>:</p>
-<p id="rfc.section.5.2.p.2">URI: please assign urn:ietf:params:xml:ns:yang:ietf-constrained-yang-library</p>
-<p id="rfc.section.5.2.p.3">Registrant Contact: The IESG.</p>
-<p id="rfc.section.5.2.p.4">XML: N/A, the requested URI is an XML namespace.</p>
-<p id="rfc.section.5.2.p.5">Reference:    RFC XXXX</p>
-<p id="rfc.section.5.2.p.6">// RFC Ed.: replace XXXX with RFC number and remove this note</p>
-<h1 id="rfc.section.6">
-<a href="#rfc.section.6">6.</a> <a href="#security-considerations" id="security-considerations">Security Considerations</a>
-</h1>
-<p id="rfc.section.6.p.1">The YANG module specified in this document defines a schema for data that is designed to be accessed via network management protocols such as NETCONF <a href="#RFC6241" class="xref">[RFC6241]</a>, RESTCONF <a href="#RFC8040" class="xref">[RFC8040]</a> or CORECONF <a href="#I-D.ietf-core-comi" class="xref">[I-D.ietf-core-comi]</a>. The lowest NETCONF layer is the secure transport layer, and the mandatory-to-implement secure transport is Secure Shell (SSH) <a href="#RFC6242" class="xref">[RFC6242]</a>. The lowest RESTCONF layer is HTTPS, and the mandatory-to-implement secure transport is TLS <a href="#RFC8446" class="xref">[RFC8446]</a>. The lowest CORECONF layer is CoAP <a href="#RFC7252" class="xref">[RFC7252]</a> and the mandatory-to-implement security transport is any one of DTLS <a href="#RFC6347" class="xref">[RFC6347]</a> and OSCORE <a href="#RFC8613" class="xref">[RFC8613]</a>.</p>
-<p id="rfc.section.6.p.2">The Network Configuration Access Control Model (NACM) <a href="#RFC8341" class="xref">[RFC8341]</a> provides the means to restrict access for particular NETCONF or RESTCONF users to a preconfigured subset of all available NETCONF or RESTCONF protocol operations and content.</p>
-<p id="rfc.section.6.p.3">Some of the readable data nodes in this YANG module may be considered sensitive or vulnerable in some network environments.  It is thus important to control read access (e.g., via get, get-config, or notification) to these data nodes.</p>
-<p id="rfc.section.6.p.4">Specifically, the &#8216;module&#8217; list may help an attacker to identify the server capabilities and server implementations with known bugs. Server vulnerabilities may be specific to particular modules, module revisions, module features, or even module deviations.  This information is included in each module entry.  For example, if a particular operation on a particular data node is known to cause a server to crash or significantly degrade device performance, then the module list information will help an attacker to identify server implementations with such a defect, in order to launch a denial of service attack on these devices.</p>
-<h1 id="rfc.section.7">
-<a href="#rfc.section.7">7.</a> <a href="#acknowledgments" id="acknowledgments">Acknowledgments</a>
-</h1>
-<p id="rfc.section.7.p.1">The YANG module defined by this memo has been derived from an already existing YANG module, ietf-yang-library <a href="#RFC8525" class="xref">[RFC8525]</a>, we will like to thank the authors of this YANG module. A special thank also to Andy Bierman for his initial recommendations for the creation of this YANG module. The authors would also like to thank Tom Petch for his help during the development of this document and his useful comments during the review process.</p>
-<h1 id="rfc.references">
-<a href="#rfc.references">8.</a> References</h1>
-<h1 id="rfc.references.1">
-<a href="#rfc.references.1">8.1.</a> Normative References</h1>
-<table><tbody>
-<tr>
-<td class="reference"><b id="I-D.ietf-core-comi">[I-D.ietf-core-comi]</b></td>
-<td class="top">
-<a>Veillette, M.</a>, <a>Stok, P.</a>, <a>Pelov, A.</a>, <a>Bierman, A.</a> and <a>I. Petrov</a>, "<a href="https://tools.ietf.org/html/draft-ietf-core-comi-10">CoAP Management Interface (CORECONF)</a>", Internet-Draft draft-ietf-core-comi-10, July 2020.</td>
-</tr>
-<tr>
-<td class="reference"><b id="I-D.ietf-core-sid">[I-D.ietf-core-sid]</b></td>
-<td class="top">
-<a>Veillette, M.</a>, <a>Pelov, A.</a> and <a>I. Petrov</a>, "<a href="https://tools.ietf.org/html/draft-ietf-core-sid-14">YANG Schema Item iDentifier (YANG SID)</a>", Internet-Draft draft-ietf-core-sid-14, July 2020.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC2119">[RFC2119]</b></td>
-<td class="top">
-<a>Bradner, S.</a>, "<a href="https://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>", BCP 14, RFC 2119, DOI 10.17487/RFC2119, March 1997.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC3688">[RFC3688]</b></td>
-<td class="top">
-<a>Mealling, M.</a>, "<a href="https://tools.ietf.org/html/rfc3688">The IETF XML Registry</a>", BCP 81, RFC 3688, DOI 10.17487/RFC3688, January 2004.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC6241">[RFC6241]</b></td>
-<td class="top">
-<a>Enns, R.</a>, <a>Bjorklund, M.</a>, <a>Schoenwaelder, J.</a> and <a>A. Bierman</a>, "<a href="https://tools.ietf.org/html/rfc6241">Network Configuration Protocol (NETCONF)</a>", RFC 6241, DOI 10.17487/RFC6241, June 2011.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC6242">[RFC6242]</b></td>
-<td class="top">
-<a>Wasserman, M.</a>, "<a href="https://tools.ietf.org/html/rfc6242">Using the NETCONF Protocol over Secure Shell (SSH)</a>", RFC 6242, DOI 10.17487/RFC6242, June 2011.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC6347">[RFC6347]</b></td>
-<td class="top">
-<a>Rescorla, E.</a> and <a>N. Modadugu</a>, "<a href="https://tools.ietf.org/html/rfc6347">Datagram Transport Layer Security Version 1.2</a>", RFC 6347, DOI 10.17487/RFC6347, January 2012.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC6991">[RFC6991]</b></td>
-<td class="top">
-<a>Schoenwaelder, J.</a>, "<a href="https://tools.ietf.org/html/rfc6991">Common YANG Data Types</a>", RFC 6991, DOI 10.17487/RFC6991, July 2013.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC7252">[RFC7252]</b></td>
-<td class="top">
-<a>Shelby, Z.</a>, <a>Hartke, K.</a> and <a>C. Bormann</a>, "<a href="https://tools.ietf.org/html/rfc7252">The Constrained Application Protocol (CoAP)</a>", RFC 7252, DOI 10.17487/RFC7252, June 2014.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC7950">[RFC7950]</b></td>
-<td class="top">
-<a>Bjorklund, M.</a>, "<a href="https://tools.ietf.org/html/rfc7950">The YANG 1.1 Data Modeling Language</a>", RFC 7950, DOI 10.17487/RFC7950, August 2016.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC8040">[RFC8040]</b></td>
-<td class="top">
-<a>Bierman, A.</a>, <a>Bjorklund, M.</a> and <a>K. Watsen</a>, "<a href="https://tools.ietf.org/html/rfc8040">RESTCONF Protocol</a>", RFC 8040, DOI 10.17487/RFC8040, January 2017.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC8174">[RFC8174]</b></td>
-<td class="top">
-<a>Leiba, B.</a>, "<a href="https://tools.ietf.org/html/rfc8174">Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words</a>", BCP 14, RFC 8174, DOI 10.17487/RFC8174, May 2017.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC8340">[RFC8340]</b></td>
-<td class="top">
-<a>Bjorklund, M.</a> and <a>L. Berger</a>, "<a href="https://tools.ietf.org/html/rfc8340">YANG Tree Diagrams</a>", BCP 215, RFC 8340, DOI 10.17487/RFC8340, March 2018.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC8341">[RFC8341]</b></td>
-<td class="top">
-<a>Bierman, A.</a> and <a>M. Bjorklund</a>, "<a href="https://tools.ietf.org/html/rfc8341">Network Configuration Access Control Model</a>", STD 91, RFC 8341, DOI 10.17487/RFC8341, March 2018.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC8342">[RFC8342]</b></td>
-<td class="top">
-<a>Bjorklund, M.</a>, <a>Schoenwaelder, J.</a>, <a>Shafer, P.</a>, <a>Watsen, K.</a> and <a>R. Wilton</a>, "<a href="https://tools.ietf.org/html/rfc8342">Network Management Datastore Architecture (NMDA)</a>", RFC 8342, DOI 10.17487/RFC8342, March 2018.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC8446">[RFC8446]</b></td>
-<td class="top">
-<a>Rescorla, E.</a>, "<a href="https://tools.ietf.org/html/rfc8446">The Transport Layer Security (TLS) Protocol Version 1.3</a>", RFC 8446, DOI 10.17487/RFC8446, August 2018.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC8525">[RFC8525]</b></td>
-<td class="top">
-<a>Bierman, A.</a>, <a>Bjorklund, M.</a>, <a>Schoenwaelder, J.</a>, <a>Watsen, K.</a> and <a>R. Wilton</a>, "<a href="https://tools.ietf.org/html/rfc8525">YANG Library</a>", RFC 8525, DOI 10.17487/RFC8525, March 2019.</td>
-</tr>
-<tr>
-<td class="reference"><b id="RFC8613">[RFC8613]</b></td>
-<td class="top">
-<a>Selander, G.</a>, <a>Mattsson, J.</a>, <a>Palombini, F.</a> and <a>L. Seitz</a>, "<a href="https://tools.ietf.org/html/rfc8613">Object Security for Constrained RESTful Environments (OSCORE)</a>", RFC 8613, DOI 10.17487/RFC8613, July 2019.</td>
-</tr>
-</tbody></table>
-<h1 id="rfc.references.2">
-<a href="#rfc.references.2">8.2.</a> Informative References</h1>
-<table><tbody><tr>
-<td class="reference"><b id="RFC7228">[RFC7228]</b></td>
-<td class="top">
-<a>Bormann, C.</a>, <a>Ersue, M.</a> and <a>A. Keranen</a>, "<a href="https://tools.ietf.org/html/rfc7228">Terminology for Constrained-Node Networks</a>", RFC 7228, DOI 10.17487/RFC7228, May 2014.</td>
-</tr></tbody></table>
-<h1 id="rfc.authors"><a href="#rfc.authors">Authors' Addresses</a></h1>
-<div class="avoidbreak">
-  <address class="vcard">
-	<span class="vcardline">
-	  <span class="fn">Michel Veillette</span> (editor)
-	  <span class="n hidden">
-		<span class="family-name">Veillette</span>
-	  </span>
-	</span>
-	<span class="org vcardline">Trilliant Networks Inc.</span>
-	<span class="adr">
-	  <span class="vcardline">610 Rue du Luxembourg</span>
 
-	  <span class="vcardline">
-		<span class="locality">Granby</span>,  
-		<span class="region">Quebec</span> 
-		<span class="code">J2J 2V2</span>
-	  </span>
-	  <span class="country-name vcardline">Canada</span>
-	</span>
-	<span class="vcardline">EMail: <a href="mailto:michel.veillette@trilliantinc.com">michel.veillette@trilliantinc.com</a></span>
-
-  </address>
-</div><div class="avoidbreak">
-  <address class="vcard">
-	<span class="vcardline">
-	  <span class="fn">Ivaylo Petrov</span> (editor)
-	  <span class="n hidden">
-		<span class="family-name">Petrov</span>
-	  </span>
-	</span>
-	<span class="org vcardline">Acklio</span>
-	<span class="adr">
-	  <span class="vcardline">1137A avenue des Champs Blancs</span>
-
-	  <span class="vcardline">
-		<span class="locality">Cesson-Sevigne</span>,  
-		<span class="region">Bretagne</span> 
-		<span class="code">35510</span>
-	  </span>
-	  <span class="country-name vcardline">France</span>
-	</span>
-	<span class="vcardline">EMail: <a href="mailto:ivaylo@ackl.io">ivaylo@ackl.io</a></span>
-
-  </address>
+&lt;CODE ENDS&gt;</pre><a href="#section-4-2" class="pilcrow">¶</a>
 </div>
-
+</section>
+</div>
+<div id="iana-considerations">
+<section id="section-5">
+      <h2 id="name-iana-considerations">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<div id="yang-module-registration">
+<section id="section-5.1">
+        <h3 id="name-yang-module-registration">
+<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-yang-module-registration" class="section-name selfRef">YANG Module Registration</a>
+        </h3>
+<p id="section-5.1-1">This document registers one YANG module in the YANG Module Names registry <span>[<a href="#RFC7950" class="xref">RFC7950</a>]</span>.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.1-2">name:         ietf-constrained-yang-library<a href="#section-5.1-2" class="pilcrow">¶</a></p>
+<p id="section-5.1-3">namespace:    urn:ietf:params:xml:ns:yang:ietf-constrained-yang-library<a href="#section-5.1-3" class="pilcrow">¶</a></p>
+<p id="section-5.1-4">prefix:       lib<a href="#section-5.1-4" class="pilcrow">¶</a></p>
+<p id="section-5.1-5">reference:    RFC XXXX<a href="#section-5.1-5" class="pilcrow">¶</a></p>
+<p id="section-5.1-6">// RFC Ed.: replace XXXX with RFC number and remove this note<a href="#section-5.1-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="yang-namespace-registration">
+<section id="section-5.2">
+        <h3 id="name-yang-namespace-registration">
+<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-yang-namespace-registration" class="section-name selfRef">YANG Namespace Registration</a>
+        </h3>
+<p id="section-5.2-1">This document registers the following XML namespace URN in the "IETF XML
+Registry", following the format defined in <span>[<a href="#RFC3688" class="xref">RFC3688</a>]</span>:<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.2-2">URI: please assign urn:ietf:params:xml:ns:yang:ietf-constrained-yang-library<a href="#section-5.2-2" class="pilcrow">¶</a></p>
+<p id="section-5.2-3">Registrant Contact: The IESG.<a href="#section-5.2-3" class="pilcrow">¶</a></p>
+<p id="section-5.2-4">XML: N/A, the requested URI is an XML namespace.<a href="#section-5.2-4" class="pilcrow">¶</a></p>
+<p id="section-5.2-5">Reference:    RFC XXXX<a href="#section-5.2-5" class="pilcrow">¶</a></p>
+<p id="section-5.2-6">// RFC Ed.: replace XXXX with RFC number and remove this note<a href="#section-5.2-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="security-considerations">
+<section id="section-6">
+      <h2 id="name-security-considerations">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-6-1">The YANG module specified in this document defines a schema for data that is
+designed to be accessed via network management protocols such as NETCONF
+<span>[<a href="#RFC6241" class="xref">RFC6241</a>]</span>, RESTCONF <span>[<a href="#RFC8040" class="xref">RFC8040</a>]</span> or CORECONF <span>[<a href="#I-D.ietf-core-comi" class="xref">I-D.ietf-core-comi</a>]</span>. The lowest NETCONF
+layer is the secure transport layer, and the mandatory-to-implement secure
+transport is Secure Shell (SSH) <span>[<a href="#RFC6242" class="xref">RFC6242</a>]</span>. The lowest RESTCONF layer is HTTPS,
+and the mandatory-to-implement secure transport is TLS <span>[<a href="#RFC8446" class="xref">RFC8446</a>]</span>. The lowest
+CORECONF layer is CoAP <span>[<a href="#RFC7252" class="xref">RFC7252</a>]</span> and the mandatory-to-implement security
+transport is any one of DTLS <span>[<a href="#RFC6347" class="xref">RFC6347</a>]</span> and OSCORE <span>[<a href="#RFC8613" class="xref">RFC8613</a>]</span>.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<p id="section-6-2">The Network Configuration Access Control Model (NACM) <span>[<a href="#RFC8341" class="xref">RFC8341</a>]</span> provides the
+means to restrict access for particular NETCONF or RESTCONF users to a
+preconfigured subset of all available NETCONF or RESTCONF protocol operations
+and content.<a href="#section-6-2" class="pilcrow">¶</a></p>
+<p id="section-6-3">Some of the readable data nodes in this YANG module may be considered sensitive
+or vulnerable in some network environments.  It is thus important to control
+read access (e.g., via get, get-config, or notification) to these data nodes.<a href="#section-6-3" class="pilcrow">¶</a></p>
+<p id="section-6-4">Specifically, the 'module' list may help an attacker to identify the server
+capabilities and server implementations with known bugs. Server vulnerabilities
+may be specific to particular modules, module revisions, module features, or
+even module deviations.  This information is included in each module entry.
+For example, if a particular operation on a particular data node is known to
+cause a server to crash or significantly degrade device performance, then the
+module list information will help an attacker to identify server
+implementations with such a defect, in order to launch a denial of service
+attack on these devices.<a href="#section-6-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="acknowledgments">
+<section id="section-7">
+      <h2 id="name-acknowledgments">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
+      </h2>
+<p id="section-7-1">The YANG module defined by this memo has been derived from an already existing
+YANG module, ietf-yang-library <span>[<a href="#RFC8525" class="xref">RFC8525</a>]</span>, we will like to thank the authors
+of this YANG module. A special thank also to Andy Bierman for his initial
+recommendations for the creation of this YANG module. The authors would also
+like to thank Tom Petch for his help during the development of this document
+and his useful comments during the review process.<a href="#section-7-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+<section id="section-8">
+      <h2 id="name-references">
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-references" class="section-name selfRef">References</a>
+      </h2>
+<section id="section-8.1">
+        <h3 id="name-normative-references">
+<a href="#section-8.1" class="section-number selfRef">8.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+        </h3>
+<dl class="references">
+<dt id="I-D.ietf-core-comi">[I-D.ietf-core-comi]</dt>
+        <dd>
+<span class="refAuthor">Veillette, M.</span><span class="refAuthor">, Stok, P.</span><span class="refAuthor">, Pelov, A.</span><span class="refAuthor">, Bierman, A.</span><span class="refAuthor">, and I. Petrov</span>, <span class="refTitle">"CoAP Management Interface (CORECONF)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-comi-10</span>, <time datetime="2020-07-04" class="refDate">4 July 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-core-comi-10.txt">http://www.ietf.org/internet-drafts/draft-ietf-core-comi-10.txt</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-core-sid">[I-D.ietf-core-sid]</dt>
+        <dd>
+<span class="refAuthor">Veillette, M.</span><span class="refAuthor">, Pelov, A.</span><span class="refAuthor">, and I. Petrov</span>, <span class="refTitle">"YANG Schema Item iDentifier (YANG SID)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-sid-14</span>, <time datetime="2020-07-04" class="refDate">4 July 2020</time>, <span>&lt;<a href="http://www.ietf.org/internet-drafts/draft-ietf-core-sid-14.txt">http://www.ietf.org/internet-drafts/draft-ietf-core-sid-14.txt</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC2119">[RFC2119]</dt>
+        <dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC3688">[RFC3688]</dt>
+        <dd>
+<span class="refAuthor">Mealling, M.</span>, <span class="refTitle">"The IETF XML Registry"</span>, <span class="seriesInfo">BCP 81</span>, <span class="seriesInfo">RFC 3688</span>, <span class="seriesInfo">DOI 10.17487/RFC3688</span>, <time datetime="2004-01" class="refDate">January 2004</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc3688">https://www.rfc-editor.org/info/rfc3688</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6241">[RFC6241]</dt>
+        <dd>
+<span class="refAuthor">Enns, R., Ed.</span><span class="refAuthor">, Bjorklund, M., Ed.</span><span class="refAuthor">, Schoenwaelder, J., Ed.</span><span class="refAuthor">, and A. Bierman, Ed.</span>, <span class="refTitle">"Network Configuration Protocol (NETCONF)"</span>, <span class="seriesInfo">RFC 6241</span>, <span class="seriesInfo">DOI 10.17487/RFC6241</span>, <time datetime="2011-06" class="refDate">June 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6241">https://www.rfc-editor.org/info/rfc6241</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6242">[RFC6242]</dt>
+        <dd>
+<span class="refAuthor">Wasserman, M.</span>, <span class="refTitle">"Using the NETCONF Protocol over Secure Shell (SSH)"</span>, <span class="seriesInfo">RFC 6242</span>, <span class="seriesInfo">DOI 10.17487/RFC6242</span>, <time datetime="2011-06" class="refDate">June 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6242">https://www.rfc-editor.org/info/rfc6242</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6347">[RFC6347]</dt>
+        <dd>
+<span class="refAuthor">Rescorla, E.</span><span class="refAuthor"> and N. Modadugu</span>, <span class="refTitle">"Datagram Transport Layer Security Version 1.2"</span>, <span class="seriesInfo">RFC 6347</span>, <span class="seriesInfo">DOI 10.17487/RFC6347</span>, <time datetime="2012-01" class="refDate">January 2012</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6347">https://www.rfc-editor.org/info/rfc6347</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6991">[RFC6991]</dt>
+        <dd>
+<span class="refAuthor">Schoenwaelder, J., Ed.</span>, <span class="refTitle">"Common YANG Data Types"</span>, <span class="seriesInfo">RFC 6991</span>, <span class="seriesInfo">DOI 10.17487/RFC6991</span>, <time datetime="2013-07" class="refDate">July 2013</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6991">https://www.rfc-editor.org/info/rfc6991</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7252">[RFC7252]</dt>
+        <dd>
+<span class="refAuthor">Shelby, Z.</span><span class="refAuthor">, Hartke, K.</span><span class="refAuthor">, and C. Bormann</span>, <span class="refTitle">"The Constrained Application Protocol (CoAP)"</span>, <span class="seriesInfo">RFC 7252</span>, <span class="seriesInfo">DOI 10.17487/RFC7252</span>, <time datetime="2014-06" class="refDate">June 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7252">https://www.rfc-editor.org/info/rfc7252</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7950">[RFC7950]</dt>
+        <dd>
+<span class="refAuthor">Bjorklund, M., Ed.</span>, <span class="refTitle">"The YANG 1.1 Data Modeling Language"</span>, <span class="seriesInfo">RFC 7950</span>, <span class="seriesInfo">DOI 10.17487/RFC7950</span>, <time datetime="2016-08" class="refDate">August 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7950">https://www.rfc-editor.org/info/rfc7950</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8040">[RFC8040]</dt>
+        <dd>
+<span class="refAuthor">Bierman, A.</span><span class="refAuthor">, Bjorklund, M.</span><span class="refAuthor">, and K. Watsen</span>, <span class="refTitle">"RESTCONF Protocol"</span>, <span class="seriesInfo">RFC 8040</span>, <span class="seriesInfo">DOI 10.17487/RFC8040</span>, <time datetime="2017-01" class="refDate">January 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8040">https://www.rfc-editor.org/info/rfc8040</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8174">[RFC8174]</dt>
+        <dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8174">https://www.rfc-editor.org/info/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8340">[RFC8340]</dt>
+        <dd>
+<span class="refAuthor">Bjorklund, M.</span><span class="refAuthor"> and L. Berger, Ed.</span>, <span class="refTitle">"YANG Tree Diagrams"</span>, <span class="seriesInfo">BCP 215</span>, <span class="seriesInfo">RFC 8340</span>, <span class="seriesInfo">DOI 10.17487/RFC8340</span>, <time datetime="2018-03" class="refDate">March 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8340">https://www.rfc-editor.org/info/rfc8340</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8341">[RFC8341]</dt>
+        <dd>
+<span class="refAuthor">Bierman, A.</span><span class="refAuthor"> and M. Bjorklund</span>, <span class="refTitle">"Network Configuration Access Control Model"</span>, <span class="seriesInfo">STD 91</span>, <span class="seriesInfo">RFC 8341</span>, <span class="seriesInfo">DOI 10.17487/RFC8341</span>, <time datetime="2018-03" class="refDate">March 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8341">https://www.rfc-editor.org/info/rfc8341</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8342">[RFC8342]</dt>
+        <dd>
+<span class="refAuthor">Bjorklund, M.</span><span class="refAuthor">, Schoenwaelder, J.</span><span class="refAuthor">, Shafer, P.</span><span class="refAuthor">, Watsen, K.</span><span class="refAuthor">, and R. Wilton</span>, <span class="refTitle">"Network Management Datastore Architecture (NMDA)"</span>, <span class="seriesInfo">RFC 8342</span>, <span class="seriesInfo">DOI 10.17487/RFC8342</span>, <time datetime="2018-03" class="refDate">March 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8342">https://www.rfc-editor.org/info/rfc8342</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8446">[RFC8446]</dt>
+        <dd>
+<span class="refAuthor">Rescorla, E.</span>, <span class="refTitle">"The Transport Layer Security (TLS) Protocol Version 1.3"</span>, <span class="seriesInfo">RFC 8446</span>, <span class="seriesInfo">DOI 10.17487/RFC8446</span>, <time datetime="2018-08" class="refDate">August 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8446">https://www.rfc-editor.org/info/rfc8446</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8525">[RFC8525]</dt>
+        <dd>
+<span class="refAuthor">Bierman, A.</span><span class="refAuthor">, Bjorklund, M.</span><span class="refAuthor">, Schoenwaelder, J.</span><span class="refAuthor">, Watsen, K.</span><span class="refAuthor">, and R. Wilton</span>, <span class="refTitle">"YANG Library"</span>, <span class="seriesInfo">RFC 8525</span>, <span class="seriesInfo">DOI 10.17487/RFC8525</span>, <time datetime="2019-03" class="refDate">March 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8525">https://www.rfc-editor.org/info/rfc8525</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8613">[RFC8613]</dt>
+      <dd>
+<span class="refAuthor">Selander, G.</span><span class="refAuthor">, Mattsson, J.</span><span class="refAuthor">, Palombini, F.</span><span class="refAuthor">, and L. Seitz</span>, <span class="refTitle">"Object Security for Constrained RESTful Environments (OSCORE)"</span>, <span class="seriesInfo">RFC 8613</span>, <span class="seriesInfo">DOI 10.17487/RFC8613</span>, <time datetime="2019-07" class="refDate">July 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8613">https://www.rfc-editor.org/info/rfc8613</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+<section id="section-8.2">
+        <h3 id="name-informative-references">
+<a href="#section-8.2" class="section-number selfRef">8.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+        </h3>
+<dl class="references">
+<dt id="RFC7228">[RFC7228]</dt>
+      <dd>
+<span class="refAuthor">Bormann, C.</span><span class="refAuthor">, Ersue, M.</span><span class="refAuthor">, and A. Keranen</span>, <span class="refTitle">"Terminology for Constrained-Node Networks"</span>, <span class="seriesInfo">RFC 7228</span>, <span class="seriesInfo">DOI 10.17487/RFC7228</span>, <time datetime="2014-05" class="refDate">May 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7228">https://www.rfc-editor.org/info/rfc7228</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</section>
+<div id="authors-addresses">
+<section id="section-appendix.a">
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Michel Veillette (<span class="role">editor</span>)</span></div>
+<div dir="auto" class="left"><span class="org">Trilliant Networks Inc.</span></div>
+<div dir="auto" class="left"><span class="street-address">610 Rue du Luxembourg</span></div>
+<div dir="auto" class="left">
+<span class="locality">Granby</span> <span class="region">Quebec</span> <span class="postal-code">J2J 2V2</span>
+</div>
+<div dir="auto" class="left"><span class="country-name">Canada</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:michel.veillette@trilliantinc.com" class="email">michel.veillette@trilliantinc.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Ivaylo Petrov (<span class="role">editor</span>)</span></div>
+<div dir="auto" class="left"><span class="org">Acklio</span></div>
+<div dir="auto" class="left"><span class="street-address">1137A avenue des Champs Blancs</span></div>
+<div dir="auto" class="left">
+<span class="postal-code">35510</span> <span class="locality">Cesson-Sevigne</span>
+</div>
+<div dir="auto" class="left"><span class="country-name">France</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:ivaylo@ackl.io" class="email">ivaylo@ackl.io</a>
+</div>
+</address>
+</section>
+</div>
+<script>const toc = document.getElementById("toc");
+toc.querySelector("h2").addEventListener("click", e => {
+  toc.classList.toggle("active");
+});
+toc.querySelector("nav").addEventListener("click", e => {
+  toc.classList.remove("active");
+});
+</script>
   <div class="github-fork-ribbon-wrapper"><div class="github-fork-ribbon"><a href="https://github.com/core-wg/yang-cbor">Fork me on GitHub</a></div></div>
 </body>
 </html>

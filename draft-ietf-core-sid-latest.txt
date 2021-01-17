@@ -2,16 +2,16 @@
 
 
 
-Internet Engineering Task Force                        M. Veillette, Ed.
+Internet Engineering Task Force                      M.V. Veillette, Ed.
 Internet-Draft                                   Trilliant Networks Inc.
-Intended status: Standards Track                           A. Pelov, Ed.
-Expires: January 11, 2021                                 I. Petrov, Ed.
+Intended status: Standards Track                         A.P. Pelov, Ed.
+Expires: 21 July 2021                                   I.I. Petrov, Ed.
                                                                   Acklio
-                                                           July 10, 2020
+                                                         17 January 2021
 
 
                  YANG Schema Item iDentifier (YANG SID)
-                         draft-ietf-core-sid-14
+                         draft-ietf-core-sid-15
 
 Abstract
 
@@ -37,30 +37,35 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on January 11, 2021.
+   This Internet-Draft will expire on 21 July 2021.
 
 Copyright Notice
 
-   Copyright (c) 2020 IETF Trust and the persons identified as the
+   Copyright (c) 2021 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
-   This document is subject to BCP 78 and the IETF Trust's Legal
-   Provisions Relating to IETF Documents
-   (https://trustee.ietf.org/license-info) in effect on the date of
-   publication of this document.  Please review these documents
-   carefully, as they describe your rights and restrictions with respect
-   to this document.  Code Components extracted from this document must
 
 
 
-Veillette, et al.       Expires January 11, 2021                [Page 1]
+
+
+
+
+
+
+Veillette, et al.         Expires 21 July 2021                  [Page 1]
 
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
-   include Simplified BSD License text as described in Section 4.e of
-   the Trust Legal Provisions and are provided without warranty as
-   described in the Simplified BSD License.
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Simplified BSD License text
+   as described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Simplified BSD License.
 
 Table of Contents
 
@@ -69,50 +74,47 @@ Table of Contents
    3.  ".sid" file lifecycle . . . . . . . . . . . . . . . . . . . .   5
    4.  ".sid" file format  . . . . . . . . . . . . . . . . . . . . .   6
    5.  Content-Types . . . . . . . . . . . . . . . . . . . . . . . .  12
-   6.  Security Considerations . . . . . . . . . . . . . . . . . . .  12
+   6.  Security Considerations . . . . . . . . . . . . . . . . . . .  13
    7.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  13
      7.1.  YANG Namespace Registration . . . . . . . . . . . . . . .  13
      7.2.  Register ".sid" File Format Module  . . . . . . . . . . .  13
-     7.3.  CoAP Content-Formats Registry . . . . . . . . . . . . . .  13
-     7.4.  Create new IANA Registry: "YANG SID Mega-Range" registry   14
+     7.3.  CoAP Content-Formats Registry . . . . . . . . . . . . . .  14
+     7.4.  Create new IANA Registry: "YANG SID Mega-Range"
+           registry  . . . . . . . . . . . . . . . . . . . . . . . .  14
        7.4.1.  Structure . . . . . . . . . . . . . . . . . . . . . .  14
-       7.4.2.  Allocation policy . . . . . . . . . . . . . . . . . .  14
+       7.4.2.  Allocation policy . . . . . . . . . . . . . . . . . .  15
          7.4.2.1.  First allocation  . . . . . . . . . . . . . . . .  15
          7.4.2.2.  Consecutive allocations . . . . . . . . . . . . .  15
-       7.4.3.  Initial contents of the Registry  . . . . . . . . . .  15
+       7.4.3.  Initial contents of the Registry  . . . . . . . . . .  16
      7.5.  Create a new IANA Registry: IETF YANG SID Range Registry
-           (managed by IANA) . . . . . . . . . . . . . . . . . . . .  15
+           (managed by IANA) . . . . . . . . . . . . . . . . . . . .  16
        7.5.1.  Structure . . . . . . . . . . . . . . . . . . . . . .  16
        7.5.2.  Allocation policy . . . . . . . . . . . . . . . . . .  16
-       7.5.3.  Initial contents of the registry  . . . . . . . . . .  17
-     7.6.  Create new IANA Registry: "IETF YANG SID Registry"  . . .  18
-       7.6.1.  Structure . . . . . . . . . . . . . . . . . . . . . .  18
-       7.6.2.  Allocation policy . . . . . . . . . . . . . . . . . .  19
+       7.5.3.  Initial contents of the registry  . . . . . . . . . .  18
+     7.6.  Create new IANA Registry: "IETF YANG SID Registry"  . . .  20
+       7.6.1.  Structure . . . . . . . . . . . . . . . . . . . . . .  20
+       7.6.2.  Allocation policy . . . . . . . . . . . . . . . . . .  20
        7.6.3.  Recursive Allocation of YANG SID Range at Document
-               Adoption  . . . . . . . . . . . . . . . . . . . . . .  19
-       7.6.4.  Initial contents of the registry  . . . . . . . . . .  21
-   8.  Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  21
-   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  21
-     9.1.  Normative References  . . . . . . . . . . . . . . . . . .  21
-     9.2.  Informative References  . . . . . . . . . . . . . . . . .  22
-   Appendix A.  ".sid" file example  . . . . . . . . . . . . . . . .  23
-   Appendix B.  SID auto generation  . . . . . . . . . . . . . . . .  33
-   Appendix C.  ".sid" file lifecycle  . . . . . . . . . . . . . . .  34
-     C.1.  ".sid" File Creation  . . . . . . . . . . . . . . . . . .  34
-     C.2.  ".sid" File Update  . . . . . . . . . . . . . . . . . . .  35
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  36
+               Adoption  . . . . . . . . . . . . . . . . . . . . . .  21
+       7.6.4.  Initial contents of the registry  . . . . . . . . . .  22
+   8.  Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  23
+   9.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  23
+     9.1.  Normative References  . . . . . . . . . . . . . . . . . .  23
+     9.2.  Informative References  . . . . . . . . . . . . . . . . .  24
+   Appendix A.  ".sid" file example  . . . . . . . . . . . . . . . .  25
+   Appendix B.  SID auto generation  . . . . . . . . . . . . . . . .  34
+   Appendix C.  ".sid" file lifecycle  . . . . . . . . . . . . . . .  35
+     C.1.  ".sid" File Creation  . . . . . . . . . . . . . . . . . .  36
+     C.2.  ".sid" File Update  . . . . . . . . . . . . . . . . . . .  37
 
 
 
-
-
-
-
-
-Veillette, et al.       Expires January 11, 2021                [Page 2]
+Veillette, et al.         Expires 21 July 2021                  [Page 2]
 
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
+
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  38
 
 1.  Introduction
 
@@ -131,18 +133,18 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
 
    The following items are identified using SIDs:
 
-   o  identities
+   *  identities
 
-   o  data nodes (Note: including those nodes defined by the 'yang-data'
+   *  data nodes (Note: including those nodes defined by the 'yang-data'
       extension.)
 
-   o  RPCs and associated input(s) and output(s)
+   *  RPCs and associated input(s) and output(s)
 
-   o  actions and associated input(s) and output(s)
+   *  actions and associated input(s) and output(s)
 
-   o  notifications and associated information
+   *  notifications and associated information
 
-   o  YANG modules, submodules and features
+   *  YANG modules, submodules and features
 
    It is possible that some protocols use only a subset of the assigned
    SIDs, for example, for protocols equivalent to NETCONF [RFC6241] like
@@ -158,18 +160,19 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
    Assignment of SIDs to YANG items can be automated.  For more details
    how this could be achieved, please consult Appendix B.
 
+
+
+
+
+
+Veillette, et al.         Expires 21 July 2021                  [Page 3]
+
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
+
+
    SIDs are assigned permanently, items introduced by a new revision of
    a YANG module are added to the list of SIDs already assigned.  If the
    meaning of an item changes, for example as a result from a non-
-
-
-
-
-Veillette, et al.       Expires January 11, 2021                [Page 3]
-
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
-
-
    backward compatible update of the YANG module, a new SID should be
    assigned to it.
 
@@ -188,53 +191,55 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
 
    The following terms are defined in [RFC7950]:
 
-   o  action
+   *  action
 
-   o  feature
+   *  feature
 
-   o  module
+   *  module
 
-   o  notification
+   *  notification
 
-   o  RPC
+   *  RPC
 
-   o  schema node
+   *  schema node
 
-   o  schema tree
+   *  schema tree
 
-   o  submodule
+   *  submodule
 
    The following term is defined in [RFC8040]:
 
-   o  yang-data extension
+   *  yang-data extension
 
    This specification also makes use of the following terminology:
 
-   o  item: A schema node, an identity, a module, a submodule or a
+   *  item: A schema node, an identity, a module, a submodule or a
       feature defined using the YANG modeling language.
 
-   o  schema-node path: A schema-node path is a string that identifies a
+
+
+
+
+
+Veillette, et al.         Expires 21 July 2021                  [Page 4]
+
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
+
+
+   *  schema-node path: A schema-node path is a string that identifies a
       schema node within the schema tree.  A path consists of the list
       of consecutive schema node identifier(s) separated by slashes
       ("/").  Schema node identifier(s) are always listed from the top-
       level schema node up to the targeted schema node and could contain
-
-
-
-Veillette, et al.       Expires January 11, 2021                [Page 4]
-
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
-
-
       namespace information. (e.g. "/ietf-system:system-state/clock/
       current-datetime")
 
-   o  Namespace-qualified form - a schema node identifier is prefixed
+   *  Namespace-qualified form - a schema node identifier is prefixed
       with the name of the module in which the schema node is defined,
       separated from the schema node identifier by the colon character
       (":").
 
-   o  YANG Schema Item iDentifier (YANG SID or simply SID): Unsigned
+   *  YANG Schema Item iDentifier (YANG SID or simply SID): Unsigned
       integer used to identify different YANG items.
 
 3.  ".sid" file lifecycle
@@ -264,6 +269,19 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
    one of the possibilities, please refer to the activity diagram on
    Figure 1 in Appendix C.
 
+
+
+
+
+
+
+
+
+Veillette, et al.         Expires 21 July 2021                  [Page 5]
+
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
+
+
    Each time a YANG module or one of its imported module(s) or included
    sub-module(s) is updated, a new ".sid" file MAY need to be created.
    All the SIDs present in the previous version of the ".sid" file MUST
@@ -274,13 +292,6 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
    If a new revision requires more SIDs than initially allocated, a new
    SID range MUST be added to the 'assignment-ranges' as defined in
    Section 4.  These extra SIDs are used for subsequent assignments.
-
-
-
-Veillette, et al.       Expires January 11, 2021                [Page 5]
-
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
-
 
    For an example of this update process, see activity diagram Figure 2
    in Appendix C.
@@ -315,335 +326,338 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
    RFC Ed.: please update the date of the module and Copyright if needed
    and remove this note.
 
-<CODE BEGINS> file "ietf-sid-file@2020-02-05.yang"
-module ietf-sid-file {
-  yang-version 1.1;
-  namespace "urn:ietf:params:xml:ns:yang:ietf-sid-file";
-  prefix sid;
-
-  import ietf-yang-types {
-    prefix yang;
-    reference "RFC 6991: Common YANG Data Types.";
-  }
-  import ietf-restconf {
-    prefix rc;
-    reference "RFC 8040: RESTCONF Protocol.";
-  }
 
 
 
 
-Veillette, et al.       Expires January 11, 2021                [Page 6]
+
+
+
+Veillette, et al.         Expires 21 July 2021                  [Page 6]
 
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
-  organization
-    "IETF Core Working Group";
+   <CODE BEGINS> file "ietf-sid-file@2020-02-05.yang"
+   module ietf-sid-file {
+     yang-version 1.1;
+     namespace "urn:ietf:params:xml:ns:yang:ietf-sid-file";
+     prefix sid;
 
-  contact
-    "WG Web:   <http://datatracker.ietf.org/wg/core/>
+     import ietf-yang-types {
+       prefix yang;
+       reference "RFC 6991: Common YANG Data Types.";
+     }
+     import ietf-restconf {
+       prefix rc;
+       reference "RFC 8040: RESTCONF Protocol.";
+     }
 
-     WG List:  <mailto:core@ietf.org>
+     organization
+       "IETF Core Working Group";
 
-     Editor:   Michel Veillette
-               <mailto:michel.veillette@trilliant.com>
+     contact
+       "WG Web:   <http://datatracker.ietf.org/wg/core/>
 
-     Editor:   Andy Bierman
-               <mailto:andy@yumaworks.com>
+        WG List:  <mailto:core@ietf.org>
 
-     Editor:   Alexander Pelov
-               <mailto:a@ackl.io>
+        Editor:   Michel Veillette
+                  <mailto:michel.veillette@trilliant.com>
 
-     Editor:   Ivaylo Petrov
-               <mailto:ivaylo@ackl.io>";
+        Editor:   Andy Bierman
+                  <mailto:andy@yumaworks.com>
 
-  description
-    "Copyright (c) 2020 IETF Trust and the persons identified as
-     authors of the code.  All rights reserved.
+        Editor:   Alexander Pelov
+                  <mailto:a@ackl.io>
 
-     Redistribution and use in source and binary forms, with or
-     without modification, is permitted pursuant to, and subject to
-     the license terms contained in, the Simplified BSD License set
-     forth in Section 4.c of the IETF Trust's Legal Provisions
-     Relating to IETF Documents
-     (https://trustee.ietf.org/license-info).
+        Editor:   Ivaylo Petrov
+                  <mailto:ivaylo@ackl.io>";
 
-     This version of this YANG module is part of RFC XXXX
-     (https://www.rfc-editor.org/info/rfcXXXX); see the RFC itself
-     for full legal notices.
+     description
+       "Copyright (c) 2021 IETF Trust and the persons identified as
+        authors of the code.  All rights reserved.
 
-     The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
-     NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
-     'MAY', and 'OPTIONAL' in this document are to be interpreted as
-     described in BCP 14 (RFC 2119) (RFC 8174) when, and only when,
-     they appear in all capitals, as shown here.
+        Redistribution and use in source and binary forms, with or
+        without modification, is permitted pursuant to, and subject to
+        the license terms contained in, the Simplified BSD License set
+        forth in Section 4.c of the IETF Trust's Legal Provisions
+        Relating to IETF Documents
+        (https://trustee.ietf.org/license-info).
 
-
-     This module defines the structure of the .sid files.
-
-     Each .sid file contains the mapping between the different
-     string identifiers defined by a YANG module and a
-     corresponding numeric value called YANG SID.";
+        This version of this YANG module is part of RFC XXXX
+        (https://www.rfc-editor.org/info/rfcXXXX); see the RFC itself
 
 
 
-
-Veillette, et al.       Expires January 11, 2021                [Page 7]
+Veillette, et al.         Expires 21 July 2021                  [Page 7]
 
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
-  revision 2020-02-05 {
-    description
-      "Initial revision.";
-    reference
-      "[I-D.ietf-core-sid] YANG Schema Item iDentifier (YANG SID)";
-  }
+        for full legal notices.
 
-  typedef revision-identifier {
-    type string {
-      pattern '\d{4}-\d{2}-\d{2}';
-    }
-    description
-      "Represents a date in YYYY-MM-DD format.";
-  }
+        The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
+        NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
+        'MAY', and 'OPTIONAL' in this document are to be interpreted as
+        described in BCP 14 (RFC 2119) (RFC 8174) when, and only when,
+        they appear in all capitals, as shown here.
 
-  typedef sid-file-version-identifier {
-    type uint64;
-    description
-      "Represents the version of a .sid file.";
-  }
+        This module defines the structure of the .sid files.
 
-  typedef sid {
-    type uint64 {
-      range "0..9223372036854775807";
-    }
-    description
-      "YANG Schema Item iDentifier";
-    reference
-      "[I-D.ietf-core-sid] YANG Schema Item iDentifier (YANG SID)";
-  }
+        Each .sid file contains the mapping between the different
+        string identifiers defined by a YANG module and a
+        corresponding numeric value called YANG SID.";
 
-  typedef schema-node-path {
-    type string {
-      pattern
-        '/[a-zA-Z_][a-zA-Z0-9\-_.]*:[a-zA-Z_][a-zA-Z0-9\-_.]*' +
-        '(/[a-zA-Z_][a-zA-Z0-9\-_.]*(:[a-zA-Z_][a-zA-Z0-9\-_.]*)?)*';
-    }
-    description
-      "A schema-node path is an absolute YANG schema node identifier as
-      defined by the YANG ABNF rule absolute-schema-nodeid, except
-      that module names are used instead of prefixes.
+     revision 2020-02-05 {
+       description
+         "Initial revision.";
+       reference
+         "[I-D.ietf-core-sid] YANG Schema Item iDentifier (YANG SID)";
+     }
 
-      This string additionally follows the following rules:
+     typedef revision-identifier {
+       type string {
+         pattern '\d{4}-\d{2}-\d{2}';
+       }
+       description
+         "Represents a date in YYYY-MM-DD format.";
+     }
 
-       o  The leftmost (top-level) data node name is always in the
-          namespace-qualified form.
-       o  Any subsequent schema node name is in the namespace-qualified form
-          if the node is defined in a module other than its parent node, and
+     typedef sid-file-version-identifier {
+       type uint64;
+       description
+         "Represents the version of a .sid file.";
+     }
+
+     typedef sid {
+       type uint64 {
+         range "0..9223372036854775807";
+       }
+       description
+         "YANG Schema Item iDentifier";
+       reference
+         "[I-D.ietf-core-sid] YANG Schema Item iDentifier (YANG SID)";
+     }
+
+     typedef schema-node-path {
+       type string {
+         pattern
 
 
 
-Veillette, et al.       Expires January 11, 2021                [Page 8]
+Veillette, et al.         Expires 21 July 2021                  [Page 8]
 
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
-          the simple form is used otherwise. No predicates are allowed.";
-    reference
-      "RFC 7950, The YANG 1.1 Data Modeling Language;
-       Section 6.5: Schema Node Identifier;";
-  }
+           '/[a-zA-Z_][a-zA-Z0-9\-_.]*:[a-zA-Z_][a-zA-Z0-9\-_.]*' +
+           '(/[a-zA-Z_][a-zA-Z0-9\-_.]*(:[a-zA-Z_][a-zA-Z0-9\-_.]*)?)*';
+       }
+       description
+         "A schema-node path is an absolute YANG schema node identifier as
+         defined by the YANG ABNF rule absolute-schema-nodeid, except
+         that module names are used instead of prefixes.
 
-  rc:yang-data sid-file {
-      uses sid-file;
-  }
+         This string additionally follows the following rules:
 
-  grouping sid-file {
-    description "A grouping that contains a YANG container representing the
-      file structure of a .sid files.";
+          o  The leftmost (top-level) data node name is always in the
+             namespace-qualified form.
+          o  Any subsequent schema node name is in the namespace-qualified form
+             if the node is defined in a module other than its parent node, and
+             the simple form is used otherwise. No predicates are allowed.";
+       reference
+         "RFC 7950, The YANG 1.1 Data Modeling Language;
+          Section 6.5: Schema Node Identifier;";
+     }
 
-    container sid-file {
-      description
-        "A Wrapper container that together with the rc:yang-data extension
-         marks the YANG data structures inside as not being intended to be
-         implemented as part of a configuration datastore or as an operational
-         state within the server.";
-      leaf module-name {
-        type yang:yang-identifier;
-        description
-          "Name of the YANG module associated with this .sid file.";
-      }
+     rc:yang-data sid-file {
+         uses sid-file;
+     }
 
-      leaf module-revision {
-        type revision-identifier;
-        description
-          "Revision of the YANG module associated with this .sid file.
-          This leaf is not present if no revision statement is
-          defined in the YANG module.";
-      }
+     grouping sid-file {
+       description "A grouping that contains a YANG container representing the
+         file structure of a .sid files.";
 
-      leaf sid-file-version {
-        type sid-file-version-identifier;
-        description
-          "Optional leaf that specifies the version number of the .sid file.
-          .sid files and the version sequence are specific to a given YANG
-          module revision. This number starts at zero when there is a new YANG
-          module revision and increases monotonically.  This number can
-          distinguish updates to the .sid file which are the result of new
-          processing, or the result of reported errata.";
-      }
+       container sid-file {
+         description
+           "A Wrapper container that together with the rc:yang-data extension
+            marks the YANG data structures inside as not being intended to be
+            implemented as part of a configuration datastore or as an operational
+            state within the server.";
+         leaf module-name {
+           type yang:yang-identifier;
+           description
+             "Name of the YANG module associated with this .sid file.";
+         }
 
-      leaf description {
-        type string;
-        description
-
+         leaf module-revision {
+           type revision-identifier;
+           description
+             "Revision of the YANG module associated with this .sid file.
+             This leaf is not present if no revision statement is
+             defined in the YANG module.";
+         }
 
 
-Veillette, et al.       Expires January 11, 2021                [Page 9]
+
+
+Veillette, et al.         Expires 21 July 2021                  [Page 9]
 
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
-          "Free-form meta information about the generated file. It might
-          include .sid file generation tool and time among other things.";
-      }
+         leaf sid-file-version {
+           type sid-file-version-identifier;
+           description
+             "Optional leaf that specifies the version number of the .sid file.
+             .sid files and the version sequence are specific to a given YANG
+             module revision. This number starts at zero when there is a new YANG
+             module revision and increases monotonically.  This number can
+             distinguish updates to the .sid file which are the result of new
+             processing, or the result of reported errata.";
+         }
 
-      list dependency-revision {
-        key "module-name";
+         leaf description {
+           type string;
+           description
+             "Free-form meta information about the generated file. It might
+             include .sid file generation tool and time among other things.";
+         }
 
-        description
-          "Information about the used revision during the .sid file generation
-          of each YANG module that the module in 'module-name' imported.";
+         list dependency-revision {
+           key "module-name";
 
-        leaf module-name {
-          type yang:yang-identifier;
-          mandatory true;
-          description
-            "Name of the YANG module, dependency of 'module-name', for which
-            revision information is provided.";
-        }
-        leaf module-revision {
-          type revision-identifier;
-          mandatory true;
-          description
-            "Revision of the YANG module, dependency of 'module-name', for which
-            revision information is provided.";
-        }
-      }
+           description
+             "Information about the used revision during the .sid file generation
+             of each YANG module that the module in 'module-name' imported.";
 
-      list assigment-ranges {
-        key "entry-point";
-        description
-          "YANG SID range(s) allocated to the YANG module identified by
-          'module-name' and 'module-revision'.
+           leaf module-name {
+             type yang:yang-identifier;
+             mandatory true;
+             description
+               "Name of the YANG module, dependency of 'module-name', for which
+               revision information is provided.";
+           }
+           leaf module-revision {
+             type revision-identifier;
+             mandatory true;
+             description
+               "Revision of the YANG module, dependency of 'module-name', for which
+               revision information is provided.";
+           }
+         }
 
-          - The YANG SID range first available value is entry-point and the the
-            last available value in the range is (entry-point + size - 1).
-          - The YANG SID ranges specified by all assignment-rages MUST NOT
-            overlap.";
+         list assigment-ranges {
+           key "entry-point";
+           description
+             "YANG SID range(s) allocated to the YANG module identified by
+             'module-name' and 'module-revision'.
 
-        leaf entry-point {
-          type sid;
-          mandatory true;
-          description
-            "Lowest YANG SID available for assignment.";
-        }
-
-        leaf size {
-          type uint64;
-          mandatory true;
+             - The YANG SID range first available value is entry-point and the the
 
 
 
-Veillette, et al.       Expires January 11, 2021               [Page 10]
+Veillette, et al.         Expires 21 July 2021                 [Page 10]
 
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
-          description
-            "Number of YANG SIDs available for assignment.";
-        }
-      }
+               last available value in the range is (entry-point + size - 1).
+             - The YANG SID ranges specified by all assignment-rages MUST NOT
+               overlap.";
 
-      list items {
-        key "namespace identifier";
-        description
-          "Each entry within this list defined the mapping between
-          a YANG item string identifier and a YANG SID. This list MUST
-          include a mapping entry for each YANG item defined by
-          the YANG module identified by 'module-name' and
-          'module-revision'.";
+           leaf entry-point {
+             type sid;
+             mandatory true;
+             description
+               "Lowest YANG SID available for assignment.";
+           }
 
-        leaf namespace {
-          type enumeration {
-            enum module {
-              value 0;
-              description
-                "All module and submodule names share the same
-                global module identifier namespace.";
-            }
-            enum identity {
-              value 1;
-              description
-                "All identity names defined in a module and its
-                submodules share the same identity identifier
-                namespace.";
-            }
-            enum feature {
-              value 2;
-              description
-                "All feature names defined in a module and its
-                submodules share the same feature identifier
-                namespace.";
-            }
-            enum data {
-              value 3;
-              description
-                "The namespace for all data nodes, as defined in YANG.";
-            }
-          }
-          description
-            "Namespace of the YANG item for this mapping entry.";
-        }
+           leaf size {
+             type uint64;
+             mandatory true;
+             description
+               "Number of YANG SIDs available for assignment.";
+           }
+         }
 
-        leaf identifier {
-          type union {
+         list items {
+           key "namespace identifier";
+           description
+             "Each entry within this list defined the mapping between
+             a YANG item string identifier and a YANG SID. This list MUST
+             include a mapping entry for each YANG item defined by
+             the YANG module identified by 'module-name' and
+             'module-revision'.";
+
+           leaf namespace {
+             type enumeration {
+               enum module {
+                 value 0;
+                 description
+                   "All module and submodule names share the same
+                   global module identifier namespace.";
+               }
+               enum identity {
+                 value 1;
+                 description
+                   "All identity names defined in a module and its
+                   submodules share the same identity identifier
+                   namespace.";
+               }
+               enum feature {
+                 value 2;
+                 description
+                   "All feature names defined in a module and its
+                   submodules share the same feature identifier
 
 
 
-Veillette, et al.       Expires January 11, 2021               [Page 11]
+Veillette, et al.         Expires 21 July 2021                 [Page 11]
 
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
-            type yang:yang-identifier;
-            type schema-node-path;
-          }
-          description
-            "String identifier of the YANG item for this mapping entry.
+                   namespace.";
+               }
+               enum data {
+                 value 3;
+                 description
+                   "The namespace for all data nodes, as defined in YANG.";
+               }
+             }
+             description
+               "Namespace of the YANG item for this mapping entry.";
+           }
 
-            If the corresponding 'namespace' field is 'module',
-            'feature', or 'identity', then this field MUST
-            contain a valid YANG identifier string.
+           leaf identifier {
+             type union {
+               type yang:yang-identifier;
+               type schema-node-path;
+             }
+             description
+               "String identifier of the YANG item for this mapping entry.
 
-            If the corresponding 'namespace' field is 'data',
-            then this field MUST contain a valid schema node
-            path.";
-        }
+               If the corresponding 'namespace' field is 'module',
+               'feature', or 'identity', then this field MUST
+               contain a valid YANG identifier string.
 
-        leaf sid {
-          type sid;
-          mandatory true;
-          description
-            "YANG SID assigned to the YANG item for this mapping entry.";
-        }
-      }
-    }
-  }
-}
-<CODE ENDS>
+               If the corresponding 'namespace' field is 'data',
+               then this field MUST contain a valid schema node
+               path.";
+           }
+
+           leaf sid {
+             type sid;
+             mandatory true;
+             description
+               "YANG SID assigned to the YANG item for this mapping entry.";
+           }
+         }
+       }
+     }
+   }
+   <CODE ENDS>
 
 5.  Content-Types
 
@@ -652,6 +666,13 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
    application/yang-data+cbor; id=sid:  This Content-Type represents a
       CBOR YANG document containing one or multiple data node values.
       Each data node is identified by its associated SID.
+
+
+
+Veillette, et al.         Expires 21 July 2021                 [Page 12]
+
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
+
 
       FORMAT: CBOR map of SID, instance-value
 
@@ -665,15 +686,6 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
 
    This document defines a new type of identifier used to encode data
    models defined in YANG [RFC7950].  As such, this identifier does not
-
-
-
-
-Veillette, et al.       Expires January 11, 2021               [Page 12]
-
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
-
-
    contribute to any new security issues in addition of those identified
    for the specific protocols or contexts for which it is used.
 
@@ -699,13 +711,24 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
    This document registers one YANG module in the "YANG Module Names"
    registry [RFC6020]:
 
-   o  name: ietf-sid-file
+   *  name: ietf-sid-file
 
-   o  namespace: urn:ietf:params:xml:ns:yang:ietf-sid-file
+   *  namespace: urn:ietf:params:xml:ns:yang:ietf-sid-file
 
-   o  prefix: sid
+   *  prefix: sid
 
-   o  reference: [[THISRFC]]
+   *  reference: [[THISRFC]]
+
+
+
+
+
+
+
+Veillette, et al.         Expires 21 July 2021                 [Page 13]
+
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
+
 
 7.3.  CoAP Content-Formats Registry
 
@@ -713,24 +736,16 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
    Formats", within the "Constrained RESTful Environments (CoRE)
    Parameters" registry.
 
-   +---------------------------------+--------------+------+-----------+
-   | Media Type                      | Content      | ID   | Reference |
-   |                                 | Coding       |      |           |
-   +---------------------------------+--------------+------+-----------+
-   | application/yang-data+cbor;     |              | TBD1 | RFC XXXX  |
-   | id=sid                          |              |      |           |
-   +---------------------------------+--------------+------+-----------+
+   +===================+================+======+===========+
+   | Media Type        | Content Coding | ID   | Reference |
+   +===================+================+======+===========+
+   | application/yang- |                | TBD1 | RFC XXXX  |
+   | data+cbor; id=sid |                |      |           |
+   +-------------------+----------------+------+-----------+
 
+                            Table 1
 
-
-
-
-Veillette, et al.       Expires January 11, 2021               [Page 13]
-
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
-
-
-   // RFC Ed.: replace TBD1 with assigned IDs and remove this note.  //
+   // RFC Ed.: replace TBD1 with assigned IDs and remove this note. //
    RFC Ed.: replace RFC XXXX with this RFC number and remove this note.
 
 7.4.  Create new IANA Registry: "YANG SID Mega-Range" registry
@@ -743,23 +758,33 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
 
    Each entry in this registry must include:
 
-   o  The entry point (first SID) of the registered SID block.
+   *  The entry point (first SID) of the registered SID block.
 
-   o  The size of the registered SID block.  The size MUST be one
+   *  The size of the registered SID block.  The size MUST be one
       million (1 000 000) SIDs.
 
-   o  The contact information of the requesting organization including:
+   *  The contact information of the requesting organization including:
 
-      *  The policy of SID range allocations: Public, Private or Both.
+      -  The policy of SID range allocations: Public, Private or Both.
 
-      *  Organization name
+      -  Organization name
 
-      *  URL
+      -  URL
 
    The information associated to the Organization name should not be
    publicly visible in the registry, but should be available.  This
    information includes contact email and phone number and change
    controller email and phone number.
+
+
+
+
+
+
+Veillette, et al.         Expires 21 July 2021                 [Page 14]
+
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
+
 
 7.4.2.  Allocation policy
 
@@ -770,33 +795,25 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
    an entry in the YANG SID Mega-Range Registry), must ensure the
    following capacities:
 
-   o  The capacity to manage and operate a YANG SID Range Registry.  A
+   *  The capacity to manage and operate a YANG SID Range Registry.  A
       YANG SID Range Registry MUST provide the following information for
       all YANG SID Ranges allocated by the Registry:
 
-      *  Entry Point of allocated YANG SID Range
+      -  Entry Point of allocated YANG SID Range
 
-      *  Size of allocated YANG SID Range
+      -  Size of allocated YANG SID Range
 
+      -  Type: Public or Private
 
-
-
-Veillette, et al.       Expires January 11, 2021               [Page 14]
-
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
-
-
-      *  Type: Public or Private
-
-         +  Public Ranges MUST include at least a reference to the YANG
+         o  Public Ranges MUST include at least a reference to the YANG
             module and ".sid" files for that YANG SID Range.
 
-         +  Private Ranges MUST be marked as "Private"
+         o  Private Ranges MUST be marked as "Private"
 
-   o  A Policy of allocation, which clearly identifies if the YANG SID
+   *  A Policy of allocation, which clearly identifies if the YANG SID
       Range allocations would be Private, Public or Both.
 
-   o  Technical capacity to ensure the sustained operation of the
+   *  Technical capacity to ensure the sustained operation of the
       registry for a period of at least 5 years.  If Private
       Registrations are allowed, the period must be of at least 10
       years.
@@ -817,95 +834,97 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
    working group mailing list and consensus needs to be obtained before
    allocating a new Mega-Range.
 
+
+
+
+Veillette, et al.         Expires 21 July 2021                 [Page 15]
+
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
+
+
 7.4.3.  Initial contents of the Registry
 
    The initial entry in this registry is allocated to IANA:
 
-   +-------------+---------+------------+-------------------+----------+
-   | Entry Point | Size    | Allocation | Organization name | URL      |
-   +-------------+---------+------------+-------------------+----------+
+   +=============+=========+============+===================+==========+
+   | Entry Point | Size    | Allocation | Organization      | URL      |
+   |             |         |            | name              |          |
+   +=============+=========+============+===================+==========+
    | 0           | 1000000 | Public     | IANA              | iana.org |
    +-------------+---------+------------+-------------------+----------+
 
+                                  Table 2
+
 7.5.  Create a new IANA Registry: IETF YANG SID Range Registry (managed
       by IANA)
-
-
-
-
-
-
-
-
-Veillette, et al.       Expires January 11, 2021               [Page 15]
-
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
-
 
 7.5.1.  Structure
 
    Each entry in this registry must include:
 
-   o  The SID range entry point.
+   *  The SID range entry point.
 
-   o  The SID range size.
+   *  The SID range size.
 
-   o  The YANG module name.
+   *  The YANG module name.
 
-   o  Document reference.
+   *  Document reference.
 
 7.5.2.  Allocation policy
 
    The first million SIDs assigned to IANA is sub-divided as follows:
 
-   o  The range of 0 to 999 (size 1000) is "Reserved" as defined in
+   *  The range of 0 to 999 (size 1000) is "Reserved" as defined in
       [RFC8126].
 
-   o  The range of 1000 to 59,999 (size 59,000) is reserved for YANG
+   *  The range of 1000 to 59,999 (size 59,000) is reserved for YANG
       modules defined in RFCs.
 
-      *  The IANA policy for additions to this registry is either:
+      -  The IANA policy for additions to this registry is either:
 
-         +  "Expert Review" [RFC8126] in case the ".sid" file comes from
+         o  "Expert Review" [RFC8126] in case the ".sid" file comes from
             a YANG module from an existing RFC, or
 
-         +  "RFC Required" [RFC8126] otherwise.
+         o  "RFC Required" [RFC8126] otherwise.
 
-      *  The Expert MUST verify that the YANG module for which this
+
+
+
+
+
+
+Veillette, et al.         Expires 21 July 2021                 [Page 16]
+
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
+
+
+      -  The Expert MUST verify that the YANG module for which this
          allocation is made has an RFC (existing RFC) OR is on track to
          become RFC (early allocation with a request from the WG chairs
          as defined by [RFC7120]).
 
-   o  The range of 60,000 to 99,999 (size 40,000) is reserved for
+   *  The range of 60,000 to 99,999 (size 40,000) is reserved for
       experimental YANG modules.  This range MUST NOT be used in
       operational deployments since these SIDs are not globally unique
       which limit their interoperability.  The IANA policy for this
       range is "Experimental use" [RFC8126].
 
-   o  The range of 100,000 to 999,999 (size 900,000) is "Reserved" as
+   *  The range of 100,000 to 999,999 (size 900,000) is "Reserved" as
       defined in [RFC8126].
 
-
-
-
-
-
-
-
-
-Veillette, et al.       Expires January 11, 2021               [Page 16]
-
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
-
-
-   +-------------+---------+-------------------------------+
+   +=============+=========+===============================+
    | Entry Point | Size    | IANA policy                   |
-   +-------------+---------+-------------------------------+
+   +=============+=========+===============================+
    | 0           | 1,000   | Reserved                      |
+   +-------------+---------+-------------------------------+
    | 1,000       | 59,000  | Expert Review or RFC Required |
+   +-------------+---------+-------------------------------+
    | 60,000      | 40,000  | Experimental use              |
+   +-------------+---------+-------------------------------+
    | 100,000     | 900,000 | Reserved                      |
    +-------------+---------+-------------------------------+
+
+                            Table 3
 
    The size of the SID range allocated for a YANG module is recommended
    to be a multiple of 50 and to be at least 33% above the current
@@ -920,6 +939,20 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
    "Expert Review" policy, the Document reference field for the given
    allocation should point to the RFC that the YANG module is defined
    in.
+
+
+
+
+
+
+
+
+
+
+Veillette, et al.         Expires 21 July 2021                 [Page 17]
+
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
+
 
    In case a SID range is required before publishing the RFC due to
    implementations needing stable SID values, early allocation as
@@ -949,33 +982,89 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
 
 
 
-Veillette, et al.       Expires January 11, 2021               [Page 17]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Veillette, et al.         Expires 21 July 2021                 [Page 18]
 
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
-   +-------+------+---------------------------+------------------------+
-   | Entry | Size | Module name               | Document reference     |
-   | Point |      |                           |                        |
-   +-------+------+---------------------------+------------------------+
-   |  1000 |  100 | ietf-coreconf             | [I-D.ietf-core-comi]   |
-   |  1100 |   50 | ietf-yang-types           | [RFC6991]              |
-   |  1150 |   50 | ietf-inet-types           | [RFC6991]              |
-   |  1200 |   50 | iana-crypt-hash           | [RFC7317]              |
-   |  1250 |   50 | ietf-netconf-acm          | [RFC8341]              |
-   |  1300 |   50 | ietf-sid-file             | RFCXXXX                |
-   |  1500 |  100 | ietf-interfaces           | [RFC8343]              |
-   |  1600 |  100 | ietf-ip                   | [RFC8344]              |
-   |  1700 |  100 | ietf-system               | [RFC7317]              |
-   |  1800 |  400 | iana-if-type              | [RFC7224]              |
-   |  2400 |   50 | ietf-voucher              | [RFC8366]              |
-   |  2450 |   50 | ietf-constrained-voucher  | [I-D.ietf-anima-constr |
-   |       |      |                           | ained-voucher]         |
-   |  2500 |   50 | ietf-constrained-voucher- | [I-D.ietf-anima-constr |
-   |       |      | request                   | ained-voucher]         |
-   +-------+------+---------------------------+------------------------+
+   +=======+=====+==============+======================================+
+   | Entry | Size|Module name   | Document reference                   |
+   | Point |     |              |                                      |
+   +=======+=====+==============+======================================+
+   |  1000 |  100|ietf-coreconf | [I-D.ietf-core-comi]                 |
+   +-------+-----+--------------+--------------------------------------+
+   |  1100 |   50|ietf-yang-    | [RFC6991]                            |
+   |       |     |types         |                                      |
+   +-------+-----+--------------+--------------------------------------+
+   |  1150 |   50|ietf-inet-    | [RFC6991]                            |
+   |       |     |types         |                                      |
+   +-------+-----+--------------+--------------------------------------+
+   |  1200 |   50|iana-crypt-   | [RFC7317]                            |
+   |       |     |hash          |                                      |
+   +-------+-----+--------------+--------------------------------------+
+   |  1250 |   50|ietf-netconf- | [RFC8341]                            |
+   |       |     |acm           |                                      |
+   +-------+-----+--------------+--------------------------------------+
+   |  1300 |   50|ietf-sid-file | RFCXXXX                              |
+   +-------+-----+--------------+--------------------------------------+
+   |  1500 |  100|ietf-         | [RFC8343]                            |
+   |       |     |interfaces    |                                      |
+   +-------+-----+--------------+--------------------------------------+
+   |  1600 |  100|ietf-ip       | [RFC8344]                            |
+   +-------+-----+--------------+--------------------------------------+
+   |  1700 |  100|ietf-system   | [RFC7317]                            |
+   +-------+-----+--------------+--------------------------------------+
+   |  1800 |  400|iana-if-type  | [RFC7224]                            |
+   +-------+-----+--------------+--------------------------------------+
+   |  2400 |   50|ietf-voucher  | [RFC8366]                            |
+   +-------+-----+--------------+--------------------------------------+
+   |  2450 |   50|ietf-         | [I-D.ietf-anima-constrained-voucher] |
+   |       |     |constrained-  |                                      |
+   |       |     |voucher       |                                      |
+   +-------+-----+--------------+--------------------------------------+
+   |  2500 |   50|ietf-         | [I-D.ietf-anima-constrained-voucher] |
+   |       |     |constrained-  |                                      |
+   |       |     |voucher-      |                                      |
+   |       |     |request       |                                      |
+   +-------+-----+--------------+--------------------------------------+
+
+                                  Table 4
 
    // RFC Ed.: replace XXXX with RFC number assigned to this draft.
+
+
+
+
+
+
+
+Veillette, et al.         Expires 21 July 2021                 [Page 19]
+
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
+
 
    For allocation, RFC publication of the YANG module is required as per
    [RFC8126].  The YANG module must be registered in the "YANG module
@@ -992,48 +1081,48 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
 
    Each entry in this registry must include:
 
-   o  The YANG module name.  This module name must be present in the
+   *  The YANG module name.  This module name must be present in the
       "Name" column of the "YANG Module Names" registry.
 
-   o  A link to the associated ".yang" file.  This file link must be
+   *  A link to the associated ".yang" file.  This file link must be
       present in the "File" column of the "YANG Module Names" registry.
 
-   o  The link to the ".sid" file which defines the allocation.  The
+   *  The link to the ".sid" file which defines the allocation.  The
       ".sid" file is stored by IANA.
 
-   o  The number of actually allocated SIDs in the ".sid" file.
-
-
-
-Veillette, et al.       Expires January 11, 2021               [Page 18]
-
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
-
+   *  The number of actually allocated SIDs in the ".sid" file.
 
 7.6.2.  Allocation policy
 
    The allocation policy is Expert review.  The Expert MUST ensure that
    the following conditions are met:
 
-   o  The ".sid" file has a valid structure:
+   *  The ".sid" file has a valid structure:
 
-      *  The ".sid" file MUST be a valid JSON file following the
+      -  The ".sid" file MUST be a valid JSON file following the
          structure of the module defined in RFCXXXX (RFC Ed: replace XXX
          with RFC number assigned to this draft).
 
-   o  The ".sid" file allocates individual SIDs ONLY in the YANG SID
+   *  The ".sid" file allocates individual SIDs ONLY in the YANG SID
       Ranges for this YANG module (as allocated in the IETF YANG SID
       Range Registry):
 
-      *  All SIDs in this ".sid" file MUST be within the ranges
+      -  All SIDs in this ".sid" file MUST be within the ranges
          allocated to this YANG module in the "IETF YANG SID Range
          Registry".
 
-   o  If another ".sid" file has already allocated SIDs for this YANG
-      module (e.g.  for older or newer versions of the YANG module), the
+   *  If another ".sid" file has already allocated SIDs for this YANG
+      module (e.g. for older or newer versions of the YANG module), the
       YANG items are assigned the same SIDs as in the other ".sid" file.
 
-   o  If there is an older version of the ".sid" file, all allocated
+
+
+Veillette, et al.         Expires 21 July 2021                 [Page 20]
+
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
+
+
+   *  If there is an older version of the ".sid" file, all allocated
       SIDs from that version are still present in the current version of
       the ".sid" file.
 
@@ -1057,15 +1146,6 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
    are subject to change before the publication of an internet draft as
    an RFC.
 
-
-
-
-
-Veillette, et al.       Expires January 11, 2021               [Page 19]
-
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
-
-
    During the early use of SIDs, many existing, previously published
    YANG modules will not have SID allocations.  For an allocation to be
    useful the included YANG modules may also need to have SID
@@ -1075,7 +1155,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
    need to go through the list of included YANG modules and perform SID
    allocations for those modules as well.
 
-   o  If the document is a published RFC, then the allocation of SIDs
+   *  If the document is a published RFC, then the allocation of SIDs
       for its referenced YANG modules is permanent.  The Expert Reviewer
       provides the generated SID file to IANA for registration.  This
       process may be time consuming during a bootstrap period (there are
@@ -1083,14 +1163,22 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
       allocations), but should quiet down once needed entries are
       allocated.
 
-   o  If the document is an unprocessed Internet-Draft adopted in a WG,
+   *  If the document is an unprocessed Internet-Draft adopted in a WG,
       then an Early Allocation is performed for this document as well.
       Early Allocations require approval by an IESG Area Director.  An
       early allocation which requires additional allocations will list
       the other allocations in it's description, and will be cross-
       posted to the any other working group mailing lists.
 
-   o  A YANG module which references a module in an document which has
+
+
+
+Veillette, et al.         Expires 21 July 2021                 [Page 21]
+
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
+
+
+   *  A YANG module which references a module in an document which has
       not yet been adopted by any working group will be unable to
       perform an Early Allocation for that other document until it is
       adopted by a working group.  As described in [RFC7120], an AD
@@ -1114,14 +1202,6 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
        update any referenced Early Allocations to expire no sooner than
        the referencing document.
 
-
-
-
-Veillette, et al.       Expires January 11, 2021               [Page 20]
-
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
-
-
    2.  The [RFC7120] mechanism allows the IESG to provide a second
        renewal, and such an event may prompt some thought about how the
        collection of documents are being processed.
@@ -1143,6 +1223,17 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
 
    None.
 
+
+
+
+
+
+
+Veillette, et al.         Expires 21 July 2021                 [Page 22]
+
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
+
+
 8.  Acknowledgments
 
    The authors would like to thank Andy Bierman, Carsten Bormann,
@@ -1156,8 +1247,10 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
 
    [I-D.ietf-core-yang-cbor]
               Veillette, M., Petrov, I., and A. Pelov, "CBOR Encoding of
-              Data Modeled with YANG", draft-ietf-core-yang-cbor-13
-              (work in progress), July 2020.
+              Data Modeled with YANG", Work in Progress, Internet-Draft,
+              draft-ietf-core-yang-cbor-13, 4 July 2020,
+              <http://www.ietf.org/internet-drafts/draft-ietf-core-yang-
+              cbor-13.txt>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -1167,16 +1260,6 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
    [RFC3688]  Mealling, M., "The IETF XML Registry", BCP 81, RFC 3688,
               DOI 10.17487/RFC3688, January 2004,
               <https://www.rfc-editor.org/info/rfc3688>.
-
-
-
-
-
-
-Veillette, et al.       Expires January 11, 2021               [Page 21]
-
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
-
 
    [RFC6991]  Schoenwaelder, J., Ed., "Common YANG Data Types",
               RFC 6991, DOI 10.17487/RFC6991, July 2013,
@@ -1198,6 +1281,15 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
               Protocol", RFC 8040, DOI 10.17487/RFC8040, January 2017,
               <https://www.rfc-editor.org/info/rfc8040>.
 
+
+
+
+
+Veillette, et al.         Expires 21 July 2021                 [Page 23]
+
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
+
+
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
@@ -1206,43 +1298,35 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
 
    [I-D.ietf-anima-constrained-voucher]
               Richardson, M., Stok, P., and P. Kampanakis, "Constrained
-              Voucher Artifacts for Bootstrapping Protocols", draft-
-              ietf-anima-constrained-voucher-07 (work in progress),
-              January 2020.
+              Voucher Artifacts for Bootstrapping Protocols", Work in
+              Progress, Internet-Draft, draft-ietf-anima-constrained-
+              voucher-09, 2 November 2020, <http://www.ietf.org/
+              internet-drafts/draft-ietf-anima-constrained-voucher-
+              09.txt>.
 
    [I-D.ietf-core-comi]
               Veillette, M., Stok, P., Pelov, A., Bierman, A., and I.
-              Petrov, "CoAP Management Interface (CORECONF)", draft-
-              ietf-core-comi-10 (work in progress), July 2020.
+              Petrov, "CoAP Management Interface (CORECONF)", Work in
+              Progress, Internet-Draft, draft-ietf-core-comi-10, 4 July
+              2020, <http://www.ietf.org/internet-drafts/draft-ietf-
+              core-comi-10.txt>.
 
    [I-D.ietf-core-yang-library]
               Veillette, M. and I. Petrov, "Constrained YANG Module
-              Library", draft-ietf-core-yang-library-01 (work in
-              progress), January 2020.
+              Library", Work in Progress, Internet-Draft, draft-ietf-
+              core-yang-library-03, 11 January 2021,
+              <http://www.ietf.org/internet-drafts/draft-ietf-core-yang-
+              library-03.txt>.
 
    [RFC6020]  Bjorklund, M., Ed., "YANG - A Data Modeling Language for
               the Network Configuration Protocol (NETCONF)", RFC 6020,
               DOI 10.17487/RFC6020, October 2010,
               <https://www.rfc-editor.org/info/rfc6020>.
 
-
-
-
-
-Veillette, et al.       Expires January 11, 2021               [Page 22]
-
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
-
-
    [RFC6241]  Enns, R., Ed., Bjorklund, M., Ed., Schoenwaelder, J., Ed.,
               and A. Bierman, Ed., "Network Configuration Protocol
               (NETCONF)", RFC 6241, DOI 10.17487/RFC6241, June 2011,
               <https://www.rfc-editor.org/info/rfc6241>.
-
-   [RFC6536]  Bierman, A. and M. Bjorklund, "Network Configuration
-              Protocol (NETCONF) Access Control Model", RFC 6536,
-              DOI 10.17487/RFC6536, March 2012,
-              <https://www.rfc-editor.org/info/rfc6536>.
 
    [RFC7224]  Bjorklund, M., "IANA Interface Type YANG Module",
               RFC 7224, DOI 10.17487/RFC7224, May 2014,
@@ -1251,6 +1335,16 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
    [RFC7317]  Bierman, A. and M. Bjorklund, "A YANG Data Model for
               System Management", RFC 7317, DOI 10.17487/RFC7317, August
               2014, <https://www.rfc-editor.org/info/rfc7317>.
+
+
+
+
+
+
+Veillette, et al.         Expires 21 July 2021                 [Page 24]
+
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
+
 
    [RFC8126]  Cotton, M., Leiba, B., and T. Narten, "Guidelines for
               Writing an IANA Considerations Section in RFCs", BCP 26,
@@ -1280,23 +1374,15 @@ Appendix A.  ".sid" file example
    The following ".sid" file (ietf-system@2014-08-06.sid) have been
    generated using the following yang modules:
 
-   o  ietf-system@2014-08-06.yang (defined in [RFC7317])
+   *  ietf-system@2014-08-06.yang (defined in [RFC7317])
 
+   *  ietf-yang-types@2013-07-15.yang (defined in [RFC6991])
 
+   *  ietf-inet-types@2013-07-15.yang (defined in [RFC6991])
 
+   *  ietf-netconf-acm@2018-02-14.yang (defined in [RFC8341])
 
-Veillette, et al.       Expires January 11, 2021               [Page 23]
-
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
-
-
-   o  ietf-yang-types@2013-07-15.yang (defined in [RFC6991])
-
-   o  ietf-inet-types@2013-07-15.yang (defined in [RFC6991])
-
-   o  ietf-netconf-acm@2012-02-22.yang (defined in [RFC6536])
-
-   o  iana-crypt-hash@2014-04-04.yang (defined in [RFC7317])
+   *  iana-crypt-hash@2014-04-04.yang (defined in [RFC7317])
 
   {
     "ietf-sid-file:sid-file" : {
@@ -1308,12 +1394,20 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
           "module-revision": "2013-07-15.yang"
         },
         {
+
+
+
+Veillette, et al.         Expires 21 July 2021                 [Page 25]
+
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
+
+
           "module-name": "ietf-inet-types",
           "module-revision": "2013-07-15.yang"
         },
         {
           "module-name": "ietf-netconf-acm",
-          "module-revision": "2012-02-22.yang"
+          "module-revision": "2018-02-14.yang"
         },
         {
           "module-name": "iana-crypt-hash",
@@ -1338,14 +1432,6 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
           "identifier": "authentication-method",
           "sid": 1701
         },
-
-
-
-Veillette, et al.       Expires January 11, 2021               [Page 24]
-
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
-
-
         {
           "namespace": "identity",
           "identifier": "local-users",
@@ -1364,6 +1450,14 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
         {
           "namespace": "identity",
           "identifier": "radius-chap",
+
+
+
+Veillette, et al.         Expires 21 July 2021                 [Page 26]
+
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
+
+
           "sid": 1705
         },
         {
@@ -1394,14 +1488,6 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
         {
           "namespace": "feature",
           "identifier": "ntp-udp-port",
-
-
-
-Veillette, et al.       Expires January 11, 2021               [Page 25]
-
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
-
-
           "sid": 1711
         },
         {
@@ -1420,6 +1506,14 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
           "sid": 1714
         },
         {
+
+
+
+Veillette, et al.         Expires 21 July 2021                 [Page 27]
+
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
+
+
           "namespace": "data",
           "identifier": "/ietf-system:set-current-datetime",
           "sid": 1715
@@ -1450,14 +1544,6 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
           "identifier": "/ietf-system:system-state",
           "sid": 1720
         },
-
-
-
-Veillette, et al.       Expires January 11, 2021               [Page 26]
-
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
-
-
         {
           "namespace": "data",
           "identifier": "/ietf-system:system-state/clock",
@@ -1476,6 +1562,14 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
         },
         {
           "namespace": "data",
+
+
+
+Veillette, et al.         Expires 21 July 2021                 [Page 28]
+
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
+
+
           "identifier": "/ietf-system:system-state/platform",
           "sid": 1724
         },
@@ -1506,14 +1600,6 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
         },
         {
           "namespace": "data",
-
-
-
-Veillette, et al.       Expires January 11, 2021               [Page 27]
-
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
-
-
           "identifier": "/ietf-system:system/authentication/user",
           "sid": 1730
         },
@@ -1532,6 +1618,14 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
         {
           "namespace": "data",
           "identifier": "/ietf-system:system/authentication/user/
+
+
+
+Veillette, et al.         Expires 21 July 2021                 [Page 29]
+
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
+
+
                         authorized-key/algorithm",
           "sid": 1733
         },
@@ -1562,14 +1656,6 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
         {
           "namespace": "data",
           "identifier": "/ietf-system:system/clock",
-
-
-
-Veillette, et al.       Expires January 11, 2021               [Page 28]
-
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
-
-
           "sid": 1738
         },
         {
@@ -1588,6 +1674,14 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
           "sid": 1741
         },
         {
+
+
+
+Veillette, et al.         Expires 21 July 2021                 [Page 30]
+
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
+
+
           "namespace": "data",
           "identifier": "/ietf-system:system/dns-resolver",
           "sid": 1742
@@ -1618,14 +1712,6 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
           "namespace": "data",
           "identifier": "/ietf-system:system/dns-resolver/server",
           "sid": 1747
-
-
-
-Veillette, et al.       Expires January 11, 2021               [Page 29]
-
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
-
-
         },
         {
           "namespace": "data",
@@ -1644,6 +1730,14 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
                         udp-and-tcp/address",
           "sid": 1750
         },
+
+
+
+Veillette, et al.         Expires 21 July 2021                 [Page 31]
+
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
+
+
         {
           "namespace": "data",
           "identifier": "/ietf-system:system/dns-resolver/server/
@@ -1674,14 +1768,6 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
           "namespace": "data",
           "identifier": "/ietf-system:system/ntp/server",
           "sid": 1756
-
-
-
-Veillette, et al.       Expires January 11, 2021               [Page 30]
-
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
-
-
         },
         {
           "namespace": "data",
@@ -1700,6 +1786,14 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
           "sid": 1759
         },
         {
+
+
+
+Veillette, et al.         Expires 21 July 2021                 [Page 32]
+
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
+
+
           "namespace": "data",
           "identifier": "/ietf-system:system/ntp/server/prefer",
           "sid": 1760
@@ -1730,14 +1824,6 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
           "sid": 1765
         },
         {
-
-
-
-Veillette, et al.       Expires January 11, 2021               [Page 31]
-
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
-
-
           "namespace": "data",
           "identifier": "/ietf-system:system/radius/options/attempts",
           "sid": 1766
@@ -1756,6 +1842,14 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
           "namespace": "data",
           "identifier": "/ietf-system:system/radius/server/
                         authentication-type",
+
+
+
+Veillette, et al.         Expires 21 July 2021                 [Page 33]
+
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
+
+
           "sid": 1769
         },
         {
@@ -1786,14 +1880,6 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
                         shared-secret",
           "sid": 1774
         }
-
-
-
-Veillette, et al.       Expires January 11, 2021               [Page 32]
-
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
-
-
       ]
     }
   }
@@ -1810,6 +1896,15 @@ Appendix B.  SID auto generation
        descending order, 'identifier' in ascending order.  The
        'namespace' and 'identifier' formats are described in the YANG
        module 'ietf-sid-file' defined in Section 4.
+
+
+
+
+
+Veillette, et al.         Expires 21 July 2021                 [Page 34]
+
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
+
 
    3.  SIDs are assigned sequentially from the entry point up to the
        size of the registered SID range.  This approach is recommended
@@ -1841,15 +1936,6 @@ Appendix B.  SID auto generation
 
    Note also that RPC or action "input" and "output" data nodes MUST
    always be assigned SID even if they don't contain data nodes.  The
-
-
-
-
-Veillette, et al.       Expires January 11, 2021               [Page 33]
-
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
-
-
    reason for this requirement is that other modules can augment the
    given module and those SIDs might be necessary.
 
@@ -1861,6 +1947,20 @@ Appendix C.  ".sid" file lifecycle
    acquired from the "IETF YANG SID Range Registry" as defined in
    Section 7.5.  For the other YANG modules, the authors can acquire a
    SID range from any "YANG SID Range Registry" of their choice.
+
+
+
+
+
+
+
+
+
+
+Veillette, et al.         Expires 21 July 2021                 [Page 35]
+
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
+
 
    Once the SID range is acquired, the owner can use it to generate
    ".sid" file/s for his YANG module/s.  It is recommended to leave some
@@ -1898,14 +1998,6 @@ C.1.  ".sid" File Creation
        | update        |     | assignment    |<----------+
        +---------------+     +---------------+           |
                                      |                   |
-
-
-
-Veillette, et al.       Expires January 11, 2021               [Page 34]
-
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
-
-
                                      V                   |
                              +---------------+    +-------------+
                              | ".sid" file   |    | Rework YANG |
@@ -1918,6 +2010,14 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
                                \  progress  /
                                 \----------/
                                      | no
+
+
+
+Veillette, et al.         Expires 21 July 2021                 [Page 36]
+
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
+
+
                                      V
                                /-------------\       /-------------\
                               /      RFC      \ no  /     Open      \ no
@@ -1935,7 +2035,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
                                       V
                                     [DONE]
 
-                          Figure 1: SID Lifecycle
+                       Figure 1: SID Lifecycle
 
 C.2.  ".sid" File Update
 
@@ -1957,9 +2057,21 @@ C.2.  ".sid" File Update
 
 
 
-Veillette, et al.       Expires January 11, 2021               [Page 35]
+
+
+
+
+
+
+
+
+
+
+
+
+Veillette, et al.         Expires 21 July 2021                 [Page 37]
 
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
           +---------------+
@@ -2000,29 +2112,23 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
                                     |
                                   [DONE]
 
-
                    Figure 2: YANG and ".sid" file update
 
 Authors' Addresses
 
-
-
-
-
-
-
-
-
-Veillette, et al.       Expires January 11, 2021               [Page 36]
-
-Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
-
-
    Michel Veillette (editor)
    Trilliant Networks Inc.
    610 Rue du Luxembourg
-   Granby, Quebec  J2J 2V2
+   Granby Quebec J2J 2V2
    Canada
+
+
+
+
+Veillette, et al.         Expires 21 July 2021                 [Page 38]
+
+Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
+
 
    Phone: +14503750556
    Email: michel.veillette@trilliant.com
@@ -2031,7 +2137,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
    Alexander Pelov (editor)
    Acklio
    1137A avenue des Champs Blancs
-   Cesson-Sevigne, Bretagne  35510
+   35510 Cesson-Sevigne
    France
 
    Email: a@ackl.io
@@ -2040,7 +2146,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
    Ivaylo Petrov (editor)
    Acklio
    1137A avenue des Champs Blancs
-   Cesson-Sevigne, Bretagne  35510
+   35510 Cesson-Sevigne
    France
 
    Email: ivaylo@ackl.io
@@ -2069,4 +2175,10 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)        July 2020
 
 
 
-Veillette, et al.       Expires January 11, 2021               [Page 37]
+
+
+
+
+
+
+Veillette, et al.         Expires 21 July 2021                 [Page 39]

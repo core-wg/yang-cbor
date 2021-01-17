@@ -4,15 +4,15 @@
 
 CoRE                                                      R. Turner, Ed.
 Internet-Draft                                                Landis+Gyr
-Intended status: Best Current Practice                      M. Veillette
-Expires: January 11, 2021                        Trilliant Networks Inc.
-                                                                A. Pelov
+Intended status: Best Current Practice                    M.V. Veillette
+Expires: 21 July 2021                            Trilliant Networks Inc.
+                                                              A.P. Pelov
                                                                   Acklio
-                                                             A. Somaraju
+                                                           A.S. Somaraju
                                                    Tridonic GmbH & Co KG
-                                                             A. Minaburo
+                                                           A.M. Minaburo
                                                                   Acklio
-                                                           July 10, 2020
+                                                         17 January 2021
 
 
                          CoOL Problem Statement
@@ -47,39 +47,38 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on January 11, 2021.
+   This Internet-Draft will expire on 21 July 2021.
 
 
 
 
 
-Turner, et al.          Expires January 11, 2021                [Page 1]
+Turner, et al.            Expires 21 July 2021                  [Page 1]
 
-Internet-Draft                CoOL Problem                     July 2020
+Internet-Draft                CoOL Problem                  January 2021
 
 
 Copyright Notice
 
-   Copyright (c) 2020 IETF Trust and the persons identified as the
+   Copyright (c) 2021 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
-   Provisions Relating to IETF Documents
-   (https://trustee.ietf.org/license-info) in effect on the date of
-   publication of this document.  Please review these documents
-   carefully, as they describe your rights and restrictions with respect
-   to this document.  Code Components extracted from this document must
-   include Simplified BSD License text as described in Section 4.e of
-   the Trust Legal Provisions and are provided without warranty as
-   described in the Simplified BSD License.
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Simplified BSD License text
+   as described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Simplified BSD License.
 
 Table of Contents
 
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
-   2.  Problem Statement . . . . . . . . . . . . . . . . . . . . . .   2
+   2.  Problem Statement . . . . . . . . . . . . . . . . . . . . . .   3
    3.  Why CoOL? . . . . . . . . . . . . . . . . . . . . . . . . . .   4
-   4.  Roadmap . . . . . . . . . . . . . . . . . . . . . . . . . . .   4
-   5.  Security Considerations . . . . . . . . . . . . . . . . . . .   5
+   4.  Roadmap . . . . . . . . . . . . . . . . . . . . . . . . . . .   5
+   5.  Security Considerations . . . . . . . . . . . . . . . . . . .   6
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .   6
 
 1.  Introduction
@@ -90,6 +89,30 @@ Table of Contents
    memory) from the device platform; constrained networks imply the
    network management solution should impose minimal traffic on the
    network to accomplish a particular management objective.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Turner, et al.            Expires 21 July 2021                  [Page 2]
+
+Internet-Draft                CoOL Problem                  January 2021
+
 
 2.  Problem Statement
 
@@ -106,41 +129,46 @@ Table of Contents
    limited CPU resources.  Therefore, the amount of code necessary to
    achieve network management functionality will need to be as small as
    possible, as well as the amount of RAM necessary to achieve the
-
-
-
-Turner, et al.          Expires January 11, 2021                [Page 2]
-
-Internet-Draft                CoOL Problem                     July 2020
-
-
    functionality will be limited.  Likewise, minimal network bandwidth
    should be required to support a solution.
 
    An ideal solution SHOULD therefore possess the following
    characteristics:
 
-   o  Simple and efficient
+   *  Simple and efficient
 
-      *  Low memory footprint (RAM)
+      -  Low memory footprint (RAM)
 
-      *  Low binary footprint (flash)
+      -  Low binary footprint (flash)
 
-      *  Low protocol complexity (simple state machine)
+      -  Low protocol complexity (simple state machine)
 
-   o  Scalable
+   *  Scalable
 
-      *  Thing-to-thing management
+      -  Thing-to-thing management
 
-      *  Zero feature negotiation required
+      -  Zero feature negotiation required
 
-   o  Compact on the air/wire
+   *  Compact on the air/wire
 
-   o  Secure
+   *  Secure
 
-   o  Extensible
+   *  Extensible
 
-   o  Interoperable
+   *  Interoperable
+
+
+
+
+
+
+
+
+
+Turner, et al.            Expires 21 July 2021                  [Page 3]
+
+Internet-Draft                CoOL Problem                  January 2021
+
 
    The IETF is coalescing around a set of solutions for transport of
    applications on constrained networks (CoAP).  Since constrained
@@ -162,14 +190,6 @@ Internet-Draft                CoOL Problem                     July 2020
    however, the idea of constrained networks and devices was not a
    factor in the design of NETCONF/YANG.  Any solution that attempts to
    use YANG in a constrained environment should consider constrained
-
-
-
-Turner, et al.          Expires January 11, 2021                [Page 3]
-
-Internet-Draft                CoOL Problem                     July 2020
-
-
    device and networking properties to the application of YANG in these
    scenarios.
 
@@ -197,6 +217,15 @@ Internet-Draft                CoOL Problem                     July 2020
    concise representation of management transactions (specifically
    management "data").
 
+
+
+
+
+Turner, et al.            Expires 21 July 2021                  [Page 4]
+
+Internet-Draft                CoOL Problem                  January 2021
+
+
    The evolution of the CoOL solution will recognize the proliferation
    of the "pub/sub" design pattern by relying on extensions both at the
    CoAP, as well as CoOL protocol layers where needed.  Incorporating
@@ -217,15 +246,6 @@ Internet-Draft                CoOL Problem                     July 2020
    identifiers (YANG hashes), which require zero compile-time efforts in
    exchange for decreased runtime efficiency.  The second approach is
    based on managed identifiers (SID), which takes the opposite
-
-
-
-
-Turner, et al.          Expires January 11, 2021                [Page 4]
-
-Internet-Draft                CoOL Problem                     July 2020
-
-
    direction, requiring more upfront preparation, aiming at maximal
    efficiency, deterministic behavior and improved scalability.
 
@@ -237,6 +257,30 @@ Internet-Draft                CoOL Problem                     July 2020
    services.
 
    The following drafts are currently available:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Turner, et al.            Expires 21 July 2021                  [Page 5]
+
+Internet-Draft                CoOL Problem                  January 2021
+
 
              +----------------------------------------+
              |          Problem statement             |
@@ -274,14 +318,6 @@ Internet-Draft                CoOL Problem                     July 2020
    With this risk should come a more strict understanding of the attack
    vectors and vulnerabilities of any and all protocols in use in
    constrained networks, especially those protocols tasked with the
-
-
-
-Turner, et al.          Expires January 11, 2021                [Page 5]
-
-Internet-Draft                CoOL Problem                     July 2020
-
-
    management of a device.  The CoOL working group will attempt to reuse
    applicable ideas and technology originating from other IETF working
    groups to address the problem of security.  The initial focus of
@@ -294,8 +330,16 @@ Authors' Addresses
    Randy Turner (editor)
    Landis+Gyr
    30000 Mill Creek Ave
-   Alpharetta, Georgia  30022
-   USA
+
+
+
+Turner, et al.            Expires 21 July 2021                  [Page 6]
+
+Internet-Draft                CoOL Problem                  January 2021
+
+
+   Alpharetta, Georgia 30022
+   United States of America
 
    Phone: 678-258-1292
    Email: randy.turner@landisgyr.com
@@ -304,7 +348,7 @@ Authors' Addresses
    Michel Veillette
    Trilliant Networks Inc.
    610 Rue du Luxembourg
-   Granby, Quebec  J2J 2V2
+   Granby Quebec J2J 2V2
    Canada
 
    Phone: +14503750556
@@ -314,7 +358,7 @@ Authors' Addresses
    Alexander Pelov
    Acklio
    2bis rue de la Chataigneraie
-   Cesson-Sevigne, Bretagne  35510
+   35510 Cesson-Sevigne
    France
 
    Email: a@ackl.io
@@ -323,25 +367,17 @@ Authors' Addresses
    Abhinav Somaraju
    Tridonic GmbH & Co KG
    Farbergasse 15
-   Dornbirn, Vorarlberg  6850
+   6850 Dornbirn
    Austria
 
    Phone: +43664808926169
    Email: abhinav.somaraju@tridonic.com
 
 
-
-
-
-Turner, et al.          Expires January 11, 2021                [Page 6]
-
-Internet-Draft                CoOL Problem                     July 2020
-
-
    Ana Minaburo
    Acklio
-   2bis rue de la chataigneraie
-   Cesson-Sevigne, Bretagne  35510
+   2bis rue de la châtaigneraie
+   35510 Cesson-Sévigné
    France
 
    Email: ana@ackl.io
@@ -353,40 +389,4 @@ Internet-Draft                CoOL Problem                     July 2020
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Turner, et al.          Expires January 11, 2021                [Page 7]
+Turner, et al.            Expires 21 July 2021                  [Page 7]

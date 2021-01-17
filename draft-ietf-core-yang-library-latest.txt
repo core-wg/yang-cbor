@@ -5,12 +5,12 @@
 Internet Engineering Task Force                        M. Veillette, Ed.
 Internet-Draft                                   Trilliant Networks Inc.
 Intended status: Standards Track                          I. Petrov, Ed.
-Expires: January 11, 2021                                         Acklio
-                                                           July 10, 2020
+Expires: 21 July 2021                                             Acklio
+                                                         17 January 2021
 
 
                     Constrained YANG Module Library
-                    draft-ietf-core-yang-library-02
+                    draft-ietf-core-yang-library-03
 
 Abstract
 
@@ -34,28 +34,28 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on January 11, 2021.
+   This Internet-Draft will expire on 21 July 2021.
 
 Copyright Notice
 
-   Copyright (c) 2020 IETF Trust and the persons identified as the
+   Copyright (c) 2021 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
-   Provisions Relating to IETF Documents
-   (https://trustee.ietf.org/license-info) in effect on the date of
-   publication of this document.  Please review these documents
-   carefully, as they describe your rights and restrictions with respect
-   to this document.  Code Components extracted from this document must
-   include Simplified BSD License text as described in Section 4.e of
-   the Trust Legal Provisions and are provided without warranty as
-   described in the Simplified BSD License.
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Simplified BSD License text
+   as described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Simplified BSD License.
 
 
 
-Veillette & Petrov      Expires January 11, 2021                [Page 1]
+
+Veillette & Petrov        Expires 21 July 2021                  [Page 1]
 
-Internet-Draft       Constrained YANG Module Library           July 2020
+Internet-Draft       Constrained YANG Module Library        January 2021
 
 
 Table of Contents
@@ -64,13 +64,13 @@ Table of Contents
    2.  Terminology and Notation  . . . . . . . . . . . . . . . . . .   2
    3.  Overview  . . . . . . . . . . . . . . . . . . . . . . . . . .   3
      3.1.  Tree diagram  . . . . . . . . . . . . . . . . . . . . . .   4
-     3.2.  Major differences between ietf-constrained-yang-library
-           and ietf-yang-library . . . . . . . . . . . . . . . . . .   4
+     3.2.  Major differences between ietf-constrained-yang-library and
+           ietf-yang-library . . . . . . . . . . . . . . . . . . . .   4
    4.  YANG Module "ietf-constrained-yang-library" . . . . . . . . .   5
    5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  13
      5.1.  YANG Module Registration  . . . . . . . . . . . . . . . .  13
      5.2.  YANG Namespace Registration . . . . . . . . . . . . . . .  13
-   6.  Security Considerations . . . . . . . . . . . . . . . . . . .  13
+   6.  Security Considerations . . . . . . . . . . . . . . . . . . .  14
    7.  Acknowledgments . . . . . . . . . . . . . . . . . . . . . . .  14
    8.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  14
      8.1.  Normative References  . . . . . . . . . . . . . . . . . .  14
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Veillette & Petrov      Expires January 11, 2021                [Page 2]
+Veillette & Petrov        Expires 21 July 2021                  [Page 2]
 
-Internet-Draft       Constrained YANG Module Library           July 2020
+Internet-Draft       Constrained YANG Module Library        January 2021
 
 
    The following terms are defined in [RFC8525]: YANG library and YANG
@@ -132,7 +132,7 @@ Internet-Draft       Constrained YANG Module Library           July 2020
    |  schema   |----------->|  set   |--------------->| submodules |
    +-----------+            +--------+                +------------+
 
-              Figure 1: Conceptual model of the YANG library
+               Figure 1: Conceptual model of the YANG library
 
    It's expected that most constrained network management servers have
    one datastore (e.g. a unified datastore).  However, some servers may
@@ -146,15 +146,15 @@ Internet-Draft       Constrained YANG Module Library           July 2020
 
    For each module, the YANG library provides:
 
-   o  the YANG module identifier (i.e.  SID)
+   *  the YANG module identifier (i.e., SID)
 
-   o  its revision
+   *  its revision
 
-   o  its list of submodules
+   *  its list of submodules
 
-   o  its list of imported modules
+   *  its list of imported modules
 
-   o  its set of features and deviations
+   *  its set of features and deviations
 
    YANG module namespace and location are also supported, but their
    implementation is not recommended for constrained servers.
@@ -165,9 +165,9 @@ Internet-Draft       Constrained YANG Module Library           July 2020
 
 
 
-Veillette & Petrov      Expires January 11, 2021                [Page 3]
+Veillette & Petrov        Expires 21 July 2021                  [Page 3]
 
-Internet-Draft       Constrained YANG Module Library           July 2020
+Internet-Draft       Constrained YANG Module Library        January 2021
 
 
 3.1.  Tree diagram
@@ -221,28 +221,28 @@ Internet-Draft       Constrained YANG Module Library           July 2020
 
 
 
-Veillette & Petrov      Expires January 11, 2021                [Page 4]
+Veillette & Petrov        Expires 21 July 2021                  [Page 4]
 
-Internet-Draft       Constrained YANG Module Library           July 2020
+Internet-Draft       Constrained YANG Module Library        January 2021
 
 
-   o  module-set 'name' and schema 'name' are implemented using 8 bits
+   *  module-set 'name' and schema 'name' are implemented using 8 bits
       unsigned integers and renamed 'index'.
 
-   o  module 'name', submodule 'name' and datastore 'name' are
+   *  module 'name', submodule 'name' and datastore 'name' are
       implemented using a SID (i.e. an unsigned integer) and renamed
       'identifier'.
 
-   o  'feature' and 'deviation' are implemented using a SID (i.e. an
+   *  'feature' and 'deviation' are implemented using a SID (i.e. an
       unsigned integer).
 
-   o  'revision' fields are implemented using a 4 bytes binary string.
+   *  'revision' fields are implemented using a 4 bytes binary string.
 
-   o  the mandatory requirement of the 'namespace' fields is removed,
+   *  the mandatory requirement of the 'namespace' fields is removed,
       and implementation is not recommended.  SIDs used by constrained
       devices and protocols don't require namespaces.
 
-   o  the implementation of the 'location' fields are not recommended,
+   *  the implementation of the 'location' fields are not recommended,
       the use of the module SID as the handle to retrieve the associated
       YANG module is proposed instead.
 
@@ -251,437 +251,444 @@ Internet-Draft       Constrained YANG Module Library           July 2020
    RFC Ed.: update the date below with the date of RFC publication and
    remove this note.
 
-<CODE BEGINS> file "ietf-constrained-yang-library@2019-03-28.yang"
-module ietf-constrained-yang-library {
-  yang-version 1.1;
-  namespace
-    "urn:ietf:params:xml:ns:yang:ietf-constrained-yang-library";
-  prefix "yanglib";
+   <CODE BEGINS> file "ietf-constrained-yang-library@2019-03-28.yang"
+   module ietf-constrained-yang-library {
+     yang-version 1.1;
+     namespace
+       "urn:ietf:params:xml:ns:yang:ietf-constrained-yang-library";
+     prefix "yanglib";
 
-  // RFC Ed.: update ietf-core-sid reference.
+     // RFC Ed.: update ietf-core-sid reference.
 
-  import ietf-sid-file {
-    prefix sid;
-    reference "RFC YYYY: YANG Schema Item iDentifier (SID)";
-    // RFC Editor: Please replace YYYY with RFC number of I-D.ietf-core-sid.
-  }
-  import ietf-inet-types {
-    prefix inet;
-    reference "RFC 6991: Common YANG Data Types.";
-  }
-  import ietf-datastores {
-    prefix ds;
-    reference
-      "RFC 8342: Network Management Datastore Architecture (NMDA).";
-  }
+     import ietf-sid-file {
+       prefix sid;
+       reference "RFC YYYY: YANG Schema Item iDentifier (SID)";
+       // RFC Editor: Please replace YYYY with RFC number of I-D.ietf-core-sid.
+     }
+     import ietf-inet-types {
+       prefix inet;
+       reference "RFC 6991: Common YANG Data Types.";
+     }
+     import ietf-datastores {
+       prefix ds;
+       reference
+         "RFC 8342: Network Management Datastore Architecture (NMDA).";
+     }
 
 
 
-Veillette & Petrov      Expires January 11, 2021                [Page 5]
+Veillette & Petrov        Expires 21 July 2021                  [Page 5]
 
-Internet-Draft       Constrained YANG Module Library           July 2020
+Internet-Draft       Constrained YANG Module Library        January 2021
 
 
-  organization
-    "IETF CoRE Working Group";
+     organization
+       "IETF CoRE Working Group";
 
-  contact
-    "WG Web:   <http://datatracker.ietf.org/wg/core/>
+     contact
+       "WG Web:   <http://datatracker.ietf.org/wg/core/>
 
-     WG List:  <mailto:core@ietf.org>
+        WG List:  <mailto:core@ietf.org>
 
-     Editor:   Michel Veillette
-               <mailto:michel.veillette@trilliantinc.com>
+        Editor:   Michel Veillette
+                  <mailto:michel.veillette@trilliantinc.com>
 
-     Editor:   Ivaylo Petrov
-               <mailto:ivaylo@ackl.io>";
+        Editor:   Ivaylo Petrov
+                  <mailto:ivaylo@ackl.io>";
 
-  description
-    "This module provides information about the YANG modules,
-     datastores, and datastore schemas implemented by a
-     constrained network management server.
+     description
+       "Copyright (c) 2021 IETF Trust and the persons identified as
+        authors of the code.  All rights reserved.
 
-     Copyright (c) 2018 IETF Trust and the persons identified as
-     authors of the code.  All rights reserved.
+        Redistribution and use in source and binary forms, with or
+        without modification, is permitted pursuant to, and subject to
+        the license terms contained in, the Simplified BSD License set
+        forth in Section 4.c of the IETF Trust's Legal Provisions
+        Relating to IETF Documents
+        (https://trustee.ietf.org/license-info).
 
-     Redistribution and use in source and binary forms, with or
-     without modification, is permitted pursuant to, and subject
-     to the license terms contained in, the Simplified BSD License
-     set forth in Section 4.c of the IETF Trust's Legal Provisions
-     Relating to IETF Documents
-     (http://trustee.ietf.org/license-info).
+        This version of this YANG module is part of RFC XXXX
+        (https://www.rfc-editor.org/info/rfcXXXX); see the RFC itself
+        for full legal notices.
 
-     This version of this YANG module is part of RFC XXXX; see
-     the RFC itself for full legal notices.";
+        The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
+        NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
+        'MAY', and 'OPTIONAL' in this document are to be interpreted as
+        described in BCP 14 (RFC 2119) (RFC 8174) when, and only when,
+        they appear in all capitals, as shown here.
 
-  // RFC Editor: Please replace XXXX with RFC number and remove this note
+        This module provides information about the YANG modules,
+        datastores, and datastore schemas implemented by a
+        constrained network management server.";
 
-  revision 2019-03-28 {
-    description
-      "Second revision.";
-    reference
-      "RFC XXXX: Constrained YANG Module Library";
-    // RFC Editor: Please replace XXXX with RFC number and remove this note
-  }
+     // RFC Editor: Please replace XXXX with RFC number and remove this note
 
-  /*
-   * Typedefs
-   */
-
-  typedef revision-identifier {
-    type binary {
+     revision 2019-03-28 {
+       description
+         "Second revision.";
+       reference
+         "RFC XXXX: Constrained YANG Module Library";
+       // RFC Editor: Please replace XXXX with RFC number and remove this note
+     }
 
 
 
-Veillette & Petrov      Expires January 11, 2021                [Page 6]
+Veillette & Petrov        Expires 21 July 2021                  [Page 6]
 
-Internet-Draft       Constrained YANG Module Library           July 2020
+Internet-Draft       Constrained YANG Module Library        January 2021
 
 
-      length "4";
-    }
-    description
-      "Revision date encoded as a binary string, each nibble
-       representing a digit of the revision date. For example,
-       revision 2018-09-21 is encoded as 0x20 0x18 0x09 0x21.";
-  }
+     /*
+      * Typedefs
+      */
 
-  /*
-   * Groupings
-   */
+     typedef revision-identifier {
+       type binary {
+         length "4";
+       }
+       description
+         "Revision date encoded as a binary string, each nibble
+          representing a digit of the revision date. For example,
+          revision 2018-09-21 is encoded as 0x20 0x18 0x09 0x21.";
+     }
 
-  grouping module-identification-leafs {
-    description
-      "Parameters for identifying YANG modules and submodules.";
+     /*
+      * Groupings
+      */
 
-    leaf identifier {
-      type sid:sid;
-      mandatory true;
-      description
-        "SID assigned to this module or submodule.";
-    }
-    leaf revision {
-      type revision-identifier;
-      description
-        "The YANG module or submodule revision date.  If no
-         revision statement is present in the YANG module
-         or submodule, this leaf is not instantiated.";
-    }
-  }
+     grouping module-identification-leafs {
+       description
+         "Parameters for identifying YANG modules and submodules.";
 
-  grouping location-leaf-list {
-    description
-      "Common location leaf list parameter for modules and
-       submodules.";
+       leaf identifier {
+         type sid:sid;
+         mandatory true;
+         description
+           "SID assigned to this module or submodule.";
+       }
+       leaf revision {
+         type revision-identifier;
+         description
+           "The YANG module or submodule revision date.  If no
+            revision statement is present in the YANG module
+            or submodule, this leaf is not instantiated.";
+       }
+     }
 
-    leaf-list location {
-      type inet:uri;
-      description
-        "Contains a URL that represents the YANG schema resource
-         for this module or submodule.
+     grouping location-leaf-list {
+       description
+         "Common location leaf list parameter for modules and
+          submodules.";
 
-         This leaf is present in the model to keep the alignment
-         with 'ietf-yang-library'. Support of this leaf in
-         constrained devices is not necessarily required, nor
-         expected. It is recommended that clients used the module
-         or sub-module SID as the handle used to retrieve the
-         corresponding YANG module";
-
+       leaf-list location {
+         type inet:uri;
+         description
+           "Contains a URL that represents the YANG schema resource
+            for this module or submodule.
 
 
-Veillette & Petrov      Expires January 11, 2021                [Page 7]
+
+
+Veillette & Petrov        Expires 21 July 2021                  [Page 7]
 
-Internet-Draft       Constrained YANG Module Library           July 2020
+Internet-Draft       Constrained YANG Module Library        January 2021
 
 
-    }
-  }
+            This leaf is present in the model to keep the alignment
+            with 'ietf-yang-library'. Support of this leaf in
+            constrained devices is not necessarily required, nor
+            expected. It is recommended that clients used the module
+            or sub-module SID as the handle used to retrieve the
+            corresponding YANG module";
+       }
+     }
 
-  grouping implementation-parameters {
-    description
-      "Parameters for describing the implementation of a module.";
+     grouping implementation-parameters {
+       description
+         "Parameters for describing the implementation of a module.";
 
-    leaf-list feature {
-      type sid:sid;
-      description
-        "List of all YANG feature names from this module that are
-         supported by the server, regardless whether they are
-         defined in the module or any included submodule.";
-    }
-    leaf-list deviation {
-      type leafref {
-        path "../../module/identifier";
-      }
-      description
-        "List of all YANG deviation modules used by this server to
-         modify the conformance of the module associated with this
-         entry.  Note that the same module can be used for
-         deviations for multiple modules, so the same entry MAY
-         appear within multiple 'module' entries.
+       leaf-list feature {
+         type sid:sid;
+         description
+           "List of all YANG feature names from this module that are
+            supported by the server, regardless whether they are
+            defined in the module or any included submodule.";
+       }
+       leaf-list deviation {
+         type leafref {
+           path "../../module/identifier";
+         }
+         description
+           "List of all YANG deviation modules used by this server to
+            modify the conformance of the module associated with this
+            entry.  Note that the same module can be used for
+            deviations for multiple modules, so the same entry MAY
+            appear within multiple 'module' entries.
 
-         This reference MUST NOT (directly or indirectly)
-         refer to the module being deviated.
+            This reference MUST NOT (directly or indirectly)
+            refer to the module being deviated.
 
-         Robust clients may want to make sure that they handle a
-         situation where a module deviates itself (directly or
-         indirectly) gracefully.";
-    }
-  }
+            Robust clients may want to make sure that they handle a
+            situation where a module deviates itself (directly or
+            indirectly) gracefully.";
+       }
+     }
 
-  grouping module-set-parameters {
-    description
-      "A set of parameters that describe a module set.";
+     grouping module-set-parameters {
+       description
+         "A set of parameters that describe a module set.";
 
-    leaf index {
-      type uint8;
-      description
-        "An arbitrary number assigned of the module set.";
-    }
-    list module {
-      key "identifier";
-      description
-        "An entry in this list represents a module implemented
-         by the server, as per RFC 7950 section 5.6.5, with a
+       leaf index {
+         type uint8;
+         description
+           "An arbitrary number assigned of the module set.";
 
 
 
-Veillette & Petrov      Expires January 11, 2021                [Page 8]
+Veillette & Petrov        Expires 21 July 2021                  [Page 8]
 
-Internet-Draft       Constrained YANG Module Library           July 2020
+Internet-Draft       Constrained YANG Module Library        January 2021
 
 
-         particular set of supported features and deviations.";
-      reference
-        "RFC 7950: The YANG 1.1 Data Modeling Language.";
+       }
+       list module {
+         key "identifier";
+         description
+           "An entry in this list represents a module implemented
+            by the server, as per RFC 7950 section 5.6.5, with a
+            particular set of supported features and deviations.";
+         reference
+           "RFC 7950: The YANG 1.1 Data Modeling Language.";
 
-      uses module-identification-leafs;
+         uses module-identification-leafs;
 
-      leaf namespace {
-        type inet:uri;
-        description
-          "The XML namespace identifier for this module.
-           This leaf is present in the model to keep the alignment
-           with 'ietf-yang-library'. Support of this leaf in
-           constrained devices is not required, nor expected.";
-      }
+         leaf namespace {
+           type inet:uri;
+           description
+             "The XML namespace identifier for this module.
+              This leaf is present in the model to keep the alignment
+              with 'ietf-yang-library'. Support of this leaf in
+              constrained devices is not required, nor expected.";
+         }
 
-      uses location-leaf-list;
+         uses location-leaf-list;
 
-      list submodule {
-        key "identifier";
-        description
-          "Each entry represents one submodule within the parent
-           module.";
-        uses module-identification-leafs;
-        uses location-leaf-list;
-      }
+         list submodule {
+           key "identifier";
+           description
+             "Each entry represents one submodule within the parent
+              module.";
+           uses module-identification-leafs;
+           uses location-leaf-list;
+         }
 
-      uses implementation-parameters;
-    }
-    list import-only-module {
-      key "identifier revision";
-      description
-        "An entry in this list indicates that the server imports
-         reusable definitions from the specified revision of the
-         module, but does not implement any protocol accessible
-         objects from this revision.
+         uses implementation-parameters;
+       }
+       list import-only-module {
+         key "identifier revision";
+         description
+           "An entry in this list indicates that the server imports
+            reusable definitions from the specified revision of the
+            module, but does not implement any protocol accessible
+            objects from this revision.
 
-         Multiple entries for the same module name MAY exist.
-         This can occur if multiple modules import the same
-         module, but specify different revision-dates in the
-         import statements.";
+            Multiple entries for the same module name MAY exist.
+            This can occur if multiple modules import the same
+            module, but specify different revision-dates in the
+            import statements.";
 
-      leaf identifier {
-        type sid:sid;
-        description
-          "The YANG module name.";
-      }
-      leaf revision {
-        type union {
+         leaf identifier {
 
 
 
-Veillette & Petrov      Expires January 11, 2021                [Page 9]
+Veillette & Petrov        Expires 21 July 2021                  [Page 9]
 
-Internet-Draft       Constrained YANG Module Library           July 2020
+Internet-Draft       Constrained YANG Module Library        January 2021
 
 
-          type revision-identifier;
-          type string {
-            length 0;
-          }
-        }
-        description
-          "The YANG module revision date.";
-      }
-      leaf namespace {
-        type inet:uri;
-        description
-          "The XML namespace identifier for this module.
-           This leaf is present in the model to keep the alignment
-           with 'ietf-yang-library'. Support of this leaf in
-           constrained devices is not required, nor expected.";
-      }
+           type sid:sid;
+           description
+             "The YANG module name.";
+         }
+         leaf revision {
+           type union {
+             type revision-identifier;
+             type string {
+               length 0;
+             }
+           }
+           description
+             "The YANG module revision date.";
+         }
+         leaf namespace {
+           type inet:uri;
+           description
+             "The XML namespace identifier for this module.
+              This leaf is present in the model to keep the alignment
+              with 'ietf-yang-library'. Support of this leaf in
+              constrained devices is not required, nor expected.";
+         }
 
-      uses location-leaf-list;
+         uses location-leaf-list;
 
-      list submodule {
-        key "identifier";
-        description
-          "Each entry represents one submodule within the
-           parent module.";
+         list submodule {
+           key "identifier";
+           description
+             "Each entry represents one submodule within the
+              parent module.";
 
-        uses module-identification-leafs;
-        uses location-leaf-list;
-      }
-    }
-  }
+           uses module-identification-leafs;
+           uses location-leaf-list;
+         }
+       }
+     }
 
-  grouping yang-library-parameters {
-    description
-      "The YANG library data structure is represented as a grouping
-       so it can be reused in configuration or another monitoring
-       data structure.";
+     grouping yang-library-parameters {
+       description
+         "The YANG library data structure is represented as a grouping
+          so it can be reused in configuration or another monitoring
+          data structure.";
 
-    list module-set {
-      key index;
-      description
-        "A set of modules that may be used by one or more schemas.
-
-         A module set does not have to be referentially complete,
-         i.e., it may define modules that contain import statements
-         for other modules not included in the module set.";
-
-      uses module-set-parameters;
-    }
-
+       list module-set {
+         key index;
+         description
+           "A set of modules that may be used by one or more schemas.
 
 
-Veillette & Petrov      Expires January 11, 2021               [Page 10]
+
+
+Veillette & Petrov        Expires 21 July 2021                 [Page 10]
 
-Internet-Draft       Constrained YANG Module Library           July 2020
+Internet-Draft       Constrained YANG Module Library        January 2021
 
 
-    list schema {
-      key "index";
-      description
-        "A datastore schema that may be used by one or more
-         datastores.
+            A module set does not have to be referentially complete,
+            i.e., it may define modules that contain import statements
+            for other modules not included in the module set.";
 
-         The schema must be valid and referentially complete,
-         i.e., it must contain modules to satisfy all used import
-         statements for all modules specified in the schema.";
+         uses module-set-parameters;
+       }
 
-      leaf index {
-        type uint8;
-        description
-          "An arbitrary reference number assigned to the schema.";
-      }
-      leaf-list module-set {
-        type leafref {
-          path "../../module-set/index";
-        }
-        description
-          "A set of module-sets that are included in this schema.
-           If a non import-only module appears in multiple module
-           sets, then the module revision and the associated
-           features and deviations must be identical.";
-      }
-    }
+       list schema {
+         key "index";
+         description
+           "A datastore schema that may be used by one or more
+            datastores.
 
-    list datastore {
-      key "identifier";
-      description
-        "A datastore supported by this server.
+            The schema must be valid and referentially complete,
+            i.e., it must contain modules to satisfy all used import
+            statements for all modules specified in the schema.";
 
-         Each datastore indicates which schema it supports.
+         leaf index {
+           type uint8;
+           description
+             "An arbitrary reference number assigned to the schema.";
+         }
+         leaf-list module-set {
+           type leafref {
+             path "../../module-set/index";
+           }
+           description
+             "A set of module-sets that are included in this schema.
+              If a non import-only module appears in multiple module
+              sets, then the module revision and the associated
+              features and deviations must be identical.";
+         }
+       }
 
-         The server MUST instantiate one entry in this list
-         per specific datastore it supports.
+       list datastore {
+         key "identifier";
+         description
+           "A datastore supported by this server.
 
-         Each datstore entry with the same datastore schema
-         SHOULD reference the same schema.";
+            Each datastore indicates which schema it supports.
 
-      leaf identifier {
-        type ds:datastore-ref;
-        description
-          "The identity of the datastore.";
-      }
-      leaf schema {
-        type leafref {
-          path "../../schema/index";
+            The server MUST instantiate one entry in this list
+            per specific datastore it supports.
+
+            Each datstore entry with the same datastore schema
+            SHOULD reference the same schema.";
+
+         leaf identifier {
 
 
 
-Veillette & Petrov      Expires January 11, 2021               [Page 11]
+Veillette & Petrov        Expires 21 July 2021                 [Page 11]
 
-Internet-Draft       Constrained YANG Module Library           July 2020
+Internet-Draft       Constrained YANG Module Library        January 2021
 
 
-        }
-        mandatory true;
-        description
-          "A reference to the schema supported by this datastore.
-           All non import-only modules of the schema are
-           implementedwith their associated features and
-           deviations.";
-      }
-    }
-  }
+           type ds:datastore-ref;
+           description
+             "The identity of the datastore.";
+         }
+         leaf schema {
+           type leafref {
+             path "../../schema/index";
+           }
+           mandatory true;
+           description
+             "A reference to the schema supported by this datastore.
+              All non import-only modules of the schema are
+              implemented with their associated features and
+              deviations.";
+         }
+       }
+     }
 
-  /*
-   * Top-level container
-   */
+     /*
+      * Top-level container
+      */
 
-  container yang-library {
-    config false;
-    description
-      "Container holding the entire YANG library of this server.";
+     container yang-library {
+       config false;
+       description
+         "Container holding the entire YANG library of this server.";
 
-    uses yang-library-parameters;
+       uses yang-library-parameters;
 
-    leaf checksum {
-      type binary;
-      mandatory true;
-      description
-        "A server-generated checksum or digest of the contents of
-         the 'yang-library' tree.  The server MUST change the
-         value of this leaf if the information represented by
-         the 'yang-library' tree, except 'yang-library/checksum',
-         has changed.";
-    }
-  }
+       leaf checksum {
+         type binary;
+         mandatory true;
+         description
+           "A server-generated checksum or digest of the contents of
+            the 'yang-library' tree.  The server MUST change the
+            value of this leaf if the information represented by
+            the 'yang-library' tree, except 'yang-library/checksum',
+            has changed.";
+       }
+     }
 
-  /*
-   * Notifications
-   */
+     /*
+      * Notifications
+      */
 
-  notification yang-library-update {
-    description
-      "Generated when any YANG library information on the
-       server has changed.";
-
-    leaf checksum {
-      type leafref {
-        path "/yanglib:yang-library/yanglib:checksum";
-      }
-      mandatory true;
+     notification yang-library-update {
+       description
+         "Generated when any YANG library information on the
 
 
 
-Veillette & Petrov      Expires January 11, 2021               [Page 12]
+Veillette & Petrov        Expires 21 July 2021                 [Page 12]
 
-Internet-Draft       Constrained YANG Module Library           July 2020
+Internet-Draft       Constrained YANG Module Library        January 2021
 
 
-      description
-        "Contains the YANG library checksum or digest for the
-         updated YANG library at the time the notification is
-         generated.";
-    }
-  }
-}
-<CODE ENDS>
+          server has changed.";
+
+       leaf checksum {
+         type leafref {
+           path "/yanglib:yang-library/yanglib:checksum";
+         }
+         mandatory true;
+         description
+           "Contains the YANG library checksum or digest for the
+            updated YANG library at the time the notification is
+            generated.";
+       }
+     }
+   }
+   <CODE ENDS>
 
 5.  IANA Considerations
 
@@ -716,20 +723,19 @@ Internet-Draft       Constrained YANG Module Library           July 2020
 
    // RFC Ed.: replace XXXX with RFC number and remove this note
 
+
+
+Veillette & Petrov        Expires 21 July 2021                 [Page 13]
+
+Internet-Draft       Constrained YANG Module Library        January 2021
+
+
 6.  Security Considerations
 
    The YANG module specified in this document defines a schema for data
    that is designed to be accessed via network management protocols such
    as NETCONF [RFC6241], RESTCONF [RFC8040] or CORECONF
    [I-D.ietf-core-comi].  The lowest NETCONF layer is the secure
-
-
-
-Veillette & Petrov      Expires January 11, 2021               [Page 13]
-
-Internet-Draft       Constrained YANG Module Library           July 2020
-
-
    transport layer, and the mandatory-to-implement secure transport is
    Secure Shell (SSH) [RFC6242].  The lowest RESTCONF layer is HTTPS,
    and the mandatory-to-implement secure transport is TLS [RFC8446].
@@ -772,24 +778,26 @@ Internet-Draft       Constrained YANG Module Library           July 2020
 
 8.1.  Normative References
 
+
+
+
+Veillette & Petrov        Expires 21 July 2021                 [Page 14]
+
+Internet-Draft       Constrained YANG Module Library        January 2021
+
+
    [I-D.ietf-core-comi]
               Veillette, M., Stok, P., Pelov, A., Bierman, A., and I.
-              Petrov, "CoAP Management Interface (CORECONF)", draft-
-              ietf-core-comi-10 (work in progress), July 2020.
-
-
-
-
-
-Veillette & Petrov      Expires January 11, 2021               [Page 14]
-
-Internet-Draft       Constrained YANG Module Library           July 2020
-
+              Petrov, "CoAP Management Interface (CORECONF)", Work in
+              Progress, Internet-Draft, draft-ietf-core-comi-10, 4 July
+              2020, <http://www.ietf.org/internet-drafts/draft-ietf-
+              core-comi-10.txt>.
 
    [I-D.ietf-core-sid]
               Veillette, M., Pelov, A., and I. Petrov, "YANG Schema Item
-              iDentifier (YANG SID)", draft-ietf-core-sid-14 (work in
-              progress), July 2020.
+              iDentifier (YANG SID)", Work in Progress, Internet-Draft,
+              draft-ietf-core-sid-14, 4 July 2020, <http://www.ietf.org/
+              internet-drafts/draft-ietf-core-sid-14.txt>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -826,6 +834,14 @@ Internet-Draft       Constrained YANG Module Library           July 2020
               RFC 7950, DOI 10.17487/RFC7950, August 2016,
               <https://www.rfc-editor.org/info/rfc7950>.
 
+
+
+
+Veillette & Petrov        Expires 21 July 2021                 [Page 15]
+
+Internet-Draft       Constrained YANG Module Library        January 2021
+
+
    [RFC8040]  Bierman, A., Bjorklund, M., and K. Watsen, "RESTCONF
               Protocol", RFC 8040, DOI 10.17487/RFC8040, January 2017,
               <https://www.rfc-editor.org/info/rfc8040>.
@@ -833,14 +849,6 @@ Internet-Draft       Constrained YANG Module Library           July 2020
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
-
-
-
-
-Veillette & Petrov      Expires January 11, 2021               [Page 15]
-
-Internet-Draft       Constrained YANG Module Library           July 2020
-
 
    [RFC8340]  Bjorklund, M. and L. Berger, Ed., "YANG Tree Diagrams",
               BCP 215, RFC 8340, DOI 10.17487/RFC8340, March 2018,
@@ -882,26 +890,24 @@ Authors' Addresses
    Michel Veillette (editor)
    Trilliant Networks Inc.
    610 Rue du Luxembourg
-   Granby, Quebec  J2J 2V2
+
+
+
+Veillette & Petrov        Expires 21 July 2021                 [Page 16]
+
+Internet-Draft       Constrained YANG Module Library        January 2021
+
+
+   Granby Quebec J2J 2V2
    Canada
 
    Email: michel.veillette@trilliantinc.com
 
 
-
-
-
-
-
-Veillette & Petrov      Expires January 11, 2021               [Page 16]
-
-Internet-Draft       Constrained YANG Module Library           July 2020
-
-
    Ivaylo Petrov (editor)
    Acklio
    1137A avenue des Champs Blancs
-   Cesson-Sevigne, Bretagne  35510
+   35510 Cesson-Sevigne
    France
 
    Email: ivaylo@ackl.io
@@ -943,10 +949,4 @@ Internet-Draft       Constrained YANG Module Library           July 2020
 
 
 
-
-
-
-
-
-
-Veillette & Petrov      Expires January 11, 2021               [Page 17]
+Veillette & Petrov        Expires 21 July 2021                 [Page 17]

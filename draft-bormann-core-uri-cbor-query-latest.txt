@@ -4,8 +4,8 @@
 
 Network Working Group                                         C. Bormann
 Internet-Draft                                   Universitaet Bremen TZI
-Intended status: Standards Track                       February 17, 2016
-Expires: August 20, 2016
+Intended status: Standards Track                        17 February 2016
+Expires: 20 August 2016
 
 
      Uri-CBOR-Query: A stopgap for working around the lack of FETCH
@@ -39,7 +39,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on August 20, 2016.
+   This Internet-Draft will expire on 20 August 2016.
 
 Copyright Notice
 
@@ -47,22 +47,21 @@ Copyright Notice
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
-   Provisions Relating to IETF Documents
-   (http://trustee.ietf.org/license-info) in effect on the date of
-   publication of this document.  Please review these documents
+   Provisions Relating to IETF Documents (http://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
 
 
 
-Bormann                  Expires August 20, 2016                [Page 1]
+Bormann                  Expires 20 August 2016                 [Page 1]
 
 Internet-Draft               Uri-CBOR-Query                February 2016
 
 
-   carefully, as they describe your rights and restrictions with respect
-   to this document.  Code Components extracted from this document must
-   include Simplified BSD License text as described in Section 4.e of
-   the Trust Legal Provisions and are provided without warranty as
-   described in the Simplified BSD License.
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Simplified BSD License text
+   as described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Simplified BSD License.
 
 Table of Contents
 
@@ -88,11 +87,13 @@ Table of Contents
    _discussion_: maybe a sequence of these so we can leave off any outer
    array markers.
 
-   +-----+---+---+---+---+----------------+--------+--------+---------+
+   +=====+===+===+===+===+================+========+========+=========+
    | No. | C | U | N | R | Name           | Format | Length | Default |
-   +-----+---+---+---+---+----------------+--------+--------+---------+
+   +=====+===+===+===+===+================+========+========+=========+
    | 19  | x | x | - | x | Uri-CBOR-Query | opaque | 0-255  | (none)  |
    +-----+---+---+---+---+----------------+--------+--------+---------+
+
+                                 Table 1
 
 3.  HTTP compatibility
 
@@ -103,16 +104,19 @@ Table of Contents
    like a Uri-Query Option that has this text string as its Option value
    and is appended after all other Uri-Query Options.
 
-   The specific way the translation is performed is up for _discussion_;
-   as a strawman: the two characters "??" followed by the base64url
-   encoding (Section 3.2 of [RFC4648]) of the CoAP Option value:
 
 
 
-Bormann                  Expires August 20, 2016                [Page 2]
+
+
+Bormann                  Expires 20 August 2016                 [Page 2]
 
 Internet-Draft               Uri-CBOR-Query                February 2016
 
+
+   The specific way the translation is performed is up for _discussion_;
+   as a strawman: the two characters "??" followed by the base64url
+   encoding (Section 3.2 of [RFC4648]) of the CoAP Option value:
 
    CoAP:
      Uri-Path: c
@@ -157,18 +161,18 @@ Internet-Draft               Uri-CBOR-Query                February 2016
 
 6.1.  Normative References
 
-   [RFC4648]  Josefsson, S., "The Base16, Base32, and Base64 Data
-              Encodings", RFC 4648, DOI 10.17487/RFC4648, October 2006,
-              <https://www.rfc-editor.org/info/rfc4648>.
 
 
 
 
-
-Bormann                  Expires August 20, 2016                [Page 3]
+Bormann                  Expires 20 August 2016                 [Page 3]
 
 Internet-Draft               Uri-CBOR-Query                February 2016
 
+
+   [RFC4648]  Josefsson, S., "The Base16, Base32, and Base64 Data
+              Encodings", RFC 4648, DOI 10.17487/RFC4648, October 2006,
+              <https://www.rfc-editor.org/info/rfc4648>.
 
    [RFC7049]  Bormann, C. and P. Hoffman, "Concise Binary Object
               Representation (CBOR)", RFC 7049, DOI 10.17487/RFC7049,
@@ -190,11 +194,11 @@ Author's Address
    Carsten Bormann
    Universitaet Bremen TZI
    Postfach 330440
-   Bremen  D-28359
+   D-28359 Bremen
    Germany
 
    Phone: +49-421-218-63921
-   EMail: cabo@tzi.org
+   Email: cabo@tzi.org
 
 
 
@@ -217,8 +221,4 @@ Author's Address
 
 
 
-
-
-
-
-Bormann                  Expires August 20, 2016                [Page 4]
+Bormann                  Expires 20 August 2016                 [Page 4]
