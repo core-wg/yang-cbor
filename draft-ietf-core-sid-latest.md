@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-ietf-core-sid-14
+docname: draft-ietf-core-sid-15
 title: YANG Schema Item iDentifier (YANG SID)
 area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
@@ -60,7 +60,6 @@ normative:
 informative:
   RFC6020:
   RFC6241:
-  RFC6536:
   RFC7224:
   RFC7317:
   RFC8126:
@@ -251,7 +250,7 @@ module ietf-sid-file {
                <mailto:ivaylo@ackl.io>";
 
   description
-    "Copyright (c) 2020 IETF Trust and the persons identified as
+    "Copyright (c) 2021 IETF Trust and the persons identified as
      authors of the code.  All rights reserved.
 
      Redistribution and use in source and binary forms, with or
@@ -270,7 +269,6 @@ module ietf-sid-file {
      'MAY', and 'OPTIONAL' in this document are to be interpreted as
      described in BCP 14 (RFC 2119) (RFC 8174) when, and only when,
      they appear in all capitals, as shown here.
-
 
      This module defines the structure of the .sid files.
 
@@ -814,7 +812,7 @@ The following ".sid" file (ietf-system@2014-08-06.sid) have been generated using
 
 * ietf-inet-types@2013-07-15.yang (defined in {{RFC6991}})
 
-* ietf-netconf-acm@2012-02-22.yang (defined in {{RFC6536}})
+* ietf-netconf-acm@2018-02-14.yang (defined in {{RFC8341}})
 
 * iana-crypt-hash@2014-04-04.yang (defined in {{RFC7317}})
 
@@ -834,7 +832,7 @@ The following ".sid" file (ietf-system@2014-08-06.sid) have been generated using
       },
       {
         "module-name": "ietf-netconf-acm",
-        "module-revision": "2012-02-22.yang"
+        "module-revision": "2018-02-14.yang"
       },
       {
         "module-name": "iana-crypt-hash",
