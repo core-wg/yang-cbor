@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-ietf-core-yang-library-02
+docname: draft-ietf-core-yang-library-03
 title: Constrained YANG Module Library
 area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
@@ -36,7 +36,7 @@ author:
   region: Bretagne
   country: France
   email: ivaylo@ackl.io
-  
+
 normative:
   RFC2119:
   RFC3688:
@@ -105,7 +105,7 @@ In this model, every datastore has an associated datastore schema, which is the 
 
 For each module, the YANG library provides:
 
-* the YANG module identifier (i.e. SID)
+* the YANG module identifier (i.e., SID)
 
 * its revision
 
@@ -179,7 +179,7 @@ The changes between the reference data model 'ietf-yang-library' and its constra
 # YANG Module "ietf-constrained-yang-library"
 
 RFC Ed.: update the date below with the date of RFC publication and remove this note.
-   
+
 ~~~~
 <CODE BEGINS> file "ietf-constrained-yang-library@2019-03-28.yang"
 module ietf-constrained-yang-library {
@@ -189,7 +189,7 @@ module ietf-constrained-yang-library {
   prefix "yanglib";
 
   // RFC Ed.: update ietf-core-sid reference.
-    
+
   import ietf-sid-file {
     prefix sid;
     reference "RFC YYYY: YANG Schema Item iDentifier (SID)";
@@ -204,13 +204,13 @@ module ietf-constrained-yang-library {
     reference
       "RFC 8342: Network Management Datastore Architecture (NMDA).";
   }
-  
+
   organization
     "IETF CoRE Working Group";
 
   contact
     "WG Web:   <http://datatracker.ietf.org/wg/core/>
-    
+
      WG List:  <mailto:core@ietf.org>
 
      Editor:   Michel Veillette
@@ -220,22 +220,29 @@ module ietf-constrained-yang-library {
                <mailto:ivaylo@ackl.io>";
 
   description
-    "This module provides information about the YANG modules,
-     datastores, and datastore schemas implemented by a
-     constrained network management server.
-
-     Copyright (c) 2018 IETF Trust and the persons identified as
+    "Copyright (c) 2021 IETF Trust and the persons identified as
      authors of the code.  All rights reserved.
 
      Redistribution and use in source and binary forms, with or
-     without modification, is permitted pursuant to, and subject
-     to the license terms contained in, the Simplified BSD License
-     set forth in Section 4.c of the IETF Trust's Legal Provisions
+     without modification, is permitted pursuant to, and subject to
+     the license terms contained in, the Simplified BSD License set
+     forth in Section 4.c of the IETF Trust's Legal Provisions
      Relating to IETF Documents
-     (http://trustee.ietf.org/license-info).
+     (https://trustee.ietf.org/license-info).
 
-     This version of this YANG module is part of RFC XXXX; see
-     the RFC itself for full legal notices.";
+     This version of this YANG module is part of RFC XXXX
+     (https://www.rfc-editor.org/info/rfcXXXX); see the RFC itself
+     for full legal notices.
+
+     The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
+     NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
+     'MAY', and 'OPTIONAL' in this document are to be interpreted as
+     described in BCP 14 (RFC 2119) (RFC 8174) when, and only when,
+     they appear in all capitals, as shown here.
+
+     This module provides information about the YANG modules,
+     datastores, and datastore schemas implemented by a
+     constrained network management server.";
 
   // RFC Editor: Please replace XXXX with RFC number and remove this note
 
@@ -246,7 +253,7 @@ module ietf-constrained-yang-library {
       "RFC XXXX: Constrained YANG Module Library";
     // RFC Editor: Please replace XXXX with RFC number and remove this note
   }
-  
+
   /*
    * Typedefs
    */
@@ -498,8 +505,8 @@ module ietf-constrained-yang-library {
         mandatory true;
         description
           "A reference to the schema supported by this datastore.
-           All non import-only modules of the schema are 
-           implementedwith their associated features and
+           All non import-only modules of the schema are
+           implemented with their associated features and
            deviations.";
       }
     }
@@ -543,7 +550,7 @@ module ietf-constrained-yang-library {
       }
       mandatory true;
       description
-        "Contains the YANG library checksum or digest for the 
+        "Contains the YANG library checksum or digest for the
          updated YANG library at the time the notification is
          generated.";
     }
