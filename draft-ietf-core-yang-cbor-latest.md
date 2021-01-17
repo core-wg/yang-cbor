@@ -1,7 +1,7 @@
 ﻿---
 stand_alone: true
 ipr: trust200902
-docname: draft-ietf-core-yang-cbor-13
+docname: draft-ietf-core-yang-cbor-14
 title: CBOR Encoding of Data Modeled with YANG
 area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
@@ -63,11 +63,10 @@ informative:
   RFC8259:
   RFC8343:
   RFC8344:
-  RFC8348:
 
 --- abstract
 
-This document defines encoding rules for serializing configuration data, state data, RPC input and RPC output, action input, action output, notifications and yang-data extension defined within YANG modules using the Concise Binary Object Representation (CBOR) {{RFC7049}}.
+This document defines encoding rules for serializing configuration data, state data, RPC input and RPC output, action input, action output, notifications and yang-data extension defined within YANG modules using the Concise Binary Object Representation (CBOR,  RFC 7049).
 
 --- middle
 
