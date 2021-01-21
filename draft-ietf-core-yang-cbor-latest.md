@@ -1650,6 +1650,23 @@ This document adds the following Media-Type to the "Media Types" registry.
 
 // RFC Ed.: replace RFC XXXX with this RFC number and remove this note.
 
+~~~~
+    Type name:                application
+    Subtype name:             yang-data+cbor
+    Required parameters:      none
+    Optional parameters:      none
+    Encoding considerations:  CBOR
+    Security considerations:  see Section 8
+    Published specification: RFC XXXX
+    Person & email address to contact for further information: CORE WG
+    Intended usage:    COMMON
+    Restrictions on usage: none
+    Author: ivaylo@ackl.io
+    Change controller:  IESG
+~~~~
+
+
+
 ## CoAP Content-Formats Registry
 
 This document adds the following Content-Format to the "CoAP Content-Formats",
