@@ -1648,22 +1648,43 @@ This document adds the following Media-Type to the "Media Types" registry.
 | yang-data+cbor        | application/yang-data+cbor  | RFC XXXX  |
 {: align="left"}
 
-// RFC Ed.: replace RFC XXXX with this RFC number and remove this note.
+// RFC Ed.: please replace RFC XXXX with this RFC number and remove this note.
 
-~~~~
-    Type name:                application
-    Subtype name:             yang-data+cbor
-    Required parameters:      none
-    Optional parameters:      none
-    Encoding considerations:  binary (CBOR)
-    Security considerations:  see Section 8 of RFC XXXX
-    Published specification: RFC XXXX
-    Person & email address to contact for further information: CORE WG mailing list (core@ietf.org),
-       or IETF Applications and Real-Time Area (art@ietf.org)
-    Intended usage:    COMMON
-    Restrictions on usage: none
-    Author/Change controller: IETF
-~~~~
+{: spacing="compact"}
+Type name:
+: application
+
+Subtype name:
+: yang-data+cbor
+
+Required parameters:
+: none
+
+Optional parameters:
+: none
+
+Encoding considerations:
+: binary (CBOR)
+
+Security considerations:
+: see Section 8 of RFC XXXX
+
+Published specification:
+: RFC XXXX
+
+Person & email address to contact for further information:
+: CORE WG mailing list (core@ietf.org),
+  or IETF Applications and Real-Time Area (art@ietf.org)
+
+Intended usage:
+: COMMON
+
+Restrictions on usage:
+: none
+
+Author/Change controller:
+: IETF
+
 
 ## CoAP Content-Formats Registry
 
@@ -1674,8 +1695,8 @@ within the "Constrained RESTful Environments (CoRE) Parameters" registry.
 | application/yang-data+cbor; id=name    |                | TBD1 | RFC XXXX  |
 {: align="left"}
 
-// RFC Ed.: replace TBD1 with assigned IDs and remove this note.
-// RFC Ed.: replace RFC XXXX with this RFC number and remove this note.
+// RFC Ed.: please replace TBD1 with assigned IDs and remove this note.
+// RFC Ed.: please replace RFC XXXX with this RFC number and remove this note.
 
 ##  CBOR Tags Registry {#tag-registry}
 
@@ -1697,7 +1718,7 @@ These tags are added to the CBOR  Tags Registry as defined in section 7.2 of {{R
 |     |                  | ; see Section 3.2.          | [this]     |
 {: align="left"}
 
-// RFC Ed.: replace [this] with RFC number and remove this note
+// RFC Ed.: please replace [this] with RFC number and remove this note
 
 # Acknowledgments
 
