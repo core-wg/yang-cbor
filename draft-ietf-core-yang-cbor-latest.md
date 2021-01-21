@@ -348,7 +348,7 @@ Delta values are computed as follows:
 
 * In the case of a 'list', deltas are equal to the SID of the current schema node minus the SID of the parent 'list'.
 
-* In the case of an 'rpc input' or 'rcp output', deltas are equal to the SID of the current schema node minus the SID of the 'rpc'.
+* In the case of an 'rpc input' or 'rpc output', deltas are equal to the SID of the current schema node minus the SID of the 'rpc'.
 
 * In the case of an 'action input' or 'action output', deltas are equal to the SID of the current schema node minus the SID of the 'action'.
 
