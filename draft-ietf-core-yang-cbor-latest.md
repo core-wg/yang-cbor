@@ -1658,7 +1658,8 @@ This document adds the following Media-Type to the "Media Types" registry.
     Encoding considerations:  binary (CBOR)
     Security considerations:  see Section 8 of RFC XXXX
     Published specification: RFC XXXX
-    Person & email address to contact for further information: CORE WG mailing list (core@ietf.org), or any IESG-designated successor
+    Person & email address to contact for further information: CORE WG mailing list (core@ietf.org),
+       or IETF Applications and Real-Time Area (art@ietf.org)
     Intended usage:    COMMON
     Restrictions on usage: none
     Author/Change controller: IETF
