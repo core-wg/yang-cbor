@@ -1655,17 +1655,14 @@ This document adds the following Media-Type to the "Media Types" registry.
     Subtype name:             yang-data+cbor
     Required parameters:      none
     Optional parameters:      none
-    Encoding considerations:  CBOR
-    Security considerations:  see Section 8
+    Encoding considerations:  binary (CBOR)
+    Security considerations:  see Section 8 of RFC XXXX
     Published specification: RFC XXXX
-    Person & email address to contact for further information: CORE WG
+    Person & email address to contact for further information: CORE WG mailing list (core@ietf.org), or any IESG-designated successor
     Intended usage:    COMMON
     Restrictions on usage: none
-    Author: ivaylo@ackl.io
-    Change controller:  IESG
+    Author/Change controller: IETF
 ~~~~
-
-
 
 ## CoAP Content-Formats Registry
 
