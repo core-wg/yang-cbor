@@ -5,8 +5,8 @@
 Internet Engineering Task Force                        M. Veillette, Ed.
 Internet-Draft                                   Trilliant Networks Inc.
 Intended status: Standards Track                          I. Petrov, Ed.
-Expires: 21 July 2021                                             Acklio
-                                                         17 January 2021
+Expires: 28 July 2021                                             Acklio
+                                                         24 January 2021
 
 
                     Constrained YANG Module Library
@@ -34,7 +34,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 July 2021.
+   This Internet-Draft will expire on 28 July 2021.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Veillette & Petrov        Expires 21 July 2021                  [Page 1]
+Veillette & Petrov        Expires 28 July 2021                  [Page 1]
 
 Internet-Draft       Constrained YANG Module Library        January 2021
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Veillette & Petrov        Expires 21 July 2021                  [Page 2]
+Veillette & Petrov        Expires 28 July 2021                  [Page 2]
 
 Internet-Draft       Constrained YANG Module Library        January 2021
 
@@ -165,7 +165,7 @@ Internet-Draft       Constrained YANG Module Library        January 2021
 
 
 
-Veillette & Petrov        Expires 21 July 2021                  [Page 3]
+Veillette & Petrov        Expires 28 July 2021                  [Page 3]
 
 Internet-Draft       Constrained YANG Module Library        January 2021
 
@@ -221,7 +221,7 @@ Internet-Draft       Constrained YANG Module Library        January 2021
 
 
 
-Veillette & Petrov        Expires 21 July 2021                  [Page 4]
+Veillette & Petrov        Expires 28 July 2021                  [Page 4]
 
 Internet-Draft       Constrained YANG Module Library        January 2021
 
@@ -277,7 +277,7 @@ Internet-Draft       Constrained YANG Module Library        January 2021
 
 
 
-Veillette & Petrov        Expires 21 July 2021                  [Page 5]
+Veillette & Petrov        Expires 28 July 2021                  [Page 5]
 
 Internet-Draft       Constrained YANG Module Library        January 2021
 
@@ -333,7 +333,7 @@ Internet-Draft       Constrained YANG Module Library        January 2021
 
 
 
-Veillette & Petrov        Expires 21 July 2021                  [Page 6]
+Veillette & Petrov        Expires 28 July 2021                  [Page 6]
 
 Internet-Draft       Constrained YANG Module Library        January 2021
 
@@ -389,7 +389,7 @@ Internet-Draft       Constrained YANG Module Library        January 2021
 
 
 
-Veillette & Petrov        Expires 21 July 2021                  [Page 7]
+Veillette & Petrov        Expires 28 July 2021                  [Page 7]
 
 Internet-Draft       Constrained YANG Module Library        January 2021
 
@@ -445,7 +445,7 @@ Internet-Draft       Constrained YANG Module Library        January 2021
 
 
 
-Veillette & Petrov        Expires 21 July 2021                  [Page 8]
+Veillette & Petrov        Expires 28 July 2021                  [Page 8]
 
 Internet-Draft       Constrained YANG Module Library        January 2021
 
@@ -501,7 +501,7 @@ Internet-Draft       Constrained YANG Module Library        January 2021
 
 
 
-Veillette & Petrov        Expires 21 July 2021                  [Page 9]
+Veillette & Petrov        Expires 28 July 2021                  [Page 9]
 
 Internet-Draft       Constrained YANG Module Library        January 2021
 
@@ -557,7 +557,7 @@ Internet-Draft       Constrained YANG Module Library        January 2021
 
 
 
-Veillette & Petrov        Expires 21 July 2021                 [Page 10]
+Veillette & Petrov        Expires 28 July 2021                 [Page 10]
 
 Internet-Draft       Constrained YANG Module Library        January 2021
 
@@ -613,7 +613,7 @@ Internet-Draft       Constrained YANG Module Library        January 2021
 
 
 
-Veillette & Petrov        Expires 21 July 2021                 [Page 11]
+Veillette & Petrov        Expires 28 July 2021                 [Page 11]
 
 Internet-Draft       Constrained YANG Module Library        January 2021
 
@@ -669,7 +669,7 @@ Internet-Draft       Constrained YANG Module Library        January 2021
 
 
 
-Veillette & Petrov        Expires 21 July 2021                 [Page 12]
+Veillette & Petrov        Expires 28 July 2021                 [Page 12]
 
 Internet-Draft       Constrained YANG Module Library        January 2021
 
@@ -725,7 +725,7 @@ Internet-Draft       Constrained YANG Module Library        January 2021
 
 
 
-Veillette & Petrov        Expires 21 July 2021                 [Page 13]
+Veillette & Petrov        Expires 28 July 2021                 [Page 13]
 
 Internet-Draft       Constrained YANG Module Library        January 2021
 
@@ -781,7 +781,7 @@ Internet-Draft       Constrained YANG Module Library        January 2021
 
 
 
-Veillette & Petrov        Expires 21 July 2021                 [Page 14]
+Veillette & Petrov        Expires 28 July 2021                 [Page 14]
 
 Internet-Draft       Constrained YANG Module Library        January 2021
 
@@ -789,15 +789,16 @@ Internet-Draft       Constrained YANG Module Library        January 2021
    [I-D.ietf-core-comi]
               Veillette, M., Stok, P., Pelov, A., Bierman, A., and I.
               Petrov, "CoAP Management Interface (CORECONF)", Work in
-              Progress, Internet-Draft, draft-ietf-core-comi-10, 4 July
-              2020, <http://www.ietf.org/internet-drafts/draft-ietf-
-              core-comi-10.txt>.
+              Progress, Internet-Draft, draft-ietf-core-comi-11, 17
+              January 2021, <http://www.ietf.org/internet-drafts/draft-
+              ietf-core-comi-11.txt>.
 
    [I-D.ietf-core-sid]
               Veillette, M., Pelov, A., and I. Petrov, "YANG Schema Item
               iDentifier (YANG SID)", Work in Progress, Internet-Draft,
-              draft-ietf-core-sid-14, 4 July 2020, <http://www.ietf.org/
-              internet-drafts/draft-ietf-core-sid-14.txt>.
+              draft-ietf-core-sid-15, 17 January 2021,
+              <http://www.ietf.org/internet-drafts/draft-ietf-core-sid-
+              15.txt>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -836,8 +837,7 @@ Internet-Draft       Constrained YANG Module Library        January 2021
 
 
 
-
-Veillette & Petrov        Expires 21 July 2021                 [Page 15]
+Veillette & Petrov        Expires 28 July 2021                 [Page 15]
 
 Internet-Draft       Constrained YANG Module Library        January 2021
 
@@ -893,7 +893,7 @@ Authors' Addresses
 
 
 
-Veillette & Petrov        Expires 21 July 2021                 [Page 16]
+Veillette & Petrov        Expires 28 July 2021                 [Page 16]
 
 Internet-Draft       Constrained YANG Module Library        January 2021
 
@@ -949,4 +949,4 @@ Internet-Draft       Constrained YANG Module Library        January 2021
 
 
 
-Veillette & Petrov        Expires 21 July 2021                 [Page 17]
+Veillette & Petrov        Expires 28 July 2021                 [Page 17]

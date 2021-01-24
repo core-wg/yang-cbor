@@ -83,7 +83,7 @@ Table of Contents
 
    The Uri-CBOR-Query Option is an Option analogous to the Uri-Query
    Option, with the exception that its value is opaque and not string.
-   The value is intended to carry a single CBOR data item -
+   The value is intended to carry a single CBOR data item --
    _discussion_: maybe a sequence of these so we can leave off any outer
    array markers.
 
@@ -136,8 +136,8 @@ Internet-Draft               Uri-CBOR-Query                February 2016
    To emulate a FETCH, what would be the FETCH payload is instead
    encoded in a Uri-CBOR-Query Option.  The FETCH payload is assumed to
    of Content-Format application/cbor, which is not as specific as it
-   could be - _discussion_: Should we send along a Content-Format within
-   the Uri-CBOR-Query???.
+   could be -- _discussion_: Should we send along a Content-Format
+   within the Uri-CBOR-Query???.
 
    To emulate an iPATCH, a POST operation with the same parameters as an
    iPATCH is performed; there fundamentally is no need for Uri-CBOR-

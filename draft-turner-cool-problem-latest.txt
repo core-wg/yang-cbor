@@ -5,14 +5,14 @@
 CoRE                                                      R. Turner, Ed.
 Internet-Draft                                                Landis+Gyr
 Intended status: Best Current Practice                    M.V. Veillette
-Expires: 21 July 2021                            Trilliant Networks Inc.
+Expires: 28 July 2021                            Trilliant Networks Inc.
                                                               A.P. Pelov
                                                                   Acklio
                                                            A.S. Somaraju
                                                    Tridonic GmbH & Co KG
                                                            A.M. Minaburo
                                                                   Acklio
-                                                         17 January 2021
+                                                         24 January 2021
 
 
                          CoOL Problem Statement
@@ -47,13 +47,13 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 July 2021.
+   This Internet-Draft will expire on 28 July 2021.
 
 
 
 
 
-Turner, et al.            Expires 21 July 2021                  [Page 1]
+Turner, et al.            Expires 28 July 2021                  [Page 1]
 
 Internet-Draft                CoOL Problem                  January 2021
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Turner, et al.            Expires 21 July 2021                  [Page 2]
+Turner, et al.            Expires 28 July 2021                  [Page 2]
 
 Internet-Draft                CoOL Problem                  January 2021
 
@@ -165,7 +165,7 @@ Internet-Draft                CoOL Problem                  January 2021
 
 
 
-Turner, et al.            Expires 21 July 2021                  [Page 3]
+Turner, et al.            Expires 28 July 2021                  [Page 3]
 
 Internet-Draft                CoOL Problem                  January 2021
 
@@ -221,7 +221,7 @@ Internet-Draft                CoOL Problem                  January 2021
 
 
 
-Turner, et al.            Expires 21 July 2021                  [Page 4]
+Turner, et al.            Expires 28 July 2021                  [Page 4]
 
 Internet-Draft                CoOL Problem                  January 2021
 
@@ -277,7 +277,7 @@ Internet-Draft                CoOL Problem                  January 2021
 
 
 
-Turner, et al.            Expires 21 July 2021                  [Page 5]
+Turner, et al.            Expires 28 July 2021                  [Page 5]
 
 Internet-Draft                CoOL Problem                  January 2021
 
@@ -333,7 +333,7 @@ Authors' Addresses
 
 
 
-Turner, et al.            Expires 21 July 2021                  [Page 6]
+Turner, et al.            Expires 28 July 2021                  [Page 6]
 
 Internet-Draft                CoOL Problem                  January 2021
 
@@ -389,4 +389,4 @@ Internet-Draft                CoOL Problem                  January 2021
 
 
 
-Turner, et al.            Expires 21 July 2021                  [Page 7]
+Turner, et al.            Expires 28 July 2021                  [Page 7]

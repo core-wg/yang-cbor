@@ -5,9 +5,9 @@
 Internet Engineering Task Force                      M.V. Veillette, Ed.
 Internet-Draft                                   Trilliant Networks Inc.
 Intended status: Standards Track                         A.P. Pelov, Ed.
-Expires: 21 July 2021                                   I.I. Petrov, Ed.
+Expires: 28 July 2021                                   I.I. Petrov, Ed.
                                                                   Acklio
-                                                         17 January 2021
+                                                         24 January 2021
 
 
                  YANG Schema Item iDentifier (YANG SID)
@@ -37,7 +37,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 July 2021.
+   This Internet-Draft will expire on 28 July 2021.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Veillette, et al.         Expires 21 July 2021                  [Page 1]
+Veillette, et al.         Expires 28 July 2021                  [Page 1]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Veillette, et al.         Expires 21 July 2021                  [Page 2]
+Veillette, et al.         Expires 28 July 2021                  [Page 2]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -165,7 +165,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                  [Page 3]
+Veillette, et al.         Expires 28 July 2021                  [Page 3]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -221,7 +221,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                  [Page 4]
+Veillette, et al.         Expires 28 July 2021                  [Page 4]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -277,7 +277,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                  [Page 5]
+Veillette, et al.         Expires 28 July 2021                  [Page 5]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -333,7 +333,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                  [Page 6]
+Veillette, et al.         Expires 28 July 2021                  [Page 6]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -389,7 +389,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                  [Page 7]
+Veillette, et al.         Expires 28 July 2021                  [Page 7]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -445,7 +445,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                  [Page 8]
+Veillette, et al.         Expires 28 July 2021                  [Page 8]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -501,7 +501,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                  [Page 9]
+Veillette, et al.         Expires 28 July 2021                  [Page 9]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -557,7 +557,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 10]
+Veillette, et al.         Expires 28 July 2021                 [Page 10]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -613,7 +613,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 11]
+Veillette, et al.         Expires 28 July 2021                 [Page 11]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -669,7 +669,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 12]
+Veillette, et al.         Expires 28 July 2021                 [Page 12]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -725,7 +725,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 13]
+Veillette, et al.         Expires 28 July 2021                 [Page 13]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -781,7 +781,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 14]
+Veillette, et al.         Expires 28 July 2021                 [Page 14]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -837,7 +837,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 15]
+Veillette, et al.         Expires 28 July 2021                 [Page 15]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -893,7 +893,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 16]
+Veillette, et al.         Expires 28 July 2021                 [Page 16]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -949,7 +949,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 17]
+Veillette, et al.         Expires 28 July 2021                 [Page 17]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -1005,7 +1005,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 18]
+Veillette, et al.         Expires 28 July 2021                 [Page 18]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -1061,7 +1061,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 19]
+Veillette, et al.         Expires 28 July 2021                 [Page 19]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -1117,7 +1117,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 20]
+Veillette, et al.         Expires 28 July 2021                 [Page 20]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -1173,7 +1173,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 21]
+Veillette, et al.         Expires 28 July 2021                 [Page 21]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -1229,7 +1229,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 22]
+Veillette, et al.         Expires 28 July 2021                 [Page 22]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -1248,9 +1248,9 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
    [I-D.ietf-core-yang-cbor]
               Veillette, M., Petrov, I., and A. Pelov, "CBOR Encoding of
               Data Modeled with YANG", Work in Progress, Internet-Draft,
-              draft-ietf-core-yang-cbor-13, 4 July 2020,
+              draft-ietf-core-yang-cbor-14, 17 January 2021,
               <http://www.ietf.org/internet-drafts/draft-ietf-core-yang-
-              cbor-13.txt>.
+              cbor-14.txt>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -1285,7 +1285,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 23]
+Veillette, et al.         Expires 28 July 2021                 [Page 23]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -1307,9 +1307,9 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
    [I-D.ietf-core-comi]
               Veillette, M., Stok, P., Pelov, A., Bierman, A., and I.
               Petrov, "CoAP Management Interface (CORECONF)", Work in
-              Progress, Internet-Draft, draft-ietf-core-comi-10, 4 July
-              2020, <http://www.ietf.org/internet-drafts/draft-ietf-
-              core-comi-10.txt>.
+              Progress, Internet-Draft, draft-ietf-core-comi-11, 17
+              January 2021, <http://www.ietf.org/internet-drafts/draft-
+              ietf-core-comi-11.txt>.
 
    [I-D.ietf-core-yang-library]
               Veillette, M. and I. Petrov, "Constrained YANG Module
@@ -1341,7 +1341,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 24]
+Veillette, et al.         Expires 28 July 2021                 [Page 24]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -1397,7 +1397,7 @@ Appendix A.  ".sid" file example
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 25]
+Veillette, et al.         Expires 28 July 2021                 [Page 25]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -1453,7 +1453,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 26]
+Veillette, et al.         Expires 28 July 2021                 [Page 26]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -1509,7 +1509,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 27]
+Veillette, et al.         Expires 28 July 2021                 [Page 27]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -1565,7 +1565,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 28]
+Veillette, et al.         Expires 28 July 2021                 [Page 28]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -1621,7 +1621,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 29]
+Veillette, et al.         Expires 28 July 2021                 [Page 29]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -1677,7 +1677,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 30]
+Veillette, et al.         Expires 28 July 2021                 [Page 30]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -1733,7 +1733,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 31]
+Veillette, et al.         Expires 28 July 2021                 [Page 31]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -1789,7 +1789,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 32]
+Veillette, et al.         Expires 28 July 2021                 [Page 32]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -1845,7 +1845,7 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 33]
+Veillette, et al.         Expires 28 July 2021                 [Page 33]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -1901,7 +1901,7 @@ Appendix B.  SID auto generation
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 34]
+Veillette, et al.         Expires 28 July 2021                 [Page 34]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -1957,7 +1957,7 @@ Appendix C.  ".sid" file lifecycle
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 35]
+Veillette, et al.         Expires 28 July 2021                 [Page 35]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -2013,7 +2013,7 @@ C.1.  ".sid" File Creation
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 36]
+Veillette, et al.         Expires 28 July 2021                 [Page 36]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -2069,7 +2069,7 @@ C.2.  ".sid" File Update
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 37]
+Veillette, et al.         Expires 28 July 2021                 [Page 37]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -2125,7 +2125,7 @@ Authors' Addresses
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 38]
+Veillette, et al.         Expires 28 July 2021                 [Page 38]
 
 Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
@@ -2181,4 +2181,4 @@ Internet-Draft   YANG Schema Item iDentifier (YANG SID)     January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 39]
+Veillette, et al.         Expires 28 July 2021                 [Page 39]

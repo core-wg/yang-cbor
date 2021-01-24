@@ -5,9 +5,9 @@
 Internet Engineering Task Force                        M. Veillette, Ed.
 Internet-Draft                                   Trilliant Networks Inc.
 Intended status: Standards Track                          I. Petrov, Ed.
-Expires: 21 July 2021                                           A. Pelov
+Expires: 28 July 2021                                           A. Pelov
                                                                   Acklio
-                                                         17 January 2021
+                                                         24 January 2021
 
 
                 CBOR Encoding of Data Modeled with YANG
@@ -19,7 +19,7 @@ Abstract
    data, state data, RPC input and RPC output, action input, action
    output, notifications and yang-data extension defined within YANG
    modules using the Concise Binary Object Representation (CBOR, RFC
-   7049).
+   8949).
 
 Status of This Memo
 
@@ -36,7 +36,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 July 2021.
+   This Internet-Draft will expire on 28 July 2021.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Veillette, et al.         Expires 21 July 2021                  [Page 1]
+Veillette, et al.         Expires 28 July 2021                  [Page 1]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Veillette, et al.         Expires 21 July 2021                  [Page 2]
+Veillette, et al.         Expires 28 July 2021                  [Page 2]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -147,7 +147,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
    Format [RFC8259].
 
    The aim of this document is to define a set of encoding rules for the
-   Concise Binary Object Representation (CBOR) [RFC7049].  The resulting
+   Concise Binary Object Representation (CBOR) [RFC8949].  The resulting
    encoding is more compact compared to XML and JSON and more suitable
    for Constrained Nodes and/or Constrained Networks as defined by
    [RFC7228].
@@ -165,7 +165,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                  [Page 3]
+Veillette, et al.         Expires 28 July 2021                  [Page 3]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -221,7 +221,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                  [Page 4]
+Veillette, et al.         Expires 28 July 2021                  [Page 4]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -254,7 +254,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
    Unless specified otherwise by the protocol or mechanism implementing
    this specification, the indefinite lengths encoding as defined in
-   [RFC7049] section 2.2 SHALL be supported by CBOR decoders.
+   Section 3.2 of [RFC8949] SHALL be supported by CBOR decoders.
 
    Data nodes implemented using a CBOR array, map, byte string, and text
    string can be instantiated but empty.  In this case, they are encoded
@@ -277,7 +277,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                  [Page 5]
+Veillette, et al.         Expires 28 July 2021                  [Page 5]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -286,7 +286,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
    Within this document, CBOR binary contents are represented using an
    equivalent textual form called CBOR diagnostic notation as defined in
-   [RFC7049] section 6.  This notation is used strictly for
+   Section 8 of [RFC8949].  This notation is used strictly for
    documentation purposes and is never used in the data serialization.
    Table 1 below provides a summary of this notation.
 
@@ -333,7 +333,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                  [Page 6]
+Veillette, et al.         Expires 28 July 2021                  [Page 6]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -389,7 +389,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                  [Page 7]
+Veillette, et al.         Expires 28 July 2021                  [Page 7]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -445,7 +445,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                  [Page 8]
+Veillette, et al.         Expires 28 July 2021                  [Page 8]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -501,7 +501,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                  [Page 9]
+Veillette, et al.         Expires 28 July 2021                  [Page 9]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -521,9 +521,9 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 4.  Encoding of YANG Schema Node Instances
 
    Schema node instances defined using the YANG modeling language are
-   encoded using CBOR [RFC7049] based on the rules defined in this
+   encoded using CBOR [RFC8949] based on the rules defined in this
    section.  We assume that the reader is already familiar with both
-   YANG [RFC7950] and CBOR [RFC7049].
+   YANG [RFC7950] and CBOR [RFC8949].
 
 4.1.  The 'leaf'
 
@@ -557,7 +557,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 10]
+Veillette, et al.         Expires 28 July 2021                 [Page 10]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -613,7 +613,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 11]
+Veillette, et al.         Expires 28 July 2021                 [Page 11]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -656,7 +656,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
    *  In the case of a 'list', deltas are equal to the SID of the
       current schema node minus the SID of the parent 'list'.
 
-   *  In the case of an 'rpc input' or 'rcp output', deltas are equal to
+   *  In the case of an 'rpc input' or 'rpc output', deltas are equal to
       the SID of the current schema node minus the SID of the 'rpc'.
 
    *  In the case of an 'action input' or 'action output', deltas are
@@ -669,7 +669,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 12]
+Veillette, et al.         Expires 28 July 2021                 [Page 12]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -725,7 +725,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 13]
+Veillette, et al.         Expires 28 July 2021                 [Page 13]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -781,7 +781,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 14]
+Veillette, et al.         Expires 28 July 2021                 [Page 14]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -837,7 +837,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 15]
+Veillette, et al.         Expires 28 July 2021                 [Page 15]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -893,7 +893,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 16]
+Veillette, et al.         Expires 28 July 2021                 [Page 16]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -949,7 +949,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 17]
+Veillette, et al.         Expires 28 July 2021                 [Page 17]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -1005,7 +1005,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 18]
+Veillette, et al.         Expires 28 July 2021                 [Page 18]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -1061,7 +1061,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 19]
+Veillette, et al.         Expires 28 July 2021                 [Page 19]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -1117,7 +1117,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 20]
+Veillette, et al.         Expires 28 July 2021                 [Page 20]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -1173,7 +1173,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 21]
+Veillette, et al.         Expires 28 July 2021                 [Page 21]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -1229,7 +1229,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 22]
+Veillette, et al.         Expires 28 July 2021                 [Page 22]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -1285,7 +1285,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 23]
+Veillette, et al.         Expires 28 July 2021                 [Page 23]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -1341,7 +1341,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 24]
+Veillette, et al.         Expires 28 July 2021                 [Page 24]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -1397,7 +1397,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 25]
+Veillette, et al.         Expires 28 July 2021                 [Page 25]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -1453,7 +1453,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 26]
+Veillette, et al.         Expires 28 July 2021                 [Page 26]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -1509,7 +1509,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 27]
+Veillette, et al.         Expires 28 July 2021                 [Page 27]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -1565,7 +1565,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 28]
+Veillette, et al.         Expires 28 July 2021                 [Page 28]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -1609,7 +1609,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 6.3.  The 'decimal64' Type
 
    Leafs of type decimal64 MUST be encoded using a decimal fraction as
-   defined in [RFC7049] section 2.4.3.
+   defined in Section 3.4.4 of [RFC8949].
 
    The following example shows the encoding of a 'my-decimal' leaf
    instance set to 2.57.
@@ -1621,7 +1621,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 29]
+Veillette, et al.         Expires 28 July 2021                 [Page 29]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -1677,7 +1677,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 30]
+Veillette, et al.         Expires 28 July 2021                 [Page 30]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -1733,7 +1733,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 31]
+Veillette, et al.         Expires 28 July 2021                 [Page 31]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -1789,7 +1789,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 32]
+Veillette, et al.         Expires 28 July 2021                 [Page 32]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -1845,7 +1845,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 33]
+Veillette, et al.         Expires 28 July 2021                 [Page 33]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -1901,7 +1901,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 34]
+Veillette, et al.         Expires 28 July 2021                 [Page 34]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -1957,7 +1957,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 35]
+Veillette, et al.         Expires 28 July 2021                 [Page 35]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -2013,7 +2013,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 36]
+Veillette, et al.         Expires 28 July 2021                 [Page 36]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -2069,7 +2069,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 37]
+Veillette, et al.         Expires 28 July 2021                 [Page 37]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -2125,7 +2125,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 38]
+Veillette, et al.         Expires 28 July 2021                 [Page 38]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -2181,7 +2181,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 39]
+Veillette, et al.         Expires 28 July 2021                 [Page 39]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -2237,7 +2237,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 40]
+Veillette, et al.         Expires 28 July 2021                 [Page 40]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -2293,7 +2293,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 41]
+Veillette, et al.         Expires 28 July 2021                 [Page 41]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -2349,7 +2349,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 42]
+Veillette, et al.         Expires 28 July 2021                 [Page 42]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -2373,7 +2373,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 8.  Security Considerations
 
-   The security considerations of [RFC7049] and [RFC7950] apply.
+   The security considerations of [RFC8949] and [RFC7950] apply.
 
    This document defines an alternative encoding for data modeled in the
    YANG data modeling language.  As such, this encoding does not
@@ -2399,16 +2399,30 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
                              Table 2
 
-   // RFC Ed.: replace RFC XXXX with this RFC number and remove this
-   note.
+   // RFC Ed.: please replace RFC XXXX with this RFC number and remove
+   this note.
 
 
 
 
-Veillette, et al.         Expires 21 July 2021                 [Page 43]
+Veillette, et al.         Expires 28 July 2021                 [Page 43]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
+
+   Type name:  application
+   Subtype name:  yang-data+cbor
+   Required parameters:  none
+   Optional parameters:  none
+   Encoding considerations:  binary (CBOR)
+   Security considerations:  see Section 8 of RFC XXXX
+   Published specification:  RFC XXXX
+   Person & email address to contact for further information:  CORE WG
+      mailing list (core@ietf.org), or IETF Applications and Real-Time
+      Area (art@ietf.org)
+   Intended usage:  COMMON
+   Restrictions on usage:  none
+   Author/Change controller:  IETF
 
 9.2.  CoAP Content-Formats Registry
 
@@ -2425,14 +2439,15 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
                             Table 3
 
-   // RFC Ed.: replace TBD1 with assigned IDs and remove this note. //
-   RFC Ed.: replace RFC XXXX with this RFC number and remove this note.
+   // RFC Ed.: please replace TBD1 with assigned IDs and remove this
+   note. // RFC Ed.: please replace RFC XXXX with this RFC number and
+   remove this note.
 
 9.3.  CBOR Tags Registry
 
    This specification requires the assignment of CBOR tags for the
    following YANG datatypes.  These tags are added to the CBOR Tags
-   Registry as defined in section 7.2 of [RFC7049].
+   Registry as defined in Section 9.2 of [RFC8949].
 
 
 
@@ -2446,22 +2461,7 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Veillette, et al.         Expires 21 July 2021                 [Page 44]
+Veillette, et al.         Expires 28 July 2021                 [Page 44]
 
 Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
@@ -2494,7 +2494,8 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
                                  Table 4
 
-   // RFC Ed.: replace [this] with RFC number and remove this note
+   // RFC Ed.: please replace [this] with RFC number and remove this
+   note
 
 10.  Acknowledgments
 
@@ -2510,17 +2511,21 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 11.1.  Normative References
 
+
+
+
+
+
+
+Veillette, et al.         Expires 28 July 2021                 [Page 45]
+
+Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
+
+
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
-
-
-
-Veillette, et al.         Expires 21 July 2021                 [Page 45]
-
-Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
-
 
    [RFC5234]  Crocker, D., Ed. and P. Overell, "Augmented BNF for Syntax
               Specifications: ABNF", STD 68, RFC 5234,
@@ -2531,10 +2536,6 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
               and A. Bierman, Ed., "Network Configuration Protocol
               (NETCONF)", RFC 6241, DOI 10.17487/RFC6241, June 2011,
               <https://www.rfc-editor.org/info/rfc6241>.
-
-   [RFC7049]  Bormann, C. and P. Hoffman, "Concise Binary Object
-              Representation (CBOR)", RFC 7049, DOI 10.17487/RFC7049,
-              October 2013, <https://www.rfc-editor.org/info/rfc7049>.
 
    [RFC7950]  Bjorklund, M., Ed., "The YANG 1.1 Data Modeling Language",
               RFC 7950, DOI 10.17487/RFC7950, August 2016,
@@ -2550,33 +2551,44 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
               JSON Data Structures", RFC 8610, DOI 10.17487/RFC8610,
               June 2019, <https://www.rfc-editor.org/info/rfc8610>.
 
+   [RFC8949]  Bormann, C. and P. Hoffman, "Concise Binary Object
+              Representation (CBOR)", STD 94, RFC 8949,
+              DOI 10.17487/RFC8949, December 2020,
+              <https://www.rfc-editor.org/info/rfc8949>.
+
 11.2.  Informative References
 
    [I-D.ietf-core-comi]
               Veillette, M., Stok, P., Pelov, A., Bierman, A., and I.
               Petrov, "CoAP Management Interface (CORECONF)", Work in
-              Progress, Internet-Draft, draft-ietf-core-comi-10, 4 July
-              2020, <http://www.ietf.org/internet-drafts/draft-ietf-
-              core-comi-10.txt>.
+              Progress, Internet-Draft, draft-ietf-core-comi-11, 17
+              January 2021, <http://www.ietf.org/internet-drafts/draft-
+              ietf-core-comi-11.txt>.
+
+
+
+
+
+
+
+
+
+Veillette, et al.         Expires 28 July 2021                 [Page 46]
+
+Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
+
 
    [I-D.ietf-core-sid]
               Veillette, M., Pelov, A., and I. Petrov, "YANG Schema Item
               iDentifier (YANG SID)", Work in Progress, Internet-Draft,
-              draft-ietf-core-sid-14, 4 July 2020, <http://www.ietf.org/
-              internet-drafts/draft-ietf-core-sid-14.txt>.
+              draft-ietf-core-sid-15, 17 January 2021,
+              <http://www.ietf.org/internet-drafts/draft-ietf-core-sid-
+              15.txt>.
 
    [RFC7228]  Bormann, C., Ersue, M., and A. Keranen, "Terminology for
               Constrained-Node Networks", RFC 7228,
               DOI 10.17487/RFC7228, May 2014,
               <https://www.rfc-editor.org/info/rfc7228>.
-
-
-
-
-Veillette, et al.         Expires 21 July 2021                 [Page 46]
-
-Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
-
 
    [RFC7317]  Bierman, A. and M. Bjorklund, "A YANG Data Model for
               System Management", RFC 7317, DOI 10.17487/RFC7317, August
@@ -2614,6 +2626,14 @@ Authors' Addresses
    Email: michel.veillette@trilliantinc.com
 
 
+
+
+
+Veillette, et al.         Expires 28 July 2021                 [Page 47]
+
+Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
+
+
    Ivaylo Petrov (editor)
    Acklio
    1137A avenue des Champs Blancs
@@ -2626,14 +2646,6 @@ Authors' Addresses
    Alexander Pelov
    Acklio
    1137A avenue des Champs Blancs
-
-
-
-Veillette, et al.         Expires 21 July 2021                 [Page 47]
-
-Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
-
-
    35510 Cesson-Sevigne
    France
 
@@ -2673,16 +2685,4 @@ Internet-Draft   CBOR Encoding of Data Modeled with YANG    January 2021
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-Veillette, et al.         Expires 21 July 2021                 [Page 48]
+Veillette, et al.         Expires 28 July 2021                 [Page 48]
