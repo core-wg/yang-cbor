@@ -1,4 +1,4 @@
-﻿---
+---
 stand_alone: true
 ipr: trust200902
 docname: draft-ietf-core-yang-cbor-14
@@ -50,7 +50,7 @@ normative:
   RFC2119:
   RFC5234:
   RFC6241:
-  RFC7049:
+  RFC8949:
   RFC8174:
   RFC8610:
 informative:
@@ -66,7 +66,7 @@ informative:
 
 --- abstract
 
-This document defines encoding rules for serializing configuration data, state data, RPC input and RPC output, action input, action output, notifications and yang-data extension defined within YANG modules using the Concise Binary Object Representation (CBOR,  RFC 7049).
+This document defines encoding rules for serializing configuration data, state data, RPC input and RPC output, action input, action output, notifications and yang-data extension defined within YANG modules using the Concise Binary Object Representation (CBOR,  RFC 8949).
 
 --- middle
 
@@ -77,7 +77,7 @@ The specification of the YANG 1.1 data modeling language {{RFC7950}} defines an 
 An additional set of encoding rules has been defined in {{RFC7951}} based on
 the JavaScript Object Notation (JSON) Data Interchange Format {{RFC8259}}.
 
-The aim of this document is to define a set of encoding rules for the Concise Binary Object Representation (CBOR) {{RFC7049}}. The resulting encoding is more compact compared to XML and JSON and more suitable for Constrained Nodes and/or Constrained Networks as defined by {{RFC7228}}.
+The aim of this document is to define a set of encoding rules for the Concise Binary Object Representation (CBOR) {{RFC8949}}. The resulting encoding is more compact compared to XML and JSON and more suitable for Constrained Nodes and/or Constrained Networks as defined by {{RFC7228}}.
 
 # Terminology and Notation
 
@@ -140,7 +140,7 @@ A node from the data tree such as container, list instance, notification, RPC in
 
 In order to minimize the size of the encoded data, the proposed mapping avoids any unnecessary meta-information beyond those natively supported by CBOR. For instance, CBOR tags are used solely in the case of SID not encoded as delta, anyxml schema nodes and the union datatype to distinguish explicitly the use of different YANG datatypes encoded using the same CBOR major type.
 
-Unless specified otherwise by the protocol or mechanism implementing this specification, the indefinite lengths encoding as defined in {{RFC7049}} section 2.2 SHALL be supported by CBOR decoders.
+Unless specified otherwise by the protocol or mechanism implementing this specification, the indefinite lengths encoding as defined in {{Section 3.2 of RFC8949}} SHALL be supported by CBOR decoders.
 
 Data nodes implemented using a CBOR array, map, byte string, and text string can be instantiated but empty. In this case, they are encoded with a length of zero.
 
@@ -150,7 +150,7 @@ Examples in {{instance-encoding}} include a root CBOR map with a single entry ha
 
 ## CBOR diagnostic notation
 
-Within this document, CBOR binary contents are represented using an equivalent textual form called CBOR diagnostic notation as defined in {{RFC7049}} section 6. This notation is used strictly for documentation purposes and is never used in the data serialization. {{ diagnostic-notation-summary}} below provides a summary of this notation.
+Within this document, CBOR binary contents are represented using an equivalent textual form called CBOR diagnostic notation as defined in {{Section 8 of RFC8949}}. This notation is used strictly for documentation purposes and is never used in the data serialization. {{ diagnostic-notation-summary}} below provides a summary of this notation.
 
 | CBOR content     | CBOR type | Diagnostic notation                                                     | Example            | CBOR encoding      |
 |------------------+-----------+-------------------------------------------------------------------------+--------------------+--------------------|
@@ -250,8 +250,8 @@ Both the 'top' container and the 'bar' leaf defined in a different YANG module a
 
 # Encoding of YANG Schema Node Instances   {#instance-encoding}
 
-Schema node instances defined using the YANG modeling language are encoded using CBOR {{RFC7049}} based on the rules defined in this section. We assume that the reader is
-already familiar with both YANG {{RFC7950}} and CBOR {{RFC7049}}.
+Schema node instances defined using the YANG modeling language are encoded using CBOR {{RFC8949}} based on the rules defined in this section. We assume that the reader is
+already familiar with both YANG {{RFC7950}} and CBOR {{RFC8949}}.
 
 ## The 'leaf'
 
@@ -348,7 +348,7 @@ Delta values are computed as follows:
 
 * In the case of a 'list', deltas are equal to the SID of the current schema node minus the SID of the parent 'list'.
 
-* In the case of an 'rpc input' or 'rcp output', deltas are equal to the SID of the current schema node minus the SID of the 'rpc'.
+* In the case of an 'rpc input' or 'rpc output', deltas are equal to the SID of the current schema node minus the SID of the 'rpc'.
 
 * In the case of an 'action input' or 'action output', deltas are equal to the SID of the current schema node minus the SID of the 'action'.
 
@@ -1051,7 +1051,7 @@ CBOR diagnostic notation: -300
 CBOR encoding: 39 012B
 
 ## The 'decimal64' Type
-Leafs of type decimal64 MUST be encoded using a decimal fraction as defined in {{RFC7049}} section 2.4.3.
+Leafs of type decimal64 MUST be encoded using a decimal fraction as defined in {{Section 3.4.4 of RFC8949}}.
 
 The following example shows the encoding of a 'my-decimal' leaf instance set to 2.57.
 
@@ -1632,7 +1632,7 @@ application/yang-data+cbor; id=name:
 
 # Security Considerations
 
-The security considerations of {{RFC7049}} and {{RFC7950}} apply.
+The security considerations of {{RFC8949}} and {{RFC7950}} apply.
 
 This document defines an alternative encoding for data modeled in the YANG data modeling language. As such, this encoding does not contribute any new security issues in addition of those identified for the specific protocol or context for which it is used.
 
@@ -1648,7 +1648,43 @@ This document adds the following Media-Type to the "Media Types" registry.
 | yang-data+cbor        | application/yang-data+cbor  | RFC XXXX  |
 {: align="left"}
 
-// RFC Ed.: replace RFC XXXX with this RFC number and remove this note.
+// RFC Ed.: please replace RFC XXXX with this RFC number and remove this note.
+
+{: spacing="compact"}
+Type name:
+: application
+
+Subtype name:
+: yang-data+cbor
+
+Required parameters:
+: none
+
+Optional parameters:
+: none
+
+Encoding considerations:
+: binary (CBOR)
+
+Security considerations:
+: see Section 8 of RFC XXXX
+
+Published specification:
+: RFC XXXX
+
+Person & email address to contact for further information:
+: CORE WG mailing list (core@ietf.org),
+  or IETF Applications and Real-Time Area (art@ietf.org)
+
+Intended usage:
+: COMMON
+
+Restrictions on usage:
+: none
+
+Author/Change controller:
+: IETF
+
 
 ## CoAP Content-Formats Registry
 
@@ -1659,13 +1695,13 @@ within the "Constrained RESTful Environments (CoRE) Parameters" registry.
 | application/yang-data+cbor; id=name    |                | TBD1 | RFC XXXX  |
 {: align="left"}
 
-// RFC Ed.: replace TBD1 with assigned IDs and remove this note.
-// RFC Ed.: replace RFC XXXX with this RFC number and remove this note.
+// RFC Ed.: please replace TBD1 with assigned IDs and remove this note.
+// RFC Ed.: please replace RFC XXXX with this RFC number and remove this note.
 
 ##  CBOR Tags Registry {#tag-registry}
 
 This specification requires the assignment of CBOR tags for the following YANG datatypes.
-These tags are added to the CBOR  Tags Registry as defined in section 7.2 of {{RFC7049}}.
+These tags are added to the CBOR  Tags Registry as defined in {{Section 9.2 of RFC8949}}.
 
 | Tag | Data Item        | Semantics                   | Reference  |
 |-----|------------------+-----------------------------+------------|
@@ -1682,7 +1718,7 @@ These tags are added to the CBOR  Tags Registry as defined in section 7.2 of {{R
 |     |                  | ; see Section 3.2.          | [this]     |
 {: align="left"}
 
-// RFC Ed.: replace [this] with RFC number and remove this note
+// RFC Ed.: please replace [this] with RFC number and remove this note
 
 # Acknowledgments
 
