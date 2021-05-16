@@ -38,15 +38,15 @@ author:
   country: France
   email: a@ackl.io
 - role: editor
-  ins: I. I. Petrov
+  ins: I. Petrov
   name: Ivaylo Petrov
-  org: Acklio
-  street: 1137A avenue des Champs Blancs
-  code: '35510'
-  city: Cesson-Sevigne
-  region: Bretagne
-  country: France
-  email: ivaylo@ackl.io
+  org: Google Switzerland GmbH
+  street: Brandschenkestrasse 110
+  code: 8002
+  city: Zurich
+  region: Zurich
+  country: Switzerland
+  email: ivaylopetrov@google.com
 normative:
   RFC2119:
   RFC3688:

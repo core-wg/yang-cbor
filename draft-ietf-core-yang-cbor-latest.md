@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-ietf-core-yang-cbor-14
+docname: draft-ietf-core-yang-cbor-15
 title: CBOR Encoding of Data Modeled with YANG
 area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
@@ -29,13 +29,13 @@ author:
 - role: editor
   ins: I. Petrov
   name: Ivaylo Petrov
-  org: Acklio
-  street: 1137A avenue des Champs Blancs
-  code: '35510'
-  city: Cesson-Sevigne
-  region: Bretagne
-  country: France
-  email: ivaylo@ackl.io
+  org: Google Switzerland GmbH
+  street: Brandschenkestrasse 110
+  code: 8002
+  city: Zurich
+  region: Zurich
+  country: Switzerland
+  email: ivaylopetrov@google.com
 - ins: A. Pelov
   name: Alexander Pelov
   org: Acklio
