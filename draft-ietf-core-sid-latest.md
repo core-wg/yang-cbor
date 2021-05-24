@@ -80,7 +80,7 @@ YANG Schema Item iDentifiers (YANG SID) are globally unique 63-bit unsigned inte
 
 # Introduction
 
-Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier.  In both NETCONF {{RFC6241}} and RESTCONF {{RFC8040}}, these identifiers are implemented using names.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called YANG SID or simply SID in this document and when the context is clear, is encoded using a 63-bit unsigned integer. The limitation to 63-bit unsigned integers allows SIDs to be manipulated more easily on platforms that might otherwise lack native 64-bit unsigned arithmetic. The loss of a single bit of range is not significant given the size of the remaining space.
+Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier.  In both Network Configuration Protocol(NETCONF) {{RFC6241}} and RESTCONF {{RFC8040}}, these identifiers are implemented using names.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called YANG SID or simply SID in this document and when the context is clear, is encoded using a 63-bit unsigned integer. The limitation to 63-bit unsigned integers allows SIDs to be manipulated more easily on platforms that might otherwise lack native 64-bit unsigned arithmetic. The loss of a single bit of range is not significant given the size of the remaining space.
 
 The following items are identified using SIDs:
 
@@ -88,7 +88,7 @@ The following items are identified using SIDs:
 
 * data nodes (Note: including those nodes defined by the 'yang-data' extension.)
 
-* RPCs and associated input(s) and output(s)
+* remote procedure calls (RPCs) and associated input(s) and output(s)
 
 * actions and associated input(s) and output(s)
 
@@ -111,7 +111,8 @@ could be achieved, please consult {{sid-auto-generation}}.
 SIDs are assigned permanently, items introduced by a new revision of a YANG
 module are added to the list of SIDs already assigned. If the meaning of an
 item changes, for example as a result from a non-backward compatible update of
-the YANG module, a new SID should be assigned to it.
+the YANG module, a new SID SHOULD be assigned to it. A new SID MUST always be
+assigned if the new meaning of the item is going to be referenced using a SID.
 
 {{sid-lifecycle}} provides more details about the registration process of YANG
 modules and associated SIDs. To enable the implementation of this registry,
@@ -172,10 +173,11 @@ files. For a diagram of one of the possibilities, please refer to the activity
 diagram on {{fig-sid-file-creation}} in {{sid-lifecycle-ex}}.
 
 Each time a YANG module or one of its imported module(s) or included
-sub-module(s) is updated, a new ".sid" file MAY need to be created. All the
-SIDs present in the previous version of the ".sid" file MUST be present in the
-new version as well. The creation of this new version of the ".sid" file SHOULD
-be performed using an automated tool.
+sub-module(s) is updated, a new ".sid" file MAY be created if the new or
+updated items will need SIDs. All the SIDs present in the previous version of
+the ".sid" file MUST be present in the new version as well. The creation of
+this new version of the ".sid" file SHOULD be performed using an automated
+tool.
 
 If a new revision requires more SIDs than initially allocated, a new SID range
 MUST be added to the 'assignment-ranges' as defined in {{sid-file-format}}.
@@ -1338,10 +1340,10 @@ The following activity diagram summarizes the creation of a YANG module and its 
                                       | yes                 | yes       |
                                       |     +---------------+           |
                                       V     V                           V
-                              +---------------+                 +---------------+
-                              |     IANA      |                 | Third party   |
-                              | registration  |                 | registration  |
-                              +-------+-------+                 +-------+-------+
+                              +---------------+               +---------------+
+                              |     IANA      |               | Third party   |
+                              | registration  |               | registration  |
+                              +-------+-------+               +---------+-----+
                                       |                                 |
                                       +---------------------------------+
                                       V
