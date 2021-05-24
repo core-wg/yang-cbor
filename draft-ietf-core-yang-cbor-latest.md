@@ -124,13 +124,15 @@ This specification also makes use of the following terminology:
 
 * child: A schema node defined as a child node of a container, a list, a case, a notification, an RPC input, an RPC output, an action input, an action output.
 
+* YANG Schema Item iDentifier (YANG SID or simply SID): Unsigned integer used to identify different YANG items.
+
 * delta: Difference between the current YANG SID and a reference YANG SID. A reference YANG SID is defined for each context for which deltas are used.
 
 * item: A schema node, an identity, a module, a submodule or a feature defined using the YANG modeling language.
 
-* parent: The container, list, case, notification, RPC input, RPC output, action input or action output node in which a schema node is defined.
+* list instance: the data associated with a single element of a list.
 
-* YANG Schema Item iDentifier (YANG SID or simply SID): Unsigned integer used to identify different YANG items.
+* parent: The container, list, case, notification, RPC input, RPC output, action input or action output node in which a schema node is defined.
 
 # Properties of the CBOR Encoding {#properties-of-cbor-encoding}
 
@@ -170,7 +172,7 @@ Note: CBOR binary contents shown in this specification are annotated with commen
 
 ## YANG Schema Item iDentifier {#sid}
 
-Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier.  In both NETCONF {{RFC6241}} and RESTCONF {{RFC8040}}, these identifiers are implemented using strings.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called YANG Schema Item iDentifier, is an unsigned integer. The following items are identified using YANG SIDs (often shortened to SIDs):
+Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier.  In both Network Configuration Protocol (NETCONF) {{RFC6241}} and RESTCONF {{RFC8040}}, these identifiers are implemented using strings.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called YANG Schema Item iDentifier, is an unsigned integer. The following items are identified using YANG SIDs (often shortened to SIDs):
 
 * identities
 
@@ -720,6 +722,7 @@ Definition example:
 module event-log {
   ...
   anydata last-event;                # SID 60123
+}
 ~~~~
 
 This example also assumes the assistance of the following notification.
@@ -832,6 +835,7 @@ Definition example from {{RFC7951}}:
 module bar-module {
   ...
   anyxml bar;      # SID 60000
+}
 ~~~~
 
 ### Using SIDs in keys
@@ -1178,7 +1182,9 @@ of bytes in the byte string multiplied by 8. Bytes with no bits set at the end
 of the byte string are removed. An example follows.
 
 The following example shows the encoding of an 'alarm-state' leaf instance with
-the 'critical', 'warning' and 'indeterminate' flags set.
+the 'critical' (position 3), 'warning' (position 8) and 'indeterminate'
+(position 128) flags set.
+
 
 ~~~~ yang
 typedef alarm-state {
