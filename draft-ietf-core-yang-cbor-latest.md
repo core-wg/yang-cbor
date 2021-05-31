@@ -72,7 +72,7 @@ This document defines encoding rules for serializing configuration data, state d
 
 # Introduction
 
-The specification of the YANG 1.1 data modeling language {{RFC7950}} defines an XML encoding for data instances, i.e. contents of configuration datastores, state data, RPC inputs and outputs, action inputs and outputs, and event notifications.
+The specification of the YANG 1.1 data modeling language {{RFC7950}} defines an XML encoding for data instances, i.e., contents of configuration datastores, state data, RPC inputs and outputs, action inputs and outputs, and event notifications.
 
 An additional set of encoding rules has been defined in {{RFC7951}} based on
 the JavaScript Object Notation (JSON) Data Interchange Format {{RFC8259}}.
@@ -122,13 +122,13 @@ The following terms are defined in {{RFC8040}}:
 
 This specification also makes use of the following terminology:
 
-* child: A schema node defined as a child node of a container, a list, a case, a notification, an RPC input, an RPC output, an action input, an action output.
+* child: A schema node defined as a child node of a container, a list, a case, a notification, an RPC input, an RPC output, an action input, or an action output.
 
 * YANG Schema Item iDentifier (YANG SID or simply SID): Unsigned integer used to identify different YANG items.
 
 * delta: Difference between the current YANG SID and a reference YANG SID. A reference YANG SID is defined for each context for which deltas are used.
 
-* item: A schema node, an identity, a module, a submodule or a feature defined using the YANG modeling language.
+* item: A schema node, an identity, a module, a submodule, or a feature defined using the YANG modeling language.
 
 * list entry: the data associated with a single element of a list.
 
@@ -138,15 +138,15 @@ This specification also makes use of the following terminology:
 
 This document defines CBOR encoding rules for YANG data trees and their subtrees.
 
-An instance of a schema node such as container, list, notification, RPC input, RPC output, action input and action output is serialized using a CBOR map in which each child schema node is encoded using a key and a value. This specification supports two types of CBOR keys; YANG Schema Item iDentifier (YANG SID) as defined in {{sid}} and names as defined in {{name}}. Each of these key types is encoded using a specific CBOR type which allows their interpretation during the deserialization process. Protocols or mechanisms implementing this specification can mandate the use of a specific key type.
+An instance of a schema node such as container, list, notification, RPC input, RPC output, action input, or action output is serialized using a CBOR map in which each child schema node is encoded using a key and a value. This specification supports two types of CBOR keys; YANG Schema Item iDentifier (YANG SID) as defined in {{sid}} and names as defined in {{name}}. Each of these key types is encoded using a specific CBOR type which allows their interpretation during the deserialization process. Protocols or mechanisms implementing this specification can mandate the use of a specific key type.
 
-In order to minimize the size of the encoded data, the proposed mapping avoids any unnecessary meta-information beyond those natively supported by CBOR. For instance, CBOR tags are used solely in the case of SID not encoded as delta, anyxml schema nodes and the union datatype to distinguish explicitly the use of different YANG datatypes encoded using the same CBOR major type.
+In order to minimize the size of the encoded data, the proposed mapping avoids any unnecessary meta-information beyond those natively supported by CBOR. For instance, CBOR tags are used solely in the case of a SID not encoded as delta, anyxml schema nodes, or the union datatype, to distinguish explicitly the use of different YANG datatypes encoded using the same CBOR major type.
 
 Unless specified otherwise by the protocol or mechanism implementing this specification, the indefinite lengths encoding as defined in {{Section 3.2 of RFC8949}} SHALL be supported by CBOR decoders.
 
-Data nodes implemented using a CBOR array, map, byte string, and text string can be instantiated but empty. In this case, they are encoded with a length of zero.
+Data nodes implemented using a CBOR array, map, byte string, or text string can be instantiated but empty. In this case, they are encoded with a length of zero.
 
-When schema nodes are serialized using the rules defined by this specification as part of an application payload, the payload SHOULD include information that would allow a stateless way to identify each node, such as the SID number associated with the node, SID delta from another SID in the application payload, the namespace qualified name or the instance-identifier.
+When schema nodes are serialized using the rules defined by this specification as part of an application payload, the payload SHOULD include information that would allow a stateless way to identify each node, such as the SID number associated with the node, SID delta from another SID in the application payload, the namespace qualified name, or the instance-identifier.
 
 Examples in {{instance-encoding}} include a root CBOR map with a single entry having a key set to either a namespace qualified name or a SID. This root CBOR map is provided only as a typical usage example and is not part of the present encoding rules. Only the value within this CBOR map is compulsory.
 
@@ -184,7 +184,7 @@ Some of the items defined in YANG {{RFC7950}} require the use of a unique identi
 
 * notifications and associated information
 
-* YANG modules, submodules and features
+* YANG modules, submodules, and features
 
 To minimize their size, SIDs used as keys in inner CBOR maps are typically encoded using deltas. Conversion from SIDs to deltas and back to SIDs are stateless processes solely based on the data serialized or deserialized. These SIDs may also be encoded as absolute number when enclosed by CBOR tag 47.
 
@@ -192,11 +192,11 @@ Mechanisms and processes used to assign SIDs to YANG items and to guarantee thei
 
 ## Name {#name}
 
-This specification also supports the encoding of YANG item identifiers as strings, similar as those used by the JSON Encoding of Data Modeled with YANG {{RFC7951}}. This approach can be used to avoid the management overhead associated to SIDs allocation. The main drawback is the significant increase in size of the encoded data.
+This specification also supports the encoding of YANG item identifiers as strings, similar to those used by the JSON Encoding of Data Modeled with YANG {{RFC7951}}. This approach can be used to avoid the management overhead associated with SID allocation. The main drawback is the significant increase in size of the encoded data.
 
 YANG item identifiers implemented using names MUST be in one of the following forms:
 
-* simple - the identifier of the YANG item (i.e. schema node or identity).
+* simple - the identifier of the YANG item (i.e., schema node or identity).
 
 * namespace qualified - the identifier of the YANG item is prefixed with the name of the module in which this item is defined, separated by the colon character (":").
 
@@ -319,7 +319,7 @@ A1                                         # map(1)
 
 ## The 'container' and other nodes from the data tree {#container}
 
-Instances of containers, lists, notification contents, rpc inputs, rpc outputs, action inputs and action outputs schema nodes MUST be encoded using a CBOR map data item (major type 5). A map is comprised of pairs of data items, with each data item consisting of a key and a value. Each key within the CBOR map is set to a schema node identifier, each value is set to the value of this schema node instance according to the instance datatype.
+Instances of containers, lists, notification contents, RPC inputs, RPC outputs, action inputs, and action outputs schema nodes MUST be encoded using a CBOR map data item (major type 5). A map is comprised of pairs of data items, with each data item consisting of a key and a value. Each key within the CBOR map is set to a schema node identifier, each value is set to the value of this schema node instance according to the instance datatype.
 
 This specification supports two types of CBOR keys; SID as defined in {{sid}} and names as defined in {{name}}.
 
@@ -359,7 +359,7 @@ Delta values are computed as follows:
 
 * In the case of a 'list', deltas are equal to the SID of the current schema node minus the SID of the parent 'list'.
 
-* In the case of an 'rpc input' or 'rpc output', deltas are equal to the SID of the current schema node minus the SID of the 'rpc'.
+* In the case of an 'RPC input' or 'RPC output', deltas are equal to the SID of the current schema node minus the SID of the 'RPC'.
 
 * In the case of an 'action input' or 'action output', deltas are equal to the SID of the current schema node minus the SID of the 'action'.
 
@@ -699,7 +699,7 @@ An anydata serves as a container for an arbitrary set of schema nodes that other
 
 * CBOR map values MUST follow the encoding rules of one of the datatypes listed in {{instance-encoding}}.
 
-The following example shows a possible use of an anydata. In this example, an anydata is used to define a schema node containing a notification event, this schema node can be part of a YANG list to create an event logger.
+The following example shows a possible use of an anydata. In this example, an anydata is used to define a schema node containing a notification event; this schema node can be part of a YANG list to create an event logger.
 
 Definition example:
 
@@ -910,7 +910,7 @@ module ietf-coreconf {
 
 ## Using SIDs in keys
 
-The yang-data extensions encoded using SIDs are carried in a CBOR map containing a single item pair. The key of this item is set to the SID assigned to the yang-data extension container, the value is set the CBOR encoding of this container as defined in {{container}}.
+The yang-data extensions encoded using SIDs are carried in a CBOR map containing a single item pair. The key of this item is set to the SID assigned to the yang-data extension container; the value is set to the CBOR encoding of this container as defined in {{container}}.
 
 This example shows a serialization example of the yang-errors yang-data extension as defined in {{-comi}} using SIDs as defined in {{sid}}.
 
@@ -949,7 +949,7 @@ A1                                      # map(1)
 
 ## Using names in keys
 
-The yang-data extensions encoded using names are carried in a CBOR map containing a single item pair. The key of this item is set to the namespace qualified name of the yang-data extension container, the value is set the CBOR encoding of this container as defined in {{name}}.
+The yang-data extensions encoded using names are carried in a CBOR map containing a single item pair. The key of this item is set to the namespace qualified name of the yang-data extension container; the value is set to the CBOR encoding of this container as defined in {{name}}.
 
 This example shows a serialization example of the yang-errors yang-data extension as defined in {{-comi}} using names as defined {{name}}.
 
@@ -1001,7 +1001,7 @@ The CBOR encoding of an instance of a leaf or leaf-list schema node depends on t
 Leafs of type uint8, uint16, uint32 and uint64 MUST be encoded using a CBOR
 unsigned integer data item (major type 0).
 
-The following example shows the encoding of a 'mtu' leaf schema node instance set to 1280 bytes.
+The following example shows the encoding of an 'mtu' leaf schema node instance set to 1280 bytes.
 
 Definition example from {{RFC8344}}:
 
@@ -1297,11 +1297,11 @@ CBOR encoding: 64 65746831
 
 ## The 'identityref' Type
 
-This specification supports two approaches for encoding identityref, a YANG Schema Item iDentifier as defined in {{sid}} or a name as defined in {{RFC7951}} section 6.8.
+This specification supports two approaches for encoding identityref: as a YANG Schema Item iDentifier as defined in {{sid}}, or as a name as defined in {{RFC7951}} section 6.8.
 
 ### SIDs as identityref {#identityref-with-sid}
 
-When schema nodes of type identityref are implemented using SIDs, they MUST be encoded using a CBOR unsigned integer data item (major type 0). (Note that no delta mechanism is employed for SIDs as identityref.)
+When schema nodes of type identityref are implemented using SIDs, they MUST be encoded using a CBOR unsigned integer data item (major type 0). (Note that no delta mechanism is employed for SIDs used for identityref.)
 
 The following example shows the encoding of a 'type' leaf schema node instance set to the value 'iana-if-type:ethernetCsmacd' (SID 1880).
 
@@ -1345,7 +1345,7 @@ CBOR encoding: 78 1b 69616E612D69662D747970653A65746865726E657443736D616364
 Leafs of type empty MUST be encoded using the CBOR null value (major type
 7, additional information 22).
 
-The following example shows the encoding of a 'is-router' leaf schema node instance when present.
+The following example shows the encoding of an 'is-router' leaf schema node instance when present.
 
 Definition example from {{RFC8344}}:
 
@@ -1375,7 +1375,7 @@ between different YANG datatypes encoded using the same CBOR major type.
 
 See {{tag-registry}} for the assigned value of these CBOR tags.
 
-As mentioned in {{enumeration}} and in {{bits}}, 'enumeration' and 'bits' are encoded as CBOR text string data item (major type 3) when defined within a 'union' type.
+As mentioned in {{enumeration}} and in {{bits}}, 'enumeration' and 'bits' are encoded as a CBOR text string data item (major type 3) when defined within a 'union' type.
 
 The following example shows the encoding of an 'ip-address' leaf schema node instance when set to "2001:db8:a0b:12f0::1".
 
@@ -1423,17 +1423,17 @@ This specification supports two approaches for encoding an instance-identifier, 
 
 ### SIDs as instance-identifier {#instance-identifier-with-sid}
 
-SIDs uniquely identify a schema node. In the case of a single instance schema node, i.e. a schema node defined at the root of a YANG module or submodule or schema nodes defined within a container, the SID is sufficient to identify this instance.
+SIDs uniquely identify a schema node. In the case of a single instance schema node, i.e., a schema node defined at the root of a YANG module or submodule or schema nodes defined within a container, the SID is sufficient to identify this instance.
 
 In the case of a schema node member of a YANG list, a SID is combined with the list key(s) to identify each instance within the YANG list(s).
 
 Single instance schema nodes MUST be encoded using a CBOR unsigned integer data item (major type 0) and set to the targeted schema node SID.
 
-Schema nodes member of a YANG list MUST be encoded using a CBOR array data item (major type 4) containing the following entries:
+Schema node members of a YANG list MUST be encoded using a CBOR array data item (major type 4) containing the following entries:
 
 * The first entry MUST be encoded as a CBOR unsigned integer data item (major type 0) and set to the targeted schema node SID.
 
-* The following entries MUST contain the value of each key required to identify the instance of the targeted schema node. These keys MUST be ordered as defined in the 'key' YANG statement, starting from top level list, and follow by each of the subordinate list(s).
+* The following entries MUST contain the value of each key required to identify the instance of the targeted schema node. These keys MUST be ordered as defined in the 'key' YANG statement, starting from the top level list, and followed by each of the subordinate list(s).
 
 Examples within this section assume the definition of a schema node of type 'instance-identifier':
 
@@ -1542,7 +1542,7 @@ CBOR encoding:
 
 ### Names as instance-identifier
 
-An "instance-identifier" value is encoded as a string that is analogical to the lexical representation in XML encoding; see Section 9.13.2 in {{RFC7950}}. However, the encoding of namespaces in instance-identifier values follows the rules stated in {{name}}, namely:
+An "instance-identifier" value is encoded as a string that is analogous to the lexical representation in XML encoding; see Section 9.13.2 in {{RFC7950}}. However, the encoding of namespaces in instance-identifier values follows the rules stated in {{name}}, namely:
 
 * The leftmost (top-level) data node name is always in the namespace qualified form.
 
@@ -1618,7 +1618,7 @@ application/yang-data+cbor; id=name:
 : FORMAT: CBOR map of name, instance-value
 
 : The message payload of Content-Type 'application/yang-data+cbor' is encoded using a CBOR map.
-  Each entry within the CBOR map contains the data node identifier (i.e. its
+  Each entry within the CBOR map contains the data node identifier (i.e., its
   namespace qualified name) and the associated instance-value.  Instance-values
   are encoded using the rules defined in {{instance-encoding}}
 
@@ -1626,7 +1626,7 @@ application/yang-data+cbor; id=name:
 
 The security considerations of {{RFC8949}} and {{RFC7950}} apply.
 
-This document defines an alternative encoding for data modeled in the YANG data modeling language. As such, this encoding does not contribute any new security issues in addition of those identified for the specific protocol or context for which it is used.
+This document defines an alternative encoding for data modeled in the YANG data modeling language. As such, this encoding does not contribute any new security issues in addition to those identified for the specific protocol or context for which it is used.
 
 To minimize security risks, software on the receiving side SHOULD reject all messages that do not comply to the rules of this document and reply with an appropriate error message to the sender.
 
