@@ -51,7 +51,8 @@ normative:
   RFC2119:
   RFC3688:
   RFC6991:
-  RFC7120: BCP100
+#  RFC7120: BCP100
+  BCP100:
   RFC7950:
   RFC7951:
   RFC8040:
@@ -634,7 +635,7 @@ The first million SIDs assigned to IANA is sub-divided as follows:
     * The IANA policy for additions to this registry is either:
         * "Expert Review" {{RFC8126}} in case the ".sid" file comes from a YANG module from an existing RFC, or
         * "RFC Required" {{RFC8126}} otherwise.
-    * The Expert MUST verify that the YANG module for which this allocation is made has an RFC (existing RFC) OR is on track to become RFC (early allocation with a request from the WG chairs as defined by {{-BCP100}}).
+    * The Expert MUST verify that the YANG module for which this allocation is made has an RFC (existing RFC) OR is on track to become RFC (early allocation with a request from the WG chairs as defined by {{BCP100}}).
 * The range of 60,000 to 99,999 (size 40,000) is reserved for experimental YANG modules. This range MUST NOT be used in operational deployments since these SIDs are not globally unique which limit their interoperability. The IANA policy for this range is "Experimental use" {{RFC8126}}.
 * The range of 100,000 to 999,999 (size 900,000) is "Reserved" as defined in {{RFC8126}}.
 
@@ -654,9 +655,9 @@ point to the RFC that the YANG module is defined in.
 
 In case a SID range is required before publishing the RFC due to
 implementations needing stable SID values, early allocation as defined in
-{{-BCP100}} can be employed. As specified in section 4.6 of {{RFC8126}}, RFCs
+{{BCP100}} can be employed. As specified in section 4.6 of {{RFC8126}}, RFCs
 and by extension documents that are expected to become an RFC fulfill the
-requirement for "Specification Required" stated in section 2 of {{-BCP100}},
+requirement for "Specification Required" stated in section 2 of {{BCP100}},
 which allows for the early allocation process to be employed.
 
 ### Initial contents of the registry {#ietf-iana-sid-range-initial-contents}
@@ -720,7 +721,7 @@ The allocation policy is Expert review. The Expert MUST ensure that the followin
 
 Due to the difficulty in changing SID values during IETF document processing,
 it is expected that most documents will ask for SID allocations using Early
-Allocations {{-BCP100}}. The details of the Early Allocation should be included
+Allocations {{BCP100}}. The details of the Early Allocation should be included
 in any Working Group Adoption call. Prior to Working Group Adoption, an internet
 draft authors can use the experimental SID range (as per
 {{ietf-iana-sid-range-allocation-policy}}) for their SIDs allocations or
@@ -758,7 +759,7 @@ those modules as well.
 * A YANG module which references a module in an document which has not yet been
   adopted by any working group will be unable to perform an Early Allocation
   for that other document until it is adopted by a working group.  As described
-  in {{-BCP100}}, an AD Sponsored document acts as if it had a working group.  The
+  in {{BCP100}}, an AD Sponsored document acts as if it had a working group.  The
   approving AD may also exempt a document from this policy by agreeing to AD
   Sponsor the document.
 
@@ -771,13 +772,13 @@ a YANG module for which there is no SID allocation needs to repeat the Early
 Allocation process.
 
 Early Allocations are made with a one-year period, after which they are
-expired.  {{-BCP100}} indicates that at most one renewal may be made.  For the
+expired.  {{BCP100}} indicates that at most one renewal may be made.  For the
 SID allocation a far more lenient stance is desired.
 
 1. An extension of a referencing documents Early Allocation should update any
    referenced Early Allocations to expire no sooner than the referencing
    document.
-2. The {{-BCP100}} mechanism allows the IESG to provide a second renewal,
+2. The {{BCP100}} mechanism allows the IESG to provide a second renewal,
    and such an event may prompt some thought about how the collection of
    documents are being processed.
 
@@ -786,7 +787,7 @@ and deep dependencies of YANG modules.  Often a core module with many
 dependencies will undergo extensive review, delaying the publication of other
 documents.
 
-{{-BCP100}} also says:
+{{BCP100}} also says:
 
     Note that if a document is submitted for review to the IESG and at
     the time of submission some early allocations are valid (not
