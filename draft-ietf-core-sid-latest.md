@@ -250,7 +250,7 @@ module ietf-sid-file {
                <mailto:a@ackl.io>
 
      Editor:   Ivaylo Petrov
-               <mailto:ivaylo@ackl.io>";
+               <mailto:ivaylopetrov@google.com>";
 
   description
     "Copyright (c) 2021 IETF Trust and the persons identified as
