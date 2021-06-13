@@ -181,7 +181,7 @@ this new version of the ".sid" file SHOULD be performed using an automated
 tool.
 
 If a new revision requires more SIDs than initially allocated, a new SID range
-MUST be added to the 'assignment-ranges' as defined in {{sid-file-format}}.
+MUST be added to the 'assignment-range' as defined in {{sid-file-format}}.
 These extra SIDs are used for subsequent assignments.
 
 For an example of this update process, see activity diagram
@@ -194,20 +194,21 @@ YANG items of a specific YANG module. It has the following structure.
 
 ~~~~
 module: ietf-sid-file
-  +--rw module-name?              yang:yang-identifier
-  +--rw module-revision?          revision-identifier
-  +--rw sid-file-version?         sid-file-version-identifier
-  +--rw description?              string
-  +--rw dependency-revision* [module-name]
-  |  +--rw module-name        yang:yang-identifier
-  |  +--rw module-revision    revision-identifier
-  +--rw assigment-ranges* [entry-point]
-  |  +--rw entry-point    sid
-  |  +--rw size           uint64
-  +--rw items* [namespace identifier]
-     +--rw namespace     enumeration
-     +--rw identifier    union
-     +--rw sid           sid
+  +-- sid-file
+     +-- module-name?              yang:yang-identifier
+     +-- module-revision?          revision-identifier
+     +-- sid-file-version?         sid-file-version-identifier
+     +-- description?              string
+     +-- dependency-revision* [module-name]
+     |  +-- module-name        yang:yang-identifier
+     |  +-- module-revision    revision-identifier
+     +-- assignment-range* [entry-point]
+     |  +-- entry-point    sid
+     |  +-- size           uint64
+     +-- item* [namespace identifier]
+        +-- namespace     enumeration
+        +-- identifier    union
+        +-- sid           sid
 ~~~~
 
 The following YANG module defined the structure of this file, encoding is
@@ -317,17 +318,18 @@ module ietf-sid-file {
         '(/[a-zA-Z_][a-zA-Z0-9\-_.]*(:[a-zA-Z_][a-zA-Z0-9\-_.]*)?)*';
     }
     description
-      "A schema-node path is an absolute YANG schema node identifier as
-      defined by the YANG ABNF rule absolute-schema-nodeid, except
-      that module names are used instead of prefixes.
+      "A schema-node path is an absolute YANG schema node identifier
+      as defined by the YANG ABNF rule absolute-schema-nodeid,
+      except that module names are used instead of prefixes.
 
       This string additionally follows the following rules:
 
        o  The leftmost (top-level) data node name is always in the
           namespace-qualified form.
-       o  Any subsequent schema node name is in the namespace-qualified form
-          if the node is defined in a module other than its parent node, and
-          the simple form is used otherwise. No predicates are allowed.";
+       o  Any subsequent schema node name is in the
+          namespace-qualified form if the node is defined in a module
+          other than its parent node, and the simple form is used
+          otherwise. No predicates are allowed.";
     reference
       "RFC 7950, The YANG 1.1 Data Modeling Language;
        Section 6.5: Schema Node Identifier;";
@@ -338,15 +340,15 @@ module ietf-sid-file {
   }
 
   grouping sid-file {
-    description "A grouping that contains a YANG container representing the
-      file structure of a .sid files.";
+    description "A grouping that contains a YANG container
+      representing the file structure of a .sid files.";
 
     container sid-file {
       description
-        "A Wrapper container that together with the rc:yang-data extension
-         marks the YANG data structures inside as not being intended to be
-         implemented as part of a configuration datastore or as an operational
-         state within the server.";
+        "A Wrapper container that together with the rc:yang-data
+        extension marks the YANG data structures inside as not being
+        intended to be implemented as part of a configuration
+        datastore or as an operational state within the server.";
       leaf module-name {
         type yang:yang-identifier;
         description
@@ -356,66 +358,71 @@ module ietf-sid-file {
       leaf module-revision {
         type revision-identifier;
         description
-          "Revision of the YANG module associated with this .sid file.
+          "Revision of the YANG module associated with this .sid
+          file.
           This leaf is not present if no revision statement is
           defined in the YANG module.";
       }
 
       leaf sid-file-version {
         type sid-file-version-identifier;
+        default 0;
         description
-          "Optional leaf that specifies the version number of the .sid file.
-          .sid files and the version sequence are specific to a given YANG
-          module revision. This number starts at zero when there is a new YANG
-          module revision and increases monotonically.  This number can
-          distinguish updates to the .sid file which are the result of new
+          "Optional leaf that specifies the version number of the
+          .sid file.  .sid files and the version sequence are
+          specific to a given YANG module revision. This number
+          starts at zero when there is a new YANG module revision and
+          increases monotonically.  This number can distinguish
+          updates to the .sid file which are the result of new
           processing, or the result of reported errata.";
       }
 
       leaf description {
         type string;
         description
-          "Free-form meta information about the generated file. It might
-          include .sid file generation tool and time among other things.";
+          "Free-form meta information about the generated file. It
+          might include .sid file generation tool and time among
+          other things.";
       }
 
       list dependency-revision {
         key "module-name";
 
         description
-          "Information about the used revision during the .sid file generation
-          of each YANG module that the module in 'module-name' imported.";
+          "Information about the used revision during the .sid file
+          generation of each YANG module that the module in
+          'module-name' imported.";
 
         leaf module-name {
           type yang:yang-identifier;
-          mandatory true;
           description
-            "Name of the YANG module, dependency of 'module-name', for which
-            revision information is provided.";
+            "Name of the YANG module, dependency of 'module-name',
+            for which revision information is provided.";
         }
         leaf module-revision {
           type revision-identifier;
           mandatory true;
           description
-            "Revision of the YANG module, dependency of 'module-name', for which
-            revision information is provided.";
+            "Revision of the YANG module, dependency of
+            'module-name', for which revision information is
+            provided.";
         }
       }
 
-      list assigment-ranges {
+      list assignment-range {
         key "entry-point";
         description
-          "YANG SID range(s) allocated to the YANG module identified by
-          'module-name' and 'module-revision'.
+          "YANG SID range(s) allocated to the YANG module identified
+          by 'module-name' and 'module-revision'.
 
-          - The YANG SID range first available value is entry-point and the the
-            last available value in the range is (entry-point + size - 1).
-          - The YANG SID ranges specified by all assignment-rages MUST NOT
-            overlap.";
+          - The YANG SID range first available value is entry-point
+            and the the last available value in the range is
+            (entry-point + size - 1).
+          - The YANG SID ranges specified by all assignment-rages
+            MUST NOT overlap.";
 
         leaf entry-point {
           type sid;
-          mandatory true;
           description
             "Lowest YANG SID available for assignment.";
         }
@@ -428,12 +435,14 @@ module ietf-sid-file {
         }
       }
 
-      list items {
+      list item {
         key "namespace identifier";
+        unique "sid";
+
         description
           "Each entry within this list defined the mapping between
-          a YANG item string identifier and a YANG SID. This list MUST
-          include a mapping entry for each YANG item defined by
+          a YANG item string identifier and a YANG SID. This list
+          MUST include a mapping entry for each YANG item defined by
           the YANG module identified by 'module-name' and
           'module-revision'.";
 
@@ -462,7 +471,8 @@ module ietf-sid-file {
             enum data {
               value 3;
               description
-                "The namespace for all data nodes, as defined in YANG.";
+                "The namespace for all data nodes, as defined in
+                YANG.";
             }
           }
           description
@@ -475,7 +485,8 @@ module ietf-sid-file {
             type schema-node-path;
           }
           description
-            "String identifier of the YANG item for this mapping entry.
+            "String identifier of the YANG item for this mapping
+            entry.
 
             If the corresponding 'namespace' field is 'module',
             'feature', or 'identity', then this field MUST
@@ -490,7 +501,8 @@ module ietf-sid-file {
           type sid;
           mandatory true;
           description
-            "YANG SID assigned to the YANG item for this mapping entry.";
+            "YANG SID assigned to the YANG item for this mapping
+            entry.";
         }
       }
     }
@@ -817,7 +829,7 @@ The following ".sid" file (ietf-system@2014-08-06.sid) have been generated using
 
 * ietf-netconf-acm@2018-02-14.yang (defined in {{RFC8341}})
 
-* iana-crypt-hash@2014-04-04.yang (defined in {{RFC7317}})
+* iana-crypt-hash@2014-08-06.yang (defined in {{RFC7317}})
 
 ~~~~
 {
@@ -827,29 +839,29 @@ The following ".sid" file (ietf-system@2014-08-06.sid) have been generated using
     "dependency-revision": [
       {
         "module-name": "ietf-yang-types",
-        "module-revision": "2013-07-15.yang"
+        "module-revision": "2013-07-15"
       },
       {
         "module-name": "ietf-inet-types",
-        "module-revision": "2013-07-15.yang"
+        "module-revision": "2013-07-15"
       },
       {
         "module-name": "ietf-netconf-acm",
-        "module-revision": "2018-02-14.yang"
+        "module-revision": "2018-02-14"
       },
       {
         "module-name": "iana-crypt-hash",
-        "module-revision": "2014-04-04.yang"
+        "module-revision": "2014-08-06"
       }
     ],
     "description": "Example sid file",
-    "assignment-ranges": [
+    "assignment-range": [
       {
         "entry-point": 1700,
         "size": 100
       }
     ],
-    "items": [
+    "item": [
       {
         "namespace": "module",
         "identifier": "ietf-system",
