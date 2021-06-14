@@ -1720,13 +1720,14 @@ within the "Constrained RESTful Environments (CoRE) Parameters"
 registry, where TBD3 comes from the "Expert Review" 0-255 range and
 TBD1 and TBD2 come from the "IETF Review" 256-9999 range.
 
-| Media Type                          | Content Coding | ID   | Reference |
-| application/yang-data+cbor          |                | TBD1 | RFC XXXX  |
-| application/yang-data+cbor; id=name |                | TBD2 | RFC XXXX  |
-| application/yang-data+cbor; id=sid  |                | TBD3 | RFC XXXX  |
+| Content Type                        | Content Coding | ID   | Reference |
+| application/yang-data+cbor          | -              | TBD1 | RFC XXXX  |
+| application/yang-data+cbor; id=name | -              | TBD2 | RFC XXXX  |
+| application/yang-data+cbor; id=sid  | -              | TBD3 | RFC XXXX  |
 {: align="left"}
 
-// RFC Ed.: please replace TBDx with assigned IDs and remove this note.\\
+// RFC Ed.: please replace TBDx with assigned IDs, remove the
+requested ranges, and remove this note.\\
 // RFC Ed.: please replace RFC XXXX with this RFC number and remove this note.
 
 ##  CBOR Tags Registry {#tag-registry}
