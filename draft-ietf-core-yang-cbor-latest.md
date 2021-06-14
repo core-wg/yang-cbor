@@ -1656,6 +1656,9 @@ application/yang-data+cbor:
   multiple data node values, where each data nodes may be identified either
   by a name (as in `id=name`) or by a YANG SID (as in `id=sid`).
 
+It is not foreseen at this point that the valid set of values for the
+`id` parameter will extend `name`, `sid`, or being unset; if that does
+happen, any new value is foreseen to be of the form `[a-z]+`.
 
 # Security Considerations
 
