@@ -662,7 +662,8 @@ In case a SID range is required before publishing the RFC due to
 implementations needing stable SID values, early allocation as defined in
 {{BCP100}} can be employed. As specified in {{Section 4.6 of RFC8126}}, RFCs
 and by extension documents that are expected to become an RFC fulfill the
-requirement for "Specification Required" stated in {{Section 2 of BCP100}},
+requirement for "Specification Required" stated in Section 2 of
+{{BCP100}}, <!-- XXX xml2rfc bug-->
 which allows for the early allocation process to be employed.
 
 ### Initial contents of the registry {#ietf-iana-sid-range-initial-contents}
