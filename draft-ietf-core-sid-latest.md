@@ -509,7 +509,7 @@ module ietf-sid-file {
 
 # Content-Types {#content-type}
 
-The following Content-Type is defined:
+The following Content-Type has been defined in {{I-D.ietf-core-yang-cbor}}:
 
 application/yang-data+cbor; id=sid:
 
@@ -550,18 +550,16 @@ This document registers one YANG module in the "YANG Module Names" registry {{RF
 * name:         ietf-sid-file
 * namespace:    urn:ietf:params:xml:ns:yang:ietf-sid-file
 * prefix:       sid
-* reference:    [[THISRFC]]
+* reference:    [[RFC XXXX]]
+
+// RFC Ed.: please replace XXXX with RFC number and remove this note
 
 ## CoAP Content-Formats Registry
 
-This document adds the following Content-Format to the "CoAP Content-Formats", within the "Constrained RESTful Environments (CoRE) Parameters" registry.
-
-| Media Type                            | Content Coding | ID   | Reference |
-| application/yang-data+cbor; id=sid    |                | TBD1 | RFC XXXX  |
-{: align="left"}
-
-// RFC Ed.: replace TBD1 with assigned IDs and remove this note.
-// RFC Ed.: replace RFC XXXX with this RFC number and remove this note.
+A Content-Format for `application/yang-data+cbor; id=sid` has been
+added to the "CoAP Content-Formats" within the "Constrained RESTful
+Environments (CoRE) Parameters" registry, in
+{{I-D.ietf-core-yang-cbor}}.
 
 ## Create new IANA Registry: "YANG SID Mega-Range" registry {#mega-range-registry}
 

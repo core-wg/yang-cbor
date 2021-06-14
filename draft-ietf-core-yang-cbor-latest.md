@@ -1618,10 +1618,12 @@ CBOR encoding:
 
 # Content-Types {#content-type}
 
-The following Content-Type is defined:
+Based on the media-type `application/yang-data+cbor`, the following
+Content-Types are defined:
+
+For CBOR YANG documents making use of name identifiers only:
 
 application/yang-data+cbor; id=name:
-
 : This Content-Type represents a CBOR YANG document containing one or multiple data node values.
   Each data node is identified by its associated namespace qualified name as defined in {{name}}.
 
@@ -1630,7 +1632,30 @@ application/yang-data+cbor; id=name:
 : The message payload of Content-Type 'application/yang-data+cbor' is encoded using a CBOR map.
   Each entry within the CBOR map contains the data node identifier (i.e., its
   namespace qualified name) and the associated instance-value.  Instance-values
-  are encoded using the rules defined in {{instance-encoding}}
+  are encoded using the rules defined in {{instance-encoding}}.
+
+
+For CBOR YANG documents making use of YANG SID identifiers only:
+
+application/yang-data+cbor; id=sid:
+: This Content-Type represents a CBOR YANG document containing one or multiple data node values.
+  Each data node is identified by its associated SID as defined in {{sid}}.
+
+: FORMAT: CBOR map of SID, instance-value
+
+: The message payload of Content-Type 'application/yang-data+cbor' is encoded using a CBOR map.
+  Each entry within the CBOR map contains the data node identifier
+  (i.e. SID) and the associated instance-value.
+  Instance-values
+  are encoded using the rules defined in {{instance-encoding}}.
+
+For CBOR YANG documents making use of potentially mixed identifiers:
+
+application/yang-data+cbor:
+: This Content-Type represents a CBOR YANG document containing one or
+  multiple data node values, where each data nodes may be identified either
+  by a name (as in `id=name`) or by a YANG SID (as in `id=sid`).
+
 
 # Security Considerations
 
@@ -1663,13 +1688,13 @@ Required parameters:
 : none
 
 Optional parameters:
-: none
+: id (see {{content-type}} of RFC XXXX)
 
 Encoding considerations:
 : binary (CBOR)
 
 Security considerations:
-: see Section 8 of RFC XXXX
+: see {{security-considerations}} of RFC XXXX
 
 Published specification:
 : RFC XXXX
@@ -1691,13 +1716,17 @@ Author/Change controller:
 ## CoAP Content-Formats Registry
 
 This document adds the following Content-Format to the "CoAP Content-Formats",
-within the "Constrained RESTful Environments (CoRE) Parameters" registry.
+within the "Constrained RESTful Environments (CoRE) Parameters"
+registry, where TBD3 comes from the "Expert Review" 0-255 range and
+TBD1 and TBD2 come from the "IETF Review" 256-9999 range.
 
-| Media Type                             | Content Coding | ID   | Reference |
-| application/yang-data+cbor; id=name    |                | TBD1 | RFC XXXX  |
+| Media Type                          | Content Coding | ID   | Reference |
+| application/yang-data+cbor          |                | TBD1 | RFC XXXX  |
+| application/yang-data+cbor; id=name |                | TBD2 | RFC XXXX  |
+| application/yang-data+cbor; id=sid  |                | TBD3 | RFC XXXX  |
 {: align="left"}
 
-// RFC Ed.: please replace TBD1 with assigned IDs and remove this note.
+// RFC Ed.: please replace TBDx with assigned IDs and remove this note.\\
 // RFC Ed.: please replace RFC XXXX with this RFC number and remove this note.
 
 ##  CBOR Tags Registry {#tag-registry}
