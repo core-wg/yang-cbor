@@ -48,7 +48,6 @@ author:
   country: Switzerland
   email: ivaylopetrov@google.com
 normative:
-  RFC2119:
   RFC3688:
   RFC6991:
 #  RFC7120: BCP100
@@ -56,7 +55,6 @@ normative:
   RFC7950:
   RFC7951:
   RFC8040:
-  RFC8174:
   I-D.ietf-core-yang-cbor:
 informative:
   RFC6020:
@@ -122,10 +120,7 @@ SIDs.
 
 # Terminology and Notation
 
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
-"SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this
-document are to be interpreted as described in BCP 14 {{RFC2119}} {{RFC8174}}
-when, and only when, they appear in all capitals, as shown here.
+{::boilerplate bcp14-tagged}
 
 The following terms are defined in {{RFC7950}}:
 
@@ -514,7 +509,7 @@ module ietf-sid-file {
 
 # Content-Types {#content-type}
 
-The following Content-Type is defined:
+The following Content-Type has been defined in {{I-D.ietf-core-yang-cbor}}:
 
 application/yang-data+cbor; id=sid:
 
@@ -525,7 +520,7 @@ application/yang-data+cbor; id=sid:
 
 : The message payload of Content-Type 'application/yang-data+cbor' is encoded using a CBOR map.
   Each entry within the CBOR map contains the data node identifier (i.e. SID) and the associated instance-value.
-  Instance-values are encoded using the rules defined in {{I-D.ietf-core-yang-cbor}} section 4.
+  Instance-values are encoded using the rules defined in {{Section 4 of I-D.ietf-core-yang-cbor}}.
 
 # Security Considerations
 
@@ -555,18 +550,16 @@ This document registers one YANG module in the "YANG Module Names" registry {{RF
 * name:         ietf-sid-file
 * namespace:    urn:ietf:params:xml:ns:yang:ietf-sid-file
 * prefix:       sid
-* reference:    [[THISRFC]]
+* reference:    [[RFC XXXX]]
+
+// RFC Ed.: please replace XXXX with RFC number and remove this note
 
 ## CoAP Content-Formats Registry
 
-This document adds the following Content-Format to the "CoAP Content-Formats", within the "Constrained RESTful Environments (CoRE) Parameters" registry.
-
-| Media Type                            | Content Coding | ID   | Reference |
-| application/yang-data+cbor; id=sid    |                | TBD1 | RFC XXXX  |
-{: align="left"}
-
-// RFC Ed.: replace TBD1 with assigned IDs and remove this note.
-// RFC Ed.: replace RFC XXXX with this RFC number and remove this note.
+A Content-Format for `application/yang-data+cbor; id=sid` has been
+added to the "CoAP Content-Formats" within the "Constrained RESTful
+Environments (CoRE) Parameters" registry, in
+{{I-D.ietf-core-yang-cbor}}.
 
 ## Create new IANA Registry: "YANG SID Mega-Range" registry {#mega-range-registry}
 
@@ -667,9 +660,10 @@ point to the RFC that the YANG module is defined in.
 
 In case a SID range is required before publishing the RFC due to
 implementations needing stable SID values, early allocation as defined in
-{{BCP100}} can be employed. As specified in section 4.6 of {{RFC8126}}, RFCs
+{{BCP100}} can be employed. As specified in {{Section 4.6 of RFC8126}}, RFCs
 and by extension documents that are expected to become an RFC fulfill the
-requirement for "Specification Required" stated in section 2 of {{BCP100}},
+requirement for "Specification Required" stated in Section 2 of
+{{BCP100}}, <!-- XXX xml2rfc bug-->
 which allows for the early allocation process to be employed.
 
 ### Initial contents of the registry {#ietf-iana-sid-range-initial-contents}
@@ -695,7 +689,7 @@ Initial entries in this registry are as follows:
 
 // RFC Ed.: replace XXXX with RFC number assigned to this draft.
 
-For allocation, RFC publication of the YANG module is required as per {{RFC8126}}. The YANG module must be registered in the "YANG module Name" registry according to the rules specified in section 14 of {{RFC6020}}.
+For allocation, RFC publication of the YANG module is required as per {{RFC8126}}. The YANG module must be registered in the "YANG module Name" registry according to the rules specified in {{Section 14 of RFC6020}}.
 
 ## Create new IANA Registry: "IETF YANG SID Registry" {#ietf-sid-registry}
 

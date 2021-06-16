@@ -47,11 +47,9 @@ author:
   email: a@ackl.io
 normative:
   RFC7950:
-  RFC2119:
   RFC5234:
   RFC6241:
   RFC8949:
-  RFC8174:
   RFC8610:
 informative:
   I-D.ietf-core-comi: comi
@@ -81,10 +79,7 @@ The aim of this document is to define a set of encoding rules for the Concise Bi
 
 # Terminology and Notation
 
-The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
-"SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this
-document are to be interpreted as described in BCP 14 {{RFC2119}} {{RFC8174}}
-when, and only when, they appear in all capitals, as shown here.
+{::boilerplate bcp14-tagged}
 
 The following terms are defined in {{RFC7950}}:
 
@@ -202,7 +197,7 @@ YANG item identifiers implemented using names MUST be in one of the following fo
 
 The name of a module determines the namespace of all YANG items defined in that module. If an item is defined in a submodule, then the namespace qualified name uses the name of the main module to which the submodule belongs.
 
-ABNF syntax {{RFC5234}} of a name is shown in {{namesyntax}}, where the production for "identifier" is defined in Section 14 of {{RFC7950}}.
+ABNF syntax {{RFC5234}} of a name is shown in {{namesyntax}}, where the production for "identifier" is defined in {{Section 14 of RFC7950}}.
 
 ~~~~
 name = [identifier ":"] identifier
@@ -397,7 +392,11 @@ A1                                      # map(1)
 
 ### Using names in keys {#container-with-name}
 
-CBOR map keys implemented using names MUST be encoded using a CBOR text string data item (major type 3). A namespace-qualified name MUST be used each time the namespace of a schema node and its parent differ. In all other cases, the simple form of the name MUST be used. Names and namespaces are defined in {{RFC7951}} section 4.
+CBOR map keys implemented using names MUST be encoded using a CBOR
+text string data item (major type 3). A namespace-qualified name MUST
+be used each time the namespace of a schema node and its parent
+differ. In all other cases, the simple form of the name MUST be
+used. Names and namespaces are defined in {{Section 4 of RFC7951}}.
 
 The following example shows the encoding of a 'system' container schema node instance using names.
 
@@ -994,7 +993,10 @@ A1                                           # map(1)
 
 # Representing YANG Data Types in CBOR {#data-types-mapping}
 
-The CBOR encoding of an instance of a leaf or leaf-list schema node depends on the built-in type of that schema node. The following sub-section defines the CBOR encoding of each built-in type supported by YANG as listed in {{RFC7950}} section 4.2.4. Each subsection shows an example value assigned to a schema node instance of the discussed built-in type.
+The CBOR encoding of an instance of a leaf or leaf-list schema node
+depends on the built-in type of that schema node. The following
+sub-section defines the CBOR encoding of each built-in type supported
+by YANG as listed in {{Section 4.2.4 of RFC7950}}. Each subsection shows an example value assigned to a schema node instance of the discussed built-in type.
 
 ## The unsigned integer Types
 
@@ -1098,7 +1100,11 @@ CBOR encoding: F5
 
 ## The 'enumeration' Type {#enumeration}
 
-Leafs of type enumeration MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR negative integer (major type 1), depending on the actual value. Enumeration values are either explicitly assigned using the YANG statement 'value' or automatically assigned based on the algorithm defined in {{RFC7950}} section 9.6.4.2.
+Leafs of type enumeration MUST be encoded using a CBOR unsigned
+integer (major type 0) or CBOR negative integer (major type 1),
+depending on the actual value. Enumeration values are either
+explicitly assigned using the YANG statement 'value' or automatically
+assigned based on the algorithm defined in {{Section 9.6.4.2 of RFC7950}}.
 
 The following example shows the encoding of an 'oper-status' leaf schema node instance set to 'testing'.
 
@@ -1146,7 +1152,7 @@ CBOR encoding: D8 2C 69 756E626F756E646564
 
 Keeping in mind that bit positions are either explicitly assigned using the
 YANG statement 'position' or automatically assigned based on the algorithm
-defined in {{RFC7950}} section 9.7.4.2, each element of type bits could be seen
+defined in {{Section 9.7.4.2 of RFC7950}}, each element of type bits could be seen
 as a set of bit positions (or offsets from position 0), that have a value of
 ether 1, which represents the bit being set or 0, which represents that the bit
 is not set.
@@ -1295,9 +1301,11 @@ CBOR diagnostic notation: "eth1"
 
 CBOR encoding: 64 65746831
 
-## The 'identityref' Type
+## The 'identityref' Type {#identityref}
 
-This specification supports two approaches for encoding identityref: as a YANG Schema Item iDentifier as defined in {{sid}}, or as a name as defined in {{RFC7951}} section 6.8.
+This specification supports two approaches for encoding identityref:
+as a YANG Schema Item iDentifier as defined in {{sid}}, or as a name
+as defined in {{Section 6.8 of RFC7951}}.
 
 ### SIDs as identityref {#identityref-with-sid}
 
@@ -1417,7 +1425,7 @@ CBOR diagnostic notation: "2001:db8:a0b:12f0::1"
 
 CBOR encoding: 74 323030313A6462383A6130623A313266303A3A31
 
-## The 'instance-identifier' Type
+## The 'instance-identifier' Type {#instance-id}
 
 This specification supports two approaches for encoding an instance-identifier, one based on YANG Schema Item iDentifier as defined in {{sid}} and one based on names as defined in {{name}}.
 
@@ -1542,7 +1550,9 @@ CBOR encoding:
 
 ### Names as instance-identifier
 
-An "instance-identifier" value is encoded as a string that is analogous to the lexical representation in XML encoding; see Section 9.13.2 in {{RFC7950}}. However, the encoding of namespaces in instance-identifier values follows the rules stated in {{name}}, namely:
+An "instance-identifier" value is encoded as a string that is
+analogous to the lexical representation in XML encoding; see {{Section
+9.13.2 of RFC7950}}. However, the encoding of namespaces in instance-identifier values follows the rules stated in {{name}}, namely:
 
 * The leftmost (top-level) data node name is always in the namespace qualified form.
 
@@ -1608,19 +1618,26 @@ CBOR encoding:
 
 # Content-Types {#content-type}
 
-The following Content-Type is defined:
+This specification defines the media-type
+`application/yang-data+cbor`, which can be used without parameters or
+with the parameter `id=name` or `id=sid`.
 
-application/yang-data+cbor; id=name:
+This media-type represents a CBOR YANG document containing one or
+multiple data node values.
+Depending on the presence and value of the media-type parameter `id`,
+each data node is identified by its associated namespace qualified
+name as defined in {{name}} (`id=name`), by its associated YANG SID
+(represented as a SID delta or via tag 47) as defined in {{sid}}
+(`id=sid`), or either of these (no `id` parameter given).
 
-: This Content-Type represents a CBOR YANG document containing one or multiple data node values.
-  Each data node is identified by its associated namespace qualified name as defined in {{name}}.
+The format of an `application/yang-data+cbor` representation is that
+of a CBOR map, mapping names and/or SIDs (as defined above) into
+instance values (using the rules defined in {{instance-encoding}}).
 
-: FORMAT: CBOR map of name, instance-value
-
-: The message payload of Content-Type 'application/yang-data+cbor' is encoded using a CBOR map.
-  Each entry within the CBOR map contains the data node identifier (i.e., its
-  namespace qualified name) and the associated instance-value.  Instance-values
-  are encoded using the rules defined in {{instance-encoding}}
+It is not foreseen at this point that the valid set of values for the
+`id` parameter will extend beyond `name`, `sid`, or being unset; if
+that does happen, any new value is foreseen to be of the form
+`[a-z][a-z0-9]*(-[a-z0-9]+)*`.
 
 # Security Considerations
 
@@ -1653,13 +1670,13 @@ Required parameters:
 : none
 
 Optional parameters:
-: none
+: id (see {{content-type}} of RFC XXXX)
 
 Encoding considerations:
 : binary (CBOR)
 
 Security considerations:
-: see Section 8 of RFC XXXX
+: see {{security-considerations}} of RFC XXXX
 
 Published specification:
 : RFC XXXX
@@ -1681,13 +1698,18 @@ Author/Change controller:
 ## CoAP Content-Formats Registry
 
 This document adds the following Content-Format to the "CoAP Content-Formats",
-within the "Constrained RESTful Environments (CoRE) Parameters" registry.
+within the "Constrained RESTful Environments (CoRE) Parameters"
+registry, where TBD3 comes from the "Expert Review" 0-255 range and
+TBD1 and TBD2 come from the "IETF Review" 256-9999 range.
 
-| Media Type                             | Content Coding | ID   | Reference |
-| application/yang-data+cbor; id=name    |                | TBD1 | RFC XXXX  |
+| Content Type                        | Content Coding | ID   | Reference |
+| application/yang-data+cbor          | -              | TBD1 | RFC XXXX  |
+| application/yang-data+cbor; id=name | -              | TBD2 | RFC XXXX  |
+| application/yang-data+cbor; id=sid  | -              | TBD3 | RFC XXXX  |
 {: align="left"}
 
-// RFC Ed.: please replace TBD1 with assigned IDs and remove this note.
+// RFC Ed.: please replace TBDx with assigned IDs, remove the
+requested ranges, and remove this note.\\
 // RFC Ed.: please replace RFC XXXX with this RFC number and remove this note.
 
 ##  CBOR Tags Registry {#tag-registry}
@@ -1695,22 +1717,22 @@ within the "Constrained RESTful Environments (CoRE) Parameters" registry.
 This specification requires the assignment of CBOR tags for the following YANG datatypes.
 These tags are added to the CBOR  Tags Registry as defined in {{Section 9.2 of RFC8949}}.
 
-| Tag | Data Item        | Semantics                   | Reference  |
-|-----|------------------+-----------------------------+------------|
-| 43  | text string      | YANG bits datatype          | [this]     |
-|     |                  | ; see Section 6.7.          |            |
-| 44  | text string      | YANG enumeration datatype   | [this]     |
-|     |                  | ; see Section 6.6.          |            |
-| 45  | unsigned integer | YANG identityref datatype   | [this]     |
-|     | or text string   | ; see Section 6.10.         |            |
-| 46  | unsigned integer | YANG instance-identifier    | [this]     |
-|     | or text string   | datatype; see Section 6.13. | [this]     |
-|     | or array         |                             |            |
-| 47  | unsigned integer | YANG Schema Item iDentifier |            |
-|     |                  | ; see Section 3.2.          | [this]     |
+| Tag | Data Item        | Semantics                      | Reference |
+|-----+------------------+--------------------------------+-----------|
+|  43 | text string      | YANG bits datatype             | RFC XXXX  |
+|     |                  | ; see {{bits}}.                |           |
+|  44 | text string      | YANG enumeration datatype      | RFC XXXX  |
+|     |                  | ; see {{enumeration}}.         |           |
+|  45 | unsigned integer | YANG identityref datatype      | RFC XXXX  |
+|     | or text string   | ; see {{identityref}}          |           |
+|  46 | unsigned integer | YANG instance-identifier       | RFC XXXX  |
+|     | or text string   | datatype; see {{instance-id}}. | RFC XXXX  |
+|     | or array         |                                |           |
+|  47 | unsigned integer | YANG Schema Item iDentifier    |           |
+|     |                  | ; see {{sid}}.        | RFC XXXX  |
 {: align="left"}
 
-// RFC Ed.: please replace [this] with RFC number and remove this note
+// RFC Ed.: please replace RFC XXXX with RFC number and remove this note
 
 # Acknowledgments
 
