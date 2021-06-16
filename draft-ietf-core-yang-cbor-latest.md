@@ -1618,47 +1618,26 @@ CBOR encoding:
 
 # Content-Types {#content-type}
 
-Based on the media-type `application/yang-data+cbor`, the following
-Content-Types are defined:
+This specification defines the media-type
+`application/yang-data+cbor`, which can be used without parameters or
+with the parameter `id=name` or `id=sid`.
 
-For CBOR YANG documents making use of name identifiers only:
+This media-type represents a CBOR YANG document containing one or
+multiple data node values.
+Depending on the presence and value of the media-type parameter `id`,
+each data node is identified by its associated namespace qualified
+name as defined in {{name}} (`id=name`), by its associated YANG SID
+(represented as a SID delta or via tag 47) as defined in {{sid}}
+(`id=sid`), or either of these (no `id` parameter given).
 
-application/yang-data+cbor; id=name:
-: This Content-Type represents a CBOR YANG document containing one or multiple data node values.
-  Each data node is identified by its associated namespace qualified name as defined in {{name}}.
-
-: FORMAT: CBOR map of name, instance-value
-
-: The message payload of Content-Type 'application/yang-data+cbor' is encoded using a CBOR map.
-  Each entry within the CBOR map contains the data node identifier (i.e., its
-  namespace qualified name) and the associated instance-value.  Instance-values
-  are encoded using the rules defined in {{instance-encoding}}.
-
-
-For CBOR YANG documents making use of YANG SID identifiers only:
-
-application/yang-data+cbor; id=sid:
-: This Content-Type represents a CBOR YANG document containing one or multiple data node values.
-  Each data node is identified by its associated SID as defined in {{sid}}.
-
-: FORMAT: CBOR map of SID, instance-value
-
-: The message payload of Content-Type 'application/yang-data+cbor' is encoded using a CBOR map.
-  Each entry within the CBOR map contains the data node identifier
-  (i.e. SID) and the associated instance-value.
-  Instance-values
-  are encoded using the rules defined in {{instance-encoding}}.
-
-For CBOR YANG documents making use of potentially mixed identifiers:
-
-application/yang-data+cbor:
-: This Content-Type represents a CBOR YANG document containing one or
-  multiple data node values, where each data nodes may be identified either
-  by a name (as in `id=name`) or by a YANG SID (as in `id=sid`).
+The format of an `application/yang-data+cbor` representation is that
+of a CBOR map, mapping names and/or SIDs (as defined above) into
+instance values (using the rules defined in {{instance-encoding}}).
 
 It is not foreseen at this point that the valid set of values for the
-`id` parameter will extend `name`, `sid`, or being unset; if that does
-happen, any new value is foreseen to be of the form `[a-z]+`.
+`id` parameter will extend beyond `name`, `sid`, or being unset; if
+that does happen, any new value is foreseen to be of the form
+`[a-z][a-z0-9]*(-[a-z0-9]+)*`.
 
 # Security Considerations
 
