@@ -459,9 +459,9 @@ leaf-list search {
 
 ### Using SIDs in keys
 
-~~~~ CBORdiag
 CBOR diagnostic notation:
 
+~~~~ CBORdiag
 {
   1746 : [ "ietf.org", "ieee.org" ]     / search (SID 1746) /
 }
