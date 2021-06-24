@@ -97,15 +97,15 @@ The following items are identified using SIDs:
 
 It is possible that some protocols use only a subset of the assigned SIDs, for
 example, for protocols equivalent to NETCONF {{RFC6241}} like {{-comi}} the
-transportation of YANG modules SIDs might be unnecessary. Others protocols
+transportation of YANG module SIDs might be unnecessary. Other protocols
 might need to be able to transport this information, for example protocols
 related to discovery such as Constrained YANG Module Library {{-yang-library}}.
 
-SIDs are globally unique integers, a registration system is used in order to
+SIDs are globally unique integers.  A registration system is used in order to
 guarantee their uniqueness. SIDs are registered in blocks called "SID ranges".
 
 Assignment of SIDs to YANG items can be automated. For more details how this
-could be achieved, please consult {{sid-auto-generation}}.
+can be achieved, please consult {{sid-auto-generation}}.
 
 SIDs are assigned permanently, items introduced by a new revision of a YANG
 module are added to the list of SIDs already assigned. If the meaning of an
@@ -805,10 +805,6 @@ documents.
 
 None.
 
-# Acknowledgments
-
-The authors would like to thank Andy Bierman, Carsten Bormann, Michael Richardson, Abhinav Somaraju, Peter van der Stok, Laurent Toutain and Randy Turner for their help during the development of this document and their useful comments during the review process.
-
 --- back
 
 # ".sid" file example  {#sid-file-example}
@@ -1403,3 +1399,10 @@ The following Activity diagram summarizes the update of a YANG module and its as
 
 ~~~~
 {: #fig-sid-file-update title="YANG and \".sid\" file update" align="left"}
+
+
+
+# Acknowledgments
+{: numbered="false"}
+
+The authors would like to thank {{{Andy Bierman}}}, {{{Michael Richardson}}}, {{{Abhinav Somaraju}}}, {{{Peter van der Stok}}}, {{{Laurent Toutain}}} and {{{Randy Turner}}} for their help during the development of this document and their useful comments during the review process.
