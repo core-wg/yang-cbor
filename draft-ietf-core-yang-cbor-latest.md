@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-ietf-core-yang-cbor-15
+docname: draft-ietf-core-yang-cbor-16
 title: CBOR Encoding of Data Modeled with YANG
 area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
@@ -45,6 +45,15 @@ author:
   region: Bretagne
   country: France
   email: a@ackl.io
+- ins: C. Bormann
+  name: Carsten Bormann
+  org: Universität Bremen TZI
+  street: Postfach 330440
+  city: D-28359 Bremen
+  country: Germany
+  phone: "+49-421-218-63921"
+  email: cabo@tzi.org
+
 normative:
   RFC7950:
   RFC5234:
@@ -64,7 +73,7 @@ informative:
 
 --- abstract
 
-This document defines encoding rules for serializing configuration data, state data, RPC input and RPC output, action input, action output, notifications and the yang-data extension defined within YANG modules using the Concise Binary Object Representation (CBOR,  RFC 8949).
+This document defines encoding rules for serializing configuration data, state data, RPC input and RPC output, action input, action output, notifications and the yang-data extension defined within YANG modules using the Concise Binary Object Representation (CBOR, RFC 8949).
 
 --- middle
 

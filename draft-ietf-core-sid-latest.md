@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-ietf-core-sid-15
+docname: draft-ietf-core-sid-16
 title: YANG Schema Item iDentifier (YANG SID)
 area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
@@ -47,6 +47,15 @@ author:
   region: Zurich
   country: Switzerland
   email: ivaylopetrov@google.com
+- ins: C. Bormann
+  name: Carsten Bormann
+  org: Universität Bremen TZI
+  street: Postfach 330440
+  city: D-28359 Bremen
+  country: Germany
+  phone: "+49-421-218-63921"
+  email: cabo@tzi.org
+
 normative:
   RFC3688:
   RFC6991:
