@@ -1299,57 +1299,58 @@ generated for YANG modules and not for submodules.
 
 The following activity diagram summarizes the creation of a YANG module and its associated ".sid" file.
 
-~~~~
-       +---------------+
-  O    | Creation of a |
- -|- ->| YANG module   |
- / \   +---------------+
+~~~~ goat
+        +---------------+
+  o     | Creation of a |
+ -+- -->| YANG module   |
+ / \    +------+--------+
                |
-               V
-        /-------------\
-       / Standardized  \     yes
-       \ YANG module ? /-------------+
-        \-------------/              |
-               | no                  |
-               V                     V
-        /-------------\      +---------------+
-       / Constrained   \ yes | SID range     |
-   +-->\ application ? /---->| registration  |<----------+
-   |    \-------------/      +---------------+           |
-   |           | no                  |                   |
-   |           V                     V                   |
-   |   +---------------+     +---------------+           |
-   +---| YANG module   |     | SID sub-range |           |
-       | update        |     | assignment    |<----------+
-       +---------------+     +---------------+           |
+               v
+         .-------------.
+        / Standardized  \     yes
+        \ YANG module ? /------------+
+         '-----+-------'             |
+               |  no                 |
+               v                     v
+         .-------------.      +---------------+
+   +--> / Constrained   \ yes | SID range     |
+   |    \ application ? /---->| registration  |<---------+
+   |     '-----+-------'      +------+--------+          |
+   |           |  no                 |                   |
+   |           v                     v                   |
+   |    +---------------+    +---------------+           |
+   +----+ YANG module   |    | SID sub-range |           |
+        | update        |    | assignment    |<----------+
+        +---------------+    +-------+-------+           |
                                      |                   |
-                                     V                   |
-                             +---------------+    +-------------+
+                                     v                   |
+                             +---------------+    +------+------+
                              | ".sid" file   |    | Rework YANG |
                              | generation    |    |    model    |
-                             +---------------+    +-------------+
+                             +-------+-------+    +-------------+
                                      |                   ^
-                                     V                   |
-                                /----------\  yes        |
+                                     v                   |
+                                .----------.  yes        |
                                /  Work in   \ -----------+
                                \  progress  /
-                                \----------/
-                                     | no
-                                     V
-                               /-------------\       /-------------\
+                                '----+-----'
+                                     |  no
+                                     v
+                               .-------------.       .-------------.
                               /      RFC      \ no  /     Open      \ no
-                              \  publication? /---->\ specification?/---+
-                               \-------------/       \-------------/    |
-                                      | yes                 | yes       |
-                                      |     +---------------+           |
-                                      V     V                           V
+                              \  publication? /---> \ specification?/---+
+                               '------+------'       '------+------'    |
+                                 yes  |                     | yes       |
+                                      |       .------------'            |
+                                      |      /                          |
+                                      v     v                           v
                               +---------------+               +---------------+
                               |     IANA      |               | Third party   |
                               | registration  |               | registration  |
                               +-------+-------+               +---------+-----+
                                       |                                 |
                                       +---------------------------------+
-                                      V
+                                      v
                                     [DONE]
 ~~~~
 {: #fig-sid-file-creation title='SID Lifecycle' align="left"}
@@ -1358,40 +1359,40 @@ The following activity diagram summarizes the creation of a YANG module and its 
 
 The following Activity diagram summarizes the update of a YANG module and its associated ".sid" file.
 
-~~~~
-       +---------------+
-  O    | Update of the |
- -|- ->| YANG module   |
- / \   | or include(s) |
-       | or import(s)  |
-       +---------------+
+~~~~ goat
+        +---------------+
+  o     | Update of the |
+ -+- -->| YANG module   |
+ / \    | or include(s) |
+        | or import(s)  |
+        +------+--------+
                |
-               V
-           /-------------\
+               v
+           .-------------.
           /  New items    \ yes
           \  created  ?   /------+
-           \-------------/       |
-                  | no           V
-                  |       /-------------\      +----------------+
+           '------+------'       |
+                  |  no          v
+                  |       .-------------.      +----------------+
                   |      /  SID range    \ yes | Extra sub-range|
                   |      \  exhausted ?  /---->| assignment     |
-                  |       \-------------/      +----------------+
-                  |              | no                  |
+                  |       '------+------'      +-------+--------+
+                  |              |  no                 |
                   |              +---------------------+
                   |              |
-                  |              V
+                  |              v
                   |      +---------------+
                   |      | ".sid" file   |
                   |      | update based  |
                   |      | on previous   |
                   |      | ".sid" file   |
-                  |      +---------------+
+                  |      +-------+-------+
                   |              |
-                  |              V
-                  |       /-------------\      +---------------+
+                  |              v
+                  |       .-------------.      +---------------+
                   |      /  Publicly     \ yes | YANG module   |
                   |      \  available ?  /---->| registration  |
-                  |       \-------------/      +---------------+
+                  |       '------+------'      +-------+-------+
                   |              | no                  |
                   +--------------+---------------------+
                                  |
