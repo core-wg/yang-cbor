@@ -275,6 +275,8 @@ leaf hostname {
 
 ### Using SIDs in keys
 
+As with all examples below, the delta in the outermost map assumes a reference YANG SID (current schema node) of 0.
+
 CBOR diagnostic notation:
 
 ~~~~ CBORdiag
@@ -314,7 +316,7 @@ A1                                         # map(1)
 
 ## The 'container' and other nodes from the data tree {#container}
 
-Instances of containers, lists, notification contents, RPC inputs, RPC outputs, action inputs, and action outputs schema nodes MUST be encoded using a CBOR map data item (major type 5). A map is comprised of pairs of data items, with each data item consisting of a key and a value. Each key within the CBOR map is set to a schema node identifier, each value is set to the value of this schema node instance according to the instance datatype.
+Instances of containers, lists, notification contents, RPC inputs, RPC outputs, action inputs, and action outputs schema nodes MUST be encoded using a CBOR map data item (major type 5). A map is comprised of pairs of data items, with each pair consisting of a key and a value. Each key within the CBOR map is set to a schema node identifier, each value is set to the value of this schema node instance according to the instance datatype.
 
 This specification supports two types of CBOR keys; SID as defined in {{sid}} and names as defined in {{name}}.
 
@@ -506,7 +508,7 @@ A1                                         # map(1)
 
 A list or a subset of a list MUST be encoded using a CBOR array data item (major type 4). Each list entry within this CBOR array is encoded using a CBOR map data item (major type 5) based on the encoding rules of a collection as defined in {{container}}.
 
-It is important to note that this encoding rule also apply to a 'list' schema node instance that have a single entry.
+It is important to note that this encoding rule also applies to a 'list' schema node instance that has a single entry.
 
 The following examples show the encoding of a 'server' list using SIDs or names.
 
@@ -1154,7 +1156,7 @@ Keeping in mind that bit positions are either explicitly assigned using the
 YANG statement 'position' or automatically assigned based on the algorithm
 defined in {{Section 9.7.4.2 of RFC7950}}, each element of type bits could be seen
 as a set of bit positions (or offsets from position 0), that have a value of
-ether 1, which represents the bit being set or 0, which represents that the bit
+either 1, which represents the bit being set or 0, which represents that the bit
 is not set.
 
 Leafs of type bits MUST be encoded either using a CBOR array or byte string
@@ -1220,9 +1222,9 @@ strings or adjacent integers are an error. An array with a single byte string
 MUST instead be encoded as just that byte string. An array with a single
 positive integer is an error.
 
-Values of 'bit' types defined in a 'union' type MUST be encoded using a
+Values of 'bits' types defined in a 'union' type MUST be encoded using a
 CBOR text string data item (major type 3) and MUST contain a space-separated
-sequence of names of 'bit' that are set. The encoding MUST be enclosed by the
+sequence of names of 'bits' that are set. The encoding MUST be enclosed by the
 bits CBOR tag as specified in {{tag-registry}}.
 
 The following example shows the encoding of an 'alarm-state' leaf schema node
@@ -1582,11 +1584,11 @@ CBOR encoding:
 
 This example is described in {{instance-identifier-with-sid}}.
 
-CBOR diagnostic notation:
+CBOR diagnostic notation (the line break is inserted for exposition only):
 
 ~~~~ CBORdiag
-"/ietf-system:system/authentication/user[name='bob']/authorized-key
-[name='admin']/key-data"
+"/ietf-system:system/authentication/user[name='bob']/
+authorized-key[name='admin']/key-data"
 ~~~~
 
 CBOR encoding:
@@ -1595,7 +1597,7 @@ CBOR encoding:
 78 59
    2F696574662D73797374656D3A73797374656D2F61757468656E74696361
    74696F6E2F757365725B6E616D653D27626F62275D2F617574686F72697A
-   65642D6B65790D0A5B6E616D653D2761646D696E275D2F6B65792D64617461
+   65642D6B65795B6E616D653D2761646D696E275D2F6B65792D64617461
 ~~~~
 
 **Third example:**
@@ -1718,7 +1720,7 @@ This specification requires the assignment of CBOR tags for the following YANG d
 These tags are added to the CBOR  Tags Registry as defined in {{Section 9.2 of RFC8949}}.
 
 | Tag | Data Item        | Semantics                      | Reference |
-|-----+------------------+--------------------------------+-----------|
+|-----|------------------|--------------------------------|-----------|
 |  43 | text string      | YANG bits datatype             | RFC XXXX  |
 |     |                  | ; see {{bits}}.                |           |
 |  44 | text string      | YANG enumeration datatype      | RFC XXXX  |
@@ -1729,14 +1731,17 @@ These tags are added to the CBOR  Tags Registry as defined in {{Section 9.2 of R
 |     | or text string   | datatype; see {{instance-id}}. | RFC XXXX  |
 |     | or array         |                                |           |
 |  47 | unsigned integer | YANG Schema Item iDentifier    |           |
-|     |                  | ; see {{sid}}.        | RFC XXXX  |
+|     |                  | (SID); see {{sid}}.            | RFC XXXX  |
 {: align="left"}
 
 // RFC Ed.: please replace RFC XXXX with RFC number and remove this note
 
+--- back
+
 # Acknowledgments
+{: numbered="false"}
 
-This document has been largely inspired by the extensive works done by Andy Bierman and Peter van der Stok on {{-comi}}. {{RFC7951}} has also been a critical input to this work. The authors would like to thank the authors and contributors to these two drafts.
+This document has been largely inspired by the extensive works done by {{{Andy Bierman}}} and {{{Peter van der Stok}}} on {{-comi}}. {{RFC7951}} has also been a critical input to this work. The authors would like to thank the authors and contributors to these two drafts.
 
-The authors would also like to acknowledge the review, feedback, and comments from Ladislav Lhotka and Juergen Schoenwaelder.
+The authors would also like to acknowledge the review, feedback, and comments from {{{Ladislav Lhotka}}} and {{{Jürgen Schönwälder}}}.
 
