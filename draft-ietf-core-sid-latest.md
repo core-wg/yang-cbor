@@ -1,7 +1,7 @@
 ---
 stand_alone: true
 ipr: trust200902
-docname: draft-ietf-core-sid-16
+docname: draft-ietf-core-sid-latest
 title: YANG Schema Item iDentifier (YANG SID)
 area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
