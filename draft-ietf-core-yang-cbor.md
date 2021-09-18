@@ -116,8 +116,6 @@ The following terms are defined in {{RFC7950}}:
 
 * schema node
 
-* schema tree
-
 * submodule
 
 The following terms are defined in {{RFC8040}}:
