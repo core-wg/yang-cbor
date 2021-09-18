@@ -1,14 +1,11 @@
-include lib/main.mk
-$(warning CI_IS_PR $(CI_IS_PR))
-$(warning IS_MASTER $(IS_MASTER))
-$(warning CI $(CI))
-$(warning TRAVIS_PULL_REQUEST //$(TRAVIS_PULL_REQUEST)//)
-$(warning CI_PULL_REQUESTS //$(CI_PULL_REQUESTS)//)
-$(warning CI_REPO_FULL //$(CI_REPO_FULL)//)
-$(warning CI_USER //$(CI_USER)//)
-$(warning CI_REPO //$(CI_REPO)//)
-$(warning TRAVIS_REPO_SLUG //$(TRAVIS_REPO_SLUG)//)
+LIBDIR := lib
+include $(LIBDIR)/main.mk
 
-lib/main.mk:
-	git submodule update --init
-
+$(LIBDIR)/main.mk:
+ifneq (,$(shell grep "path *= *$(LIBDIR)" .gitmodules 2>/dev/null))
+	git submodule sync
+	git submodule update $(CLONE_ARGS) --init
+else
+	git clone -q --depth 10 $(CLONE_ARGS) \
+	    -b main https://github.com/martinthomson/i-d-template $(LIBDIR)
+endif
