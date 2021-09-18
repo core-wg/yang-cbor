@@ -1723,8 +1723,9 @@ requested ranges, and remove this note.\\
 
 ##  CBOR Tags Registry {#tag-registry}
 
-This specification requires the assignment of CBOR tags for the following YANG datatypes.
-These tags are added to the CBOR  Tags Registry as defined in {{Section 9.2 of RFC8949}}.
+IANA has assigned the following CBOR tags for the following YANG datatypes.
+These are present at: https://www.iana.org/assignments/cbor-tags/cbor-tags.xhtml
+as defined in {{Section 9.2 of RFC8949}}.
 
 | Tag | Data Item        | Semantics                      | Reference |
 |-----|------------------|--------------------------------|-----------|
