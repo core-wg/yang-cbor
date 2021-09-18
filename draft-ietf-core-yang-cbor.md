@@ -1728,17 +1728,12 @@ These tags are added to the CBOR  Tags Registry as defined in {{Section 9.2 of R
 
 | Tag | Data Item        | Semantics                      | Reference |
 |-----|------------------|--------------------------------|-----------|
-|  43 | text string      | YANG bits datatype             | RFC XXXX  |
-|     |                  | ; see {{bits}}.                |           |
-|  44 | text string      | YANG enumeration datatype      | RFC XXXX  |
-|     |                  | ; see {{enumeration}}.         |           |
-|  45 | unsigned integer | YANG identityref datatype      | RFC XXXX  |
-|     | or text string   | ; see {{identityref}}          |           |
+|  43 | text string      | YANG bits datatype; see {{bits}} | RFC XXXX  |
+|  44 | text string      | YANG enumeration datatype; see {{enumeration}}.     | RFC XXXX  |
+|  45 | unsigned integer or text string | YANG identityref datatype; see {{identityref}}.     | RFC XXXX  |
 |  46 | unsigned integer | YANG instance-identifier       | RFC XXXX  |
-|     | or text string   | datatype; see {{instance-id}}. | RFC XXXX  |
-|     | or array         |                                |           |
-|  47 | unsigned integer | YANG Schema Item iDentifier    |           |
-|     |                  | (SID); see {{sid}}.            | RFC XXXX  |
+|     | or text string or array  | datatype; see {{instance-id}}. | RFC XXXX  |
+|  47 | unsigned integer | YANG Schema Item iDentifier (SID); see {{sid}}.  | RFC XXXX  |
 {: align="left"}
 
 // RFC Ed.: please replace RFC XXXX with RFC number and remove this note
