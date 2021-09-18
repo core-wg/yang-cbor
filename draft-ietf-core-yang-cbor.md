@@ -1676,7 +1676,7 @@ Subtype name:
 : yang-data+cbor
 
 Required parameters:
-: none
+: N/A
 
 Optional parameters:
 : id (see {{content-type}} of RFC XXXX)
