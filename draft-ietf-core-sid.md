@@ -83,7 +83,7 @@ informative:
 --- abstract
 
 YANG Schema Item iDentifiers (YANG SID) are globally unique 63-bit unsigned integers used to identify YANG items.
-This document defines the semantics, the registration, and assignment processes of YANG SIDs.
+This document defines the semantics, the registration, and assignment processes of YANG SIDs for IETF managed YANG modules.
 To enable the implementation of these processes, this document also defines a file format used to persist and publish assigned YANG SIDs.
 
 --- middle
@@ -120,8 +120,8 @@ related to discovery such as Constrained YANG Module Library {{-yang-library}}.
 SIDs are globally unique integers.  A registration system is used in order to
 guarantee their uniqueness. SIDs are registered in blocks called "SID ranges".
 
-Assignment of SIDs to YANG items can be automated. For more details how this
-can be achieved, please consult {{sid-auto-generation}}.
+Assignment of SIDs to YANG items can be automated.
+For more details how this can be achieved, please consult {{sid-auto-generation}}.
 
 SIDs are assigned permanently, items introduced by a new revision of a YANG
 module are added to the list of SIDs already assigned. If the meaning of an
@@ -133,6 +133,10 @@ assigned if the new meaning of the item is going to be referenced using a SID.
 modules and associated SIDs. To enable the implementation of this registry,
 {{sid-file-format}} defines a standard file format used to store and publish
 SIDs.
+
+For IETF managed YANG modules, the allocation of SIDs via the IANA mechanism specified in this document is MANDATORY.
+For YANG modules created by other parties, the use of IANA allocation mechanisms via use of Mega-Ranges (see {{mega-range-registry}}) is RECOMMENDED.
+These other parties are free to make up their own mechanism, as is their perogative.
 
 # Terminology and Notation
 
