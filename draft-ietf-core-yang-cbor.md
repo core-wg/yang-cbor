@@ -190,9 +190,13 @@ Some of the items defined in YANG {{RFC7950}} require the use of a unique identi
 
 * YANG modules, submodules, and features
 
-To minimize their size, SIDs used as keys in inner CBOR maps are typically encoded using deltas. Conversion from SIDs to deltas and back to SIDs are stateless processes solely based on the data serialized or deserialized. These SIDs may also be encoded as absolute number when enclosed by CBOR tag 47.
+To minimize their size, SIDs used as keys in inner CBOR maps are typically encoded using deltas.
+Conversion from SIDs to deltas and back to SIDs are stateless processes solely based on the data serialized or deserialized.
+These SIDs may also be encoded as absolute number when enclosed by CBOR tag 47.
 
-Mechanisms and processes used to assign SIDs to YANG items and to guarantee their uniqueness are outside the scope of the present specification. If SIDs are to be used, the present specification is used in conjunction with a specification defining this management. One example for such a specification is {{-core-sid}}.
+Mechanisms and processes used to assign SIDs to YANG items and to guarantee their uniqueness are outside the scope of the present specification.
+If SIDs are to be used, the present specification is used in conjunction with a specification defining this management.
+One example for such a specification is {{-core-sid}}.
 
 ## Name {#name}
 
