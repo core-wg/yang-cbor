@@ -263,7 +263,7 @@ already familiar with both YANG {{RFC7950}} and CBOR {{RFC8949}}.
 
 A 'leaf' MUST be encoded accordingly to its datatype using one of the encoding rules specified in {{data-types-mapping}}.
 
-The following examples shows the encoding of a 'hostname' leaf using a SID or a name.
+The following examples show the encoding of a 'hostname' leaf using a SID or a name.
 
 Definition example from [RFC7317]:
 
@@ -329,7 +329,7 @@ Instances of containers, lists, notification contents, RPC inputs, RPC outputs, 
 
 This specification supports two types of CBOR keys; SID as defined in {{sid}} and names as defined in {{name}}.
 
-The following examples shows the encoding of a 'system-state' container schema node instance using SIDs or names.
+The following examples show the encoding of a 'system-state' container schema node instance using SIDs or names.
 
 Definition example from {{RFC7317}}:
 
