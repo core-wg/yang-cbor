@@ -1597,7 +1597,7 @@ CBOR diagnostic notation (the line break is inserted for exposition only):
 
 ~~~~ CBORdiag
 "/ietf-system:system/authentication/user[name='bob']/
-authorized-key[name='admin']/key-data"
+authorized-key[name='admin', country='CA']/key-data"
 ~~~~
 
 CBOR encoding:
