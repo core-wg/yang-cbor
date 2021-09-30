@@ -58,8 +58,8 @@ normative:
   RFC7950:
   RFC5234:
   RFC6241:
-  RFC8949:
-  RFC8610:
+  RFC8949: cbor
+  RFC8610: cddl
 informative:
   I-D.ietf-core-comi: comi
   I-D.ietf-core-sid: core-sid
@@ -144,7 +144,9 @@ This document defines CBOR encoding rules for YANG data trees and their subtrees
 
 An instance of a schema node such as container, list, notification, RPC input, RPC output, action input, or action output is serialized using a CBOR map in which each child schema node is encoded using a key and a value. This specification supports two types of CBOR keys; YANG Schema Item iDentifier (YANG SID) as defined in {{sid}} and names as defined in {{name}}. Each of these key types is encoded using a specific CBOR type which allows their interpretation during the deserialization process. Protocols or mechanisms implementing this specification can mandate the use of a specific key type.
 
-In order to minimize the size of the encoded data, the proposed mapping avoids any unnecessary meta-information beyond those natively supported by CBOR. For instance, CBOR tags are used solely in the case of a SID not encoded as delta, anyxml schema nodes, or the union datatype, to distinguish explicitly the use of different YANG datatypes encoded using the same CBOR major type.
+In order to minimize the size of the encoded data, the proposed
+mapping avoids any unnecessary meta-information beyond that directly
+provided by the CBOR basic generic data model ({{Section 2 of RFC8949}}). For instance, CBOR tags are used solely in the case of a SID not encoded as delta, anyxml schema nodes, or the union datatype, to distinguish explicitly the use of different YANG datatypes encoded using the same CBOR major type.
 
 Unless specified otherwise by the protocol or mechanism implementing this specification, the indefinite lengths encoding as defined in {{Section 3.2 of RFC8949}} SHALL be supported by CBOR decoders.
 
