@@ -73,7 +73,9 @@ informative:
 
 --- abstract
 
-This document defines encoding rules for serializing YANG data tree instance data using the Concise Binary Object Representation (CBOR, RFC 8949).
+This document defines encoding rules for representing configuration
+data, state data, parameters of Remote Procedure Call (RPC)
+operations or actions, and notifications defined using YANG as Concise Binary Object Representation (CBOR, RFC 8949).
 
 --- middle
 
