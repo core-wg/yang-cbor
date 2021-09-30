@@ -1714,21 +1714,6 @@ Author/Change controller:
 : IETF
 
 
-~~~~
-    Type name:                application
-    Subtype name:             yang-data+cbor
-    Required parameters:      none
-    Optional parameters:      none
-    Encoding considerations:  CBOR
-    Security considerations:  see Section 8
-    Published specification: RFC XXXX
-    Person & email address to contact for further information: CORE WG
-    Intended usage:    COMMON
-    Restrictions on usage: none
-    Author: ivaylo@ackl.io
-    Change controller:  IESG
-~~~~
-
 ## CoAP Content-Formats Registry
 
 This document adds the following Content-Format to the "CoAP Content-Formats",
