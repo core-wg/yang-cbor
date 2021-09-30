@@ -197,7 +197,8 @@ These SIDs may also be encoded as absolute number when enclosed by CBOR tag 47.
 Mechanisms and processes used to assign SIDs to YANG items and to guarantee their uniqueness are outside the scope of the present specification.
 If SIDs are to be used, the present specification is used in conjunction with a specification defining this management.
 {{-core-sid}} is the definitive way to for YANG modules managed by the IETF to assign SID values.
-When YANG modules managed by non-IETF entities, use of {{-core-sid}} is encouraged by assignment of mega-ranges, but such entities will make their own rules.
+With YANG modules managed by non-IETF entities, use of {{-core-sid}} is RECOMMENDED.
+The present specification has been designed to allow different methods of assignment to be used within separate domains.
 
 ## Name {#name}
 
