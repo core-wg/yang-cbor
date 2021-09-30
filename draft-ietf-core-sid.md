@@ -88,7 +88,8 @@ YANG Schema Item iDentifiers (YANG SID) are globally unique 63-bit unsigned inte
 
 # Introduction
 
-Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier.  In both Network Configuration Protocol(NETCONF) {{RFC6241}} and RESTCONF {{RFC8040}}, these identifiers are implemented using names.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called YANG SID or simply SID in this document and when the context is clear, is encoded using a 63-bit unsigned integer. The limitation to 63-bit unsigned integers allows SIDs to be manipulated more easily on platforms that might otherwise lack 64-bit unsigned arithmetic. The loss of a single bit of range is not significant given the size of the remaining space.
+Some of the items defined in YANG {{RFC7950}} require the use of a
+unique identifier.  In both Network Configuration Protocol (NETCONF) {{RFC6241}} and RESTCONF {{RFC8040}}, these identifiers are implemented using names.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called YANG SID or simply SID in this document and when the context is clear, is encoded using a 63-bit unsigned integer. The limitation to 63-bit unsigned integers allows SIDs to be manipulated more easily on platforms that might otherwise lack 64-bit unsigned arithmetic. The loss of a single bit of range is not significant given the size of the remaining space.
 
 The following items are identified using SIDs:
 
@@ -420,7 +421,7 @@ module ietf-sid-file {
           by 'module-name' and 'module-revision'.
 
           - The YANG SID range first available value is entry-point
-            and the the last available value in the range is
+            and the last available value in the range is
             (entry-point + size - 1).
           - The YANG SID ranges specified by all assignment-rages
             MUST NOT overlap.";
@@ -761,17 +762,18 @@ those modules as well.
 
 * If the document is a published RFC, then the allocation of SIDs for its
   referenced YANG modules is permanent.  The Expert Reviewer provides the
-  generated SID file to IANA for registration.  This process may be time
-  consuming during a bootstrap period (there are over 100 YANG modules to date,
+  generated SID file to IANA for registration.  This process may be
+  time-consuming during a bootstrap period (there are over 100 YANG
+  modules to date,
   none of which have SID allocations), but should quiet down once needed
   entries are allocated.
 * If the document is an unprocessed Internet-Draft adopted in a WG, then an
   Early Allocation is performed for this document as well. Early Allocations
   require approval by an IESG Area Director.  An early allocation which
-  requires additional allocations will list the other allocations in it's
+  requires additional allocations will list the other allocations in its
   description, and will be cross-posted to the any other working group mailing
   lists.
-* A YANG module which references a module in an document which has not yet been
+* A YANG module which references a module in a document which has not yet been
   adopted by any working group will be unable to perform an Early Allocation
   for that other document until it is adopted by a working group.  As described
   in {{BCP100}}, an AD Sponsored document acts as if it had a working group.  The
