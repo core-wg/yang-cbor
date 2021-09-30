@@ -7,6 +7,7 @@ area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
 kw: CBOR
 cat: std
+consensus: true
 pi:
   strict: 'yes'
   toc: 'yes'
