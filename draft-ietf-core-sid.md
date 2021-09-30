@@ -289,7 +289,7 @@ module ietf-sid-file {
     description
       "Initial revision.";
     reference
-      "[I-D.ietf-core-sid] YANG Schema Item iDentifier (YANG SID)";
+      "[RFC XXXX] YANG Schema Item iDentifier (YANG SID)";
   }
 
   typedef revision-identifier {
@@ -313,7 +313,7 @@ module ietf-sid-file {
     description
       "YANG Schema Item iDentifier";
     reference
-      "[I-D.ietf-core-sid] YANG Schema Item iDentifier (YANG SID)";
+      "[RFC XXXX] YANG Schema Item iDentifier (YANG SID)";
   }
 
   typedef schema-node-path {
