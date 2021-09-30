@@ -60,6 +60,7 @@ normative:
   RFC6241:
   RFC8949:
   RFC8610:
+  IANA.cbor-tags:
 informative:
   I-D.ietf-core-comi: comi
   I-D.ietf-core-sid: core-sid
@@ -1723,19 +1724,18 @@ requested ranges, and remove this note.\\
 
 ##  CBOR Tags Registry {#tag-registry}
 
-IANA has assigned the following CBOR tags for the following YANG datatypes.
-These are present at: https://www.iana.org/assignments/cbor-tags/cbor-tags.xhtml
-as defined in {{Section 9.2 of RFC8949}}.
+In the registry "{{cbor-tags (CBOR Tags)<IANA.cbor-tags}}" {{IANA.cbor-tags}},
+as per {{Section 9.2 of RFC8949}}, IANA has allocated the CBOR tags in
+{{tab-tag-values}} for the YANG datatypes listed.
 
-| Tag | Data Item        | Semantics                      | Reference |
-|-----|------------------|--------------------------------|-----------|
-|  43 | text string      | YANG bits datatype; see {{bits}} | RFC XXXX  |
-|  44 | text string      | YANG enumeration datatype; see {{enumeration}}.     | RFC XXXX  |
-|  45 | unsigned integer or text string | YANG identityref datatype; see {{identityref}}.     | RFC XXXX  |
-|  46 | unsigned integer | YANG instance-identifier       | RFC XXXX  |
-|     | or text string or array  | datatype; see {{instance-id}}. | RFC XXXX  |
-|  47 | unsigned integer | YANG Schema Item iDentifier (SID); see {{sid}}.  | RFC XXXX  |
-{: align="left"}
+| Tag | Data Item                                | Semantics                                              | Reference |
+|-----+------------------------------------------+--------------------------------------------------------+-----------|
+|  43 | text string                              | YANG bits datatype; see {{bits}}                         | RFC XXXX  |
+|  44 | text string                              | YANG enumeration datatype; see {{enumeration}}.         | RFC XXXX  |
+|  45 | unsigned integer or text string          | YANG identityref datatype; see {{identityref}}.         | RFC XXXX  |
+|  46 | unsigned integer or text string or array | YANG instance-identifier datatype; see {{instance-id}}. | RFC XXXX  |
+|  47 | unsigned integer                         | YANG Schema Item iDentifier (SID); see {{sid}}.         | RFC XXXX  |
+{: #tab-tag-values title="CBOR tags defined by this specification"}
 
 // RFC Ed.: please replace RFC XXXX with RFC number and remove this note
 
