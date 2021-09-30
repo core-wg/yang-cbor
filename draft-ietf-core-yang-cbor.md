@@ -60,6 +60,8 @@ normative:
   RFC6241:
   RFC8949: cbor
   RFC8610: cddl
+  IANA.cbor-tags:
+
 informative:
   I-D.ietf-core-comi: comi
   I-D.ietf-core-sid: core-sid
@@ -116,8 +118,6 @@ The following terms are defined in {{RFC7950}}:
 
 * schema node
 
-* schema tree
-
 * submodule
 
 The following terms are defined in {{RFC8040}}:
@@ -158,7 +158,7 @@ Examples in {{instance-encoding}} include a root CBOR map with a single entry ha
 
 ## CBOR diagnostic notation
 
-Within this document, CBOR binary contents are represented using an equivalent textual form called CBOR diagnostic notation as defined in {{Section 8 of RFC8949}}. This notation is used strictly for documentation purposes and is never used in the data serialization. {{ diagnostic-notation-summary}} below provides a summary of this notation.
+Within this document, CBOR binary contents are represented using an equivalent textual form called CBOR diagnostic notation as defined in {{Section 8 of RFC8949}}. This notation is used strictly for documentation purposes and is never used in the data serialization. {{diagnostic-notation-summary}} below provides a summary of this notation.
 
 | CBOR content     | CBOR type | Diagnostic notation                                                     | Example            | CBOR encoding      |
 |------------------+-----------+-------------------------------------------------------------------------+--------------------+--------------------|
@@ -192,9 +192,15 @@ Some of the items defined in YANG {{RFC7950}} require the use of a unique identi
 
 * YANG modules, submodules, and features
 
-To minimize their size, SIDs used as keys in inner CBOR maps are typically encoded using deltas. Conversion from SIDs to deltas and back to SIDs are stateless processes solely based on the data serialized or deserialized. These SIDs may also be encoded as absolute number when enclosed by CBOR tag 47.
+To minimize their size, SIDs used as keys in inner CBOR maps are typically encoded using deltas.
+Conversion from SIDs to deltas and back to SIDs are stateless processes solely based on the data serialized or deserialized.
+These SIDs may also be encoded as absolute number when enclosed by CBOR tag 47.
 
-Mechanisms and processes used to assign SIDs to YANG items and to guarantee their uniqueness are outside the scope of the present specification. If SIDs are to be used, the present specification is used in conjunction with a specification defining this management. One example for such a specification is {{-core-sid}}.
+Mechanisms and processes used to assign SIDs to YANG items and to guarantee their uniqueness are outside the scope of the present specification.
+If SIDs are to be used, the present specification is used in conjunction with a specification defining this management.
+{{-core-sid}} is the definitive way to for YANG modules managed by the IETF to assign SID values.
+With YANG modules managed by non-IETF entities, use of {{-core-sid}} is RECOMMENDED.
+The present specification has been designed to allow different methods of assignment to be used within separate domains.
 
 ## Name {#name}
 
@@ -1679,7 +1685,7 @@ Subtype name:
 : yang-data+cbor
 
 Required parameters:
-: none
+: N/A
 
 Optional parameters:
 : id (see {{content-type}} of RFC XXXX)
@@ -1707,6 +1713,21 @@ Author/Change controller:
 : IETF
 
 
+~~~~
+    Type name:                application
+    Subtype name:             yang-data+cbor
+    Required parameters:      none
+    Optional parameters:      none
+    Encoding considerations:  CBOR
+    Security considerations:  see Section 8
+    Published specification: RFC XXXX
+    Person & email address to contact for further information: CORE WG
+    Intended usage:    COMMON
+    Restrictions on usage: none
+    Author: ivaylo@ackl.io
+    Change controller:  IESG
+~~~~
+
 ## CoAP Content-Formats Registry
 
 This document adds the following Content-Format to the "CoAP Content-Formats",
@@ -1726,23 +1747,18 @@ requested ranges, and remove this note.\\
 
 ##  CBOR Tags Registry {#tag-registry}
 
-This specification requires the assignment of CBOR tags for the following YANG datatypes.
-These tags are added to the CBOR  Tags Registry as defined in {{Section 9.2 of RFC8949}}.
+In the registry "{{cbor-tags (CBOR Tags)<IANA.cbor-tags}}" {{IANA.cbor-tags}},
+as per {{Section 9.2 of RFC8949}}, IANA has allocated the CBOR tags in
+{{tab-tag-values}} for the YANG datatypes listed.
 
-| Tag | Data Item        | Semantics                      | Reference |
-|-----|------------------|--------------------------------|-----------|
-|  43 | text string      | YANG bits datatype             | RFC XXXX  |
-|     |                  | ; see {{bits}}.                |           |
-|  44 | text string      | YANG enumeration datatype      | RFC XXXX  |
-|     |                  | ; see {{enumeration}}.         |           |
-|  45 | unsigned integer | YANG identityref datatype      | RFC XXXX  |
-|     | or text string   | ; see {{identityref}}          |           |
-|  46 | unsigned integer | YANG instance-identifier       | RFC XXXX  |
-|     | or text string   | datatype; see {{instance-id}}. | RFC XXXX  |
-|     | or array         |                                |           |
-|  47 | unsigned integer | YANG Schema Item iDentifier    |           |
-|     |                  | (SID); see {{sid}}.            | RFC XXXX  |
-{: align="left"}
+| Tag | Data Item                                | Semantics                                              | Reference |
+|-----+------------------------------------------+--------------------------------------------------------+-----------|
+|  43 | text string                              | YANG bits datatype; see {{bits}}                         | RFC XXXX  |
+|  44 | text string                              | YANG enumeration datatype; see {{enumeration}}.         | RFC XXXX  |
+|  45 | unsigned integer or text string          | YANG identityref datatype; see {{identityref}}.         | RFC XXXX  |
+|  46 | unsigned integer or text string or array | YANG instance-identifier datatype; see {{instance-id}}. | RFC XXXX  |
+|  47 | unsigned integer                         | YANG Schema Item iDentifier (SID); see {{sid}}.         | RFC XXXX  |
+{: #tab-tag-values title="CBOR tags defined by this specification"}
 
 // RFC Ed.: please replace RFC XXXX with RFC number and remove this note
 
