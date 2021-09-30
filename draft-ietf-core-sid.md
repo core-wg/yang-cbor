@@ -172,7 +172,7 @@ assignments can then be stored in a ".sid" file. For
 example on how this could be achieved, please refer to {{sid-lifecycle-ex}}.
 
 Registration of the ".sid" file associated to a YANG module is optional but
-recommended to promote interoperability between devices and to avoid duplicate
+recommended  <!-- sic. --> to promote interoperability between devices and to avoid duplicate
 allocation of SIDs to a single YANG module. Different registries might have
 different requirements for the registration and publication of the ".sid"
 files. For a diagram of one of the possibilities, please refer to the activity
