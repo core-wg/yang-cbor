@@ -58,9 +58,10 @@ normative:
   RFC7950:
   RFC5234:
   RFC6241:
-  RFC8949:
-  RFC8610:
+  RFC8949: cbor
+  RFC8610: cddl
   IANA.cbor-tags:
+
 informative:
   I-D.ietf-core-comi: comi
   I-D.ietf-core-sid: core-sid
@@ -143,7 +144,9 @@ This document defines CBOR encoding rules for YANG data trees and their subtrees
 
 An instance of a schema node such as container, list, notification, RPC input, RPC output, action input, or action output is serialized using a CBOR map in which each child schema node is encoded using a key and a value. This specification supports two types of CBOR keys; YANG Schema Item iDentifier (YANG SID) as defined in {{sid}} and names as defined in {{name}}. Each of these key types is encoded using a specific CBOR type which allows their interpretation during the deserialization process. Protocols or mechanisms implementing this specification can mandate the use of a specific key type.
 
-In order to minimize the size of the encoded data, the proposed mapping avoids any unnecessary meta-information beyond those natively supported by CBOR. For instance, CBOR tags are used solely in the case of a SID not encoded as delta, anyxml schema nodes, or the union datatype, to distinguish explicitly the use of different YANG datatypes encoded using the same CBOR major type.
+In order to minimize the size of the encoded data, the proposed
+mapping avoids any unnecessary meta-information beyond that directly
+provided by the CBOR basic generic data model ({{Section 2 of RFC8949}}). For instance, CBOR tags are used solely in the case of a SID not encoded as delta, anyxml schema nodes, or the union datatype, to distinguish explicitly the use of different YANG datatypes encoded using the same CBOR major type.
 
 Unless specified otherwise by the protocol or mechanism implementing this specification, the indefinite lengths encoding as defined in {{Section 3.2 of RFC8949}} SHALL be supported by CBOR decoders.
 
@@ -268,7 +271,7 @@ already familiar with both YANG {{RFC7950}} and CBOR {{RFC8949}}.
 
 A 'leaf' MUST be encoded accordingly to its datatype using one of the encoding rules specified in {{data-types-mapping}}.
 
-The following examples shows the encoding of a 'hostname' leaf using a SID or a name.
+The following examples show the encoding of a 'hostname' leaf using a SID or a name.
 
 Definition example from [RFC7317]:
 
@@ -330,11 +333,12 @@ A1                                         # map(1)
 
 ## The 'container' and other nodes from the data tree {#container}
 
-Instances of containers, lists, notification contents, RPC inputs, RPC outputs, action inputs, and action outputs schema nodes MUST be encoded using a CBOR map data item (major type 5). A map is comprised of pairs of data items, with each pair consisting of a key and a value. Each key within the CBOR map is set to a schema node identifier, each value is set to the value of this schema node instance according to the instance datatype.
+Instances of containers, lists, notification contents, RPC inputs, RPC outputs, action inputs, and action outputs schema nodes MUST be encoded using a CBOR map data item (major type 5).
+A map consists of pairs of data items, with each pair consisting of a key and a value. Each key within the CBOR map is set to a schema node identifier, each value is set to the value of this schema node instance according to the instance datatype.
 
 This specification supports two types of CBOR keys; SID as defined in {{sid}} and names as defined in {{name}}.
 
-The following examples shows the encoding of a 'system-state' container schema node instance using SIDs or names.
+The following examples show the encoding of a 'system-state' container schema node instance using SIDs or names.
 
 Definition example from {{RFC7317}}:
 
@@ -1219,12 +1223,10 @@ CBOR diagnostic notation: [h'0401', 14, h'01']
 
 CBOR encoding: 83 42 0401 0E 41 01
 
-In a number of cases the array would only need to have one element - a byte
-string with a small number of bytes inside. For this case, it is expected to
-omit the array element and have only the byte array that would have been
-inside. To illustrate this, let us consider the same example YANG definition,
-but this time encoding only 'under-repair' and 'critical' flags. The result
-would be
+In a number of cases the array would only need to have one element - a byte string with a few bytes inside.
+For this case, it is expected to omit the array element and have only the byte array that would have been inside.
+To illustrate this, let us consider the same example YANG definition, but this time encoding only 'under-repair' and 'critical' flags.
+The result would be
 
 CBOR diagnostic notation: h'06'
 
