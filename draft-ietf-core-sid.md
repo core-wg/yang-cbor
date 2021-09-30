@@ -136,7 +136,7 @@ SIDs.
 
 IETF managed YANG modules which need to allocate SIDs, MUST use the IANA mechanism specified in this document.
 For YANG modules created by other parties, the use of IANA allocation mechanisms via use of Mega-Ranges (see {{mega-range-registry}}) is RECOMMENDED.
-Within the Mega-Range allocation, other parties are free to make up their own mechanism.
+Within the Mega-Range allocation, those other parties are free to make up their own mechanism.
 
 # Terminology and Notation
 
