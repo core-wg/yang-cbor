@@ -60,6 +60,7 @@ normative:
   RFC6241:
   RFC8949:
   RFC8610:
+  IANA.cbor-tags:
 informative:
   I-D.ietf-core-comi: comi
   I-D.ietf-core-sid: core-sid
@@ -116,8 +117,6 @@ The following terms are defined in {{RFC7950}}:
 
 * schema node
 
-* schema tree
-
 * submodule
 
 The following terms are defined in {{RFC8040}}:
@@ -156,7 +155,7 @@ Examples in {{instance-encoding}} include a root CBOR map with a single entry ha
 
 ## CBOR diagnostic notation
 
-Within this document, CBOR binary contents are represented using an equivalent textual form called CBOR diagnostic notation as defined in {{Section 8 of RFC8949}}. This notation is used strictly for documentation purposes and is never used in the data serialization. {{ diagnostic-notation-summary}} below provides a summary of this notation.
+Within this document, CBOR binary contents are represented using an equivalent textual form called CBOR diagnostic notation as defined in {{Section 8 of RFC8949}}. This notation is used strictly for documentation purposes and is never used in the data serialization. {{diagnostic-notation-summary}} below provides a summary of this notation.
 
 | CBOR content     | CBOR type | Diagnostic notation                                                     | Example            | CBOR encoding      |
 |------------------+-----------+-------------------------------------------------------------------------+--------------------+--------------------|
@@ -1684,7 +1683,7 @@ Subtype name:
 : yang-data+cbor
 
 Required parameters:
-: none
+: N/A
 
 Optional parameters:
 : id (see {{content-type}} of RFC XXXX)
@@ -1746,23 +1745,18 @@ requested ranges, and remove this note.\\
 
 ##  CBOR Tags Registry {#tag-registry}
 
-This specification requires the assignment of CBOR tags for the following YANG datatypes.
-These tags are added to the CBOR  Tags Registry as defined in {{Section 9.2 of RFC8949}}.
+In the registry "{{cbor-tags (CBOR Tags)<IANA.cbor-tags}}" {{IANA.cbor-tags}},
+as per {{Section 9.2 of RFC8949}}, IANA has allocated the CBOR tags in
+{{tab-tag-values}} for the YANG datatypes listed.
 
-| Tag | Data Item        | Semantics                      | Reference |
-|-----|------------------|--------------------------------|-----------|
-|  43 | text string      | YANG bits datatype             | RFC XXXX  |
-|     |                  | ; see {{bits}}.                |           |
-|  44 | text string      | YANG enumeration datatype      | RFC XXXX  |
-|     |                  | ; see {{enumeration}}.         |           |
-|  45 | unsigned integer | YANG identityref datatype      | RFC XXXX  |
-|     | or text string   | ; see {{identityref}}          |           |
-|  46 | unsigned integer | YANG instance-identifier       | RFC XXXX  |
-|     | or text string   | datatype; see {{instance-id}}. | RFC XXXX  |
-|     | or array         |                                |           |
-|  47 | unsigned integer | YANG Schema Item iDentifier    |           |
-|     |                  | (SID); see {{sid}}.            | RFC XXXX  |
-{: align="left"}
+| Tag | Data Item                                | Semantics                                              | Reference |
+|-----+------------------------------------------+--------------------------------------------------------+-----------|
+|  43 | text string                              | YANG bits datatype; see {{bits}}                         | RFC XXXX  |
+|  44 | text string                              | YANG enumeration datatype; see {{enumeration}}.         | RFC XXXX  |
+|  45 | unsigned integer or text string          | YANG identityref datatype; see {{identityref}}.         | RFC XXXX  |
+|  46 | unsigned integer or text string or array | YANG instance-identifier datatype; see {{instance-id}}. | RFC XXXX  |
+|  47 | unsigned integer                         | YANG Schema Item iDentifier (SID); see {{sid}}.         | RFC XXXX  |
+{: #tab-tag-values title="CBOR tags defined by this specification"}
 
 // RFC Ed.: please replace RFC XXXX with RFC number and remove this note
 

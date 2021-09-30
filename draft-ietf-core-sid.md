@@ -59,7 +59,6 @@ author:
 normative:
   RFC3688:
   RFC6991:
-#  RFC7120: BCP100
   BCP100:
   RFC7950:
   RFC7951:
