@@ -7,6 +7,7 @@ area: Applications and Real-Time Area (art)
 wg: Internet Engineering Task Force
 kw: CBOR
 cat: std
+consensus: true
 pi:
   strict: 'yes'
   toc: 'yes'
@@ -1712,21 +1713,6 @@ Restrictions on usage:
 Author/Change controller:
 : IETF
 
-
-~~~~
-    Type name:                application
-    Subtype name:             yang-data+cbor
-    Required parameters:      none
-    Optional parameters:      none
-    Encoding considerations:  CBOR
-    Security considerations:  see Section 8
-    Published specification: RFC XXXX
-    Person & email address to contact for further information: CORE WG
-    Intended usage:    COMMON
-    Restrictions on usage: none
-    Author: ivaylo@ackl.io
-    Change controller:  IESG
-~~~~
 
 ## CoAP Content-Formats Registry
 
