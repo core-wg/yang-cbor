@@ -134,7 +134,7 @@ modules and associated SIDs. To enable the implementation of this registry,
 {{sid-file-format}} defines a standard file format used to store and publish
 SIDs.
 
-For IETF managed YANG modules, the allocation of SIDs via the IANA mechanism specified in this document is MANDATORY.
+IETF managed YANG modules which need to allocate SIDs, MUST use the IANA mechanism specified in this document.
 For YANG modules created by other parties, the use of IANA allocation mechanisms via use of Mega-Ranges (see {{mega-range-registry}}) is RECOMMENDED.
 These other parties are free to make up their own mechanism, as is their perogative.
 
