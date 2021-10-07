@@ -103,11 +103,11 @@ To enable the implementation of these processes, this document also defines a fi
 # Introduction
 
 Some of the items defined in YANG {{RFC7950}} require the use of a
-unique identifier.  
-In both Network Configuration Protocol (NETCONF) {{RFC6241}} and RESTCONF {{RFC8040}}, these identifiers are implemented using names.  
-To allow the implementation of data models defined in YANG in constrained devices {{RFC7228}} and constrained networks, a more compact method to identify YANG items is required. 
-This compact identifier, called YANG Schema Item iDentifier or YANG SID (or simply SID in this document and when the context is clear), is encoded using a 63-bit unsigned integer. 
-The limitation to 63-bit unsigned integers allows SIDs to be manipulated more easily on platforms that might otherwise lack 64-bit unsigned arithmetic. 
+unique identifier.
+In both Network Configuration Protocol (NETCONF) {{RFC6241}} and RESTCONF {{RFC8040}}, these identifiers are implemented using names.
+To allow the implementation of data models defined in YANG in constrained devices {{RFC7228}} and constrained networks, a more compact method to identify YANG items is required.
+This compact identifier, called YANG Schema Item iDentifier or YANG SID (or simply SID in this document and when the context is clear), is encoded using a 63-bit unsigned integer.
+The limitation to 63-bit unsigned integers allows SIDs to be manipulated more easily on platforms that might otherwise lack 64-bit unsigned arithmetic.
 The loss of a single bit of range is not significant given the size of the remaining space.
 
 The following items are identified using SIDs:
