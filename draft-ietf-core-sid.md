@@ -557,7 +557,8 @@ application/yang-data+cbor; id=sid:
 
 # Security Considerations
 
-This document defines a new type of identifier used to encode data models defined in YANG {{RFC7950}}. As such, this identifier does not contribute to any new security issues in addition of those identified for the specific protocols or contexts for which it is used.
+This document defines a new type of identifier used to encode data that are modeled in YANG {{RFC7950}}.
+As such, this identifier does not contribute to any new security issues in addition of those identified for the specific protocols or contexts for which it is used.
 
 # IANA Considerations  {#IANA}
 
@@ -1370,7 +1371,7 @@ The following activity diagram summarizes the creation of a YANG module and its 
                                      v                   |
                              +---------------+    +------+------+
                              | ".sid" file   |    | Rework YANG |
-                             | generation    |    |    model    |
+                             | generation    |    |    module   |
                              +-------+-------+    +-------------+
                                      |                   ^
                                      v                   |
