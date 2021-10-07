@@ -831,7 +831,7 @@ None.
 
 # ".sid" file example  {#sid-file-example}
 
-The following ".sid" file (ietf-system@2014-08-06.sid) have been generated using the following yang modules:
+The following ".sid" file (ietf-system@2014-08-06.sid) has been generated using the following yang modules:
 
 * ietf-system@2014-08-06.yang (defined in {{RFC7317}})
 
@@ -842,6 +842,16 @@ The following ".sid" file (ietf-system@2014-08-06.sid) have been generated using
 * ietf-netconf-acm@2018-02-14.yang (defined in {{RFC8341}})
 
 * iana-crypt-hash@2014-08-06.yang (defined in {{RFC7317}})
+
+For purposes of exposition, line breaks have been introduced below in
+some JSON strings that represent overly long identifiers.
+For reconstructing the actual JSON file from this figure, all line
+breaks that occur in what would be JSON strings need to be removed,
+including any following blank space (indentation) on the line after
+the line break; in each such case, a single identifier without any
+embedded blank space results.
+
+<!-- /^ *[^" ]+"/ -->
 
 ~~~~
 {
