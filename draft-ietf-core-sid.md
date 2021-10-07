@@ -673,7 +673,7 @@ The first million SIDs assigned to IANA is sub-divided as follows:
 | 100,000       | 900,000    | Reserved                          |
 {: align="left"}
 
-The size of the SID range allocated for a YANG module is recommended to be a multiple of 50 and to be at least 33% above the current number of YANG items. This headroom allows assignment within the same range of new YANG items introduced by subsequent revisions. The maximum SID range size is 1000. A larger size may be requested by the authors if this recommendation is considered insufficient. It is important to note that an additional SID range can be allocated to an existing YANG module if the initial range is exhausted.
+The size of the SID range allocated for a YANG module is recommended to be a multiple of 50 and to be at least 33% above the current number of YANG items. This headroom allows assignment within the same range of new YANG items introduced by subsequent revisions. The SID range size SHOULD NOT exceed 1000; a larger size may be requested by the authors if this recommendation is considered insufficient. It is important to note that an additional SID range can be allocated to an existing YANG module if the initial range is exhausted; this then just leads to slightly less efficient representation.
 
 In case a SID range is allocated for an existing RFC through the "Expert
 Review" policy, the Document reference field for the given allocation should
