@@ -74,11 +74,13 @@ normative:
   RFC7950:
   RFC7951:
   RFC8040:
+  RFC8259: json
   I-D.ietf-core-yang-cbor:
 informative:
   RFC6020:
   RFC6241:
   RFC7224:
+  RFC7228: constrained
   RFC7317:
   RFC8126:
   RFC8341:
@@ -92,7 +94,7 @@ informative:
 
 --- abstract
 
-YANG Schema Item iDentifiers (YANG SID) are globally unique 63-bit unsigned integers used to identify YANG items.
+YANG Schema Item iDentifiers (YANG SID) are globally unique 63-bit unsigned integers used to identify YANG items, as a more compact method to identify YANG items that can be used for efficiency and in constrained environments (RFC 7228).
 This document defines the semantics, the registration, and assignment processes of YANG SIDs for IETF managed YANG modules.
 To enable the implementation of these processes, this document also defines a file format used to persist and publish assigned YANG SIDs.
 
@@ -101,11 +103,11 @@ To enable the implementation of these processes, this document also defines a fi
 # Introduction
 
 Some of the items defined in YANG {{RFC7950}} require the use of a
-unique identifier.  
-In both Network Configuration Protocol (NETCONF) {{RFC6241}} and RESTCONF {{RFC8040}}, these identifiers are implemented using names.  
-To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. 
-This compact identifier, called YANG SID or simply SID in this document and when the context is clear, is encoded using a 63-bit unsigned integer. 
-The limitation to 63-bit unsigned integers allows SIDs to be manipulated more easily on platforms that might otherwise lack 64-bit unsigned arithmetic. 
+unique identifier.
+In both Network Configuration Protocol (NETCONF) {{RFC6241}} and RESTCONF {{RFC8040}}, these identifiers are implemented using names.
+To allow the implementation of data models defined in YANG in constrained devices {{RFC7228}} and constrained networks, a more compact method to identify YANG items is required.
+This compact identifier, called YANG Schema Item iDentifier or YANG SID (or simply SID in this document and when the context is clear), is encoded using a 63-bit unsigned integer.
+The limitation to 63-bit unsigned integers allows SIDs to be manipulated more easily on platforms that might otherwise lack 64-bit unsigned arithmetic.
 The loss of a single bit of range is not significant given the size of the remaining space.
 
 The following items are identified using SIDs:
@@ -237,8 +239,8 @@ module: ietf-sid-file
         +-- sid           sid
 ~~~~
 
-The following YANG module defined the structure of this file, encoding is
-performed using the rules defined in {{RFC7951}}. It references ietf-yang-types
+The following YANG module defines the structure of this file, encoding is
+performed in JSON {{-json}} using the rules defined in {{RFC7951}}. It references ietf-yang-types
 defined in {{RFC6991}} and ietf-restconf defined in {{RFC8040}}.
 
 RFC Ed.: please update the date of the module and Copyright if needed and remove this note.
