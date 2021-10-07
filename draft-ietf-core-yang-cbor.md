@@ -76,7 +76,10 @@ informative:
 
 --- abstract
 
-This document defines encoding rules for serializing configuration data, state data, RPC input and RPC output, action input, action output, notifications and the yang-data extension defined within YANG modules using the Concise Binary Object Representation (CBOR, RFC 8949).
+Based on the Concise Binary Object Representation (CBOR, RFC 8949),
+this document defines encoding rules for representing configuration
+data, state data, parameters and results of Remote Procedure Call (RPC)
+operations or actions, and notifications, defined using YANG (RFC 7950).
 
 --- middle
 
