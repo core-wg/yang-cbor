@@ -39,7 +39,6 @@ author:
   country: France
   email: a@ackl.io
 - role: editor
-  ins: I. Petrov
   name: Ivaylo Petrov
   org: Google Switzerland GmbH
   street: Brandschenkestrasse 110
@@ -48,14 +47,25 @@ author:
   region: Zurich
   country: Switzerland
   email: ivaylopetrov@google.com
-- ins: C. Bormann
-  name: Carsten Bormann
+- name: Carsten Bormann
   org: Universität Bremen TZI
   street: Postfach 330440
   city: D-28359 Bremen
   country: Germany
   phone: "+49-421-218-63921"
   email: cabo@tzi.org
+contributor:
+- name: Andy Bierman
+  org: YumaWorks
+  street:
+  - 685 Cochran St.
+  - 'Suite #160'
+  city: Simi Valley
+  region: CA
+  code: '93065'
+  country: USA
+  email: andy@yumaworks.com
+
 
 normative:
   RFC3688:
