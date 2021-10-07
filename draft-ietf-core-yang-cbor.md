@@ -179,7 +179,7 @@ Note: CBOR binary contents shown in this specification are annotated with commen
 
 ## YANG Schema Item iDentifier {#sid}
 
-Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier.  In both Network Configuration Protocol (NETCONF) {{RFC6241}} and RESTCONF {{RFC8040}}, these identifiers are implemented using strings.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called YANG Schema Item iDentifier, is an unsigned integer. The following items are identified using YANG SIDs (often shortened to SIDs):
+Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier.  In both Network Configuration Protocol (NETCONF) {{RFC6241}} and RESTCONF {{RFC8040}}, these identifiers are implemented using text strings.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called YANG Schema Item iDentifier, is an unsigned integer. The following items are identified using YANG SIDs (often shortened to SIDs):
 
 * identities
 
@@ -205,7 +205,7 @@ The present specification has been designed to allow different methods of assign
 
 ## Name {#name}
 
-This specification also supports the encoding of YANG item identifiers as strings, similar to those used by the JSON Encoding of Data Modeled with YANG {{RFC7951}}. This approach can be used to avoid the management overhead associated with SID allocation. The main drawback is the significant increase in size of the encoded data.
+This specification also supports the encoding of YANG item identifiers as text strings, similar to those used by the JSON Encoding of Data Modeled with YANG {{RFC7951}}. This approach can be used to avoid the management overhead associated with SID allocation. The main drawback is the significant increase in size of the encoded data.
 
 YANG item identifiers implemented using names MUST be in one of the following forms:
 
@@ -1569,7 +1569,7 @@ CBOR encoding:
 
 ### Names as instance-identifier
 
-An "instance-identifier" value is encoded as a string that is
+An "instance-identifier" value is encoded as a text string that is
 analogous to the lexical representation in XML encoding; see {{Section
 9.13.2 of RFC7950}}. However, the encoding of namespaces in instance-identifier values follows the rules stated in {{name}}, namely:
 
@@ -1665,6 +1665,13 @@ The security considerations of {{RFC8949}} and {{RFC7950}} apply.
 This document defines an alternative encoding for data modeled in the YANG data modeling language. As such, this encoding does not contribute any new security issues in addition to those identified for the specific protocol or context for which it is used.
 
 To minimize security risks, software on the receiving side SHOULD reject all messages that do not comply to the rules of this document and reply with an appropriate error message to the sender.
+
+When SIDs are in use, the interpretation of encoded data not only
+relies on having the right YANG modules, but also on having the right
+SID mapping information.  Management and evolution of that mapping
+information therefore requires the same care as the management and
+evolution of the YANG modules themselves.  The procedures in
+{{-core-sid}} are RECOMMENDED for this purpose.
 
 # IANA Considerations
 
