@@ -584,7 +584,7 @@ This document registers one YANG module in the "YANG Module Names" registry {{RF
 * name:         ietf-sid-file
 * namespace:    urn:ietf:params:xml:ns:yang:ietf-sid-file
 * prefix:       sid
-* reference:    [[RFC XXXX]]
+* reference:    RFC XXXX
 
 // RFC Ed.: please replace XXXX with RFC number and remove this note
 
