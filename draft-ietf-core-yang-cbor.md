@@ -1456,6 +1456,7 @@ This specification supports two approaches for encoding an instance-identifier, 
 ### SIDs as instance-identifier {#instance-identifier-with-sid}
 
 SIDs uniquely identify a schema node. In the case of a single instance schema node, i.e., a schema node defined at the root of a YANG module or submodule or schema nodes defined within a container, the SID is sufficient to identify this instance.
+(Note that no delta mechanism is employed for SIDs used for identityref.)
 
 In the case of a schema node member of a YANG list, a SID is combined with the list key(s) to identify each instance within the YANG list(s).
 
