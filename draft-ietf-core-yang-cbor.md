@@ -144,7 +144,7 @@ This specification also makes use of the following terminology:
 
 This document defines CBOR encoding rules for YANG data trees and their subtrees.
 
-An instance of a data node such as container, list, notification, RPC input, RPC output, action input, or action output is serialized using a CBOR map in which each child data node is encoded using a key and a value. This specification supports two types of CBOR keys; YANG Schema Item iDentifier (YANG SID) as defined in {{sid}} and names as defined in {{name}}. Each of these key types is encoded using a specific CBOR type which allows their interpretation during the deserialization process. Protocols or mechanisms implementing this specification can mandate the use of a specific key type.
+An instance of a data node such as container, list, notification, RPC input, RPC output, action input, or action output is serialized using a CBOR map in which each child data node instance is encoded using a key and a value. This specification supports two types of CBOR keys; YANG Schema Item iDentifier (YANG SID) as defined in {{sid}} and names as defined in {{name}}. Each of these key types is encoded using a specific CBOR type which allows their interpretation during the deserialization process. Protocols or mechanisms implementing this specification can mandate the use of a specific key type.
 
 In order to minimize the size of the encoded data, the proposed
 mapping avoids any unnecessary meta-information beyond that directly
@@ -416,7 +416,7 @@ A1                                      # map(1)
 
 CBOR map keys implemented using names MUST be encoded using a CBOR
 text string data item (major type 3). A namespace-qualified name MUST
-be used each time the namespace of a data node and its parent
+be used each time the namespace of a data node instance and its parent
 differ. In all other cases, the simple form of the name MUST be
 used. Names and namespaces are defined in {{Section 4 of RFC7951}}.
 
@@ -712,7 +712,7 @@ A1                                      # map(1)
 
 ## The 'anydata'
 
-An anydata serves as a container for an arbitrary set of data nodes that otherwise appear as normal YANG-modeled data. An anydata data node instance is encoded using the same rules as a container, i.e., CBOR map. The requirement that anydata content can be modeled by YANG implies the following:
+An anydata serves as a container for an arbitrary set of data node instances that otherwise appear as normal YANG-modeled data. An anydata data node instance is encoded using the same rules as a container, i.e., CBOR map. The requirement that anydata content can be modeled by YANG implies the following:
 
 * CBOR map keys of any inner data nodes MUST be set to valid deltas or names.
 
