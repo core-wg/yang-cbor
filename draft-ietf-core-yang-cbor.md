@@ -782,7 +782,8 @@ A1                               # map(1)
 
 ~~~~
 
-In some implementations, it might be simpler to use the absolute SID tag encoding for the anydata root element. The resulting encoding is as follows:
+In some implementations, it might be simpler to use the absolute SID tag encoding for the anydata root element.
+An example is shown in diagnostic format as follows:
 
 ~~~~ CBORdiag
 {
