@@ -577,7 +577,7 @@ list server {
 
 ### Using SIDs in keys {#list-with-sid}
 
-The encoding rules of each 'list' entry are defined in {{container-with-sid}}. Deltas of list members are equal to the SID of the current schema node minus the SID of the 'list'.
+The encoding rules of each 'list' entry are defined in {{container-with-sid}}.
 
 CBOR diagnostic notation:
 
