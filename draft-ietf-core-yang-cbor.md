@@ -834,7 +834,8 @@ A1                                      # map(1)
 
 ## The 'anyxml'
 
-An anyxml schema node is used to serialize an arbitrary CBOR content, i.e., its value can be any CBOR binary object. anyxml value MAY contain CBOR data items tagged with one of the tags listed in {{tag-registry}}. The tags listed in {{tag-registry}} SHALL be supported.
+An anyxml schema node is used to serialize an arbitrary CBOR content, i.e., its value can be any CBOR binary object.
+An anyxml value MAY contain CBOR data items tagged with one of the tags listed in {{tag-registry}}. The tags listed in {{tag-registry}} SHALL be supported.
 
 The following example shows a valid CBOR encoded anyxml schema node instance consisting of a CBOR array containing the CBOR simple values 'true', 'null' and 'true'.
 
