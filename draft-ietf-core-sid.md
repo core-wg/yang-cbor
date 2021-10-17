@@ -136,7 +136,8 @@ guarantee their uniqueness. SIDs are registered in blocks called "SID ranges".
 Assignment of SIDs to YANG items can be automated.
 For more details how this can be achieved, please consult {{sid-auto-generation}}.
 
-SIDs are assigned permanently, items introduced by a new revision of a YANG
+SIDs are assigned permanently.
+Items introduced by a new revision of a YANG
 module are added to the list of SIDs already assigned. If the meaning of an
 item changes, for example as a result from a non-backward compatible update of
 the YANG module, a new SID SHOULD be assigned to it. A new SID MUST always be
@@ -304,8 +305,8 @@ module ietf-sid-file {
 
      This module defines the structure of the .sid files.
 
-     Each .sid file contains the mapping between the different
-     string identifiers defined by a YANG module and a
+     Each .sid file contains the mapping between each
+     string identifier defined by a YANG module and a
      corresponding numeric value called YANG SID.";
 
   revision 2020-02-05 {
