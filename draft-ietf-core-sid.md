@@ -122,7 +122,7 @@ The following items are identified using SIDs:
 
 * notifications and associated information
 
-* YANG modules, submodules and features
+* YANG modules and features
 
 It is possible that some protocols use only a subset of the assigned SIDs, for
 example, for protocols equivalent to NETCONF {{RFC6241}} like {{-comi}} the
@@ -172,7 +172,7 @@ The following term is defined in {{RFC8040}}:
 
 This specification also makes use of the following terminology:
 
-* item:  A schema node, an identity, a module, a submodule or a feature defined using the YANG modeling language.
+* item:  A schema node, an identity, a module, or a feature defined using the YANG modeling language.
 * schema-node path: A schema-node path is a string that identifies a schema node within the schema tree. A path consists of the list of consecutive schema node identifier(s) separated by slashes ("/"). Schema node identifier(s) are always listed from the top-level schema node up to the targeted schema node and could contain namespace information. (e.g. "/ietf-system:system-state/clock/current-datetime")
 * Namespace-qualified form - a schema node identifier is prefixed with the name of the module in which the schema node is defined, separated from the schema node identifier by the colon character (":").
 * YANG Schema Item iDentifier (YANG SID or simply SID): Unsigned integer used to identify different YANG items.

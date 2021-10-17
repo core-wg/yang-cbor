@@ -140,7 +140,7 @@ This specification also makes use of the following terminology:
   called out explicitly only in positions where normally a delta would
   be found.
 
-* item: A schema node, an identity, a module, a submodule, or a feature defined using the YANG modeling language.
+* item: A schema node, an identity, a module, or a feature defined using the YANG modeling language.
 
 * list entry: the data associated with a single element of a list.
 
@@ -205,7 +205,12 @@ Some of the items defined in YANG {{RFC7950}} require the use of a unique identi
 
 * notifications and associated information
 
-* YANG modules, submodules, and features
+* YANG modules and features
+
+Note that any structuring of modules into submodules is transparent to YANG-CBOR:
+SIDs are not allocated for the names of submodules, and any
+items within a submodule are effectively allocated SIDs as part of
+processing the module that includes them.
 
 To minimize their size, SIDs used as keys in CBOR maps are encoded
 using deltas, i.e., signed (negative or unsigned) integers that are
