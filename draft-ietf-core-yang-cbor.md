@@ -90,7 +90,7 @@ The specification of the YANG 1.1 data modeling language {{RFC7950}} defines an 
 An additional set of encoding rules has been defined in {{RFC7951}} based on
 the JavaScript Object Notation (JSON) Data Interchange Format {{RFC8259}}.
 
-The aim of this document is to define a set of encoding rules for the Concise Binary Object Representation (CBOR) {{RFC8949}}. The resulting encoding is more compact compared to XML and JSON and more suitable for Constrained Nodes and/or Constrained Networks as defined by {{RFC7228}}.
+The aim of this document is to define a set of encoding rules for the Concise Binary Object Representation (CBOR) {{RFC8949}}, collectively called *YANG-CBOR*. The resulting encoding is more compact compared to XML and JSON and more suitable for Constrained Nodes and/or Constrained Networks as defined by {{RFC7228}}.
 
 # Terminology and Notation
 
@@ -156,7 +156,14 @@ In order to minimize the size of the encoded data, the proposed
 mapping avoids any unnecessary meta-information beyond that directly
 provided by the CBOR basic generic data model ({{Section 2 of RFC8949}}). For instance, CBOR tags are used solely in the case of an absolute SID, anyxml schema nodes, or the union datatype, to distinguish explicitly the use of different YANG datatypes encoded using the same CBOR major type.
 
-Unless specified otherwise by the protocol or mechanism implementing this specification, the indefinite lengths encoding as defined in {{Section 3.2 of RFC8949}} SHALL be supported by CBOR decoders.
+Unless specified otherwise by the protocol or mechanism implementing this specification, the indefinite length encoding as defined in {{Section 3.2 of RFC8949}} SHALL be supported by the CBOR decoders employed with YANG-CBOR.
+(This enables an implementation to begin emitting an array or map
+before the number of entries in that structure is known, possibly also
+avoiding excessive locking or race conditions.
+On the other hand, it deprives the receiver of the encoded data from
+advance announcement about some size information, so a generator
+should choose indefinite length encoding only when these benefits do
+accrue.)
 
 Data nodes implemented using a CBOR array, map, byte string, or text string can be instantiated but empty. In this case, they are encoded with a length of zero.
 
@@ -221,7 +228,7 @@ by the environment.
 
 Mechanisms and processes used to assign SIDs to YANG items and to guarantee their uniqueness are outside the scope of the present specification.
 If SIDs are to be used, the present specification is used in conjunction with a specification defining this management.
-{{-core-sid}} is the definitive way to for YANG modules managed by the IETF to assign SID values.
+{{-core-sid}} is the definitive way to assign SID values for YANG modules managed by the IETF.
 With YANG modules managed by non-IETF entities, use of {{-core-sid}} is RECOMMENDED.
 The present specification has been designed to allow different methods of assignment to be used within separate domains.
 
@@ -1687,6 +1694,28 @@ It is not foreseen at this point that the valid set of values for the
 that does happen, any new value is foreseen to be of the form
 `[a-z][a-z0-9]*(-[a-z0-9]+)*`.
 
+In summary, this document defines three content-types, which are
+intended for use by different classes of applications:
+
+* `application/yang-data+cbor; id=sid` — for use by applications that
+  need to be frugal with encoding space and text string processing
+  (e.g., applications running on constrained nodes {{RFC7228}}, or
+  applications with particular performance requirements);
+* `application/yang-data+cbor; id=name` — for use by applications that
+  do not want to engage in SID management, and that have ample
+  resources to manage text-string based item identifiers (e.g.,
+  applications that directly want to substitute
+  `application/yang.data+json` with a more efficient representation
+  without any other changes);
+* `application/yang-data+cbor` — for use by more complex applications
+  that can benefit from the increased efficiency of SID identifiers
+  but also need to integrate databases of YANG modules before SID
+  mappings are defined for them.
+
+All three content-types are based on the same representation
+mechanisms, parts of which are simply not used in the first and second
+case.
+
 # Security Considerations
 
 The security considerations of {{RFC8949}} and {{RFC7950}} apply.
@@ -1792,4 +1821,3 @@ as per {{Section 9.2 of RFC8949}}, IANA has allocated the CBOR tags in
 This document has been largely inspired by the extensive works done by {{{Andy Bierman}}} and {{{Peter van der Stok}}} on {{-comi}}. {{RFC7951}} has also been a critical input to this work. The authors would like to thank the authors and contributors to these two drafts.
 
 The authors would also like to acknowledge the review, feedback, and comments from {{{Ladislav Lhotka}}} and {{{Jürgen Schönwälder}}}.
-
