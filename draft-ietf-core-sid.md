@@ -324,7 +324,7 @@ module ietf-sid-file {
   }
 
   typedef sid-file-version-identifier {
-    type uint64;
+    type uint32;
     description
       "Represents the version of a .sid file.";
   }
