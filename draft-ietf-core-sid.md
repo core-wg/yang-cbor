@@ -265,7 +265,7 @@ module ietf-sid-file {
     "IETF Core Working Group";
 
   contact
-    "WG Web:   <http://datatracker.ietf.org/wg/core/>
+    "WG Web:   <https://datatracker.ietf.org/wg/core/>
 
      WG List:  <mailto:core@ietf.org>
 
@@ -1333,8 +1333,8 @@ Registry" as defined in {{ietf-iana-sid-range-allocation}}. For the other YANG
 modules, the authors can acquire a SID range from any "YANG SID Range Registry" of
 their choice.
 
-Once the SID range is acquired, the owner can use it to generate ".sid" file/s
-for his YANG module/s.  It is recommended to leave some unallocated SIDs
+Once the SID range is acquired, owners can use it to generate ".sid" file/s
+for their YANG module/s.  It is recommended to leave some unallocated SIDs
 following the allocated range in each ".sid" file in order to allow better
 evolution of the YANG module in the future.  Generation of ".sid" files should
 be performed using an automated tool.  Note that ".sid" files can only be
