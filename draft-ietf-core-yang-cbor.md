@@ -136,6 +136,10 @@ This specification also makes use of the following terminology:
 
 * delta: Difference between the current YANG SID and a reference YANG SID. A reference YANG SID is defined for each context for which deltas are used.
 
+* absolute SID: YANG SID not encoded as a delta.  This is usually
+  called out explicitly only in positions where normally a delta would
+  be found.
+
 * item: A schema node, an identity, a module, a submodule, or a feature defined using the YANG modeling language.
 
 * list entry: the data associated with a single element of a list.
@@ -150,7 +154,7 @@ An instance of a schema node such as container, list, notification, RPC input, R
 
 In order to minimize the size of the encoded data, the proposed
 mapping avoids any unnecessary meta-information beyond that directly
-provided by the CBOR basic generic data model ({{Section 2 of RFC8949}}). For instance, CBOR tags are used solely in the case of a SID not encoded as delta, anyxml schema nodes, or the union datatype, to distinguish explicitly the use of different YANG datatypes encoded using the same CBOR major type.
+provided by the CBOR basic generic data model ({{Section 2 of RFC8949}}). For instance, CBOR tags are used solely in the case of an absolute SID, anyxml schema nodes, or the union datatype, to distinguish explicitly the use of different YANG datatypes encoded using the same CBOR major type.
 
 Unless specified otherwise by the protocol or mechanism implementing this specification, the indefinite lengths encoding as defined in {{Section 3.2 of RFC8949}} SHALL be supported by CBOR decoders.
 
@@ -196,9 +200,24 @@ Some of the items defined in YANG {{RFC7950}} require the use of a unique identi
 
 * YANG modules, submodules, and features
 
-To minimize their size, SIDs used as keys in inner CBOR maps are typically encoded using deltas.
-Conversion from SIDs to deltas and back to SIDs are stateless processes solely based on the data serialized or deserialized.
-These SIDs may also be encoded as absolute number when enclosed by CBOR tag 47.
+To minimize their size, SIDs used as keys in CBOR maps are encoded
+using deltas, i.e., signed (negative or unsigned) integers that are
+added to the reference SID applying to the map.
+The reference SID of an outermost map is zero, unless a different
+reference SID is unambiguously conferred from the environment in which
+the outermost map is used.
+The reference SID of a map that is most directly embedded in a map entry
+with a name-based key is zero.
+For all other maps, the reference SID is the SID computed for the map
+entry it is most directly embedded in.
+(The embedding may be indirect if an array intervenes, e.g., in a YANG list)
+Where absolute SIDs are desired in map key positions where a bare
+integer implies a delta, they may be encoded using CBOR tag 47 (as defined in {{tag-registry}}).
+
+Thus, conversion from SIDs to deltas and back to SIDs is a stateless
+process solely based on the data serialized or deserialized combined
+with, potentially, an outermost reference SID unambiguously conferred
+by the environment.
 
 Mechanisms and processes used to assign SIDs to YANG items and to guarantee their uniqueness are outside the scope of the present specification.
 If SIDs are to be used, the present specification is used in conjunction with a specification defining this management.
@@ -370,7 +389,7 @@ container system-state {
 
 ### Using SIDs in keys {#container-with-sid}
 
-In the context of containers and other nodes from the data tree, CBOR map keys within inner CBOR maps can be encoded using deltas or absolute SIDs. Deltas are encoded using a CBOR unsigned integer (major type 0) or CBOR negative integer (major type 1), depending on the actual delta value. Absolute SIDs are encoded using the SID value enclosed by CBOR tag 47 as defined in {{tag-registry}}.
+In the context of containers and other nodes from the data tree, CBOR map keys within inner CBOR maps can be encoded using deltas or absolute SIDs (tag 47).
 
 Delta values are computed as follows:
 
@@ -782,7 +801,7 @@ A1                               # map(1)
 
 ~~~~
 
-In some implementations, it might be simpler to use the absolute SID tag encoding for the anydata root element.
+In some implementations, it might be simpler to use the absolute SID encoding (tag 47) for the anydata root element.
 CBOR diagnostic notation:
 
 ~~~~ CBORdiag
@@ -1333,7 +1352,7 @@ as defined in {{Section 6.8 of RFC7951}}.
 
 ### SIDs as identityref {#identityref-with-sid}
 
-When schema nodes of type identityref are implemented using SIDs, they MUST be encoded using a CBOR unsigned integer data item (major type 0). (Note that no delta mechanism is employed for SIDs used for identityref.)
+When schema nodes of type identityref are implemented using SIDs, they MUST be encoded using a CBOR unsigned integer data item (major type 0). (Note that, as they are not used in the position of CBOR map keys, no delta mechanism is employed for SIDs used for identityref.)
 
 The following example shows the encoding of a 'type' leaf schema node instance set to the value 'iana-if-type:ethernetCsmacd' (SID 1880).
 
@@ -1456,7 +1475,8 @@ This specification supports two approaches for encoding an instance-identifier, 
 ### SIDs as instance-identifier {#instance-identifier-with-sid}
 
 SIDs uniquely identify a schema node. In the case of a single instance schema node, i.e., a schema node defined at the root of a YANG module or submodule or schema nodes defined within a container, the SID is sufficient to identify this instance.
-(Note that no delta mechanism is employed for SIDs used for identityref.)
+(Note that no delta mechanism is employed for SIDs used for identityref, see {{identityref-with-sid}}.)
+<!-- Is this clear enough? -->
 
 In the case of a schema node member of a YANG list, a SID is combined with the list key(s) to identify each instance within the YANG list(s).
 
