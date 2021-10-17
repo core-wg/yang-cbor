@@ -1527,11 +1527,12 @@ CBOR encoding: 19 06CD
 
 The following example shows the encoding of the 'reporting-entity' value referencing list instance "/system/authentication/user/authorized-key/key-data" (SID 1734) for user name "bob" and authorized-key "admin".
 
-Definition example from {{RFC7317}}:
+Definition example, somewhat arbitrarily modified from {{RFC7317}} by
+adding `country` to the leafs and keys of `authorized-key`:
 
 ~~~~ yang
 list user {
-  key name country;
+  key name;
 
   leaf name {
     type string;
@@ -1542,7 +1543,7 @@ list user {
   }
 
   list authorized-key {
-    key name country;
+    key "name country";
 
     leaf country {
       type string;
