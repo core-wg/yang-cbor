@@ -155,7 +155,11 @@ provided by the CBOR basic generic data model ({{Section 2 of RFC8949}}). For in
 Unless specified otherwise by the protocol or mechanism implementing this specification, the indefinite length encoding as defined in {{Section 3.2 of RFC8949}} SHALL be supported by the CBOR decoders employed with YANG-CBOR.
 (This enables an implementation to begin emitting an array or map
 before the number of entries in that structure is known, possibly also
-avoiding excessive locking or race conditions.)
+avoiding excessive locking or race conditions.
+On the other hand, it deprives the receiver of the encoded data from
+advance announcement about some size information, so a generator
+should choose indefinite length encoding only when these benefits do
+accrue.)
 
 Data nodes implemented using a CBOR array, map, byte string, or text string can be instantiated but empty. In this case, they are encoded with a length of zero.
 
