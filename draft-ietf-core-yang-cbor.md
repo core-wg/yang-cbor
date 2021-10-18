@@ -1532,10 +1532,11 @@ CBOR encoding: 19 06CD
 
 **Second example:**
 
-The following example shows the encoding of the 'reporting-entity' value referencing list instance "/system/authentication/user/authorized-key/key-data" (SID 1734) for user name "bob" and authorized-key "admin".
+This example aims to show how a schema node member of a YANG list is identified. 
+It uses a somewhat arbitrarily modified YANG module version from {{RFC7317}} by
+adding `country` to the leafs and keys of `authorized-key`.
 
-Definition example, somewhat arbitrarily modified from {{RFC7317}} by
-adding `country` to the leafs and keys of `authorized-key`:
+The following example shows the encoding of the 'reporting-entity' value referencing list instance "/system/authentication/user/authorized-key/key-data" (which is assumed to have SID 1734) for user name "bob" and authorized-key with name "admin" and country "france".
 
 ~~~~ yang
 list user {
