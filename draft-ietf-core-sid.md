@@ -1295,7 +1295,8 @@ embedded blank space results.
 
 # SID auto generation {#sid-auto-generation}
 
-Assignment of SIDs to YANG items can be automated, the recommended process to assign SIDs is as follows:
+Assignment of SIDs to YANG items SHOULD be automated.
+The recommended process to assign SIDs is as follows:
 
 1. A tool extracts the different items defined for a specific YANG module.
 2. The list of items is sorted in alphabetical order, 'namespace' in descending order, 'identifier' in ascending order. The 'namespace' and 'identifier' formats are described in the YANG module 'ietf-sid-file' defined in {{sid-file-format}}.
@@ -1303,6 +1304,12 @@ Assignment of SIDs to YANG items can be automated, the recommended process to as
 4. If the number of items exceeds the SID range(s) allocated to a YANG module, an extra range is added for subsequent assignments.
 5. The "dependency-revision" should reflect the revision numbers of each
    YANG module that the YANG module imports at the moment of the generation.
+
+When updating a YANG module that is in active use, the existing SID assignments are maintained.
+(In contrast, when evolving an early draft that has not yet been adopted by a community of developers, SID assignments are often better done from scratch after a revision.)
+If the name of a schema node changes, but the data remain structurally and semantically similar to what was previously available under an old name, the SID that was used for the old name MAY continue to be used for the new name.
+If the meaning of an item changes, a new SID MAY be assigned to it; this is particular useful to allow the new SID to identify the new structure or semantics of the item.
+Note that these decisions are at generally at the discretion of the YANG module author, who should decide if the benefits of a manual intervention are worth the deviation from automatic assignment, which may incur manual intervention.
 
 In case of an update to an existing ".sid" file, an additional step is needed
 that increments the ".sid" file version number. If there was no version number
