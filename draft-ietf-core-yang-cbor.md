@@ -363,10 +363,12 @@ A1                                         # map(1)
 
 ## The 'container' and other nodes from the data tree {#container}
 
-Instances of containers, lists, notification contents, RPC inputs, RPC outputs, action inputs, and action outputs schema nodes MUST be encoded using a CBOR map data item (major type 5).
+Instances of containers, notification contents, RPC inputs, RPC outputs, action inputs, and action outputs schema nodes MUST be encoded using a CBOR map data item (major type 5).
+[XXX- can we just say "data node"?  Could it be "list entry"? Or can we avoid repeating this list?]
+The same encoding is also used for the list entries in a list ({{list}}).
 A map consists of pairs of data items, with each pair consisting of a key and a value. Each key within the CBOR map is set to a schema node identifier, each value is set to the value of this schema node instance according to the instance datatype.
 
-This specification supports two types of CBOR keys; SID as defined in {{sid}} and names as defined in {{name}}.
+This specification supports two types of CBOR map keys; SID as defined in {{sid}} and names as defined in {{name}}.
 
 The following examples show the encoding of a 'system-state' container schema node instance using SIDs or names.
 
@@ -1270,7 +1272,8 @@ strings or adjacent integers are an error. An array with a single byte string
 MUST instead be encoded as just that byte string. An array with a single
 positive integer is an error.
 
-Values of 'bits' types defined in a 'union' type MUST be encoded using a
+To maintain compatibility with the encoding of overlapping unions in XML,
+values of 'bits' types defined in a 'union' type MUST be encoded using a
 CBOR text string data item (major type 3) and MUST contain a space-separated
 sequence of names of 'bits' that are set. The encoding MUST be enclosed by the
 bits CBOR tag as specified in {{tag-registry}}.
