@@ -1319,6 +1319,8 @@ When updating a YANG module that is in active use, the existing SID assignments 
 If the name of a schema node changes, but the data remain structurally and semantically similar to what was previously available under an old name, the SID that was used for the old name MAY continue to be used for the new name.
 If the meaning of an item changes, a new SID MAY be assigned to it; this is particularly useful to allow the new SID to identify the new structure or semantics of the item.
 Note that these decisions are at generally at the discretion of the YANG module author, who should decide if the benefits of a manual intervention are worth the deviation from automatic assignment, which may incur manual intervention.
+If the YANG data type changes in a new revision of a published module,
+such that the resulting CBOR encoding is changed, then implementations will be aided significantly if a new SID is assigned.
 
 In case of an update to an existing ".sid" file, an additional step is needed
 that increments the ".sid" file version number. If there was no version number
