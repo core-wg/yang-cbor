@@ -133,15 +133,11 @@ related to discovery such as Constrained YANG Module Library {{-yang-library}}.
 SIDs are globally unique integers.  A registration system is used in order to
 guarantee their uniqueness. SIDs are registered in blocks called "SID ranges".
 
-Assignment of SIDs to YANG items can be automated.
-For more details how this can be achieved, please consult {{sid-auto-generation}}.
-
 SIDs are assigned permanently.
 Items introduced by a new revision of a YANG
-module are added to the list of SIDs already assigned. If the meaning of an
-item changes, for example as a result from a non-backward compatible update of
-the YANG module, a new SID SHOULD be assigned to it. A new SID MUST always be
-assigned if the new meaning of the item is going to be referenced using a SID.
+module are added to the list of SIDs already assigned.
+Assignment of SIDs to YANG items SHOULD be automated.
+For more details how this can be achieved, and when manual interventions may be appropriate, see {{sid-auto-generation}}.
 
 {{sid-lifecycle}} provides more details about the registration process of YANG
 modules and associated SIDs. To enable the implementation of this registry,
