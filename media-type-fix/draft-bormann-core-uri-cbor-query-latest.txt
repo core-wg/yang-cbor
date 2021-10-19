@@ -1,0 +1,224 @@
+
+
+
+
+Network Working Group                                         C. Bormann
+Internet-Draft                                   Universitaet Bremen TZI
+Intended status: Standards Track                        17 February 2016
+Expires: 20 August 2016
+
+
+     Uri-CBOR-Query: A stopgap for working around the lack of FETCH
+                draft-bormann-core-uri-cbor-query-latest
+
+Abstract
+
+   draft-bormann-core-coap-fetch and draft-vanderstok-core-patch define
+   two (or three) new methods for CoAP that allow read and update
+   requests with more control than the traditional four CRUD requests.
+
+   There is some concern that the FETCH and PATCH operations may not be
+   ready in time.  In the interest of exploring alternatives, this draft
+   examines a new CoAP Option, Uri-CBOR-Query.  This option enables the
+   transfer of information similar to a FETCH request payload with a GET
+   request, and similar to part of the PATCH request payload with POST,
+   PUT, and/or DELETE.
+
+Status of This Memo
+
+   This Internet-Draft is submitted in full conformance with the
+   provisions of BCP 78 and BCP 79.
+
+   Internet-Drafts are working documents of the Internet Engineering
+   Task Force (IETF).  Note that other groups may also distribute
+   working documents as Internet-Drafts.  The list of current Internet-
+   Drafts is at http://datatracker.ietf.org/drafts/current/.
+
+   Internet-Drafts are draft documents valid for a maximum of six months
+   and may be updated, replaced, or obsoleted by other documents at any
+   time.  It is inappropriate to use Internet-Drafts as reference
+   material or to cite them other than as "work in progress."
+
+   This Internet-Draft will expire on 20 August 2016.
+
+Copyright Notice
+
+   Copyright (c) 2016 IETF Trust and the persons identified as the
+   document authors.  All rights reserved.
+
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (http://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+
+
+
+Bormann                  Expires 20 August 2016                 [Page 1]
+
+Internet-Draft               Uri-CBOR-Query                February 2016
+
+
+   and restrictions with respect to this document.  Code Components
+   extracted from this document must include Simplified BSD License text
+   as described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Simplified BSD License.
+
+Table of Contents
+
+   1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
+   2.  The Uri-CBOR-Query Option . . . . . . . . . . . . . . . . . .   2
+   3.  HTTP compatibility  . . . . . . . . . . . . . . . . . . . . .   2
+   4.  Usage Guidelines  . . . . . . . . . . . . . . . . . . . . . .   3
+   5.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   3
+   6.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   3
+     6.1.  Normative References  . . . . . . . . . . . . . . . . . .   3
+     6.2.  Informative References  . . . . . . . . . . . . . . . . .   4
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .   4
+
+1.  Introduction
+
+   (See Abstract for now.)
+
+2.  The Uri-CBOR-Query Option
+
+   The Uri-CBOR-Query Option is an Option analogous to the Uri-Query
+   Option, with the exception that its value is opaque and not string.
+   The value is intended to carry a single CBOR data item --
+   _discussion_: maybe a sequence of these so we can leave off any outer
+   array markers.
+
+   +=====+===+===+===+===+================+========+========+=========+
+   | No. | C | U | N | R | Name           | Format | Length | Default |
+   +=====+===+===+===+===+================+========+========+=========+
+   | 19  | x | x | - | x | Uri-CBOR-Query | opaque | 0-255  | (none)  |
+   +-----+---+---+---+---+----------------+--------+--------+---------+
+
+                                 Table 1
+
+3.  HTTP compatibility
+
+   Where the Options of a CoAP request need to be translated into a URI
+   (see Section 6.5 of [RFC7252]), e.g. where a request with a Uri-CBOR-
+   Query Option needs to be translated to an HTTP request, the Option
+   value is translated to a text string as defined below and treated
+   like a Uri-Query Option that has this text string as its Option value
+   and is appended after all other Uri-Query Options.
+
+
+
+
+
+
+Bormann                  Expires 20 August 2016                 [Page 2]
+
+Internet-Draft               Uri-CBOR-Query                February 2016
+
+
+   The specific way the translation is performed is up for _discussion_;
+   as a strawman: the two characters "??" followed by the base64url
+   encoding (Section 3.2 of [RFC4648]) of the CoAP Option value:
+
+   CoAP:
+     Uri-Path: c
+     Uri-CBOR-Query: [1, 2, 3]
+
+   HTTP:
+     /c???gwECAw
+
+   The two question marks are added as a marker that might also enable
+   the inverse translation from HTTP to the CoAP Option, assuming that
+   other uses of this marker are infrequent.  (The use of question mark
+   characters in URI query parts traditionally has been risky and
+   therefore is not current practice.)
+
+4.  Usage Guidelines
+
+   To emulate a FETCH, what would be the FETCH payload is instead
+   encoded in a Uri-CBOR-Query Option.  The FETCH payload is assumed to
+   of Content-Format application/cbor, which is not as specific as it
+   could be -- _discussion_: Should we send along a Content-Format
+   within the Uri-CBOR-Query???.
+
+   To emulate an iPATCH, a POST operation with the same parameters as an
+   iPATCH is performed; there fundamentally is no need for Uri-CBOR-
+   Query, except maybe to distinguish the emulated iPATCH from a real
+   POST operation.  However, an iPATCH that is just a sequence of in-
+   tree deletes can be mapped to a DELETE operation with a Uri-CBOR-
+   Query Option that indicates which parts of the tree need to be
+   deleted.  Similarly, an iPATCH that puts new values to several places
+   in the tree (as in a merge-patch [RFC7396]) can be mapped to a PUT
+   with a Uri-CBOR-Query Option that indicates those places and a
+   payload that is a CBOR representation of an array of the values for
+   these places.
+
+5.  Acknowledgements
+
+   The idea for this draft was created in discussions with Alexander
+   Pelov, Laurent Toutain, Michel Veillette, Randy Turner, and Somaraju
+   Abhinav.
+
+6.  References
+
+6.1.  Normative References
+
+
+
+
+
+Bormann                  Expires 20 August 2016                 [Page 3]
+
+Internet-Draft               Uri-CBOR-Query                February 2016
+
+
+   [RFC4648]  Josefsson, S., "The Base16, Base32, and Base64 Data
+              Encodings", RFC 4648, DOI 10.17487/RFC4648, October 2006,
+              <https://www.rfc-editor.org/info/rfc4648>.
+
+   [RFC7049]  Bormann, C. and P. Hoffman, "Concise Binary Object
+              Representation (CBOR)", RFC 7049, DOI 10.17487/RFC7049,
+              October 2013, <https://www.rfc-editor.org/info/rfc7049>.
+
+   [RFC7252]  Shelby, Z., Hartke, K., and C. Bormann, "The Constrained
+              Application Protocol (CoAP)", RFC 7252,
+              DOI 10.17487/RFC7252, June 2014,
+              <https://www.rfc-editor.org/info/rfc7252>.
+
+6.2.  Informative References
+
+   [RFC7396]  Hoffman, P. and J. Snell, "JSON Merge Patch", RFC 7396,
+              DOI 10.17487/RFC7396, October 2014,
+              <https://www.rfc-editor.org/info/rfc7396>.
+
+Author's Address
+
+   Carsten Bormann
+   Universitaet Bremen TZI
+   Postfach 330440
+   D-28359 Bremen
+   Germany
+
+   Phone: +49-421-218-63921
+   Email: cabo@tzi.org
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Bormann                  Expires 20 August 2016                 [Page 4]

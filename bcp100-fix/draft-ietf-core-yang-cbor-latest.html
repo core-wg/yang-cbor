@@ -1,0 +1,3251 @@
+<!DOCTYPE html>
+<html lang="en" class="Internet-Draft">
+<head>
+<meta charset="utf-8">
+<meta content="Common,Latin" name="scripts">
+<meta content="initial-scale=1.0" name="viewport">
+<title>CBOR Encoding of Data Modeled with YANG</title>
+<meta content="Michel Veillette" name="author">
+<meta content="Ivaylo Petrov" name="author">
+<meta content="Alexander Pelov" name="author">
+<meta content="
+       This document defines encoding rules for serializing configuration data, state data, RPC input and RPC output, action input, action output, notifications and the yang-data extension defined within YANG modules using the Concise Binary Object Representation (CBOR,  RFC 8949). 
+    " name="description">
+<meta content="xml2rfc 3.8.0" name="generator">
+<meta content="CBOR" name="keyword">
+<meta content="draft-ietf-core-yang-cbor-15" name="ietf.draft">
+<!-- Generator version information:
+  xml2rfc 3.8.0
+    Python 3.6.7
+    appdirs 1.4.4
+    ConfigArgParse 1.4.1
+    google-i18n-address 2.4.0
+    html5lib 1.1
+    intervaltree 3.1.0
+    Jinja2 2.11.3
+    kitchen 1.2.6
+    lxml 4.6.3
+    pycountry 20.7.3
+    pyflakes 2.3.1
+    PyYAML 5.4.1
+    requests 2.25.1
+    setuptools 47.3.1
+    six 1.11.0
+-->
+<link href="draft-ietf-core-yang-cbor-latest.xml" rel="alternate" type="application/rfc+xml">
+<link href="#copyright" rel="license">
+<style type="text/css">@import url('https://martinthomson.github.io/i-d-template/fonts.css');
+
+html {
+  --background-color: #fff;
+  --text-color: #222;
+  --title-color: #191919;
+  --link-color: #2a6496;
+  --highlight-color: #f9f9f9;
+  --line-color: #eee;
+  --small-font-size: 14.5px;
+}
+body {
+  max-width: 600px;
+  margin: 75px auto;
+  padding: 0 5px;
+  color: var(--text-color);
+  background-color: var(--background-color);
+  font: 16px/22px "Lora", serif;
+  scroll-behavior: smooth;
+}
+
+.ears {
+  display: none;
+}
+
+/* headings */
+#title, h1, h2, h3, h4, h5, h6 {
+  font-family: "Cabin Condensed", sans-serif;
+  font-weight: 600;
+  margin: 0.8em 0 0.3em;
+  font-size-adjust: 0.5;
+  color: var(--title-color);
+}
+#title {
+  padding: 1em 0 0.2em;
+  font-size: 32px;
+  line-height: 40px;
+  clear: both;
+}
+h1, h2, h3 {
+  font-size: 22px;
+  line-height: 26px;
+}
+h4, h5, h6 {
+  font-size: 18px;
+  line-height: 22px;
+}
+
+/* general structure */
+.author {
+  padding-bottom: 0.3em;
+}
+#abstract+p, #abstract+p code, #abstract+p samp, #abstract+p tt {
+  font-size: 18px;
+  line-height: 24px;
+}
+p {
+  padding: 0;
+  margin: 0.5em 0;
+  text-align: left;
+}
+div {
+  margin: 0;
+}
+.alignRight.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignRight.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignRight {
+  margin: 1em 0;
+}
+.alignRight > *:first-child {
+  border: none;
+  margin: 0;
+  float: right;
+  clear: both;
+}
+.alignRight > *:nth-child(2) {
+  clear: both;
+  display: block;
+  border: none;
+}
+svg {
+  display: block;
+}
+.alignCenter.art-text {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  padding: 0.5em 1em 0;
+  margin-bottom: 0.5em;
+}
+.alignCenter.art-text pre {
+  padding: 0;
+  width: auto;
+}
+.alignCenter {
+  margin: 1em 0;
+}
+.alignCenter > *:first-child {
+  border: none;
+  /* this isn't optimal, but it's an existence proof.  PrinceXML doesn't
+     support flexbox yet.
+  */
+  display: table;
+  margin: 0 auto;
+}
+
+/* lists */
+ol, ul {
+  padding: 0;
+  margin: 0 0 1em 2em;
+}
+ol ol, ul ul, ol ul, ul ol {
+  margin-left: 1em;
+}
+li {
+  margin: 0 0 0.25em 0;
+}
+.ulCompact li {
+  margin: 0;
+}
+ul.empty, .ulEmpty {
+  list-style-type: none;
+}
+ul.empty li, .ulEmpty li {
+  margin-top: 0.5em;
+}
+ul.compact, .ulCompact,
+ol.compact, .olCompact {
+  line-height: 100%;
+  margin: 0 0 0 2em;
+}
+
+/* definition lists */
+dl {
+}
+dl > dt {
+  float: left;
+  margin-right: 1em;
+}
+dl > dd {
+  margin-bottom: .8em;
+  min-height: 1.3em;
+}
+dl.compact > dd, .dlCompact > dd {
+  margin-bottom: 0em;
+}
+dl > dd > dl {
+  margin-top: 0.5em;
+  margin-bottom: 0em;
+}
+dd.break {
+  display: none;
+}
+
+/* links */
+a, a[href].selfRef:hover {
+  text-decoration: none;
+}
+a[href].selfRef {
+  color: var(--text-color);
+}
+a[href] {
+  color: var(--link-color);
+}
+a[href]:hover {
+  text-decoration: underline;
+}
+a[href].selfRef:hover {
+  background-color: var(--highlight-color);
+}
+a.xref {
+  white-space: nowrap;
+}
+
+/* Figures */
+tt, code, pre {
+  background-color: var(--highlight-color);
+  font: 14px/22px 'Oxygen Mono', monospace;
+}
+pre {
+  border: 1px solid var(--line-color);
+  font-size: 13.5px;
+  line-height: 16px;
+  letter-spacing: -0.2px;
+  margin: 5px;
+  padding: 5px;
+}
+img {
+  max-width: 100%;
+}
+figure {
+  margin: 0.5em 0;
+}
+figure blockquote {
+  margin: 0.8em 0.4em 0.4em;
+}
+figcaption, caption {
+  font-style: italic;
+  margin: 0.5em 1.5em;
+  text-align: left;
+}
+@media screen {
+  pre {
+    display: inline-block;
+    overflow-x: auto;
+    max-width: 100%;
+    width: calc(100% - 22px - 1em);
+  }
+  figure pre {
+    display: block;
+    width: calc(100% - 25px);
+  }
+  pre + .pilcrow {
+    display: inline-block;
+    vertical-align: text-bottom;
+    padding-bottom: 8px;
+  }
+  table {
+    display: inline-block;
+    overflow-x: auto;
+  }
+}
+
+/* aside, blockquote */
+aside, blockquote {
+  margin-left: 0;
+  padding: 0 2em;
+  font-style: italic;
+}
+blockquote {
+  background-color: var(--highlight-color);
+  border: 1px solid var(--line-color);
+  border-radius: 3px;
+  margin: 1em 0;
+}
+cite {
+  display: block;
+  text-align: right;
+  font-style: italic;
+}
+
+/* tables */
+table {
+  max-width: 100%;
+  margin: 0 0 1em;
+  border-collapse: collapse;
+}
+table.right {
+  margin-left: auto;
+}
+table.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+table.left {
+  margin-right: auto;
+}
+thead, tbody {
+  border: 1px solid var(--line-color);
+}
+th, td {
+  text-align: left;
+  vertical-align: top;
+  padding: 5px 10px;
+}
+th {
+  background-color: var(--line-color);
+}
+tr:nth-child(2n) > td {
+  background-color: var(--background-color);
+}
+tr:nth-child(2n+1) > td {
+  background-color: var(--highlight-color);
+}
+thead+tbody > tr:nth-child(2n) > td {
+  background-color: var(--highlight-color);
+}
+thead+tbody > tr:nth-child(2n+1) > td {
+  background-color: var(--background-color);
+}
+table caption {
+  margin: 0;
+  padding: 3px 1em;
+}
+table p {
+  margin: 0;
+}
+
+/* pilcrow */
+a.pilcrow {
+  margin-left: 3px;
+  visibility: hidden;
+  user-select: none;
+}
+a.pilcrow[href] { color: #ddd; }
+a.pilcrow[href]:hover { text-decoration: none; }
+@media screen {
+  :hover > a.pilcrow {
+    visibility: visible;
+  }
+  a.pilcrow:hover {
+    background-color: transparent;
+  }
+}
+
+/* misc */
+hr {
+  border: 0;
+  border-top: 1px solid var(--line-color);
+}
+.bcp14 {
+  font-variant: small-caps;
+}
+
+.role {
+  font-variant: all-small-caps;
+}
+
+/* info block */
+#identifiers {
+  margin: 0;
+  font-size: var(--small-font-size);
+  line-height: 18px;
+  --identifier-width: 8em;
+}
+#identifiers dt {
+  width: var(--identifier-width);
+  margin: 0;
+  clear: left;
+  float: left;
+  text-align: right;
+}
+#identifiers dd {
+  margin: 0 0 0 calc(1em + var(--identifier-width));
+  min-width: 5em;
+}
+#identifiers .authors .author {
+  display: inline-block;
+  margin-right: 1.5em;
+}
+#identifiers .authors .org {
+  font-style: italic;
+}
+
+/* The prepared/rendered info at the very bottom of the page */
+.docInfo {
+  color: #999;
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 2em;
+}
+.docInfo .prepared {
+  float: left;
+}
+.docInfo .prepared {
+  float: right;
+}
+
+/* table of contents */
+#toc {
+  padding: 0.75em 0 2em 0;
+  margin-bottom: 1em;
+}
+#toc nav ul {
+  margin: 0 0.5em 0 0;
+  padding: 0;
+  list-style: none;
+}
+#toc nav li {
+  line-height: 1.3em;
+  margin: 0.75em 0;
+  padding-left: 1.2em;
+  text-indent: -1.2em;
+}
+#toc a.xref {
+  white-space: normal;
+}
+/* references */
+.references dt {
+  text-align: right;
+  font-weight: bold;
+  min-width: 7em;
+}
+.references dd {
+  margin-left: 8em;
+  overflow: auto;
+}
+
+.refInstance {
+  margin-bottom: 1.25em;
+}
+
+.references .ascii {
+  margin-bottom: 0.25em;
+}
+
+/* index */
+.index ul {
+  margin: 0 0 0 1em;
+  padding: 0;
+  list-style: none;
+}
+.index ul ul {
+  margin: 0;
+}
+.index li {
+  margin: 0;
+  text-indent: -2em;
+  padding-left: 2em;
+  padding-bottom: 5px;
+}
+.indexIndex {
+  margin: 0.5em 0 1em;
+}
+.index a {
+  font-weight: 700;
+}
+/* make the index two-column on all but the smallest screens */
+@media (min-width: 500px) {
+  .index ul {
+    column-count: 2;
+    column-gap: 20px;
+  }
+  .index ul ul {
+    column-count: 1;
+    column-gap: 0;
+  }
+}
+
+/* authors */
+address.vcard {
+  font-style: normal;
+  margin: 1em 0;
+}
+address.vcard .nameRole {
+  font-weight: 700;
+  margin-left: 0;
+}
+address.vcard .label {
+  margin: 0.5em 0;
+}
+address.vcard .type {
+  display: none;
+}
+.alternative-contact {
+  margin: 1.5em 0 1em;
+}
+hr.addr {
+  border-top: 1px dashed;
+  margin: 0;
+  color: #ddd;
+  max-width: calc(100% - 16px);
+}
+@media (min-width: 500px) {
+  #authors-addresses > section {
+    column-count: 2;
+    column-gap: 20px;
+  }
+  #authors-addresses > section > h2 {
+    column-span: all;
+  }
+  /* hack for break-inside: avoid-column */
+  #authors-addresses address {
+    display: inline-block;
+    break-inside: avoid-column;
+  }
+}
+
+.rfcEditorRemove p:first-of-type {
+  font-style: italic;
+}
+.cref {
+  background-color: rgba(249, 232, 105, 0.3);
+  padding: 2px 4px;
+}
+.crefSource {
+  font-style: italic;
+}
+/* alternative layout for smaller screens */
+@media screen and (max-width: 929px) {
+  #toc {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    padding: 0;
+    margin: 0;
+    border-bottom: 1px solid #ccc;
+    opacity: 0.6;
+  }
+  #toc.active {
+      opacity: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 2px 0 2px 6px;
+    padding-right: 1em;
+    font-size: 18px;
+    line-height: 24px;
+    min-width: 190px;
+    text-align: right;
+    background-color: #444;
+    color: white;
+    cursor: pointer;
+  }
+  #toc h2::before { /* css hamburger */
+    float: right;
+    position: relative;
+    width: 1em;
+    height: 1px;
+    left: -164px;
+    margin: 8px 0 0 0;
+    background: white none repeat scroll 0 0;
+    box-shadow: 0 4px 0 0 white, 0 8px 0 0 white;
+    content: "";
+  }
+  #toc nav {
+    display: none;
+    background-color: var(--background-color);
+    padding: 0.5em 1em 1em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    height: calc(100vh - 48px);
+    border-left: 1px solid #ddd;
+  }
+  #toc.active nav {
+    display: block;
+  }
+  /* Make the collapsed ToC header render white on gray also when it's a link */
+  #toc h2 a,
+  #toc h2 a:link,
+  #toc h2 a:focus,
+  #toc h2 a:hover,
+  #toc a.toplink,
+  #toc a.toplink:hover {
+    color: white;
+    background-color: #444;
+    text-decoration: none;
+  }
+  #toc a.toplink {
+    margin-top: 2px;
+  }
+}
+
+/* alternative layout for wide screens */
+@media screen and (min-width: 930px) {
+  body {
+    padding-right: 360px;
+    padding-right: calc(min(180px + 20%, 500px));
+  }
+  #toc {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    right: calc(50vw - 480px);
+    width: 312px;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+  }
+  #toc h2 {
+    margin: 0;
+    padding: 0.25em 1em 1em 0;
+  }
+  #toc nav {
+    display: block;
+    height: calc(90vh - 84px);
+    bottom: 0;
+    padding: 0.5em 0 2em;
+    overflow: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+  #toc nav > ul  {
+    margin-bottom: 2em;
+  }
+  #toc ul {
+    margin: 0 0 0 4px;
+    font-size: var(--small-font-size);
+  }
+  #toc ul p, #toc ul li {
+    margin: 2px 0;
+    line-height: 22px;
+  }
+  img { /* future proofing */
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+/* pagination */
+@media print {
+  body {
+    width: 100%;
+  }
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+  #n-copyright-notice {
+    border-bottom: none;
+  }
+  #toc, #n-introduction {
+    page-break-before: always;
+  }
+  #toc {
+    border-top: none;
+    padding-top: 0;
+  }
+  figure, pre {
+    page-break-inside: avoid;
+  }
+  figure {
+    overflow: scroll;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    page-break-after: avoid;
+  }
+  h2+*, h3+*, h4+*, h5+*, h6+* {
+    page-break-before: avoid;
+  }
+  pre {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-size: 10pt;
+  }
+  table {
+    border: 1px solid #ddd;
+  }
+  td {
+    border-top: 1px solid #ddd;
+  }
+}
+
+@page :first {
+  padding-top: 0;
+  @top-left {
+    content: normal;
+    border: none;
+  }
+  @top-center {
+    content: normal;
+    border: none;
+  }
+  @top-right {
+    content: normal;
+    border: none;
+  }
+}
+
+@page {
+  size: A4;
+  margin-bottom: 45mm;
+  padding-top: 20px;
+}
+
+/* Changes introduced to fix issues found during implementation */
+
+/* Separate body from document info even without intervening H1 */
+section {
+  clear: both;
+}
+
+/* Top align author divs, to avoid names without organization dropping level with org names */
+.author {
+  vertical-align: top;
+}
+
+/* Style section numbers with more space between number and title */
+.section-number {
+  padding-right: 0.5em;
+}
+
+/* Add styling for a link in the ToC that points to the top of the document */
+a.toplink {
+  float: right;
+  margin: 8px 0.5em 0;
+}
+
+/* Fix the dl styling to match the RFC 7992 attributes */
+dl > dt,
+dl.dlParallel > dt {
+  float: left;
+  margin-right: 1em;
+}
+dl.dlNewline > dt {
+  float: none;
+}
+
+/* Provide styling for table cell text alignment */
+table .text-left, table .text-left {
+  text-align: left;
+}
+table .text-center, table .text-center {
+  text-align: center;
+}
+table .text-right, table .text-right {
+  text-align: right;
+}
+
+/* Make the alternative author contact information look less like just another
+   author, and group it closer with the primary author contact information */
+.alternative-contact {
+  margin: 0.5em 0 0.25em 0;
+}
+address .non-ascii {
+  margin: 0 0 0 2em;
+}
+
+/* With it being possible to set tables with alignment
+  left, center, and right, { width: 100%; } does not make sense */
+table {
+  width: auto;
+}
+
+/* Avoid reference text that sits in a block with very wide left margin,
+   because of a long floating dt label.*/
+.references dd {
+  overflow: visible;
+}
+
+/* Control caption placement */
+caption {
+  caption-side: bottom;
+}
+
+/* Limit the width of the author address vcard, so names in right-to-left
+   script don't end up on the other side of the page. */
+
+address.vcard {
+  max-width: 20em;
+  margin-right: auto;
+}
+
+/* For address alignment dependent on LTR or RTL scripts */
+address div.left {
+  text-align: left;
+}
+address div.right {
+  text-align: right;
+}
+
+/* Give the table caption label the same styling as the figcaption */
+
+@media print {
+  .toplink {
+    display: none;
+  }
+
+  /* avoid overwriting the top border line with the ToC header */
+  #toc {
+    padding-top: 1px;
+  }
+
+  /* Avoid page breaks inside dl and author address entries */
+  dd {
+    page-break-before: avoid;
+  }
+  .vcard {
+    page-break-inside: avoid;
+  }
+
+}
+/* Tweak the bcp14 keyword presentation */
+.bcp14 {
+  font-variant: small-caps;
+  font-weight: bold;
+  font-size: 0.9em;
+}
+</style>
+<link href="rfc-local.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<table class="ears">
+<thead><tr>
+<td class="left">Internet-Draft</td>
+<td class="center">CBOR Encoding of Data Modeled with YANG</td>
+<td class="right">May 2021</td>
+</tr></thead>
+<tfoot><tr>
+<td class="left">Veillette, et al.</td>
+<td class="center">Expires 2 December 2021</td>
+<td class="right">[Page]</td>
+</tr></tfoot>
+</table>
+<div id="external-metadata" class="document-information"></div>
+<div id="internal-metadata" class="document-information">
+<dl id="identifiers">
+<dt class="label-workgroup">Workgroup:</dt>
+<dd class="workgroup">Internet Engineering Task Force</dd>
+<dt class="label-internet-draft">Internet-Draft:</dt>
+<dd class="internet-draft">draft-ietf-core-yang-cbor-15</dd>
+<dt class="label-published">Published:</dt>
+<dd class="published">
+<time datetime="2021-05-31" class="published">31 May 2021</time>
+    </dd>
+<dt class="label-intended-status">Intended Status:</dt>
+<dd class="intended-status">Standards Track</dd>
+<dt class="label-expires">Expires:</dt>
+<dd class="expires"><time datetime="2021-12-02">2 December 2021</time></dd>
+<dt class="label-authors">Authors:</dt>
+<dd class="authors">
+<div class="author">
+      <div class="author-name">M. Veillette, <span class="editor">Ed.</span>
+</div>
+<div class="org">Trilliant Networks Inc.</div>
+</div>
+<div class="author">
+      <div class="author-name">I. Petrov, <span class="editor">Ed.</span>
+</div>
+<div class="org">Google Switzerland GmbH</div>
+</div>
+<div class="author">
+      <div class="author-name">A. Pelov</div>
+<div class="org">Acklio</div>
+</div>
+</dd>
+</dl>
+</div>
+<h1 id="title">CBOR Encoding of Data Modeled with YANG</h1>
+<section id="section-abstract">
+      <h2 id="abstract"><a href="#abstract" class="selfRef">Abstract</a></h2>
+<p id="section-abstract-1">This document defines encoding rules for serializing configuration data, state data, RPC input and RPC output, action input, action output, notifications and the yang-data extension defined within YANG modules using the Concise Binary Object Representation (CBOR,  RFC 8949).<a href="#section-abstract-1" class="pilcrow">¶</a></p>
+</section>
+<div id="status-of-memo">
+<section id="section-boilerplate.1">
+        <h2 id="name-status-of-this-memo">
+<a href="#name-status-of-this-memo" class="section-name selfRef">Status of This Memo</a>
+        </h2>
+<p id="section-boilerplate.1-1">
+        This Internet-Draft is submitted in full conformance with the
+        provisions of BCP 78 and BCP 79.<a href="#section-boilerplate.1-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-2">
+        Internet-Drafts are working documents of the Internet Engineering Task
+        Force (IETF). Note that other groups may also distribute working
+        documents as Internet-Drafts. The list of current Internet-Drafts is
+        at <span><a href="https://datatracker.ietf.org/drafts/current/">https://datatracker.ietf.org/drafts/current/</a></span>.<a href="#section-boilerplate.1-2" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-3">
+        Internet-Drafts are draft documents valid for a maximum of six months
+        and may be updated, replaced, or obsoleted by other documents at any
+        time. It is inappropriate to use Internet-Drafts as reference
+        material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.1-4">
+        This Internet-Draft will expire on 2 December 2021.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="copyright">
+<section id="section-boilerplate.2">
+        <h2 id="name-copyright-notice">
+<a href="#name-copyright-notice" class="section-name selfRef">Copyright Notice</a>
+        </h2>
+<p id="section-boilerplate.2-1">
+            Copyright (c) 2021 IETF Trust and the persons identified as the
+            document authors. All rights reserved.<a href="#section-boilerplate.2-1" class="pilcrow">¶</a></p>
+<p id="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<span><a href="https://trustee.ietf.org/license-info">https://trustee.ietf.org/license-info</a></span>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document. Code Components extracted from this
+            document must include Simplified BSD License text as described in
+            Section 4.e of the Trust Legal Provisions and are provided without
+            warranty as described in the Simplified BSD License.<a href="#section-boilerplate.2-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="toc">
+<section id="section-toc.1">
+        <a href="#" onclick="scroll(0,0)" class="toplink">▲</a><h2 id="name-table-of-contents">
+<a href="#name-table-of-contents" class="section-name selfRef">Table of Contents</a>
+        </h2>
+<nav class="toc"><ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.1">
+            <p id="section-toc.1-1.1.1" class="keepWithNext"><a href="#section-1" class="xref">1</a>.  <a href="#name-introduction" class="xref">Introduction</a></p>
+</li>
+          <li class="ulEmpty toc compact" id="section-toc.1-1.2">
+            <p id="section-toc.1-1.2.1" class="keepWithNext"><a href="#section-2" class="xref">2</a>.  <a href="#name-terminology-and-notation" class="xref">Terminology and Notation</a></p>
+</li>
+          <li class="ulEmpty toc compact" id="section-toc.1-1.3">
+            <p id="section-toc.1-1.3.1"><a href="#section-3" class="xref">3</a>.  <a href="#name-properties-of-the-cbor-enco" class="xref">Properties of the CBOR Encoding</a></p>
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.3.2.1">
+                <p id="section-toc.1-1.3.2.1.1" class="keepWithNext"><a href="#section-3.1" class="xref">3.1</a>.  <a href="#name-cbor-diagnostic-notation" class="xref">CBOR diagnostic notation</a></p>
+</li>
+              <li class="ulEmpty toc compact" id="section-toc.1-1.3.2.2">
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="xref">3.2</a>.  <a href="#name-yang-schema-item-identifier" class="xref">YANG Schema Item iDentifier</a></p>
+</li>
+              <li class="ulEmpty toc compact" id="section-toc.1-1.3.2.3">
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="xref">3.3</a>.  <a href="#name-name" class="xref">Name</a></p>
+</li>
+            </ul>
+</li>
+          <li class="ulEmpty toc compact" id="section-toc.1-1.4">
+            <p id="section-toc.1-1.4.1"><a href="#section-4" class="xref">4</a>.  <a href="#name-encoding-of-yang-schema-nod" class="xref">Encoding of YANG Schema Node Instances</a></p>
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.4.2.1">
+                <p id="section-toc.1-1.4.2.1.1"><a href="#section-4.1" class="xref">4.1</a>.  <a href="#name-the-leaf" class="xref">The 'leaf'</a></p>
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.4.2.1.2.1">
+                    <p id="section-toc.1-1.4.2.1.2.1.1"><a href="#section-4.1.1" class="xref">4.1.1</a>.  <a href="#name-using-sids-in-keys" class="xref">Using SIDs in keys</a></p>
+</li>
+                  <li class="ulEmpty toc compact" id="section-toc.1-1.4.2.1.2.2">
+                    <p id="section-toc.1-1.4.2.1.2.2.1"><a href="#section-4.1.2" class="xref">4.1.2</a>.  <a href="#name-using-names-in-keys" class="xref">Using names in keys</a></p>
+</li>
+                </ul>
+</li>
+              <li class="ulEmpty toc compact" id="section-toc.1-1.4.2.2">
+                <p id="section-toc.1-1.4.2.2.1"><a href="#section-4.2" class="xref">4.2</a>.  <a href="#name-the-container-and-other-nod" class="xref">The 'container' and other nodes from the data tree</a></p>
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.4.2.2.2.1">
+                    <p id="section-toc.1-1.4.2.2.2.1.1"><a href="#section-4.2.1" class="xref">4.2.1</a>.  <a href="#name-using-sids-in-keys-2" class="xref">Using SIDs in keys</a></p>
+</li>
+                  <li class="ulEmpty toc compact" id="section-toc.1-1.4.2.2.2.2">
+                    <p id="section-toc.1-1.4.2.2.2.2.1"><a href="#section-4.2.2" class="xref">4.2.2</a>.  <a href="#name-using-names-in-keys-2" class="xref">Using names in keys</a></p>
+</li>
+                </ul>
+</li>
+              <li class="ulEmpty toc compact" id="section-toc.1-1.4.2.3">
+                <p id="section-toc.1-1.4.2.3.1"><a href="#section-4.3" class="xref">4.3</a>.  <a href="#name-the-leaf-list" class="xref">The 'leaf-list'</a></p>
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.4.2.3.2.1">
+                    <p id="section-toc.1-1.4.2.3.2.1.1"><a href="#section-4.3.1" class="xref">4.3.1</a>.  <a href="#name-using-sids-in-keys-3" class="xref">Using SIDs in keys</a></p>
+</li>
+                  <li class="ulEmpty toc compact" id="section-toc.1-1.4.2.3.2.2">
+                    <p id="section-toc.1-1.4.2.3.2.2.1"><a href="#section-4.3.2" class="xref">4.3.2</a>.  <a href="#name-using-names-in-keys-3" class="xref">Using names in keys</a></p>
+</li>
+                </ul>
+</li>
+              <li class="ulEmpty toc compact" id="section-toc.1-1.4.2.4">
+                <p id="section-toc.1-1.4.2.4.1"><a href="#section-4.4" class="xref">4.4</a>.  <a href="#name-the-list-and-list-entries" class="xref">The 'list' and 'list' entries</a></p>
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.4.2.4.2.1">
+                    <p id="section-toc.1-1.4.2.4.2.1.1"><a href="#section-4.4.1" class="xref">4.4.1</a>.  <a href="#name-using-sids-in-keys-4" class="xref">Using SIDs in keys</a></p>
+</li>
+                  <li class="ulEmpty toc compact" id="section-toc.1-1.4.2.4.2.2">
+                    <p id="section-toc.1-1.4.2.4.2.2.1"><a href="#section-4.4.2" class="xref">4.4.2</a>.  <a href="#name-using-names-in-keys-4" class="xref">Using names in keys</a></p>
+</li>
+                </ul>
+</li>
+              <li class="ulEmpty toc compact" id="section-toc.1-1.4.2.5">
+                <p id="section-toc.1-1.4.2.5.1"><a href="#section-4.5" class="xref">4.5</a>.  <a href="#name-the-anydata" class="xref">The 'anydata'</a></p>
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.4.2.5.2.1">
+                    <p id="section-toc.1-1.4.2.5.2.1.1"><a href="#section-4.5.1" class="xref">4.5.1</a>.  <a href="#name-using-sids-in-keys-5" class="xref">Using SIDs in keys</a></p>
+</li>
+                  <li class="ulEmpty toc compact" id="section-toc.1-1.4.2.5.2.2">
+                    <p id="section-toc.1-1.4.2.5.2.2.1"><a href="#section-4.5.2" class="xref">4.5.2</a>.  <a href="#name-using-names-in-keys-5" class="xref">Using names in keys</a></p>
+</li>
+                </ul>
+</li>
+              <li class="ulEmpty toc compact" id="section-toc.1-1.4.2.6">
+                <p id="section-toc.1-1.4.2.6.1"><a href="#section-4.6" class="xref">4.6</a>.  <a href="#name-the-anyxml" class="xref">The 'anyxml'</a></p>
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.4.2.6.2.1">
+                    <p id="section-toc.1-1.4.2.6.2.1.1"><a href="#section-4.6.1" class="xref">4.6.1</a>.  <a href="#name-using-sids-in-keys-6" class="xref">Using SIDs in keys</a></p>
+</li>
+                  <li class="ulEmpty toc compact" id="section-toc.1-1.4.2.6.2.2">
+                    <p id="section-toc.1-1.4.2.6.2.2.1"><a href="#section-4.6.2" class="xref">4.6.2</a>.  <a href="#name-using-names-in-keys-6" class="xref">Using names in keys</a></p>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+          <li class="ulEmpty toc compact" id="section-toc.1-1.5">
+            <p id="section-toc.1-1.5.1"><a href="#section-5" class="xref">5</a>.  <a href="#name-encoding-of-yang-data-exten" class="xref">Encoding of 'yang-data' extension</a></p>
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.5.2.1">
+                <p id="section-toc.1-1.5.2.1.1"><a href="#section-5.1" class="xref">5.1</a>.  <a href="#name-using-sids-in-keys-7" class="xref">Using SIDs in keys</a></p>
+</li>
+              <li class="ulEmpty toc compact" id="section-toc.1-1.5.2.2">
+                <p id="section-toc.1-1.5.2.2.1"><a href="#section-5.2" class="xref">5.2</a>.  <a href="#name-using-names-in-keys-7" class="xref">Using names in keys</a></p>
+</li>
+            </ul>
+</li>
+          <li class="ulEmpty toc compact" id="section-toc.1-1.6">
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="xref">6</a>.  <a href="#name-representing-yang-data-type" class="xref">Representing YANG Data Types in CBOR</a></p>
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.6.2.1">
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="xref">6.1</a>.  <a href="#name-the-unsigned-integer-types" class="xref">The unsigned integer Types</a></p>
+</li>
+              <li class="ulEmpty toc compact" id="section-toc.1-1.6.2.2">
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="xref">6.2</a>.  <a href="#name-the-integer-types" class="xref">The integer Types</a></p>
+</li>
+              <li class="ulEmpty toc compact" id="section-toc.1-1.6.2.3">
+                <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="xref">6.3</a>.  <a href="#name-the-decimal64-type" class="xref">The 'decimal64' Type</a></p>
+</li>
+              <li class="ulEmpty toc compact" id="section-toc.1-1.6.2.4">
+                <p id="section-toc.1-1.6.2.4.1"><a href="#section-6.4" class="xref">6.4</a>.  <a href="#name-the-string-type" class="xref">The 'string' Type</a></p>
+</li>
+              <li class="ulEmpty toc compact" id="section-toc.1-1.6.2.5">
+                <p id="section-toc.1-1.6.2.5.1"><a href="#section-6.5" class="xref">6.5</a>.  <a href="#name-the-boolean-type" class="xref">The 'boolean' Type</a></p>
+</li>
+              <li class="ulEmpty toc compact" id="section-toc.1-1.6.2.6">
+                <p id="section-toc.1-1.6.2.6.1"><a href="#section-6.6" class="xref">6.6</a>.  <a href="#name-the-enumeration-type" class="xref">The 'enumeration' Type</a></p>
+</li>
+              <li class="ulEmpty toc compact" id="section-toc.1-1.6.2.7">
+                <p id="section-toc.1-1.6.2.7.1"><a href="#section-6.7" class="xref">6.7</a>.  <a href="#name-the-bits-type" class="xref">The 'bits' Type</a></p>
+</li>
+              <li class="ulEmpty toc compact" id="section-toc.1-1.6.2.8">
+                <p id="section-toc.1-1.6.2.8.1"><a href="#section-6.8" class="xref">6.8</a>.  <a href="#name-the-binary-type" class="xref">The 'binary' Type</a></p>
+</li>
+              <li class="ulEmpty toc compact" id="section-toc.1-1.6.2.9">
+                <p id="section-toc.1-1.6.2.9.1"><a href="#section-6.9" class="xref">6.9</a>.  <a href="#name-the-leafref-type" class="xref">The 'leafref' Type</a></p>
+</li>
+              <li class="ulEmpty toc compact" id="section-toc.1-1.6.2.10">
+                <p id="section-toc.1-1.6.2.10.1"><a href="#section-6.10" class="xref">6.10</a>. <a href="#name-the-identityref-type" class="xref">The 'identityref' Type</a></p>
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.6.2.10.2.1">
+                    <p id="section-toc.1-1.6.2.10.2.1.1"><a href="#section-6.10.1" class="xref">6.10.1</a>.  <a href="#name-sids-as-identityref" class="xref">SIDs as identityref</a></p>
+</li>
+                  <li class="ulEmpty toc compact" id="section-toc.1-1.6.2.10.2.2">
+                    <p id="section-toc.1-1.6.2.10.2.2.1"><a href="#section-6.10.2" class="xref">6.10.2</a>.  <a href="#name-name-as-identityref" class="xref">Name as identityref</a></p>
+</li>
+                </ul>
+</li>
+              <li class="ulEmpty toc compact" id="section-toc.1-1.6.2.11">
+                <p id="section-toc.1-1.6.2.11.1"><a href="#section-6.11" class="xref">6.11</a>. <a href="#name-the-empty-type" class="xref">The 'empty' Type</a></p>
+</li>
+              <li class="ulEmpty toc compact" id="section-toc.1-1.6.2.12">
+                <p id="section-toc.1-1.6.2.12.1"><a href="#section-6.12" class="xref">6.12</a>. <a href="#name-the-union-type" class="xref">The 'union' Type</a></p>
+</li>
+              <li class="ulEmpty toc compact" id="section-toc.1-1.6.2.13">
+                <p id="section-toc.1-1.6.2.13.1"><a href="#section-6.13" class="xref">6.13</a>. <a href="#name-the-instance-identifier-typ" class="xref">The 'instance-identifier' Type</a></p>
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.6.2.13.2.1">
+                    <p id="section-toc.1-1.6.2.13.2.1.1"><a href="#section-6.13.1" class="xref">6.13.1</a>.  <a href="#name-sids-as-instance-identifier" class="xref">SIDs as instance-identifier</a></p>
+</li>
+                  <li class="ulEmpty toc compact" id="section-toc.1-1.6.2.13.2.2">
+                    <p id="section-toc.1-1.6.2.13.2.2.1"><a href="#section-6.13.2" class="xref">6.13.2</a>.  <a href="#name-names-as-instance-identifie" class="xref">Names as instance-identifier</a></p>
+</li>
+                </ul>
+</li>
+            </ul>
+</li>
+          <li class="ulEmpty toc compact" id="section-toc.1-1.7">
+            <p id="section-toc.1-1.7.1"><a href="#section-7" class="xref">7</a>.  <a href="#name-content-types" class="xref">Content-Types</a></p>
+</li>
+          <li class="ulEmpty toc compact" id="section-toc.1-1.8">
+            <p id="section-toc.1-1.8.1"><a href="#section-8" class="xref">8</a>.  <a href="#name-security-considerations" class="xref">Security Considerations</a></p>
+</li>
+          <li class="ulEmpty toc compact" id="section-toc.1-1.9">
+            <p id="section-toc.1-1.9.1"><a href="#section-9" class="xref">9</a>.  <a href="#name-iana-considerations" class="xref">IANA Considerations</a></p>
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.9.2.1">
+                <p id="section-toc.1-1.9.2.1.1"><a href="#section-9.1" class="xref">9.1</a>.  <a href="#name-media-types-registry" class="xref">Media-Types Registry</a></p>
+</li>
+              <li class="ulEmpty toc compact" id="section-toc.1-1.9.2.2">
+                <p id="section-toc.1-1.9.2.2.1"><a href="#section-9.2" class="xref">9.2</a>.  <a href="#name-coap-content-formats-regist" class="xref">CoAP Content-Formats Registry</a></p>
+</li>
+              <li class="ulEmpty toc compact" id="section-toc.1-1.9.2.3">
+                <p id="section-toc.1-1.9.2.3.1"><a href="#section-9.3" class="xref">9.3</a>.  <a href="#name-cbor-tags-registry" class="xref">CBOR Tags Registry</a></p>
+</li>
+            </ul>
+</li>
+          <li class="ulEmpty toc compact" id="section-toc.1-1.10">
+            <p id="section-toc.1-1.10.1"><a href="#section-10" class="xref">10</a>. <a href="#name-acknowledgments" class="xref">Acknowledgments</a></p>
+</li>
+          <li class="ulEmpty toc compact" id="section-toc.1-1.11">
+            <p id="section-toc.1-1.11.1"><a href="#section-11" class="xref">11</a>. <a href="#name-references" class="xref">References</a></p>
+<ul class="ulEmpty toc compact">
+<li class="ulEmpty toc compact" id="section-toc.1-1.11.2.1">
+                <p id="section-toc.1-1.11.2.1.1"><a href="#section-11.1" class="xref">11.1</a>.  <a href="#name-normative-references" class="xref">Normative References</a></p>
+</li>
+              <li class="ulEmpty toc compact" id="section-toc.1-1.11.2.2">
+                <p id="section-toc.1-1.11.2.2.1"><a href="#section-11.2" class="xref">11.2</a>.  <a href="#name-informative-references" class="xref">Informative References</a></p>
+</li>
+            </ul>
+</li>
+          <li class="ulEmpty toc compact" id="section-toc.1-1.12">
+            <p id="section-toc.1-1.12.1"><a href="#section-appendix.a" class="xref"></a><a href="#name-authors-addresses" class="xref">Authors' Addresses</a></p>
+</li>
+        </ul>
+</nav>
+</section>
+</div>
+<div id="introduction">
+<section id="section-1">
+      <h2 id="name-introduction">
+<a href="#section-1" class="section-number selfRef">1. </a><a href="#name-introduction" class="section-name selfRef">Introduction</a>
+      </h2>
+<p id="section-1-1">The specification of the YANG 1.1 data modeling language <span>[<a href="#RFC7950" class="xref">RFC7950</a>]</span> defines an XML encoding for data instances, i.e., contents of configuration datastores, state data, RPC inputs and outputs, action inputs and outputs, and event notifications.<a href="#section-1-1" class="pilcrow">¶</a></p>
+<p id="section-1-2">An additional set of encoding rules has been defined in <span>[<a href="#RFC7951" class="xref">RFC7951</a>]</span> based on
+the JavaScript Object Notation (JSON) Data Interchange Format <span>[<a href="#RFC8259" class="xref">RFC8259</a>]</span>.<a href="#section-1-2" class="pilcrow">¶</a></p>
+<p id="section-1-3">The aim of this document is to define a set of encoding rules for the Concise Binary Object Representation (CBOR) <span>[<a href="#RFC8949" class="xref">RFC8949</a>]</span>. The resulting encoding is more compact compared to XML and JSON and more suitable for Constrained Nodes and/or Constrained Networks as defined by <span>[<a href="#RFC7228" class="xref">RFC7228</a>]</span>.<a href="#section-1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="terminology-and-notation">
+<section id="section-2">
+      <h2 id="name-terminology-and-notation">
+<a href="#section-2" class="section-number selfRef">2. </a><a href="#name-terminology-and-notation" class="section-name selfRef">Terminology and Notation</a>
+      </h2>
+<p id="section-2-1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD",
+"SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this
+document are to be interpreted as described in BCP 14 <span>[<a href="#RFC2119" class="xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="xref">RFC8174</a>]</span>
+when, and only when, they appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
+<p id="section-2-2">The following terms are defined in <span>[<a href="#RFC7950" class="xref">RFC7950</a>]</span>:<a href="#section-2-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2-3.1">action<a href="#section-2-3.1" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-2-3.2">anydata<a href="#section-2-3.2" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-2-3.3">anyxml<a href="#section-2-3.3" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-2-3.4">data node<a href="#section-2-3.4" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-2-3.5">data tree<a href="#section-2-3.5" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-2-3.6">datastore<a href="#section-2-3.6" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-2-3.7">feature<a href="#section-2-3.7" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-2-3.8">identity<a href="#section-2-3.8" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-2-3.9">module<a href="#section-2-3.9" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-2-3.10">notification<a href="#section-2-3.10" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-2-3.11">RPC<a href="#section-2-3.11" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-2-3.12">schema node<a href="#section-2-3.12" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-2-3.13">schema tree<a href="#section-2-3.13" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-2-3.14">submodule<a href="#section-2-3.14" class="pilcrow">¶</a>
+</li>
+      </ul>
+<p id="section-2-4">The following terms are defined in <span>[<a href="#RFC8040" class="xref">RFC8040</a>]</span>:<a href="#section-2-4" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2-5.1">yang-data extension<a href="#section-2-5.1" class="pilcrow">¶</a>
+</li>
+      </ul>
+<p id="section-2-6">This specification also makes use of the following terminology:<a href="#section-2-6" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-2-7.1">child: A schema node defined as a child node of a container, a list, a case, a notification, an RPC input, an RPC output, an action input, or an action output.<a href="#section-2-7.1" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-2-7.2">YANG Schema Item iDentifier (YANG SID or simply SID): Unsigned integer used to identify different YANG items.<a href="#section-2-7.2" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-2-7.3">delta: Difference between the current YANG SID and a reference YANG SID. A reference YANG SID is defined for each context for which deltas are used.<a href="#section-2-7.3" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-2-7.4">item: A schema node, an identity, a module, a submodule, or a feature defined using the YANG modeling language.<a href="#section-2-7.4" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-2-7.5">list entry: the data associated with a single element of a list.<a href="#section-2-7.5" class="pilcrow">¶</a>
+</li>
+        <li class="normal" id="section-2-7.6">parent: The container, list, case, notification, RPC input, RPC output, action input or action output node in which a schema node is defined.<a href="#section-2-7.6" class="pilcrow">¶</a>
+</li>
+      </ul>
+</section>
+</div>
+<div id="properties-of-cbor-encoding">
+<section id="section-3">
+      <h2 id="name-properties-of-the-cbor-enco">
+<a href="#section-3" class="section-number selfRef">3. </a><a href="#name-properties-of-the-cbor-enco" class="section-name selfRef">Properties of the CBOR Encoding</a>
+      </h2>
+<p id="section-3-1">This document defines CBOR encoding rules for YANG data trees and their subtrees.<a href="#section-3-1" class="pilcrow">¶</a></p>
+<p id="section-3-2">An instance of a schema node such as container, list, notification, RPC input, RPC output, action input, or action output is serialized using a CBOR map in which each child schema node is encoded using a key and a value. This specification supports two types of CBOR keys; YANG Schema Item iDentifier (YANG SID) as defined in <a href="#sid" class="xref">Section 3.2</a> and names as defined in <a href="#name" class="xref">Section 3.3</a>. Each of these key types is encoded using a specific CBOR type which allows their interpretation during the deserialization process. Protocols or mechanisms implementing this specification can mandate the use of a specific key type.<a href="#section-3-2" class="pilcrow">¶</a></p>
+<p id="section-3-3">In order to minimize the size of the encoded data, the proposed mapping avoids any unnecessary meta-information beyond those natively supported by CBOR. For instance, CBOR tags are used solely in the case of a SID not encoded as delta, anyxml schema nodes, or the union datatype, to distinguish explicitly the use of different YANG datatypes encoded using the same CBOR major type.<a href="#section-3-3" class="pilcrow">¶</a></p>
+<p id="section-3-4">Unless specified otherwise by the protocol or mechanism implementing this specification, the indefinite lengths encoding as defined in <span><a href="https://rfc-editor.org/rfc/rfc8949#section-3.2" class="relref">Section 3.2</a> of [<a href="#RFC8949" class="xref">RFC8949</a>]</span> SHALL be supported by CBOR decoders.<a href="#section-3-4" class="pilcrow">¶</a></p>
+<p id="section-3-5">Data nodes implemented using a CBOR array, map, byte string, or text string can be instantiated but empty. In this case, they are encoded with a length of zero.<a href="#section-3-5" class="pilcrow">¶</a></p>
+<p id="section-3-6">When schema nodes are serialized using the rules defined by this specification as part of an application payload, the payload SHOULD include information that would allow a stateless way to identify each node, such as the SID number associated with the node, SID delta from another SID in the application payload, the namespace qualified name, or the instance-identifier.<a href="#section-3-6" class="pilcrow">¶</a></p>
+<p id="section-3-7">Examples in <a href="#instance-encoding" class="xref">Section 4</a> include a root CBOR map with a single entry having a key set to either a namespace qualified name or a SID. This root CBOR map is provided only as a typical usage example and is not part of the present encoding rules. Only the value within this CBOR map is compulsory.<a href="#section-3-7" class="pilcrow">¶</a></p>
+<div id="cbor-diagnostic-notation">
+<section id="section-3.1">
+        <h3 id="name-cbor-diagnostic-notation">
+<a href="#section-3.1" class="section-number selfRef">3.1. </a><a href="#name-cbor-diagnostic-notation" class="section-name selfRef">CBOR diagnostic notation</a>
+        </h3>
+<p id="section-3.1-1">Within this document, CBOR binary contents are represented using an equivalent textual form called CBOR diagnostic notation as defined in <span><a href="https://rfc-editor.org/rfc/rfc8949#section-8" class="relref">Section 8</a> of [<a href="#RFC8949" class="xref">RFC8949</a>]</span>. This notation is used strictly for documentation purposes and is never used in the data serialization. <a href="#diagnostic-notation-summary" class="xref">Table 1</a> below provides a summary of this notation.<a href="#section-3.1-1" class="pilcrow">¶</a></p>
+<span id="name-cbor-diagnostic-notation-su"></span><div id="diagnostic-notation-summary">
+<table class="center" id="table-1">
+          <caption>
+<a href="#table-1" class="selfRef">Table 1</a>:
+<a href="#name-cbor-diagnostic-notation-su" class="selfRef">CBOR diagnostic notation summary</a>
+          </caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">CBOR content</th>
+              <th class="text-left" rowspan="1" colspan="1">CBOR type</th>
+              <th class="text-left" rowspan="1" colspan="1">Diagnostic notation</th>
+              <th class="text-left" rowspan="1" colspan="1">Example</th>
+              <th class="text-left" rowspan="1" colspan="1">CBOR encoding</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Unsigned integer</td>
+              <td class="text-left" rowspan="1" colspan="1">0</td>
+              <td class="text-left" rowspan="1" colspan="1">Decimal digits</td>
+              <td class="text-left" rowspan="1" colspan="1">123</td>
+              <td class="text-left" rowspan="1" colspan="1">18 7B</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Negative integer</td>
+              <td class="text-left" rowspan="1" colspan="1">1</td>
+              <td class="text-left" rowspan="1" colspan="1">Decimal digits prefixed by a minus sign</td>
+              <td class="text-left" rowspan="1" colspan="1">-123</td>
+              <td class="text-left" rowspan="1" colspan="1">38 7A</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Byte string</td>
+              <td class="text-left" rowspan="1" colspan="1">2</td>
+              <td class="text-left" rowspan="1" colspan="1">Hexadecimal value enclosed between single quotes and prefixed by an 'h'</td>
+              <td class="text-left" rowspan="1" colspan="1">h'F15C'</td>
+              <td class="text-left" rowspan="1" colspan="1">42 F15C</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Text string</td>
+              <td class="text-left" rowspan="1" colspan="1">3</td>
+              <td class="text-left" rowspan="1" colspan="1">String of Unicode characters enclosed between double quotes</td>
+              <td class="text-left" rowspan="1" colspan="1">"txt"</td>
+              <td class="text-left" rowspan="1" colspan="1">63 747874</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Array</td>
+              <td class="text-left" rowspan="1" colspan="1">4</td>
+              <td class="text-left" rowspan="1" colspan="1">Comma-separated list of values within square brackets</td>
+              <td class="text-left" rowspan="1" colspan="1">[ 1, 2 ]</td>
+              <td class="text-left" rowspan="1" colspan="1">82 01 02</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Map</td>
+              <td class="text-left" rowspan="1" colspan="1">5</td>
+              <td class="text-left" rowspan="1" colspan="1">Comma-separated list of key : value pairs within curly braces</td>
+              <td class="text-left" rowspan="1" colspan="1">{ 1: 123, 2: 456 }</td>
+              <td class="text-left" rowspan="1" colspan="1">A2 01187B 021901C8</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Boolean</td>
+              <td class="text-left" rowspan="1" colspan="1">7/20</td>
+              <td class="text-left" rowspan="1" colspan="1">false</td>
+              <td class="text-left" rowspan="1" colspan="1">false</td>
+              <td class="text-left" rowspan="1" colspan="1">F4</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">7/21</td>
+              <td class="text-left" rowspan="1" colspan="1">true</td>
+              <td class="text-left" rowspan="1" colspan="1">true</td>
+              <td class="text-left" rowspan="1" colspan="1">F5</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Null</td>
+              <td class="text-left" rowspan="1" colspan="1">7/22</td>
+              <td class="text-left" rowspan="1" colspan="1">null</td>
+              <td class="text-left" rowspan="1" colspan="1">null</td>
+              <td class="text-left" rowspan="1" colspan="1">F6</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">Not assigned</td>
+              <td class="text-left" rowspan="1" colspan="1">7/23</td>
+              <td class="text-left" rowspan="1" colspan="1">undefined</td>
+              <td class="text-left" rowspan="1" colspan="1">undefined</td>
+              <td class="text-left" rowspan="1" colspan="1">F7</td>
+            </tr>
+          </tbody>
+        </table>
+</div>
+<p id="section-3.1-3">Note: CBOR binary contents shown in this specification are annotated with comments. These comments are delimited by slashes ("/") as defined in <span>[<a href="#RFC8610" class="xref">RFC8610</a>]</span> Appendix G.6.<a href="#section-3.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="sid">
+<section id="section-3.2">
+        <h3 id="name-yang-schema-item-identifier">
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-yang-schema-item-identifier" class="section-name selfRef">YANG Schema Item iDentifier</a>
+        </h3>
+<p id="section-3.2-1">Some of the items defined in YANG <span>[<a href="#RFC7950" class="xref">RFC7950</a>]</span> require the use of a unique identifier.  In both Network Configuration Protocol (NETCONF) <span>[<a href="#RFC6241" class="xref">RFC6241</a>]</span> and RESTCONF <span>[<a href="#RFC8040" class="xref">RFC8040</a>]</span>, these identifiers are implemented using strings.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called YANG Schema Item iDentifier, is an unsigned integer. The following items are identified using YANG SIDs (often shortened to SIDs):<a href="#section-3.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.2-2.1">identities<a href="#section-3.2-2.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.2-2.2">data nodes<a href="#section-3.2-2.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.2-2.3">RPCs and associated input(s) and output(s)<a href="#section-3.2-2.3" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.2-2.4">actions and associated input(s) and output(s)<a href="#section-3.2-2.4" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.2-2.5">notifications and associated information<a href="#section-3.2-2.5" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.2-2.6">YANG modules, submodules, and features<a href="#section-3.2-2.6" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-3.2-3">To minimize their size, SIDs used as keys in inner CBOR maps are typically encoded using deltas. Conversion from SIDs to deltas and back to SIDs are stateless processes solely based on the data serialized or deserialized. These SIDs may also be encoded as absolute number when enclosed by CBOR tag 47.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
+<p id="section-3.2-4">Mechanisms and processes used to assign SIDs to YANG items and to guarantee their uniqueness are outside the scope of the present specification. If SIDs are to be used, the present specification is used in conjunction with a specification defining this management. One example for such a specification is <span>[<a href="#I-D.ietf-core-sid" class="xref">I-D.ietf-core-sid</a>]</span>.<a href="#section-3.2-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="name">
+<section id="section-3.3">
+        <h3 id="name-name">
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-name" class="section-name selfRef">Name</a>
+        </h3>
+<p id="section-3.3-1">This specification also supports the encoding of YANG item identifiers as strings, similar to those used by the JSON Encoding of Data Modeled with YANG <span>[<a href="#RFC7951" class="xref">RFC7951</a>]</span>. This approach can be used to avoid the management overhead associated with SID allocation. The main drawback is the significant increase in size of the encoded data.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3-2">YANG item identifiers implemented using names MUST be in one of the following forms:<a href="#section-3.3-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.3-3.1">simple - the identifier of the YANG item (i.e., schema node or identity).<a href="#section-3.3-3.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-3.3-3.2">namespace qualified - the identifier of the YANG item is prefixed with the name of the module in which this item is defined, separated by the colon character (":").<a href="#section-3.3-3.2" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-3.3-4">The name of a module determines the namespace of all YANG items defined in that module. If an item is defined in a submodule, then the namespace qualified name uses the name of the main module to which the submodule belongs.<a href="#section-3.3-4" class="pilcrow">¶</a></p>
+<p id="section-3.3-5">ABNF syntax <span>[<a href="#RFC5234" class="xref">RFC5234</a>]</span> of a name is shown in <a href="#namesyntax" class="xref">Figure 1</a>, where the production for "identifier" is defined in Section 14 of <span>[<a href="#RFC7950" class="xref">RFC7950</a>]</span>.<a href="#section-3.3-5" class="pilcrow">¶</a></p>
+<span id="name-abnf-production-for-a-simpl"></span><div id="namesyntax">
+<figure id="figure-1">
+          <div class="artwork art-text alignCenter" id="section-3.3-6.1">
+<pre>
+name = [identifier ":"] identifier
+</pre>
+</div>
+<figcaption><a href="#figure-1" class="selfRef">Figure 1</a>:
+<a href="#name-abnf-production-for-a-simpl" class="selfRef">ABNF Production for a simple or namespace qualified name</a>
+          </figcaption></figure>
+</div>
+<p id="section-3.3-7">A namespace qualified name MUST be used for all members of a top-level CBOR map and then also whenever the namespaces of the data node and its parent node are different. In all other cases, the simple form of the name SHOULD be used.<a href="#section-3.3-7" class="pilcrow">¶</a></p>
+<p id="section-3.3-8">Definition example:<a href="#section-3.3-8" class="pilcrow">¶</a></p>
+<div id="section-3.3-9">
+<pre class="sourcecode lang-yang">
+module example-foomod {
+  container top {
+    leaf foo {
+      type uint8;
+    }
+  }
+}
+
+module example-barmod {
+  import example-foomod {
+    prefix "foomod";
+  }
+  augment "/foomod:top" {
+    leaf bar {
+      type boolean;
+    }
+  }
+}
+</pre><a href="#section-3.3-9" class="pilcrow">¶</a>
+</div>
+<p id="section-3.3-10">A valid CBOR encoding of the 'top' container is as follows.<a href="#section-3.3-10" class="pilcrow">¶</a></p>
+<p id="section-3.3-11">CBOR diagnostic notation:<a href="#section-3.3-11" class="pilcrow">¶</a></p>
+<div id="section-3.3-12">
+<pre class="sourcecode lang-CBORdiag">
+{
+  "example-foomod:top": {
+    "foo": 54,
+    "example-barmod:bar": true
+  }
+}
+</pre><a href="#section-3.3-12" class="pilcrow">¶</a>
+</div>
+<p id="section-3.3-13">Both the 'top' container and the 'bar' leaf defined in a different YANG module as its parent container are encoded as namespace qualified names. The 'foo' leaf defined in the same YANG module as its parent container is encoded as simple name.<a href="#section-3.3-13" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="instance-encoding">
+<section id="section-4">
+      <h2 id="name-encoding-of-yang-schema-nod">
+<a href="#section-4" class="section-number selfRef">4. </a><a href="#name-encoding-of-yang-schema-nod" class="section-name selfRef">Encoding of YANG Schema Node Instances</a>
+      </h2>
+<p id="section-4-1">Schema node instances defined using the YANG modeling language are encoded using CBOR <span>[<a href="#RFC8949" class="xref">RFC8949</a>]</span> based on the rules defined in this section. We assume that the reader is
+already familiar with both YANG <span>[<a href="#RFC7950" class="xref">RFC7950</a>]</span> and CBOR <span>[<a href="#RFC8949" class="xref">RFC8949</a>]</span>.<a href="#section-4-1" class="pilcrow">¶</a></p>
+<div id="the-leaf">
+<section id="section-4.1">
+        <h3 id="name-the-leaf">
+<a href="#section-4.1" class="section-number selfRef">4.1. </a><a href="#name-the-leaf" class="section-name selfRef">The 'leaf'</a>
+        </h3>
+<p id="section-4.1-1">A 'leaf' MUST be encoded accordingly to its datatype using one of the encoding rules specified in <a href="#data-types-mapping" class="xref">Section 6</a>.<a href="#section-4.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.1-2">The following examples shows the encoding of a 'hostname' leaf using a SID or a name.<a href="#section-4.1-2" class="pilcrow">¶</a></p>
+<p id="section-4.1-3">Definition example from <span>[<a href="#RFC7317" class="xref">RFC7317</a>]</span>:<a href="#section-4.1-3" class="pilcrow">¶</a></p>
+<div id="section-4.1-4">
+<pre class="sourcecode lang-yang">
+typedef domain-name {
+  type string {
+    length "1..253";
+    pattern '((([a-zA-Z0-9_]([a-zA-Z0-9\-_]){0,61})?[a-zA-Z0-9].)
+        *([a-zA-Z0-9_]([a-zA-Z0-9\-_]){0,61})?[a-zA-Z0-9]\.?
+        )|\.';
+  }
+}
+
+leaf hostname {
+  type inet:domain-name;
+}
+</pre><a href="#section-4.1-4" class="pilcrow">¶</a>
+</div>
+<div id="using-sids-in-keys">
+<section id="section-4.1.1">
+          <h4 id="name-using-sids-in-keys">
+<a href="#section-4.1.1" class="section-number selfRef">4.1.1. </a><a href="#name-using-sids-in-keys" class="section-name selfRef">Using SIDs in keys</a>
+          </h4>
+<p id="section-4.1.1-1">CBOR diagnostic notation:<a href="#section-4.1.1-1" class="pilcrow">¶</a></p>
+<div id="section-4.1.1-2">
+<pre class="sourcecode lang-CBORdiag">
+{
+  1752 : "myhost.example.com"     / hostname (SID 1752) /
+}
+</pre><a href="#section-4.1.1-2" class="pilcrow">¶</a>
+</div>
+<p id="section-4.1.1-3">CBOR encoding:<a href="#section-4.1.1-3" class="pilcrow">¶</a></p>
+<div id="section-4.1.1-4">
+<pre class="sourcecode lang-CBORbytes">
+A1                                         # map(1)
+   19 06D8                                 # unsigned(1752)
+   72                                      # text(18)
+      6D79686F73742E6578616D706C652E636F6D # "myhost.example.com"
+</pre><a href="#section-4.1.1-4" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="using-names-in-keys">
+<section id="section-4.1.2">
+          <h4 id="name-using-names-in-keys">
+<a href="#section-4.1.2" class="section-number selfRef">4.1.2. </a><a href="#name-using-names-in-keys" class="section-name selfRef">Using names in keys</a>
+          </h4>
+<p id="section-4.1.2-1">CBOR diagnostic notation:<a href="#section-4.1.2-1" class="pilcrow">¶</a></p>
+<div id="section-4.1.2-2">
+<pre class="sourcecode lang-CBORdiag">
+{
+  "ietf-system:hostname" : "myhost.example.com"
+}
+</pre><a href="#section-4.1.2-2" class="pilcrow">¶</a>
+</div>
+<p id="section-4.1.2-3">CBOR encoding:<a href="#section-4.1.2-3" class="pilcrow">¶</a></p>
+<div id="section-4.1.2-4">
+<pre class="sourcecode lang-CBORbytes">
+A1                                         # map(1)
+   74                                      # text(20)
+      696574662D73797374656D3A686F73746E616D65
+   72                                      # text(18)
+      6D79686F73742E6578616D706C652E636F6D
+</pre><a href="#section-4.1.2-4" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="container">
+<section id="section-4.2">
+        <h3 id="name-the-container-and-other-nod">
+<a href="#section-4.2" class="section-number selfRef">4.2. </a><a href="#name-the-container-and-other-nod" class="section-name selfRef">The 'container' and other nodes from the data tree</a>
+        </h3>
+<p id="section-4.2-1">Instances of containers, lists, notification contents, RPC inputs, RPC outputs, action inputs, and action outputs schema nodes MUST be encoded using a CBOR map data item (major type 5). A map is comprised of pairs of data items, with each data item consisting of a key and a value. Each key within the CBOR map is set to a schema node identifier, each value is set to the value of this schema node instance according to the instance datatype.<a href="#section-4.2-1" class="pilcrow">¶</a></p>
+<p id="section-4.2-2">This specification supports two types of CBOR keys; SID as defined in <a href="#sid" class="xref">Section 3.2</a> and names as defined in <a href="#name" class="xref">Section 3.3</a>.<a href="#section-4.2-2" class="pilcrow">¶</a></p>
+<p id="section-4.2-3">The following examples shows the encoding of a 'system-state' container schema node instance using SIDs or names.<a href="#section-4.2-3" class="pilcrow">¶</a></p>
+<p id="section-4.2-4">Definition example from <span>[<a href="#RFC7317" class="xref">RFC7317</a>]</span>:<a href="#section-4.2-4" class="pilcrow">¶</a></p>
+<div id="section-4.2-5">
+<pre class="sourcecode lang-yang">
+typedef date-and-time {
+  type string {
+    pattern '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[\+\-]
+             \d{2}:\d{2})';
+  }
+}
+
+container system-state {
+
+  container clock {
+    leaf current-datetime {
+      type date-and-time;
+    }
+
+    leaf boot-datetime {
+      type date-and-time;
+    }
+  }
+}
+</pre><a href="#section-4.2-5" class="pilcrow">¶</a>
+</div>
+<div id="container-with-sid">
+<section id="section-4.2.1">
+          <h4 id="name-using-sids-in-keys-2">
+<a href="#section-4.2.1" class="section-number selfRef">4.2.1. </a><a href="#name-using-sids-in-keys-2" class="section-name selfRef">Using SIDs in keys</a>
+          </h4>
+<p id="section-4.2.1-1">In the context of containers and other nodes from the data tree, CBOR map keys within inner CBOR maps can be encoded using deltas or SIDs. In the case of deltas, they MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR negative integer (major type 1), depending on the actual delta value. In the case of SID, they are encoded using the SID value enclosed by CBOR tag 47 as defined in <a href="#tag-registry" class="xref">Section 9.3</a>.<a href="#section-4.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.2.1-2">Delta values are computed as follows:<a href="#section-4.2.1-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-4.2.1-3.1">In the case of a 'container', deltas are equal to the SID of the current schema node minus the SID of the parent 'container'.<a href="#section-4.2.1-3.1" class="pilcrow">¶</a>
+</li>
+            <li class="normal" id="section-4.2.1-3.2">In the case of a 'list', deltas are equal to the SID of the current schema node minus the SID of the parent 'list'.<a href="#section-4.2.1-3.2" class="pilcrow">¶</a>
+</li>
+            <li class="normal" id="section-4.2.1-3.3">In the case of an 'RPC input' or 'RPC output', deltas are equal to the SID of the current schema node minus the SID of the 'RPC'.<a href="#section-4.2.1-3.3" class="pilcrow">¶</a>
+</li>
+            <li class="normal" id="section-4.2.1-3.4">In the case of an 'action input' or 'action output', deltas are equal to the SID of the current schema node minus the SID of the 'action'.<a href="#section-4.2.1-3.4" class="pilcrow">¶</a>
+</li>
+            <li class="normal" id="section-4.2.1-3.5">In the case of a 'notification content', deltas are equal to the SID of the current schema node minus the SID of the 'notification'.<a href="#section-4.2.1-3.5" class="pilcrow">¶</a>
+</li>
+          </ul>
+<p id="section-4.2.1-4">CBOR diagnostic notation:<a href="#section-4.2.1-4" class="pilcrow">¶</a></p>
+<div id="section-4.2.1-5">
+<pre class="sourcecode lang-CBORdiag">
+{
+  1720 : {                              / system-state (SID 1720) /
+    1 : {                               / clock  (SID 1721) /
+      2 : "2015-10-02T14:47:24Z-05:00", / current-datetime(SID 1723)/
+      1 : "2015-09-15T09:12:58Z-05:00"  / boot-datetime (SID 1722) /
+    }
+  }
+}
+</pre><a href="#section-4.2.1-5" class="pilcrow">¶</a>
+</div>
+<p id="section-4.2.1-6">CBOR encoding:<a href="#section-4.2.1-6" class="pilcrow">¶</a></p>
+<span id="name-system-state-clock-encoding"></span><div id="Fig-system-clock">
+<figure id="figure-2">
+            <div id="section-4.2.1-7.1">
+<pre class="sourcecode lang-CBORbytes">
+A1                                      # map(1)
+   19 06B8                              # unsigned(1720)
+   A1                                   # map(1)
+      01                                # unsigned(1)
+      A2                                # map(2)
+         02                             # unsigned(2)
+         78 1A                          # text(26)
+            323031352D31302D30325431343A34373A32345A2D30353A3030
+         01                             # unsigned(1)
+         78 1A                          # text(26)
+            323031352D30392D31355430393A31323A35385A2D30353A3030
+</pre>
+</div>
+<figcaption><a href="#figure-2" class="selfRef">Figure 2</a>:
+<a href="#name-system-state-clock-encoding" class="selfRef">System state clock encoding</a>
+            </figcaption></figure>
+</div>
+</section>
+</div>
+<div id="container-with-name">
+<section id="section-4.2.2">
+          <h4 id="name-using-names-in-keys-2">
+<a href="#section-4.2.2" class="section-number selfRef">4.2.2. </a><a href="#name-using-names-in-keys-2" class="section-name selfRef">Using names in keys</a>
+          </h4>
+<p id="section-4.2.2-1">CBOR map keys implemented using names MUST be encoded using a CBOR text string data item (major type 3). A namespace-qualified name MUST be used each time the namespace of a schema node and its parent differ. In all other cases, the simple form of the name MUST be used. Names and namespaces are defined in <span>[<a href="#RFC7951" class="xref">RFC7951</a>]</span> section 4.<a href="#section-4.2.2-1" class="pilcrow">¶</a></p>
+<p id="section-4.2.2-2">The following example shows the encoding of a 'system' container schema node instance using names.<a href="#section-4.2.2-2" class="pilcrow">¶</a></p>
+<p id="section-4.2.2-3">CBOR diagnostic notation:<a href="#section-4.2.2-3" class="pilcrow">¶</a></p>
+<div id="section-4.2.2-4">
+<pre class="sourcecode lang-CBORdiag">
+{
+  "ietf-system:system-state" : {
+    "clock" : {
+      "current-datetime" : "2015-10-02T14:47:24Z-05:00",
+      "boot-datetime" : "2015-09-15T09:12:58Z-05:00"
+    }
+  }
+}
+</pre><a href="#section-4.2.2-4" class="pilcrow">¶</a>
+</div>
+<p id="section-4.2.2-5">CBOR encoding:<a href="#section-4.2.2-5" class="pilcrow">¶</a></p>
+<div id="section-4.2.2-6">
+<pre class="sourcecode lang-CBORbytes">
+A1                                      # map(1)
+   78 18                                # text(24)
+      696574662D73797374656D3A73797374656D2D7374617465
+   A1                                   # map(1)
+      65                                # text(5)
+         636C6F636B                     # "clock"
+      A2                                # map(2)
+         70                             # text(16)
+            63757272656E742D6461746574696D65
+         78 1A                          # text(26)
+            323031352D31302D30325431343A34373A32345A2D30353A3030
+         6D                             # text(13)
+            626F6F742D6461746574696D65
+         78 1A                          # text(26)
+            323031352D30392D31355430393A31323A35385A2D30353A3030
+</pre><a href="#section-4.2.2-6" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="leaf-list">
+<section id="section-4.3">
+        <h3 id="name-the-leaf-list">
+<a href="#section-4.3" class="section-number selfRef">4.3. </a><a href="#name-the-leaf-list" class="section-name selfRef">The 'leaf-list'</a>
+        </h3>
+<p id="section-4.3-1">A leaf-list MUST be encoded using a CBOR array data item (major type 4). Each entry of this array MUST be encoded accordingly to its datatype using one of the encoding rules specified in <a href="#data-types-mapping" class="xref">Section 6</a>.<a href="#section-4.3-1" class="pilcrow">¶</a></p>
+<p id="section-4.3-2">The following example shows the encoding of the 'search' leaf-list schema node instance containing two entries, "ietf.org" and "ieee.org".<a href="#section-4.3-2" class="pilcrow">¶</a></p>
+<p id="section-4.3-3">Definition example <span>[<a href="#RFC7317" class="xref">RFC7317</a>]</span>:<a href="#section-4.3-3" class="pilcrow">¶</a></p>
+<div id="section-4.3-4">
+<pre class="sourcecode lang-yang">
+typedef domain-name {
+  type string {
+    length "1..253";
+    pattern '((([a-zA-Z0-9_]([a-zA-Z0-9\-_]){0,61})?[a-zA-Z0-9].)
+             *([a-zA-Z0-9_]([a-zA-Z0-9\-_]){0,61})?[a-zA-Z0-9]\.?
+             )|\.';
+  }
+}
+
+leaf-list search {
+  type domain-name;
+  ordered-by user;
+}
+</pre><a href="#section-4.3-4" class="pilcrow">¶</a>
+</div>
+<div id="using-sids-in-keys-1">
+<section id="section-4.3.1">
+          <h4 id="name-using-sids-in-keys-3">
+<a href="#section-4.3.1" class="section-number selfRef">4.3.1. </a><a href="#name-using-sids-in-keys-3" class="section-name selfRef">Using SIDs in keys</a>
+          </h4>
+<div id="section-4.3.1-1">
+<pre class="sourcecode lang-CBORdiag">
+CBOR diagnostic notation:
+
+{
+  1746 : [ "ietf.org", "ieee.org" ]     / search (SID 1746) /
+}
+</pre><a href="#section-4.3.1-1" class="pilcrow">¶</a>
+</div>
+<p id="section-4.3.1-2">CBOR encoding:<a href="#section-4.3.1-2" class="pilcrow">¶</a></p>
+<div id="section-4.3.1-3">
+<pre class="sourcecode lang-CBORbytes">
+A1                        # map(1)
+   19 06D2                # unsigned(1746)
+   82                     # array(2)
+      68                  # text(8)
+         696574662E6F7267 # "ietf.org"
+      68                  # text(8)
+         696565652E6F7267 # "ieee.org"
+</pre><a href="#section-4.3.1-3" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="using-names-in-keys-1">
+<section id="section-4.3.2">
+          <h4 id="name-using-names-in-keys-3">
+<a href="#section-4.3.2" class="section-number selfRef">4.3.2. </a><a href="#name-using-names-in-keys-3" class="section-name selfRef">Using names in keys</a>
+          </h4>
+<p id="section-4.3.2-1">CBOR diagnostic notation:<a href="#section-4.3.2-1" class="pilcrow">¶</a></p>
+<div id="section-4.3.2-2">
+<pre class="sourcecode lang-CBORdiag">
+{
+  "ietf-system:search" : [ "ietf.org", "ieee.org" ]
+}
+</pre><a href="#section-4.3.2-2" class="pilcrow">¶</a>
+</div>
+<p id="section-4.3.2-3">CBOR encoding:<a href="#section-4.3.2-3" class="pilcrow">¶</a></p>
+<div id="section-4.3.2-4">
+<pre class="sourcecode lang-CBORbytes">
+A1                                         # map(1)
+   72                                      # text(18)
+      696574662D73797374656D3A736561726368 # "ietf-system:search"
+   82                                      # array(2)
+      68                                   # text(8)
+         696574662E6F7267                  # "ietf.org"
+      68                                   # text(8)
+         696565652E6F7267                  # "ieee.org"
+</pre><a href="#section-4.3.2-4" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="list">
+<section id="section-4.4">
+        <h3 id="name-the-list-and-list-entries">
+<a href="#section-4.4" class="section-number selfRef">4.4. </a><a href="#name-the-list-and-list-entries" class="section-name selfRef">The 'list' and 'list' entries</a>
+        </h3>
+<p id="section-4.4-1">A list or a subset of a list MUST be encoded using a CBOR array data item (major type 4). Each list entry within this CBOR array is encoded using a CBOR map data item (major type 5) based on the encoding rules of a collection as defined in <a href="#container" class="xref">Section 4.2</a>.<a href="#section-4.4-1" class="pilcrow">¶</a></p>
+<p id="section-4.4-2">It is important to note that this encoding rule also apply to a 'list' schema node instance that have a single entry.<a href="#section-4.4-2" class="pilcrow">¶</a></p>
+<p id="section-4.4-3">The following examples show the encoding of a 'server' list using SIDs or names.<a href="#section-4.4-3" class="pilcrow">¶</a></p>
+<p id="section-4.4-4">Definition example from <span>[<a href="#RFC7317" class="xref">RFC7317</a>]</span>:<a href="#section-4.4-4" class="pilcrow">¶</a></p>
+<div id="section-4.4-5">
+<pre class="sourcecode lang-yang">
+list server {
+  key name;
+
+  leaf name {
+    type string;
+  }
+  choice transport {
+    case udp {
+      container udp {
+        leaf address {
+          type host;
+          mandatory true;
+        }
+        leaf port {
+          type port-number;
+        }
+      }
+    }
+  }
+  leaf association-type {
+    type enumeration {
+      enum server;
+      enum peer;
+      enum pool;
+    }
+    default server;
+  }
+  leaf iburst {
+    type boolean;
+    default false;
+  }
+  leaf prefer {
+    type boolean;
+    default false;
+  }
+}
+</pre><a href="#section-4.4-5" class="pilcrow">¶</a>
+</div>
+<div id="list-with-sid">
+<section id="section-4.4.1">
+          <h4 id="name-using-sids-in-keys-4">
+<a href="#section-4.4.1" class="section-number selfRef">4.4.1. </a><a href="#name-using-sids-in-keys-4" class="section-name selfRef">Using SIDs in keys</a>
+          </h4>
+<p id="section-4.4.1-1">The encoding rules of each 'list' entry are defined in <a href="#container-with-sid" class="xref">Section 4.2.1</a>. Deltas of list members are equal to the SID of the current schema node minus the SID of the 'list'.<a href="#section-4.4.1-1" class="pilcrow">¶</a></p>
+<p id="section-4.4.1-2">CBOR diagnostic notation:<a href="#section-4.4.1-2" class="pilcrow">¶</a></p>
+<div id="section-4.4.1-3">
+<pre class="sourcecode lang-CBORdiag">
+{
+  1756 : [                      / server (SID 1756) /
+    {
+      3 : "NRC TIC server",     / name (SID 1759) /
+      5 : {                     / udp (SID 1761) /
+        1 : "tic.nrc.ca",       / address (SID 1762) /
+        2 : 123                 / port (SID 1763) /
+      },
+      1 : 0,                    / association-type (SID 1757) /
+      2 : false,                / iburst (SID 1758) /
+      4 : true                  / prefer (SID 1760) /
+    },
+    {
+      3 : "NRC TAC server",     / name (SID 1759) /
+      5 : {                     / udp (SID 1761) /
+        1 : "tac.nrc.ca"        / address (SID 1762) /
+      }
+    }
+  ]
+}
+</pre><a href="#section-4.4.1-3" class="pilcrow">¶</a>
+</div>
+<p id="section-4.4.1-4">CBOR encoding:<a href="#section-4.4.1-4" class="pilcrow">¶</a></p>
+<div id="section-4.4.1-5">
+<pre class="sourcecode lang-CBORbytes">
+A1                                      # map(1)
+   19 06DC                              # unsigned(1756)
+   82                                   # array(2)
+      A5                                # map(5)
+         03                             # unsigned(3)
+         6E                             # text(14)
+            4E52432054494320736572766572 # "NRC TIC server"
+         05                             # unsigned(5)
+         A2                             # map(2)
+            01                          # unsigned(1)
+            6A                          # text(10)
+               7469632E6E72632E6361     # "tic.nrc.ca"
+            02                          # unsigned(2)
+            18 7B                       # unsigned(123)
+         01                             # unsigned(1)
+         00                             # unsigned(0)
+         02                             # unsigned(2)
+         F4                             # primitive(20)
+         04                             # unsigned(4)
+         F5                             # primitive(21)
+      A2                                # map(2)
+         03                             # unsigned(3)
+         6E                             # text(14)
+            4E52432054414320736572766572 # "NRC TAC server"
+         05                             # unsigned(5)
+         A1                             # map(1)
+            01                          # unsigned(1)
+            6A                          # text(10)
+               7461632E6E72632E6361     # "tac.nrc.ca"
+</pre><a href="#section-4.4.1-5" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="using-names-in-keys-2">
+<section id="section-4.4.2">
+          <h4 id="name-using-names-in-keys-4">
+<a href="#section-4.4.2" class="section-number selfRef">4.4.2. </a><a href="#name-using-names-in-keys-4" class="section-name selfRef">Using names in keys</a>
+          </h4>
+<p id="section-4.4.2-1">The encoding rules of each 'list' entry are defined in <a href="#container-with-name" class="xref">Section 4.2.2</a>.<a href="#section-4.4.2-1" class="pilcrow">¶</a></p>
+<p id="section-4.4.2-2">CBOR diagnostic notation:<a href="#section-4.4.2-2" class="pilcrow">¶</a></p>
+<div id="section-4.4.2-3">
+<pre class="sourcecode lang-CBORdiag">
+{
+  "ietf-system:server" : [
+    {
+      "name" : "NRC TIC server",
+      "udp" : {
+        "address" : "tic.nrc.ca",
+        "port" : 123
+      },
+      "association-type" : 0,
+      "iburst" : false,
+      "prefer" : true
+    },
+    {
+      "name" : "NRC TAC server",
+      "udp" : {
+        "address" : "tac.nrc.ca"
+      }
+    }
+  ]
+}
+</pre><a href="#section-4.4.2-3" class="pilcrow">¶</a>
+</div>
+<p id="section-4.4.2-4">CBOR encoding:<a href="#section-4.4.2-4" class="pilcrow">¶</a></p>
+<div id="section-4.4.2-5">
+<pre class="sourcecode lang-CBORbytes">
+A1                                      # map(1)
+   72                                   # text(18)
+      696574662D73797374656D3A736572766572
+   82                                   # array(2)
+      A5                                # map(5)
+         64                             # text(4)
+            6E616D65                    # "name"
+         6E                             # text(14)
+            4E52432054494320736572766572
+         63                             # text(3)
+            756470                      # "udp"
+         A2                             # map(2)
+            67                          # text(7)
+               61646472657373           # "address"
+            6A                          # text(10)
+               7469632E6E72632E6361     # "tic.nrc.ca"
+            64                          # text(4)
+               706F7274                 # "port"
+            18 7B                       # unsigned(123)
+         70                             # text(16)
+            6173736F63696174696F6E2D74797065
+         00                             # unsigned(0)
+         66                             # text(6)
+            696275727374                # "iburst"
+         F4                             # primitive(20)
+         66                             # text(6)
+            707265666572                # "prefer"
+         F5                             # primitive(21)
+      A2                                # map(2)
+         64                             # text(4)
+            6E616D65                    # "name"
+         6E                             # text(14)
+            4E52432054414320736572766572
+         63                             # text(3)
+            756470                      # "udp"
+         A1                             # map(1)
+            67                          # text(7)
+               61646472657373           # "address"
+            6A                          # text(10)
+               7461632E6E72632E6361     # "tac.nrc.ca"
+</pre><a href="#section-4.4.2-5" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="the-anydata">
+<section id="section-4.5">
+        <h3 id="name-the-anydata">
+<a href="#section-4.5" class="section-number selfRef">4.5. </a><a href="#name-the-anydata" class="section-name selfRef">The 'anydata'</a>
+        </h3>
+<p id="section-4.5-1">An anydata serves as a container for an arbitrary set of schema nodes that otherwise appear as normal YANG-modeled data. An anydata schema node instance is encoded using the same rules as a container, i.e., CBOR map. The requirement that anydata content can be modeled by YANG implies the following:<a href="#section-4.5-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-4.5-2.1">CBOR map keys of any inner schema nodes MUST be set to valid deltas or names.<a href="#section-4.5-2.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-4.5-2.2">The CBOR array MUST contain either unique scalar values (as a leaf-list, see <a href="#leaf-list" class="xref">Section 4.3</a>), or maps (as a list, see <a href="#list" class="xref">Section 4.4</a>).<a href="#section-4.5-2.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-4.5-2.3">CBOR map values MUST follow the encoding rules of one of the datatypes listed in <a href="#instance-encoding" class="xref">Section 4</a>.<a href="#section-4.5-2.3" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-4.5-3">The following example shows a possible use of an anydata. In this example, an anydata is used to define a schema node containing a notification event; this schema node can be part of a YANG list to create an event logger.<a href="#section-4.5-3" class="pilcrow">¶</a></p>
+<p id="section-4.5-4">Definition example:<a href="#section-4.5-4" class="pilcrow">¶</a></p>
+<div id="section-4.5-5">
+<pre class="sourcecode lang-yang">
+module event-log {
+  ...
+  anydata last-event;                # SID 60123
+}
+</pre><a href="#section-4.5-5" class="pilcrow">¶</a>
+</div>
+<p id="section-4.5-6">This example also assumes the assistance of the following notification.<a href="#section-4.5-6" class="pilcrow">¶</a></p>
+<div id="section-4.5-7">
+<pre class="sourcecode lang-yang">
+module example-port {
+  ...
+
+  notification example-port-fault {  # SID 60200
+    leaf port-name {                 # SID 60201
+      type string;
+    }
+    leaf port-fault {                # SID 60202
+      type string;
+    }
+  }
+}
+</pre><a href="#section-4.5-7" class="pilcrow">¶</a>
+</div>
+<div id="using-sids-in-keys-2">
+<section id="section-4.5.1">
+          <h4 id="name-using-sids-in-keys-5">
+<a href="#section-4.5.1" class="section-number selfRef">4.5.1. </a><a href="#name-using-sids-in-keys-5" class="section-name selfRef">Using SIDs in keys</a>
+          </h4>
+<p id="section-4.5.1-1">CBOR diagnostic notation:<a href="#section-4.5.1-1" class="pilcrow">¶</a></p>
+<div id="section-4.5.1-2">
+<pre class="sourcecode lang-CBORdiag">
+{
+  60123 : {                   / last-event (SID 60123) /
+    77 : {                    / example-port-fault (SID 60200) /
+      1 : "0/4/21",           / port-name (SID 60201) /
+      2 : "Open pin 2"        / port-fault (SID 60202) /
+    }
+  }
+}
+</pre><a href="#section-4.5.1-2" class="pilcrow">¶</a>
+</div>
+<p id="section-4.5.1-3">CBOR encoding:<a href="#section-4.5.1-3" class="pilcrow">¶</a></p>
+<div id="section-4.5.1-4">
+<pre class="sourcecode lang-CBORbytes">
+A1                               # map(1)
+   19 EADB                       # unsigned(60123)
+   A1                            # map(1)
+      18 4D                      # unsigned(77)
+      A2                         # map(2)
+         18 4E                   # unsigned(78)
+         66                      # text(6)
+            302F342F3231         # "0/4/21"
+         18 4F                   # unsigned(79)
+         6A                      # text(10)
+            4F70656E2070696E2032 # "Open pin 2"
+
+</pre><a href="#section-4.5.1-4" class="pilcrow">¶</a>
+</div>
+<p id="section-4.5.1-5">In some implementations, it might be simpler to use the absolute SID tag encoding for the anydata root element. The resulting encoding is as follows:<a href="#section-4.5.1-5" class="pilcrow">¶</a></p>
+<div id="section-4.5.1-6">
+<pre class="sourcecode lang-CBORdiag">
+{
+  60123 : {                   / last-event (SID 60123) /
+    47(60200) : {             / event-port-fault (SID 60200) /
+      1 : "0/4/21",           / port-name (SID 60201) /
+      2 : "Open pin 2"        / port-fault (SID 60202) /
+    }
+  }
+}
+</pre><a href="#section-4.5.1-6" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="using-names-in-keys-3">
+<section id="section-4.5.2">
+          <h4 id="name-using-names-in-keys-5">
+<a href="#section-4.5.2" class="section-number selfRef">4.5.2. </a><a href="#name-using-names-in-keys-5" class="section-name selfRef">Using names in keys</a>
+          </h4>
+<p id="section-4.5.2-1">CBOR diagnostic notation:<a href="#section-4.5.2-1" class="pilcrow">¶</a></p>
+<div id="section-4.5.2-2">
+<pre class="sourcecode lang-CBORdiag">
+{
+  "event-log:last-event" : {
+    "example-port:example-port-fault" : {
+      "port-name" : "0/4/21",
+      "port-fault" : "Open pin 2"
+    }
+  }
+}
+</pre><a href="#section-4.5.2-2" class="pilcrow">¶</a>
+</div>
+<p id="section-4.5.2-3">CBOR encoding:<a href="#section-4.5.2-3" class="pilcrow">¶</a></p>
+<div id="section-4.5.2-4">
+<pre class="sourcecode lang-CBORbytes">
+A1                                      # map(1)
+   74                                   # text(20)
+      6576656E742D6C6F673A6C6173742D6576656E74
+   A1                                   # map(1)
+      78 20                             # text(32)
+         6578616D706C652D706F72743A206578616D7
+         06C652D706F72742D6661756C74
+      A2                                # map(2)
+         69                             # text(9)
+            706F72742D6E616D65          # "port-name"
+         66                             # text(6)
+            302F342F3231                # "0/4/21"
+         6A                             # text(10)
+            706F72742D6661756C74        # "port-fault"
+         6A                             # text(10)
+            4F70656E2070696E2032        # "Open pin 2"
+</pre><a href="#section-4.5.2-4" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="the-anyxml">
+<section id="section-4.6">
+        <h3 id="name-the-anyxml">
+<a href="#section-4.6" class="section-number selfRef">4.6. </a><a href="#name-the-anyxml" class="section-name selfRef">The 'anyxml'</a>
+        </h3>
+<p id="section-4.6-1">An anyxml schema node is used to serialize an arbitrary CBOR content, i.e., its value can be any CBOR binary object. anyxml value MAY contain CBOR data items tagged with one of the tags listed in <a href="#tag-registry" class="xref">Section 9.3</a>. The tags listed in <a href="#tag-registry" class="xref">Section 9.3</a> SHALL be supported.<a href="#section-4.6-1" class="pilcrow">¶</a></p>
+<p id="section-4.6-2">The following example shows a valid CBOR encoded anyxml schema node instance consisting of a CBOR array containing the CBOR simple values 'true', 'null' and 'true'.<a href="#section-4.6-2" class="pilcrow">¶</a></p>
+<p id="section-4.6-3">Definition example from <span>[<a href="#RFC7951" class="xref">RFC7951</a>]</span>:<a href="#section-4.6-3" class="pilcrow">¶</a></p>
+<div id="section-4.6-4">
+<pre class="sourcecode lang-yang">
+module bar-module {
+  ...
+  anyxml bar;      # SID 60000
+}
+</pre><a href="#section-4.6-4" class="pilcrow">¶</a>
+</div>
+<div id="using-sids-in-keys-3">
+<section id="section-4.6.1">
+          <h4 id="name-using-sids-in-keys-6">
+<a href="#section-4.6.1" class="section-number selfRef">4.6.1. </a><a href="#name-using-sids-in-keys-6" class="section-name selfRef">Using SIDs in keys</a>
+          </h4>
+<p id="section-4.6.1-1">CBOR diagnostic notation:<a href="#section-4.6.1-1" class="pilcrow">¶</a></p>
+<div id="section-4.6.1-2">
+<pre class="sourcecode lang-CBORdiag">
+{
+  60000 : [true, null, true]   / bar (SID 60000) /
+}
+</pre><a href="#section-4.6.1-2" class="pilcrow">¶</a>
+</div>
+<p id="section-4.6.1-3">CBOR encoding:<a href="#section-4.6.1-3" class="pilcrow">¶</a></p>
+<div id="section-4.6.1-4">
+<pre class="sourcecode lang-CBORbytes">
+A1         # map(1)
+   19 EA60 # unsigned(60000)
+   83      # array(3)
+      F5   # primitive(21)
+      F6   # primitive(22)
+      F5   # primitive(21)
+</pre><a href="#section-4.6.1-4" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="using-names-in-keys-4">
+<section id="section-4.6.2">
+          <h4 id="name-using-names-in-keys-6">
+<a href="#section-4.6.2" class="section-number selfRef">4.6.2. </a><a href="#name-using-names-in-keys-6" class="section-name selfRef">Using names in keys</a>
+          </h4>
+<p id="section-4.6.2-1">CBOR diagnostic notation:<a href="#section-4.6.2-1" class="pilcrow">¶</a></p>
+<div id="section-4.6.2-2">
+<pre class="sourcecode lang-CBORdiag">
+{
+  "bar-module:bar" : [true, null, true]   / bar (SID 60000) /
+}
+</pre><a href="#section-4.6.2-2" class="pilcrow">¶</a>
+</div>
+<p id="section-4.6.2-3">CBOR encoding:<a href="#section-4.6.2-3" class="pilcrow">¶</a></p>
+<div id="section-4.6.2-4">
+<pre class="sourcecode lang-CBORbytes">
+A1                                 # map(1)
+   6E                              # text(14)
+      6261722D6D6F64756C653A626172 # "bar-module:bar"
+   83                              # array(3)
+      F5                           # primitive(21)
+      F6                           # primitive(22)
+      F5                           # primitive(21)
+</pre><a href="#section-4.6.2-4" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="encoding-of-yang-data-extension">
+<section id="section-5">
+      <h2 id="name-encoding-of-yang-data-exten">
+<a href="#section-5" class="section-number selfRef">5. </a><a href="#name-encoding-of-yang-data-exten" class="section-name selfRef">Encoding of 'yang-data' extension</a>
+      </h2>
+<p id="section-5-1">The yang-data extension <span>[<a href="#RFC8040" class="xref">RFC8040</a>]</span> is used to define data structures in YANG
+that are not intended to be implemented as part of a datastore.<a href="#section-5-1" class="pilcrow">¶</a></p>
+<p id="section-5-2">The yang-data extension MUST be encoded using the encoding rules of nodes of data trees as defined in <a href="#container" class="xref">Section 4.2</a>.<a href="#section-5-2" class="pilcrow">¶</a></p>
+<p id="section-5-3">Just like YANG containers, the yang-data extension can be encoded using either SIDs or names.<a href="#section-5-3" class="pilcrow">¶</a></p>
+<p id="section-5-4">Definition example from <span>[<a href="#I-D.ietf-core-comi" class="xref">I-D.ietf-core-comi</a>]</span> Appendix A:<a href="#section-5-4" class="pilcrow">¶</a></p>
+<div id="section-5-5">
+<pre class="sourcecode lang-yang">
+module ietf-coreconf {
+  ...
+
+  import ietf-restconf {
+    prefix rc;
+  }
+
+  rc:yang-data yang-errors {
+    container error {
+      leaf error-tag {
+        type identityref {
+          base error-tag;
+        }
+      }
+      leaf error-app-tag {
+        type identityref {
+          base error-app-tag;
+        }
+      }
+      leaf error-data-node {
+        type instance-identifier;
+      }
+      leaf error-message {
+        type string;
+      }
+    }
+  }
+}
+</pre><a href="#section-5-5" class="pilcrow">¶</a>
+</div>
+<div id="using-sids-in-keys-4">
+<section id="section-5.1">
+        <h3 id="name-using-sids-in-keys-7">
+<a href="#section-5.1" class="section-number selfRef">5.1. </a><a href="#name-using-sids-in-keys-7" class="section-name selfRef">Using SIDs in keys</a>
+        </h3>
+<p id="section-5.1-1">The yang-data extensions encoded using SIDs are carried in a CBOR map containing a single item pair. The key of this item is set to the SID assigned to the yang-data extension container; the value is set to the CBOR encoding of this container as defined in <a href="#container" class="xref">Section 4.2</a>.<a href="#section-5.1-1" class="pilcrow">¶</a></p>
+<p id="section-5.1-2">This example shows a serialization example of the yang-errors yang-data extension as defined in <span>[<a href="#I-D.ietf-core-comi" class="xref">I-D.ietf-core-comi</a>]</span> using SIDs as defined in <a href="#sid" class="xref">Section 3.2</a>.<a href="#section-5.1-2" class="pilcrow">¶</a></p>
+<p id="section-5.1-3">CBOR diagnostic notation:<a href="#section-5.1-3" class="pilcrow">¶</a></p>
+<div id="section-5.1-4">
+<pre class="sourcecode lang-CBORdiag">
+{
+  1024 : {                      / error  (SID 1024) /
+    4 : 1011,                   / error-tag (SID 1028) /
+                                / = invalid-value (SID 1011) /
+    1 : 1018,                   / error-app-tag (SID 1025) /
+                                / = not-in-range (SID 1018) /
+    2 : 1740,                   / error-data-node (SID 1026) /
+                                / = timezone-utc-offset (SID 1740) /
+    3 : "Maximum exceeded"      / error-message (SID 1027) /
+      }
+}
+</pre><a href="#section-5.1-4" class="pilcrow">¶</a>
+</div>
+<p id="section-5.1-5">CBOR encoding:<a href="#section-5.1-5" class="pilcrow">¶</a></p>
+<div id="section-5.1-6">
+<pre class="sourcecode lang-CBORbytes">
+A1                                      # map(1)
+   19 0400                              # unsigned(1024)
+   A4                                   # map(4)
+      04                                # unsigned(4)
+      19 03F3                           # unsigned(1011)
+      01                                # unsigned(1)
+      19 03FA                           # unsigned(1018)
+      02                                # unsigned(2)
+      19 06CC                           # unsigned(1740)
+      03                                # unsigned(3)
+      70                                # text(16)
+         4D6178696D756D206578636565646564
+</pre><a href="#section-5.1-6" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="using-names-in-keys-5">
+<section id="section-5.2">
+        <h3 id="name-using-names-in-keys-7">
+<a href="#section-5.2" class="section-number selfRef">5.2. </a><a href="#name-using-names-in-keys-7" class="section-name selfRef">Using names in keys</a>
+        </h3>
+<p id="section-5.2-1">The yang-data extensions encoded using names are carried in a CBOR map containing a single item pair. The key of this item is set to the namespace qualified name of the yang-data extension container; the value is set to the CBOR encoding of this container as defined in <a href="#name" class="xref">Section 3.3</a>.<a href="#section-5.2-1" class="pilcrow">¶</a></p>
+<p id="section-5.2-2">This example shows a serialization example of the yang-errors yang-data extension as defined in <span>[<a href="#I-D.ietf-core-comi" class="xref">I-D.ietf-core-comi</a>]</span> using names as defined <a href="#name" class="xref">Section 3.3</a>.<a href="#section-5.2-2" class="pilcrow">¶</a></p>
+<p id="section-5.2-3">CBOR diagnostic notation:<a href="#section-5.2-3" class="pilcrow">¶</a></p>
+<div id="section-5.2-4">
+<pre class="sourcecode lang-CBORdiag">
+{
+  "ietf-coreconf:error" : {
+    "error-tag" : "invalid-value",
+    "error-app-tag" : "not-in-range",
+    "error-data-node" : "timezone-utc-offset",
+    "error-message" : "Maximum exceeded"
+  }
+}
+</pre><a href="#section-5.2-4" class="pilcrow">¶</a>
+</div>
+<p id="section-5.2-5">CBOR encoding:<a href="#section-5.2-5" class="pilcrow">¶</a></p>
+<div id="section-5.2-6">
+<pre class="sourcecode lang-CBORbytes">
+A1                                           # map(1)
+   73                                        # text(19)
+      696574662D636F7265636F6E663A6572726F72 # "ietf-coreconf:error"
+   A4                                        # map(4)
+      69                                     # text(9)
+         6572726F722D746167                  # "error-tag"
+      6D                                     # text(13)
+         696E76616C69642D76616C7565          # "invalid-value"
+      6D                                     # text(13)
+         6572726F722D6170702D746167          # "error-app-tag"
+      6C                                     # text(12)
+         6E6F742D696E2D72616E6765            # "not-in-range"
+      6F                                     # text(15)
+         6572726F722D646174612D6E6F6465      # "error-data-node"
+      73                                     # text(19)
+         74696D657A6F6E652D7574632D6F6666736574
+                                             # "timezone-utc-offset"
+      6D                                     # text(13)
+         6572726F722D6D657373616765          # "error-message"
+      70                                     # text(16)
+         4D6178696D756D206578636565646564
+</pre><a href="#section-5.2-6" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="data-types-mapping">
+<section id="section-6">
+      <h2 id="name-representing-yang-data-type">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-representing-yang-data-type" class="section-name selfRef">Representing YANG Data Types in CBOR</a>
+      </h2>
+<p id="section-6-1">The CBOR encoding of an instance of a leaf or leaf-list schema node depends on the built-in type of that schema node. The following sub-section defines the CBOR encoding of each built-in type supported by YANG as listed in <span>[<a href="#RFC7950" class="xref">RFC7950</a>]</span> section 4.2.4. Each subsection shows an example value assigned to a schema node instance of the discussed built-in type.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<div id="the-unsigned-integer-types">
+<section id="section-6.1">
+        <h3 id="name-the-unsigned-integer-types">
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-the-unsigned-integer-types" class="section-name selfRef">The unsigned integer Types</a>
+        </h3>
+<p id="section-6.1-1">Leafs of type uint8, uint16, uint32 and uint64 MUST be encoded using a CBOR
+unsigned integer data item (major type 0).<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.1-2">The following example shows the encoding of an 'mtu' leaf schema node instance set to 1280 bytes.<a href="#section-6.1-2" class="pilcrow">¶</a></p>
+<p id="section-6.1-3">Definition example from <span>[<a href="#RFC8344" class="xref">RFC8344</a>]</span>:<a href="#section-6.1-3" class="pilcrow">¶</a></p>
+<div id="section-6.1-4">
+<pre class="sourcecode lang-yang">
+leaf mtu {
+  type uint16 {
+    range "68..max";
+  }
+}
+</pre><a href="#section-6.1-4" class="pilcrow">¶</a>
+</div>
+<p id="section-6.1-5">CBOR diagnostic notation: 1280<a href="#section-6.1-5" class="pilcrow">¶</a></p>
+<p id="section-6.1-6">CBOR encoding: 19 0500<a href="#section-6.1-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="the-integer-types">
+<section id="section-6.2">
+        <h3 id="name-the-integer-types">
+<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-the-integer-types" class="section-name selfRef">The integer Types</a>
+        </h3>
+<p id="section-6.2-1">Leafs of type int8, int16, int32 and int64 MUST be encoded using either CBOR
+unsigned integer (major type 0) or CBOR negative integer (major type 1), depending
+on the actual value.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.2-2">The following example shows the encoding of a 'timezone-utc-offset' leaf schema node instance set to -300 minutes.<a href="#section-6.2-2" class="pilcrow">¶</a></p>
+<p id="section-6.2-3">Definition example from <span>[<a href="#RFC7317" class="xref">RFC7317</a>]</span>:<a href="#section-6.2-3" class="pilcrow">¶</a></p>
+<div id="section-6.2-4">
+<pre class="sourcecode lang-yang">
+leaf timezone-utc-offset {
+  type int16 {
+    range "-1500 .. 1500";
+  }
+}
+</pre><a href="#section-6.2-4" class="pilcrow">¶</a>
+</div>
+<p id="section-6.2-5">CBOR diagnostic notation: -300<a href="#section-6.2-5" class="pilcrow">¶</a></p>
+<p id="section-6.2-6">CBOR encoding: 39 012B<a href="#section-6.2-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="the-decimal64-type">
+<section id="section-6.3">
+        <h3 id="name-the-decimal64-type">
+<a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-the-decimal64-type" class="section-name selfRef">The 'decimal64' Type</a>
+        </h3>
+<p id="section-6.3-1">Leafs of type decimal64 MUST be encoded using a decimal fraction as defined in <span><a href="https://rfc-editor.org/rfc/rfc8949#section-3.4.4" class="relref">Section 3.4.4</a> of [<a href="#RFC8949" class="xref">RFC8949</a>]</span>.<a href="#section-6.3-1" class="pilcrow">¶</a></p>
+<p id="section-6.3-2">The following example shows the encoding of a 'my-decimal' leaf schema node instance set to 2.57.<a href="#section-6.3-2" class="pilcrow">¶</a></p>
+<p id="section-6.3-3">Definition example from <span>[<a href="#RFC7317" class="xref">RFC7317</a>]</span>:<a href="#section-6.3-3" class="pilcrow">¶</a></p>
+<div id="section-6.3-4">
+<pre class="sourcecode lang-yang">
+leaf my-decimal {
+  type decimal64 {
+    fraction-digits 2;
+    range "1 .. 3.14 | 10 | 20..max";
+  }
+}
+</pre><a href="#section-6.3-4" class="pilcrow">¶</a>
+</div>
+<p id="section-6.3-5">CBOR diagnostic notation: 4([-2, 257])<a href="#section-6.3-5" class="pilcrow">¶</a></p>
+<p id="section-6.3-6">CBOR encoding: C4 82 21 19 0101<a href="#section-6.3-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="the-string-type">
+<section id="section-6.4">
+        <h3 id="name-the-string-type">
+<a href="#section-6.4" class="section-number selfRef">6.4. </a><a href="#name-the-string-type" class="section-name selfRef">The 'string' Type</a>
+        </h3>
+<p id="section-6.4-1">Leafs of type string MUST be encoded using a CBOR text string data item (major
+type 3).<a href="#section-6.4-1" class="pilcrow">¶</a></p>
+<p id="section-6.4-2">The following example shows the encoding of a 'name' leaf schema node instance set to "eth0".<a href="#section-6.4-2" class="pilcrow">¶</a></p>
+<p id="section-6.4-3">Definition example from <span>[<a href="#RFC8343" class="xref">RFC8343</a>]</span>:<a href="#section-6.4-3" class="pilcrow">¶</a></p>
+<div id="section-6.4-4">
+<pre class="sourcecode lang-yang">
+leaf name {
+  type string;
+}
+</pre><a href="#section-6.4-4" class="pilcrow">¶</a>
+</div>
+<p id="section-6.4-5">CBOR diagnostic notation: "eth0"<a href="#section-6.4-5" class="pilcrow">¶</a></p>
+<p id="section-6.4-6">CBOR encoding: 64 65746830<a href="#section-6.4-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="the-boolean-type">
+<section id="section-6.5">
+        <h3 id="name-the-boolean-type">
+<a href="#section-6.5" class="section-number selfRef">6.5. </a><a href="#name-the-boolean-type" class="section-name selfRef">The 'boolean' Type</a>
+        </h3>
+<p id="section-6.5-1">Leafs of type boolean MUST be encoded using a CBOR simple value 'true' (major type 7, additional information 21) or 'false' (major type 7, additional information 20).<a href="#section-6.5-1" class="pilcrow">¶</a></p>
+<p id="section-6.5-2">The following example shows the encoding of an 'enabled' leaf schema node instance set to 'true'.<a href="#section-6.5-2" class="pilcrow">¶</a></p>
+<p id="section-6.5-3">Definition example from <span>[<a href="#RFC7317" class="xref">RFC7317</a>]</span>:<a href="#section-6.5-3" class="pilcrow">¶</a></p>
+<div id="section-6.5-4">
+<pre class="sourcecode lang-yang">
+leaf enabled {
+  type boolean;
+}
+</pre><a href="#section-6.5-4" class="pilcrow">¶</a>
+</div>
+<p id="section-6.5-5">CBOR diagnostic notation: true<a href="#section-6.5-5" class="pilcrow">¶</a></p>
+<p id="section-6.5-6">CBOR encoding: F5<a href="#section-6.5-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="enumeration">
+<section id="section-6.6">
+        <h3 id="name-the-enumeration-type">
+<a href="#section-6.6" class="section-number selfRef">6.6. </a><a href="#name-the-enumeration-type" class="section-name selfRef">The 'enumeration' Type</a>
+        </h3>
+<p id="section-6.6-1">Leafs of type enumeration MUST be encoded using a CBOR unsigned integer (major type 0) or CBOR negative integer (major type 1), depending on the actual value. Enumeration values are either explicitly assigned using the YANG statement 'value' or automatically assigned based on the algorithm defined in <span>[<a href="#RFC7950" class="xref">RFC7950</a>]</span> section 9.6.4.2.<a href="#section-6.6-1" class="pilcrow">¶</a></p>
+<p id="section-6.6-2">The following example shows the encoding of an 'oper-status' leaf schema node instance set to 'testing'.<a href="#section-6.6-2" class="pilcrow">¶</a></p>
+<p id="section-6.6-3">Definition example from <span>[<a href="#RFC7317" class="xref">RFC7317</a>]</span>:<a href="#section-6.6-3" class="pilcrow">¶</a></p>
+<div id="section-6.6-4">
+<pre class="sourcecode lang-yang">
+leaf oper-status {
+  type enumeration {
+    enum up { value 1; }
+    enum down { value 2; }
+    enum testing { value 3; }
+    enum unknown { value 4; }
+    enum dormant { value 5; }
+    enum not-present { value 6; }
+    enum lower-layer-down { value 7; }
+  }
+}
+</pre><a href="#section-6.6-4" class="pilcrow">¶</a>
+</div>
+<p id="section-6.6-5">CBOR diagnostic notation: 3<a href="#section-6.6-5" class="pilcrow">¶</a></p>
+<p id="section-6.6-6">CBOR encoding: 03<a href="#section-6.6-6" class="pilcrow">¶</a></p>
+<p id="section-6.6-7">Values of 'enumeration' types defined in a 'union' type MUST be encoded using a
+CBOR text string data item (major type 3) and MUST contain one of the names
+assigned by 'enum' statements in YANG.  The encoding MUST be enclosed by the
+enumeration CBOR tag as specified in <a href="#tag-registry" class="xref">Section 9.3</a>.<a href="#section-6.6-7" class="pilcrow">¶</a></p>
+<p id="section-6.6-8">Definition example from <span>[<a href="#RFC7950" class="xref">RFC7950</a>]</span>:<a href="#section-6.6-8" class="pilcrow">¶</a></p>
+<div id="section-6.6-9">
+<pre class="sourcecode lang-yang">
+type union {
+  type int32;
+  type enumeration {
+    enum unbounded;
+  }
+}
+</pre><a href="#section-6.6-9" class="pilcrow">¶</a>
+</div>
+<p id="section-6.6-10">CBOR diagnostic notation: 44("unbounded")<a href="#section-6.6-10" class="pilcrow">¶</a></p>
+<p id="section-6.6-11">CBOR encoding: D8 2C 69 756E626F756E646564<a href="#section-6.6-11" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="bits">
+<section id="section-6.7">
+        <h3 id="name-the-bits-type">
+<a href="#section-6.7" class="section-number selfRef">6.7. </a><a href="#name-the-bits-type" class="section-name selfRef">The 'bits' Type</a>
+        </h3>
+<p id="section-6.7-1">Keeping in mind that bit positions are either explicitly assigned using the
+YANG statement 'position' or automatically assigned based on the algorithm
+defined in <span>[<a href="#RFC7950" class="xref">RFC7950</a>]</span> section 9.7.4.2, each element of type bits could be seen
+as a set of bit positions (or offsets from position 0), that have a value of
+ether 1, which represents the bit being set or 0, which represents that the bit
+is not set.<a href="#section-6.7-1" class="pilcrow">¶</a></p>
+<p id="section-6.7-2">Leafs of type bits MUST be encoded either using a CBOR array or byte string
+(major type 2). In case CBOR array representation is used, each element is
+either a positive integer (major type 0 with value 0 being
+disallowed) that can be used to calculate the offset of the next byte string, or a byte
+string (major type 2) that carries the information whether certain bits are set
+or not. The initial offset value is 0 and each unsigned integer modifies the
+offset value of the next byte string by the integer value multiplied by 8. For
+example, if the bit offset is 0 and there is an integer with value 5, the first
+byte of the byte string that follows will represent bit positions 40 to 47 both
+ends included. If the byte string has a second byte, it will carry information
+about bits 48 to 55 and so on. Within each byte, bits are assigned from least
+to most significant. After the byte string, the offset is modified by the number
+of bytes in the byte string multiplied by 8. Bytes with no bits set at the end
+of the byte string are removed. An example follows.<a href="#section-6.7-2" class="pilcrow">¶</a></p>
+<p id="section-6.7-3">The following example shows the encoding of an 'alarm-state' leaf schema node
+instance with the 'critical' (position 3), 'warning' (position 8) and
+'indeterminate' (position 128) flags set.<a href="#section-6.7-3" class="pilcrow">¶</a></p>
+<div id="section-6.7-4">
+<pre class="sourcecode lang-yang">
+typedef alarm-state {
+  type bits {
+    bit unknown;
+    bit under-repair;
+    bit critical;
+    bit major;
+    bit minor;
+    bit warning {
+      position 8;
+    }
+    bit indeterminate {
+      position 128;
+    }
+  }
+}
+
+leaf alarm-state {
+  type alarm-state;
+}
+</pre><a href="#section-6.7-4" class="pilcrow">¶</a>
+</div>
+<p id="section-6.7-5">CBOR diagnostic notation: [h'0401', 14, h'01']<a href="#section-6.7-5" class="pilcrow">¶</a></p>
+<p id="section-6.7-6">CBOR encoding: 83 42 0401 0E 41 01<a href="#section-6.7-6" class="pilcrow">¶</a></p>
+<p id="section-6.7-7">In a number of cases the array would only need to have one element - a byte
+string with a small number of bytes inside. For this case, it is expected to
+omit the array element and have only the byte array that would have been
+inside. To illustrate this, let us consider the same example YANG definition,
+but this time encoding only 'under-repair' and 'critical' flags. The result
+would be<a href="#section-6.7-7" class="pilcrow">¶</a></p>
+<p id="section-6.7-8">CBOR diagnostic notation: h'06'<a href="#section-6.7-8" class="pilcrow">¶</a></p>
+<p id="section-6.7-9">CBOR encoding: 41 06<a href="#section-6.7-9" class="pilcrow">¶</a></p>
+<p id="section-6.7-10">Elements in the array MUST be either byte strings or positive unsigned
+integers, where byte strings and integers MUST alternate, i.e., adjacent byte
+strings or adjacent integers are an error. An array with a single byte string
+MUST instead be encoded as just that byte string. An array with a single
+positive integer is an error.<a href="#section-6.7-10" class="pilcrow">¶</a></p>
+<p id="section-6.7-11">Values of 'bit' types defined in a 'union' type MUST be encoded using a
+CBOR text string data item (major type 3) and MUST contain a space-separated
+sequence of names of 'bit' that are set. The encoding MUST be enclosed by the
+bits CBOR tag as specified in <a href="#tag-registry" class="xref">Section 9.3</a>.<a href="#section-6.7-11" class="pilcrow">¶</a></p>
+<p id="section-6.7-12">The following example shows the encoding of an 'alarm-state' leaf schema node
+instance defined using a union type with the 'under-repair' and 'critical'
+flags set.<a href="#section-6.7-12" class="pilcrow">¶</a></p>
+<p id="section-6.7-13">Definition example:<a href="#section-6.7-13" class="pilcrow">¶</a></p>
+<div id="section-6.7-14">
+<pre class="sourcecode lang-yang">
+leaf alarm-state-2 {
+  type union {
+    type alarm-state;
+    type bits {
+      bit extra-flag;
+    }
+  }
+}
+</pre><a href="#section-6.7-14" class="pilcrow">¶</a>
+</div>
+<p id="section-6.7-15">CBOR diagnostic notation: 43("under-repair critical")<a href="#section-6.7-15" class="pilcrow">¶</a></p>
+<p id="section-6.7-16">CBOR encoding: D8 2B 75 756E6465722D72657061697220637269746963616C<a href="#section-6.7-16" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="the-binary-type">
+<section id="section-6.8">
+        <h3 id="name-the-binary-type">
+<a href="#section-6.8" class="section-number selfRef">6.8. </a><a href="#name-the-binary-type" class="section-name selfRef">The 'binary' Type</a>
+        </h3>
+<p id="section-6.8-1">Leafs of type binary MUST be encoded using a CBOR byte string data item (major
+type 2).<a href="#section-6.8-1" class="pilcrow">¶</a></p>
+<p id="section-6.8-2">The following example shows the encoding of an 'aes128-key' leaf schema node
+instance set to 0x1f1ce6a3f42660d888d92a4d8030476e.<a href="#section-6.8-2" class="pilcrow">¶</a></p>
+<p id="section-6.8-3">Definition example:<a href="#section-6.8-3" class="pilcrow">¶</a></p>
+<div id="section-6.8-4">
+<pre class="sourcecode lang-yang">
+leaf aes128-key {
+  type binary {
+    length 16;
+  }
+}
+</pre><a href="#section-6.8-4" class="pilcrow">¶</a>
+</div>
+<p id="section-6.8-5">CBOR diagnostic notation: h'1F1CE6A3F42660D888D92A4D8030476E'<a href="#section-6.8-5" class="pilcrow">¶</a></p>
+<p id="section-6.8-6">CBOR encoding: 50 1F1CE6A3F42660D888D92A4D8030476E<a href="#section-6.8-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="the-leafref-type">
+<section id="section-6.9">
+        <h3 id="name-the-leafref-type">
+<a href="#section-6.9" class="section-number selfRef">6.9. </a><a href="#name-the-leafref-type" class="section-name selfRef">The 'leafref' Type</a>
+        </h3>
+<p id="section-6.9-1">Leafs of type leafref MUST be encoded using the rules of the schema node referenced
+by the 'path' YANG statement.<a href="#section-6.9-1" class="pilcrow">¶</a></p>
+<p id="section-6.9-2">The following example shows the encoding of an 'interface-state-ref' leaf schema node instance set to "eth1".<a href="#section-6.9-2" class="pilcrow">¶</a></p>
+<p id="section-6.9-3">Definition example from <span>[<a href="#RFC8343" class="xref">RFC8343</a>]</span>:<a href="#section-6.9-3" class="pilcrow">¶</a></p>
+<div id="section-6.9-4">
+<pre class="sourcecode lang-yang">
+typedef interface-state-ref {
+  type leafref {
+    path "/interfaces-state/interface/name";
+  }
+}
+
+container interfaces-state {
+  list interface {
+    key "name";
+    leaf name {
+      type string;
+    }
+    leaf-list higher-layer-if {
+      type interface-state-ref;
+    }
+  }
+}
+</pre><a href="#section-6.9-4" class="pilcrow">¶</a>
+</div>
+<p id="section-6.9-5">CBOR diagnostic notation: "eth1"<a href="#section-6.9-5" class="pilcrow">¶</a></p>
+<p id="section-6.9-6">CBOR encoding: 64 65746831<a href="#section-6.9-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="the-identityref-type">
+<section id="section-6.10">
+        <h3 id="name-the-identityref-type">
+<a href="#section-6.10" class="section-number selfRef">6.10. </a><a href="#name-the-identityref-type" class="section-name selfRef">The 'identityref' Type</a>
+        </h3>
+<p id="section-6.10-1">This specification supports two approaches for encoding identityref: as a YANG Schema Item iDentifier as defined in <a href="#sid" class="xref">Section 3.2</a>, or as a name as defined in <span>[<a href="#RFC7951" class="xref">RFC7951</a>]</span> section 6.8.<a href="#section-6.10-1" class="pilcrow">¶</a></p>
+<div id="identityref-with-sid">
+<section id="section-6.10.1">
+          <h4 id="name-sids-as-identityref">
+<a href="#section-6.10.1" class="section-number selfRef">6.10.1. </a><a href="#name-sids-as-identityref" class="section-name selfRef">SIDs as identityref</a>
+          </h4>
+<p id="section-6.10.1-1">When schema nodes of type identityref are implemented using SIDs, they MUST be encoded using a CBOR unsigned integer data item (major type 0). (Note that no delta mechanism is employed for SIDs used for identityref.)<a href="#section-6.10.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.10.1-2">The following example shows the encoding of a 'type' leaf schema node instance set to the value 'iana-if-type:ethernetCsmacd' (SID 1880).<a href="#section-6.10.1-2" class="pilcrow">¶</a></p>
+<p id="section-6.10.1-3">Definition example from <span>[<a href="#RFC7317" class="xref">RFC7317</a>]</span>:<a href="#section-6.10.1-3" class="pilcrow">¶</a></p>
+<div id="section-6.10.1-4">
+<pre class="sourcecode lang-yang">
+identity interface-type {
+}
+
+identity iana-interface-type {
+  base interface-type;
+}
+
+identity ethernetCsmacd {
+  base iana-interface-type;
+}
+
+leaf type {
+  type identityref {
+    base interface-type;
+  }
+}
+</pre><a href="#section-6.10.1-4" class="pilcrow">¶</a>
+</div>
+<p id="section-6.10.1-5">CBOR diagnostic notation: 1880<a href="#section-6.10.1-5" class="pilcrow">¶</a></p>
+<p id="section-6.10.1-6">CBOR encoding: 19 0758<a href="#section-6.10.1-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="name-as-identityref">
+<section id="section-6.10.2">
+          <h4 id="name-name-as-identityref">
+<a href="#section-6.10.2" class="section-number selfRef">6.10.2. </a><a href="#name-name-as-identityref" class="section-name selfRef">Name as identityref</a>
+          </h4>
+<p id="section-6.10.2-1">Alternatively, an identityref MAY be encoded using a name as defined in <a href="#name" class="xref">Section 3.3</a>.  When names are used, identityref MUST be encoded using a CBOR text string data item (major type 3). If the identity is defined in different module than the leaf node containing the identityref data node, the namespace qualified form MUST be used. Otherwise, both the simple and namespace qualified forms are permitted. Names and namespaces are defined in <a href="#name" class="xref">Section 3.3</a>.<a href="#section-6.10.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.10.2-2">The following example shows the encoding of the identity 'iana-if-type:ethernetCsmacd' using its namespace qualified name. This example is described in <a href="#identityref-with-sid" class="xref">Section 6.10.1</a>.<a href="#section-6.10.2-2" class="pilcrow">¶</a></p>
+<p id="section-6.10.2-3">CBOR diagnostic notation: "iana-if-type:ethernetCsmacd"<a href="#section-6.10.2-3" class="pilcrow">¶</a></p>
+<p id="section-6.10.2-4">CBOR encoding: 78 1b 69616E612D69662D747970653A65746865726E657443736D616364<a href="#section-6.10.2-4" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="the-empty-type">
+<section id="section-6.11">
+        <h3 id="name-the-empty-type">
+<a href="#section-6.11" class="section-number selfRef">6.11. </a><a href="#name-the-empty-type" class="section-name selfRef">The 'empty' Type</a>
+        </h3>
+<p id="section-6.11-1">Leafs of type empty MUST be encoded using the CBOR null value (major type
+7, additional information 22).<a href="#section-6.11-1" class="pilcrow">¶</a></p>
+<p id="section-6.11-2">The following example shows the encoding of an 'is-router' leaf schema node instance when present.<a href="#section-6.11-2" class="pilcrow">¶</a></p>
+<p id="section-6.11-3">Definition example from <span>[<a href="#RFC8344" class="xref">RFC8344</a>]</span>:<a href="#section-6.11-3" class="pilcrow">¶</a></p>
+<div id="section-6.11-4">
+<pre class="sourcecode lang-yang">
+leaf is-router {
+  type empty;
+}
+</pre><a href="#section-6.11-4" class="pilcrow">¶</a>
+</div>
+<p id="section-6.11-5">CBOR diagnostic notation: null<a href="#section-6.11-5" class="pilcrow">¶</a></p>
+<p id="section-6.11-6">CBOR encoding: F6<a href="#section-6.11-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="union">
+<section id="section-6.12">
+        <h3 id="name-the-union-type">
+<a href="#section-6.12" class="section-number selfRef">6.12. </a><a href="#name-the-union-type" class="section-name selfRef">The 'union' Type</a>
+        </h3>
+<p id="section-6.12-1">Leafs of type union MUST be encoded using the rules associated with one of the types listed.
+When used in a union, the following YANG datatypes are enclosed by a CBOR tag to avoid confusion
+between different YANG datatypes encoded using the same CBOR major type.<a href="#section-6.12-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6.12-2.1">bits<a href="#section-6.12-2.1" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-6.12-2.2">enumeration<a href="#section-6.12-2.2" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-6.12-2.3">identityref<a href="#section-6.12-2.3" class="pilcrow">¶</a>
+</li>
+          <li class="normal" id="section-6.12-2.4">instance-identifier<a href="#section-6.12-2.4" class="pilcrow">¶</a>
+</li>
+        </ul>
+<p id="section-6.12-3">See <a href="#tag-registry" class="xref">Section 9.3</a> for the assigned value of these CBOR tags.<a href="#section-6.12-3" class="pilcrow">¶</a></p>
+<p id="section-6.12-4">As mentioned in <a href="#enumeration" class="xref">Section 6.6</a> and in <a href="#bits" class="xref">Section 6.7</a>, 'enumeration' and 'bits' are encoded as a CBOR text string data item (major type 3) when defined within a 'union' type.<a href="#section-6.12-4" class="pilcrow">¶</a></p>
+<p id="section-6.12-5">The following example shows the encoding of an 'ip-address' leaf schema node instance when set to "2001:db8:a0b:12f0::1".<a href="#section-6.12-5" class="pilcrow">¶</a></p>
+<p id="section-6.12-6">Definition example from <span>[<a href="#RFC7317" class="xref">RFC7317</a>]</span>:<a href="#section-6.12-6" class="pilcrow">¶</a></p>
+<div id="section-6.12-7">
+<pre class="sourcecode lang-yang">
+typedef ipv4-address {
+  type string {
+  pattern '(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}
+           ([0-9][1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(%[\p{N}
+           \p{L}]+)?';
+  }
+}
+
+typedef ipv6-address {
+  type string {
+    pattern '((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}((([0-9a
+             -fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|(((25[0-5]|2[0-4][0
+             -9]|[01]?[0-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0
+             -9]?[0-9])))(%[\p{N}\p{L}]+)?';
+    pattern '(([^:]+:){6}(([^:]+:[^:]+)|(.*\..*)))|((([^:]+:)*[^:]+)
+             ?::(([^:]+:)*[^:]+)?)(%.+)?';
+  }
+}
+
+typedef ip-address {
+  type union {
+    type ipv4-address;
+    type ipv6-address;
+  }
+}
+
+leaf address {
+  type ip-address;
+}
+</pre><a href="#section-6.12-7" class="pilcrow">¶</a>
+</div>
+<p id="section-6.12-8">CBOR diagnostic notation: "2001:db8:a0b:12f0::1"<a href="#section-6.12-8" class="pilcrow">¶</a></p>
+<p id="section-6.12-9">CBOR encoding: 74 323030313A6462383A6130623A313266303A3A31<a href="#section-6.12-9" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="the-instance-identifier-type">
+<section id="section-6.13">
+        <h3 id="name-the-instance-identifier-typ">
+<a href="#section-6.13" class="section-number selfRef">6.13. </a><a href="#name-the-instance-identifier-typ" class="section-name selfRef">The 'instance-identifier' Type</a>
+        </h3>
+<p id="section-6.13-1">This specification supports two approaches for encoding an instance-identifier, one based on YANG Schema Item iDentifier as defined in <a href="#sid" class="xref">Section 3.2</a> and one based on names as defined in <a href="#name" class="xref">Section 3.3</a>.<a href="#section-6.13-1" class="pilcrow">¶</a></p>
+<div id="instance-identifier-with-sid">
+<section id="section-6.13.1">
+          <h4 id="name-sids-as-instance-identifier">
+<a href="#section-6.13.1" class="section-number selfRef">6.13.1. </a><a href="#name-sids-as-instance-identifier" class="section-name selfRef">SIDs as instance-identifier</a>
+          </h4>
+<p id="section-6.13.1-1">SIDs uniquely identify a schema node. In the case of a single instance schema node, i.e., a schema node defined at the root of a YANG module or submodule or schema nodes defined within a container, the SID is sufficient to identify this instance.<a href="#section-6.13.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.13.1-2">In the case of a schema node member of a YANG list, a SID is combined with the list key(s) to identify each instance within the YANG list(s).<a href="#section-6.13.1-2" class="pilcrow">¶</a></p>
+<p id="section-6.13.1-3">Single instance schema nodes MUST be encoded using a CBOR unsigned integer data item (major type 0) and set to the targeted schema node SID.<a href="#section-6.13.1-3" class="pilcrow">¶</a></p>
+<p id="section-6.13.1-4">Schema node members of a YANG list MUST be encoded using a CBOR array data item (major type 4) containing the following entries:<a href="#section-6.13.1-4" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6.13.1-5.1">The first entry MUST be encoded as a CBOR unsigned integer data item (major type 0) and set to the targeted schema node SID.<a href="#section-6.13.1-5.1" class="pilcrow">¶</a>
+</li>
+            <li class="normal" id="section-6.13.1-5.2">The following entries MUST contain the value of each key required to identify the instance of the targeted schema node. These keys MUST be ordered as defined in the 'key' YANG statement, starting from the top level list, and followed by each of the subordinate list(s).<a href="#section-6.13.1-5.2" class="pilcrow">¶</a>
+</li>
+          </ul>
+<p id="section-6.13.1-6">Examples within this section assume the definition of a schema node of type 'instance-identifier':<a href="#section-6.13.1-6" class="pilcrow">¶</a></p>
+<p id="section-6.13.1-7">Definition example from <span>[<a href="#RFC7950" class="xref">RFC7950</a>]</span>:<a href="#section-6.13.1-7" class="pilcrow">¶</a></p>
+<div id="section-6.13.1-8">
+<pre class="sourcecode lang-yang">
+container system {
+  ...
+  leaf reporting-entity {
+    type instance-identifier;
+  }
+</pre><a href="#section-6.13.1-8" class="pilcrow">¶</a>
+</div>
+<p id="section-6.13.1-9"><strong>First example:</strong><a href="#section-6.13.1-9" class="pilcrow">¶</a></p>
+<p id="section-6.13.1-10">The following example shows the encoding of the 'reporting-entity' value referencing data node instance "/system/contact" (SID 1741).<a href="#section-6.13.1-10" class="pilcrow">¶</a></p>
+<p id="section-6.13.1-11">Definition example from <span>[<a href="#RFC7317" class="xref">RFC7317</a>]</span>:<a href="#section-6.13.1-11" class="pilcrow">¶</a></p>
+<div id="section-6.13.1-12">
+<pre class="sourcecode lang-yang">
+container system {
+
+  leaf contact {
+    type string;
+  }
+
+  leaf hostname {
+    type inet:domain-name;
+  }
+}
+</pre><a href="#section-6.13.1-12" class="pilcrow">¶</a>
+</div>
+<p id="section-6.13.1-13">CBOR diagnostic notation: 1741<a href="#section-6.13.1-13" class="pilcrow">¶</a></p>
+<p id="section-6.13.1-14">CBOR encoding: 19 06CD<a href="#section-6.13.1-14" class="pilcrow">¶</a></p>
+<p id="section-6.13.1-15"><strong>Second example:</strong><a href="#section-6.13.1-15" class="pilcrow">¶</a></p>
+<p id="section-6.13.1-16">The following example shows the encoding of the 'reporting-entity' value referencing list instance "/system/authentication/user/authorized-key/key-data" (SID 1734) for user name "bob" and authorized-key "admin".<a href="#section-6.13.1-16" class="pilcrow">¶</a></p>
+<p id="section-6.13.1-17">Definition example from <span>[<a href="#RFC7317" class="xref">RFC7317</a>]</span>:<a href="#section-6.13.1-17" class="pilcrow">¶</a></p>
+<div id="section-6.13.1-18">
+<pre class="sourcecode lang-yang">
+list user {
+  key name country;
+
+  leaf name {
+    type string;
+  }
+
+  leaf password {
+    type ianach:crypt-hash;
+  }
+
+  list authorized-key {
+    key name country;
+
+    leaf country {
+      type string;
+    }
+
+    leaf name {
+      type string;
+    }
+
+    leaf algorithm {
+      type string;
+    }
+
+    leaf key-data {
+      type binary;
+    }
+  }
+}
+</pre><a href="#section-6.13.1-18" class="pilcrow">¶</a>
+</div>
+<p id="section-6.13.1-19">CBOR diagnostic notation: [1734, "bob", "admin", "france"]<a href="#section-6.13.1-19" class="pilcrow">¶</a></p>
+<p id="section-6.13.1-20">CBOR encoding:<a href="#section-6.13.1-20" class="pilcrow">¶</a></p>
+<div id="section-6.13.1-21">
+<pre class="sourcecode lang-CBORbytes">
+84                 # array(4)
+   19 06C6         # unsigned(1734)
+   63              # text(3)
+      626F62       # "bob"
+   65              # text(5)
+      61646D696E   # "admin"
+   66              # text(6)
+      6672616E6365 # "france"
+</pre><a href="#section-6.13.1-21" class="pilcrow">¶</a>
+</div>
+<p id="section-6.13.1-22"><strong>Third example:</strong><a href="#section-6.13.1-22" class="pilcrow">¶</a></p>
+<p id="section-6.13.1-23">The following example shows the encoding of the 'reporting-entity' value referencing the list instance "/system/authentication/user" (SID 1730) corresponding to user name "jack".<a href="#section-6.13.1-23" class="pilcrow">¶</a></p>
+<p id="section-6.13.1-24">CBOR diagnostic notation: [1730, "jack"]<a href="#section-6.13.1-24" class="pilcrow">¶</a></p>
+<p id="section-6.13.1-25">CBOR encoding:<a href="#section-6.13.1-25" class="pilcrow">¶</a></p>
+<div id="section-6.13.1-26">
+<pre class="sourcecode lang-CBORbytes">
+82             # array(2)
+   19 06C2     # unsigned(1730)
+   64          # text(4)
+      6A61636B # "jack"
+</pre><a href="#section-6.13.1-26" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="names-as-instance-identifier">
+<section id="section-6.13.2">
+          <h4 id="name-names-as-instance-identifie">
+<a href="#section-6.13.2" class="section-number selfRef">6.13.2. </a><a href="#name-names-as-instance-identifie" class="section-name selfRef">Names as instance-identifier</a>
+          </h4>
+<p id="section-6.13.2-1">An "instance-identifier" value is encoded as a string that is analogous to the lexical representation in XML encoding; see Section 9.13.2 in <span>[<a href="#RFC7950" class="xref">RFC7950</a>]</span>. However, the encoding of namespaces in instance-identifier values follows the rules stated in <a href="#name" class="xref">Section 3.3</a>, namely:<a href="#section-6.13.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6.13.2-2.1">The leftmost (top-level) data node name is always in the namespace qualified form.<a href="#section-6.13.2-2.1" class="pilcrow">¶</a>
+</li>
+            <li class="normal" id="section-6.13.2-2.2">Any subsequent data node name is in the namespace qualified form if the node is defined in a module other than its parent node, and the simple form is used otherwise. This rule also holds for node names appearing in predicates.<a href="#section-6.13.2-2.2" class="pilcrow">¶</a>
+</li>
+          </ul>
+<p id="section-6.13.2-3">For example,<a href="#section-6.13.2-3" class="pilcrow">¶</a></p>
+<p id="section-6.13.2-4">/ietf-interfaces:interfaces/interface[name='eth0']/ietf-ip:ipv4/ip<a href="#section-6.13.2-4" class="pilcrow">¶</a></p>
+<p id="section-6.13.2-5">is a valid instance-identifier value because the data nodes "interfaces", "interface", and "name" are defined in the module "ietf-interfaces", whereas "ipv4" and "ip" are defined in "ietf-ip".<a href="#section-6.13.2-5" class="pilcrow">¶</a></p>
+<p id="section-6.13.2-6">The resulting xpath MUST be encoded using a CBOR text string data item (major type 3).<a href="#section-6.13.2-6" class="pilcrow">¶</a></p>
+<p id="section-6.13.2-7"><strong>First example:</strong><a href="#section-6.13.2-7" class="pilcrow">¶</a></p>
+<p id="section-6.13.2-8">This example is described in <a href="#instance-identifier-with-sid" class="xref">Section 6.13.1</a>.<a href="#section-6.13.2-8" class="pilcrow">¶</a></p>
+<p id="section-6.13.2-9">CBOR diagnostic notation: "/ietf-system:system/contact"<a href="#section-6.13.2-9" class="pilcrow">¶</a></p>
+<p id="section-6.13.2-10">CBOR encoding:<a href="#section-6.13.2-10" class="pilcrow">¶</a></p>
+<div id="section-6.13.2-11">
+<pre class="sourcecode lang-CBORbytes">
+78 1c 2F696574662D73797374656D3A73797374656D2F636F6E74616374
+</pre><a href="#section-6.13.2-11" class="pilcrow">¶</a>
+</div>
+<p id="section-6.13.2-12"><strong>Second example:</strong><a href="#section-6.13.2-12" class="pilcrow">¶</a></p>
+<p id="section-6.13.2-13">This example is described in <a href="#instance-identifier-with-sid" class="xref">Section 6.13.1</a>.<a href="#section-6.13.2-13" class="pilcrow">¶</a></p>
+<p id="section-6.13.2-14">CBOR diagnostic notation:<a href="#section-6.13.2-14" class="pilcrow">¶</a></p>
+<div id="section-6.13.2-15">
+<pre class="sourcecode lang-CBORdiag">
+"/ietf-system:system/authentication/user[name='bob']/authorized-key
+[name='admin']/key-data"
+</pre><a href="#section-6.13.2-15" class="pilcrow">¶</a>
+</div>
+<p id="section-6.13.2-16">CBOR encoding:<a href="#section-6.13.2-16" class="pilcrow">¶</a></p>
+<div id="section-6.13.2-17">
+<pre class="sourcecode lang-CBORbytes">
+78 59
+   2F696574662D73797374656D3A73797374656D2F61757468656E74696361
+   74696F6E2F757365725B6E616D653D27626F62275D2F617574686F72697A
+   65642D6B65790D0A5B6E616D653D2761646D696E275D2F6B65792D64617461
+</pre><a href="#section-6.13.2-17" class="pilcrow">¶</a>
+</div>
+<p id="section-6.13.2-18"><strong>Third example:</strong><a href="#section-6.13.2-18" class="pilcrow">¶</a></p>
+<p id="section-6.13.2-19">This example is described in <a href="#instance-identifier-with-sid" class="xref">Section 6.13.1</a>.<a href="#section-6.13.2-19" class="pilcrow">¶</a></p>
+<p id="section-6.13.2-20">CBOR diagnostic notation:<a href="#section-6.13.2-20" class="pilcrow">¶</a></p>
+<div id="section-6.13.2-21">
+<pre class="sourcecode lang-CBORdiag">
+"/ietf-system:system/authentication/user[name='jack']"
+</pre><a href="#section-6.13.2-21" class="pilcrow">¶</a>
+</div>
+<p id="section-6.13.2-22">CBOR encoding:<a href="#section-6.13.2-22" class="pilcrow">¶</a></p>
+<div id="section-6.13.2-23">
+<pre class="sourcecode lang-CBORbytes">
+78 33
+   2F696574662D73797374656D3A73797374656D2F61757468656E74696361
+   74696F6E2F757365725B6E616D653D27626F62275D
+</pre><a href="#section-6.13.2-23" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="content-type">
+<section id="section-7">
+      <h2 id="name-content-types">
+<a href="#section-7" class="section-number selfRef">7. </a><a href="#name-content-types" class="section-name selfRef">Content-Types</a>
+      </h2>
+<p id="section-7-1">The following Content-Type is defined:<a href="#section-7-1" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel" id="section-7-2">
+        <dt id="section-7-2.1">
+application/yang-data+cbor; id=name:  </dt>
+        <dd style="margin-left: 1.5em" id="section-7-2.2">
+          <p id="section-7-2.2.1">This Content-Type represents a CBOR YANG document containing one or multiple data node values.
+Each data node is identified by its associated namespace qualified name as defined in <a href="#name" class="xref">Section 3.3</a>.<a href="#section-7-2.2.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-7-2.3"></dt>
+        <dd style="margin-left: 1.5em" id="section-7-2.4">
+          <p id="section-7-2.4.1">FORMAT: CBOR map of name, instance-value<a href="#section-7-2.4.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+<dt id="section-7-2.5"></dt>
+        <dd style="margin-left: 1.5em" id="section-7-2.6">
+          <p id="section-7-2.6.1">The message payload of Content-Type 'application/yang-data+cbor' is encoded using a CBOR map.
+Each entry within the CBOR map contains the data node identifier (i.e., its
+namespace qualified name) and the associated instance-value.  Instance-values
+are encoded using the rules defined in <a href="#instance-encoding" class="xref">Section 4</a><a href="#section-7-2.6.1" class="pilcrow">¶</a></p>
+</dd>
+      <dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="security-considerations">
+<section id="section-8">
+      <h2 id="name-security-considerations">
+<a href="#section-8" class="section-number selfRef">8. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
+      </h2>
+<p id="section-8-1">The security considerations of <span>[<a href="#RFC8949" class="xref">RFC8949</a>]</span> and <span>[<a href="#RFC7950" class="xref">RFC7950</a>]</span> apply.<a href="#section-8-1" class="pilcrow">¶</a></p>
+<p id="section-8-2">This document defines an alternative encoding for data modeled in the YANG data modeling language. As such, this encoding does not contribute any new security issues in addition to those identified for the specific protocol or context for which it is used.<a href="#section-8-2" class="pilcrow">¶</a></p>
+<p id="section-8-3">To minimize security risks, software on the receiving side SHOULD reject all messages that do not comply to the rules of this document and reply with an appropriate error message to the sender.<a href="#section-8-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="iana-considerations">
+<section id="section-9">
+      <h2 id="name-iana-considerations">
+<a href="#section-9" class="section-number selfRef">9. </a><a href="#name-iana-considerations" class="section-name selfRef">IANA Considerations</a>
+      </h2>
+<div id="media-types-registry">
+<section id="section-9.1">
+        <h3 id="name-media-types-registry">
+<a href="#section-9.1" class="section-number selfRef">9.1. </a><a href="#name-media-types-registry" class="section-name selfRef">Media-Types Registry</a>
+        </h3>
+<p id="section-9.1-1">This document adds the following Media-Type to the "Media Types" registry.<a href="#section-9.1-1" class="pilcrow">¶</a></p>
+<table class="left" id="table-2">
+          <caption><a href="#table-2" class="selfRef">Table 2</a></caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">Name</th>
+              <th class="text-left" rowspan="1" colspan="1">Template</th>
+              <th class="text-left" rowspan="1" colspan="1">Reference</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">yang-data+cbor</td>
+              <td class="text-left" rowspan="1" colspan="1">application/yang-data+cbor</td>
+              <td class="text-left" rowspan="1" colspan="1">RFC XXXX</td>
+            </tr>
+          </tbody>
+        </table>
+<p id="section-9.1-3">// RFC Ed.: please replace RFC XXXX with this RFC number and remove this note.<a href="#section-9.1-3" class="pilcrow">¶</a></p>
+<span class="break"></span><dl class="dlParallel dlCompact" id="section-9.1-4">
+          <dt id="section-9.1-4.1">
+Type name:  </dt>
+          <dd style="margin-left: 1.5em" id="section-9.1-4.2">
+            <p id="section-9.1-4.2.1">application<a href="#section-9.1-4.2.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-9.1-4.3">
+Subtype name:  </dt>
+          <dd style="margin-left: 1.5em" id="section-9.1-4.4">
+            <p id="section-9.1-4.4.1">yang-data+cbor<a href="#section-9.1-4.4.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-9.1-4.5">
+Required parameters:  </dt>
+          <dd style="margin-left: 1.5em" id="section-9.1-4.6">
+            <p id="section-9.1-4.6.1">none<a href="#section-9.1-4.6.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-9.1-4.7">
+Optional parameters:  </dt>
+          <dd style="margin-left: 1.5em" id="section-9.1-4.8">
+            <p id="section-9.1-4.8.1">none<a href="#section-9.1-4.8.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-9.1-4.9">
+Encoding considerations:  </dt>
+          <dd style="margin-left: 1.5em" id="section-9.1-4.10">
+            <p id="section-9.1-4.10.1">binary (CBOR)<a href="#section-9.1-4.10.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-9.1-4.11">
+Security considerations:  </dt>
+          <dd style="margin-left: 1.5em" id="section-9.1-4.12">
+            <p id="section-9.1-4.12.1">see Section 8 of RFC XXXX<a href="#section-9.1-4.12.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-9.1-4.13">
+Published specification:  </dt>
+          <dd style="margin-left: 1.5em" id="section-9.1-4.14">
+            <p id="section-9.1-4.14.1">RFC XXXX<a href="#section-9.1-4.14.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-9.1-4.15">
+Person &amp; email address to contact for further information:  </dt>
+          <dd style="margin-left: 1.5em" id="section-9.1-4.16">
+            <p id="section-9.1-4.16.1">CORE WG mailing list (core@ietf.org),
+or IETF Applications and Real-Time Area (art@ietf.org)<a href="#section-9.1-4.16.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-9.1-4.17">
+Intended usage:  </dt>
+          <dd style="margin-left: 1.5em" id="section-9.1-4.18">
+            <p id="section-9.1-4.18.1">COMMON<a href="#section-9.1-4.18.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-9.1-4.19">
+Restrictions on usage:  </dt>
+          <dd style="margin-left: 1.5em" id="section-9.1-4.20">
+            <p id="section-9.1-4.20.1">none<a href="#section-9.1-4.20.1" class="pilcrow">¶</a></p>
+</dd>
+          <dd class="break"></dd>
+<dt id="section-9.1-4.21">
+Author/Change controller:  </dt>
+          <dd style="margin-left: 1.5em" id="section-9.1-4.22">
+            <p id="section-9.1-4.22.1">IETF<a href="#section-9.1-4.22.1" class="pilcrow">¶</a></p>
+</dd>
+        <dd class="break"></dd>
+</dl>
+</section>
+</div>
+<div id="coap-content-formats-registry">
+<section id="section-9.2">
+        <h3 id="name-coap-content-formats-regist">
+<a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-coap-content-formats-regist" class="section-name selfRef">CoAP Content-Formats Registry</a>
+        </h3>
+<p id="section-9.2-1">This document adds the following Content-Format to the "CoAP Content-Formats",
+within the "Constrained RESTful Environments (CoRE) Parameters" registry.<a href="#section-9.2-1" class="pilcrow">¶</a></p>
+<table class="left" id="table-3">
+          <caption><a href="#table-3" class="selfRef">Table 3</a></caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">Media Type</th>
+              <th class="text-left" rowspan="1" colspan="1">Content Coding</th>
+              <th class="text-left" rowspan="1" colspan="1">ID</th>
+              <th class="text-left" rowspan="1" colspan="1">Reference</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">application/yang-data+cbor; id=name</td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">TBD1</td>
+              <td class="text-left" rowspan="1" colspan="1">RFC XXXX</td>
+            </tr>
+          </tbody>
+        </table>
+<p id="section-9.2-3">// RFC Ed.: please replace TBD1 with assigned IDs and remove this note.
+// RFC Ed.: please replace RFC XXXX with this RFC number and remove this note.<a href="#section-9.2-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="tag-registry">
+<section id="section-9.3">
+        <h3 id="name-cbor-tags-registry">
+<a href="#section-9.3" class="section-number selfRef">9.3. </a><a href="#name-cbor-tags-registry" class="section-name selfRef">CBOR Tags Registry</a>
+        </h3>
+<p id="section-9.3-1">This specification requires the assignment of CBOR tags for the following YANG datatypes.
+These tags are added to the CBOR  Tags Registry as defined in <span><a href="https://rfc-editor.org/rfc/rfc8949#section-9.2" class="relref">Section 9.2</a> of [<a href="#RFC8949" class="xref">RFC8949</a>]</span>.<a href="#section-9.3-1" class="pilcrow">¶</a></p>
+<table class="left" id="table-4">
+          <caption><a href="#table-4" class="selfRef">Table 4</a></caption>
+<thead>
+            <tr>
+              <th class="text-left" rowspan="1" colspan="1">Tag</th>
+              <th class="text-left" rowspan="1" colspan="1">Data Item</th>
+              <th class="text-left" rowspan="1" colspan="1">Semantics</th>
+              <th class="text-left" rowspan="1" colspan="1">Reference</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">43</td>
+              <td class="text-left" rowspan="1" colspan="1">text string</td>
+              <td class="text-left" rowspan="1" colspan="1">YANG bits datatype</td>
+              <td class="text-left" rowspan="1" colspan="1">[this]</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">; see Section 6.7.</td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">44</td>
+              <td class="text-left" rowspan="1" colspan="1">text string</td>
+              <td class="text-left" rowspan="1" colspan="1">YANG enumeration datatype</td>
+              <td class="text-left" rowspan="1" colspan="1">[this]</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">; see Section 6.6.</td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">45</td>
+              <td class="text-left" rowspan="1" colspan="1">unsigned integer</td>
+              <td class="text-left" rowspan="1" colspan="1">YANG identityref datatype</td>
+              <td class="text-left" rowspan="1" colspan="1">[this]</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">or text string</td>
+              <td class="text-left" rowspan="1" colspan="1">; see Section 6.10.</td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">46</td>
+              <td class="text-left" rowspan="1" colspan="1">unsigned integer</td>
+              <td class="text-left" rowspan="1" colspan="1">YANG instance-identifier</td>
+              <td class="text-left" rowspan="1" colspan="1">[this]</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">or text string</td>
+              <td class="text-left" rowspan="1" colspan="1">datatype; see Section 6.13.</td>
+              <td class="text-left" rowspan="1" colspan="1">[this]</td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">or array</td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1">47</td>
+              <td class="text-left" rowspan="1" colspan="1">unsigned integer</td>
+              <td class="text-left" rowspan="1" colspan="1">YANG Schema Item iDentifier</td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+            </tr>
+            <tr>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1"> </td>
+              <td class="text-left" rowspan="1" colspan="1">; see Section 3.2.</td>
+              <td class="text-left" rowspan="1" colspan="1">[this]</td>
+            </tr>
+          </tbody>
+        </table>
+<p id="section-9.3-3">// RFC Ed.: please replace [this] with RFC number and remove this note<a href="#section-9.3-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+<div id="acknowledgments">
+<section id="section-10">
+      <h2 id="name-acknowledgments">
+<a href="#section-10" class="section-number selfRef">10. </a><a href="#name-acknowledgments" class="section-name selfRef">Acknowledgments</a>
+      </h2>
+<p id="section-10-1">This document has been largely inspired by the extensive works done by Andy Bierman and Peter van der Stok on <span>[<a href="#I-D.ietf-core-comi" class="xref">I-D.ietf-core-comi</a>]</span>. <span>[<a href="#RFC7951" class="xref">RFC7951</a>]</span> has also been a critical input to this work. The authors would like to thank the authors and contributors to these two drafts.<a href="#section-10-1" class="pilcrow">¶</a></p>
+<p id="section-10-2">The authors would also like to acknowledge the review, feedback, and comments from Ladislav Lhotka and Juergen Schoenwaelder.<a href="#section-10-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<section id="section-11">
+      <h2 id="name-references">
+<a href="#section-11" class="section-number selfRef">11. </a><a href="#name-references" class="section-name selfRef">References</a>
+      </h2>
+<section id="section-11.1">
+        <h3 id="name-normative-references">
+<a href="#section-11.1" class="section-number selfRef">11.1. </a><a href="#name-normative-references" class="section-name selfRef">Normative References</a>
+        </h3>
+<dl class="references">
+<dt id="RFC2119">[RFC2119]</dt>
+        <dd>
+<span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc2119">https://www.rfc-editor.org/info/rfc2119</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC5234">[RFC5234]</dt>
+        <dd>
+<span class="refAuthor">Crocker, D., Ed.</span> and <span class="refAuthor">P. Overell</span>, <span class="refTitle">"Augmented BNF for Syntax Specifications: ABNF"</span>, <span class="seriesInfo">STD 68</span>, <span class="seriesInfo">RFC 5234</span>, <span class="seriesInfo">DOI 10.17487/RFC5234</span>, <time datetime="2008-01" class="refDate">January 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5234">https://www.rfc-editor.org/info/rfc5234</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC6241">[RFC6241]</dt>
+        <dd>
+<span class="refAuthor">Enns, R., Ed.</span>, <span class="refAuthor">Bjorklund, M., Ed.</span>, <span class="refAuthor">Schoenwaelder, J., Ed.</span>, and <span class="refAuthor">A. Bierman, Ed.</span>, <span class="refTitle">"Network Configuration Protocol (NETCONF)"</span>, <span class="seriesInfo">RFC 6241</span>, <span class="seriesInfo">DOI 10.17487/RFC6241</span>, <time datetime="2011-06" class="refDate">June 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6241">https://www.rfc-editor.org/info/rfc6241</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7950">[RFC7950]</dt>
+        <dd>
+<span class="refAuthor">Bjorklund, M., Ed.</span>, <span class="refTitle">"The YANG 1.1 Data Modeling Language"</span>, <span class="seriesInfo">RFC 7950</span>, <span class="seriesInfo">DOI 10.17487/RFC7950</span>, <time datetime="2016-08" class="refDate">August 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7950">https://www.rfc-editor.org/info/rfc7950</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8174">[RFC8174]</dt>
+        <dd>
+<span class="refAuthor">Leiba, B.</span>, <span class="refTitle">"Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 8174</span>, <span class="seriesInfo">DOI 10.17487/RFC8174</span>, <time datetime="2017-05" class="refDate">May 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8174">https://www.rfc-editor.org/info/rfc8174</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8610">[RFC8610]</dt>
+        <dd>
+<span class="refAuthor">Birkholz, H.</span>, <span class="refAuthor">Vigano, C.</span>, and <span class="refAuthor">C. Bormann</span>, <span class="refTitle">"Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation (CBOR) and JSON Data Structures"</span>, <span class="seriesInfo">RFC 8610</span>, <span class="seriesInfo">DOI 10.17487/RFC8610</span>, <time datetime="2019-06" class="refDate">June 2019</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8610">https://www.rfc-editor.org/info/rfc8610</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8949">[RFC8949]</dt>
+      <dd>
+<span class="refAuthor">Bormann, C.</span> and <span class="refAuthor">P. Hoffman</span>, <span class="refTitle">"Concise Binary Object Representation (CBOR)"</span>, <span class="seriesInfo">STD 94</span>, <span class="seriesInfo">RFC 8949</span>, <span class="seriesInfo">DOI 10.17487/RFC8949</span>, <time datetime="2020-12" class="refDate">December 2020</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8949">https://www.rfc-editor.org/info/rfc8949</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+<section id="section-11.2">
+        <h3 id="name-informative-references">
+<a href="#section-11.2" class="section-number selfRef">11.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
+        </h3>
+<dl class="references">
+<dt id="I-D.ietf-core-comi">[I-D.ietf-core-comi]</dt>
+        <dd>
+<span class="refAuthor">Veillette, M.</span>, <span class="refAuthor">Stok, P. V. D.</span>, <span class="refAuthor">Pelov, A.</span>, <span class="refAuthor">Bierman, A.</span>, and <span class="refAuthor">I. Petrov</span>, <span class="refTitle">"CoAP Management Interface (CORECONF)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-comi-11</span>, <time datetime="2021-01-17" class="refDate">17 January 2021</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-ietf-core-comi-11.txt">https://www.ietf.org/archive/id/draft-ietf-core-comi-11.txt</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="I-D.ietf-core-sid">[I-D.ietf-core-sid]</dt>
+        <dd>
+<span class="refAuthor">Veillette, M.</span>, <span class="refAuthor">Pelov, A.</span>, and <span class="refAuthor">I. Petrov</span>, <span class="refTitle">"YANG Schema Item iDentifier (YANG SID)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-sid-15</span>, <time datetime="2021-01-17" class="refDate">17 January 2021</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-ietf-core-sid-15.txt">https://www.ietf.org/archive/id/draft-ietf-core-sid-15.txt</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7228">[RFC7228]</dt>
+        <dd>
+<span class="refAuthor">Bormann, C.</span>, <span class="refAuthor">Ersue, M.</span>, and <span class="refAuthor">A. Keranen</span>, <span class="refTitle">"Terminology for Constrained-Node Networks"</span>, <span class="seriesInfo">RFC 7228</span>, <span class="seriesInfo">DOI 10.17487/RFC7228</span>, <time datetime="2014-05" class="refDate">May 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7228">https://www.rfc-editor.org/info/rfc7228</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7317">[RFC7317]</dt>
+        <dd>
+<span class="refAuthor">Bierman, A.</span> and <span class="refAuthor">M. Bjorklund</span>, <span class="refTitle">"A YANG Data Model for System Management"</span>, <span class="seriesInfo">RFC 7317</span>, <span class="seriesInfo">DOI 10.17487/RFC7317</span>, <time datetime="2014-08" class="refDate">August 2014</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7317">https://www.rfc-editor.org/info/rfc7317</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC7951">[RFC7951]</dt>
+        <dd>
+<span class="refAuthor">Lhotka, L.</span>, <span class="refTitle">"JSON Encoding of Data Modeled with YANG"</span>, <span class="seriesInfo">RFC 7951</span>, <span class="seriesInfo">DOI 10.17487/RFC7951</span>, <time datetime="2016-08" class="refDate">August 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7951">https://www.rfc-editor.org/info/rfc7951</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8040">[RFC8040]</dt>
+        <dd>
+<span class="refAuthor">Bierman, A.</span>, <span class="refAuthor">Bjorklund, M.</span>, and <span class="refAuthor">K. Watsen</span>, <span class="refTitle">"RESTCONF Protocol"</span>, <span class="seriesInfo">RFC 8040</span>, <span class="seriesInfo">DOI 10.17487/RFC8040</span>, <time datetime="2017-01" class="refDate">January 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8040">https://www.rfc-editor.org/info/rfc8040</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8259">[RFC8259]</dt>
+        <dd>
+<span class="refAuthor">Bray, T., Ed.</span>, <span class="refTitle">"The JavaScript Object Notation (JSON) Data Interchange Format"</span>, <span class="seriesInfo">STD 90</span>, <span class="seriesInfo">RFC 8259</span>, <span class="seriesInfo">DOI 10.17487/RFC8259</span>, <time datetime="2017-12" class="refDate">December 2017</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8259">https://www.rfc-editor.org/info/rfc8259</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8343">[RFC8343]</dt>
+        <dd>
+<span class="refAuthor">Bjorklund, M.</span>, <span class="refTitle">"A YANG Data Model for Interface Management"</span>, <span class="seriesInfo">RFC 8343</span>, <span class="seriesInfo">DOI 10.17487/RFC8343</span>, <time datetime="2018-03" class="refDate">March 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8343">https://www.rfc-editor.org/info/rfc8343</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="RFC8344">[RFC8344]</dt>
+      <dd>
+<span class="refAuthor">Bjorklund, M.</span>, <span class="refTitle">"A YANG Data Model for IP Management"</span>, <span class="seriesInfo">RFC 8344</span>, <span class="seriesInfo">DOI 10.17487/RFC8344</span>, <time datetime="2018-03" class="refDate">March 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc8344">https://www.rfc-editor.org/info/rfc8344</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+</dl>
+</section>
+</section>
+<div id="authors-addresses">
+<section id="section-appendix.a">
+      <h2 id="name-authors-addresses">
+<a href="#name-authors-addresses" class="section-name selfRef">Authors' Addresses</a>
+      </h2>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Michel Veillette (<span class="role">editor</span>)</span></div>
+<div dir="auto" class="left"><span class="org">Trilliant Networks Inc.</span></div>
+<div dir="auto" class="left"><span class="street-address">610 Rue du Luxembourg</span></div>
+<div dir="auto" class="left">
+<span class="locality">Granby</span> <span class="region">Quebec</span> <span class="postal-code">J2J 2V2</span>
+</div>
+<div dir="auto" class="left"><span class="country-name">Canada</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:michel.veillette@trilliantinc.com" class="email">michel.veillette@trilliantinc.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Ivaylo Petrov (<span class="role">editor</span>)</span></div>
+<div dir="auto" class="left"><span class="org">Google Switzerland GmbH</span></div>
+<div dir="auto" class="left"><span class="street-address">Brandschenkestrasse 110</span></div>
+<div dir="auto" class="left">CH-<span class="postal-code">8002</span> <span class="locality">Zurich</span>
+</div>
+<div dir="auto" class="left"><span class="country-name">Switzerland</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:ivaylopetrov@google.com" class="email">ivaylopetrov@google.com</a>
+</div>
+</address>
+<address class="vcard">
+        <div dir="auto" class="left"><span class="fn nameRole">Alexander Pelov</span></div>
+<div dir="auto" class="left"><span class="org">Acklio</span></div>
+<div dir="auto" class="left"><span class="street-address">1137A avenue des Champs Blancs</span></div>
+<div dir="auto" class="left">
+<span class="postal-code">35510</span> <span class="locality">Cesson-Sevigne</span>
+</div>
+<div dir="auto" class="left"><span class="country-name">France</span></div>
+<div class="email">
+<span>Email:</span>
+<a href="mailto:a@ackl.io" class="email">a@ackl.io</a>
+</div>
+</address>
+</section>
+</div>
+<script>const toc = document.getElementById("toc");
+toc.querySelector("h2").addEventListener("click", e => {
+  toc.classList.toggle("active");
+});
+toc.querySelector("nav").addEventListener("click", e => {
+  toc.classList.remove("active");
+});
+</script>
+</body>
+</html>
