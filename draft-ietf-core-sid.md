@@ -91,6 +91,12 @@ informative:
   I-D.ietf-core-comi: comi
   I-D.ietf-core-yang-library: yang-library
   I-D.ietf-anima-constrained-voucher: constrained-voucher
+  PYANG:
+    target: https://github.com/mbj4668/pyang
+    title: An extensible YANG validator and converter in python
+    author:
+      - name: Martin Bjorklund
+    date: false
 
 --- abstract
 
@@ -133,15 +139,11 @@ related to discovery such as Constrained YANG Module Library {{-yang-library}}.
 SIDs are globally unique integers.  A registration system is used in order to
 guarantee their uniqueness. SIDs are registered in blocks called "SID ranges".
 
-Assignment of SIDs to YANG items can be automated.
-For more details how this can be achieved, please consult {{sid-auto-generation}}.
-
 SIDs are assigned permanently.
 Items introduced by a new revision of a YANG
-module are added to the list of SIDs already assigned. If the meaning of an
-item changes, for example as a result from a non-backward compatible update of
-the YANG module, a new SID SHOULD be assigned to it. A new SID MUST always be
-assigned if the new meaning of the item is going to be referenced using a SID.
+module are added to the list of SIDs already assigned.
+Assignment of SIDs to YANG items SHOULD be automated.
+For more details how this can be achieved, and when manual interventions may be appropriate, see {{sid-auto-generation}}.
 
 {{sid-lifecycle}} provides more details about the registration process of YANG
 modules and associated SIDs. To enable the implementation of this registry,
@@ -151,6 +153,9 @@ SIDs.
 IETF managed YANG modules which need to allocate SIDs, MUST use the IANA mechanism specified in this document.
 For YANG modules created by other parties, the use of IANA allocation mechanisms via use of Mega-Ranges (see {{mega-range-registry}}) is RECOMMENDED.
 Within the Mega-Range allocation, those other parties are free to make up their own mechanism.
+
+At the time of writing, a tool for automated SID file generation is
+available as part of the open-source project PYANG {{PYANG}}.
 
 # Terminology and Notation
 
@@ -1299,7 +1304,8 @@ embedded blank space results.
 
 # SID auto generation {#sid-auto-generation}
 
-Assignment of SIDs to YANG items can be automated, the recommended process to assign SIDs is as follows:
+Assignment of SIDs to YANG items SHOULD be automated.
+The recommended process to assign SIDs is as follows:
 
 1. A tool extracts the different items defined for a specific YANG module.
 2. The list of items is sorted in alphabetical order, 'namespace' in descending order, 'identifier' in ascending order. The 'namespace' and 'identifier' formats are described in the YANG module 'ietf-sid-file' defined in {{sid-file-format}}.
@@ -1307,6 +1313,14 @@ Assignment of SIDs to YANG items can be automated, the recommended process to as
 4. If the number of items exceeds the SID range(s) allocated to a YANG module, an extra range is added for subsequent assignments.
 5. The "dependency-revision" should reflect the revision numbers of each
    YANG module that the YANG module imports at the moment of the generation.
+
+When updating a YANG module that is in active use, the existing SID assignments are maintained.
+(In contrast, when evolving an early draft that has not yet been adopted by a community of developers, SID assignments are often better done from scratch after a revision.)
+If the name of a schema node changes, but the data remain structurally and semantically similar to what was previously available under an old name, the SID that was used for the old name MAY continue to be used for the new name.
+If the meaning of an item changes, a new SID MAY be assigned to it; this is particularly useful to allow the new SID to identify the new structure or semantics of the item.
+If the YANG data type changes in a new revision of a published module,
+such that the resulting CBOR encoding is changed, then implementations will be aided significantly if a new SID is assigned.
+Note that these decisions are at generally at the discretion of the YANG module author, who should decide if the benefits of a manual intervention are worth the deviation from automatic assignment.
 
 In case of an update to an existing ".sid" file, an additional step is needed
 that increments the ".sid" file version number. If there was no version number
