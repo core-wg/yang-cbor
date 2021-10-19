@@ -54,6 +54,11 @@ author:
   country: Germany
   phone: "+49-421-218-63921"
   email: cabo@tzi.org
+
+- name: Michael Richardson
+  org: Sandelman Software Works
+  email: mcr+ietf@sandelman.ca
+
 contributor:
 - name: Andy Bierman
   org: YumaWorks
