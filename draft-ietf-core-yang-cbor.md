@@ -1650,18 +1650,23 @@ This example is described in {{instance-identifier-with-sid}}.
 
 CBOR diagnostic notation (the line break is inserted for exposition only):
 
+<!-- http://cbor.me/?diag=%22/ietf-system:system/authentication/user[name=%27bob%27]/authorized-key[name=%27admin%27][country=%27france%27]/key-data%22 -->
+
 ~~~~ CBORdiag
 "/ietf-system:system/authentication/user[name='bob']/
-authorized-key[name='admin']/key-data"
+authorized-key[name='admin'][country='france']/key-data"
 ~~~~
 
 CBOR encoding:
 
+<!-- http://cbor.me/?bytes=78.6B(2F696574662D73797374656D3A73797374656D2F61757468656E7469636174696F6E2F757365725B6E616D653D27626F62275D2F617574686F72697A65642D6B65795B6E616D653D2761646D696E275D5B636F756E7472793D276672616E6365275D2F6B65792D64617461) -->
+
 ~~~~ CBORbytes
-78 59
+78 6B
    2F696574662D73797374656D3A73797374656D2F61757468656E74696361
    74696F6E2F757365725B6E616D653D27626F62275D2F617574686F72697A
-   65642D6B65795B6E616D653D2761646D696E275D2F6B65792D64617461
+   65642D6B65795B6E616D653D2761646D696E275D5B636F756E7472793D27
+   6672616E6365275D2F6B65792D64617461
 ~~~~
 
 **Third example:**
