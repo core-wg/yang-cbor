@@ -1232,8 +1232,13 @@ byte of the byte string that follows will represent bit positions 40 to 47 both
 ends included. If the byte string has a second byte, it will carry information
 about bits 48 to 55 and so on. Within each byte, bits are assigned from least
 to most significant. After the byte string, the offset is modified by the number
-of bytes in the byte string multiplied by 8. Bytes with no bits set at the end
-of the byte string are removed. An example follows.
+of bytes in the byte string multiplied by 8.
+Bytes with no bits set (zero bytes) at the end of the byte string are never generated:
+If they would occur at the end of the array, the zero bytes are simply omitted;
+if they occur at the end of a byte string preceding an integer, the
+zero bytes are removed and the integer adjusted upwards by the number
+of zero bytes removed.
+An example follows.
 
 The following example shows the encoding of an 'alarm-state' leaf schema node
 instance with the 'critical' (position 3), 'warning' (position 8) and
@@ -1275,7 +1280,8 @@ CBOR diagnostic notation: h'06'
 
 CBOR encoding: 41 06
 
-Elements in the array MUST be either byte strings or positive unsigned
+Elements in the array MUST be either byte strings that do not end in
+a zero byte, or positive unsigned
 integers, where byte strings and integers MUST alternate, i.e., adjacent byte
 strings or adjacent integers are an error. An array with a single byte string
 MUST instead be encoded as just that byte string. An array with a single
