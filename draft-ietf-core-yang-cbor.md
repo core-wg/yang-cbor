@@ -247,9 +247,9 @@ This specification also supports the encoding of YANG item identifiers as text s
 
 YANG item identifiers implemented using names MUST be in one of the following forms:
 
-* simple - the identifier of the YANG item (i.e., schema node or identity).
+* simple — the identifier of the YANG item (i.e., schema node or identity).
 
-* namespace qualified - the identifier of the YANG item is prefixed with the name of the module in which this item is defined, separated by the colon character (":").
+* namespace qualified — the identifier of the YANG item is prefixed with the name of the module in which this item is defined, separated by the colon character (":").
 
 The name of a module determines the namespace of all YANG items defined in that module. If an item is defined in a submodule, then the namespace qualified name uses the name of the main module to which the submodule belongs.
 
@@ -1271,7 +1271,7 @@ CBOR diagnostic notation: [h'0401', 14, h'01']
 
 CBOR encoding: 83 42 0401 0E 41 01
 
-In a number of cases the array would only need to have one element - a byte string with a few bytes inside.
+In a number of cases the array would only need to have one element — a byte string with a few bytes inside.
 For this case, it is expected to omit the array element and have only the byte array that would have been inside.
 To illustrate this, let us consider the same example YANG definition, but this time encoding only 'under-repair' and 'critical' flags.
 The result would be
@@ -1554,7 +1554,7 @@ This example aims to show how a schema node member of a YANG list is identified.
 It uses a somewhat arbitrarily modified YANG module version from {{RFC7317}} by
 adding `country` to the leafs and keys of `authorized-key`.
 
-The following example shows the encoding of the 'reporting-entity' value referencing list instance "/system/authentication/user/authorized-key/key-data" (which is assumed to have SID 1734) for user name "bob" and authorized-key with name "admin" and country "france".
+The following example shows the encoding of the 'reporting-entity' value referencing list instance "/system/authentication/user/authorized-key/key-data" (which is assumed to have SID 1734) for username "bob" and authorized-key with name "admin" and country "france".
 
 ~~~~ yang
 list user {
@@ -1607,7 +1607,7 @@ CBOR encoding:
 
 **Third example:**
 
-The following example shows the encoding of the 'reporting-entity' value referencing the list instance "/system/authentication/user" (SID 1730) corresponding to user name "jack".
+The following example shows the encoding of the 'reporting-entity' value referencing the list instance "/system/authentication/user" (SID 1730) corresponding to username "jack".
 
 CBOR diagnostic notation: [1730, "jack"]
 
