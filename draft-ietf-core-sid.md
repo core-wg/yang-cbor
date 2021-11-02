@@ -711,6 +711,12 @@ requirement for "Specification Required" stated in Section 2 of
 {{BCP100}}, <!-- XXX xml2rfc bug-->
 which allows for the early allocation process to be employed.
 
+### Publication of the SID file
+
+The SID file SHOULD be included in internet-drafts approved for publication as RFCs as a source code block.
+This SID file is to be extracted by IANA and put into the Registry along with the YANG module. 
+The SID file MUST NOT be published as part of the RFC: the IANA Registry is authoritative and a link is to be inserted in the RFC.
+
 ### Initial contents of the registry {#ietf-iana-sid-range-initial-contents}
 
 Initial entries in this registry are as follows:
