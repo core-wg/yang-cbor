@@ -615,15 +615,11 @@ The name of this registry is "YANG SID Mega-Range". This registry is used to rec
 Each entry in this registry must include:
 
 * The entry point (first SID) of the registered SID block.
-* The size of the registered SID block. The size MUST be one million (1 000 000) SIDs.
+* The size of the registered SID block. The size SHOULD be one million (1 000 000) SIDs.
 * The contact information of the requesting organization including:
   * The policy of SID range allocations: Public, Private or Both.
   * Organization name
   * URL
-
-The information associated to the Organization name should not be publicly
-visible in the registry, but should be available. This information includes
-contact email and phone number and change controller email and phone number.
 
 ### Allocation policy
 
