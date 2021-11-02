@@ -1702,11 +1702,11 @@ with the parameter `id=name` or `id=sid`.
 This media-type represents a CBOR YANG document containing one or
 multiple data node values.
 If the media-type parameter `id` is present,
-depending its value,
+depending on its value,
 each data node is identified by its associated namespace qualified
-name as defined in {{name}} (`id=name`), by its associated YANG SID
+name as defined in {{name}} (`id=name`), or by its associated YANG SID
 (represented as a SID delta or via tag 47) as defined in {{sid}}
-(`id=sid`).
+(`id=sid`), respectively.
 If no `id` parameter is given, both forms may be present.
 
 The format of an `application/yang-data+cbor` representation is that
