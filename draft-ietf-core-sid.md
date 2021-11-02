@@ -147,16 +147,16 @@ guarantee their uniqueness. SIDs are registered in blocks called "SID ranges".
 SIDs are assigned permanently.
 Items introduced by a new revision of a YANG
 module are added to the list of SIDs already assigned.
-Assignment of SIDs to YANG items SHOULD be automated.
-For more details how this can be achieved, and when manual interventions may be appropriate, see {{sid-auto-generation}}.
+Assignment of SIDs to YANG items can be automated using the methods from {{sid-auto-generation}}.
+In some cases, manual interventions may be appropriate.
 
 {{sid-lifecycle}} provides more details about the registration process of YANG
 modules and associated SIDs. To enable the implementation of this registry,
 {{sid-file-format}} defines a standard file format used to store and publish
 SIDs.
 
-IETF managed YANG modules which need to allocate SIDs, MUST use the IANA mechanism specified in this document.
-For YANG modules created by other parties, the use of IANA allocation mechanisms via use of Mega-Ranges (see {{mega-range-registry}}) is RECOMMENDED.
+IETF managed YANG modules which need to allocate SIDs use the IANA mechanism specified in this document.
+For YANG modules created by other parties use the IANA allocation mechanisms via Mega-Ranges (see {{mega-range-registry}}).
 Within the Mega-Range allocation, those other parties are free to make up their own mechanism.
 
 At the time of writing, a tool for automated SID file generation is
