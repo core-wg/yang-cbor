@@ -259,6 +259,8 @@ Both the 'top' container and the 'bar' leaf defined in a different YANG module a
 Schema node instances defined using the YANG modeling language are encoded using CBOR {{RFC8949}} based on the rules defined in this section. We assume that the reader is
 already familiar with both YANG {{RFC7950}} and CBOR {{RFC8949}}.
 
+The SID key integer 0 is reserved as an invalid SID value as an implementation aid.
+
 ## The 'leaf'
 
 A 'leaf' MUST be encoded accordingly to its datatype using one of the encoding rules specified in {{data-types-mapping}}.
