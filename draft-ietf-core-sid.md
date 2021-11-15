@@ -159,7 +159,7 @@ IETF managed YANG modules which need to allocate SIDs, MUST use the IANA mechani
 For YANG modules created by other parties, the use of IANA allocation mechanisms via use of Mega-Ranges (see {{mega-range-registry}}) is RECOMMENDED.
 Within the Mega-Range allocation, those other parties are free to make up their own mechanism.
 
-At the time of writing, a tool for automated SID file generation is
+At the time of writing, a tool for automated ".sid" file generation is
 available as part of the open-source project PYANG {{PYANG}}.
 
 # Terminology and Notation
@@ -635,7 +635,7 @@ An organization requesting to manage a YANG SID Range (and thus have an entry in
     * Entry Point of allocated YANG SID Range
     * Size of allocated YANG SID Range
     * Type: Public or Private
-        * Public Ranges MUST include at least a reference to the YANG module and ".sid" files for that YANG SID Range.
+        * Public Ranges MUST include at least a reference to the YANG module and ".sid" files for that YANG SID Range (e.g., compare {{publink}} for the IETF YANG SID registry).
         * Private Ranges MUST be marked as "Private"
 * A Policy of allocation, which clearly identifies if the YANG SID Range allocations would be Private, Public or Both.
 * Technical capacity to ensure the sustained operation of the registry for a period of at least 5 years. If Private Registrations are allowed, the period must be of at least 10 years.
@@ -711,11 +711,14 @@ requirement for "Specification Required" stated in Section 2 of
 {{BCP100}}, <!-- XXX xml2rfc bug-->
 which allows for the early allocation process to be employed.
 
-### Publication of the SID file
+### Publication of the ".sid" file {#publink}
 
-The SID file SHOULD be included in internet-drafts approved for publication as RFCs as a source code block.
-This SID file is to be extracted by IANA and put into the Registry along with the YANG module. 
-The SID file MUST NOT be published as part of the RFC: the IANA Registry is authoritative and a link is to be inserted in the RFC.
+For a YANG module approved for publication as an RFC,
+a ".sid" file SHOULD be included in the Internet-Draft as a source code block.
+This ".sid" file is to be extracted by IANA/the expert reviewer and
+put into the YANG SID Registry ({{ietf-sid-registry}}) along with the
+YANG module.
+The ".sid" file MUST NOT be published as part of the RFC: the IANA Registry is authoritative and a link is to be inserted in the RFC.
 
 ### Initial contents of the registry {#ietf-iana-sid-range-initial-contents}
 
@@ -780,7 +783,7 @@ Due to the difficulty in changing SID values during IETF document processing,
 it is expected that most documents will ask for SID allocations using Early
 Allocations {{BCP100}}. The details of the Early Allocation should be included
 in any Working Group Adoption call. Prior to Working Group Adoption, an internet
-draft authors can use the experimental SID range (as per
+draft author can use the experimental SID range (as per
 {{ietf-iana-sid-range-allocation-policy}}) for their SIDs allocations or
 other values that do not create ambiguity with other SID uses (for example
 they can use a range that comes from a non-IANA managed "YANG SID Mega-Range"
@@ -803,7 +806,7 @@ those modules as well.
 
 * If the document is a published RFC, then the allocation of SIDs for its
   referenced YANG modules is permanent.  The Expert Reviewer provides the
-  generated SID file to IANA for registration.  This process may be
+  generated ".sid" file to IANA for registration.  This process may be
   time-consuming during a bootstrap period (there are over 100 YANG
   modules to date,
   none of which have SID allocations), but should quiet down once needed
