@@ -615,7 +615,9 @@ The name of this registry is "YANG SID Mega-Range". This registry is used to rec
 Each entry in this registry must include:
 
 * The entry point (first SID) of the registered SID block.
-* The size of the registered SID block. The size SHOULD be one million (1 000 000) SIDs.
+* The size of the registered SID block.
+  The size SHOULD be one million (1 000 000) SIDs,
+  it MAY exceptionally be a multiple of 1 000 000.
 * The contact information of the requesting organization including:
   * The policy of SID range allocations: Public, Private or Both.
   * Organization name
@@ -636,6 +638,12 @@ An organization requesting to manage a YANG SID Range (and thus have an entry in
 * A Policy of allocation, which clearly identifies if the YANG SID Range allocations would be Private, Public or Both.
 * Technical capacity to ensure the sustained operation of the registry for a period of at least 5 years. If Private Registrations are allowed, the period must be of at least 10 years.
 
+If a size of the allocation beyond 1 000 000 is desired, the
+organization must demonstrate the sustainability of the technical
+approach for utilizing this size of allocation and how it does not
+negatively impact the overall usability of the SID allocation
+mechanisms; such allocations are preferably placed in the space above
+4 295 000 000 (64-bit space).
 
 #### First allocation
 
