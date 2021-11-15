@@ -147,8 +147,9 @@ guarantee their uniqueness. SIDs are registered in blocks called "SID ranges".
 SIDs are assigned permanently.
 Items introduced by a new revision of a YANG
 module are added to the list of SIDs already assigned.
-Assignment of SIDs to YANG items can be automated using the methods from {{sid-auto-generation}}.
-In some cases, manual interventions may be appropriate.
+Assignment of SIDs to YANG items are usually automated as
+discussed in {{sid-auto-generation}}, which also discusses some cases
+where manual interventions may be appropriate.
 
 {{sid-lifecycle}} provides more details about the registration process of YANG
 modules and associated SIDs. To enable the implementation of this registry,
