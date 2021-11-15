@@ -655,9 +655,10 @@ The first million SIDs assigned to IANA is sub-divided as follows:
 
 | Entry Point   | Size       | IANA policy                       |
 |---------------+------------+-----------------------------------|
-| 0             | 1,000      | Reserved                          |
-| 1,000         | 59,000     | Expert Review or RFC Required     |
-| 60,000        | 40,000     | Experimental use                  |
+| 0             | 1          | Reserved as invalid SID number    |
+| 1             | 999        | IESG Approval                     |
+| 1,000         | 59,000     | RFC Required                      |
+| 60,000        | 40,000     | Experimental/Private use          |
 | 100,000       | 900,000    | Reserved                          |
 {: align="left"}
 
