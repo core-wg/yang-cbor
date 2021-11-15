@@ -231,10 +231,12 @@ For an example of this update process, see activity diagram
 ".sid" files are used to persist and publish SIDs assigned to the different
 YANG items of a specific YANG module. It has the following structure.
 
+<!-- add comment with pyang parameters -->
+
 ~~~~
 module: ietf-sid-file
   +-- sid-file
-     +-- module-name?              yang:yang-identifier
+     +-- module-name               yang:yang-identifier
      +-- module-revision?          revision-identifier
      +-- sid-file-version?         sid-file-version-identifier
      +-- description?              string
@@ -390,6 +392,7 @@ module ietf-sid-file {
         datastore or as an operational state within the server.";
       leaf module-name {
         type yang:yang-identifier;
+        mandatory true;
         description
           "Name of the YANG module associated with this .sid file.";
       }
