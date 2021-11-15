@@ -62,7 +62,6 @@ author:
 normative:
   RFC7950:
   RFC5234:
-  RFC6241:
   RFC8949: cbor
   RFC8610: cddl
   IANA.cbor-tags:
@@ -70,6 +69,7 @@ normative:
 informative:
   I-D.ietf-core-comi: comi
   I-D.ietf-core-sid: core-sid
+  RFC6241:
   RFC7951:
   RFC7228:
   RFC7317:
