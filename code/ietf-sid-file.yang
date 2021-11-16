@@ -139,6 +139,7 @@ module ietf-sid-file {
 
     leaf module-name {
       type yang:yang-identifier;
+      mandatory true;
       description
         "Name of the YANG module associated with this .sid file.";
     }
