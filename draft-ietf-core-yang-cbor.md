@@ -194,6 +194,10 @@ To minimize their size, SIDs used as keys in inner CBOR maps are typically encod
 
 Mechanisms and processes used to assign SIDs to YANG items and to guarantee their uniqueness are outside the scope of the present specification. If SIDs are to be used, the present specification is used in conjunction with a specification defining this management. One example for such a specification is {{-core-sid}}.
 
+To provide implementations with a way to internally indicate the
+absence of a SID, the SID value 0 is reserved and will not be
+allocated; it is not used in interchange.
+
 ## Name {#name}
 
 This specification also supports the encoding of YANG item identifiers as strings, similar to those used by the JSON Encoding of Data Modeled with YANG {{RFC7951}}. This approach can be used to avoid the management overhead associated with SID allocation. The main drawback is the significant increase in size of the encoded data.
@@ -258,8 +262,6 @@ Both the 'top' container and the 'bar' leaf defined in a different YANG module a
 
 Schema node instances defined using the YANG modeling language are encoded using CBOR {{RFC8949}} based on the rules defined in this section. We assume that the reader is
 already familiar with both YANG {{RFC7950}} and CBOR {{RFC8949}}.
-
-The SID key integer 0 is reserved as an invalid SID value as an implementation aid.
 
 ## The 'leaf'
 
