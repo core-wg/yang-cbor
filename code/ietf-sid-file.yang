@@ -59,7 +59,7 @@ module ietf-sid-file {
      string identifier defined by a YANG module and a
      corresponding numeric value called YANG SID.";
 
-  revision 2020-02-05 {
+  revision 2021-11-16 {
     description
       "Initial revision.";
     reference

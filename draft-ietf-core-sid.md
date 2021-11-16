@@ -245,7 +245,7 @@ RFC Ed.: please update the date of the module and Copyright if needed and remove
 ~~~~ yang
 {::include code/ietf-sid-file.yang}
 ~~~~
-{: align="left" sourcecode-markers="true" sourcecode-name="ietf-sid-file@2020-02-05.yang" title="YANG module ietf-sid-file"}
+{: align="left" sourcecode-markers="true" sourcecode-name="ietf-sid-file@2021-11-16.yang" title="YANG module ietf-sid-file"}
 
 # Content-Types {#content-type}
 
