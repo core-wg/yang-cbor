@@ -644,8 +644,8 @@ Each entry in this registry must include:
 
 The first million SIDs assigned to IANA is sub-divided as follows:
 
-* The range of 0 to 999 (size 1000) is "Reserved" as defined in {{RFC8126}}.
-* The range of 1000 to 59,999 (size 59,000) is reserved for YANG modules defined in RFCs.
+* The range of 0 to 999 (size 1000) is subject to "IESG Approval" as defined in {{RFC8126}}; of these, SID value 0 has been reserved for implementations to internally signify the absence of a SID number and does not occur in interchange.
+* The range of 1000 to 59,999 (size 59,000) is designated for YANG modules defined in RFCs.
     * The IANA policy for additions to this registry is either:
         * "Expert Review" {{RFC8126}} in case the ".sid" file comes from a YANG module from an existing RFC, or
         * "RFC Required" {{RFC8126}} otherwise.
@@ -653,13 +653,12 @@ The first million SIDs assigned to IANA is sub-divided as follows:
 * The range of 60,000 to 99,999 (size 40,000) is reserved for experimental YANG modules. This range MUST NOT be used in operational deployments since these SIDs are not globally unique which limit their interoperability. The IANA policy for this range is "Experimental use" {{RFC8126}}.
 * The range of 100,000 to 999,999 (size 900,000) is "Reserved" as defined in {{RFC8126}}.
 
-| Entry Point   | Size       | IANA policy                       |
-|---------------+------------+-----------------------------------|
-| 0             | 1          | Reserved as invalid SID number    |
-| 1             | 999        | IESG Approval                     |
-| 1,000         | 59,000     | RFC Required                      |
-| 60,000        | 40,000     | Experimental/Private use          |
-| 100,000       | 900,000    | Reserved                          |
+| Entry Point | Size    | IANA policy              |
+|-------------|---------|--------------------------|
+| 0           | 1,000   | IESG Approval            |
+| 1,000       | 59,000  | RFC Required             |
+| 60,000      | 40,000  | Experimental/Private use |
+| 100,000     | 900,000 | Reserved                 |
 {: align="left"}
 
 The size of the SID range allocated for a YANG module is recommended to be a multiple of 50 and to be at least 33% above the current number of YANG items. This headroom allows assignment within the same range of new YANG items introduced by subsequent revisions. The maximum SID range size is 1000. A larger size may be requested by the authors if this recommendation is considered insufficient. It is important to note that an additional SID range can be allocated to an existing YANG module if the initial range is exhausted.
@@ -680,21 +679,22 @@ which allows for the early allocation process to be employed.
 
 Initial entries in this registry are as follows:
 
-| Entry Point | Size | Module name                      | Document reference       |
-|-------------+------+----------------------------------+--------------------------|
-| 1000        | 100  | ietf-coreconf                    | {{-comi}}                |
-| 1100        |  50  | ietf-yang-types                  | {{RFC6991}}              |
-| 1150        |  50  | ietf-inet-types                  | {{RFC6991}}              |
-| 1200        |  50  | iana-crypt-hash                  | {{RFC7317}}              |
-| 1250        |  50  | ietf-netconf-acm                 | {{RFC8341}}              |
-| 1300        |  50  | ietf-sid-file                    | RFCXXXX                  |
-| 1500        | 100  | ietf-interfaces                  | {{RFC8343}}              |
-| 1600        | 100  | ietf-ip                          | {{RFC8344}}              |
-| 1700        | 100  | ietf-system                      | {{RFC7317}}              |
-| 1800        | 400  | iana-if-type                     | {{RFC7224}}              |
-| 2400        |  50  | ietf-voucher                     | {{RFC8366}}              |
-| 2450        |  50  | ietf-constrained-voucher         | {{-constrained-voucher}} |
-| 2500        |  50  | ietf-constrained-voucher-request | {{-constrained-voucher}} |
+| Entry Point | Size | Module name                      | Document reference     |
+|-------------|------|----------------------------------|------------------------|
+|           0 |    1 | (Reserved: not a valid SID)      | RFCXXXX                |
+|        1000 |  100 | ietf-coreconf                    | {{-comi}}                |
+|        1100 |   50 | ietf-yang-types                  | {{RFC6991}}              |
+|        1150 |   50 | ietf-inet-types                  | {{RFC6991}}              |
+|        1200 |   50 | iana-crypt-hash                  | {{RFC7317}}              |
+|        1250 |   50 | ietf-netconf-acm                 | {{RFC8341}}              |
+|        1300 |   50 | ietf-sid-file                    | RFCXXXX                |
+|        1500 |  100 | ietf-interfaces                  | {{RFC8343}}              |
+|        1600 |  100 | ietf-ip                          | {{RFC8344}}              |
+|        1700 |  100 | ietf-system                      | {{RFC7317}}              |
+|        1800 |  400 | iana-if-type                     | {{RFC7224}}              |
+|        2400 |   50 | ietf-voucher                     | {{RFC8366}}              |
+|        2450 |   50 | ietf-constrained-voucher         | {{-constrained-voucher}} |
+|        2500 |   50 | ietf-constrained-voucher-request | {{-constrained-voucher}} |
 {: align="left" cols="5r 4r 26l 22l"}
 
 // RFC Ed.: replace XXXX with RFC number assigned to this draft.
