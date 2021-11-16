@@ -1,5 +1,6 @@
 module: ietf-sid-file
-  +-- sid-file
+
+  structure sid-file:
      +-- module-name?              yang:yang-identifier
      +-- module-revision?          revision-identifier
      +-- sid-file-version?         sid-file-version-identifier

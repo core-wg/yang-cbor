@@ -7,9 +7,9 @@ module ietf-sid-file {
     prefix yang;
     reference "RFC 6991: Common YANG Data Types.";
   }
-  import ietf-restconf {
-    prefix rc;
-    reference "RFC 8040: RESTCONF Protocol.";
+  import ietf-yang-structure-ext {
+    prefix sx;
+    reference "RFC 8791: YANG Data Structure Extensions.";
   }
 
   organization
@@ -114,8 +114,8 @@ module ietf-sid-file {
        Section 6.5: Schema Node Identifier;";
   }
 
-  rc:yang-data sid-file {
-      uses sid-file;
+  sx:structure sid-file {
+      uses sid-file-contents;
   }
 
   grouping sid-file {
@@ -128,6 +128,15 @@ module ietf-sid-file {
         extension marks the YANG data structures inside as not being
         intended to be implemented as part of a configuration
         datastore or as an operational state within the server.";
+      uses sid-file-contents;
+    }
+  }
+
+  grouping sid-file-contents {
+    description
+      "A grouping that defines the contents of a container that
+       represente the file structure of a .sid files.";
+
     leaf module-name {
       type yang:yang-identifier;
       description
@@ -285,5 +294,4 @@ module ietf-sid-file {
       }
     }
   }
-}
 }
