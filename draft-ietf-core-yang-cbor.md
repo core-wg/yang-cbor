@@ -241,6 +241,10 @@ If SIDs are to be used, the present specification is used in conjunction with a 
 With YANG modules managed by non-IETF entities, use of {{-core-sid}} is RECOMMENDED.
 The present specification has been designed to allow different methods of assignment to be used within separate domains.
 
+To provide implementations with a way to internally indicate the
+absence of a SID, the SID value 0 is reserved and will not be
+allocated; it is not used in interchange.
+
 ## Name {#name}
 
 This specification also supports the encoding of YANG item identifiers as text strings, similar to those used by the JSON Encoding of Data Modeled with YANG {{RFC7951}}. This approach can be used to avoid the management overhead associated with SID allocation. The main drawback is the significant increase in size of the encoded data.
