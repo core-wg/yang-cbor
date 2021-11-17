@@ -599,13 +599,6 @@ This document registers one YANG module in the "YANG Module Names" registry {{RF
 
 // RFC Ed.: please replace XXXX with RFC number and remove this note
 
-## CoAP Content-Formats Registry
-
-A Content-Format for `application/yang-data+cbor; id=sid` has been
-added to the "CoAP Content-Formats" within the "Constrained RESTful
-Environments (CoRE) Parameters" registry, in
-{{I-D.ietf-core-yang-cbor}}.
-
 ## Create new IANA Registry: "YANG SID Mega-Range" registry {#mega-range-registry}
 
 The name of this registry is "YANG SID Mega-Range". This registry is used to record the delegation of the management of a block of SIDs to third parties (such as SDOs or registrars).
