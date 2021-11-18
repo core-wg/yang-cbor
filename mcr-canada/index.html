@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>core-wg/yang-cbor mcr-canada preview</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <style type="text/css">/*<![CDATA[*/
+      body { font-family: "Helvetica Neue","Open Sans",Helvetica,Calibri,sans-serif; }
+      h1, h2, td { font-family: "Helvetica Neue","Roboto Condensed","Open Sans",Helvetica,Calibri,sans-serif; }
+      h1 { font-size: 20px; } h2 { font-size: 16px; }
+      table { margin: 5px 10px; border-collapse: collapse; }
+      th, td { font-weight: normal; text-align: left; padding: 2px 5px; }
+      a:link { color: #000; } a:visited { color: #00a; }
+    /*]]>*/</style>
+  </head>
+  <body>
+    <h1>Editor's drafts for mcr-canada branch of <a href="https://github.com/core-wg/yang-cbor/tree/mcr-canada">core-wg/yang-cbor</a></h1>
+    <p>View <a href="issues.html">saved issues</a>,
+      or the latest GitHub <a href="https://github.com/core-wg/yang-cbor/issues">issues</a>
+      and <a href="https://github.com/core-wg/yang-cbor/pulls">pull requests</a>.</p>
+    <table id="branch-mcr-canada">
+      <tr>
+        <th>draft-ietf-core-sid</th>
+        <td><a href="./draft-ietf-core-sid.html"
+           class="html draft-ietf-core-sid">html</a></td>
+        <td><a href="./draft-ietf-core-sid.txt"
+           class="txt draft-ietf-core-sid">plain text</a></td>
+        <td><a href=https://tools.ietf.org/rfcdiff?url1=https://core-wg.github.io/yang-cbor/draft-ietf-core-sid.txt&amp;url2=https://core-wg.github.io/yang-cbor/mcr-canada/draft-ietf-core-sid.txt>diff with master</a></td>
+        <td><a href="https://tools.ietf.org/rfcdiff?url1=https://tools.ietf.org/id/draft-ietf-core-sid.txt&amp;url2=https://core-wg.github.io/yang-cbor/mcr-canada/draft-ietf-core-sid.txt" class="diff draft-ietf-core-sid">
+          diff with last submission</a></td>
+      </tr>
+      <tr>
+        <th>draft-ietf-core-yang-cbor</th>
+        <td><a href="./draft-ietf-core-yang-cbor.html"
+           class="html draft-ietf-core-yang-cbor">html</a></td>
+        <td><a href="./draft-ietf-core-yang-cbor.txt"
+           class="txt draft-ietf-core-yang-cbor">plain text</a></td>
+        <td><a href=https://tools.ietf.org/rfcdiff?url1=https://core-wg.github.io/yang-cbor/draft-ietf-core-yang-cbor.txt&amp;url2=https://core-wg.github.io/yang-cbor/mcr-canada/draft-ietf-core-yang-cbor.txt>diff with master</a></td>
+        <td><a href="https://tools.ietf.org/rfcdiff?url1=https://tools.ietf.org/id/draft-ietf-core-yang-cbor.txt&amp;url2=https://core-wg.github.io/yang-cbor/mcr-canada/draft-ietf-core-yang-cbor.txt" class="diff draft-ietf-core-yang-cbor">
+          diff with last submission</a></td>
+      </tr>
+    </table>
+    <script>
+// @licstart
+//  Any copyright is dedicated to the Public Domain.
+//  http://creativecommons.org/publicdomain/zero/1.0/
+// @licend
+window.onload = function() {
+  var referrer_branch = 'master';
+  // e.g., "https://github.com/user/repo/tree/master"
+  var chunks = document.referrer.split("/");
+  if (chunks[2] === 'github.com' && chunks[5] === 'tree') {
+    referrer_branch = chunks[6];
+  }
+  let branch = document.querySelector('#branch-' + referrer_branch);
+  let h = document.location.hash.substring(1);
+  if (h === 'show') {
+    document.location.hash = '#' + branch.id;
+  } else if (branch && h.startsWith('go')) {
+    let e = branch.querySelector(h.substring(2));
+    if (e && e.href) {
+      document.location = e.href;
+    }
+  }
+};
+    </script>
+  </body>
+</html>
