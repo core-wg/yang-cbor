@@ -569,7 +569,21 @@ application/yang-data+cbor; id=sid:
 # Security Considerations
 
 This document defines a new type of identifier used to encode data that are modeled in YANG {{RFC7950}}.
-As such, this identifier does not contribute to any new security issues in addition of those identified for the specific protocols or contexts for which it is used.
+This new identifier maps semantic concepts to integers, and if the
+source of this mapping is not trusted, then new security risks might
+occur if an attacker can control the mapping.
+
+At the time of writing, it is expected that the SID files will be
+processed by a software developer, within a software development
+environment.  Developers are advised to only import SID files from
+authoritative sources.  IANA is the authoritative source for IETF
+managed YANG modules.
+
+Conceptually, SID files could be processed by less-constrained target
+systems such as network management systems.  Such systems need to take
+extra care to make sure that they are only processing SID files from
+authoritative sources, as authoritative as the YANG modules that they
+are using.
 
 # IANA Considerations  {#IANA}
 
