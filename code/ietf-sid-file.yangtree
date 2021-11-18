@@ -1,0 +1,17 @@
+module: ietf-sid-file
+
+  structure sid-file:
+    +-- module-name            yang:yang-identifier
+    +-- module-revision?       revision-identifier
+    +-- sid-file-version?      sid-file-version-identifier
+    +-- description?           string
+    +-- dependency-revision* [module-name]
+    |  +-- module-name        yang:yang-identifier
+    |  +-- module-revision    revision-identifier
+    +-- assignment-range* [entry-point]
+    |  +-- entry-point    sid
+    |  +-- size           uint64
+    +-- item* [namespace identifier]
+       +-- namespace     enumeration
+       +-- identifier    union
+       +-- sid           sid
