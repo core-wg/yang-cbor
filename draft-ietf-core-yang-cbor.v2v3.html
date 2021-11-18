@@ -39,7 +39,7 @@ operations or actions, and notifications, defined using YANG (RFC 7950).
     six 1.15.0
     WeasyPrint 0.42.3
 -->
-<link href="draft-ietf-core-yang-cbor.xml" rel="alternate" type="application/rfc+xml">
+<link href="draft-ietf-core-yang-cbor.v2v3.xml" rel="alternate" type="application/rfc+xml">
 <link href="#copyright" rel="license">
 <style type="text/css">@import url('https://martinthomson.github.io/i-d-template/fonts.css');
 
@@ -827,11 +827,11 @@ address div.right {
 <thead><tr>
 <td class="left">Internet-Draft</td>
 <td class="center">CBOR Encoding of Data Modeled with YANG</td>
-<td class="right">November 2021</td>
+<td class="right">October 2021</td>
 </tr></thead>
 <tfoot><tr>
 <td class="left">Veillette, et al.</td>
-<td class="center">Expires 22 May 2022</td>
+<td class="center">Expires 28 April 2022</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -844,12 +844,12 @@ address div.right {
 <dd class="internet-draft">draft-ietf-core-yang-cbor-latest</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2021-11-18" class="published">18 November 2021</time>
+<time datetime="2021-10-25" class="published">25 October 2021</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2022-05-22">22 May 2022</time></dd>
+<dd class="expires"><time datetime="2022-04-28">28 April 2022</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -904,7 +904,7 @@ operations or actions, and notifications, defined using YANG (RFC 7950).<a href=
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 22 May 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 28 April 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1152,7 +1152,8 @@ the JavaScript Object Notation (JSON) Data Interchange Format <span>[<a href="#R
       <h2 id="name-terminology-and-notation">
 <a href="#section-2" class="section-number selfRef">2. </a><a href="#name-terminology-and-notation" class="section-name selfRef">Terminology and Notation</a>
       </h2>
-<p id="section-2-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL NOT</span>", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
+<p id="section-2-1">The key words "<span class="bcp14">MUST</span>", "<span class="bcp14">MUST NOT</span>", "<span class="bcp14">REQUIRED</span>", "<span class="bcp14">SHALL</span>", "<span class="bcp14">SHALL</span>
+NOT", "<span class="bcp14">SHOULD</span>", "<span class="bcp14">SHOULD NOT</span>", "<span class="bcp14">RECOMMENDED</span>", "<span class="bcp14">NOT RECOMMENDED</span>",
 "<span class="bcp14">MAY</span>", and "<span class="bcp14">OPTIONAL</span>" in this document are to be interpreted as
 described in BCP 14 <span>[<a href="#RFC2119" class="xref">RFC2119</a>]</span> <span>[<a href="#RFC8174" class="xref">RFC8174</a>]</span> when, and only when, they
 appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
@@ -1376,9 +1377,6 @@ If SIDs are to be used, the present specification is used in conjunction with a 
 <span>[<a href="#I-D.ietf-core-sid" class="xref">I-D.ietf-core-sid</a>]</span> is the definitive way to assign SID values for YANG modules managed by the IETF.
 With YANG modules managed by non-IETF entities, use of <span>[<a href="#I-D.ietf-core-sid" class="xref">I-D.ietf-core-sid</a>]</span> is <span class="bcp14">RECOMMENDED</span>.
 The present specification has been designed to allow different methods of assignment to be used within separate domains.<a href="#section-3.2-6" class="pilcrow">¶</a></p>
-<p id="section-3.2-7">To provide implementations with a way to internally indicate the
-absence of a SID, the SID value 0 is reserved and will not be
-allocated; it is not used in interchange.<a href="#section-3.2-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="name">
@@ -1389,9 +1387,9 @@ allocated; it is not used in interchange.<a href="#section-3.2-7" class="pilcrow
 <p id="section-3.3-1">This specification also supports the encoding of YANG item identifiers as text strings, similar to those used by the JSON Encoding of Data Modeled with YANG <span>[<a href="#RFC7951" class="xref">RFC7951</a>]</span>. This approach can be used to avoid the management overhead associated with SID allocation. The main drawback is the significant increase in size of the encoded data.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
 <p id="section-3.3-2">YANG item identifiers implemented using names <span class="bcp14">MUST</span> be in one of the following forms:<a href="#section-3.3-2" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.3-3.1">simple -- the identifier of the YANG item (i.e., schema node or identity).<a href="#section-3.3-3.1" class="pilcrow">¶</a>
+<li class="normal" id="section-3.3-3.1">simple - the identifier of the YANG item (i.e., schema node or identity).<a href="#section-3.3-3.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-3.3-3.2">namespace qualified -- the identifier of the YANG item is prefixed with the name of the module in which this item is defined, separated by the colon character (":").<a href="#section-3.3-3.2" class="pilcrow">¶</a>
+          <li class="normal" id="section-3.3-3.2">namespace qualified - the identifier of the YANG item is prefixed with the name of the module in which this item is defined, separated by the colon character (":").<a href="#section-3.3-3.2" class="pilcrow">¶</a>
 </li>
         </ul>
 <p id="section-3.3-4">The name of a module determines the namespace of all YANG items defined in that module. If an item is defined in a submodule, then the namespace qualified name uses the name of the main module to which the submodule belongs.<a href="#section-3.3-4" class="pilcrow">¶</a></p>
@@ -2512,7 +2510,7 @@ leaf alarm-state {
 </div>
 <p id="section-6.7-5">CBOR diagnostic notation: [h'0401', 14, h'01']<a href="#section-6.7-5" class="pilcrow">¶</a></p>
 <p id="section-6.7-6">CBOR encoding: 83 42 0401 0E 41 01<a href="#section-6.7-6" class="pilcrow">¶</a></p>
-<p id="section-6.7-7">In a number of cases the array would only need to have one element -- a byte string with a few bytes inside.
+<p id="section-6.7-7">In a number of cases the array would only need to have one element - a byte string with a few bytes inside.
 For this case, it is expected to omit the array element and have only the byte array that would have been inside.
 To illustrate this, let us consider the same example YANG definition, but this time encoding only 'under-repair' and 'critical' flags.
 The result would be<a href="#section-6.7-7" class="pilcrow">¶</a></p>
@@ -2794,7 +2792,7 @@ container system {
 <p id="section-6.13.1-16">This example aims to show how a schema node member of a YANG list is identified. 
 It uses a somewhat arbitrarily modified YANG module version from <span>[<a href="#RFC7317" class="xref">RFC7317</a>]</span> by
 adding <code>country</code> to the leafs and keys of <code>authorized-key</code>.<a href="#section-6.13.1-16" class="pilcrow">¶</a></p>
-<p id="section-6.13.1-17">The following example shows the encoding of the 'reporting-entity' value referencing list instance "/system/authentication/user/authorized-key/key-data" (which is assumed to have SID 1734) for username "bob" and authorized-key with name "admin" and country "france".<a href="#section-6.13.1-17" class="pilcrow">¶</a></p>
+<p id="section-6.13.1-17">The following example shows the encoding of the 'reporting-entity' value referencing list instance "/system/authentication/user/authorized-key/key-data" (which is assumed to have SID 1734) for user name "bob" and authorized-key with name "admin" and country "france".<a href="#section-6.13.1-17" class="pilcrow">¶</a></p>
 <div id="section-6.13.1-18">
 <pre class="lang-yang sourcecode">
 list user {
@@ -2845,7 +2843,7 @@ list user {
 </pre><a href="#section-6.13.1-21" class="pilcrow">¶</a>
 </div>
 <p id="section-6.13.1-22"><strong>Third example:</strong><a href="#section-6.13.1-22" class="pilcrow">¶</a></p>
-<p id="section-6.13.1-23">The following example shows the encoding of the 'reporting-entity' value referencing the list instance "/system/authentication/user" (SID 1730) corresponding to username "jack".<a href="#section-6.13.1-23" class="pilcrow">¶</a></p>
+<p id="section-6.13.1-23">The following example shows the encoding of the 'reporting-entity' value referencing the list instance "/system/authentication/user" (SID 1730) corresponding to user name "jack".<a href="#section-6.13.1-23" class="pilcrow">¶</a></p>
 <p id="section-6.13.1-24">CBOR diagnostic notation: [1730, "jack"]<a href="#section-6.13.1-24" class="pilcrow">¶</a></p>
 <p id="section-6.13.1-25">CBOR encoding:<a href="#section-6.13.1-25" class="pilcrow">¶</a></p>
 <div id="section-6.13.1-26">
@@ -2936,11 +2934,11 @@ with the parameter <code>id=name</code> or <code>id=sid</code>.<a href="#section
 <p id="section-7-2">This media-type represents a CBOR YANG document containing one or
 multiple data node values.
 If the media-type parameter <code>id</code> is present,
-depending on its value,
+depending its value,
 each data node is identified by its associated namespace qualified
-name as defined in <a href="#name" class="xref">Section 3.3</a> (<code>id=name</code>), or by its associated YANG SID
+name as defined in <a href="#name" class="xref">Section 3.3</a> (<code>id=name</code>), by its associated YANG SID
 (represented as a SID delta or via tag 47) as defined in <a href="#sid" class="xref">Section 3.2</a>
-(<code>id=sid</code>), respectively.
+(<code>id=sid</code>).
 If no <code>id</code> parameter is given, both forms may be present.<a href="#section-7-2" class="pilcrow">¶</a></p>
 <p id="section-7-3">The format of an <code>application/yang-data+cbor</code> representation is that
 of a CBOR map, mapping names and/or SIDs (as defined above) into
@@ -3222,6 +3220,10 @@ as per <span><a href="https://rfc-editor.org/rfc/rfc8949#section-9.2" class="rel
         <dd>
 <span class="refAuthor">Crocker, D., Ed.</span> and <span class="refAuthor">P. Overell</span>, <span class="refTitle">"Augmented BNF for Syntax Specifications: ABNF"</span>, <span class="seriesInfo">STD 68</span>, <span class="seriesInfo">RFC 5234</span>, <span class="seriesInfo">DOI 10.17487/RFC5234</span>, <time datetime="2008-01" class="refDate">January 2008</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc5234">https://www.rfc-editor.org/info/rfc5234</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="RFC6241">[RFC6241]</dt>
+        <dd>
+<span class="refAuthor">Enns, R., Ed.</span>, <span class="refAuthor">Bjorklund, M., Ed.</span>, <span class="refAuthor">Schoenwaelder, J., Ed.</span>, and <span class="refAuthor">A. Bierman, Ed.</span>, <span class="refTitle">"Network Configuration Protocol (NETCONF)"</span>, <span class="seriesInfo">RFC 6241</span>, <span class="seriesInfo">DOI 10.17487/RFC6241</span>, <time datetime="2011-06" class="refDate">June 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6241">https://www.rfc-editor.org/info/rfc6241</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC7950">[RFC7950]</dt>
         <dd>
 <span class="refAuthor">Bjorklund, M., Ed.</span>, <span class="refTitle">"The YANG 1.1 Data Modeling Language"</span>, <span class="seriesInfo">RFC 7950</span>, <span class="seriesInfo">DOI 10.17487/RFC7950</span>, <time datetime="2016-08" class="refDate">August 2016</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc7950">https://www.rfc-editor.org/info/rfc7950</a>&gt;</span>. </dd>
@@ -3251,11 +3253,7 @@ as per <span><a href="https://rfc-editor.org/rfc/rfc8949#section-9.2" class="rel
 <dd class="break"></dd>
 <dt id="I-D.ietf-core-sid">[I-D.ietf-core-sid]</dt>
         <dd>
-<span class="refAuthor">Veillette, M.</span>, <span class="refAuthor">Pelov, A.</span>, <span class="refAuthor">Petrov, I.</span>, <span class="refAuthor">Bormann, C.</span>, and <span class="refAuthor">M. Richardson</span>, <span class="refTitle">"YANG Schema Item iDentifier (YANG SID)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-sid-17</span>, <time datetime="2021-10-25" class="refDate">25 October 2021</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-ietf-core-sid-17.txt">https://www.ietf.org/archive/id/draft-ietf-core-sid-17.txt</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="RFC6241">[RFC6241]</dt>
-        <dd>
-<span class="refAuthor">Enns, R., Ed.</span>, <span class="refAuthor">Bjorklund, M., Ed.</span>, <span class="refAuthor">Schoenwaelder, J., Ed.</span>, and <span class="refAuthor">A. Bierman, Ed.</span>, <span class="refTitle">"Network Configuration Protocol (NETCONF)"</span>, <span class="seriesInfo">RFC 6241</span>, <span class="seriesInfo">DOI 10.17487/RFC6241</span>, <time datetime="2011-06" class="refDate">June 2011</time>, <span>&lt;<a href="https://www.rfc-editor.org/info/rfc6241">https://www.rfc-editor.org/info/rfc6241</a>&gt;</span>. </dd>
+<span class="refAuthor">Veillette, M.</span>, <span class="refAuthor">Pelov, A.</span>, <span class="refAuthor">Petrov, I.</span>, and <span class="refAuthor">C. Bormann</span>, <span class="refTitle">"YANG Schema Item iDentifier (YANG SID)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-core-sid-16</span>, <time datetime="2021-06-24" class="refDate">24 June 2021</time>, <span>&lt;<a href="https://www.ietf.org/archive/id/draft-ietf-core-sid-16.txt">https://www.ietf.org/archive/id/draft-ietf-core-sid-16.txt</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="RFC7228">[RFC7228]</dt>
         <dd>
