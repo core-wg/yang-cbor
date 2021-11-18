@@ -58,6 +58,7 @@ author:
 - name: Michael Richardson
   org: Sandelman Software Works
   email: mcr+ietf@sandelman.ca
+  country: Canada
 
 normative:
   RFC7950:
