@@ -213,7 +213,7 @@ files. For a diagram of one of the possibilities, please refer to the activity
 diagram on {{fig-sid-file-creation}} in {{sid-lifecycle-ex}}.
 
 Each time a YANG module or one of its imported module(s) or included
-sub-module(s) is updated, a new ".sid" file MAY be created if the new or
+submodule(s) is updated, a new ".sid" file MAY be created if the new or
 updated items will need SIDs. All the SIDs present in the previous version of
 the ".sid" file MUST be present in the new version as well. The creation of
 this new version of the ".sid" file SHOULD be performed using an automated
@@ -385,7 +385,7 @@ Each entry in this registry must include:
 
 ### Allocation policy {#ietf-iana-sid-range-allocation-policy}
 
-The first million SIDs assigned to IANA is sub-divided as follows:
+The first million SIDs assigned to IANA is subdivided as follows:
 
 * The range of 0 to 999 (size 1000) is subject to "IESG Approval" as defined in {{RFC8126}}; of these, SID value 0 has been reserved for implementations to internally signify the absence of a SID number and does not occur in interchange.
 * The range of 1000 to 59,999 (size 59,000) is designated for YANG modules defined in RFCs.
@@ -425,7 +425,7 @@ a ".sid" file SHOULD be included in the Internet-Draft as a source code block.
 This ".sid" file is to be extracted by IANA/the expert reviewer and
 put into the YANG SID Registry ({{ietf-sid-registry}}) along with the
 YANG module.
-The ".sid" file MUST NOT be published as part of the RFC: the IANA Registry is authoritative and a link is to be inserted in the RFC.
+The ".sid" file MUST NOT be published as part of the RFC: the IANA Registry is authoritative, and a link is to be inserted in the RFC.
 
 ### Initial contents of the registry {#ietf-iana-sid-range-initial-contents}
 
