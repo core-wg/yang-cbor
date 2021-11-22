@@ -541,21 +541,8 @@ A previously SID-allocated YANG module which changes its references to include
 a YANG module for which there is no SID allocation needs to repeat the Early
 Allocation process.
 
-Early Allocations are made with a one-year period, after which they are
-expired.  {{BCP100}} indicates that at most one renewal may be made.  For the
-SID allocation a far more lenient stance is desired.
-
-1. An extension of a referencing documents Early Allocation should update any
-   referenced Early Allocations to expire no sooner than the referencing
-   document.
-2. The {{BCP100}} mechanism allows the IESG to provide a second renewal,
-   and such an event may prompt some thought about how the collection of
-   documents are being processed.
-
-This is driven by the very generous size of the SID space and the often complex
-and deep dependencies of YANG modules.  Often a core module with many
-dependencies will undergo extensive review, delaying the publication of other
-documents.
+Early Allocations are made with a one-year period, after which they
+need to be renewed or will expire.
 
 {{BCP100}} also says:
 
