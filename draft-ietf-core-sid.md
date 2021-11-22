@@ -248,21 +248,6 @@ RFC Ed.: please update the date of the module and Copyright if needed and remove
 ~~~~
 {: align="left" sourcecode-markers="true" sourcecode-name="ietf-sid-file@2021-11-16.yang" title="YANG module ietf-sid-file"}
 
-# Content-Types {#content-type}
-
-The following Content-Type has been defined in {{I-D.ietf-core-yang-cbor}}:
-
-application/yang-data+cbor; id=sid:
-
-: This Content-Type represents a CBOR YANG document containing one or multiple data node values.
-  Each data node is identified by its associated SID.
-
-: FORMAT: CBOR map of SID, instance-value
-
-: The message payload of Content-Type 'application/yang-data+cbor' is encoded using a CBOR map.
-  Each entry within the CBOR map contains the data node identifier (i.e. SID) and the associated instance-value.
-  Instance-values are encoded using the rules defined in {{Section 4 of I-D.ietf-core-yang-cbor}}.
-
 # Security Considerations
 
 This document defines a new type of identifier used to encode data that are modeled in YANG {{RFC7950}}.
