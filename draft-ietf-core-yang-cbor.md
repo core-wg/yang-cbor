@@ -129,9 +129,13 @@ The following terms are defined in {{RFC7950}}:
 
 * submodule
 
-The following terms are defined in {{RFC8040}}:
+The following term is defined in {{RFC8040}}:
 
 * yang-data extension
+
+The following term is defined in {{RFC8791}}:
+
+* structure extension
 
 This specification also makes use of the following terminology:
 
@@ -377,7 +381,7 @@ A1                                         # map(1)
 
 ## The 'container' and other nodes from the data tree {#container}
 
-Instances of containers, notification contents, RPC inputs, RPC outputs, action inputs, and action outputs schema nodes MUST be encoded using a CBOR map data item (major type 5).
+Instances of containers, structure extensions, notification contents, RPC inputs, RPC outputs, action inputs, and action outputs schema nodes MUST be encoded using a CBOR map data item (major type 5).
 <!-- [XXX- can we just say "data node"?  Could it be "list entry"? Or can we avoid repeating this list?] -->
 The same encoding is also used for the list entries in a list ({{list}}).
 A map consists of pairs of data items, with each pair consisting of a key and a value. Each key within the CBOR map is set to a schema node identifier, each value is set to the value of this schema node instance according to the instance datatype.
@@ -938,7 +942,7 @@ A1                                 # map(1)
 The yang-data extension {{RFC8040}} is used to define data structures in YANG
 that are not intended to be implemented as part of a datastore.
 
-The yang-data extension MUST be encoded using the encoding rules of nodes of data trees as defined in {{container}}.
+The yang-data extension will specify a container that MUST be encoded using the encoding rules of nodes of data trees as defined in {{container}}.
 
 Just like YANG containers, the yang-data extension can be encoded using either SIDs or names.
 
@@ -1555,7 +1559,7 @@ CBOR encoding: 19 06CD
 
 **Second example:**
 
-This example aims to show how a schema node member of a YANG list is identified. 
+This example aims to show how a schema node member of a YANG list is identified.
 It uses a somewhat arbitrarily modified YANG module version from {{RFC7317}} by
 adding `country` to the leafs and keys of `authorized-key`.
 
