@@ -135,8 +135,6 @@ The following terms are defined in {{RFC8040}}:
 
 This specification also makes use of the following terminology:
 
-* child: A schema node defined as a child node of a container, a list, a case, a notification, an RPC input, an RPC output, an action input, or an action output.
-
 * YANG Schema Item iDentifier (YANG SID or simply SID): Unsigned integer used to identify different YANG items.
 
 * delta: Difference between the current YANG SID and a reference YANG SID. A reference YANG SID is defined for each context for which deltas are used.
