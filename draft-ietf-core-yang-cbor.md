@@ -140,8 +140,6 @@ The following term is defined in {{RFC8791}}:
 
 This specification also makes use of the following terminology:
 
-* child: A schema node defined as a child node of a container, a list, a case, a notification, an RPC input, an RPC output, an action input, or an action output.
-
 * YANG Schema Item iDentifier (YANG SID or simply SID): Unsigned integer used to identify different YANG items.
 
 * delta: Difference between the current YANG SID and a reference YANG SID. A reference YANG SID is defined for each context for which deltas are used.
@@ -160,7 +158,8 @@ This specification also makes use of the following terminology:
 
 This document defines CBOR encoding rules for YANG data trees and their subtrees.
 
-An instance of a schema node such as container, list, notification, RPC input, RPC output, action input, or action output is serialized using a CBOR map in which each child schema node is encoded using a key and a value. This specification supports two types of CBOR keys; YANG Schema Item iDentifier (YANG SID) as defined in {{sid}} and names as defined in {{name}}. Each of these key types is encoded using a specific CBOR type which allows their interpretation during the deserialization process. Protocols or mechanisms implementing this specification can mandate the use of a specific key type.
+An instance of a schema node such as container, list, notification, RPC input, RPC output, action input, or action output is serialized using a CBOR map in which each schema node defined within is encoded using a key and a value.
+This specification supports two types of CBOR keys; YANG Schema Item iDentifier (YANG SID) as defined in {{sid}} and names as defined in {{name}}. Each of these key types is encoded using a specific CBOR type which allows their interpretation during the deserialization process. Protocols or mechanisms implementing this specification can mandate the use of a specific key type.
 
 In order to minimize the size of the encoded data, the proposed
 mapping avoids any unnecessary meta-information beyond that directly
