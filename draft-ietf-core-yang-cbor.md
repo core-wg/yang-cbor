@@ -148,22 +148,34 @@ This specification also makes use of the following terminology:
   called out explicitly only in positions where normally a delta would
   be found.
 
+* representation tree: a YANG data tree, possibly enclosed by a
+  representation of a schema node such as a YANG data structure, a notification, an RPC, or
+  an action.
+
+* representation node: a node in a representation tree, i.e., a data
+  tree node, or a representation of a schema node such as a YANG data structure, a
+  notification, an RPC, or an action
+
 * item: A schema node, an identity, a module, or a feature defined using the YANG modeling language.
 
 * list entry: the data associated with a single element of a list.
 
-* parent: The container, list, case, notification, RPC input, RPC output, action input or action output node in which a schema node is defined.
+* parent (of a representation node): The schema node of the closest
+  enclosing representation node in which a given representation node
+  is defined.
 
 # Properties of the CBOR Encoding {#properties-of-cbor-encoding}
 
 This document defines CBOR encoding rules for YANG data trees and their subtrees.
 
-An instance of a schema node such as container, list, notification, RPC input, RPC output, action input, or action output is serialized using a CBOR map in which each schema node defined within is encoded using a key and a value.
+A YANG data tree can be enclosed by a representation of a schema node such as a YANG data structure, a notification, an RPC, or an action; this is called a representation tree.  The data tree nodes and the enclosing schema node representation, if any, are collectively called the representation nodes.
+
+A representation node such as container, list member, YANG data structure, notification, RPC input, RPC output, action input, or action output is serialized using a CBOR map in which each schema node defined within is encoded using a key and a value.
 This specification supports two types of CBOR keys; YANG Schema Item iDentifier (YANG SID) as defined in {{sid}} and names as defined in {{name}}. Each of these key types is encoded using a specific CBOR type which allows their interpretation during the deserialization process. Protocols or mechanisms implementing this specification can mandate the use of a specific key type.
 
 In order to minimize the size of the encoded data, the proposed
 mapping avoids any unnecessary meta-information beyond that directly
-provided by the CBOR basic generic data model ({{Section 2 of RFC8949}}). For instance, CBOR tags are used solely in the case of an absolute SID, anyxml schema nodes, or the union datatype, to distinguish explicitly the use of different YANG datatypes encoded using the same CBOR major type.
+provided by the CBOR basic generic data model ({{Section 2 of RFC8949}}). For instance, CBOR tags are used solely in the case of an absolute SID, anyxml data nodes, or the union datatype, to distinguish explicitly the use of different YANG datatypes encoded using the same CBOR major type.
 
 Unless specified otherwise by the protocol or mechanism implementing this specification, the indefinite length encoding as defined in {{Section 3.2 of RFC8949}} SHALL be supported by the CBOR decoders employed with YANG-CBOR.
 (This enables an implementation to begin emitting an array or map
@@ -176,7 +188,7 @@ accrue.)
 
 Data nodes implemented using a CBOR array, map, byte string, or text string can be instantiated but empty. In this case, they are encoded with a length of zero.
 
-When schema nodes are serialized using the rules defined by this specification as part of an application payload, the payload SHOULD include information that would allow a stateless way to identify each node, such as the SID number associated with the node, SID delta from another SID in the application payload, the namespace qualified name, or the instance-identifier.
+When representation nodes are serialized using the rules defined by this specification as part of an application payload, the payload SHOULD include information that would allow a stateless way to identify each node, such as the SID number associated with the node, SID delta from another SID in the application payload, the namespace qualified name, or the instance-identifier.
 
 Examples in {{instance-encoding}} include a root CBOR map with a single entry having a key set to either a namespace qualified name or a SID. This root CBOR map is provided only as a typical usage example and is not part of the present encoding rules. Only the value within this CBOR map is compulsory.
 
@@ -211,6 +223,8 @@ Some of the items defined in YANG {{RFC7950}} require the use of a unique identi
 * RPCs and associated input(s) and output(s)
 
 * actions and associated input(s) and output(s)
+
+* YANG data structures
 
 * notifications and associated information
 
@@ -269,7 +283,7 @@ name = [identifier ":"] identifier
 ~~~~
 {: #namesyntax title='ABNF Production for a simple or namespace qualified name' artwork-align="center"}
 
-A namespace qualified name MUST be used for all members of a top-level CBOR map and then also whenever the namespaces of the data node and its parent node are different. In all other cases, the simple form of the name SHOULD be used.
+A namespace qualified name MUST be used for all members of a top-level CBOR map and then also whenever the namespaces of the representation node and its parent node are different. In all other cases, the simple form of the name SHOULD be used.
 
 Definition example:
 
@@ -310,9 +324,9 @@ CBOR diagnostic notation:
 Both the 'top' container and the 'bar' leaf defined in a different YANG module as its parent container are encoded as namespace qualified names. The 'foo' leaf defined in the same YANG module as its parent container is encoded as simple name.
 
 
-# Encoding of YANG Schema Node Instances   {#instance-encoding}
+# Encoding of Representation Nodes   {#instance-encoding}
 
-Schema node instances defined using the YANG modeling language are encoded using CBOR {{RFC8949}} based on the rules defined in this section. We assume that the reader is
+Representation nodes defined using the YANG modeling language are encoded using CBOR {{RFC8949}} based on the rules defined in this section. We assume that the reader is
 already familiar with both YANG {{RFC7950}} and CBOR {{RFC8949}}.
 
 ## The 'leaf'
@@ -381,13 +395,13 @@ A1                                         # map(1)
 
 ## The 'container' and other nodes from the data tree {#container}
 
-Instances of containers, YANG data structures, notification contents, RPC inputs, RPC outputs, action inputs, and action outputs schema nodes MUST be encoded using a CBOR map data item (major type 5).
+Instances of containers, YANG data structures, notification contents, RPC inputs, RPC outputs, action inputs, and action outputs MUST be encoded using a CBOR map data item (major type 5).
 The same encoding is also used for the list entries in a list ({{list}}).
-A map consists of pairs of data items, with each pair consisting of a key and a value. Each key within the CBOR map is set to a schema node identifier, each value is set to the value of this schema node instance according to the instance datatype.
+A map consists of pairs of data items, with each pair consisting of a key and a value. Each key within the CBOR map is set to a schema node identifier, each value is set to the value of this representation node according to the instance datatype.
 
 This specification supports two types of CBOR map keys; SID as defined in {{sid}} and names as defined in {{name}}.
 
-The following examples show the encoding of a 'system-state' container schema node instance using SIDs or names.
+The following examples show the encoding of a 'system-state' container representation instance using SIDs or names.
 
 Definition example from {{RFC7317}}:
 
@@ -419,15 +433,15 @@ In the context of containers and other nodes from the data tree, CBOR map keys w
 
 Delta values are computed as follows:
 
-* In the case of a 'container', deltas are equal to the SID of the current schema node minus the SID of the parent 'container'.
+* In the case of a 'container', deltas are equal to the SID of the current representation node minus the SID of the parent 'container'.
 
-* In the case of a 'list', deltas are equal to the SID of the current schema node minus the SID of the parent 'list'.
+* In the case of a 'list', deltas are equal to the SID of the current representation node minus the SID of the parent 'list'.
 
-* In the case of an 'RPC input' or 'RPC output', deltas are equal to the SID of the current schema node minus the SID of the 'RPC'.
+* In the case of an 'RPC input' or 'RPC output', deltas are equal to the SID of the current representation node minus the SID of the 'RPC'.
 
-* In the case of an 'action input' or 'action output', deltas are equal to the SID of the current schema node minus the SID of the 'action'.
+* In the case of an 'action input' or 'action output', deltas are equal to the SID of the current representation node minus the SID of the 'action'.
 
-* In the case of a 'notification content', deltas are equal to the SID of the current schema node minus the SID of the 'notification'.
+* In the case of a 'notification content', deltas are equal to the SID of the current representation node minus the SID of the 'notification'.
 
 CBOR diagnostic notation:
 
@@ -463,11 +477,11 @@ A1                                      # map(1)
 
 CBOR map keys implemented using names MUST be encoded using a CBOR
 text string data item (major type 3). A namespace-qualified name MUST
-be used each time the namespace of a schema node and its parent
+be used each time the namespace of a representation node and its parent
 differ. In all other cases, the simple form of the name MUST be
 used. Names and namespaces are defined in {{Section 4 of RFC7951}}.
 
-The following example shows the encoding of a 'system' container schema node instance using names.
+The following example shows the encoding of a 'system' container representation node instance using names.
 
 CBOR diagnostic notation:
 
@@ -506,7 +520,7 @@ A1                                      # map(1)
 
 A leaf-list MUST be encoded using a CBOR array data item (major type 4). Each entry of this array MUST be encoded accordingly to its datatype using one of the encoding rules specified in {{data-types-mapping}}.
 
-The following example shows the encoding of the 'search' leaf-list schema node instance containing two entries, "ietf.org" and "ieee.org".
+The following example shows the encoding of the 'search' leaf-list representation node instance containing two entries, "ietf.org" and "ieee.org".
 
 Definition example {{RFC7317}}:
 
@@ -575,7 +589,7 @@ A1                                         # map(1)
 
 A list or a subset of a list MUST be encoded using a CBOR array data item (major type 4). Each list entry within this CBOR array is encoded using a CBOR map data item (major type 5) based on the encoding rules of a collection as defined in {{container}}.
 
-It is important to note that this encoding rule also applies to a 'list' schema node instance that has a single entry.
+It is important to note that this encoding rule also applies to a 'list' representation node instance that has a single entry.
 
 The following examples show the encoding of a 'server' list using SIDs or names.
 
@@ -759,15 +773,15 @@ A1                                      # map(1)
 
 ## The 'anydata'
 
-An anydata serves as a container for an arbitrary set of schema nodes that otherwise appear as normal YANG-modeled data. An anydata schema node instance is encoded using the same rules as a container, i.e., CBOR map. The requirement that anydata content can be modeled by YANG implies the following:
+An anydata serves as a container for an arbitrary set of representation nodes that otherwise appear as normal YANG-modeled data. An anydata representation node instance is encoded using the same rules as a container, i.e., CBOR map. The requirement that anydata content can be modeled by YANG implies the following:
 
-* CBOR map keys of any inner schema nodes MUST be set to valid deltas or names.
+* CBOR map keys of any inner representation nodes MUST be set to valid deltas or names.
 
 * The CBOR array MUST contain either unique scalar values (as a leaf-list, see {{leaf-list}}), or maps (as a list, see {{list}}).
 
 * CBOR map values MUST follow the encoding rules of one of the datatypes listed in {{instance-encoding}}.
 
-The following example shows a possible use of an anydata. In this example, an anydata is used to define a schema node containing a notification event; this schema node can be part of a YANG list to create an event logger.
+The following example shows a possible use of an anydata. In this example, an anydata is used to define a representation node containing a notification event; this representation node can be part of a YANG list to create an event logger.
 
 Definition example:
 
@@ -879,10 +893,10 @@ A1                                      # map(1)
 
 ## The 'anyxml'
 
-An anyxml schema node is used to serialize an arbitrary CBOR content, i.e., its value can be any CBOR binary object.
+An anyxml representation node is used to serialize an arbitrary CBOR content, i.e., its value can be any CBOR binary object.
 An anyxml value MAY contain CBOR data items tagged with one of the tags listed in {{tag-registry}}. The tags listed in {{tag-registry}} SHALL be supported.
 
-The following example shows a valid CBOR encoded anyxml schema node instance consisting of a CBOR array containing the CBOR simple values 'true', 'null' and 'true'.
+The following example shows a valid CBOR encoded anyxml representation node instance consisting of a CBOR array containing the CBOR simple values 'true', 'null' and 'true'.
 
 Definition example from {{RFC7951}}:
 
@@ -1064,17 +1078,17 @@ A1                                           # map(1)
 
 # Representing YANG Data Types in CBOR {#data-types-mapping}
 
-The CBOR encoding of an instance of a leaf or leaf-list schema node
-depends on the built-in type of that schema node. The following
+The CBOR encoding of an instance of a leaf or leaf-list representation node
+depends on the built-in type of that representation node. The following
 sub-section defines the CBOR encoding of each built-in type supported
-by YANG as listed in {{Section 4.2.4 of RFC7950}}. Each subsection shows an example value assigned to a schema node instance of the discussed built-in type.
+by YANG as listed in {{Section 4.2.4 of RFC7950}}. Each subsection shows an example value assigned to a representation node instance of the discussed built-in type.
 
 ## The unsigned integer Types
 
 Leafs of type uint8, uint16, uint32 and uint64 MUST be encoded using a CBOR
 unsigned integer data item (major type 0).
 
-The following example shows the encoding of an 'mtu' leaf schema node instance set to 1280 bytes.
+The following example shows the encoding of an 'mtu' leaf representation node instance set to 1280 bytes.
 
 Definition example from {{RFC8344}}:
 
@@ -1096,7 +1110,7 @@ Leafs of type int8, int16, int32 and int64 MUST be encoded using either CBOR
 unsigned integer (major type 0) or CBOR negative integer (major type 1), depending
 on the actual value.
 
-The following example shows the encoding of a 'timezone-utc-offset' leaf schema node instance set to -300 minutes.
+The following example shows the encoding of a 'timezone-utc-offset' leaf representation node instance set to -300 minutes.
 
 Definition example from {{RFC7317}}:
 
@@ -1115,7 +1129,7 @@ CBOR encoding: 39 012B
 ## The 'decimal64' Type
 Leafs of type decimal64 MUST be encoded using a decimal fraction as defined in {{Section 3.4.4 of RFC8949}}.
 
-The following example shows the encoding of a 'my-decimal' leaf schema node instance set to 2.57.
+The following example shows the encoding of a 'my-decimal' leaf representation node instance set to 2.57.
 
 Definition example from {{RFC7317}}:
 
@@ -1137,7 +1151,7 @@ CBOR encoding: C4 82 21 19 0101
 Leafs of type string MUST be encoded using a CBOR text string data item (major
 type 3).
 
-The following example shows the encoding of a 'name' leaf schema node instance set to "eth0".
+The following example shows the encoding of a 'name' leaf representation node instance set to "eth0".
 
 Definition example from {{RFC8343}}:
 
@@ -1155,7 +1169,7 @@ CBOR encoding: 64 65746830
 
 Leafs of type boolean MUST be encoded using a CBOR simple value 'true' (major type 7, additional information 21) or 'false' (major type 7, additional information 20).
 
-The following example shows the encoding of an 'enabled' leaf schema node instance set to 'true'.
+The following example shows the encoding of an 'enabled' leaf representation node instance set to 'true'.
 
 Definition example from {{RFC7317}}:
 
@@ -1177,7 +1191,7 @@ depending on the actual value. Enumeration values are either
 explicitly assigned using the YANG statement 'value' or automatically
 assigned based on the algorithm defined in {{Section 9.6.4.2 of RFC7950}}.
 
-The following example shows the encoding of an 'oper-status' leaf schema node instance set to 'testing'.
+The following example shows the encoding of an 'oper-status' leaf representation node instance set to 'testing'.
 
 Definition example from {{RFC7317}}:
 
@@ -1248,7 +1262,7 @@ zero bytes are removed and the integer adjusted upwards by the number
 of zero bytes removed.
 An example follows.
 
-The following example shows the encoding of an 'alarm-state' leaf schema node
+The following example shows the encoding of an 'alarm-state' leaf representation node
 instance with the 'critical' (position 3), 'warning' (position 8) and
 'indeterminate' (position 128) flags set.
 
@@ -1301,7 +1315,7 @@ CBOR text string data item (major type 3) and MUST contain a space-separated
 sequence of names of 'bits' that are set. The encoding MUST be enclosed by the
 bits CBOR tag as specified in {{tag-registry}}.
 
-The following example shows the encoding of an 'alarm-state' leaf schema node
+The following example shows the encoding of an 'alarm-state' leaf representation node
 instance defined using a union type with the 'under-repair' and 'critical'
 flags set.
 
@@ -1327,7 +1341,7 @@ CBOR encoding: D8 2B 75 756E6465722D72657061697220637269746963616C
 Leafs of type binary MUST be encoded using a CBOR byte string data item (major
 type 2).
 
-The following example shows the encoding of an 'aes128-key' leaf schema node
+The following example shows the encoding of an 'aes128-key' leaf representation node
 instance set to 0x1f1ce6a3f42660d888d92a4d8030476e.
 
 Definition example:
@@ -1346,10 +1360,10 @@ CBOR encoding: 50 1F1CE6A3F42660D888D92A4D8030476E
 
 ## The 'leafref' Type
 
-Leafs of type leafref MUST be encoded using the rules of the schema node referenced
+Leafs of type leafref MUST be encoded using the rules of the representation node referenced
 by the 'path' YANG statement.
 
-The following example shows the encoding of an 'interface-state-ref' leaf schema node instance set to "eth1".
+The following example shows the encoding of an 'interface-state-ref' leaf representation node instance set to "eth1".
 
 Definition example from {{RFC8343}}:
 
@@ -1385,9 +1399,9 @@ as defined in {{Section 6.8 of RFC7951}}.
 
 ### SIDs as identityref {#identityref-with-sid}
 
-When schema nodes of type identityref are implemented using SIDs, they MUST be encoded using a CBOR unsigned integer data item (major type 0). (Note that, as they are not used in the position of CBOR map keys, no delta mechanism is employed for SIDs used for identityref.)
+When representation nodes of type identityref are implemented using SIDs, they MUST be encoded using a CBOR unsigned integer data item (major type 0). (Note that, as they are not used in the position of CBOR map keys, no delta mechanism is employed for SIDs used for identityref.)
 
-The following example shows the encoding of a 'type' leaf schema node instance set to the value 'iana-if-type:ethernetCsmacd' (SID 1880).
+The following example shows the encoding of a 'type' leaf representation node instance set to the value 'iana-if-type:ethernetCsmacd' (SID 1880).
 
 Definition example from {{RFC7317}}:
 
@@ -1429,7 +1443,7 @@ CBOR encoding: 78 1b 69616E612D69662D747970653A65746865726E657443736D616364
 Leafs of type empty MUST be encoded using the CBOR null value (major type
 7, additional information 22).
 
-The following example shows the encoding of an 'is-router' leaf schema node instance when present.
+The following example shows the encoding of an 'is-router' leaf representation node instance when present.
 
 Definition example from {{RFC8344}}:
 
@@ -1461,7 +1475,7 @@ See {{tag-registry}} for the assigned value of these CBOR tags.
 
 As mentioned in {{enumeration}} and in {{bits}}, 'enumeration' and 'bits' are encoded as a CBOR text string data item (major type 3) when defined within a 'union' type.
 
-The following example shows the encoding of an 'ip-address' leaf schema node instance when set to "2001:db8:a0b:12f0::1".
+The following example shows the encoding of an 'ip-address' leaf representation node instance when set to "2001:db8:a0b:12f0::1".
 
 Definition example from {{RFC7317}}:
 
@@ -1507,15 +1521,15 @@ This specification supports two approaches for encoding an instance-identifier, 
 
 ### SIDs as instance-identifier {#instance-identifier-with-sid}
 
-SIDs uniquely identify a schema node. In the case of a single instance schema node, i.e., a schema node defined at the root of a YANG module or submodule or schema nodes defined within a container, the SID is sufficient to identify this instance.
+SIDs uniquely identify a schema node. In the case of a single instance schema node, i.e., a schema node defined at the root of a YANG module or submodule or schema nodes defined within a container, the SID is sufficient to identify this instance (representation node).
 (Note that no delta mechanism is employed for SIDs used for identityref, see {{identityref-with-sid}}.)
 <!-- Is this clear enough? -->
 
-In the case of a schema node member of a YANG list, a SID is combined with the list key(s) to identify each instance within the YANG list(s).
+In the case of a representation node that is a member of a YANG list, a SID is combined with the list key(s) to identify each instance within the YANG list(s).
 
-Single instance schema nodes MUST be encoded using a CBOR unsigned integer data item (major type 0) and set to the targeted schema node SID.
+Instance identifiers of single instance schema nodes MUST be encoded using a CBOR unsigned integer data item (major type 0) and set to the targeted schema node SID.
 
-Schema node members of a YANG list MUST be encoded using a CBOR array data item (major type 4) containing the following entries:
+Instance identifiers of representation node members of a YANG list MUST be encoded using a CBOR array data item (major type 4) containing the following entries:
 
 * The first entry MUST be encoded as a CBOR unsigned integer data item (major type 0) and set to the targeted schema node SID.
 
@@ -1558,7 +1572,7 @@ CBOR encoding: 19 06CD
 
 **Second example:**
 
-This example aims to show how a schema node member of a YANG list is identified.
+This example aims to show how a representation node member of a YANG list is identified.
 It uses a somewhat arbitrarily modified YANG module version from {{RFC7317}} by
 adding `country` to the leafs and keys of `authorized-key`.
 
@@ -1707,11 +1721,10 @@ This specification defines the media-type
 `application/yang-data+cbor`, which can be used without parameters or
 with the parameter `id=name` or `id=sid`.
 
-This media-type represents a CBOR YANG document containing one or
-multiple data node values.
+This media-type represents a YANG-CBOR document containing a representation tree.
 If the media-type parameter `id` is present,
 depending on its value,
-each data node is identified by its associated namespace qualified
+each representation node is identified by its associated namespace qualified
 name as defined in {{name}} (`id=name`), or by its associated YANG SID
 (represented as a SID delta or via tag 47) as defined in {{sid}}
 (`id=sid`), respectively.
