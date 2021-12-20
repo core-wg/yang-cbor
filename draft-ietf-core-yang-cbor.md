@@ -61,8 +61,8 @@ author:
   country: Canada
 
 normative:
-  RFC7950:
-  RFC5234:
+  RFC7950: yang
+  RFC5234: abnf
   RFC8949: cbor
   RFC8610: cddl
   IANA.cbor-tags:
@@ -70,15 +70,16 @@ normative:
 informative:
   I-D.ietf-core-comi: comi
   I-D.ietf-core-sid: core-sid
-  RFC6241:
-  RFC7951:
+  RFC6241: netconf
+  RFC6991: yang-types
+  RFC7951: yang-json
   RFC7228:
   RFC7317:
-  RFC8040:
-  RFC8259:
+  RFC8040: restconf
+  RFC8259: json
   RFC8343:
   RFC8344:
-  RFC8791:
+  RFC8791: yang-structure
 
 --- abstract
 
@@ -1214,7 +1215,8 @@ CBOR encoding: 03
 
 Values of 'enumeration' types defined in a 'union' type MUST be encoded using a
 CBOR text string data item (major type 3) and MUST contain one of the names
-assigned by 'enum' statements in YANG.  The encoding MUST be enclosed by the
+assigned by 'enum' statements in YANG (see also {{union}}).
+The encoding MUST be enclosed by the
 enumeration CBOR tag as specified in {{tag-registry}}.
 
 Definition example from {{RFC7950}}:
@@ -1308,10 +1310,10 @@ strings or adjacent integers are an error. An array with a single byte string
 MUST instead be encoded as just that byte string. An array with a single
 positive integer is an error.
 
-To maintain compatibility with the encoding of overlapping unions in XML,
-values of 'bits' types defined in a 'union' type MUST be encoded using a
+Values of 'bits' types defined in a 'union' type MUST be encoded using a
 CBOR text string data item (major type 3) and MUST contain a space-separated
-sequence of names of 'bits' that are set. The encoding MUST be enclosed by the
+sequence of names of 'bits' that are set (see also {{union}}).
+The encoding MUST be enclosed by the
 bits CBOR tag as specified in {{tag-registry}}.
 
 The following example shows the encoding of an 'alarm-state' leaf representation node
@@ -1473,28 +1475,36 @@ between different YANG datatypes encoded using the same CBOR major type.
 See {{tag-registry}} for the assigned value of these CBOR tags.
 
 As mentioned in {{enumeration}} and in {{bits}}, 'enumeration' and 'bits' are encoded as a CBOR text string data item (major type 3) when defined within a 'union' type.
+(This adds considerable complexity, but is necessary because of an
+idiosyncrasy of the YANG data model for unions; the workaround allows
+compatibility to be maintained with the encoding of overlapping unions
+in XML and JSON.
+See also {{Section 9.12 of RFC7950}}.)
 
 The following example shows the encoding of an 'ip-address' leaf representation node instance when set to "2001:db8:a0b:12f0::1".
 
-Definition example from {{RFC7317}}:
+Definition example (adapted from {{RFC6991}}):
 
 ~~~~ yang
 typedef ipv4-address {
   type string {
-  pattern '(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}
-           ([0-9][1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(%[\p{N}
-           \p{L}]+)?';
+    pattern
+      '(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}'
+    +  '([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])'
+    + '(%[\p{N}\p{L}]+)?';
   }
 }
 
 typedef ipv6-address {
   type string {
-    pattern '((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}((([0-9a
-             -fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|(((25[0-5]|2[0-4][0
-             -9]|[01]?[0-9]?[0-9])\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0
-             -9]?[0-9])))(%[\p{N}\p{L}]+)?';
-    pattern '(([^:]+:){6}(([^:]+:[^:]+)|(.*\..*)))|((([^:]+:)*[^:]+)
-             ?::(([^:]+:)*[^:]+)?)(%.+)?';
+    pattern '((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}'
+          + '((([0-9a-fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|'
+          + '(((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\.){3}'
+          + '(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])))'
+          + '(%[\p{N}\p{L}]+)?';
+    pattern '(([^:]+:){6}(([^:]+:[^:]+)|(.*\..*)))|'
+          + '((([^:]+:)*[^:]+)?::(([^:]+:)*[^:]+)?)'
+          + '(%.+)?';
   }
 }
 
