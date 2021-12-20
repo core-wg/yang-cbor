@@ -312,7 +312,7 @@ A valid CBOR encoding of the 'top' container is as follows.
 
 CBOR diagnostic notation:
 
-~~~~ CBORdiag
+~~~~ cbor-diag
 {
   "example-foomod:top": {
     "foo": 54,
@@ -358,7 +358,7 @@ As with all examples below, the delta in the outermost map assumes a reference Y
 
 CBOR diagnostic notation:
 
-~~~~ CBORdiag
+~~~~ cbor-diag
 {
   1752 : "myhost.example.com"     / hostname (SID 1752) /
 }
@@ -366,7 +366,7 @@ CBOR diagnostic notation:
 
 CBOR encoding:
 
-~~~~ CBORbytes
+~~~~ cbor-pretty
 A1                                         # map(1)
    19 06D8                                 # unsigned(1752)
    72                                      # text(18)
@@ -377,7 +377,7 @@ A1                                         # map(1)
 
 CBOR diagnostic notation:
 
-~~~~ CBORdiag
+~~~~ cbor-diag
 {
   "ietf-system:hostname" : "myhost.example.com"
 }
@@ -385,7 +385,7 @@ CBOR diagnostic notation:
 
 CBOR encoding:
 
-~~~~ CBORbytes
+~~~~ cbor-pretty
 A1                                         # map(1)
    74                                      # text(20)
       696574662D73797374656D3A686F73746E616D65
@@ -445,7 +445,7 @@ Delta values are computed as follows:
 
 CBOR diagnostic notation:
 
-~~~~ CBORdiag
+~~~~ cbor-diag
 {
   1720 : {                              / system-state (SID 1720) /
     1 : {                               / clock  (SID 1721) /
@@ -458,7 +458,7 @@ CBOR diagnostic notation:
 
 CBOR encoding:
 
-~~~~ CBORbytes
+~~~~ cbor-pretty
 A1                                      # map(1)
    19 06B8                              # unsigned(1720)
    A1                                   # map(1)
@@ -485,7 +485,7 @@ The following example shows the encoding of a 'system' container representation 
 
 CBOR diagnostic notation:
 
-~~~~ CBORdiag
+~~~~ cbor-diag
 {
   "ietf-system:system-state" : {
     "clock" : {
@@ -498,7 +498,7 @@ CBOR diagnostic notation:
 
 CBOR encoding:
 
-~~~~ CBORbytes
+~~~~ cbor-pretty
 A1                                      # map(1)
    78 18                                # text(24)
       696574662D73797374656D3A73797374656D2D7374617465
@@ -544,7 +544,7 @@ leaf-list search {
 
 CBOR diagnostic notation:
 
-~~~~ CBORdiag
+~~~~ cbor-diag
 {
   1746 : [ "ietf.org", "ieee.org" ]     / search (SID 1746) /
 }
@@ -552,7 +552,7 @@ CBOR diagnostic notation:
 
 CBOR encoding:
 
-~~~~ CBORbytes
+~~~~ cbor-pretty
 A1                        # map(1)
    19 06D2                # unsigned(1746)
    82                     # array(2)
@@ -566,7 +566,7 @@ A1                        # map(1)
 
 CBOR diagnostic notation:
 
-~~~~ CBORdiag
+~~~~ cbor-diag
 {
   "ietf-system:search" : [ "ietf.org", "ieee.org" ]
 }
@@ -574,7 +574,7 @@ CBOR diagnostic notation:
 
 CBOR encoding:
 
-~~~~ CBORbytes
+~~~~ cbor-pretty
 A1                                         # map(1)
    72                                      # text(18)
       696574662D73797374656D3A736561726368 # "ietf-system:search"
@@ -640,7 +640,7 @@ The encoding rules of each 'list' entry are defined in {{container-with-sid}}.
 
 CBOR diagnostic notation:
 
-~~~~ CBORdiag
+~~~~ cbor-diag
 {
   1756 : [                      / server (SID 1756) /
     {
@@ -665,7 +665,7 @@ CBOR diagnostic notation:
 
 CBOR encoding:
 
-~~~~ CBORbytes
+~~~~ cbor-pretty
 A1                                      # map(1)
    19 06DC                              # unsigned(1756)
    82                                   # array(2)
@@ -703,7 +703,7 @@ The encoding rules of each 'list' entry are defined in {{container-with-name}}.
 
 CBOR diagnostic notation:
 
-~~~~ CBORdiag
+~~~~ cbor-diag
 {
   "ietf-system:server" : [
     {
@@ -728,7 +728,7 @@ CBOR diagnostic notation:
 
 CBOR encoding:
 
-~~~~ CBORbytes
+~~~~ cbor-pretty
 A1                                      # map(1)
    72                                   # text(18)
       696574662D73797374656D3A736572766572
@@ -813,7 +813,7 @@ module example-port {
 
 CBOR diagnostic notation:
 
-~~~~ CBORdiag
+~~~~ cbor-diag
 {
   60123 : {                   / last-event (SID 60123) /
     77 : {                    / example-port-fault (SID 60200) /
@@ -826,25 +826,24 @@ CBOR diagnostic notation:
 
 CBOR encoding:
 
-~~~~ CBORbytes
+~~~~ cbor-pretty
 A1                               # map(1)
    19 EADB                       # unsigned(60123)
    A1                            # map(1)
       18 4D                      # unsigned(77)
       A2                         # map(2)
-         18 4E                   # unsigned(78)
+         01                      # unsigned(1)
          66                      # text(6)
             302F342F3231         # "0/4/21"
-         18 4F                   # unsigned(79)
+         02                      # unsigned(2)
          6A                      # text(10)
             4F70656E2070696E2032 # "Open pin 2"
-
 ~~~~
 
 In some implementations, it might be simpler to use the absolute SID encoding (tag 47) for the anydata root element.
 CBOR diagnostic notation:
 
-~~~~ CBORdiag
+~~~~ cbor-diag
 {
   60123 : {                   / last-event (SID 60123) /
     47(60200) : {             / event-port-fault (SID 60200) /
@@ -859,7 +858,7 @@ CBOR diagnostic notation:
 
 CBOR diagnostic notation:
 
-~~~~ CBORdiag
+~~~~ cbor-diag
 {
   "event-log:last-event" : {
     "example-port:example-port-fault" : {
@@ -872,14 +871,14 @@ CBOR diagnostic notation:
 
 CBOR encoding:
 
-~~~~ CBORbytes
+~~~~ cbor-pretty
 A1                                      # map(1)
    74                                   # text(20)
       6576656E742D6C6F673A6C6173742D6576656E74
    A1                                   # map(1)
-      78 20                             # text(32)
-         6578616D706C652D706F72743A206578616D7
-         06C652D706F72742D6661756C74
+      78 1F                             # text(31)
+         6578616D706C652D706F72743A
+         6578616D706C652D706F72742D6661756C74
       A2                                # map(2)
          69                             # text(9)
             706F72742D6E616D65          # "port-name"
@@ -911,7 +910,7 @@ module bar-module {
 
 CBOR diagnostic notation:
 
-~~~~ CBORdiag
+~~~~ cbor-diag
 {
   60000 : [true, null, true]   / bar (SID 60000) /
 }
@@ -919,7 +918,7 @@ CBOR diagnostic notation:
 
 CBOR encoding:
 
-~~~~ CBORbytes
+~~~~ cbor-pretty
 A1         # map(1)
    19 EA60 # unsigned(60000)
    83      # array(3)
@@ -932,7 +931,7 @@ A1         # map(1)
 
 CBOR diagnostic notation:
 
-~~~~ CBORdiag
+~~~~ cbor-diag
 {
   "bar-module:bar" : [true, null, true]   / bar (SID 60000) /
 }
@@ -940,7 +939,7 @@ CBOR diagnostic notation:
 
 CBOR encoding:
 
-~~~~ CBORbytes
+~~~~ cbor-pretty
 A1                                 # map(1)
    6E                              # text(14)
       6261722D6D6F64756C653A626172 # "bar-module:bar"
@@ -1000,7 +999,7 @@ This example shows a serialization example of the yang-errors yang-data extensio
 
 CBOR diagnostic notation:
 
-~~~~ CBORdiag
+~~~~ cbor-diag
 {
   1024 : {                      / error  (SID 1024) /
     4 : 1011,                   / error-tag (SID 1028) /
@@ -1016,7 +1015,7 @@ CBOR diagnostic notation:
 
 CBOR encoding:
 
-~~~~ CBORbytes
+~~~~ cbor-pretty
 A1                                      # map(1)
    19 0400                              # unsigned(1024)
    A4                                   # map(4)
@@ -1028,7 +1027,7 @@ A1                                      # map(1)
       19 06CC                           # unsigned(1740)
       03                                # unsigned(3)
       70                                # text(16)
-         4D6178696D756D206578636565646564
+         4D6178696D756D206578636565646564 # "Maximum exceeded"
 ~~~~
 
 ## Using names in keys
@@ -1039,7 +1038,7 @@ This example shows a serialization example of the yang-errors yang-data extensio
 
 CBOR diagnostic notation:
 
-~~~~ CBORdiag
+~~~~ cbor-diag
 {
   "ietf-coreconf:error" : {
     "error-tag" : "invalid-value",
@@ -1052,7 +1051,7 @@ CBOR diagnostic notation:
 
 CBOR encoding:
 
-~~~~ CBORbytes
+~~~~ cbor-pretty
 A1                                           # map(1)
    73                                        # text(19)
       696574662D636F7265636F6E663A6572726F72 # "ietf-coreconf:error"
@@ -1073,7 +1072,7 @@ A1                                           # map(1)
       6D                                     # text(13)
          6572726F722D6D657373616765          # "error-message"
       70                                     # text(16)
-         4D6178696D756D206578636565646564
+         4D6178696D756D206578636565646564    # "Maximum exceeded"
 ~~~~
 
 # Representing YANG Data Types in CBOR {#data-types-mapping}
@@ -1616,7 +1615,7 @@ CBOR diagnostic notation: [1734, "bob", "admin", "france"]
 
 CBOR encoding:
 
-~~~~ CBORbytes
+~~~~ cbor-pretty
 84                 # array(4)
    19 06C6         # unsigned(1734)
    63              # text(3)
@@ -1635,7 +1634,7 @@ CBOR diagnostic notation: [1730, "jack"]
 
 CBOR encoding:
 
-~~~~ CBORbytes
+~~~~ cbor-pretty
 82             # array(2)
    19 06C2     # unsigned(1730)
    64          # text(4)
@@ -1668,7 +1667,7 @@ CBOR diagnostic notation: "/ietf-system:system/contact"
 
 CBOR encoding:
 
-~~~~ CBORbytes
+~~~~ cbor-pretty
 78 1c 2F696574662D73797374656D3A73797374656D2F636F6E74616374
 ~~~~
 
@@ -1680,7 +1679,7 @@ CBOR diagnostic notation (the line break is inserted for exposition only):
 
 <!-- http://cbor.me/?diag=%22/ietf-system:system/authentication/user[name=%27bob%27]/authorized-key[name=%27admin%27][country=%27france%27]/key-data%22 -->
 
-~~~~ CBORdiag
+~~~~ cbor-diag
 "/ietf-system:system/authentication/user[name='bob']/
 authorized-key[name='admin'][country='france']/key-data"
 ~~~~
@@ -1689,7 +1688,7 @@ CBOR encoding:
 
 <!-- http://cbor.me/?bytes=78.6B(2F696574662D73797374656D3A73797374656D2F61757468656E7469636174696F6E2F757365725B6E616D653D27626F62275D2F617574686F72697A65642D6B65795B6E616D653D2761646D696E275D5B636F756E7472793D276672616E6365275D2F6B65792D64617461) -->
 
-~~~~ CBORbytes
+~~~~ cbor-pretty
 78 6B
    2F696574662D73797374656D3A73797374656D2F61757468656E74696361
    74696F6E2F757365725B6E616D653D27626F62275D2F617574686F72697A
@@ -1703,16 +1702,16 @@ This example is described in {{instance-identifier-with-sid}}.
 
 CBOR diagnostic notation:
 
-~~~~ CBORdiag
+~~~~ cbor-diag
 "/ietf-system:system/authentication/user[name='jack']"
 ~~~~
 
 CBOR encoding:
 
-~~~~ CBORbytes
-78 33
+~~~~ cbor-pretty
+78 34                                   # text(52)
    2F696574662D73797374656D3A73797374656D2F61757468656E74696361
-   74696F6E2F757365725B6E616D653D27626F62275D
+   74696F6E2F757365725B6E616D653D276A61636B275D
 ~~~~
 
 # Content-Types {#content-type}
