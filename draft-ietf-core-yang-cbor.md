@@ -66,10 +66,10 @@ normative:
   RFC8949: cbor
   RFC8610: cddl
   IANA.cbor-tags:
+  I-D.ietf-core-sid: core-sid
 
 informative:
   I-D.ietf-core-comi: comi
-  I-D.ietf-core-sid: core-sid
   RFC6241: netconf
   RFC6991: yang-types
   RFC7951: yang-json
