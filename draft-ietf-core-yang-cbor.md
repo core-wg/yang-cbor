@@ -155,13 +155,14 @@ This specification also makes use of the following terminology:
 
 * representation node: a node in a representation tree, i.e., a data
   tree node, or a representation of a schema node such as a YANG data structure, a
-  notification, an RPC, or an action
+  notification, an RPC, or an action.
 
 * item: A schema node, an identity, a module, or a feature defined using the YANG modeling language.
 
-* list entry: the data associated with a single element of a list.
+* list entry: the data associated with a single entry of a list (see
+  {{Section 7.8 of RFC7950}}).
 
-* parent (of a representation node): The schema node of the closest
+* parent (of a representation node): the schema node of the closest
   enclosing representation node in which a given representation node
   is defined.
 
@@ -171,10 +172,10 @@ This document defines CBOR encoding rules for YANG data trees and their subtrees
 
 A YANG data tree can be enclosed by a representation of a schema node such as a YANG data structure, a notification, an RPC, or an action; this is called a representation tree.  The data tree nodes and the enclosing schema node representation, if any, are collectively called the representation nodes.
 
-A representation node such as container, list member, YANG data structure, notification, RPC input, RPC output, action input, or action output is serialized using a CBOR map in which each schema node defined within is encoded using a key and a value.
+A representation node such as container, list entry, YANG data structure, notification, RPC input, RPC output, action input, or action output is serialized using a CBOR map in which each schema node defined within is encoded using a key and a value.
 This specification supports two types of CBOR keys; YANG Schema Item iDentifier (YANG SID) as defined in {{sid}} and names as defined in {{name}}. Each of these key types is encoded using a specific CBOR type which allows their interpretation during the deserialization process. Protocols or mechanisms implementing this specification can mandate the use of a specific key type.
 
-In order to minimize the size of the encoded data, the proposed
+In order to minimize the size of the encoded data, the
 mapping avoids any unnecessary meta-information beyond that directly
 provided by the CBOR basic generic data model ({{Section 2 of RFC8949}}). For instance, CBOR tags are used solely in the case of an absolute SID, anyxml data nodes, or the union datatype, to distinguish explicitly the use of different YANG datatypes encoded using the same CBOR major type.
 
@@ -246,7 +247,7 @@ The reference SID of a map that is most directly embedded in a map entry
 with a name-based key is zero.
 For all other maps, the reference SID is the SID computed for the map
 entry it is most directly embedded in.
-(The embedding may be indirect if an array intervenes, e.g., in a YANG list)
+(The embedding may be indirect if an array intervenes, e.g., in a YANG list.)
 Where absolute SIDs are desired in map key positions where a bare
 integer implies a delta, they may be encoded using CBOR tag 47 (as defined in {{tag-registry}}).
 
@@ -1534,11 +1535,11 @@ SIDs uniquely identify a schema node. In the case of a single instance schema no
 (Note that no delta mechanism is employed for SIDs used for identityref, see {{identityref-with-sid}}.)
 <!-- Is this clear enough? -->
 
-In the case of a representation node that is a member of a YANG list, a SID is combined with the list key(s) to identify each instance within the YANG list(s).
+In the case of a representation node that is an entry of a YANG list, a SID is combined with the list key(s) to identify each instance within the YANG list(s).
 
 Instance identifiers of single instance schema nodes MUST be encoded using a CBOR unsigned integer data item (major type 0) and set to the targeted schema node SID.
 
-Instance identifiers of representation node members of a YANG list MUST be encoded using a CBOR array data item (major type 4) containing the following entries:
+Instance identifiers of representation node entries of a YANG list MUST be encoded using a CBOR array data item (major type 4) containing the following entries:
 
 * The first entry MUST be encoded as a CBOR unsigned integer data item (major type 0) and set to the targeted schema node SID.
 
@@ -1581,7 +1582,7 @@ CBOR encoding: 19 06CD
 
 **Second example:**
 
-This example aims to show how a representation node member of a YANG list is identified.
+This example aims to show how a representation node entry of a YANG list is identified.
 It uses a somewhat arbitrarily modified YANG module version from {{RFC7317}} by
 adding `country` to the leafs and keys of `authorized-key`.
 
