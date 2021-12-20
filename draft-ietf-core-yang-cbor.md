@@ -280,7 +280,7 @@ The name of a module determines the namespace of all YANG items defined in that 
 
 ABNF syntax {{RFC5234}} of a name is shown in {{namesyntax}}, where the production for "identifier" is defined in {{Section 14 of RFC7950}}.
 
-~~~~
+~~~~ abnf
 name = [identifier ":"] identifier
 ~~~~
 {: #namesyntax title='ABNF Production for a simple or namespace qualified name' artwork-align="center"}
