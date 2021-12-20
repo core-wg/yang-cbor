@@ -337,15 +337,16 @@ A 'leaf' MUST be encoded accordingly to its datatype using one of the encoding r
 
 The following examples show the encoding of a 'hostname' leaf using a SID or a name.
 
-Definition example from [RFC7317]:
+Definition example adapted from {{RFC6991}} and {{RFC7317}}:
 
 ~~~~ yang
 typedef domain-name {
   type string {
+    pattern
+      '((([a-zA-Z0-9_]([a-zA-Z0-9\-_]){0,61})?[a-zA-Z0-9]\.)*'
+    + '([a-zA-Z0-9_]([a-zA-Z0-9\-_]){0,61})?[a-zA-Z0-9]\.?)'
+    + '|\.';
     length "1..253";
-    pattern '((([a-zA-Z0-9_]([a-zA-Z0-9\-_]){0,61})?[a-zA-Z0-9].)
-        *([a-zA-Z0-9_]([a-zA-Z0-9\-_]){0,61})?[a-zA-Z0-9]\.?
-        )|\.';
   }
 }
 
@@ -405,13 +406,13 @@ This specification supports two types of CBOR map keys; SID as defined in {{sid}
 
 The following examples show the encoding of a 'system-state' container representation instance using SIDs or names.
 
-Definition example from {{RFC7317}}:
+Definition example adapted from {{RFC6991}} and {{RFC7317}}:
 
 ~~~~ yang
 typedef date-and-time {
   type string {
-    pattern '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[\+\-]
-             \d{2}:\d{2})';
+    pattern '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?'
+          + '(Z|[\+\-]\d{2}:\d{2})';
   }
 }
 
@@ -524,15 +525,16 @@ A leaf-list MUST be encoded using a CBOR array data item (major type 4). Each en
 
 The following example shows the encoding of the 'search' leaf-list representation node instance containing two entries, "ietf.org" and "ieee.org".
 
-Definition example {{RFC7317}}:
+Definition example adapted from {{RFC6991}} and {{RFC7317}}:
 
 ~~~~ yang
 typedef domain-name {
   type string {
+    pattern
+      '((([a-zA-Z0-9_]([a-zA-Z0-9\-_]){0,61})?[a-zA-Z0-9]\.)*'
+    + '([a-zA-Z0-9_]([a-zA-Z0-9\-_]){0,61})?[a-zA-Z0-9]\.?)'
+    + '|\.';
     length "1..253";
-    pattern '((([a-zA-Z0-9_]([a-zA-Z0-9\-_]){0,61})?[a-zA-Z0-9].)
-             *([a-zA-Z0-9_]([a-zA-Z0-9\-_]){0,61})?[a-zA-Z0-9]\.?
-             )|\.';
   }
 }
 
