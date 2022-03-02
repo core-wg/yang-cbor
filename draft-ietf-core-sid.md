@@ -757,13 +757,14 @@ second-level members as indicated with the angle brackets:
     "content-schema": {
       "module": "ietf-sid-file@2021-11-16"
     },
-    "content-data": "<replace by SID file contents>"
+    "content-data": {  <replace this object>
+      "ietf-sid-file:sid-file" : {
+        "module-name": ...
+      }
+    }
   }
 }
 ~~~
-
-(Note that the content-data are not actually embedded as a string, but
-as the JSON value of the SID file.  )
 
 [^rfced]
 
