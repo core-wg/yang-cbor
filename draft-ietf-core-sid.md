@@ -81,7 +81,6 @@ normative:
   RFC7951:
   RFC8040:
   RFC8259: json
-  I-D.ietf-core-yang-cbor:
 informative:
   RFC6020:
   RFC6241:
@@ -97,6 +96,7 @@ informative:
   I-D.ietf-core-comi: comi
   I-D.ietf-core-yang-library: yang-library
   I-D.ietf-anima-constrained-voucher: constrained-voucher
+  I-D.ietf-core-yang-cbor: yang-cbor
   PYANG:
     target: https://github.com/mbj4668/pyang
     title: An extensible YANG validator and converter in python
@@ -160,6 +160,8 @@ SIDs.
 IETF managed YANG modules that need to allocate SIDs use the IANA mechanism specified in this document.
 YANG modules created by other parties allocate SID ranges using the IANA allocation mechanisms via Mega-Ranges (see {{mega-range-registry}}); within the Mega-Range allocation, those other parties are free to make up their own mechanism.
 
+Among other uses, YANG SIDs are particularly useful to obtain a
+compact encoding for YANG-CBOR {{-yang-cbor}}.
 At the time of writing, a tool for automated ".sid" file generation is
 available as part of the open-source project PYANG {{PYANG}}.
 
