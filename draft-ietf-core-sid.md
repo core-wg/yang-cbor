@@ -743,4 +743,10 @@ The following Activity diagram summarizes the update of a YANG module and its as
 # Acknowledgments
 {: numbered="false"}
 
-The authors would like to thank {{{Andy Bierman}}}, {{{Michael Richardson}}}, {{{Abhinav Somaraju}}}, {{{Peter van der Stok}}}, {{{Laurent Toutain}}} and {{{Randy Turner}}} for their help during the development of this document and their useful comments during the review process.
+The authors would like to thank {{{Andy Bierman}}}, {{{Michael Richardson}}},
+{{{Abhinav Somaraju}}}, {{{Peter van der Stok}}}, {{{Laurent Toutain}}} and
+{{{Randy Turner}}} for their help during the development of this document and
+their useful comments during the review process.
+Special thanks go to the IESG members who supplied very useful
+comments during the IESG processing phase, in particular to
+{{{Benjamin Kaduk}}} and {{{Rob Wilton}}}.
