@@ -8,6 +8,7 @@ wg: Internet Engineering Task Force
 kw: CBOR
 cat: std
 consensus: true
+submissiontype: IETF
 pi:
   strict: 'yes'
   toc: 'yes'
