@@ -749,7 +749,7 @@ can be achieved by embedding the value of the SID file as the value of the
 `content-data` member in the following template, and copying over the
 second-level members as indicated with the angle brackets:
 
-~~~ json
+~~~ yang-instance-data
 {
   "ietf-yang-instance-data:instance-data-set": {
     "name": "<module-name>@<module-revision>.sid",
