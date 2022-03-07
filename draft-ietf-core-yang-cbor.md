@@ -898,6 +898,7 @@ A1                                      # map(1)
 ## The 'anyxml'
 
 An anyxml representation node is used to serialize an arbitrary CBOR content, i.e., its value can be any CBOR binary object.
+(The "xml" in the name is a misnomer that only applied to YANG-XML {{RFC7950}}.)
 An anyxml value MAY contain CBOR data items tagged with one of the tags listed in {{tag-registry}}. The tags listed in {{tag-registry}} SHALL be supported.
 
 The following example shows a valid CBOR encoded anyxml representation node instance consisting of a CBOR array containing the CBOR simple values 'true', 'null' and 'true'.
