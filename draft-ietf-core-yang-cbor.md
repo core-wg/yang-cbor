@@ -175,7 +175,7 @@ This document defines CBOR encoding rules for YANG data trees and their subtrees
 A YANG data tree can be enclosed by a representation of a schema node such as a YANG data structure, a notification, an RPC, or an action; this is called a representation tree.  The data tree nodes and the enclosing schema node representation, if any, are collectively called the representation nodes.
 
 A representation node such as container, list entry, YANG data structure, notification, RPC input, RPC output, action input, or action output is serialized using a CBOR map in which each schema node defined within is encoded using a key and a value.
-This specification supports two types of CBOR keys; YANG Schema Item iDentifier (YANG SID) as defined in {{sid}} and names as defined in {{name}}. Each of these key types is encoded using a specific CBOR type which allows their interpretation during the deserialization process. Protocols or mechanisms implementing this specification can mandate the use of a specific key type.
+This specification supports two types of CBOR keys; YANG Schema Item iDentifier (YANG SID) as defined in {{sid}} and names as defined in {{name}}. Each of these key types is encoded using a specific CBOR type which allows their interpretation during the deserialization process. Protocols or mechanisms implementing this specification can mandate the use of a specific key type or allow the generator to choose freely per key.
 
 In order to minimize the size of the encoded data, the
 mapping avoids any unnecessary meta-information beyond that directly
