@@ -1745,7 +1745,7 @@ If the media-type parameter `id` is present,
 depending on its value,
 each representation node is identified by its associated namespace qualified
 name as defined in {{name}} (`id=name`), or by its associated YANG SID
-(represented as a SID delta or via tag number 47) as defined in {{sid}}
+(represented, e.g., in CBOR map keys as a SID delta or via tag number 47) as defined in {{sid}}
 (`id=sid`), respectively.
 If no `id` parameter is given, both forms may be present.
 
