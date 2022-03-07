@@ -1738,7 +1738,7 @@ CBOR encoding:
 
 This specification defines the media-type
 `application/yang-data+cbor`, which can be used without parameters or
-with the parameter `id=name` or `id=sid`.
+with the `id` parameter set to either `name` or `sid`.
 
 This media-type represents a YANG-CBOR document containing a representation tree.
 If the media-type parameter `id` is present,
