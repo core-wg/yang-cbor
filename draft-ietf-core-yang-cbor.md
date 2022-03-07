@@ -1788,6 +1788,11 @@ This document defines an alternative encoding for data modeled in the YANG data 
 
 To minimize security risks, software on the receiving side SHOULD reject all messages that do not comply to the rules of this document and reply with an appropriate error message to the sender.
 
+For instance, when the 'id' parameter to the media type is used, it is
+important to properly reject identifiers of the other type, to avoid
+scenarios where different implementations interpret a given content in
+different ways.
+
 When SIDs are in use, the interpretation of encoded data not only
 relies on having the right YANG modules, but also on having the right
 SID mapping information.  Management and evolution of that mapping
