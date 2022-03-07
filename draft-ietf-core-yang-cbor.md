@@ -62,24 +62,24 @@ author:
 
 normative:
   RFC7950: yang
+  RFC7951: yang-json
+  RFC8040: restconf
+  RFC8259: json
+  RFC8791: yang-structure
   RFC5234: abnf
   RFC8949: cbor
   RFC8610: cddl
   IANA.cbor-tags:
-  I-D.ietf-core-sid: core-sid
 
 informative:
+  I-D.ietf-core-sid: core-sid
   I-D.ietf-core-comi: comi
   RFC6241: netconf
   RFC6991: yang-types
-  RFC7951: yang-json
   RFC7228:
   RFC7317:
-  RFC8040: restconf
-  RFC8259: json
   RFC8343:
   RFC8344:
-  RFC8791: yang-structure
 
 --- abstract
 
@@ -258,8 +258,7 @@ by the environment.
 
 Mechanisms and processes used to assign SIDs to YANG items and to guarantee their uniqueness are outside the scope of the present specification.
 If SIDs are to be used, the present specification is used in conjunction with a specification defining this management.
-{{-core-sid}} is the definitive way to assign SID values for YANG modules managed by the IETF.
-With YANG modules managed by non-IETF entities, use of {{-core-sid}} is RECOMMENDED.
+A related document, {{-core-sid}}, is intended to serve as the definitive way to assign SID values for YANG modules managed by the IETF, and recommends itself for YANG modules managed by non-IETF entities, as well.
 The present specification has been designed to allow different methods of assignment to be used within separate domains.
 
 To provide implementations with a way to internally indicate the
@@ -1786,7 +1785,7 @@ relies on having the right YANG modules, but also on having the right
 SID mapping information.  Management and evolution of that mapping
 information therefore requires the same care as the management and
 evolution of the YANG modules themselves.  The procedures in
-{{-core-sid}} are RECOMMENDED for this purpose.
+{{-core-sid}} are being defined with this in mind.
 
 # IANA Considerations
 
