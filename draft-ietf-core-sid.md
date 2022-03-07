@@ -738,6 +738,38 @@ The following Activity diagram summarizes the update of a YANG module and its as
 ~~~~
 {: #fig-sid-file-update title="YANG and \".sid\" file update" align="left"}
 
+# Keeping a SID File in a YANG Instance Data file
+
+{{?RFC9195}} defines a format for "YANG Instance Data".
+This essentially leads to an encapsulation of the instance data within
+some metadata envelope.
+
+If a SID file needs to be stored in a YANG Instance Data file, this
+can be achieved by embedding the value of the SID file as the value of the
+`content-data` member in the following template, and copying over the
+second-level members as indicated with the angle brackets:
+
+~~~ yang-instance-data
+{
+  "ietf-yang-instance-data:instance-data-set": {
+    "name": "<module-name>@<module-revision>.sid",
+    "description":  ["<description>"],
+    "content-schema": {
+      "module": "ietf-sid-file@2021-11-16"
+    },
+    "content-data": {  <replace this object>
+      "ietf-sid-file:sid-file" : {
+        "module-name": ...
+      }
+    }
+  }
+}
+~~~
+
+[^rfced]
+
+[^rfced]: RFC editor: Please replace the module date by the correct
+    one for the ietf-sid-file module.
 
 
 # Acknowledgments
