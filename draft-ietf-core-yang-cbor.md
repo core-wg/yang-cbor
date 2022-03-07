@@ -1313,6 +1313,8 @@ integers, where byte strings and integers MUST alternate, i.e., adjacent byte
 strings or adjacent integers are an error. An array with a single byte string
 MUST instead be encoded as just that byte string. An array with a single
 positive integer is an error.
+Note that a recipient can handle trailing zero bytes in the byte strings using the normal
+rules without any issue, so an implementation MAY silently accept them.
 
 Values of 'bits' types defined in a 'union' type MUST be encoded using a
 CBOR text string data item (major type 3) and MUST contain a space-separated
