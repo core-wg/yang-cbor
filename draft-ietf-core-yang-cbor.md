@@ -1192,7 +1192,8 @@ CBOR encoding: F5
 
 Leafs of type enumeration MUST be encoded using a CBOR unsigned
 integer (major type 0) or CBOR negative integer (major type 1),
-depending on the actual value. Enumeration values are either
+depending on the actual value, or exceptionally as a tagged text string (see below).
+Enumeration values are either
 explicitly assigned using the YANG statement 'value' or automatically
 assigned based on the algorithm defined in {{Section 9.6.4.2 of RFC7950}}.
 
