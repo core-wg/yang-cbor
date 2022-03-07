@@ -248,8 +248,8 @@ with a name-based key is zero.
 For all other maps, the reference SID is the SID computed for the map
 entry it is most directly embedded in.
 (The embedding may be indirect if an array intervenes, e.g., in a YANG list.)
-Where absolute SIDs are desired in map key positions where a bare
-integer implies a delta, they may be encoded using CBOR tag 47 (as defined in {{tag-registry}}).
+Where absolute SIDs are desired in map key positions (where a bare
+integer implies a delta), they need to be identified as absolute SID values by using CBOR tag number 47 (as defined in {{container-with-sid}}).
 
 Thus, conversion from SIDs to deltas and back to SIDs is a stateless
 process solely based on the data serialized or deserialized combined
@@ -431,7 +431,7 @@ container system-state {
 
 ### Using SIDs in keys {#container-with-sid}
 
-In the context of containers and other nodes from the data tree, CBOR map keys within inner CBOR maps can be encoded using deltas or absolute SIDs (tag 47).
+In the context of containers and other nodes from the data tree, CBOR map keys within inner CBOR maps can be encoded using deltas (bare integers) or absolute SIDs (tagged with tag number 47).
 
 Delta values are computed as follows:
 
@@ -843,7 +843,7 @@ A1                               # map(1)
             4F70656E2070696E2032 # "Open pin 2"
 ~~~~
 
-In some implementations, it might be simpler to use the absolute SID encoding (tag 47) for the anydata root element.
+In some implementations, it might be simpler to use the absolute SID encoding (tag number 47) for the anydata root element.
 CBOR diagnostic notation:
 
 ~~~~ cbor-diag
@@ -1737,7 +1737,7 @@ If the media-type parameter `id` is present,
 depending on its value,
 each representation node is identified by its associated namespace qualified
 name as defined in {{name}} (`id=name`), or by its associated YANG SID
-(represented as a SID delta or via tag 47) as defined in {{sid}}
+(represented as a SID delta or via tag number 47) as defined in {{sid}}
 (`id=sid`), respectively.
 If no `id` parameter is given, both forms may be present.
 
