@@ -1250,7 +1250,7 @@ either 1, which represents the bit being set or 0, which represents that the bit
 is not set.
 
 Leafs of type bits MUST be encoded either using a CBOR array or byte string
-(major type 2). In case CBOR array representation is used, each element is
+(major type 2), or exceptionally as a tagged text string (see below). In case CBOR array representation is used, each element is
 either a positive integer (major type 0 with value 0 being
 disallowed) that can be used to calculate the offset of the next byte string, or a byte
 string (major type 2) that carries the information whether certain bits are set
@@ -1405,6 +1405,7 @@ CBOR encoding: 64 65746831
 This specification supports two approaches for encoding identityref:
 as a YANG Schema Item iDentifier as defined in {{sid}}, or as a name
 as defined in {{Section 6.8 of RFC7951}}.
+See {{union}} for an exceptional case when this representation needs to be tagged.
 
 ### SIDs as identityref {#identityref-with-sid}
 
@@ -1535,6 +1536,7 @@ CBOR encoding: 74 323030313A6462383A6130623A313266303A3A31
 ## The 'instance-identifier' Type {#instance-id}
 
 This specification supports two approaches for encoding an instance-identifier, one based on YANG Schema Item iDentifier as defined in {{sid}} and one based on names as defined in {{name}}.
+See {{union}} for an exceptional case when this representation needs to be tagged.
 
 ### SIDs as instance-identifier {#instance-identifier-with-sid}
 
