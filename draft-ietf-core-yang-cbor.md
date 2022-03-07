@@ -1,6 +1,6 @@
 ---
-stand_alone: true
-ipr: trust200902
+v: 3
+
 docname: draft-ietf-core-yang-cbor-latest
 title: CBOR Encoding of Data Modeled with YANG
 area: Applications and Real-Time Area (art)
@@ -8,6 +8,8 @@ wg: Internet Engineering Task Force
 kw: CBOR
 cat: std
 consensus: true
+submissiontype: IETF
+
 pi:
   strict: 'yes'
   toc: 'yes'
@@ -34,7 +36,7 @@ author:
   street: Brandschenkestrasse 110
   code: 8002
   city: Zurich
-  region: Zurich
+#  region: Zurich
   country: Switzerland
   email: ivaylopetrov@google.com
 - ins: A. Pelov
@@ -43,7 +45,7 @@ author:
   street: 1137A avenue des Champs Blancs
   code: '35510'
   city: Cesson-Sevigne
-  region: Bretagne
+#  region: Bretagne
   country: France
   email: a@ackl.io
 - ins: C. Bormann
