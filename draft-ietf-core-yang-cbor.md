@@ -141,7 +141,7 @@ The following term is defined in {{RFC8791}}:
 
 This specification also makes use of the following terminology:
 
-* YANG Schema Item iDentifier (YANG SID or simply SID): Unsigned integer used to identify different YANG items.
+* YANG Schema Item iDentifier (YANG SID or simply SID): 63-bit unsigned integer used to identify different YANG items.
 
 * delta: Difference between the current YANG SID and a reference YANG SID. A reference YANG SID is defined for each context for which deltas are used.
 
@@ -216,7 +216,7 @@ Note: CBOR binary contents shown in this specification are annotated with commen
 
 ## YANG Schema Item iDentifier {#sid}
 
-Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier.  In both Network Configuration Protocol (NETCONF) {{RFC6241}} and RESTCONF {{RFC8040}}, these identifiers are implemented using text strings.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called YANG Schema Item iDentifier, is an unsigned integer. The following items are identified using YANG SIDs (often shortened to SIDs):
+Some of the items defined in YANG {{RFC7950}} require the use of a unique identifier.  In both Network Configuration Protocol (NETCONF) {{RFC6241}} and RESTCONF {{RFC8040}}, these identifiers are implemented using text strings.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called YANG Schema Item iDentifier, is an unsigned integer limited to 63 bits of range (i.e., 0..9223372036854775807 or 0..0x7fffffffffffffff). The following items are identified using YANG SIDs (often shortened to SIDs):
 
 * identities
 
