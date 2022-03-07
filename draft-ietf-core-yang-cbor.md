@@ -1301,7 +1301,7 @@ CBOR diagnostic notation: [h'0401', 14, h'01']
 CBOR encoding: 83 42 0401 0E 41 01
 
 In a number of cases the array would only need to have one element — a byte string with a few bytes inside.
-For this case, it is expected to omit the array element and have only the byte array that would have been inside.
+For this case, it is REQUIRED to omit the array element and have only the byte array that would have been inside.
 To illustrate this, let us consider the same example YANG definition, but this time encoding only 'under-repair' and 'critical' flags.
 The result would be
 
