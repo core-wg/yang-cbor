@@ -286,7 +286,7 @@ name = [identifier ":"] identifier
 ~~~~
 {: #namesyntax title='ABNF Production for a simple or namespace qualified name' artwork-align="center"}
 
-A namespace qualified name MUST be used for all members of a top-level CBOR map and then also whenever the namespaces of the representation node and its parent node are different. In all other cases, the simple form of the name SHOULD be used.
+A namespace qualified name MUST be used for all members of a top-level CBOR map and then also whenever the namespaces of the representation node and its parent node are different. In all other cases, the simple form of the name MUST be used.
 
 Definition example:
 
