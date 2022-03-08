@@ -598,7 +598,7 @@ It is important to note that this encoding rule also applies to a 'list' represe
 
 The following examples show the encoding of a 'server' list using SIDs or names.
 
-Definition example from {{RFC7317}}:
+Definition example simplified from {{RFC7317}}:
 
 ~~~~ yang
 list server {
