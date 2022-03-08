@@ -75,6 +75,7 @@ normative:
 
 informative:
   I-D.ietf-core-sid: core-sid
+  RFC7252: coap
   I-D.ietf-core-comi: comi
   RFC6241: netconf
   RFC6991: yang-types
@@ -1779,6 +1780,14 @@ intended for use by different classes of applications:
 All three content-types are based on the same representation
 mechanisms, parts of which are simply not used in the first and second
 case.
+
+How the use of one of these content types is selected in a transfer
+protocol is outside the scope of this specification.
+The last paragraph of {{Section 5.2 of RFC8040}} discusses how to
+indicate and request the usage of specific content-types in RESTCONF.
+Similar mechanisms are available in CoAP {{-coap}} using the
+Content-Format and Accept Options; {{-comi}} demonstrates specifics on
+how Content-Format may be used to indicate the `id=sid` case.
 
 # Security Considerations
 
