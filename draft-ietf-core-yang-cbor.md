@@ -782,7 +782,7 @@ An anydata serves as a container for an arbitrary set of representation nodes th
 
 * CBOR map keys of any inner representation nodes MUST be set to valid deltas or names.
 
-* The CBOR array MUST contain either unique scalar values (as a leaf-list, see {{leaf-list}}), or maps (as a list, see {{list}}).
+* CBOR arrays MUST contain either unique scalar values (as a leaf-list, see {{leaf-list}}), or maps (as a list, see {{list}}).
 
 * CBOR map values MUST follow the encoding rules of one of the datatypes listed in {{instance-encoding}}.
 
