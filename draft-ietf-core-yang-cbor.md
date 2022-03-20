@@ -1899,3 +1899,5 @@ as per {{Section 9.2 of RFC8949}}, IANA has allocated the CBOR tags in
 This document has been largely inspired by the extensive works done by {{{Andy Bierman}}} and {{{Peter van der Stok}}} on {{-comi}}. {{RFC7951}} has also been a critical input to this work. The authors would like to thank the authors and contributors to these two drafts.
 
 The authors would also like to acknowledge the review, feedback, and comments from {{{Ladislav Lhotka}}} and {{{Jürgen Schönwälder}}}.
+
+(TO DO: Add acknowledgements for the extensive IESG comments.)
