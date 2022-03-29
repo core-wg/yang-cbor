@@ -261,6 +261,22 @@ by the environment.
 
 Mechanisms and processes used to assign SIDs to YANG items and to guarantee their uniqueness are outside the scope of the present specification.
 If SIDs are to be used, the present specification is used in conjunction with a specification defining this management.
+The objectives for such a management scheme need to include:
+
+* Keep the mapping from YANG SIDs to YANG names ({{name}}) a mathematical
+  function — a single YANG SID is only ever associated with a
+  single YANG name.
+* Keep the name-SID mapping "mostly" a function — while many
+  management processes cannot entirely prevent ever making several
+  independent allocations of a YANG SID for a YANG name, one objective
+  would be to have a single “canonical” SID mapping for each YANG
+  name, preferably associated with the same provenance that the YANG
+  module defining the YANG name itself has.
+
+Due to the delta encoding, there is also significant performance
+benefit that can be derived from keeping the SIDs used by a module
+close together.
+
 A related document, {{-core-sid}}, is intended to serve as the definitive way to assign SID values for YANG modules managed by the IETF, and recommends itself for YANG modules managed by non-IETF entities, as well.
 The present specification has been designed to allow different methods of assignment to be used within separate domains.
 
