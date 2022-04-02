@@ -263,6 +263,9 @@ Mechanisms and processes used to assign SIDs to YANG items and to guarantee thei
 If SIDs are to be used, the present specification is used in conjunction with a specification defining this management.
 The objectives for such a management scheme need to include:
 
+* Special provisions may need to be made for rapidly evolving draft
+  specifications.  Once a YANG module is marked as stable, two
+  properties need to be maintained:
 * Keep the mapping from YANG SIDs to YANG names ({{name}}) a mathematical
   function — a single YANG SID is only ever associated with a
   single YANG name.
