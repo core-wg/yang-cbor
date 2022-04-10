@@ -1271,7 +1271,7 @@ of zero bytes removed.
 An example follows.
 
 The following example shows the encoding of an 'alarm-state' leaf representation node
-instance with the 'critical' (position 3), 'warning' (position 8) and
+instance with the 'critical' (position 2), 'warning' (position 8) and
 'indeterminate' (position 128) flags set.
 
 
