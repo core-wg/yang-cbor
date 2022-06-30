@@ -11,19 +11,7 @@ consensus="true" tocDepth="4" tocInclude="true" sortRefs="true" symRefs="true" u
 
   <!-- xml2rfc v2v3 conversion 3.12.3 -->
   <front>
-    
-<!--[rfced] Please note that the title of the document has been updated as
-follows. Abbreviations have been expanded per Section 3.6 of RFC 7332 ("RFC
-Style Guide"). Please review.
-
-Original:
-CBOR Encoding of Data Modeled with YANG
-
-Current:
-Concise Binary Object Representation (CBOR) Encoding of Data Modeled with YANG
--->
-
-    <title abbrev="CBOR Encoding of Data Modeled with YANG">Concise Binary Object Representation (CBOR) Encoding of Data Modeled with YANG</title>
+    <title abbrev="CBOR Encoding of Data Modeled with YANG">Encoding of Data Modeled with YANG in the Concise Binary Object Representation (CBOR) </title>
     <seriesInfo name="RFC" value="9254"/>
     <author initials="M." surname="Veillette" fullname="Michel Veillette" role="editor">
       <organization>Trilliant Networks Inc.</organization>
@@ -88,34 +76,11 @@ Concise Binary Object Representation (CBOR) Encoding of Data Modeled with YANG
     <area>art</area>
     <workgroup>core</workgroup>
     <keyword>CBOR</keyword>
-
-
-<!--[rfced] We are having a bit of trouble following the
-abstract and what YANG is defining. Please let us know if 
-the suggested text helps to clarify the intended meaning 
-or if you prefer otherwise.
-
-Original:
-   Based on the Concise Binary Object Representation (CBOR, RFC 8949),
-   this document defines encoding rules for representing configuration
-   data, state data, parameters and results of Remote Procedure Call
-   (RPC) operations or actions, and notifications, defined using YANG
-   (RFC 7950).
-
-Perhaps:
-   This document defines encoding rules for the Concise Binary Object 
-   Representation (CBOR) (RFC 8949). These encoding rules are for
-   representing configuration data, state data, parameters and results 
-   of Remote Procedure Call (RPC) operations or actions, and notifications,
-   all of which are defined using YANG (RFC 7950).
--->
-
-    
     <abstract>
-      <t>Based on the Concise Binary Object Representation (CBOR) (RFC 8949),
-this document defines encoding rules for representing configuration
-data, state data, parameters and results of Remote Procedure Call (RPC)
-operations or actions, and notifications, defined using YANG (RFC 7950).</t>
+      <t>YANG (RFC 7950) is a data modeling language used to model configuration data,
+ state data, parameters and results of Remote Procedure Call (RPC) operations or actions, and notifications.</t>
+ <t>This document defines encoding rules for YANG in the Concise Binary Object 
+ Representation (CBOR) (RFC 8949).</t>
     </abstract>
   </front>
   <middle>
@@ -289,14 +254,6 @@ accrue.)</t>
             </tr>
           </tbody>
         </table>
-	
-<!--[rfced] Please review whether any of the notes in this document
-should be in the <aside> element. It is defined as "a container for 
-content that is semantically less important or tangential to the 
-content that surrounds it"
-(https://xml2rfc.tools.ietf.org/xml2rfc-doc.html#name-aside-2).
--->
-
         <t>Note: CBOR binary contents shown in this specification are annotated with comments. These comments are delimited by slashes ("/"), as defined in <xref target="RFC8610" sectionFormat="of" section="G.6"/>.</t>
       </section>
       <section anchor="sid">
@@ -311,10 +268,10 @@ content that surrounds it"
           <li>notifications and associated information</li>
           <li>YANG modules and features</li>
         </ul>
-        <t>Note that any structuring of modules into submodules is transparent to YANG-CBOR:
+        <aside><t>Note that any structuring of modules into submodules is transparent to YANG-CBOR:
 SIDs are not allocated for the names of submodules, and any
 items within a submodule are effectively allocated SIDs as part of
-processing the module that includes them.</t>
+processing the module that includes them.</t></aside>
         <t>To minimize their size, SIDs used as keys in CBOR maps are encoded
 using deltas, i.e., signed (negative or unsigned) integers that are
 added to the reference SID applying to the map.
@@ -357,36 +314,6 @@ name = [identifier ":"] identifier
 ]]></sourcecode>
         </figure>
         <t>A namespace-qualified name <bcp14>MUST</bcp14> be used for all members of a top-level CBOR map and then also whenever the namespaces of the representation node and its parent node are different. In all other cases, the simple form of the name <bcp14>MUST</bcp14> be used.</t>
-
-
-<!--[rfced] PYANG produced the errors shown below when checking the
-sourcecode marked as YANG.  We expect the errors are the result
-of checking YANG examples and snippets and should likely be
-ignored; please confirm.
-
-  example-foomod.yang
-  example-foomod.yang:2: error: unexpected keyword "container", expected "namespace"
-  example-foomod.yang:2: error: unexpected keyword "container", expected "prefix"
-
-  example-barmod.yang
-  example-barmod.yang:2: error: unexpected keyword "import", expected "namespace"
-  example-barmod.yang:2: error: unexpected keyword "import", expected "prefix"
-  example-foomod.yang:2: error: unexpected keyword "container", expected "namespace"
-  example-foomod.yang:2: error: unexpected keyword "container", expected "prefix"
-
-  event-log.yang
-  event-log.yang:2: error: syntax error: illegal keyword: ...
-
-  example-port.yang
-  example-port.yang:2: error: syntax error: illegal keyword: ...
-
-  bar-module.yang
-  bar-module.yang:2: error: syntax error: illegal keyword: ...
-
-  ietf-coreconf.yang
-  ietf-coreconf.yang:2: error: syntax error: illegal keyword: ...
--->
-	
         <t>Definition example:</t>
 <sourcecode type="yang"><![CDATA[
 module example-foomod {
@@ -650,18 +577,7 @@ A1                                         # map(1)
         </section>
       </section>
       <section anchor="list">
-
-<!--[rfced] Would this title be clearer if "Subset" was perhaps added?
-Please review.
-
-Original:
-   4.4.  The 'list' and 'list' Entries
-
-Perhaps:
-   4.4.  The 'list' and Subset 'list' Entries
--->
-	
-        <name>The 'list' and 'list' Entries</name>
+        <name>The 'list' and the 'list' Entries</name>
         <t>A list or a subset of a list <bcp14>MUST</bcp14> be encoded using a CBOR array data item (major type 4). Each list entry within this CBOR array is encoded using a CBOR map data item (major type 5) based on the encoding rules of a collection, as defined in <xref target="container"/>.</t>
         <t>It is important to note that this encoding rule also applies to a 'list' representation node instance that has a single entry.</t>
         <t>The following examples show the encoding of a 'server' list using SIDs or names.</t>
@@ -836,17 +752,13 @@ A1                                      # map(1)
       </section>
       <section anchor="the-anydata">
         <name>The 'anydata'</name>
-	
-<!--[rfced] In Section 4.5, may we update instances of "an anydata" to
-"an anydata node"?
--->	    
-        <t>An anydata serves as a container for an arbitrary set of representation nodes that otherwise appear as normal YANG-modeled data. An anydata representation node instance is encoded using the same rules as a container, i.e., CBOR map. The requirement that anydata content can be modeled by YANG implies the following:</t>
+	<t>An anydata node serves as a container for an arbitrary set of representation nodes that otherwise appear as normal YANG-modeled data. An anydata representation node instance is encoded using the same rules as a container, i.e., CBOR map. The requirement that anydata content can be modeled by YANG implies the following:</t>
         <ul spacing="normal">
           <li>CBOR map keys of any inner representation nodes <bcp14>MUST</bcp14> be set to valid deltas or names.</li>
           <li>CBOR arrays <bcp14>MUST</bcp14> contain either unique scalar values (as a leaf-list, see <xref target="leaf-list"/>) or maps (as a list, see <xref target="list"/>).</li>
           <li>CBOR map values <bcp14>MUST</bcp14> follow the encoding rules of one of the datatypes listed in <xref target="instance-encoding"/>.</li>
         </ul>
-        <t>The following example shows a possible use of an anydata. In this example, an anydata is used to define a representation node containing a notification event; this representation node can be part of a YANG list to create an event logger.</t>
+        <t>The following example shows a possible use of an anydata node. In this example, an anydata node is used to define a representation node containing a notification event; this representation node can be part of a YANG list to create an event logger.</t>
         <t>Definition example:</t>
         <sourcecode type="yang"><![CDATA[
 module event-log {
@@ -1241,8 +1153,8 @@ either 1, which represents the bit being set, or 0, which represents that the bi
 is not set.</t>
         <t>Leafs of type bits <bcp14>MUST</bcp14> be encoded either using a CBOR array or byte string
 (major type 2) or exceptionally as a tagged text string (see below). In case CBOR array representation is used, each element is
-either a positive integer (major type 0 with value 0 being
-disallowed) that can be used to calculate the offset of the next byte string or a byte
+either (1) a positive integer (major type 0 with value 0 being
+disallowed) that can be used to calculate the offset of the next byte string or (2) a byte
 string (major type 2) that carries the information regarding whether certain bits are set
 or not. The initial offset value is 0, and each unsigned integer modifies the
 offset value of the next byte string by the integer value multiplied by 8. For
@@ -1255,8 +1167,8 @@ of bytes in the byte string multiplied by 8.
 Bytes with no bits set (zero bytes) at the end of the byte string are never generated.
 If they occur at the end of the array, the zero bytes are simply omitted;
 if they occur at the end of a byte string preceding an integer, the
-zero bytes are removed and the integer adjusted upwards by the number
-of zero bytes are removed.
+zero bytes are removed and the integer is adjusted upwards by the number
+of zero bytes that were removed.
 An example follows.</t>
         <t>The following example shows the encoding of an 'alarm-state' leaf representation node
 instance with the 'critical' (position 2), 'warning' (position 8), and
@@ -1485,17 +1397,10 @@ See <xref target="union"/> for an exceptional case when this representation need
           <name>SIDs as 'instance-identifier'</name>
           <t>SIDs uniquely identify a schema node. In the case of a single instance schema node, i.e., a schema node defined at the root of a YANG module or submodule or schema nodes defined within a container, the SID is sufficient to identify this instance (representation node).	  
 	  (Note that no delta mechanism is employed for SIDs used for identityref, see <xref target="identityref-with-sid"/>.)
-
-<!--[rfced] We see a number of author-inserted comments in the .xml file for
-this document. We are unsure if these have been resolved. Please review and
-let us know if these can be deleted or if they need to be addressed.
--->    
-	  
-<!-- Is this clear enough? -->
           </t>
           <t>In the case of a representation node that is an entry of a YANG list, a SID is combined with the list key(s) to identify each instance within the YANG list(s).</t>
-          <t>Instance identifiers of single instance schema nodes <bcp14>MUST</bcp14> be encoded using a CBOR unsigned integer data item (major type 0) and set to the targeted schema node SID.</t>
-          <t>Instance identifiers of representation node entries of a YANG list <bcp14>MUST</bcp14> be encoded using a CBOR array data item (major type 4) containing the following entries:</t>
+          <t>Instance-identifiers of single instance schema nodes <bcp14>MUST</bcp14> be encoded using a CBOR unsigned integer data item (major type 0) and set to the targeted schema node SID.</t>
+          <t>Instance-identifiers of representation node entries of a YANG list <bcp14>MUST</bcp14> be encoded using a CBOR array data item (major type 4) containing the following entries:</t>
           <ul spacing="normal">
             <li>The first entry <bcp14>MUST</bcp14> be encoded as a CBOR unsigned integer data item (major type 0) and set to the targeted schema node SID.</li>
             <li>The following entries <bcp14>MUST</bcp14> contain the value of each key required to identify the instance of the targeted schema node. These keys <bcp14>MUST</bcp14> be ordered as defined in the 'key' YANG statement, starting from the top-level list, and followed by each subordinate list(s).</li>
@@ -1527,24 +1432,6 @@ container system {
           <t>CBOR diagnostic notation: 1741</t>
           <t>CBOR encoding: 19 06CD</t>
           <t keepWithNext="true"><strong>Second example:</strong></t>
-
-<!-- [rfced] When we converted this document to v3, xml2rfc converted <spanx
-style="verb"> to <tt> and <spanx style="emph"> to <em>.
-
-In the html and pdf outputs, the text enclosed in <tt> is output in
-fixed-width font. In the txt output, there are no changes to the font,
-and the quotation marks have been removed. 
-
-In the html and pdf outputs, the text enclosed in <em> is output in
-italics. In the txt output, the text enclosed in <em> appears with an
-underscore before and after. Given that there was only 1 use of 
-<em>, we replaced it with quote marks (e.g., "YANG-CBOR")
-
-Please review carefully and let us know if the output is acceptable or if any
-updates are needed.
--->
-
-	  
           <t>This example aims to show how a representation node entry of a YANG list is identified.
 It uses a somewhat arbitrarily modified YANG module version from <xref target="RFC7317"/> by
 adding <tt>country</tt> to the leafs and keys of <tt>authorized-key</tt>.</t>
@@ -1627,15 +1514,11 @@ analogous to the lexical representation in XML encoding; see <xref section="9.13
           <t><strong>Second example:</strong></t>
           <t>This example is described in <xref target="instance-identifier-with-sid"/>.</t>
           <t>CBOR diagnostic notation (the line break is inserted for exposition only):</t>
-          <!-- http://cbor.me/?diag=%22/ietf-system:system/authentication/user[name=%27bob%27]/authorized-key[name=%27admin%27][country=%27france%27]/key-data%22 -->
-
 <sourcecode type="cbor-diag"><![CDATA[
 "/ietf-system:system/authentication/user[name='bob']/
 authorized-key[name='admin'][country='france']/key-data"
 ]]></sourcecode>
           <t>CBOR encoding:</t>
-          <!-- http://cbor.me/?bytes=78.6B(2F696574662D73797374656D3A73797374656D2F61757468656E7469636174696F6E2F757365725B6E616D653D27626F62275D2F617574686F72697A65642D6B65795B6E616D653D2761646D696E275D5B636F756E7472793D276672616E6365275D2F6B65792D64617461) -->
-
 <sourcecode type="cbor-pretty"><![CDATA[
 78 6B
    2F696574662D73797374656D3A73797374656D2F61757468656E74696361
@@ -1727,7 +1610,7 @@ evolution of the YANG modules themselves.  The procedures in
       <name>IANA Considerations</name>
       <section anchor="media-types-registry">
         <name>Media Types Registry</name>
-        <t>IANA has added the following media type to the "Media Types" registry.</t>
+        <t>IANA has added the following media type to the "<xref section="Media Types" relative="#media-types" sectionFormat="bare" target="IANA.media-types"/>" registry <xref target="IANA.media-types"/>.</t>
 
         <table align="left">
 	 <name>Media Types Registry</name>
@@ -1746,43 +1629,6 @@ evolution of the YANG modules themselves.  The procedures in
             </tr>
           </tbody>
         </table>
-
-<!--[rfced] We have included some specific questions about the IANA
-text below. In addition to responding to those questions, please
-review all of the IANA-related updates carefully and let us know
-if any further updates are needed.
-
-A) For the media registration in Section 9.1, the following categories
-are normally included in the template, even if the information is
-denoted as "N/A". Please let us know how to populate these categories,
-and we will add them accordingly. Note that we will request that IANA 
-update the template at 
-https://www.iana.org/assignments/media-types/application/yang-data+cbor 
-to match the edited document.
-
-  Interoperability considerations:
-
-  Applications that use this media type:
-
-  Fragment identifier considerations:
-
-  Additional information
-    Magic number(s):
-    File extension(s):
-    Macintosh file type code(s):
-
-  Author:
-
-
-B) FYI: We updated the headings in Table 3 to match the 
-   corresponding IANA registry.
-
-
-C) In Section 9.3, there is a citation for the registry, but there are
-no citations for the registries in Sections 9.1 and 9.2. Would you
-like to add citations in Sections 9.1 and 9.2?
--->
-
         <dl newline="false" spacing="normal">
           <dt>Type name:</dt>
           <dd>application</dd>
@@ -1796,8 +1642,27 @@ like to add citations in Sections 9.1 and 9.2?
           <dd>binary (CBOR)</dd>
           <dt>Security considerations:</dt>
           <dd>see <xref target="security-considerations"/> of RFC 9254</dd>
+	  <dt>Interoperability considerations:</dt>
+	  <dd>N/A</dd>
           <dt>Published specification:</dt>
           <dd>RFC 9254</dd>
+	  <dt>Applications that use this media type:</dt>
+	  <dd>applications that need a 
+	  concise and efficient representation of YANG-modeled data</dd>
+	  <dt>Fragment identifier considerations:</dt>
+	  <dd>The syntax and semantics of
+ fragment identifiers specified for "application/yang-data+cbor" is
+ as specified for "application/cbor".  (At publication of this
+ document, there is no fragment identification syntax defined for
+	  "application/cbor”.)</dd>
+	  <dt>Additional information:</dt>
+	  <dd></dd>
+	  <dt>Magic number(s):</dt>
+	  <dd>N/A</dd>
+	  <dt>File extension(s):</dt>
+	  <dd>N/A</dd>
+	  <dt>Macintosh file type code(s):</dt>
+	  <dd>N/A</dd>
           <dt>Person &amp; email address to contact for further information:</dt>
           <dd>CORE WG mailing list (core@ietf.org)
 	  or IETF Applications and Real-Time Area (art@ietf.org)</dd>
@@ -1805,15 +1670,17 @@ like to add citations in Sections 9.1 and 9.2?
           <dd>COMMON</dd>
           <dt>Restrictions on usage:</dt>
           <dd>N/A</dd>
-          <dt>Author/Change controller:</dt>
+	  <dt>Author:</dt>
+	  <dd>CoRE WG</dd>
+          <dt>Change controller:</dt>
           <dd>IETF</dd>
         </dl>
       </section>
       <section anchor="coap-content-formats-registry">
         <name>CoAP Content-Formats Registry</name>
-        <t>IANA has added the following Content-Formats to the "CoAP Content-Formats" subregistry,
-within the "Constrained RESTful Environments (CoRE) Parameters"
-registry. The registration procedure is "Expert Review" for the 0-255 range and
+        <t>IANA has added the following Content-Formats to the "<xref section="CoAP Content-Formats" relative="#content-formats" sectionFormat="bare" target="IANA.coap-content-formats"/>" subregistry,
+within the "<xref section="Constrained RESTful Environments (CoRE) Parameters" relative="#coap-content-format" sectionFormat="bare" target="IANA.coap-content-formats"/>"
+registry <xref target="IANA.coap-content-formats"/>. The registration procedure is "Expert Review" for the 0-255 range and
 "IETF Review" for the 256-9999 range.</t>
         <table align="left">
          <name>CoAP Content-Format Registry</name>
@@ -1849,7 +1716,7 @@ registry. The registration procedure is "Expert Review" for the 0-255 range and
       </section>
       <section anchor="tag-registry">
         <name>CBOR Tags Registry</name>
-        <t>IANA has allocated the following CBOR tag numbers in the "<xref section="CBOR Tags" relative="#cbor-tags" sectionFormat="bare" target="IANA.cbor-tags"/>" registry <xref target="IANA.cbor-tags"/> defined in  <xref section="9.2" sectionFormat="of" target="RFC8949"/>.</t>
+        <t>IANA has allocated the following CBOR tag numbers in the "<xref section="CBOR Tags" relative="#tags" sectionFormat="bare" target="IANA.cbor-tags"/>" subregistry <xref target="IANA.cbor-tags"/> defined in  <xref section="9.2" sectionFormat="of" target="RFC8949"/>.</t>
         <table anchor="tab-tag-values">
           <name>CBOR Tags Registry</name>
           <thead>
@@ -1915,7 +1782,25 @@ registry. The registration procedure is "Expert Review" for the 0-255 range and
 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8949.xml"/>
 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.8610.xml"/>
 
-        <reference anchor="IANA.cbor-tags" target="https://www.iana.org/assignments/cbor-tags">
+        <reference anchor="IANA.media-types" target="https://www.iana.org/assignments/media-types/">
+          <front>
+            <title>Media Types</title>
+            <author>
+              <organization>IANA</organization>
+            </author>
+          </front>
+        </reference>
+
+        <reference anchor="IANA.coap-content-formats" target="https://www.iana.org/assignments/core-parameters/">
+          <front>
+            <title>CoAP Content-Formats</title>
+            <author>
+              <organization>IANA</organization>
+            </author>
+          </front>
+        </reference>
+
+	        <reference anchor="IANA.cbor-tags" target="https://www.iana.org/assignments/cbor-tags">
           <front>
             <title>Concise Binary Object Representation (CBOR) Tags</title>
             <author>
@@ -2006,25 +1891,5 @@ feedback and guidance by the responsible AD <contact fullname="Francesca Palombi
 the significant improvements suggested by IESG members <contact fullname="Benjamin Kaduk"/>
 and <contact fullname="Rob Wilton"/>.</t>
     </section>
-    
-<!--[rfced] We notice "instance-identifier" vs. "instance identifier"
-in the text. Are the two instances below okay as is, or should they be 
-hyphenated for consistency?
-
-Original:
-   Instance identifiers of single instance schema nodes MUST be encoded
-   using a CBOR unsigned integer data item (major type 0) and set to the
-   targeted schema node SID.
-
-   Instance identifiers of representation node entries of a YANG list
-   MUST be encoded using a CBOR array data item (major type 4)
-   containing the following entries:
--->
-
-<!-- [rfced] Please review the "Inclusive Language" portion of the online 
-Style Guide <https://www.rfc-editor.org/styleguide/part2/#inclusive_language> 
-and let us know if any changes are needed. Note that our script did not flag
-any words in particular, but this should still be reviewed as a best practice.
--->
   </back>
 </rfc>
