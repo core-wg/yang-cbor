@@ -1315,7 +1315,7 @@ leaf type {
           <t>Alternatively, an identityref <bcp14>MAY</bcp14> be encoded using a name, as defined in <xref target="name"/>.  When names are used, identityref <bcp14>MUST</bcp14> be encoded using a CBOR text string data item (major type 3). If the identity is defined in a different module than the leaf node containing the identityref data node, the namespace-qualified form <bcp14>MUST</bcp14> be used. Otherwise, both the simple and namespace-qualified forms are permitted. Names and namespaces are defined in <xref target="name"/>.</t>
           <t>The following example shows the encoding of the identity 'iana-if-type:ethernetCsmacd' using its namespace-qualified name. This example is described in <xref target="identityref-with-sid"/>.</t>
           <t>CBOR diagnostic notation: "iana-if-type:ethernetCsmacd"</t>
-          <t>CBOR encoding: 78 1b 69616E612D69662D747970653A65746865726E657443736D616364</t>
+          <t>CBOR encoding: 78 1B 69616E612D69662D747970653A65746865726E657443736D616364</t>
         </section>
       </section>
       <section anchor="the-empty-type">
@@ -1509,7 +1509,7 @@ analogous to the lexical representation in XML encoding; see <xref section="9.13
           <t>CBOR diagnostic notation: "/ietf-system:system/contact"</t>
           <t>CBOR encoding:</t>
           <sourcecode type="cbor-pretty"><![CDATA[
-78 1c 2F696574662D73797374656D3A73797374656D2F636F6E74616374
+78 1B 2F696574662D73797374656D3A73797374656D2F636F6E74616374	  
 ]]></sourcecode>
           <t><strong>Second example:</strong></t>
           <t>This example is described in <xref target="instance-identifier-with-sid"/>.</t>
@@ -1678,9 +1678,9 @@ evolution of the YANG modules themselves.  The procedures in
       </section>
       <section anchor="coap-content-formats-registry">
         <name>CoAP Content-Formats Registry</name>
-        <t>IANA has added the following Content-Formats to the "<xref section="CoAP Content-Formats" relative="#content-formats" sectionFormat="bare" target="IANA.coap-content-formats"/>" subregistry,
-within the "<xref section="Constrained RESTful Environments (CoRE) Parameters" relative="#coap-content-format" sectionFormat="bare" target="IANA.coap-content-formats"/>"
-registry <xref target="IANA.coap-content-formats"/>. The registration procedure is "Expert Review" for the 0-255 range and
+        <t>IANA has added the following Content-Formats to the "<xref section="CoAP Content-Formats" relative="#content-formats" sectionFormat="bare" target="IANA.core-parameters"/>" subregistry,
+within the "<xref section="Constrained RESTful Environments (CoRE) Parameters" relative="#coap-content-format" sectionFormat="bare" target="IANA.core-parameters"/>"
+registry <xref target="IANA.core-parameters"/>. The registration procedure is "Expert Review" for the 0-255 range and
 "IETF Review" for the 256-9999 range.</t>
         <table align="left">
          <name>CoAP Content-Format Registry</name>
@@ -1716,7 +1716,7 @@ registry <xref target="IANA.coap-content-formats"/>. The registration procedure 
       </section>
       <section anchor="tag-registry">
         <name>CBOR Tags Registry</name>
-        <t>IANA has allocated the following CBOR tag numbers in the "<xref section="CBOR Tags" relative="#tags" sectionFormat="bare" target="IANA.cbor-tags"/>" subregistry <xref target="IANA.cbor-tags"/> defined in  <xref section="9.2" sectionFormat="of" target="RFC8949"/>.</t>
+        <t>IANA has allocated the following CBOR tag numbers in the "<xref section="CBOR Tags" relative="#tags" sectionFormat="bare" target="IANA.cbor-tags"/>" registry <xref target="IANA.cbor-tags"/> defined in  <xref section="9.2" sectionFormat="of" target="RFC8949"/>.</t>
         <table anchor="tab-tag-values">
           <name>CBOR Tags Registry</name>
           <thead>
@@ -1791,9 +1791,9 @@ registry <xref target="IANA.coap-content-formats"/>. The registration procedure 
           </front>
         </reference>
 
-        <reference anchor="IANA.coap-content-formats" target="https://www.iana.org/assignments/core-parameters/">
+        <reference anchor="IANA.core-parameters" target="https://www.iana.org/assignments/core-parameters/">
           <front>
-            <title>CoAP Content-Formats</title>
+            <title>Constrained RESTful Environments (CoRE) Parameters</title>
             <author>
               <organization>IANA</organization>
             </author>
