@@ -1151,7 +1151,7 @@ defined in <xref section="9.7.4.2" sectionFormat="of" target="RFC7950"/>, each e
 as a set of bit positions (or offsets from position 0) that have a value of
 either 1, which represents the bit being set, or 0, which represents that the bit
 is not set.</t>
-        <t>Leafs of type bits <bcp14>MUST</bcp14> be encoded either using a CBOR array or byte string
+        <t>Leafs of type bits <bcp14>MUST</bcp14> be encoded either using a CBOR array (major type 4) or byte string
 (major type 2) or exceptionally as a tagged text string (see below). In case CBOR array representation is used, each element is
 either (1) a positive integer (major type 0 with value 0 being
 disallowed) that can be used to calculate the offset of the next byte string or (2) a byte
