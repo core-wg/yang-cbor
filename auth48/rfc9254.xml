@@ -72,7 +72,7 @@ consensus="true" tocDepth="4" tocInclude="true" sortRefs="true" symRefs="true" u
         <email>mcr+ietf@sandelman.ca</email>
       </address>
     </author>
-    <date year="2022" month="June"/>
+    <date year="2022" month="July"/>
     <area>art</area>
     <workgroup>core</workgroup>
     <keyword>CBOR</keyword>
@@ -101,9 +101,7 @@ consensus="true" tocDepth="4" tocInclude="true" sortRefs="true" symRefs="true" u
     described in BCP&nbsp;14 <xref target="RFC2119"/> <xref target="RFC8174"/>
     when, and only when, they appear in all capitals, as shown here.
         </t>
-
-<t>SID values (and the SID deltas computed from them) shown in the examples are example values; these examples do not allocate the SIDs shown for specific items in the modules.</t>
-
+	<t>SID values (and the SID deltas computed from them) shown in the examples are example values; these examples do not allocate the SIDs shown for specific items in the modules.</t>
       <t>The following terms are defined in <xref target="RFC7950"/>:</t>
       <ul spacing="normal">
         <li>action</li>
@@ -132,7 +130,7 @@ consensus="true" tocDepth="4" tocInclude="true" sortRefs="true" symRefs="true" u
 <dl newline="true" spacing="normal">
         <dt>YANG Schema Item iDentifier (or "YANG SID" or simply "SID"):</dt><dd> 63-bit unsigned integer used to identify different YANG items.</dd>
         <dt>delta:</dt><dd> Difference between the current YANG SID and a reference YANG SID. A reference YANG SID is defined for each context for which deltas are used.</dd>
-        <dt>absolute SID:</dt><dd> A YANG SID that is not encoded as a delta. This is usually
+        <dt>absolute SID:</dt><dd>A YANG SID that is not encoded as a delta.  This is usually
 called out explicitly only in positions where normally a delta would
 be found.</dd>
         <dt>representation tree:</dt><dd> A YANG data tree, possibly enclosed by a
@@ -167,7 +165,7 @@ advance announcement about some size information, so a generator
 should choose indefinite length encoding only when these benefits do
 accrue.)</t>
       <t>Data nodes implemented using a CBOR array, map, byte string, or text string can be instantiated but empty. In this case, they are encoded with a length of zero.</t>
-      <t>When representation nodes are serialized using the rules defined by this specification as part of an application payload, the payload <bcp14>SHOULD</bcp14> include information that would allow each node to be identified in a stateless way; for instance, the SID number associated with the node, the SID delta from another SID in the application payload, the namespace-qualified name, or the instance-identifier.</t>
+      <t>When representation nodes are serialized using the rules defined by this specification as part of an application payload, the payload <bcp14>SHOULD</bcp14> include information that would allow each node to be identified in a stateless way, for instance, the SID number associated with the node, the SID delta from another SID in the application payload, the namespace-qualified name, or the instance-identifier.</t>
       <t>Examples in <xref target="instance-encoding"/> include a root CBOR map with a single entry having a key set to either a namespace-qualified name or a SID. This root CBOR map is provided only as a typical usage example and is not part of the present encoding rules. Only the value within this CBOR map is compulsory.</t>
       <section anchor="cbor-diagnostic-notation">
         <name>CBOR Diagnostic Notation</name>
