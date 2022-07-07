@@ -581,7 +581,7 @@ A1                                         # map(1)
         <t>A list or a subset of a list <bcp14>MUST</bcp14> be encoded using a CBOR array data item (major type 4). Each list entry within this CBOR array is encoded using a CBOR map data item (major type 5) based on the encoding rules of a collection, as defined in <xref target="container"/>.</t>
         <t>It is important to note that this encoding rule also applies to a 'list' representation node instance that has a single entry.</t>
         <t>The following examples show the encoding of a 'server' list using SIDs or names.</t>
-        <t>Definition example simplified from <xref target="RFC7317"/>:</t>
+        <t>Definition example adapted from <xref target="RFC7317"/>:</t>
         <sourcecode type="yang"><![CDATA[
 list server {
   key name;
@@ -861,7 +861,7 @@ A1                                      # map(1)
 (The "xml" in the name is a misnomer that only applied to YANG-XML <xref target="RFC7950"/>.)
 An anyxml value <bcp14>MAY</bcp14> contain CBOR data items tagged with one of the tags listed in <xref target="tag-registry"/>. The tags listed in <xref target="tag-registry"/> <bcp14>SHALL</bcp14> be supported.</t>
         <t>The following example shows a valid CBOR-encoded anyxml representation node instance consisting of a CBOR array containing the CBOR simple values 'true', 'null', and 'true'.</t>
-        <t>Definition example from <xref target="RFC7951"/>:</t>
+        <t>Definition example adapted from <xref target="RFC7951"/>:</t>
         <sourcecode type="yang"><![CDATA[
 module bar-module {
   ...
@@ -913,7 +913,7 @@ A1                                 # map(1)
 that are not intended to be implemented as part of a datastore.</t>
       <t>The yang-data extension will specify a container that <bcp14>MUST</bcp14> be encoded using the encoding rules of nodes of data trees, as defined in <xref target="container"/>.</t>
       <t>Just like YANG containers, the yang-data extension can be encoded using either SIDs or names.</t>
-      <t>Definition example from <xref target="I-D.ietf-core-comi" sectionFormat="of" section="A"/>:</t>
+      <t>Definition example adapted from <xref target="I-D.ietf-core-comi" sectionFormat="of" section="A"/>:</t>
       <sourcecode type="yang"><![CDATA[
 module ietf-coreconf {
   ...
@@ -1030,7 +1030,7 @@ by YANG, as listed in <xref section="4.2.4" sectionFormat="of" target="RFC7950"/
         <t>Leafs of type uint8, uint16, uint32, and uint64 <bcp14>MUST</bcp14> be encoded using a CBOR
 unsigned integer data item (major type 0).</t>
         <t>The following example shows the encoding of an 'mtu' leaf representation node instance set to 1280 bytes.</t>
-        <t>Definition example from <xref target="RFC8344"/>:</t>
+        <t>Definition example adapted from <xref target="RFC8344"/>:</t>
         <sourcecode type="yang"><![CDATA[
 leaf mtu {
   type uint16 {
@@ -1047,7 +1047,7 @@ leaf mtu {
 unsigned integer (major type 0) or a CBOR negative integer (major type 1), depending
 on the actual value.</t>
         <t>The following example shows the encoding of a 'timezone-utc-offset' leaf representation node instance set to -300 minutes.</t>
-        <t>Definition example from <xref target="RFC7317"/>:</t>
+        <t>Definition example adapted from <xref target="RFC7317"/>:</t>
         <sourcecode type="yang"><![CDATA[
 leaf timezone-utc-offset {
   type int16 {
@@ -1062,7 +1062,7 @@ leaf timezone-utc-offset {
         <name>The 'decimal64' Type</name>
         <t>Leafs of type decimal64 <bcp14>MUST</bcp14> be encoded using a decimal fraction, as defined in <xref section="3.4.4" sectionFormat="of" target="RFC8949"/>.</t>
         <t>The following example shows the encoding of a 'my-decimal' leaf representation node instance set to 2.57.</t>
-        <t>Definition example from <xref target="RFC7317"/>:</t>
+        <t>Definition example adapted from <xref target="RFC7317"/>:</t>
         <sourcecode type="yang"><![CDATA[
 leaf my-decimal {
   type decimal64 {
@@ -1079,7 +1079,7 @@ leaf my-decimal {
         <t>Leafs of type string <bcp14>MUST</bcp14> be encoded using a CBOR text string data item (major
 type 3).</t>
         <t>The following example shows the encoding of a 'name' leaf representation node instance set to "eth0".</t>
-        <t>Definition example from <xref target="RFC8343"/>:</t>
+        <t>Definition example adapted from <xref target="RFC8343"/>:</t>
         <sourcecode type="yang"><![CDATA[
 leaf name {
   type string;
@@ -1092,7 +1092,7 @@ leaf name {
         <name>The 'boolean' Type</name>
         <t>Leafs of type boolean <bcp14>MUST</bcp14> be encoded using a CBOR simple value 'true' (major type 7, additional information 21) or 'false' (major type 7, additional information 20).</t>
         <t>The following example shows the encoding of an 'enabled' leaf representation node instance set to 'true'.</t>
-        <t>Definition example from <xref target="RFC7317"/>:</t>
+        <t>Definition example adapted from <xref target="RFC7317"/>:</t>
         <sourcecode type="yang"><![CDATA[
 leaf enabled {
   type boolean;
@@ -1110,7 +1110,7 @@ Enumeration values are either
 explicitly assigned using the YANG statement 'value' or automatically
 assigned based on the algorithm defined in <xref section="9.6.4.2" sectionFormat="of" target="RFC7950"/>.</t>
         <t>The following example shows the encoding of an 'oper-status' leaf representation node instance set to 'testing'.</t>
-        <t keepWithNext="true">Definition example from <xref target="RFC7317"/>:</t>
+        <t keepWithNext="true">Definition example adapted from <xref target="RFC7317"/>:</t>
         <sourcecode type="yang"><![CDATA[
 leaf oper-status {
   type enumeration {
@@ -1131,7 +1131,7 @@ CBOR text string data item (major type 3) and <bcp14>MUST</bcp14> contain one of
 assigned by 'enum' statements in YANG (see also <xref target="union"/>).
 The encoding <bcp14>MUST</bcp14> be enclosed by the
 enumeration CBOR tag, as specified in <xref target="tag-registry"/>.</t>
-        <t>Definition example from <xref target="RFC7950"/>:</t>
+        <t>Definition example adapted from <xref target="RFC7950"/>:</t>
         <sourcecode type="yang"><![CDATA[
 type union {
   type int32;
@@ -1254,7 +1254,7 @@ leaf aes128-key {
         <t>Leafs of type leafref <bcp14>MUST</bcp14> be encoded using the rules of the representation node referenced
 by the 'path' YANG statement.</t>
         <t>The following example shows the encoding of an 'interface-state-ref' leaf representation node instance set to "eth1".</t>
-        <t>Definition example from <xref target="RFC8343"/>:</t>
+        <t>Definition example adapted from <xref target="RFC8343"/>:</t>
         <sourcecode type="yang"><![CDATA[
 typedef interface-state-ref {
   type leafref {
@@ -1288,7 +1288,7 @@ See <xref target="union"/> for an exceptional case when this representation need
           <t>When representation nodes of type identityref are implemented using SIDs, they <bcp14>MUST</bcp14> be encoded using a CBOR unsigned integer data item (major type 0).
 	  (Note that, as they are not used in the position of CBOR map keys, no delta mechanism is employed for SIDs used for identityref.)</t>
           <t>The following example shows the encoding of a 'type' leaf representation node instance set to the value 'iana-if-type:ethernetCsmacd' (SID 1880).</t>
-          <t>Definition example from <xref target="RFC7317"/>:</t>
+          <t>Definition example adapted from <xref target="RFC7317"/>:</t>
           <sourcecode type="yang"><![CDATA[
 identity interface-type {
 }
@@ -1323,7 +1323,7 @@ leaf type {
         <t>Leafs of type empty <bcp14>MUST</bcp14> be encoded using the CBOR null value (major type
 7, additional information 22).</t>
         <t>The following example shows the encoding of an 'is-router' leaf representation node instance when present.</t>
-        <t>Definition example from <xref target="RFC8344"/>:</t>
+        <t>Definition example adapted from <xref target="RFC8344"/>:</t>
         <sourcecode type="yang"><![CDATA[
 leaf is-router {
   type empty;
@@ -1351,7 +1351,7 @@ compatibility to be maintained with the encoding of overlapping unions
 in XML and JSON.
 See also <xref section="9.12" sectionFormat="of" target="RFC7950"/>.)</t>
         <t>The following example shows the encoding of an 'ip-address' leaf representation node instance when set to "2001:db8:a0b:12f0::1".</t>
-        <t keepWithNext="true">Definition example (adapted from <xref target="RFC6991"/>):</t>
+        <t keepWithNext="true">Definition example adapted from <xref target="RFC6991"/>:</t>
         <sourcecode type="yang"><![CDATA[
 typedef ipv4-address {
   type string {
@@ -1406,7 +1406,7 @@ See <xref target="union"/> for an exceptional case when this representation need
             <li>The following entries <bcp14>MUST</bcp14> contain the value of each key required to identify the instance of the targeted schema node. These keys <bcp14>MUST</bcp14> be ordered as defined in the 'key' YANG statement, starting from the top-level list, and followed by each subordinate list(s).</li>
           </ul>
           <t>Examples within this section assume the definition of a schema node of type 'instance-identifier':</t>
-          <t>Definition example from <xref target="RFC7950"/>:</t>
+          <t>Definition example adapted from <xref target="RFC7950"/>:</t>
           <sourcecode type="yang"><![CDATA[
 container system {
   ...
@@ -1416,7 +1416,7 @@ container system {
 ]]></sourcecode>
           <t><strong>First example:</strong></t>
           <t>The following example shows the encoding of the 'reporting-entity' value referencing data node instance "/system/contact" (SID 1741).</t>
-          <t>Definition example from <xref target="RFC7317"/>:</t>
+          <t>Definition example adapted from <xref target="RFC7317"/>:</t>
           <sourcecode type="yang"><![CDATA[
 container system {
 
