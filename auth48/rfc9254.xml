@@ -752,12 +752,7 @@ A1                                      # map(1)
       </section>
       <section anchor="the-anydata">
         <name>The 'anydata'</name>
-	<t>An anydata node serves as a container for an arbitrary set of representation nodes that otherwise appear as normal YANG-modeled data. An anydata representation node instance is encoded using the same rules as a container, i.e., CBOR map. The requirement that anydata content can be modeled by YANG implies the following:</t>
-        <ul spacing="normal">
-          <li>CBOR map keys of any inner representation nodes <bcp14>MUST</bcp14> be set to valid deltas or names.</li>
-          <li>CBOR arrays <bcp14>MUST</bcp14> contain either unique scalar values (as a leaf-list, see <xref target="leaf-list"/>) or maps (as a list, see <xref target="list"/>).</li>
-          <li>CBOR map values <bcp14>MUST</bcp14> follow the encoding rules of one of the datatypes listed in <xref target="instance-encoding"/>.</li>
-        </ul>
+	<t>An anydata node serves as a container for an arbitrary set of representation nodes that otherwise appear as normal YANG-modeled data. An anydata representation node instance is encoded using the same rules as a container, i.e., using a CBOR map data item (major type 5) based on the encoding rules of a collection, as defined in <xref target="container"/>.</t>
         <t>The following example shows a possible use of an anydata node. In this example, an anydata node is used to define a representation node containing a notification event; this representation node can be part of a YANG list to create an event logger.</t>
         <t>Definition example:</t>
         <sourcecode type="yang"><![CDATA[
