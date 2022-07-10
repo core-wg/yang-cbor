@@ -954,7 +954,7 @@ module ietf-coreconf {
     2 : 1740,                   / error-data-node (SID 1026) /
                                 / = timezone-utc-offset (SID 1740) /
     3 : "Maximum exceeded"      / error-message (SID 1027) /
-      }
+  }
 }
 ]]></sourcecode>
         <t>CBOR encoding:</t>
