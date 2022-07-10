@@ -758,7 +758,7 @@ A1                                      # map(1)
         <sourcecode type="yang"><![CDATA[
 module event-log {
   ...
-  anydata last-event;                # SID 60123
+  anydata last-event;                // SID 60123
 }
 ]]></sourcecode>
         <t>This example also assumes the assistance of the following notification.</t>
@@ -766,11 +766,11 @@ module event-log {
 module example-port {
   ...
 
-  notification example-port-fault {  # SID 60200
-    leaf port-name {                 # SID 60201
+  notification example-port-fault {  // SID 60200
+    leaf port-name {                 // SID 60201
       type string;
     }
-    leaf port-fault {                # SID 60202
+    leaf port-fault {                // SID 60202
       type string;
     }
   }
@@ -860,7 +860,7 @@ An anyxml value <bcp14>MAY</bcp14> contain CBOR data items tagged with one of th
         <sourcecode type="yang"><![CDATA[
 module bar-module {
   ...
-  anyxml bar;      # SID 60000
+  anyxml bar;      // SID 60000
 }
 ]]></sourcecode>
         <section anchor="using-sids-in-keys-3">
