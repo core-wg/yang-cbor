@@ -142,6 +142,10 @@ notification, an RPC, or an action.</dd>
         <dt>item:</dt><dd> A schema node, an identity, a module, or a feature defined using the YANG modeling language.</dd>
         <dt>list entry:</dt><dd> The data associated with a single entry of a list (see
 <xref section="7.8" sectionFormat="of" target="RFC7950"/>).</dd>
+        <dt>container-like instance:</dt><dd> An instance of a container,
+a YANG data structure, notification contents, RPC input, RPC output,
+action input, or action output (<xref target="container"/>), or a list entry in a list (<xref
+target="list"/>).</dd>
         <dt>parent (of a representation node):</dt><dd> The schema node of the closest
 enclosing representation node in which a given representation node
 is defined.</dd>
@@ -411,7 +415,8 @@ A1                                         # map(1)
         <name>The 'container' and Other Nodes from the Data Tree</name>
         <t>Instances of containers, YANG data structures, notification contents, RPC inputs, RPC outputs, action inputs, and action outputs <bcp14>MUST</bcp14> be encoded using a CBOR map data item (major type 5).
 The same encoding is also used for the list entries in a list (<xref target="list"/>).
-A map consists of pairs of data items, with each pair consisting of a key and a value. Each key within the CBOR map is set to a schema node identifier, and each value is set to the value of this representation node according to the instance datatype.</t>
+Collectively, we speak of these instances as "container-like instances".</t>
+        <t>A map consists of pairs of data items, with each pair consisting of a key and a value. Each key within the CBOR map is set to a schema node identifier, and each value is set to the value of this representation node according to the instance datatype.</t>
         <t>This specification supports two types of CBOR map keys: SID, as defined in <xref target="sid"/>, and names, as defined in <xref target="name"/>.</t>
         <t>The following examples show the encoding of a 'system-state' container representation instance using SIDs or names.</t>
         <t>Definition example adapted from <xref target="RFC6991"/> and <xref target="RFC7317"/>:</t>
@@ -578,7 +583,7 @@ A1                                         # map(1)
       </section>
       <section anchor="list">
         <name>The 'list' and the 'list' Entries</name>
-        <t>A list or a subset of a list <bcp14>MUST</bcp14> be encoded using a CBOR array data item (major type 4). Each list entry within this CBOR array is encoded using a CBOR map data item (major type 5) based on the encoding rules of a collection, as defined in <xref target="container"/>.</t>
+        <t>A list or a subset of a list <bcp14>MUST</bcp14> be encoded using a CBOR array data item (major type 4). Each list entry within this CBOR array is encoded using a CBOR map data item (major type 5) based on the encoding rules of a container-like instance, as defined in <xref target="container"/>.</t>
         <t>It is important to note that this encoding rule also applies to a 'list' representation node instance that has a single entry.</t>
         <t>The following examples show the encoding of a 'server' list using SIDs or names.</t>
         <t>Definition example adapted from <xref target="RFC7317"/>:</t>
@@ -752,7 +757,7 @@ A1                                      # map(1)
       </section>
       <section anchor="the-anydata">
         <name>The 'anydata'</name>
-	<t>An anydata node serves as a container for an arbitrary set of representation nodes that otherwise appear as normal YANG-modeled data. An anydata representation node instance is encoded using the same rules as a container, i.e., using a CBOR map data item (major type 5) based on the encoding rules of a collection, as defined in <xref target="container"/>.</t>
+	<t>An anydata node serves as a container for an arbitrary set of representation nodes that otherwise appear as normal YANG-modeled data. An anydata representation node instance is encoded using the same rules as a container, i.e., using a CBOR map data item (major type 5) based on the encoding rules of a container-like instance, as defined in <xref target="container"/>.</t>
         <t>The following example shows a possible use of an anydata node. In this example, an anydata node is used to define a representation node containing a notification event; this representation node can be part of a YANG list to create an event logger.</t>
         <t>Definition example:</t>
         <sourcecode type="yang"><![CDATA[
