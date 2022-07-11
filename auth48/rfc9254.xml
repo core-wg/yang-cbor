@@ -144,8 +144,7 @@ notification, an RPC, or an action.</dd>
 <xref section="7.8" sectionFormat="of" target="RFC7950"/>).</dd>
         <dt>container-like instance:</dt><dd> An instance of a container,
 a YANG data structure, notification contents, RPC input, RPC output,
-action input, or action output (<xref target="container"/>), or a list entry in a list (<xref
-target="list"/>).</dd>
+action input, or action output (<xref target="container"/>); a list entry in a list (<xref target="list"/>); or an anydata node (<xref target="the-anydata"/>).</dd>
         <dt>parent (of a representation node):</dt><dd> The schema node of the closest
 enclosing representation node in which a given representation node
 is defined.</dd>
@@ -155,7 +154,7 @@ is defined.</dd>
       <name>Properties of the CBOR Encoding</name>
       <t>This document defines CBOR encoding rules for YANG data trees and their subtrees.</t>
       <t>A YANG data tree can be enclosed by a representation of a schema node, such as a YANG data structure, a notification, an RPC, or an action; this is called a representation tree.  The data tree nodes and the enclosing schema node representation, if any, are collectively called the representation nodes.</t>
-      <t>A representation node, such as a container, list entry, YANG data structure, notification, RPC input, RPC output, action input, or action output, is serialized using a CBOR map in which each schema node defined within is encoded using a key and a value.
+      <t>A representation node, such as a container, list entry, YANG data structure, notification, RPC input, RPC output, action input, action output, or anydata node, is serialized using a CBOR map in which each schema node defined within is encoded using a key and a value.
 This specification supports two types of CBOR keys: YANG Schema Item iDentifier (YANG SID), as defined in <xref target="sid"/>, and names, as defined in <xref target="name"/>. Each of these key types is encoded using a specific CBOR type that allows their interpretation during the deserialization process. Protocols or mechanisms implementing this specification can mandate the use of a specific key type or allow the generator to choose freely per key.</t>
       <t>In order to minimize the size of the encoded data, the
 mapping avoids any unnecessary meta-information beyond that directly
@@ -414,7 +413,7 @@ A1                                         # map(1)
       <section anchor="container">
         <name>The 'container' and Other Nodes from the Data Tree</name>
         <t>Instances of containers, YANG data structures, notification contents, RPC inputs, RPC outputs, action inputs, and action outputs <bcp14>MUST</bcp14> be encoded using a CBOR map data item (major type 5).
-The same encoding is also used for the list entries in a list (<xref target="list"/>).
+The same encoding is also used for the list entries in a list (<xref target="list"/>) and for anydata nodes (<xref target="the-anydata"/>).
 Collectively, we speak of these instances as "container-like instances".</t>
         <t>A map consists of pairs of data items, with each pair consisting of a key and a value. Each key within the CBOR map is set to a schema node identifier, and each value is set to the value of this representation node according to the instance datatype.</t>
         <t>This specification supports two types of CBOR map keys: SID, as defined in <xref target="sid"/>, and names, as defined in <xref target="name"/>.</t>
