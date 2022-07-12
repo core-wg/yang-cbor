@@ -42,8 +42,8 @@ consensus="true" tocDepth="4" tocInclude="true" sortRefs="true" symRefs="true" u
       <organization>Acklio</organization>
       <address>
         <postal>
-          <street>1137A Avenue des Champs Blancs</street>
-          <city>Cesson-Sevigne</city>
+          <street>1137A avenue des Champs Blancs</street>
+          <city>Cesson-Sevigne Cedex</city>
           <code>35510</code>
           <country>France</country>
         </postal>
@@ -141,10 +141,10 @@ tree node, or a representation of a schema node, such as a YANG data structure, 
 notification, an RPC, or an action.</dd>
         <dt>item:</dt><dd> A schema node, an identity, a module, or a feature defined using the YANG modeling language.</dd>
         <dt>list entry:</dt><dd> The data associated with a single entry of a list (see
-<xref section="7.8" sectionFormat="of" target="RFC7950"/>).</dd>
+	<xref section="7.8" sectionFormat="of" target="RFC7950"/>).</dd>
         <dt>container-like instance:</dt><dd> An instance of a container,
-a YANG data structure, notification contents, RPC input, RPC output,
-action input, or action output (<xref target="container"/>); a list entry in a list (<xref target="list"/>); or an anydata node (<xref target="the-anydata"/>).</dd>
+	a YANG data structure, notification contents, RPC input, RPC output,
+	action input, or action output (<xref target="container"/>); a list entry in a list (<xref target="list"/>); or an anydata node (<xref target="the-anydata"/>).</dd>
         <dt>parent (of a representation node):</dt><dd> The schema node of the closest
 enclosing representation node in which a given representation node
 is defined.</dd>
@@ -413,8 +413,8 @@ A1                                         # map(1)
       <section anchor="container">
         <name>The 'container' and Other Nodes from the Data Tree</name>
         <t>Instances of containers, YANG data structures, notification contents, RPC inputs, RPC outputs, action inputs, and action outputs <bcp14>MUST</bcp14> be encoded using a CBOR map data item (major type 5).
-The same encoding is also used for the list entries in a list (<xref target="list"/>) and for anydata nodes (<xref target="the-anydata"/>).
-Collectively, we speak of these instances as "container-like instances".</t>
+	The same encoding is also used for the list entries in a list (<xref target="list"/>) and for anydata nodes (<xref target="the-anydata"/>).
+	Collectively, we speak of these instances as "container-like instances".</t>
         <t>A map consists of pairs of data items, with each pair consisting of a key and a value. Each key within the CBOR map is set to a schema node identifier, and each value is set to the value of this representation node according to the instance datatype.</t>
         <t>This specification supports two types of CBOR map keys: SID, as defined in <xref target="sid"/>, and names, as defined in <xref target="name"/>.</t>
         <t>The following examples show the encoding of a 'system-state' container representation instance using SIDs or names.</t>
