@@ -79,7 +79,7 @@ consensus="true" tocDepth="4" tocInclude="true" sortRefs="true" symRefs="true" u
     <abstract>
       <t>YANG (RFC 7950) is a data modeling language used to model configuration data,
  state data, parameters and results of Remote Procedure Call (RPC) operations or actions, and notifications.</t>
- <t>This document defines encoding rules for YANG in the Concise Binary Object
+ <t>This document defines encoding rules for YANG in the Concise Binary Object 
  Representation (CBOR) (RFC 8949).</t>
     </abstract>
   </front>
@@ -89,7 +89,7 @@ consensus="true" tocDepth="4" tocInclude="true" sortRefs="true" symRefs="true" u
       <t>The specification of the YANG 1.1 data modeling language <xref target="RFC7950"/> defines an XML encoding for data instances, i.e., contents of configuration datastores, state data, RPC inputs and outputs, action inputs and outputs, and event notifications.</t>
       <t>An additional set of encoding rules has been defined in <xref target="RFC7951"/> based on
       "The JavaScript Object Notation (JSON) Data Interchange Format" <xref target="RFC8259"/>.</t>
-
+   
       <t>The aim of this document is to define a set of encoding rules for the Concise Binary Object Representation (CBOR) <xref target="RFC8949"/>, collectively called "YANG-CBOR". The resulting encoding is more compact compared to XML and JSON and more suitable for constrained nodes and/or constrained networks, as defined by <xref target="RFC7228"/>.</t>
     </section>
     <section anchor="terminology-and-notation">
@@ -98,7 +98,7 @@ consensus="true" tocDepth="4" tocInclude="true" sortRefs="true" symRefs="true" u
     The key words "<bcp14>MUST</bcp14>", "<bcp14>MUST NOT</bcp14>", "<bcp14>REQUIRED</bcp14>", "<bcp14>SHALL</bcp14>", "<bcp14>SHALL
     NOT</bcp14>", "<bcp14>SHOULD</bcp14>", "<bcp14>SHOULD NOT</bcp14>", "<bcp14>RECOMMENDED</bcp14>", "<bcp14>NOT RECOMMENDED</bcp14>",
     "<bcp14>MAY</bcp14>", and "<bcp14>OPTIONAL</bcp14>" in this document are to be interpreted as
-    described in BCP&nbsp;14 <xref target="RFC2119"/> <xref target="RFC8174"/>
+    described in BCP&nbsp;14 <xref target="RFC2119"/> <xref target="RFC8174"/> 
     when, and only when, they appear in all capitals, as shown here.
         </t>
 	<t>SID values (and the SID deltas computed from them) shown in the examples are example values; these examples do not allocate the SIDs shown for specific items in the modules.</t>
@@ -142,7 +142,7 @@ notification, an RPC, or an action.</dd>
         <dt>item:</dt><dd> A schema node, an identity, a module, or a feature defined using the YANG modeling language.</dd>
         <dt>list entry:</dt><dd> The data associated with a single entry of a list (see
 	<xref section="7.8" sectionFormat="of" target="RFC7950"/>).</dd>
-        <dt>container-like instance:</dt><dd> An instance of a container,
+	<dt>container-like instance:</dt><dd> An instance of a container,
 	a YANG data structure, notification contents, RPC input, RPC output,
 	action input, or action output (<xref target="container"/>); a list entry in a list (<xref target="list"/>); or an anydata node (<xref target="the-anydata"/>).</dd>
         <dt>parent (of a representation node):</dt><dd> The schema node of the closest
@@ -310,7 +310,7 @@ allocated; it is not used in interchange.</t>
         </ul>
         <t>The name of a module determines the namespace of all YANG items defined in that module. If an item is defined in a submodule, then the namespace-qualified name uses the name of the main module to which the submodule belongs.</t>
         <t>ABNF syntax <xref target="RFC5234"/> of a name is shown in <xref target="namesyntax"/>, where the production for "identifier" is defined in <xref section="14" sectionFormat="of" target="RFC7950"/>.</t>
-        <figure anchor="namesyntax">
+        <figure anchor="namesyntax">	  
           <name>ABNF Production for a Simple or Namespace-Qualified Name</name>
 <sourcecode type="abnf"><![CDATA[
 name = [identifier ":"] identifier
@@ -1279,7 +1279,7 @@ container interfaces-state {
       <section anchor="identityref">
         <name>The 'identityref' Type</name>
         <t>This specification supports two approaches for encoding identityref:
-as a YANG Schema Item iDentifier, as defined in <xref target="sid"/>, or as a name,
+as a YANG Schema Item iDentifier, as defined in <xref target="sid"/>, or as a name, 
 as defined in <xref section="6.8" sectionFormat="of" target="RFC7951"/>.
 See <xref target="union"/> for an exceptional case when this representation needs to be tagged.</t>
         <section anchor="identityref-with-sid">
@@ -1394,7 +1394,7 @@ leaf address {
 See <xref target="union"/> for an exceptional case when this representation needs to be tagged.</t>
         <section anchor="instance-identifier-with-sid">
           <name>SIDs as 'instance-identifier'</name>
-          <t>SIDs uniquely identify a schema node. In the case of a single instance schema node, i.e., a schema node defined at the root of a YANG module or submodule or schema nodes defined within a container, the SID is sufficient to identify this instance (representation node).
+          <t>SIDs uniquely identify a schema node. In the case of a single instance schema node, i.e., a schema node defined at the root of a YANG module or submodule or schema nodes defined within a container, the SID is sufficient to identify this instance (representation node).	  
 	  (Note that no delta mechanism is employed for SIDs used for identityref, see <xref target="identityref-with-sid"/>.)
           </t>
           <t>In the case of a representation node that is an entry of a YANG list, a SID is combined with the list key(s) to identify each instance within the YANG list(s).</t>
@@ -1508,7 +1508,7 @@ analogous to the lexical representation in XML encoding; see <xref section="9.13
           <t>CBOR diagnostic notation: "/ietf-system:system/contact"</t>
           <t>CBOR encoding:</t>
           <sourcecode type="cbor-pretty"><![CDATA[
-78 1B 2F696574662D73797374656D3A73797374656D2F636F6E74616374
+78 1B 2F696574662D73797374656D3A73797374656D2F636F6E74616374	  
 ]]></sourcecode>
           <t><strong>Second example:</strong></t>
           <t>This example is described in <xref target="instance-identifier-with-sid"/>.</t>
@@ -1646,7 +1646,7 @@ evolution of the YANG modules themselves.  The procedures in
           <dt>Published specification:</dt>
           <dd>RFC 9254</dd>
 	  <dt>Applications that use this media type:</dt>
-	  <dd>applications that need a
+	  <dd>applications that need a 
 	  concise and efficient representation of YANG-modeled data</dd>
 	  <dt>Fragment identifier considerations:</dt>
 	  <dd>The syntax and semantics of
@@ -1815,10 +1815,6 @@ registry <xref target="IANA.core-parameters"/>. The registration procedure is "E
       <references>
         <name>Informative References</name>
 
-<!-- [I-D.ietf-core-sid] IESG state IESG Evaluation::Revised I-D Needed -->
-<!-- Note: reverted to the I-D instead of RFC YYYY as this doc is not likely to
-move before this document per its status.  Need to check prior to PUB and make
-sure the authors do not want to wait for it. -->
 <reference anchor="I-D.ietf-core-sid">
 <front>
 <title>YANG Schema Item iDentifier (YANG SID)</title>
@@ -1844,8 +1840,6 @@ sure the authors do not want to wait for it. -->
 
 <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml/reference.RFC.7252.xml"/>
 
-<!-- [I-D.ietf-core-comi] IESG state Expired -->
-<!-- Note: reverted to the I-D instead of RFC YYYY as this doc is Expired and waiting for a write-up. Double check prior to PUB. -->
 <reference anchor="I-D.ietf-core-comi">
 <front>
 <title>CoAP Management Interface (CORECONF)</title>
