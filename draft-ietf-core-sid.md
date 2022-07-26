@@ -97,7 +97,7 @@ informative:
   I-D.ietf-core-comi: comi
   I-D.ietf-core-yang-library: yang-library
   I-D.ietf-anima-constrained-voucher: constrained-voucher
-  I-D.ietf-core-yang-cbor: yang-cbor
+  RFC9254: yang-cbor
   PYANG:
     target: https://github.com/mbj4668/pyang
     title: An extensible YANG validator and converter in python
@@ -110,6 +110,16 @@ informative:
 YANG Schema Item iDentifiers (YANG SID) are globally unique 63-bit unsigned integers used to identify YANG items, as a more compact method to identify YANG items that can be used for efficiency and in constrained environments (RFC 7228).
 This document defines the semantics, the registration, and assignment processes of YANG SIDs for IETF managed YANG modules.
 To enable the implementation of these processes, this document also defines a file format used to persist and publish assigned YANG SIDs.
+
+
+
+[^status]
+
+[^status]:
+    The present version (-19) adds in draft text about objectives,
+    parties, and roles.
+    This attempts to record discussions at side meetings before, at,
+    and after IETF 113.
 
 --- middle
 
