@@ -241,7 +241,7 @@ module ietf-sid-file {
             value 0;
             description "This SID allocation has been published in a stable catalog";
           }
-          enum subject_to_review {
+          enum unstable {
             value 1;
             description "This SID allocation has been done during a
                          development process";
