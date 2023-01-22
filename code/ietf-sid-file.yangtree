@@ -12,6 +12,7 @@ module: ietf-sid-file
     |  +-- entry-point    sid
     |  +-- size           uint64
     +-- item* [namespace identifier]
+       +-- status?       string
        +-- namespace     enumeration
        +-- identifier    union
        +-- sid           sid
