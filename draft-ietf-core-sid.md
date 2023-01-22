@@ -149,6 +149,7 @@ guarantee their uniqueness. SIDs are registered in blocks called "SID ranges".
 SIDs are assigned permanently.
 Items introduced by a new revision of a YANG
 module are added to the list of SIDs already assigned.
+
 Assignment of SIDs to YANG items are usually automated as
 discussed in {{sid-auto-generation}}, which also discusses some cases
 where manual interventions may be appropriate.
@@ -188,8 +189,11 @@ The following term is defined in {{RFC8040}}:
 This specification also makes use of the following terminology:
 
 * item:  A schema node, an identity, a module, or a feature defined using the YANG modeling language.
+
 * schema-node path: A schema-node path is a string that identifies a schema node within the schema tree. A path consists of the list of consecutive schema node identifier(s) separated by slashes ("/"). Schema node identifier(s) are always listed from the top-level schema node up to the targeted schema node and could contain namespace information. (e.g. "/ietf-system:system-state/clock/current-datetime")
+
 * Namespace-qualified form - a schema node identifier is prefixed with the name of the module in which the schema node is defined, separated from the schema node identifier by the colon character (":").
+
 * YANG Schema Item iDentifier (YANG SID or simply SID): Unsigned integer used to identify different YANG items.
 
 # ".sid" file lifecycle  {#sid-lifecycle}
@@ -208,6 +212,12 @@ order to do that, they should first obtain a SID range from a registry and use
 that range to assign or generate SIDs to items of their YANG module. The
 assignments can then be stored in a ".sid" file. For
 example on how this could be achieved, please refer to {{sid-lifecycle-ex}}.
+
+Items introduced by a new revision of a YANG module are added to the list of SIDs already assigned.
+When this is done development of a new protocol document it may be necessary to make provisional assignments.
+They may get changed, revised or withdraw during the development of a new standard.
+These provisional assignments are marked with a status of "unstable".
+When the specification is advanced to a final document, then status of the assignment is marked with the module-revision (a YYYY-MM-DD) when the assignment is finalized.
 
 Registration of the ".sid" file associated to a YANG module is optional but
 recommended  <!-- sic. --> to promote interoperability between devices and to avoid duplicate
@@ -233,7 +243,9 @@ For an example of this update process, see activity diagram
 # ".sid" file format  {#sid-file-format}
 
 ".sid" files are used to persist and publish SIDs assigned to the different
-YANG items of a specific YANG module. It has the following structure.
+YANG items of a specific YANG module.
+
+It has the following structure:
 
 ~~~~ yangtree
 {::include code/ietf-sid-file.yangtree}
@@ -241,8 +253,8 @@ YANG items of a specific YANG module. It has the following structure.
 {: align="left" title="YANG tree for ietf-sid-file"}
 
 The following YANG module defines the structure of this file, encoding is
-performed in JSON {{-json}} using the rules defined in {{RFC7951}}. It references ietf-yang-types
-defined in {{RFC6991}} and ietf-restconf defined in {{RFC8040}}.
+performed in JSON {{-json}} using the rules defined in {{RFC7951}}.
+It references ietf-yang-types defined in {{RFC6991}} and the structure-ext defined in {{RFC8791}}.
 
 RFC Ed.: please update the date of the module and Copyright if needed and remove this note.
 
@@ -409,10 +421,14 @@ implementations needing stable SID values, early allocation as defined in
 
 For a YANG module approved for publication as an RFC,
 a ".sid" file SHOULD be included in the Internet-Draft as a source code block.
+
 This ".sid" file is to be extracted by IANA/the expert reviewer and
 put into the YANG SID Registry ({{ietf-sid-registry}}) along with the
 YANG module.
+
 The ".sid" file MUST NOT be published as part of the RFC: the IANA Registry is authoritative and a link is to be inserted in the RFC.
+
+A published ".sid" file should containly only schema-node allocations with a stable status.
 
 ### Initial contents of the registry {#ietf-iana-sid-range-initial-contents}
 
