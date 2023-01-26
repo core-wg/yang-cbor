@@ -97,7 +97,7 @@ informative:
   I-D.ietf-core-comi: comi
   I-D.ietf-core-yang-library: yang-library
   I-D.ietf-anima-constrained-voucher: constrained-voucher
-  I-D.ietf-core-yang-cbor: yang-cbor
+  RFC9254: yang-cbor
   PYANG:
     target: https://github.com/mbj4668/pyang
     title: An extensible YANG validator and converter in python
@@ -110,6 +110,16 @@ informative:
 YANG Schema Item iDentifiers (YANG SID) are globally unique 63-bit unsigned integers used to identify YANG items, as a more compact method to identify YANG items that can be used for efficiency and in constrained environments (RFC 7228).
 This document defines the semantics, the registration, and assignment processes of YANG SIDs for IETF managed YANG modules.
 To enable the implementation of these processes, this document also defines a file format used to persist and publish assigned YANG SIDs.
+
+
+
+[^status]
+
+[^status]:
+    The present version (-19) adds in draft text about objectives,
+    parties, and roles.
+    This attempts to record discussions at side meetings before, at,
+    and after IETF 113.
 
 --- middle
 
@@ -145,11 +155,12 @@ related to discovery such as Constrained YANG Module Library {{-yang-library}}.
 
 SIDs are globally unique integers.  A registration system is used in order to
 guarantee their uniqueness. SIDs are registered in blocks called "SID ranges".
-
 SIDs are assigned permanently.
 Items introduced by a new revision of a YANG
 module are added to the list of SIDs already assigned.
-Assignment of SIDs to YANG items are usually automated as
+This is discussed in more detail in {{objectives}}.
+
+Assignment of SIDs to YANG items is usually automated as
 discussed in {{sid-auto-generation}}, which also discusses some cases
 where manual interventions may be appropriate.
 
@@ -166,7 +177,7 @@ compact encoding for YANG-CBOR {{-yang-cbor}}.
 At the time of writing, a tool for automated ".sid" file generation is
 available as part of the open-source project PYANG {{PYANG}}.
 
-# Terminology and Notation
+## Terminology and Notation
 
 {::boilerplate bcp14-tagged}
 
@@ -191,6 +202,231 @@ This specification also makes use of the following terminology:
 * schema-node path: A schema-node path is a string that identifies a schema node within the schema tree. A path consists of the list of consecutive schema node identifier(s) separated by slashes ("/"). Schema node identifier(s) are always listed from the top-level schema node up to the targeted schema node and could contain namespace information. (e.g. "/ietf-system:system-state/clock/current-datetime")
 * Namespace-qualified form - a schema node identifier is prefixed with the name of the module in which the schema node is defined, separated from the schema node identifier by the colon character (":").
 * YANG Schema Item iDentifier (YANG SID or simply SID): Unsigned integer used to identify different YANG items.
+
+<!-- TASK: as soon as YANG-CBOR is approved, make one round through -->
+<!-- the terminology and make sure YANG-CBOR and YANG-SID align. -->
+
+# Objectives
+
+The overriding objective of the SID assignment and registration system is to
+ensure global interoperability of protocols that employ SIDs in order
+to communicate about data modeled in YANG.
+This objective poses certain requirements on the stability of SIDs
+while at the same time not hindering active evolution of the YANG
+modules the SIDs are intended to support.
+
+Additional objectives include:
+
+* enabling the developer of a YANG module to also be the originating
+  entity for the SIDs pertaining to that module.
+* making it easy for YANG developers to obtain SIDs.
+* enabling other developers to define SIDs for a module where the
+  developer of the module is not interesting in assigning the SIDs.
+* keeping an assignment regime that keeps short (2..4 byte) SIDs
+  readily available for the applications that would benefit from them
+  while at the same time employing the vast 63-bit SID space to
+  facilitate permissionless actions.
+* enabling multiple entities to provide services that support the
+  assignment of SIDs.
+* maintaining some locality in the assignment of SIDs so the
+  efficiencies of the SID delta mechanism can be fully employed.
+* enabling various software components to deal in terms of SIDs
+  without having complete information about other parties in the
+  communication process.
+
+While IANA ultimately maintains the registries that govern SIDs for
+IETF-defined modules, various support tools such as yangcatalog.org
+need to provide the support to enable SID assignment and use for
+modules still in IETF development.  Developers of open-source or
+proprietary YANG modules also need to be able to serve as such
+entities autonomously, possibly forming alliances independent of the
+IETF, while still fitting in the overall SID number space managed by
+IANA.  Obviously, this process has a number of parallels to the
+management of IP addresses, but also is very different.
+
+## Technical Objectives
+
+As discussed in the introduction, SIDs are intended as globally unique
+(unsigned) integers.
+
+Specifically, this means that:
+
+**Objective 1** (MUST):
+:  any 63-bit unsigned integer is either
+unassigned as a SID or immutably maps to EXACTLY one YANG name.
+Only the transition from unassigned to that immutable mapping is
+defined.
+
+This enables a recipient of a data structure employing SIDs to
+translate them into the globally meaningful YANG names that the
+existing encodings of YANG data such as YANG-XML {{RFC7950}} and
+YANG-JSON {{RFC7951}} employ today.
+
+The term YANG name is not defined outside this document, and YANG has
+a complex system of names and entities that can have those names.
+Instead of defining the term technically, this set of objectives uses
+it in such a way that the overall objectives of YANG-SID can be
+achieved.
+
+A desirable objective is that:
+
+**Objective 2** (SHOULD):
+: any YANG name in active use has one SID assigned.
+
+This means that:
+
+1. There should not be YANG names without SIDs assigned
+2. YANG names should not have multiple SIDs assigned
+
+These objectives are unattainable in full, because YANG names are not
+necessarily born with a SID assignment, and because entirely autonomous
+entities might decide to assign SIDs for the same YANG name like ships
+in the night.
+Note that as long as this autonomy is maintained, any single observer
+will have the impression that Objective 2 is attained.
+Only when entities that have acted autonomously start communicating, a
+deviation is observed.
+
+## Module evolution, versioning
+
+YANG modules evolve.
+The technical objectives listed above are states in terms that are
+independent of this evolution.
+
+However, some modules are still in a very fluid state, and the
+assignment of permanent SIDs to the YANG names created in them is less
+desirable.  This is not only true for new modules, but also for
+emerging new revisions of existing stable modules.
+
+**Objective 3** (MUST):
+: the SID management system is independent from any module versioning.
+
+
+
+## Solution Components and Derived Objectives
+
+A registration system is used in order to guarantee the uniqueness of
+SIDs.
+To be able to provide some autonomy in allocation (and avoid
+information disclosure where it is not desirable), SIDs are registered
+in blocks called "SID ranges".
+
+SIDs are assigned permanently.
+
+Items introduced by a new revision of a YANG
+module are added to the list of SIDs already assigned.
+
+## Parties and Roles
+
+In the YANG development process, we can discern a number of parties
+that are concerned with a YANG module:
+
+{:vspace}
+module controller:
+: The owner of the YANG module, i.e., the controller
+  about its evolution.
+
+registration entity:
+: The controller of the module namespace, specifically also of the
+  prefixes that are in common use.  (This is not a required party.)
+
+module repository:
+: An entity that supplies modules to module users.  This can be
+  "official" (e.g., IANA for IETF modules) or unofficial (e.g.,
+  yangcatalog.org).  Not all repositories are in a position to act as
+  a registry, i.e., as a permanent record for the information they
+  supply; these repositories need to recur to module owners as a
+  stable source.
+
+module user:
+: An entity that uses a module, after obtaining it from the module
+  controller or a module repository.
+
+This set of parties needs to evolve to take on the additional roles
+that the SID assignment process requires:
+
+{:vspace}
+SID assigner:
+: An entity that assigns SIDs for a module.  Objective 2 requires that
+  there is only one SID assigner for each module.  SID assigners
+  preferably stay the same over a module development process; however
+  this specification provides SID files to ensure an organized handover.
+
+SID range registries:
+: The entities that supply a SID assigner with SID ranges that they can
+  use in assigning SIDs for a module.  (In this specification, there
+  is a structure with mega-ranges and individual SID ranges; this is
+  not relevant here.)
+
+SID repository:
+: An entity that supplies SID assignments to SID users, usually in the
+  form of a SID file.
+
+SID users:
+: The module user that uses the SIDs provided by a SID assigner for a YANG
+  module.  SID users need to find SID assigners (or at least their SID
+  assignments).
+
+During the introduction of SIDs, the distribution of the SID roles to
+the existing parties for a YANG module will evolve.
+
+The desirable end state of this evolution is:
+
+| Role               | Party                                |
+| SID assigner       | module developer                     |
+| SID range registry | (as discussed in this specification) |
+| SID repository     | module repository                    |
+| SID user           | module user (naturally)              |
+
+This grouping of roles and parties puts the module developer into a
+position where it can achieve the objectives laid out in this section
+(a "type-1", "SID-guiding" module controller).
+(While a third party might theoretically assign additional SIDs and
+conflict with objective 2, there is very little reason to do so if SID
+files are always provided by the module developer with the module.)
+
+The rest of this section is concerned with the transition to this end
+state.
+
+For existing modules, there is no SID file.  The entity that stands in
+as the SID assigner is not specified.  This situation has the highest
+potential of a conflict with objective 2.
+
+Similarly, for new module development, the module owner may not have
+heard about SIDs or not be interested in assigning them (e.g., because
+of lack of software or procedures within their organization).
+
+For these two cases (which we will call type-3, "SID-oblivious" module
+controller), module repositories can act as a mediator, giving SID
+users access to a SID assigner that is carefully chosen to be a likely
+choice by other module repositories as well, maximizing the likelihood
+of achieving objective 2.
+
+If the module controller has heard about SIDs, but is not assigning
+them yet, it can designate a SID assigner instead.  This can lead to a
+stable, unique set of SID assignments being provided indirectly by a
+(type-2, "SID-aware") module developer.  Entities offering designated
+SID assigner services could make these available in an easy-to-use
+way, e.g., via a Web interface.
+
+The entity acting as a SID assigner minimally needs to record the SID
+range it uses for the SID assignment.  If the SID range registry can
+record the module name and revision, and the assignment processes
+(including the software used) are stable, the SID assigner can
+theoretically reconstruct its assignments, but this is an invitation
+for implementation bugs.
+
+SID assigners attending to a module in development (not yet stable)
+need to decide whether SIDs for a new revision are re-assigned from
+scratch ("clean-slate") or use existing assignments from a previous
+revision as a base, only assigning new SIDs for new names.
+Once a module is declared stable, its SID assignments SHOULD be
+declared stable as well (the exception being that, for existing YANG
+modules, some review may be needed before this is done).
+
+This specification does not further discuss how mediating entities
+such as designated SID assigners or SID repositories could operate;
+instead, it supplies objectives for their operation.
 
 # ".sid" file lifecycle  {#sid-lifecycle}
 
