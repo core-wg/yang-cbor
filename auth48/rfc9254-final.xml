@@ -1,0 +1,2469 @@
+<?xml version='1.0' encoding='utf-8'?>
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" version="3" category="std" consensus="true" docName="draft-ietf-core-yang-cbor-20" indexInclude="true" ipr="trust200902" number="9254" prepTime="2022-07-18T11:48:24" scripts="Common,Latin" sortRefs="true" submissionType="IETF" symRefs="true" tocDepth="4" tocInclude="true" xml:lang="en">
+  <link href="https://datatracker.ietf.org/doc/draft-ietf-core-yang-cbor-20" rel="prev"/>
+  <link href="https://dx.doi.org/10.17487/rfc9254" rel="alternate"/>
+  <link href="urn:issn:2070-1721" rel="alternate"/>
+  <front>
+    <title abbrev="CBOR Encoding of Data Modeled with YANG">Encoding of Data Modeled with YANG in the Concise Binary Object Representation (CBOR)</title>
+    <seriesInfo name="RFC" value="9254" stream="IETF"/>
+    <author initials="M." surname="Veillette" fullname="Michel Veillette" role="editor">
+      <organization showOnFrontPage="true">Trilliant Networks Inc.</organization>
+      <address>
+        <postal>
+          <street>610 Rue du Luxembourg</street>
+          <city>Granby</city>
+          <region>Quebec</region>
+          <code>J2J 2V2</code>
+          <country>Canada</country>
+        </postal>
+        <email>michel.veillette@trilliantinc.com</email>
+      </address>
+    </author>
+    <author initials="I." surname="Petrov" fullname="Ivaylo Petrov" role="editor">
+      <organization showOnFrontPage="true">Google Switzerland GmbH</organization>
+      <address>
+        <postal>
+          <street>Brandschenkestrasse 110</street>
+          <city>Zurich</city>
+          <code>8002</code>
+          <country>Switzerland</country>
+        </postal>
+        <email>ivaylopetrov@google.com</email>
+      </address>
+    </author>
+    <author initials="A." surname="Pelov" fullname="Alexander Pelov">
+      <organization showOnFrontPage="true">Acklio</organization>
+      <address>
+        <postal>
+          <street>1137A avenue des Champs Blancs</street>
+          <city>Cesson-Sevigne Cedex</city>
+          <code>35510</code>
+          <country>France</country>
+        </postal>
+        <email>a@ackl.io</email>
+      </address>
+    </author>
+    <author initials="C." surname="Bormann" fullname="Carsten Bormann">
+      <organization showOnFrontPage="true">Universität Bremen TZI</organization>
+      <address>
+        <postal>
+          <street>Postfach 330440</street>
+          <city>Bremen</city>
+          <code>D-28359</code>
+          <country>Germany</country>
+        </postal>
+        <phone>+49-421-218-63921</phone>
+        <email>cabo@tzi.org</email>
+      </address>
+    </author>
+    <author initials="M." surname="Richardson" fullname="Michael Richardson">
+      <organization showOnFrontPage="true">Sandelman Software Works</organization>
+      <address>
+        <postal>
+          <country>Canada</country>
+        </postal>
+        <email>mcr+ietf@sandelman.ca</email>
+      </address>
+    </author>
+    <date month="07" year="2022"/>
+    <area>art</area>
+    <workgroup>core</workgroup>
+    <keyword>CBOR</keyword>
+    <abstract pn="section-abstract">
+      <t indent="0" pn="section-abstract-1">YANG (RFC 7950) is a data modeling language used to model configuration data,
+ state data, parameters and results of Remote Procedure Call (RPC) operations or actions, and notifications.</t>
+      <t indent="0" pn="section-abstract-2">This document defines encoding rules for YANG in the Concise Binary Object 
+ Representation (CBOR) (RFC 8949).</t>
+    </abstract>
+    <boilerplate>
+      <section anchor="status-of-memo" numbered="false" removeInRFC="false" toc="exclude" pn="section-boilerplate.1">
+        <name slugifiedName="name-status-of-this-memo">Status of This Memo</name>
+        <t indent="0" pn="section-boilerplate.1-1">
+            This is an Internet Standards Track document.
+        </t>
+        <t indent="0" pn="section-boilerplate.1-2">
+            This document is a product of the Internet Engineering Task Force
+            (IETF).  It represents the consensus of the IETF community.  It has
+            received public review and has been approved for publication by
+            the Internet Engineering Steering Group (IESG).  Further
+            information on Internet Standards is available in Section 2 of 
+            RFC 7841.
+        </t>
+        <t indent="0" pn="section-boilerplate.1-3">
+            Information about the current status of this document, any
+            errata, and how to provide feedback on it may be obtained at
+            <eref target="https://www.rfc-editor.org/info/rfc9254" brackets="none"/>.
+        </t>
+      </section>
+      <section anchor="copyright" numbered="false" removeInRFC="false" toc="exclude" pn="section-boilerplate.2">
+        <name slugifiedName="name-copyright-notice">Copyright Notice</name>
+        <t indent="0" pn="section-boilerplate.2-1">
+            Copyright (c) 2022 IETF Trust and the persons identified as the
+            document authors. All rights reserved.
+        </t>
+        <t indent="0" pn="section-boilerplate.2-2">
+            This document is subject to BCP 78 and the IETF Trust's Legal
+            Provisions Relating to IETF Documents
+            (<eref target="https://trustee.ietf.org/license-info" brackets="none"/>) in effect on the date of
+            publication of this document. Please review these documents
+            carefully, as they describe your rights and restrictions with
+            respect to this document. Code Components extracted from this
+            document must include Revised BSD License text as described in
+            Section 4.e of the Trust Legal Provisions and are provided without
+            warranty as described in the Revised BSD License.
+        </t>
+      </section>
+    </boilerplate>
+    <toc>
+      <section anchor="toc" numbered="false" removeInRFC="false" toc="exclude" pn="section-toc.1">
+        <name slugifiedName="name-table-of-contents">Table of Contents</name>
+        <ul bare="true" empty="true" indent="2" spacing="compact" pn="section-toc.1-1">
+          <li pn="section-toc.1-1.1">
+            <t indent="0" keepWithNext="true" pn="section-toc.1-1.1.1"><xref derivedContent="1" format="counter" sectionFormat="of" target="section-1"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-introduction">Introduction</xref></t>
+          </li>
+          <li pn="section-toc.1-1.2">
+            <t indent="0" keepWithNext="true" pn="section-toc.1-1.2.1"><xref derivedContent="2" format="counter" sectionFormat="of" target="section-2"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-terminology-and-notation">Terminology and Notation</xref></t>
+          </li>
+          <li pn="section-toc.1-1.3">
+            <t indent="0" pn="section-toc.1-1.3.1"><xref derivedContent="3" format="counter" sectionFormat="of" target="section-3"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-properties-of-the-cbor-enco">Properties of the CBOR Encoding</xref></t>
+            <ul bare="true" empty="true" indent="2" spacing="compact" pn="section-toc.1-1.3.2">
+              <li pn="section-toc.1-1.3.2.1">
+                <t indent="0" keepWithNext="true" pn="section-toc.1-1.3.2.1.1"><xref derivedContent="3.1" format="counter" sectionFormat="of" target="section-3.1"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-cbor-diagnostic-notation">CBOR Diagnostic Notation</xref></t>
+              </li>
+              <li pn="section-toc.1-1.3.2.2">
+                <t indent="0" pn="section-toc.1-1.3.2.2.1"><xref derivedContent="3.2" format="counter" sectionFormat="of" target="section-3.2"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-yang-schema-item-identifier">YANG Schema Item iDentifier</xref></t>
+              </li>
+              <li pn="section-toc.1-1.3.2.3">
+                <t indent="0" pn="section-toc.1-1.3.2.3.1"><xref derivedContent="3.3" format="counter" sectionFormat="of" target="section-3.3"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-name">Name</xref></t>
+              </li>
+            </ul>
+          </li>
+          <li pn="section-toc.1-1.4">
+            <t indent="0" pn="section-toc.1-1.4.1"><xref derivedContent="4" format="counter" sectionFormat="of" target="section-4"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-encoding-of-representation-">Encoding of Representation Nodes</xref></t>
+            <ul bare="true" empty="true" indent="2" spacing="compact" pn="section-toc.1-1.4.2">
+              <li pn="section-toc.1-1.4.2.1">
+                <t indent="0" pn="section-toc.1-1.4.2.1.1"><xref derivedContent="4.1" format="counter" sectionFormat="of" target="section-4.1"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-the-leaf">The 'leaf'</xref></t>
+                <ul bare="true" empty="true" indent="2" spacing="compact" pn="section-toc.1-1.4.2.1.2">
+                  <li pn="section-toc.1-1.4.2.1.2.1">
+                    <t indent="0" pn="section-toc.1-1.4.2.1.2.1.1"><xref derivedContent="4.1.1" format="counter" sectionFormat="of" target="section-4.1.1"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-using-sids-in-keys">Using SIDs in Keys</xref></t>
+                  </li>
+                  <li pn="section-toc.1-1.4.2.1.2.2">
+                    <t indent="0" pn="section-toc.1-1.4.2.1.2.2.1"><xref derivedContent="4.1.2" format="counter" sectionFormat="of" target="section-4.1.2"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-using-names-in-keys">Using Names in Keys</xref></t>
+                  </li>
+                </ul>
+              </li>
+              <li pn="section-toc.1-1.4.2.2">
+                <t indent="0" pn="section-toc.1-1.4.2.2.1"><xref derivedContent="4.2" format="counter" sectionFormat="of" target="section-4.2"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-the-container-and-other-nod">The 'container' and Other Nodes from the Data Tree</xref></t>
+                <ul bare="true" empty="true" indent="2" spacing="compact" pn="section-toc.1-1.4.2.2.2">
+                  <li pn="section-toc.1-1.4.2.2.2.1">
+                    <t indent="0" pn="section-toc.1-1.4.2.2.2.1.1"><xref derivedContent="4.2.1" format="counter" sectionFormat="of" target="section-4.2.1"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-using-sids-in-keys-2">Using SIDs in Keys</xref></t>
+                  </li>
+                  <li pn="section-toc.1-1.4.2.2.2.2">
+                    <t indent="0" pn="section-toc.1-1.4.2.2.2.2.1"><xref derivedContent="4.2.2" format="counter" sectionFormat="of" target="section-4.2.2"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-using-names-in-keys-2">Using Names in Keys</xref></t>
+                  </li>
+                </ul>
+              </li>
+              <li pn="section-toc.1-1.4.2.3">
+                <t indent="0" pn="section-toc.1-1.4.2.3.1"><xref derivedContent="4.3" format="counter" sectionFormat="of" target="section-4.3"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-the-leaf-list">The 'leaf-list'</xref></t>
+                <ul bare="true" empty="true" indent="2" spacing="compact" pn="section-toc.1-1.4.2.3.2">
+                  <li pn="section-toc.1-1.4.2.3.2.1">
+                    <t indent="0" pn="section-toc.1-1.4.2.3.2.1.1"><xref derivedContent="4.3.1" format="counter" sectionFormat="of" target="section-4.3.1"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-using-sids-in-keys-3">Using SIDs in Keys</xref></t>
+                  </li>
+                  <li pn="section-toc.1-1.4.2.3.2.2">
+                    <t indent="0" pn="section-toc.1-1.4.2.3.2.2.1"><xref derivedContent="4.3.2" format="counter" sectionFormat="of" target="section-4.3.2"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-using-names-in-keys-3">Using Names in Keys</xref></t>
+                  </li>
+                </ul>
+              </li>
+              <li pn="section-toc.1-1.4.2.4">
+                <t indent="0" pn="section-toc.1-1.4.2.4.1"><xref derivedContent="4.4" format="counter" sectionFormat="of" target="section-4.4"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-the-list-and-the-list-entri">The 'list' and the 'list' Entries</xref></t>
+                <ul bare="true" empty="true" indent="2" spacing="compact" pn="section-toc.1-1.4.2.4.2">
+                  <li pn="section-toc.1-1.4.2.4.2.1">
+                    <t indent="0" pn="section-toc.1-1.4.2.4.2.1.1"><xref derivedContent="4.4.1" format="counter" sectionFormat="of" target="section-4.4.1"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-using-sids-in-keys-4">Using SIDs in Keys</xref></t>
+                  </li>
+                  <li pn="section-toc.1-1.4.2.4.2.2">
+                    <t indent="0" pn="section-toc.1-1.4.2.4.2.2.1"><xref derivedContent="4.4.2" format="counter" sectionFormat="of" target="section-4.4.2"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-using-names-in-keys-4">Using Names in Keys</xref></t>
+                  </li>
+                </ul>
+              </li>
+              <li pn="section-toc.1-1.4.2.5">
+                <t indent="0" pn="section-toc.1-1.4.2.5.1"><xref derivedContent="4.5" format="counter" sectionFormat="of" target="section-4.5"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-the-anydata">The 'anydata'</xref></t>
+                <ul bare="true" empty="true" indent="2" spacing="compact" pn="section-toc.1-1.4.2.5.2">
+                  <li pn="section-toc.1-1.4.2.5.2.1">
+                    <t indent="0" pn="section-toc.1-1.4.2.5.2.1.1"><xref derivedContent="4.5.1" format="counter" sectionFormat="of" target="section-4.5.1"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-using-sids-in-keys-5">Using SIDs in Keys</xref></t>
+                  </li>
+                  <li pn="section-toc.1-1.4.2.5.2.2">
+                    <t indent="0" pn="section-toc.1-1.4.2.5.2.2.1"><xref derivedContent="4.5.2" format="counter" sectionFormat="of" target="section-4.5.2"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-using-names-in-keys-5">Using Names in Keys</xref></t>
+                  </li>
+                </ul>
+              </li>
+              <li pn="section-toc.1-1.4.2.6">
+                <t indent="0" pn="section-toc.1-1.4.2.6.1"><xref derivedContent="4.6" format="counter" sectionFormat="of" target="section-4.6"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-the-anyxml">The 'anyxml'</xref></t>
+                <ul bare="true" empty="true" indent="2" spacing="compact" pn="section-toc.1-1.4.2.6.2">
+                  <li pn="section-toc.1-1.4.2.6.2.1">
+                    <t indent="0" pn="section-toc.1-1.4.2.6.2.1.1"><xref derivedContent="4.6.1" format="counter" sectionFormat="of" target="section-4.6.1"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-using-sids-in-keys-6">Using SIDs in Keys</xref></t>
+                  </li>
+                  <li pn="section-toc.1-1.4.2.6.2.2">
+                    <t indent="0" pn="section-toc.1-1.4.2.6.2.2.1"><xref derivedContent="4.6.2" format="counter" sectionFormat="of" target="section-4.6.2"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-using-names-in-keys-6">Using Names in Keys</xref></t>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li pn="section-toc.1-1.5">
+            <t indent="0" pn="section-toc.1-1.5.1"><xref derivedContent="5" format="counter" sectionFormat="of" target="section-5"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-encoding-of-the-yang-data-e">Encoding of the 'yang-data' Extension</xref></t>
+            <ul bare="true" empty="true" indent="2" spacing="compact" pn="section-toc.1-1.5.2">
+              <li pn="section-toc.1-1.5.2.1">
+                <t indent="0" pn="section-toc.1-1.5.2.1.1"><xref derivedContent="5.1" format="counter" sectionFormat="of" target="section-5.1"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-using-sids-in-keys-7">Using SIDs in Keys</xref></t>
+              </li>
+              <li pn="section-toc.1-1.5.2.2">
+                <t indent="0" pn="section-toc.1-1.5.2.2.1"><xref derivedContent="5.2" format="counter" sectionFormat="of" target="section-5.2"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-using-names-in-keys-7">Using Names in Keys</xref></t>
+              </li>
+            </ul>
+          </li>
+          <li pn="section-toc.1-1.6">
+            <t indent="0" pn="section-toc.1-1.6.1"><xref derivedContent="6" format="counter" sectionFormat="of" target="section-6"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-representing-yang-data-type">Representing YANG Data Types in CBOR</xref></t>
+            <ul bare="true" empty="true" indent="2" spacing="compact" pn="section-toc.1-1.6.2">
+              <li pn="section-toc.1-1.6.2.1">
+                <t indent="0" pn="section-toc.1-1.6.2.1.1"><xref derivedContent="6.1" format="counter" sectionFormat="of" target="section-6.1"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-the-unsigned-integer-types">The Unsigned Integer Types</xref></t>
+              </li>
+              <li pn="section-toc.1-1.6.2.2">
+                <t indent="0" pn="section-toc.1-1.6.2.2.1"><xref derivedContent="6.2" format="counter" sectionFormat="of" target="section-6.2"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-the-integer-types">The Integer Types</xref></t>
+              </li>
+              <li pn="section-toc.1-1.6.2.3">
+                <t indent="0" pn="section-toc.1-1.6.2.3.1"><xref derivedContent="6.3" format="counter" sectionFormat="of" target="section-6.3"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-the-decimal64-type">The 'decimal64' Type</xref></t>
+              </li>
+              <li pn="section-toc.1-1.6.2.4">
+                <t indent="0" pn="section-toc.1-1.6.2.4.1"><xref derivedContent="6.4" format="counter" sectionFormat="of" target="section-6.4"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-the-string-type">The 'string' Type</xref></t>
+              </li>
+              <li pn="section-toc.1-1.6.2.5">
+                <t indent="0" pn="section-toc.1-1.6.2.5.1"><xref derivedContent="6.5" format="counter" sectionFormat="of" target="section-6.5"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-the-boolean-type">The 'boolean' Type</xref></t>
+              </li>
+              <li pn="section-toc.1-1.6.2.6">
+                <t indent="0" pn="section-toc.1-1.6.2.6.1"><xref derivedContent="6.6" format="counter" sectionFormat="of" target="section-6.6"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-the-enumeration-type">The 'enumeration' Type</xref></t>
+              </li>
+              <li pn="section-toc.1-1.6.2.7">
+                <t indent="0" pn="section-toc.1-1.6.2.7.1"><xref derivedContent="6.7" format="counter" sectionFormat="of" target="section-6.7"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-the-bits-type">The 'bits' Type</xref></t>
+              </li>
+              <li pn="section-toc.1-1.6.2.8">
+                <t indent="0" pn="section-toc.1-1.6.2.8.1"><xref derivedContent="6.8" format="counter" sectionFormat="of" target="section-6.8"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-the-binary-type">The 'binary' Type</xref></t>
+              </li>
+              <li pn="section-toc.1-1.6.2.9">
+                <t indent="0" pn="section-toc.1-1.6.2.9.1"><xref derivedContent="6.9" format="counter" sectionFormat="of" target="section-6.9"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-the-leafref-type">The 'leafref' Type</xref></t>
+              </li>
+              <li pn="section-toc.1-1.6.2.10">
+                <t indent="0" pn="section-toc.1-1.6.2.10.1"><xref derivedContent="6.10" format="counter" sectionFormat="of" target="section-6.10"/>. <xref derivedContent="" format="title" sectionFormat="of" target="name-the-identityref-type">The 'identityref' Type</xref></t>
+                <ul bare="true" empty="true" indent="2" spacing="compact" pn="section-toc.1-1.6.2.10.2">
+                  <li pn="section-toc.1-1.6.2.10.2.1">
+                    <t indent="0" pn="section-toc.1-1.6.2.10.2.1.1"><xref derivedContent="6.10.1" format="counter" sectionFormat="of" target="section-6.10.1"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-sids-as-identityref">SIDs as 'identityref'</xref></t>
+                  </li>
+                  <li pn="section-toc.1-1.6.2.10.2.2">
+                    <t indent="0" pn="section-toc.1-1.6.2.10.2.2.1"><xref derivedContent="6.10.2" format="counter" sectionFormat="of" target="section-6.10.2"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-name-as-identityref">Name as 'identityref'</xref></t>
+                  </li>
+                </ul>
+              </li>
+              <li pn="section-toc.1-1.6.2.11">
+                <t indent="0" pn="section-toc.1-1.6.2.11.1"><xref derivedContent="6.11" format="counter" sectionFormat="of" target="section-6.11"/>. <xref derivedContent="" format="title" sectionFormat="of" target="name-the-empty-type">The 'empty' Type</xref></t>
+              </li>
+              <li pn="section-toc.1-1.6.2.12">
+                <t indent="0" pn="section-toc.1-1.6.2.12.1"><xref derivedContent="6.12" format="counter" sectionFormat="of" target="section-6.12"/>. <xref derivedContent="" format="title" sectionFormat="of" target="name-the-union-type">The 'union' Type</xref></t>
+              </li>
+              <li pn="section-toc.1-1.6.2.13">
+                <t indent="0" pn="section-toc.1-1.6.2.13.1"><xref derivedContent="6.13" format="counter" sectionFormat="of" target="section-6.13"/>. <xref derivedContent="" format="title" sectionFormat="of" target="name-the-instance-identifier-typ">The 'instance-identifier' Type</xref></t>
+                <ul bare="true" empty="true" indent="2" spacing="compact" pn="section-toc.1-1.6.2.13.2">
+                  <li pn="section-toc.1-1.6.2.13.2.1">
+                    <t indent="0" pn="section-toc.1-1.6.2.13.2.1.1"><xref derivedContent="6.13.1" format="counter" sectionFormat="of" target="section-6.13.1"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-sids-as-instance-identifier">SIDs as 'instance-identifier'</xref></t>
+                  </li>
+                  <li pn="section-toc.1-1.6.2.13.2.2">
+                    <t indent="0" pn="section-toc.1-1.6.2.13.2.2.1"><xref derivedContent="6.13.2" format="counter" sectionFormat="of" target="section-6.13.2"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-names-as-instance-identifie">Names as 'instance-identifier'</xref></t>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+          <li pn="section-toc.1-1.7">
+            <t indent="0" pn="section-toc.1-1.7.1"><xref derivedContent="7" format="counter" sectionFormat="of" target="section-7"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-content-types">Content-Types</xref></t>
+          </li>
+          <li pn="section-toc.1-1.8">
+            <t indent="0" pn="section-toc.1-1.8.1"><xref derivedContent="8" format="counter" sectionFormat="of" target="section-8"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-security-considerations">Security Considerations</xref></t>
+          </li>
+          <li pn="section-toc.1-1.9">
+            <t indent="0" pn="section-toc.1-1.9.1"><xref derivedContent="9" format="counter" sectionFormat="of" target="section-9"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-iana-considerations">IANA Considerations</xref></t>
+            <ul bare="true" empty="true" indent="2" spacing="compact" pn="section-toc.1-1.9.2">
+              <li pn="section-toc.1-1.9.2.1">
+                <t indent="0" pn="section-toc.1-1.9.2.1.1"><xref derivedContent="9.1" format="counter" sectionFormat="of" target="section-9.1"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-media-types-registry">Media Types Registry</xref></t>
+              </li>
+              <li pn="section-toc.1-1.9.2.2">
+                <t indent="0" pn="section-toc.1-1.9.2.2.1"><xref derivedContent="9.2" format="counter" sectionFormat="of" target="section-9.2"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-coap-content-formats-regist">CoAP Content-Formats Registry</xref></t>
+              </li>
+              <li pn="section-toc.1-1.9.2.3">
+                <t indent="0" pn="section-toc.1-1.9.2.3.1"><xref derivedContent="9.3" format="counter" sectionFormat="of" target="section-9.3"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-cbor-tags-registry">CBOR Tags Registry</xref></t>
+              </li>
+            </ul>
+          </li>
+          <li pn="section-toc.1-1.10">
+            <t indent="0" pn="section-toc.1-1.10.1"><xref derivedContent="10" format="counter" sectionFormat="of" target="section-10"/>. <xref derivedContent="" format="title" sectionFormat="of" target="name-references">References</xref></t>
+            <ul bare="true" empty="true" indent="2" spacing="compact" pn="section-toc.1-1.10.2">
+              <li pn="section-toc.1-1.10.2.1">
+                <t indent="0" pn="section-toc.1-1.10.2.1.1"><xref derivedContent="10.1" format="counter" sectionFormat="of" target="section-10.1"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-normative-references">Normative References</xref></t>
+              </li>
+              <li pn="section-toc.1-1.10.2.2">
+                <t indent="0" pn="section-toc.1-1.10.2.2.1"><xref derivedContent="10.2" format="counter" sectionFormat="of" target="section-10.2"/>.  <xref derivedContent="" format="title" sectionFormat="of" target="name-informative-references">Informative References</xref></t>
+              </li>
+            </ul>
+          </li>
+          <li pn="section-toc.1-1.11">
+            <t indent="0" pn="section-toc.1-1.11.1"><xref derivedContent="" format="none" sectionFormat="of" target="section-appendix.a"/><xref derivedContent="" format="title" sectionFormat="of" target="name-acknowledgments">Acknowledgments</xref></t>
+          </li>
+          <li pn="section-toc.1-1.12">
+            <t indent="0" pn="section-toc.1-1.12.1"><xref derivedContent="" format="none" sectionFormat="of" target="section-appendix.b"/><xref derivedContent="" format="title" sectionFormat="of" target="name-authors-addresses">Authors' Addresses</xref></t>
+          </li>
+        </ul>
+      </section>
+    </toc>
+  </front>
+  <middle>
+    <section anchor="introduction" numbered="true" removeInRFC="false" toc="include" pn="section-1">
+      <name slugifiedName="name-introduction">Introduction</name>
+      <t indent="0" pn="section-1-1">The specification of the YANG 1.1 data modeling language <xref target="RFC7950" format="default" sectionFormat="of" derivedContent="RFC7950"/> defines an XML encoding for data instances, i.e., contents of configuration datastores, state data, RPC inputs and outputs, action inputs and outputs, and event notifications.</t>
+      <t indent="0" pn="section-1-2">An additional set of encoding rules has been defined in <xref target="RFC7951" format="default" sectionFormat="of" derivedContent="RFC7951"/> based on
+      "The JavaScript Object Notation (JSON) Data Interchange Format" <xref target="RFC8259" format="default" sectionFormat="of" derivedContent="RFC8259"/>.</t>
+      <t indent="0" pn="section-1-3">The aim of this document is to define a set of encoding rules for the Concise Binary Object Representation (CBOR) <xref target="RFC8949" format="default" sectionFormat="of" derivedContent="RFC8949"/>, collectively called "YANG-CBOR". The resulting encoding is more compact compared to XML and JSON and more suitable for constrained nodes and/or constrained networks, as defined by <xref target="RFC7228" format="default" sectionFormat="of" derivedContent="RFC7228"/>.</t>
+    </section>
+    <section anchor="terminology-and-notation" numbered="true" removeInRFC="false" toc="include" pn="section-2">
+      <name slugifiedName="name-terminology-and-notation">Terminology and Notation</name>
+      <t indent="0" pn="section-2-1">
+    The key words "<bcp14>MUST</bcp14>", "<bcp14>MUST NOT</bcp14>", "<bcp14>REQUIRED</bcp14>", "<bcp14>SHALL</bcp14>", "<bcp14>SHALL NOT</bcp14>", "<bcp14>SHOULD</bcp14>", "<bcp14>SHOULD NOT</bcp14>", "<bcp14>RECOMMENDED</bcp14>", "<bcp14>NOT RECOMMENDED</bcp14>",
+    "<bcp14>MAY</bcp14>", and "<bcp14>OPTIONAL</bcp14>" in this document are to be interpreted as
+    described in BCP 14 <xref target="RFC2119" format="default" sectionFormat="of" derivedContent="RFC2119"/> <xref target="RFC8174" format="default" sectionFormat="of" derivedContent="RFC8174"/> 
+    when, and only when, they appear in all capitals, as shown here.
+      </t>
+      <t indent="0" pn="section-2-2">SID values (and the SID deltas computed from them) shown in the examples are example values; these examples do not allocate the SIDs shown for specific items in the modules.</t>
+      <t indent="0" pn="section-2-3">The following terms are defined in <xref target="RFC7950" format="default" sectionFormat="of" derivedContent="RFC7950"/>:</t>
+      <ul spacing="normal" bare="false" empty="false" indent="3" pn="section-2-4">
+        <li pn="section-2-4.1">action</li>
+        <li pn="section-2-4.2">anydata</li>
+        <li pn="section-2-4.3">anyxml</li>
+        <li pn="section-2-4.4">data node</li>
+        <li pn="section-2-4.5">data tree</li>
+        <li pn="section-2-4.6">datastore</li>
+        <li pn="section-2-4.7">feature</li>
+        <li pn="section-2-4.8">identity</li>
+        <li pn="section-2-4.9">module</li>
+        <li pn="section-2-4.10">notification</li>
+        <li pn="section-2-4.11">RPC</li>
+        <li pn="section-2-4.12">schema node</li>
+        <li pn="section-2-4.13">submodule</li>
+      </ul>
+      <t indent="0" pn="section-2-5">The following term is defined in <xref target="RFC8040" format="default" sectionFormat="of" derivedContent="RFC8040"/>:</t>
+      <ul spacing="normal" bare="false" empty="false" indent="3" pn="section-2-6">
+        <li pn="section-2-6.1">yang-data extension</li>
+      </ul>
+      <t indent="0" pn="section-2-7">The following term is defined in <xref target="RFC8791" format="default" sectionFormat="of" derivedContent="RFC8791"/>:</t>
+      <ul spacing="normal" bare="false" empty="false" indent="3" pn="section-2-8">
+        <li pn="section-2-8.1">YANG data structure</li>
+      </ul>
+      <t indent="0" pn="section-2-9">This specification also makes use of the following terminology:</t>
+      <dl newline="true" spacing="normal" indent="3" pn="section-2-10">
+        <dt pn="section-2-10.1">YANG Schema Item iDentifier (or "YANG SID" or simply "SID"):</dt>
+        <dd pn="section-2-10.2"> 63-bit unsigned integer used to identify different YANG items.</dd>
+        <dt pn="section-2-10.3">delta:</dt>
+        <dd pn="section-2-10.4"> Difference between the current YANG SID and a reference YANG SID. A reference YANG SID is defined for each context for which deltas are used.</dd>
+        <dt pn="section-2-10.5">absolute SID:</dt>
+        <dd pn="section-2-10.6">A YANG SID that is not encoded as a delta.  This is usually
+called out explicitly only in positions where normally a delta would
+be found.</dd>
+        <dt pn="section-2-10.7">representation tree:</dt>
+        <dd pn="section-2-10.8"> A YANG data tree, possibly enclosed by a
+representation of a schema node, such as a YANG data structure, a notification, an RPC, or
+an action.</dd>
+        <dt pn="section-2-10.9">representation node:</dt>
+        <dd pn="section-2-10.10"> A node in a representation tree, i.e., a data
+tree node, or a representation of a schema node, such as a YANG data structure, a
+notification, an RPC, or an action.</dd>
+        <dt pn="section-2-10.11">item:</dt>
+        <dd pn="section-2-10.12"> A schema node, an identity, a module, or a feature defined using the YANG modeling language.</dd>
+        <dt pn="section-2-10.13">list entry:</dt>
+        <dd pn="section-2-10.14"> The data associated with a single entry of a list (see
+	<xref section="7.8" sectionFormat="of" target="RFC7950" format="default" derivedLink="https://rfc-editor.org/rfc/rfc7950#section-7.8" derivedContent="RFC7950"/>).</dd>
+        <dt pn="section-2-10.15">container-like instance:</dt>
+        <dd pn="section-2-10.16"> An instance of a container,
+	a YANG data structure, notification contents, RPC input, RPC output,
+	action input, or action output (<xref target="container" format="default" sectionFormat="of" derivedContent="Section 4.2"/>); a list entry in a list (<xref target="list" format="default" sectionFormat="of" derivedContent="Section 4.4"/>); or an anydata node (<xref target="the-anydata" format="default" sectionFormat="of" derivedContent="Section 4.5"/>).</dd>
+        <dt pn="section-2-10.17">parent (of a representation node):</dt>
+        <dd pn="section-2-10.18"> The schema node of the closest
+enclosing representation node in which a given representation node
+is defined.</dd>
+      </dl>
+    </section>
+    <section anchor="properties-of-cbor-encoding" numbered="true" removeInRFC="false" toc="include" pn="section-3">
+      <name slugifiedName="name-properties-of-the-cbor-enco">Properties of the CBOR Encoding</name>
+      <t indent="0" pn="section-3-1">This document defines CBOR encoding rules for YANG data trees and their subtrees.</t>
+      <t indent="0" pn="section-3-2">A YANG data tree can be enclosed by a representation of a schema node, such as a YANG data structure, a notification, an RPC, or an action; this is called a representation tree.  The data tree nodes and the enclosing schema node representation, if any, are collectively called the representation nodes.</t>
+      <t indent="0" pn="section-3-3">A representation node, such as a container, list entry, YANG data structure, notification, RPC input, RPC output, action input, action output, or anydata node, is serialized using a CBOR map in which each schema node defined within is encoded using a key and a value.
+This specification supports two types of CBOR keys: YANG Schema Item iDentifier (YANG SID), as defined in <xref target="sid" format="default" sectionFormat="of" derivedContent="Section 3.2"/>, and names, as defined in <xref target="name" format="default" sectionFormat="of" derivedContent="Section 3.3"/>. Each of these key types is encoded using a specific CBOR type that allows their interpretation during the deserialization process. Protocols or mechanisms implementing this specification can mandate the use of a specific key type or allow the generator to choose freely per key.</t>
+      <t indent="0" pn="section-3-4">In order to minimize the size of the encoded data, the
+mapping avoids any unnecessary meta-information beyond that directly
+provided by the CBOR basic generic data model (<xref section="2" sectionFormat="of" target="RFC8949" format="default" derivedLink="https://rfc-editor.org/rfc/rfc8949#section-2" derivedContent="RFC8949"/>). For instance, CBOR tags are used solely in the case of an absolute SID, anyxml data nodes, or the union datatype to explicitly distinguish the use of different YANG datatypes encoded using the same CBOR major type.</t>
+      <t indent="0" pn="section-3-5">Unless specified otherwise by the protocol or mechanism implementing this specification, the indefinite length encoding, as defined in <xref section="3.2" sectionFormat="of" target="RFC8949" format="default" derivedLink="https://rfc-editor.org/rfc/rfc8949#section-3.2" derivedContent="RFC8949"/>, <bcp14>SHALL</bcp14> be supported by the CBOR decoders employed with YANG-CBOR.
+(This enables an implementation to begin emitting an array or map
+before the number of entries in that structure is known, possibly also
+avoiding excessive locking or race conditions.
+On the other hand, it deprives the receiver of the encoded data from
+advance announcement about some size information, so a generator
+should choose indefinite length encoding only when these benefits do
+accrue.)</t>
+      <t indent="0" pn="section-3-6">Data nodes implemented using a CBOR array, map, byte string, or text string can be instantiated but empty. In this case, they are encoded with a length of zero.</t>
+      <t indent="0" pn="section-3-7">When representation nodes are serialized using the rules defined by this specification as part of an application payload, the payload <bcp14>SHOULD</bcp14> include information that would allow each node to be identified in a stateless way, for instance, the SID number associated with the node, the SID delta from another SID in the application payload, the namespace-qualified name, or the instance-identifier.</t>
+      <t indent="0" pn="section-3-8">Examples in <xref target="instance-encoding" format="default" sectionFormat="of" derivedContent="Section 4"/> include a root CBOR map with a single entry having a key set to either a namespace-qualified name or a SID. This root CBOR map is provided only as a typical usage example and is not part of the present encoding rules. Only the value within this CBOR map is compulsory.</t>
+      <section anchor="cbor-diagnostic-notation" numbered="true" removeInRFC="false" toc="include" pn="section-3.1">
+        <name slugifiedName="name-cbor-diagnostic-notation">CBOR Diagnostic Notation</name>
+        <t indent="0" pn="section-3.1-1">Within this document, CBOR binary contents are represented using an equivalent textual form called CBOR diagnostic notation, as defined in <xref section="8" sectionFormat="of" target="RFC8949" format="default" derivedLink="https://rfc-editor.org/rfc/rfc8949#section-8" derivedContent="RFC8949"/>. This notation is used strictly for documentation purposes and is never used in the data serialization. <xref target="diagnostic-notation-summary" format="default" sectionFormat="of" derivedContent="Table 1"/> below provides a summary of this notation.</t>
+        <table anchor="diagnostic-notation-summary" align="center" pn="table-1">
+          <name slugifiedName="name-cbor-diagnostic-notation-su">CBOR Diagnostic Notation Summary</name>
+          <thead>
+            <tr>
+              <th align="left" colspan="1" rowspan="1">CBOR Content</th>
+              <th align="left" colspan="1" rowspan="1">CBOR Type</th>
+              <th align="left" colspan="1" rowspan="1">Diagnostic Notation</th>
+              <th align="left" colspan="1" rowspan="1">Example</th>
+              <th align="left" colspan="1" rowspan="1">CBOR Encoding</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td align="left" colspan="1" rowspan="1">Unsigned integer</td>
+              <td align="left" colspan="1" rowspan="1">0</td>
+              <td align="left" colspan="1" rowspan="1">Decimal digits</td>
+              <td align="left" colspan="1" rowspan="1">123</td>
+              <td align="left" colspan="1" rowspan="1">18 7B</td>
+            </tr>
+            <tr>
+              <td align="left" colspan="1" rowspan="1">Negative integer</td>
+              <td align="left" colspan="1" rowspan="1">1</td>
+              <td align="left" colspan="1" rowspan="1">Decimal digits prefixed by a minus sign</td>
+              <td align="left" colspan="1" rowspan="1">-123</td>
+              <td align="left" colspan="1" rowspan="1">38 7A</td>
+            </tr>
+            <tr>
+              <td align="left" colspan="1" rowspan="1">Byte string</td>
+              <td align="left" colspan="1" rowspan="1">2</td>
+              <td align="left" colspan="1" rowspan="1">Hexadecimal value enclosed between single quotes and prefixed by an 'h'</td>
+              <td align="left" colspan="1" rowspan="1">h'F15C'</td>
+              <td align="left" colspan="1" rowspan="1">42 F15C</td>
+            </tr>
+            <tr>
+              <td align="left" colspan="1" rowspan="1">Text string</td>
+              <td align="left" colspan="1" rowspan="1">3</td>
+              <td align="left" colspan="1" rowspan="1">String of Unicode characters enclosed between double quotes</td>
+              <td align="left" colspan="1" rowspan="1">"txt"</td>
+              <td align="left" colspan="1" rowspan="1">63 747874</td>
+            </tr>
+            <tr>
+              <td align="left" colspan="1" rowspan="1">Array</td>
+              <td align="left" colspan="1" rowspan="1">4</td>
+              <td align="left" colspan="1" rowspan="1">Comma-separated list of values within square brackets</td>
+              <td align="left" colspan="1" rowspan="1">[ 1, 2 ]</td>
+              <td align="left" colspan="1" rowspan="1">82 01 02</td>
+            </tr>
+            <tr>
+              <td align="left" colspan="1" rowspan="1">Map</td>
+              <td align="left" colspan="1" rowspan="1">5</td>
+              <td align="left" colspan="1" rowspan="1">Comma-separated list of key : value pairs within curly braces</td>
+              <td align="left" colspan="1" rowspan="1">{ 1: 123, 2: 456 }</td>
+              <td align="left" colspan="1" rowspan="1">A2 01187B 021901C8</td>
+            </tr>
+            <tr>
+              <td align="left" colspan="1" rowspan="1">Boolean</td>
+              <td align="left" colspan="1" rowspan="1">7/20</td>
+              <td align="left" colspan="1" rowspan="1">false</td>
+              <td align="left" colspan="1" rowspan="1">false</td>
+              <td align="left" colspan="1" rowspan="1">F4</td>
+            </tr>
+            <tr>
+              <td align="left" colspan="1" rowspan="1"> </td>
+              <td align="left" colspan="1" rowspan="1">7/21</td>
+              <td align="left" colspan="1" rowspan="1">true</td>
+              <td align="left" colspan="1" rowspan="1">true</td>
+              <td align="left" colspan="1" rowspan="1">F5</td>
+            </tr>
+            <tr>
+              <td align="left" colspan="1" rowspan="1">Null</td>
+              <td align="left" colspan="1" rowspan="1">7/22</td>
+              <td align="left" colspan="1" rowspan="1">null</td>
+              <td align="left" colspan="1" rowspan="1">null</td>
+              <td align="left" colspan="1" rowspan="1">F6</td>
+            </tr>
+            <tr>
+              <td align="left" colspan="1" rowspan="1">Not assigned</td>
+              <td align="left" colspan="1" rowspan="1">7/23</td>
+              <td align="left" colspan="1" rowspan="1">undefined</td>
+              <td align="left" colspan="1" rowspan="1">undefined</td>
+              <td align="left" colspan="1" rowspan="1">F7</td>
+            </tr>
+          </tbody>
+        </table>
+        <t indent="0" pn="section-3.1-3">Note: CBOR binary contents shown in this specification are annotated with comments. These comments are delimited by slashes ("/"), as defined in <xref target="RFC8610" sectionFormat="of" section="G.6" format="default" derivedLink="https://rfc-editor.org/rfc/rfc8610#appendix-G.6" derivedContent="RFC8610"/>.</t>
+      </section>
+      <section anchor="sid" numbered="true" removeInRFC="false" toc="include" pn="section-3.2">
+        <name slugifiedName="name-yang-schema-item-identifier">YANG Schema Item iDentifier</name>
+        <t indent="0" pn="section-3.2-1">Some of the items defined in YANG <xref target="RFC7950" format="default" sectionFormat="of" derivedContent="RFC7950"/> require the use of a unique identifier.  In both the Network Configuration Protocol (NETCONF) <xref target="RFC6241" format="default" sectionFormat="of" derivedContent="RFC6241"/> and RESTCONF <xref target="RFC8040" format="default" sectionFormat="of" derivedContent="RFC8040"/>, these identifiers are implemented using text strings.  To allow the implementation of data models defined in YANG in constrained devices and constrained networks, a more compact method to identify YANG items is required. This compact identifier, called "YANG Schema Item iDentifier", is an unsigned integer limited to 63 bits of range (i.e., 0..9223372036854775807 or 0..0x7fffffffffffffff). The following items are identified using YANG SIDs (often shortened to SIDs):</t>
+        <ul spacing="normal" bare="false" empty="false" indent="3" pn="section-3.2-2">
+          <li pn="section-3.2-2.1">identities</li>
+          <li pn="section-3.2-2.2">data nodes</li>
+          <li pn="section-3.2-2.3">RPCs and associated input(s) and output(s)</li>
+          <li pn="section-3.2-2.4">actions and associated input(s) and output(s)</li>
+          <li pn="section-3.2-2.5">YANG data structures</li>
+          <li pn="section-3.2-2.6">notifications and associated information</li>
+          <li pn="section-3.2-2.7">YANG modules and features</li>
+        </ul>
+        <aside pn="section-3.2-3">
+          <t indent="0" pn="section-3.2-3.1">Note that any structuring of modules into submodules is transparent to YANG-CBOR:
+SIDs are not allocated for the names of submodules, and any
+items within a submodule are effectively allocated SIDs as part of
+processing the module that includes them.</t>
+        </aside>
+        <t indent="0" pn="section-3.2-4">To minimize their size, SIDs used as keys in CBOR maps are encoded
+using deltas, i.e., signed (negative or unsigned) integers that are
+added to the reference SID applying to the map.
+The reference SID of an outermost map is zero, unless a different
+reference SID is unambiguously conferred from the environment in which
+the outermost map is used.
+The reference SID of a map that is most directly embedded in a map entry
+with a name-based key is zero.
+For all other maps, the reference SID is the SID computed for the map
+entry it is most directly embedded in.
+(The embedding may be indirect if an array intervenes, e.g., in a YANG list.)
+Where absolute SIDs are desired in map key positions (where a bare
+integer implies a delta), they need to be identified as absolute SID values by using CBOR tag number 47 (as defined in <xref target="container-with-sid" format="default" sectionFormat="of" derivedContent="Section 4.2.1"/>).</t>
+        <t indent="0" pn="section-3.2-5">Thus, conversion from SIDs to deltas and back to SIDs is a stateless
+process solely based on the data serialized or deserialized combined
+with, potentially, an outermost reference SID unambiguously conferred
+by the environment.</t>
+        <t indent="0" pn="section-3.2-6">Mechanisms and processes used to assign SIDs to YANG items and to guarantee their uniqueness are outside the scope of the present specification.
+If SIDs are to be used, the present specification is used in conjunction with a specification defining this management.
+A related document, i.e., <xref target="I-D.ietf-core-sid" format="default" sectionFormat="of" derivedContent="CORE-SID"/>, is intended to serve as the definitive way to assign SID values for YANG modules managed by the IETF and recommends itself for YANG modules managed by non-IETF entities, as well.
+The present specification has been designed to allow different methods of assignment to be used within separate domains.</t>
+        <t indent="0" pn="section-3.2-7">To provide implementations with a way to internally indicate the
+absence of a SID, the SID value 0 is reserved and will not be
+allocated; it is not used in interchange.</t>
+      </section>
+      <section anchor="name" numbered="true" removeInRFC="false" toc="include" pn="section-3.3">
+        <name slugifiedName="name-name">Name</name>
+        <t indent="0" pn="section-3.3-1">This specification also supports the encoding of YANG item identifiers as text strings, similar to those used by the JSON encoding of data modeled with YANG <xref target="RFC7951" format="default" sectionFormat="of" derivedContent="RFC7951"/>. This approach can be used to avoid the management overhead associated with SID allocation. The main drawback is the significant increase in size of the encoded data.</t>
+        <t indent="0" pn="section-3.3-2">YANG item identifiers implemented using names <bcp14>MUST</bcp14> be in one of the following forms:</t>
+        <ul spacing="normal" bare="false" empty="false" indent="3" pn="section-3.3-3">
+          <li pn="section-3.3-3.1">simple -- the identifier of the YANG item (i.e., schema node or identity).</li>
+          <li pn="section-3.3-3.2">namespace-qualified -- the identifier of the YANG item is prefixed with the name of the module in which this item is defined, separated by the colon character (":").</li>
+        </ul>
+        <t indent="0" pn="section-3.3-4">The name of a module determines the namespace of all YANG items defined in that module. If an item is defined in a submodule, then the namespace-qualified name uses the name of the main module to which the submodule belongs.</t>
+        <t indent="0" pn="section-3.3-5">ABNF syntax <xref target="RFC5234" format="default" sectionFormat="of" derivedContent="RFC5234"/> of a name is shown in <xref target="namesyntax" format="default" sectionFormat="of" derivedContent="Figure 1"/>, where the production for "identifier" is defined in <xref section="14" sectionFormat="of" target="RFC7950" format="default" derivedLink="https://rfc-editor.org/rfc/rfc7950#section-14" derivedContent="RFC7950"/>.</t>
+        <figure anchor="namesyntax" align="left" suppress-title="false" pn="figure-1">
+          <name slugifiedName="name-abnf-production-for-a-simpl">ABNF Production for a Simple or Namespace-Qualified Name</name>
+          <sourcecode type="abnf" markers="false" pn="section-3.3-6.1">
+name = [identifier ":"] identifier
+</sourcecode>
+        </figure>
+        <t indent="0" pn="section-3.3-7">A namespace-qualified name <bcp14>MUST</bcp14> be used for all members of a top-level CBOR map and then also whenever the namespaces of the representation node and its parent node are different. In all other cases, the simple form of the name <bcp14>MUST</bcp14> be used.</t>
+        <t indent="0" pn="section-3.3-8">Definition example:</t>
+        <sourcecode type="yang" markers="false" pn="section-3.3-9">
+module example-foomod {
+  container top {
+    leaf foo {
+      type uint8;
+    }
+  }
+}
+
+module example-barmod {
+  import example-foomod {
+    prefix "foomod";
+  }
+  augment "/foomod:top" {
+    leaf bar {
+      type boolean;
+    }
+  }
+}
+</sourcecode>
+        <t indent="0" pn="section-3.3-10">A valid CBOR encoding of the 'top' container is as follows.</t>
+        <t indent="0" pn="section-3.3-11">CBOR diagnostic notation:</t>
+        <sourcecode type="cbor-diag" markers="false" pn="section-3.3-12">
+{
+  "example-foomod:top": {
+    "foo": 54,
+    "example-barmod:bar": true
+  }
+}
+</sourcecode>
+        <t indent="0" pn="section-3.3-13">Both the 'top' container and the 'bar' leaf defined in a different YANG module as its parent container are encoded as namespace-qualified names. The 'foo' leaf defined in the same YANG module as its parent container is encoded as a simple name.</t>
+      </section>
+    </section>
+    <section anchor="instance-encoding" numbered="true" removeInRFC="false" toc="include" pn="section-4">
+      <name slugifiedName="name-encoding-of-representation-">Encoding of Representation Nodes</name>
+      <t indent="0" pn="section-4-1">Representation nodes defined using the YANG modeling language are encoded using CBOR <xref target="RFC8949" format="default" sectionFormat="of" derivedContent="RFC8949"/>, based on the rules defined in this section. We assume that the reader is
+already familiar with both YANG <xref target="RFC7950" format="default" sectionFormat="of" derivedContent="RFC7950"/> and CBOR <xref target="RFC8949" format="default" sectionFormat="of" derivedContent="RFC8949"/>.</t>
+      <section anchor="the-leaf" numbered="true" removeInRFC="false" toc="include" pn="section-4.1">
+        <name slugifiedName="name-the-leaf">The 'leaf'</name>
+        <t indent="0" pn="section-4.1-1">A 'leaf' <bcp14>MUST</bcp14> be encoded accordingly to its datatype using one of the encoding rules specified in <xref target="data-types-mapping" format="default" sectionFormat="of" derivedContent="Section 6"/>.</t>
+        <t indent="0" pn="section-4.1-2">The following examples show the encoding of a 'hostname' leaf using a SID or a name.</t>
+        <t indent="0" pn="section-4.1-3">Definition example adapted from <xref target="RFC6991" format="default" sectionFormat="of" derivedContent="RFC6991"/> and <xref target="RFC7317" format="default" sectionFormat="of" derivedContent="RFC7317"/>:</t>
+        <sourcecode type="yang" markers="false" pn="section-4.1-4">
+typedef domain-name {
+  type string {
+    pattern
+      '((([a-zA-Z0-9_]([a-zA-Z0-9\-_]){0,61})?[a-zA-Z0-9]\.)*'
+    + '([a-zA-Z0-9_]([a-zA-Z0-9\-_]){0,61})?[a-zA-Z0-9]\.?)'
+    + '|\.';
+    length "1..253";
+  }
+}
+
+leaf hostname {
+  type inet:domain-name;
+}
+</sourcecode>
+        <section anchor="using-sids-in-keys" numbered="true" removeInRFC="false" toc="include" pn="section-4.1.1">
+          <name slugifiedName="name-using-sids-in-keys">Using SIDs in Keys</name>
+          <t indent="0" pn="section-4.1.1-1">As with all examples below, the delta in the outermost map assumes a reference YANG SID (current schema node) of 0.</t>
+          <t indent="0" pn="section-4.1.1-2">CBOR diagnostic notation:</t>
+          <sourcecode type="cbor-diag" markers="false" pn="section-4.1.1-3">
+{
+  1752 : "myhost.example.com"     / hostname (SID 1752) /
+}
+</sourcecode>
+          <t keepWithNext="true" indent="0" pn="section-4.1.1-4">CBOR encoding:</t>
+          <sourcecode type="cbor-pretty" markers="false" pn="section-4.1.1-5">
+A1                                         # map(1)
+   19 06D8                                 # unsigned(1752)
+   72                                      # text(18)
+      6D79686F73742E6578616D706C652E636F6D # "myhost.example.com"
+</sourcecode>
+        </section>
+        <section anchor="using-names-in-keys" numbered="true" removeInRFC="false" toc="include" pn="section-4.1.2">
+          <name slugifiedName="name-using-names-in-keys">Using Names in Keys</name>
+          <t indent="0" pn="section-4.1.2-1">CBOR diagnostic notation:</t>
+          <sourcecode type="cbor-diag" markers="false" pn="section-4.1.2-2">
+{
+  "ietf-system:hostname" : "myhost.example.com"
+}
+</sourcecode>
+          <t keepWithNext="true" indent="0" pn="section-4.1.2-3">CBOR encoding:</t>
+          <sourcecode type="cbor-pretty" markers="false" pn="section-4.1.2-4">
+A1                                         # map(1)
+   74                                      # text(20)
+      696574662D73797374656D3A686F73746E616D65
+   72                                      # text(18)
+      6D79686F73742E6578616D706C652E636F6D
+</sourcecode>
+        </section>
+      </section>
+      <section anchor="container" numbered="true" removeInRFC="false" toc="include" pn="section-4.2">
+        <name slugifiedName="name-the-container-and-other-nod">The 'container' and Other Nodes from the Data Tree</name>
+        <t indent="0" pn="section-4.2-1">Instances of containers, YANG data structures, notification contents, RPC inputs, RPC outputs, action inputs, and action outputs <bcp14>MUST</bcp14> be encoded using a CBOR map data item (major type 5).
+	The same encoding is also used for the list entries in a list (<xref target="list" format="default" sectionFormat="of" derivedContent="Section 4.4"/>) and for anydata nodes (<xref target="the-anydata" format="default" sectionFormat="of" derivedContent="Section 4.5"/>).
+	Collectively, we speak of these instances as "container-like instances".</t>
+        <t indent="0" pn="section-4.2-2">A map consists of pairs of data items, with each pair consisting of a key and a value. Each key within the CBOR map is set to a schema node identifier, and each value is set to the value of this representation node according to the instance datatype.</t>
+        <t indent="0" pn="section-4.2-3">This specification supports two types of CBOR map keys: SID, as defined in <xref target="sid" format="default" sectionFormat="of" derivedContent="Section 3.2"/>, and names, as defined in <xref target="name" format="default" sectionFormat="of" derivedContent="Section 3.3"/>.</t>
+        <t indent="0" pn="section-4.2-4">The following examples show the encoding of a 'system-state' container representation instance using SIDs or names.</t>
+        <t indent="0" pn="section-4.2-5">Definition example adapted from <xref target="RFC6991" format="default" sectionFormat="of" derivedContent="RFC6991"/> and <xref target="RFC7317" format="default" sectionFormat="of" derivedContent="RFC7317"/>:</t>
+        <sourcecode type="yang" markers="false" pn="section-4.2-6">
+typedef date-and-time {
+  type string {
+    pattern '\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?'
+          + '(Z|[\+\-]\d{2}:\d{2})';
+  }
+}
+
+container system-state {
+
+  container clock {
+    leaf current-datetime {
+      type date-and-time;
+    }
+
+    leaf boot-datetime {
+      type date-and-time;
+    }
+  }
+}
+</sourcecode>
+        <section anchor="container-with-sid" numbered="true" removeInRFC="false" toc="include" pn="section-4.2.1">
+          <name slugifiedName="name-using-sids-in-keys-2">Using SIDs in Keys</name>
+          <t indent="0" pn="section-4.2.1-1">In the context of containers and other nodes from the data tree, CBOR map keys within inner CBOR maps can be encoded using deltas (bare integers) or absolute SIDs (tagged with tag number 47).</t>
+          <t indent="0" pn="section-4.2.1-2">Delta values are computed as follows:</t>
+          <ul spacing="normal" bare="false" empty="false" indent="3" pn="section-4.2.1-3">
+            <li pn="section-4.2.1-3.1">In the case of a 'container', deltas are equal to the SID of the current representation node minus the SID of the parent 'container'.</li>
+            <li pn="section-4.2.1-3.2">In the case of a 'list', deltas are equal to the SID of the current representation node minus the SID of the parent 'list'.</li>
+            <li pn="section-4.2.1-3.3">In the case of an 'RPC input' or 'RPC output', deltas are equal to the SID of the current representation node minus the SID of the 'RPC'.</li>
+            <li pn="section-4.2.1-3.4">In the case of an 'action input' or 'action output', deltas are equal to the SID of the current representation node minus the SID of the 'action'.</li>
+            <li pn="section-4.2.1-3.5">In the case of a 'notification content', deltas are equal to the SID of the current representation node minus the SID of the 'notification'.</li>
+          </ul>
+          <t indent="0" pn="section-4.2.1-4">CBOR diagnostic notation:</t>
+          <sourcecode type="cbor-diag" markers="false" pn="section-4.2.1-5">
+{
+  1720 : {                              / system-state (SID 1720) /
+    1 : {                               / clock  (SID 1721) /
+      2 : "2015-10-02T14:47:24Z-05:00", / current-datetime(SID 1723)/
+      1 : "2015-09-15T09:12:58Z-05:00"  / boot-datetime (SID 1722) /
+    }
+  }
+}
+</sourcecode>
+          <t indent="0" pn="section-4.2.1-6">CBOR encoding:</t>
+          <figure anchor="Fig-system-clock" align="left" suppress-title="false" pn="figure-2">
+            <name slugifiedName="name-system-state-clock-encoding">System State Clock Encoding</name>
+            <sourcecode type="cbor-pretty" markers="false" pn="section-4.2.1-7.1">
+A1                                      # map(1)
+   19 06B8                              # unsigned(1720)
+   A1                                   # map(1)
+      01                                # unsigned(1)
+      A2                                # map(2)
+         02                             # unsigned(2)
+         78 1A                          # text(26)
+            323031352D31302D30325431343A34373A32345A2D30353A3030
+         01                             # unsigned(1)
+         78 1A                          # text(26)
+            323031352D30392D31355430393A31323A35385A2D30353A3030
+</sourcecode>
+          </figure>
+        </section>
+        <section anchor="container-with-name" numbered="true" removeInRFC="false" toc="include" pn="section-4.2.2">
+          <name slugifiedName="name-using-names-in-keys-2">Using Names in Keys</name>
+          <t indent="0" pn="section-4.2.2-1">CBOR map keys implemented using names <bcp14>MUST</bcp14> be encoded using a CBOR
+text string data item (major type 3). A namespace-qualified name <bcp14>MUST</bcp14>
+be used each time the namespace of a representation node and its parent
+differ. In all other cases, the simple form of the name <bcp14>MUST</bcp14> be
+used. Names and namespaces are defined in <xref section="4" sectionFormat="of" target="RFC7951" format="default" derivedLink="https://rfc-editor.org/rfc/rfc7951#section-4" derivedContent="RFC7951"/>.</t>
+          <t indent="0" pn="section-4.2.2-2">The following example shows the encoding of a 'system' container representation node instance using names.</t>
+          <t indent="0" pn="section-4.2.2-3">CBOR diagnostic notation:</t>
+          <sourcecode type="cbor-diag" markers="false" pn="section-4.2.2-4">
+{
+  "ietf-system:system-state" : {
+    "clock" : {
+      "current-datetime" : "2015-10-02T14:47:24Z-05:00",
+      "boot-datetime" : "2015-09-15T09:12:58Z-05:00"
+    }
+  }
+}
+</sourcecode>
+          <t keepWithNext="true" indent="0" pn="section-4.2.2-5">CBOR encoding:</t>
+          <sourcecode type="cbor-pretty" markers="false" pn="section-4.2.2-6">
+A1                                      # map(1)
+   78 18                                # text(24)
+      696574662D73797374656D3A73797374656D2D7374617465
+   A1                                   # map(1)
+      65                                # text(5)
+         636C6F636B                     # "clock"
+      A2                                # map(2)
+         70                             # text(16)
+            63757272656E742D6461746574696D65
+         78 1A                          # text(26)
+            323031352D31302D30325431343A34373A32345A2D30353A3030
+         6D                             # text(13)
+            626F6F742D6461746574696D65
+         78 1A                          # text(26)
+            323031352D30392D31355430393A31323A35385A2D30353A3030
+</sourcecode>
+        </section>
+      </section>
+      <section anchor="leaf-list" numbered="true" removeInRFC="false" toc="include" pn="section-4.3">
+        <name slugifiedName="name-the-leaf-list">The 'leaf-list'</name>
+        <t indent="0" pn="section-4.3-1">A leaf-list <bcp14>MUST</bcp14> be encoded using a CBOR array data item (major type 4). Each entry of this array <bcp14>MUST</bcp14> be encoded accordingly to its datatype using one of the encoding rules specified in <xref target="data-types-mapping" format="default" sectionFormat="of" derivedContent="Section 6"/>.</t>
+        <t indent="0" pn="section-4.3-2">The following example shows the encoding of the 'search' leaf-list representation node instance containing two entries: "ietf.org" and "ieee.org".</t>
+        <t indent="0" pn="section-4.3-3">Definition example adapted from <xref target="RFC6991" format="default" sectionFormat="of" derivedContent="RFC6991"/> and <xref target="RFC7317" format="default" sectionFormat="of" derivedContent="RFC7317"/>:</t>
+        <sourcecode type="yang" markers="false" pn="section-4.3-4">
+typedef domain-name {
+  type string {
+    pattern
+      '((([a-zA-Z0-9_]([a-zA-Z0-9\-_]){0,61})?[a-zA-Z0-9]\.)*'
+    + '([a-zA-Z0-9_]([a-zA-Z0-9\-_]){0,61})?[a-zA-Z0-9]\.?)'
+    + '|\.';
+    length "1..253";
+  }
+}
+
+leaf-list search {
+  type domain-name;
+  ordered-by user;
+}
+</sourcecode>
+        <section anchor="using-sids-in-keys-1" numbered="true" removeInRFC="false" toc="include" pn="section-4.3.1">
+          <name slugifiedName="name-using-sids-in-keys-3">Using SIDs in Keys</name>
+          <t keepWithNext="true" indent="0" pn="section-4.3.1-1">CBOR diagnostic notation:</t>
+          <sourcecode type="cbor-diag" markers="false" pn="section-4.3.1-2">
+{
+  1746 : [ "ietf.org", "ieee.org" ]     / search (SID 1746) /
+}
+</sourcecode>
+          <t indent="0" pn="section-4.3.1-3">CBOR encoding:</t>
+          <sourcecode type="cbor-pretty" markers="false" pn="section-4.3.1-4">
+A1                        # map(1)
+   19 06D2                # unsigned(1746)
+   82                     # array(2)
+      68                  # text(8)
+         696574662E6F7267 # "ietf.org"
+      68                  # text(8)
+         696565652E6F7267 # "ieee.org"
+</sourcecode>
+        </section>
+        <section anchor="using-names-in-keys-1" numbered="true" removeInRFC="false" toc="include" pn="section-4.3.2">
+          <name slugifiedName="name-using-names-in-keys-3">Using Names in Keys</name>
+          <t indent="0" pn="section-4.3.2-1">CBOR diagnostic notation:</t>
+          <sourcecode type="cbor-diag" markers="false" pn="section-4.3.2-2">
+{
+  "ietf-system:search" : [ "ietf.org", "ieee.org" ]
+}
+</sourcecode>
+          <t indent="0" pn="section-4.3.2-3">CBOR encoding:</t>
+          <sourcecode type="cbor-pretty" markers="false" pn="section-4.3.2-4">
+A1                                         # map(1)
+   72                                      # text(18)
+      696574662D73797374656D3A736561726368 # "ietf-system:search"
+   82                                      # array(2)
+      68                                   # text(8)
+         696574662E6F7267                  # "ietf.org"
+      68                                   # text(8)
+         696565652E6F7267                  # "ieee.org"
+</sourcecode>
+        </section>
+      </section>
+      <section anchor="list" numbered="true" removeInRFC="false" toc="include" pn="section-4.4">
+        <name slugifiedName="name-the-list-and-the-list-entri">The 'list' and the 'list' Entries</name>
+        <t indent="0" pn="section-4.4-1">A list or a subset of a list <bcp14>MUST</bcp14> be encoded using a CBOR array data item (major type 4). Each list entry within this CBOR array is encoded using a CBOR map data item (major type 5) based on the encoding rules of a container-like instance, as defined in <xref target="container" format="default" sectionFormat="of" derivedContent="Section 4.2"/>.</t>
+        <t indent="0" pn="section-4.4-2">It is important to note that this encoding rule also applies to a 'list' representation node instance that has a single entry.</t>
+        <t indent="0" pn="section-4.4-3">The following examples show the encoding of a 'server' list using SIDs or names.</t>
+        <t indent="0" pn="section-4.4-4">Definition example adapted from <xref target="RFC7317" format="default" sectionFormat="of" derivedContent="RFC7317"/>:</t>
+        <sourcecode type="yang" markers="false" pn="section-4.4-5">
+list server {
+  key name;
+
+  leaf name {
+    type string;
+  }
+  choice transport {
+    case udp {
+      container udp {
+        leaf address {
+          type host;
+          mandatory true;
+        }
+        leaf port {
+          type port-number;
+        }
+      }
+    }
+  }
+  leaf association-type {
+    type enumeration {
+      enum server;
+      enum peer;
+      enum pool;
+    }
+    default server;
+  }
+  leaf iburst {
+    type boolean;
+    default false;
+  }
+  leaf prefer {
+    type boolean;
+    default false;
+  }
+}
+</sourcecode>
+        <section anchor="list-with-sid" numbered="true" removeInRFC="false" toc="include" pn="section-4.4.1">
+          <name slugifiedName="name-using-sids-in-keys-4">Using SIDs in Keys</name>
+          <t indent="0" pn="section-4.4.1-1">The encoding rules of each 'list' entry are defined in <xref target="container-with-sid" format="default" sectionFormat="of" derivedContent="Section 4.2.1"/>.</t>
+          <t keepWithNext="true" indent="0" pn="section-4.4.1-2">CBOR diagnostic notation:</t>
+          <sourcecode type="cbor-diag" markers="false" pn="section-4.4.1-3">
+{
+  1756 : [                      / server (SID 1756) /
+    {
+      3 : "NRC TIC server",     / name (SID 1759) /
+      5 : {                     / udp (SID 1761) /
+        1 : "tic.nrc.ca",       / address (SID 1762) /
+        2 : 123                 / port (SID 1763) /
+      },
+      1 : 0,                    / association-type (SID 1757) /
+      2 : false,                / iburst (SID 1758) /
+      4 : true                  / prefer (SID 1760) /
+    },
+    {
+      3 : "NRC TAC server",     / name (SID 1759) /
+      5 : {                     / udp (SID 1761) /
+        1 : "tac.nrc.ca"        / address (SID 1762) /
+      }
+    }
+  ]
+}
+</sourcecode>
+          <t indent="0" pn="section-4.4.1-4">CBOR encoding:</t>
+          <sourcecode type="cbor-pretty" markers="false" pn="section-4.4.1-5">
+A1                                      # map(1)
+   19 06DC                              # unsigned(1756)
+   82                                   # array(2)
+      A5                                # map(5)
+         03                             # unsigned(3)
+         6E                             # text(14)
+            4E52432054494320736572766572 # "NRC TIC server"
+         05                             # unsigned(5)
+         A2                             # map(2)
+            01                          # unsigned(1)
+            6A                          # text(10)
+               7469632E6E72632E6361     # "tic.nrc.ca"
+            02                          # unsigned(2)
+            18 7B                       # unsigned(123)
+         01                             # unsigned(1)
+         00                             # unsigned(0)
+         02                             # unsigned(2)
+         F4                             # primitive(20)
+         04                             # unsigned(4)
+         F5                             # primitive(21)
+      A2                                # map(2)
+         03                             # unsigned(3)
+         6E                             # text(14)
+            4E52432054414320736572766572 # "NRC TAC server"
+         05                             # unsigned(5)
+         A1                             # map(1)
+            01                          # unsigned(1)
+            6A                          # text(10)
+               7461632E6E72632E6361     # "tac.nrc.ca"
+</sourcecode>
+        </section>
+        <section anchor="using-names-in-keys-2" numbered="true" removeInRFC="false" toc="include" pn="section-4.4.2">
+          <name slugifiedName="name-using-names-in-keys-4">Using Names in Keys</name>
+          <t indent="0" pn="section-4.4.2-1">The encoding rules of each 'list' entry are defined in <xref target="container-with-name" format="default" sectionFormat="of" derivedContent="Section 4.2.2"/>.</t>
+          <t indent="0" pn="section-4.4.2-2">CBOR diagnostic notation:</t>
+          <sourcecode type="cbor-diag" markers="false" pn="section-4.4.2-3">
+{
+  "ietf-system:server" : [
+    {
+      "name" : "NRC TIC server",
+      "udp" : {
+        "address" : "tic.nrc.ca",
+        "port" : 123
+      },
+      "association-type" : 0,
+      "iburst" : false,
+      "prefer" : true
+    },
+    {
+      "name" : "NRC TAC server",
+      "udp" : {
+        "address" : "tac.nrc.ca"
+      }
+    }
+  ]
+}
+</sourcecode>
+          <t keepWithNext="true" indent="0" pn="section-4.4.2-4">CBOR encoding:</t>
+          <sourcecode type="cbor-pretty" markers="false" pn="section-4.4.2-5">
+A1                                      # map(1)
+   72                                   # text(18)
+      696574662D73797374656D3A736572766572
+   82                                   # array(2)
+      A5                                # map(5)
+         64                             # text(4)
+            6E616D65                    # "name"
+         6E                             # text(14)
+            4E52432054494320736572766572
+         63                             # text(3)
+            756470                      # "udp"
+         A2                             # map(2)
+            67                          # text(7)
+               61646472657373           # "address"
+            6A                          # text(10)
+               7469632E6E72632E6361     # "tic.nrc.ca"
+            64                          # text(4)
+               706F7274                 # "port"
+            18 7B                       # unsigned(123)
+         70                             # text(16)
+            6173736F63696174696F6E2D74797065
+         00                             # unsigned(0)
+         66                             # text(6)
+            696275727374                # "iburst"
+         F4                             # primitive(20)
+         66                             # text(6)
+            707265666572                # "prefer"
+         F5                             # primitive(21)
+      A2                                # map(2)
+         64                             # text(4)
+            6E616D65                    # "name"
+         6E                             # text(14)
+            4E52432054414320736572766572
+         63                             # text(3)
+            756470                      # "udp"
+         A1                             # map(1)
+            67                          # text(7)
+               61646472657373           # "address"
+            6A                          # text(10)
+               7461632E6E72632E6361     # "tac.nrc.ca"
+</sourcecode>
+        </section>
+      </section>
+      <section anchor="the-anydata" numbered="true" removeInRFC="false" toc="include" pn="section-4.5">
+        <name slugifiedName="name-the-anydata">The 'anydata'</name>
+        <t indent="0" pn="section-4.5-1">An anydata node serves as a container for an arbitrary set of representation nodes that otherwise appear as normal YANG-modeled data. An anydata representation node instance is encoded using the same rules as a container, i.e., using a CBOR map data item (major type 5) based on the encoding rules of a container-like instance, as defined in <xref target="container" format="default" sectionFormat="of" derivedContent="Section 4.2"/>.</t>
+        <t indent="0" pn="section-4.5-2">The following example shows a possible use of an anydata node. In this example, an anydata node is used to define a representation node containing a notification event; this representation node can be part of a YANG list to create an event logger.</t>
+        <t indent="0" pn="section-4.5-3">Definition example:</t>
+        <sourcecode type="yang" markers="false" pn="section-4.5-4">
+module event-log {
+  ...
+  anydata last-event;                // SID 60123
+}
+</sourcecode>
+        <t indent="0" pn="section-4.5-5">This example also assumes the assistance of the following notification.</t>
+        <sourcecode type="yang" markers="false" pn="section-4.5-6">
+module example-port {
+  ...
+
+  notification example-port-fault {  // SID 60200
+    leaf port-name {                 // SID 60201
+      type string;
+    }
+    leaf port-fault {                // SID 60202
+      type string;
+    }
+  }
+}
+</sourcecode>
+        <section anchor="using-sids-in-keys-2" numbered="true" removeInRFC="false" toc="include" pn="section-4.5.1">
+          <name slugifiedName="name-using-sids-in-keys-5">Using SIDs in Keys</name>
+          <t indent="0" pn="section-4.5.1-1">CBOR diagnostic notation:</t>
+          <sourcecode type="cbor-diag" markers="false" pn="section-4.5.1-2">
+{
+  60123 : {                   / last-event (SID 60123) /
+    77 : {                    / example-port-fault (SID 60200) /
+      1 : "0/4/21",           / port-name (SID 60201) /
+      2 : "Open pin 2"        / port-fault (SID 60202) /
+    }
+  }
+}
+</sourcecode>
+          <t keepWithNext="true" indent="0" pn="section-4.5.1-3">CBOR encoding:</t>
+          <sourcecode type="cbor-pretty" markers="false" pn="section-4.5.1-4">
+A1                               # map(1)
+   19 EADB                       # unsigned(60123)
+   A1                            # map(1)
+      18 4D                      # unsigned(77)
+      A2                         # map(2)
+         01                      # unsigned(1)
+         66                      # text(6)
+            302F342F3231         # "0/4/21"
+         02                      # unsigned(2)
+         6A                      # text(10)
+            4F70656E2070696E2032 # "Open pin 2"
+</sourcecode>
+          <t indent="0" pn="section-4.5.1-5">In some implementations, it might be simpler to use the absolute SID encoding (tag number 47) for the anydata root element.
+CBOR diagnostic notation:</t>
+          <sourcecode type="cbor-diag" markers="false" pn="section-4.5.1-6">
+{
+  60123 : {                   / last-event (SID 60123) /
+    47(60200) : {             / event-port-fault (SID 60200) /
+      1 : "0/4/21",           / port-name (SID 60201) /
+      2 : "Open pin 2"        / port-fault (SID 60202) /
+    }
+  }
+}
+</sourcecode>
+        </section>
+        <section anchor="using-names-in-keys-3" numbered="true" removeInRFC="false" toc="include" pn="section-4.5.2">
+          <name slugifiedName="name-using-names-in-keys-5">Using Names in Keys</name>
+          <t indent="0" pn="section-4.5.2-1">CBOR diagnostic notation:</t>
+          <sourcecode type="cbor-diag" markers="false" pn="section-4.5.2-2">
+{
+  "event-log:last-event" : {
+    "example-port:example-port-fault" : {
+      "port-name" : "0/4/21",
+      "port-fault" : "Open pin 2"
+    }
+  }
+}
+</sourcecode>
+          <t keepWithNext="true" indent="0" pn="section-4.5.2-3">CBOR encoding:</t>
+          <sourcecode type="cbor-pretty" markers="false" pn="section-4.5.2-4">
+A1                                      # map(1)
+   74                                   # text(20)
+      6576656E742D6C6F673A6C6173742D6576656E74
+   A1                                   # map(1)
+      78 1F                             # text(31)
+         6578616D706C652D706F72743A
+         6578616D706C652D706F72742D6661756C74
+      A2                                # map(2)
+         69                             # text(9)
+            706F72742D6E616D65          # "port-name"
+         66                             # text(6)
+            302F342F3231                # "0/4/21"
+         6A                             # text(10)
+            706F72742D6661756C74        # "port-fault"
+         6A                             # text(10)
+            4F70656E2070696E2032        # "Open pin 2"
+</sourcecode>
+        </section>
+      </section>
+      <section anchor="the-anyxml" numbered="true" removeInRFC="false" toc="include" pn="section-4.6">
+        <name slugifiedName="name-the-anyxml">The 'anyxml'</name>
+        <t indent="0" pn="section-4.6-1">An anyxml representation node is used to serialize an arbitrary CBOR content, i.e., its value can be any CBOR binary object.
+(The "xml" in the name is a misnomer that only applied to YANG-XML <xref target="RFC7950" format="default" sectionFormat="of" derivedContent="RFC7950"/>.)
+An anyxml value <bcp14>MAY</bcp14> contain CBOR data items tagged with one of the tags listed in <xref target="tag-registry" format="default" sectionFormat="of" derivedContent="Section 9.3"/>. The tags listed in <xref target="tag-registry" format="default" sectionFormat="of" derivedContent="Section 9.3"/> <bcp14>SHALL</bcp14> be supported.</t>
+        <t indent="0" pn="section-4.6-2">The following example shows a valid CBOR-encoded anyxml representation node instance consisting of a CBOR array containing the CBOR simple values 'true', 'null', and 'true'.</t>
+        <t indent="0" pn="section-4.6-3">Definition example adapted from <xref target="RFC7951" format="default" sectionFormat="of" derivedContent="RFC7951"/>:</t>
+        <sourcecode type="yang" markers="false" pn="section-4.6-4">
+module bar-module {
+  ...
+  anyxml bar;      // SID 60000
+}
+</sourcecode>
+        <section anchor="using-sids-in-keys-3" numbered="true" removeInRFC="false" toc="include" pn="section-4.6.1">
+          <name slugifiedName="name-using-sids-in-keys-6">Using SIDs in Keys</name>
+          <t indent="0" pn="section-4.6.1-1">CBOR diagnostic notation:</t>
+          <sourcecode type="cbor-diag" markers="false" pn="section-4.6.1-2">
+{
+  60000 : [true, null, true]   / bar (SID 60000) /
+}
+</sourcecode>
+          <t keepWithNext="true" indent="0" pn="section-4.6.1-3">CBOR encoding:</t>
+          <sourcecode type="cbor-pretty" markers="false" pn="section-4.6.1-4">
+A1         # map(1)
+   19 EA60 # unsigned(60000)
+   83      # array(3)
+      F5   # primitive(21)
+      F6   # primitive(22)
+      F5   # primitive(21)
+</sourcecode>
+        </section>
+        <section anchor="using-names-in-keys-4" numbered="true" removeInRFC="false" toc="include" pn="section-4.6.2">
+          <name slugifiedName="name-using-names-in-keys-6">Using Names in Keys</name>
+          <t indent="0" pn="section-4.6.2-1">CBOR diagnostic notation:</t>
+          <sourcecode type="cbor-diag" markers="false" pn="section-4.6.2-2">
+{
+  "bar-module:bar" : [true, null, true]   / bar (SID 60000) /
+}
+</sourcecode>
+          <t indent="0" pn="section-4.6.2-3">CBOR encoding:</t>
+          <sourcecode type="cbor-pretty" markers="false" pn="section-4.6.2-4">
+A1                                 # map(1)
+   6E                              # text(14)
+      6261722D6D6F64756C653A626172 # "bar-module:bar"
+   83                              # array(3)
+      F5                           # primitive(21)
+      F6                           # primitive(22)
+      F5                           # primitive(21)
+</sourcecode>
+        </section>
+      </section>
+    </section>
+    <section anchor="encoding-of-yang-data-extension" numbered="true" removeInRFC="false" toc="include" pn="section-5">
+      <name slugifiedName="name-encoding-of-the-yang-data-e">Encoding of the 'yang-data' Extension</name>
+      <t indent="0" pn="section-5-1">The yang-data extension <xref target="RFC8040" format="default" sectionFormat="of" derivedContent="RFC8040"/> is used to define data structures in YANG
+that are not intended to be implemented as part of a datastore.</t>
+      <t indent="0" pn="section-5-2">The yang-data extension will specify a container that <bcp14>MUST</bcp14> be encoded using the encoding rules of nodes of data trees, as defined in <xref target="container" format="default" sectionFormat="of" derivedContent="Section 4.2"/>.</t>
+      <t indent="0" pn="section-5-3">Just like YANG containers, the yang-data extension can be encoded using either SIDs or names.</t>
+      <t indent="0" pn="section-5-4">Definition example adapted from <xref target="I-D.ietf-core-comi" sectionFormat="of" section="A" format="default" derivedLink="https://datatracker.ietf.org/doc/html/draft-ietf-core-comi-11#appendix-A" derivedContent="CORE-COMI"/>:</t>
+      <sourcecode type="yang" markers="false" pn="section-5-5">
+module ietf-coreconf {
+  ...
+
+  import ietf-restconf {
+    prefix rc;
+  }
+
+  rc:yang-data yang-errors {
+    container error {
+      leaf error-tag {
+        type identityref {
+          base error-tag;
+        }
+      }
+      leaf error-app-tag {
+        type identityref {
+          base error-app-tag;
+        }
+      }
+      leaf error-data-node {
+        type instance-identifier;
+      }
+      leaf error-message {
+        type string;
+      }
+    }
+  }
+}
+</sourcecode>
+      <section anchor="using-sids-in-keys-4" numbered="true" removeInRFC="false" toc="include" pn="section-5.1">
+        <name slugifiedName="name-using-sids-in-keys-7">Using SIDs in Keys</name>
+        <t indent="0" pn="section-5.1-1">The yang-data extensions encoded using SIDs are carried in a CBOR map containing a single item pair. The key of this item is set to the SID assigned to the yang-data extension container; the value is set to the CBOR encoding of this container, as defined in <xref target="container" format="default" sectionFormat="of" derivedContent="Section 4.2"/>.</t>
+        <t indent="0" pn="section-5.1-2">This example shows a serialization example of the yang-errors yang-data extension, as defined in <xref target="I-D.ietf-core-comi" format="default" sectionFormat="of" derivedContent="CORE-COMI"/>, using SIDs, as defined in <xref target="sid" format="default" sectionFormat="of" derivedContent="Section 3.2"/>.</t>
+        <t indent="0" pn="section-5.1-3">CBOR diagnostic notation:</t>
+        <sourcecode type="cbor-diag" markers="false" pn="section-5.1-4">
+{
+  1024 : {                      / error  (SID 1024) /
+    4 : 1011,                   / error-tag (SID 1028) /
+                                / = invalid-value (SID 1011) /
+    1 : 1018,                   / error-app-tag (SID 1025) /
+                                / = not-in-range (SID 1018) /
+    2 : 1740,                   / error-data-node (SID 1026) /
+                                / = timezone-utc-offset (SID 1740) /
+    3 : "Maximum exceeded"      / error-message (SID 1027) /
+  }
+}
+</sourcecode>
+        <t indent="0" pn="section-5.1-5">CBOR encoding:</t>
+        <sourcecode type="cbor-pretty" markers="false" pn="section-5.1-6">
+A1                                      # map(1)
+   19 0400                              # unsigned(1024)
+   A4                                   # map(4)
+      04                                # unsigned(4)
+      19 03F3                           # unsigned(1011)
+      01                                # unsigned(1)
+      19 03FA                           # unsigned(1018)
+      02                                # unsigned(2)
+      19 06CC                           # unsigned(1740)
+      03                                # unsigned(3)
+      70                                # text(16)
+         4D6178696D756D206578636565646564 # "Maximum exceeded"
+</sourcecode>
+      </section>
+      <section anchor="using-names-in-keys-5" numbered="true" removeInRFC="false" toc="include" pn="section-5.2">
+        <name slugifiedName="name-using-names-in-keys-7">Using Names in Keys</name>
+        <t indent="0" pn="section-5.2-1">The yang-data extensions encoded using names are carried in a CBOR map containing a single item pair. The key of this item is set to the namespace-qualified name of the yang-data extension container; the value is set to the CBOR encoding of this container, as defined in <xref target="container" format="default" sectionFormat="of" derivedContent="Section 4.2"/>.</t>
+        <t indent="0" pn="section-5.2-2">This example shows a serialization example of the yang-errors yang-data extension, as defined in <xref target="I-D.ietf-core-comi" format="default" sectionFormat="of" derivedContent="CORE-COMI"/>, using names, as defined <xref target="name" format="default" sectionFormat="of" derivedContent="Section 3.3"/>.</t>
+        <t indent="0" pn="section-5.2-3">CBOR diagnostic notation:</t>
+        <sourcecode type="cbor-diag" markers="false" pn="section-5.2-4">
+{
+  "ietf-coreconf:error" : {
+    "error-tag" : "invalid-value",
+    "error-app-tag" : "not-in-range",
+    "error-data-node" : "timezone-utc-offset",
+    "error-message" : "Maximum exceeded"
+  }
+}
+</sourcecode>
+        <t keepWithNext="true" indent="0" pn="section-5.2-5">CBOR encoding:</t>
+        <sourcecode type="cbor-pretty" markers="false" pn="section-5.2-6">
+A1                                           # map(1)
+   73                                        # text(19)
+      696574662D636F7265636F6E663A6572726F72 # "ietf-coreconf:error"
+   A4                                        # map(4)
+      69                                     # text(9)
+         6572726F722D746167                  # "error-tag"
+      6D                                     # text(13)
+         696E76616C69642D76616C7565          # "invalid-value"
+      6D                                     # text(13)
+         6572726F722D6170702D746167          # "error-app-tag"
+      6C                                     # text(12)
+         6E6F742D696E2D72616E6765            # "not-in-range"
+      6F                                     # text(15)
+         6572726F722D646174612D6E6F6465      # "error-data-node"
+      73                                     # text(19)
+         74696D657A6F6E652D7574632D6F6666736574
+                                             # "timezone-utc-offset"
+      6D                                     # text(13)
+         6572726F722D6D657373616765          # "error-message"
+      70                                     # text(16)
+         4D6178696D756D206578636565646564    # "Maximum exceeded"
+</sourcecode>
+      </section>
+    </section>
+    <section anchor="data-types-mapping" numbered="true" removeInRFC="false" toc="include" pn="section-6">
+      <name slugifiedName="name-representing-yang-data-type">Representing YANG Data Types in CBOR</name>
+      <t indent="0" pn="section-6-1">The CBOR encoding of an instance of a leaf or leaf-list representation node
+depends on the built-in type of that representation node. The following
+subsection defines the CBOR encoding of each built-in type supported
+by YANG, as listed in <xref section="4.2.4" sectionFormat="of" target="RFC7950" format="default" derivedLink="https://rfc-editor.org/rfc/rfc7950#section-4.2.4" derivedContent="RFC7950"/>. Each subsection shows an example value assigned to a representation node instance of the discussed built-in type.</t>
+      <section anchor="the-unsigned-integer-types" numbered="true" removeInRFC="false" toc="include" pn="section-6.1">
+        <name slugifiedName="name-the-unsigned-integer-types">The Unsigned Integer Types</name>
+        <t indent="0" pn="section-6.1-1">Leafs of type uint8, uint16, uint32, and uint64 <bcp14>MUST</bcp14> be encoded using a CBOR
+unsigned integer data item (major type 0).</t>
+        <t indent="0" pn="section-6.1-2">The following example shows the encoding of an 'mtu' leaf representation node instance set to 1280 bytes.</t>
+        <t indent="0" pn="section-6.1-3">Definition example adapted from <xref target="RFC8344" format="default" sectionFormat="of" derivedContent="RFC8344"/>:</t>
+        <sourcecode type="yang" markers="false" pn="section-6.1-4">
+leaf mtu {
+  type uint16 {
+    range "68..max";
+  }
+}
+</sourcecode>
+        <t indent="0" pn="section-6.1-5">CBOR diagnostic notation: 1280</t>
+        <t indent="0" pn="section-6.1-6">CBOR encoding: 19 0500</t>
+      </section>
+      <section anchor="the-integer-types" numbered="true" removeInRFC="false" toc="include" pn="section-6.2">
+        <name slugifiedName="name-the-integer-types">The Integer Types</name>
+        <t indent="0" pn="section-6.2-1">Leafs of type int8, int16, int32, and int64 <bcp14>MUST</bcp14> be encoded using either a CBOR
+unsigned integer (major type 0) or a CBOR negative integer (major type 1), depending
+on the actual value.</t>
+        <t indent="0" pn="section-6.2-2">The following example shows the encoding of a 'timezone-utc-offset' leaf representation node instance set to -300 minutes.</t>
+        <t indent="0" pn="section-6.2-3">Definition example adapted from <xref target="RFC7317" format="default" sectionFormat="of" derivedContent="RFC7317"/>:</t>
+        <sourcecode type="yang" markers="false" pn="section-6.2-4">
+leaf timezone-utc-offset {
+  type int16 {
+    range "-1500 .. 1500";
+  }
+}
+</sourcecode>
+        <t indent="0" pn="section-6.2-5">CBOR diagnostic notation: -300</t>
+        <t indent="0" pn="section-6.2-6">CBOR encoding: 39 012B</t>
+      </section>
+      <section anchor="the-decimal64-type" numbered="true" removeInRFC="false" toc="include" pn="section-6.3">
+        <name slugifiedName="name-the-decimal64-type">The 'decimal64' Type</name>
+        <t indent="0" pn="section-6.3-1">Leafs of type decimal64 <bcp14>MUST</bcp14> be encoded using a decimal fraction, as defined in <xref section="3.4.4" sectionFormat="of" target="RFC8949" format="default" derivedLink="https://rfc-editor.org/rfc/rfc8949#section-3.4.4" derivedContent="RFC8949"/>.</t>
+        <t indent="0" pn="section-6.3-2">The following example shows the encoding of a 'my-decimal' leaf representation node instance set to 2.57.</t>
+        <t indent="0" pn="section-6.3-3">Definition example adapted from <xref target="RFC7317" format="default" sectionFormat="of" derivedContent="RFC7317"/>:</t>
+        <sourcecode type="yang" markers="false" pn="section-6.3-4">
+leaf my-decimal {
+  type decimal64 {
+    fraction-digits 2;
+    range "1 .. 3.14 | 10 | 20..max";
+  }
+}
+</sourcecode>
+        <t indent="0" pn="section-6.3-5">CBOR diagnostic notation: 4([-2, 257])</t>
+        <t indent="0" pn="section-6.3-6">CBOR encoding: C4 82 21 19 0101</t>
+      </section>
+      <section anchor="the-string-type" numbered="true" removeInRFC="false" toc="include" pn="section-6.4">
+        <name slugifiedName="name-the-string-type">The 'string' Type</name>
+        <t indent="0" pn="section-6.4-1">Leafs of type string <bcp14>MUST</bcp14> be encoded using a CBOR text string data item (major
+type 3).</t>
+        <t indent="0" pn="section-6.4-2">The following example shows the encoding of a 'name' leaf representation node instance set to "eth0".</t>
+        <t indent="0" pn="section-6.4-3">Definition example adapted from <xref target="RFC8343" format="default" sectionFormat="of" derivedContent="RFC8343"/>:</t>
+        <sourcecode type="yang" markers="false" pn="section-6.4-4">
+leaf name {
+  type string;
+}
+</sourcecode>
+        <t indent="0" pn="section-6.4-5">CBOR diagnostic notation: "eth0"</t>
+        <t indent="0" pn="section-6.4-6">CBOR encoding: 64 65746830</t>
+      </section>
+      <section anchor="the-boolean-type" numbered="true" removeInRFC="false" toc="include" pn="section-6.5">
+        <name slugifiedName="name-the-boolean-type">The 'boolean' Type</name>
+        <t indent="0" pn="section-6.5-1">Leafs of type boolean <bcp14>MUST</bcp14> be encoded using a CBOR simple value 'true' (major type 7, additional information 21) or 'false' (major type 7, additional information 20).</t>
+        <t indent="0" pn="section-6.5-2">The following example shows the encoding of an 'enabled' leaf representation node instance set to 'true'.</t>
+        <t indent="0" pn="section-6.5-3">Definition example adapted from <xref target="RFC7317" format="default" sectionFormat="of" derivedContent="RFC7317"/>:</t>
+        <sourcecode type="yang" markers="false" pn="section-6.5-4">
+leaf enabled {
+  type boolean;
+}
+</sourcecode>
+        <t indent="0" pn="section-6.5-5">CBOR diagnostic notation: true</t>
+        <t indent="0" pn="section-6.5-6">CBOR encoding: F5</t>
+      </section>
+      <section anchor="enumeration" numbered="true" removeInRFC="false" toc="include" pn="section-6.6">
+        <name slugifiedName="name-the-enumeration-type">The 'enumeration' Type</name>
+        <t indent="0" pn="section-6.6-1">Leafs of type enumeration <bcp14>MUST</bcp14> be encoded using a CBOR unsigned
+integer (major type 0) or CBOR negative integer (major type 1),
+depending on the actual value, or exceptionally as a tagged text string (see below).
+Enumeration values are either
+explicitly assigned using the YANG statement 'value' or automatically
+assigned based on the algorithm defined in <xref section="9.6.4.2" sectionFormat="of" target="RFC7950" format="default" derivedLink="https://rfc-editor.org/rfc/rfc7950#section-9.6.4.2" derivedContent="RFC7950"/>.</t>
+        <t indent="0" pn="section-6.6-2">The following example shows the encoding of an 'oper-status' leaf representation node instance set to 'testing'.</t>
+        <t keepWithNext="true" indent="0" pn="section-6.6-3">Definition example adapted from <xref target="RFC7317" format="default" sectionFormat="of" derivedContent="RFC7317"/>:</t>
+        <sourcecode type="yang" markers="false" pn="section-6.6-4">
+leaf oper-status {
+  type enumeration {
+    enum up { value 1; }
+    enum down { value 2; }
+    enum testing { value 3; }
+    enum unknown { value 4; }
+    enum dormant { value 5; }
+    enum not-present { value 6; }
+    enum lower-layer-down { value 7; }
+  }
+}
+</sourcecode>
+        <t indent="0" pn="section-6.6-5">CBOR diagnostic notation: 3</t>
+        <t indent="0" pn="section-6.6-6">CBOR encoding: 03</t>
+        <t indent="0" pn="section-6.6-7">Values of 'enumeration' types defined in a 'union' type <bcp14>MUST</bcp14> be encoded using a
+CBOR text string data item (major type 3) and <bcp14>MUST</bcp14> contain one of the names
+assigned by 'enum' statements in YANG (see also <xref target="union" format="default" sectionFormat="of" derivedContent="Section 6.12"/>).
+The encoding <bcp14>MUST</bcp14> be enclosed by the
+enumeration CBOR tag, as specified in <xref target="tag-registry" format="default" sectionFormat="of" derivedContent="Section 9.3"/>.</t>
+        <t indent="0" pn="section-6.6-8">Definition example adapted from <xref target="RFC7950" format="default" sectionFormat="of" derivedContent="RFC7950"/>:</t>
+        <sourcecode type="yang" markers="false" pn="section-6.6-9">
+type union {
+  type int32;
+  type enumeration {
+    enum unbounded;
+  }
+}
+</sourcecode>
+        <t indent="0" pn="section-6.6-10">CBOR diagnostic notation: 44("unbounded")</t>
+        <t indent="0" pn="section-6.6-11">CBOR encoding: D8 2C 69 756E626F756E646564</t>
+      </section>
+      <section anchor="bits" numbered="true" removeInRFC="false" toc="include" pn="section-6.7">
+        <name slugifiedName="name-the-bits-type">The 'bits' Type</name>
+        <t indent="0" pn="section-6.7-1">Keeping in mind that bit positions are either explicitly assigned using the
+YANG statement 'position' or automatically assigned based on the algorithm
+defined in <xref section="9.7.4.2" sectionFormat="of" target="RFC7950" format="default" derivedLink="https://rfc-editor.org/rfc/rfc7950#section-9.7.4.2" derivedContent="RFC7950"/>, each element of type bits could be seen
+as a set of bit positions (or offsets from position 0) that have a value of
+either 1, which represents the bit being set, or 0, which represents that the bit
+is not set.</t>
+        <t indent="0" pn="section-6.7-2">Leafs of type bits <bcp14>MUST</bcp14> be encoded either using a CBOR array (major type 4) or byte string
+(major type 2) or exceptionally as a tagged text string (see below). In case CBOR array representation is used, each element is
+either (1) a positive integer (major type 0 with value 0 being
+disallowed) that can be used to calculate the offset of the next byte string or (2) a byte
+string (major type 2) that carries the information regarding whether certain bits are set
+or not. The initial offset value is 0, and each unsigned integer modifies the
+offset value of the next byte string by the integer value multiplied by 8. For
+example, if the bit offset is 0 and there is an integer with value 5, the first
+byte of the byte string that follows will represent bit positions 40 to 47, with both
+ends included. If the byte string has a second byte, it will carry information
+about bits 48 to 55, and so on. Within each byte, bits are assigned from least
+to most significant. After the byte string, the offset is modified by the number
+of bytes in the byte string multiplied by 8.
+Bytes with no bits set (zero bytes) at the end of the byte string are never generated.
+If they occur at the end of the array, the zero bytes are simply omitted;
+if they occur at the end of a byte string preceding an integer, the
+zero bytes are removed and the integer is adjusted upwards by the number
+of zero bytes that were removed.
+An example follows.</t>
+        <t indent="0" pn="section-6.7-3">The following example shows the encoding of an 'alarm-state' leaf representation node
+instance with the 'critical' (position 2), 'warning' (position 8), and
+'indeterminate' (position 128) flags set.</t>
+        <sourcecode type="yang" markers="false" pn="section-6.7-4">
+typedef alarm-state {
+  type bits {
+    bit unknown;
+    bit under-repair;
+    bit critical;
+    bit major;
+    bit minor;
+    bit warning {
+      position 8;
+    }
+    bit indeterminate {
+      position 128;
+    }
+  }
+}
+
+leaf alarm-state {
+  type alarm-state;
+}
+</sourcecode>
+        <t indent="0" pn="section-6.7-5">CBOR diagnostic notation: [h'0401', 14, h'01']</t>
+        <t indent="0" pn="section-6.7-6">CBOR encoding: 83 42 0401 0E 41 01</t>
+        <t indent="0" pn="section-6.7-7">In a number of cases, the array would only need to have one element -- a byte string with a few bytes inside.
+For this case, it is <bcp14>REQUIRED</bcp14> to omit the array element and have only the byte array that would have been inside.
+To illustrate this, let us consider the same example YANG definition but this time encoding only 'under-repair' and 'critical' flags.
+The result would be</t>
+        <t indent="0" pn="section-6.7-8">CBOR diagnostic notation: h'06'</t>
+        <t indent="0" pn="section-6.7-9">CBOR encoding: 41 06</t>
+        <t indent="0" pn="section-6.7-10">Elements in the array <bcp14>MUST</bcp14> be either byte strings that do not end in
+a zero byte or positive unsigned
+integers, where byte strings and integers <bcp14>MUST</bcp14> alternate, i.e., adjacent byte
+strings or adjacent integers are an error. An array with a single byte string
+<bcp14>MUST</bcp14> instead be encoded as just that byte string. An array with a single
+positive integer is an error.
+Note that a recipient can handle trailing zero bytes in the byte strings using the normal
+rules without any issue, so an implementation <bcp14>MAY</bcp14> silently accept them.</t>
+        <t indent="0" pn="section-6.7-11">Values of 'bits' types defined in a 'union' type <bcp14>MUST</bcp14> be encoded using a
+CBOR text string data item (major type 3) and <bcp14>MUST</bcp14> contain a space-separated
+sequence of names of 'bits' that are set (see also <xref target="union" format="default" sectionFormat="of" derivedContent="Section 6.12"/>).
+The encoding <bcp14>MUST</bcp14> be enclosed by the
+bits CBOR tag, as specified in <xref target="tag-registry" format="default" sectionFormat="of" derivedContent="Section 9.3"/>.</t>
+        <t indent="0" pn="section-6.7-12">The following example shows the encoding of an 'alarm-state' leaf representation node
+instance defined using a union type with the 'under-repair' and 'critical'
+flags set.</t>
+        <t indent="0" pn="section-6.7-13">Definition example:</t>
+        <sourcecode type="yang" markers="false" pn="section-6.7-14">
+leaf alarm-state-2 {
+  type union {
+    type alarm-state;
+    type bits {
+      bit extra-flag;
+    }
+  }
+}
+</sourcecode>
+        <t indent="0" pn="section-6.7-15">CBOR diagnostic notation: 43("under-repair critical")</t>
+        <t indent="0" pn="section-6.7-16">CBOR encoding: D8 2B 75 756E6465722D72657061697220637269746963616C</t>
+      </section>
+      <section anchor="the-binary-type" numbered="true" removeInRFC="false" toc="include" pn="section-6.8">
+        <name slugifiedName="name-the-binary-type">The 'binary' Type</name>
+        <t indent="0" pn="section-6.8-1">Leafs of type binary <bcp14>MUST</bcp14> be encoded using a CBOR byte string data item (major
+type 2).</t>
+        <t indent="0" pn="section-6.8-2">The following example shows the encoding of an 'aes128-key' leaf representation node
+instance set to 0x1f1ce6a3f42660d888d92a4d8030476e.</t>
+        <t indent="0" pn="section-6.8-3">Definition example:</t>
+        <sourcecode type="yang" markers="false" pn="section-6.8-4">
+leaf aes128-key {
+  type binary {
+    length 16;
+  }
+}
+</sourcecode>
+        <t indent="0" pn="section-6.8-5">CBOR diagnostic notation: h'1F1CE6A3F42660D888D92A4D8030476E'</t>
+        <t indent="0" pn="section-6.8-6">CBOR encoding: 50 1F1CE6A3F42660D888D92A4D8030476E</t>
+      </section>
+      <section anchor="the-leafref-type" numbered="true" removeInRFC="false" toc="include" pn="section-6.9">
+        <name slugifiedName="name-the-leafref-type">The 'leafref' Type</name>
+        <t indent="0" pn="section-6.9-1">Leafs of type leafref <bcp14>MUST</bcp14> be encoded using the rules of the representation node referenced
+by the 'path' YANG statement.</t>
+        <t indent="0" pn="section-6.9-2">The following example shows the encoding of an 'interface-state-ref' leaf representation node instance set to "eth1".</t>
+        <t indent="0" pn="section-6.9-3">Definition example adapted from <xref target="RFC8343" format="default" sectionFormat="of" derivedContent="RFC8343"/>:</t>
+        <sourcecode type="yang" markers="false" pn="section-6.9-4">
+typedef interface-state-ref {
+  type leafref {
+    path "/interfaces-state/interface/name";
+  }
+}
+
+container interfaces-state {
+  list interface {
+    key "name";
+    leaf name {
+      type string;
+    }
+    leaf-list higher-layer-if {
+      type interface-state-ref;
+    }
+  }
+}
+</sourcecode>
+        <t indent="0" pn="section-6.9-5">CBOR diagnostic notation: "eth1"</t>
+        <t indent="0" pn="section-6.9-6">CBOR encoding: 64 65746831</t>
+      </section>
+      <section anchor="identityref" numbered="true" removeInRFC="false" toc="include" pn="section-6.10">
+        <name slugifiedName="name-the-identityref-type">The 'identityref' Type</name>
+        <t indent="0" pn="section-6.10-1">This specification supports two approaches for encoding identityref:
+as a YANG Schema Item iDentifier, as defined in <xref target="sid" format="default" sectionFormat="of" derivedContent="Section 3.2"/>, or as a name, 
+as defined in <xref section="6.8" sectionFormat="of" target="RFC7951" format="default" derivedLink="https://rfc-editor.org/rfc/rfc7951#section-6.8" derivedContent="RFC7951"/>.
+See <xref target="union" format="default" sectionFormat="of" derivedContent="Section 6.12"/> for an exceptional case when this representation needs to be tagged.</t>
+        <section anchor="identityref-with-sid" numbered="true" removeInRFC="false" toc="include" pn="section-6.10.1">
+          <name slugifiedName="name-sids-as-identityref">SIDs as 'identityref'</name>
+          <t indent="0" pn="section-6.10.1-1">When representation nodes of type identityref are implemented using SIDs, they <bcp14>MUST</bcp14> be encoded using a CBOR unsigned integer data item (major type 0).
+	  (Note that, as they are not used in the position of CBOR map keys, no delta mechanism is employed for SIDs used for identityref.)</t>
+          <t indent="0" pn="section-6.10.1-2">The following example shows the encoding of a 'type' leaf representation node instance set to the value 'iana-if-type:ethernetCsmacd' (SID 1880).</t>
+          <t indent="0" pn="section-6.10.1-3">Definition example adapted from <xref target="RFC7317" format="default" sectionFormat="of" derivedContent="RFC7317"/>:</t>
+          <sourcecode type="yang" markers="false" pn="section-6.10.1-4">
+identity interface-type {
+}
+
+identity iana-interface-type {
+  base interface-type;
+}
+
+identity ethernetCsmacd {
+  base iana-interface-type;
+}
+
+leaf type {
+  type identityref {
+    base interface-type;
+  }
+}
+</sourcecode>
+          <t indent="0" pn="section-6.10.1-5">CBOR diagnostic notation: 1880</t>
+          <t indent="0" pn="section-6.10.1-6">CBOR encoding: 19 0758</t>
+        </section>
+        <section anchor="name-as-identityref" numbered="true" removeInRFC="false" toc="include" pn="section-6.10.2">
+          <name slugifiedName="name-name-as-identityref">Name as 'identityref'</name>
+          <t indent="0" pn="section-6.10.2-1">Alternatively, an identityref <bcp14>MAY</bcp14> be encoded using a name, as defined in <xref target="name" format="default" sectionFormat="of" derivedContent="Section 3.3"/>.  When names are used, identityref <bcp14>MUST</bcp14> be encoded using a CBOR text string data item (major type 3). If the identity is defined in a different module than the leaf node containing the identityref data node, the namespace-qualified form <bcp14>MUST</bcp14> be used. Otherwise, both the simple and namespace-qualified forms are permitted. Names and namespaces are defined in <xref target="name" format="default" sectionFormat="of" derivedContent="Section 3.3"/>.</t>
+          <t indent="0" pn="section-6.10.2-2">The following example shows the encoding of the identity 'iana-if-type:ethernetCsmacd' using its namespace-qualified name. This example is described in <xref target="identityref-with-sid" format="default" sectionFormat="of" derivedContent="Section 6.10.1"/>.</t>
+          <t indent="0" pn="section-6.10.2-3">CBOR diagnostic notation: "iana-if-type:ethernetCsmacd"</t>
+          <t indent="0" pn="section-6.10.2-4">CBOR encoding: 78 1B 69616E612D69662D747970653A65746865726E657443736D616364</t>
+        </section>
+      </section>
+      <section anchor="the-empty-type" numbered="true" removeInRFC="false" toc="include" pn="section-6.11">
+        <name slugifiedName="name-the-empty-type">The 'empty' Type</name>
+        <t indent="0" pn="section-6.11-1">Leafs of type empty <bcp14>MUST</bcp14> be encoded using the CBOR null value (major type
+7, additional information 22).</t>
+        <t indent="0" pn="section-6.11-2">The following example shows the encoding of an 'is-router' leaf representation node instance when present.</t>
+        <t indent="0" pn="section-6.11-3">Definition example adapted from <xref target="RFC8344" format="default" sectionFormat="of" derivedContent="RFC8344"/>:</t>
+        <sourcecode type="yang" markers="false" pn="section-6.11-4">
+leaf is-router {
+  type empty;
+}
+</sourcecode>
+        <t indent="0" pn="section-6.11-5">CBOR diagnostic notation: null</t>
+        <t indent="0" pn="section-6.11-6">CBOR encoding: F6</t>
+      </section>
+      <section anchor="union" numbered="true" removeInRFC="false" toc="include" pn="section-6.12">
+        <name slugifiedName="name-the-union-type">The 'union' Type</name>
+        <t indent="0" pn="section-6.12-1">Leafs of type union <bcp14>MUST</bcp14> be encoded using the rules associated with one of the types listed.
+When used in a union, the following YANG datatypes are enclosed by a CBOR tag to avoid confusion
+between different YANG datatypes encoded using the same CBOR major type.</t>
+        <ul spacing="normal" bare="false" empty="false" indent="3" pn="section-6.12-2">
+          <li pn="section-6.12-2.1">bits</li>
+          <li pn="section-6.12-2.2">enumeration</li>
+          <li pn="section-6.12-2.3">identityref</li>
+          <li pn="section-6.12-2.4">instance-identifier</li>
+        </ul>
+        <t indent="0" pn="section-6.12-3">See <xref target="tag-registry" format="default" sectionFormat="of" derivedContent="Section 9.3"/> for the assigned value of these CBOR tags.</t>
+        <t indent="0" pn="section-6.12-4">As mentioned in Sections <xref target="enumeration" format="counter" sectionFormat="of" derivedContent="6.6"/> and in <xref target="bits" format="counter" sectionFormat="of" derivedContent="6.7"/>, 'enumeration' and 'bits' are encoded as a CBOR text string data item (major type 3) when defined within a 'union' type.
+(This adds considerable complexity but is necessary because of an
+idiosyncrasy of the YANG data model for unions; the work-around allows
+compatibility to be maintained with the encoding of overlapping unions
+in XML and JSON.
+See also <xref section="9.12" sectionFormat="of" target="RFC7950" format="default" derivedLink="https://rfc-editor.org/rfc/rfc7950#section-9.12" derivedContent="RFC7950"/>.)</t>
+        <t indent="0" pn="section-6.12-5">The following example shows the encoding of an 'ip-address' leaf representation node instance when set to "2001:db8:a0b:12f0::1".</t>
+        <t keepWithNext="true" indent="0" pn="section-6.12-6">Definition example adapted from <xref target="RFC6991" format="default" sectionFormat="of" derivedContent="RFC6991"/>:</t>
+        <sourcecode type="yang" markers="false" pn="section-6.12-7">
+typedef ipv4-address {
+  type string {
+    pattern
+      '(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\.){3}'
+    +  '([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])'
+    + '(%[\p{N}\p{L}]+)?';
+  }
+}
+
+typedef ipv6-address {
+  type string {
+    pattern '((:|[0-9a-fA-F]{0,4}):)([0-9a-fA-F]{0,4}:){0,5}'
+          + '((([0-9a-fA-F]{0,4}:)?(:|[0-9a-fA-F]{0,4}))|'
+          + '(((25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])\.){3}'
+          + '(25[0-5]|2[0-4][0-9]|[01]?[0-9]?[0-9])))'
+          + '(%[\p{N}\p{L}]+)?';
+    pattern '(([^:]+:){6}(([^:]+:[^:]+)|(.*\..*)))|'
+          + '((([^:]+:)*[^:]+)?::(([^:]+:)*[^:]+)?)'
+          + '(%.+)?';
+  }
+}
+
+typedef ip-address {
+  type union {
+    type ipv4-address;
+    type ipv6-address;
+  }
+}
+
+leaf address {
+  type ip-address;
+}
+</sourcecode>
+        <t indent="0" pn="section-6.12-8">CBOR diagnostic notation: "2001:db8:a0b:12f0::1"</t>
+        <t indent="0" pn="section-6.12-9">CBOR encoding: 74 323030313A6462383A6130623A313266303A3A31</t>
+      </section>
+      <section anchor="instance-id" numbered="true" removeInRFC="false" toc="include" pn="section-6.13">
+        <name slugifiedName="name-the-instance-identifier-typ">The 'instance-identifier' Type</name>
+        <t indent="0" pn="section-6.13-1">This specification supports two approaches for encoding an instance-identifier: one based on YANG Schema Item iDentifier, as defined in <xref target="sid" format="default" sectionFormat="of" derivedContent="Section 3.2"/>, and one based on names, as defined in <xref target="name" format="default" sectionFormat="of" derivedContent="Section 3.3"/>.
+See <xref target="union" format="default" sectionFormat="of" derivedContent="Section 6.12"/> for an exceptional case when this representation needs to be tagged.</t>
+        <section anchor="instance-identifier-with-sid" numbered="true" removeInRFC="false" toc="include" pn="section-6.13.1">
+          <name slugifiedName="name-sids-as-instance-identifier">SIDs as 'instance-identifier'</name>
+          <t indent="0" pn="section-6.13.1-1">SIDs uniquely identify a schema node. In the case of a single instance schema node, i.e., a schema node defined at the root of a YANG module or submodule or schema nodes defined within a container, the SID is sufficient to identify this instance (representation node).	  
+	  (Note that no delta mechanism is employed for SIDs used for identityref, see <xref target="identityref-with-sid" format="default" sectionFormat="of" derivedContent="Section 6.10.1"/>.)
+          </t>
+          <t indent="0" pn="section-6.13.1-2">In the case of a representation node that is an entry of a YANG list, a SID is combined with the list key(s) to identify each instance within the YANG list(s).</t>
+          <t indent="0" pn="section-6.13.1-3">Instance-identifiers of single instance schema nodes <bcp14>MUST</bcp14> be encoded using a CBOR unsigned integer data item (major type 0) and set to the targeted schema node SID.</t>
+          <t indent="0" pn="section-6.13.1-4">Instance-identifiers of representation node entries of a YANG list <bcp14>MUST</bcp14> be encoded using a CBOR array data item (major type 4) containing the following entries:</t>
+          <ul spacing="normal" bare="false" empty="false" indent="3" pn="section-6.13.1-5">
+            <li pn="section-6.13.1-5.1">The first entry <bcp14>MUST</bcp14> be encoded as a CBOR unsigned integer data item (major type 0) and set to the targeted schema node SID.</li>
+            <li pn="section-6.13.1-5.2">The following entries <bcp14>MUST</bcp14> contain the value of each key required to identify the instance of the targeted schema node. These keys <bcp14>MUST</bcp14> be ordered as defined in the 'key' YANG statement, starting from the top-level list, and followed by each subordinate list(s).</li>
+          </ul>
+          <t indent="0" pn="section-6.13.1-6">Examples within this section assume the definition of a schema node of type 'instance-identifier':</t>
+          <t indent="0" pn="section-6.13.1-7">Definition example adapted from <xref target="RFC7950" format="default" sectionFormat="of" derivedContent="RFC7950"/>:</t>
+          <sourcecode type="yang" markers="false" pn="section-6.13.1-8">
+container system {
+  ...
+  leaf reporting-entity {
+    type instance-identifier;
+  }
+</sourcecode>
+          <t indent="0" pn="section-6.13.1-9"><strong>First example:</strong></t>
+          <t indent="0" pn="section-6.13.1-10">The following example shows the encoding of the 'reporting-entity' value referencing data node instance "/system/contact" (SID 1741).</t>
+          <t indent="0" pn="section-6.13.1-11">Definition example adapted from <xref target="RFC7317" format="default" sectionFormat="of" derivedContent="RFC7317"/>:</t>
+          <sourcecode type="yang" markers="false" pn="section-6.13.1-12">
+container system {
+
+  leaf contact {
+    type string;
+  }
+
+  leaf hostname {
+    type inet:domain-name;
+  }
+}
+</sourcecode>
+          <t indent="0" pn="section-6.13.1-13">CBOR diagnostic notation: 1741</t>
+          <t indent="0" pn="section-6.13.1-14">CBOR encoding: 19 06CD</t>
+          <t keepWithNext="true" indent="0" pn="section-6.13.1-15"><strong>Second example:</strong></t>
+          <t indent="0" pn="section-6.13.1-16">This example aims to show how a representation node entry of a YANG list is identified.
+It uses a somewhat arbitrarily modified YANG module version from <xref target="RFC7317" format="default" sectionFormat="of" derivedContent="RFC7317"/> by
+adding <tt>country</tt> to the leafs and keys of <tt>authorized-key</tt>.</t>
+          <t indent="0" pn="section-6.13.1-17">The following example shows the encoding of the 'reporting-entity' value referencing list instance "/system/authentication/user/authorized-key/key-data" (which is assumed to have SID 1734) for username "bob" and authorized-key with name "admin" and country "france".</t>
+          <sourcecode type="yang" markers="false" pn="section-6.13.1-18">
+list user {
+  key name;
+
+  leaf name {
+    type string;
+  }
+
+  leaf password {
+    type ianach:crypt-hash;
+  }
+
+  list authorized-key {
+    key "name country";
+
+    leaf country {
+      type string;
+    }
+
+    leaf name {
+      type string;
+    }
+
+    leaf algorithm {
+      type string;
+    }
+
+    leaf key-data {
+      type binary;
+    }
+  }
+}
+</sourcecode>
+          <t indent="0" pn="section-6.13.1-19">CBOR diagnostic notation: [1734, "bob", "admin", "france"]</t>
+          <t keepWithNext="true" indent="0" pn="section-6.13.1-20">CBOR encoding:</t>
+          <sourcecode type="cbor-pretty" markers="false" pn="section-6.13.1-21">
+84                 # array(4)
+   19 06C6         # unsigned(1734)
+   63              # text(3)
+      626F62       # "bob"
+   65              # text(5)
+      61646D696E   # "admin"
+   66              # text(6)
+      6672616E6365 # "france"
+</sourcecode>
+          <t indent="0" pn="section-6.13.1-22"><strong>Third example:</strong></t>
+          <t indent="0" pn="section-6.13.1-23">The following example shows the encoding of the 'reporting-entity' value referencing the list instance "/system/authentication/user" (SID 1730), corresponding to username "jack".</t>
+          <t indent="0" pn="section-6.13.1-24">CBOR diagnostic notation: [1730, "jack"]</t>
+          <t indent="0" pn="section-6.13.1-25">CBOR encoding:</t>
+          <sourcecode type="cbor-pretty" markers="false" pn="section-6.13.1-26">
+82             # array(2)
+   19 06C2     # unsigned(1730)
+   64          # text(4)
+      6A61636B # "jack"
+</sourcecode>
+        </section>
+        <section anchor="names-as-instance-identifier" numbered="true" removeInRFC="false" toc="include" pn="section-6.13.2">
+          <name slugifiedName="name-names-as-instance-identifie">Names as 'instance-identifier'</name>
+          <t indent="0" pn="section-6.13.2-1">An 'instance-identifier' value is encoded as a text string that is
+analogous to the lexical representation in XML encoding; see <xref section="9.13.2" sectionFormat="of" target="RFC7950" format="default" derivedLink="https://rfc-editor.org/rfc/rfc7950#section-9.13.2" derivedContent="RFC7950"/>. However, the encoding of namespaces in instance-identifier values follows the rules stated in <xref target="name" format="default" sectionFormat="of" derivedContent="Section 3.3"/>, namely:</t>
+          <ul spacing="normal" bare="false" empty="false" indent="3" pn="section-6.13.2-2">
+            <li pn="section-6.13.2-2.1">The leftmost (top-level) data node name is always in the namespace-qualified form.</li>
+            <li pn="section-6.13.2-2.2">Any subsequent data node name is in the namespace-qualified form if the node is defined in a module other than its parent node; otherwise, the simple form is used. This rule also holds for node names appearing in predicates.</li>
+          </ul>
+          <t indent="0" pn="section-6.13.2-3">For example,</t>
+          <t indent="0" pn="section-6.13.2-4">/ietf-interfaces:interfaces/interface[name='eth0']/ietf-ip:ipv4/ip</t>
+          <t indent="0" pn="section-6.13.2-5">is a valid instance-identifier value because the data nodes "interfaces", "interface", and "name" are defined in the module "ietf-interfaces", whereas "ipv4" and "ip" are defined in "ietf-ip".</t>
+          <t indent="0" pn="section-6.13.2-6">The resulting XML Path Language (XPath) <bcp14>MUST</bcp14> be encoded using a CBOR text string data item (major type 3).</t>
+          <t indent="0" pn="section-6.13.2-7"><strong>First example:</strong></t>
+          <t indent="0" pn="section-6.13.2-8">This example is described in <xref target="instance-identifier-with-sid" format="default" sectionFormat="of" derivedContent="Section 6.13.1"/>.</t>
+          <t indent="0" pn="section-6.13.2-9">CBOR diagnostic notation: "/ietf-system:system/contact"</t>
+          <t indent="0" pn="section-6.13.2-10">CBOR encoding:</t>
+          <sourcecode type="cbor-pretty" markers="false" pn="section-6.13.2-11">
+78 1B 2F696574662D73797374656D3A73797374656D2F636F6E74616374
+</sourcecode>
+          <t indent="0" pn="section-6.13.2-12"><strong>Second example:</strong></t>
+          <t indent="0" pn="section-6.13.2-13">This example is described in <xref target="instance-identifier-with-sid" format="default" sectionFormat="of" derivedContent="Section 6.13.1"/>.</t>
+          <t indent="0" pn="section-6.13.2-14">CBOR diagnostic notation (the line break is inserted for exposition only):</t>
+          <sourcecode type="cbor-diag" markers="false" pn="section-6.13.2-15">
+"/ietf-system:system/authentication/user[name='bob']/
+authorized-key[name='admin'][country='france']/key-data"
+</sourcecode>
+          <t indent="0" pn="section-6.13.2-16">CBOR encoding:</t>
+          <sourcecode type="cbor-pretty" markers="false" pn="section-6.13.2-17">
+78 6B
+   2F696574662D73797374656D3A73797374656D2F61757468656E74696361
+   74696F6E2F757365725B6E616D653D27626F62275D2F617574686F72697A
+   65642D6B65795B6E616D653D2761646D696E275D5B636F756E7472793D27
+   6672616E6365275D2F6B65792D64617461
+</sourcecode>
+          <t indent="0" pn="section-6.13.2-18"><strong>Third example:</strong></t>
+          <t indent="0" pn="section-6.13.2-19">This example is described in <xref target="instance-identifier-with-sid" format="default" sectionFormat="of" derivedContent="Section 6.13.1"/>.</t>
+          <t indent="0" pn="section-6.13.2-20">CBOR diagnostic notation:</t>
+          <sourcecode type="cbor-diag" markers="false" pn="section-6.13.2-21">
+"/ietf-system:system/authentication/user[name='jack']"
+</sourcecode>
+          <t indent="0" pn="section-6.13.2-22">CBOR encoding:</t>
+          <sourcecode type="cbor-pretty" markers="false" pn="section-6.13.2-23">
+78 34                                   # text(52)
+   2F696574662D73797374656D3A73797374656D2F61757468656E74696361
+   74696F6E2F757365725B6E616D653D276A61636B275D
+</sourcecode>
+        </section>
+      </section>
+    </section>
+    <section anchor="content-type" numbered="true" removeInRFC="false" toc="include" pn="section-7">
+      <name slugifiedName="name-content-types">Content-Types</name>
+      <t indent="0" pn="section-7-1">This specification defines the media type
+<tt>application/yang-data+cbor</tt>, which can be used without parameters or
+with the <tt>id</tt> parameter set to either <tt>name</tt> or <tt>sid</tt>.</t>
+      <t indent="0" pn="section-7-2">This media type represents a YANG-CBOR document containing a representation tree.
+If the media type parameter <tt>id</tt> is present,
+depending on its value,
+each representation node is identified by its associated namespace-qualified
+name, as defined in <xref target="name" format="default" sectionFormat="of" derivedContent="Section 3.3"/> (<tt>id=name</tt>), or by its associated YANG SID
+(represented, e.g., in CBOR map keys as a SID delta or via tag number 47), as defined in <xref target="sid" format="default" sectionFormat="of" derivedContent="Section 3.2"/>
+(<tt>id=sid</tt>), respectively.
+If no <tt>id</tt> parameter is given, both forms may be present.</t>
+      <t indent="0" pn="section-7-3">The format of an <tt>application/yang-data+cbor</tt> representation is that
+of a CBOR map, mapping names, and/or SIDs (as defined above) into
+instance values (using the rules defined in <xref target="instance-encoding" format="default" sectionFormat="of" derivedContent="Section 4"/>).</t>
+      <t indent="0" pn="section-7-4">It is not foreseen at this point that the valid set of values for the
+<tt>id</tt> parameter will extend beyond <tt>name</tt>, <tt>sid</tt>, or being unset; if
+that does happen, any new value is foreseen to be of the form
+<tt>[a-z][a-z0-9]*(-[a-z0-9]+)*</tt>.</t>
+      <t indent="0" pn="section-7-5">In summary, this document defines three content-types, which are
+intended for use by different classes of applications:</t>
+      <ul spacing="normal" bare="false" empty="false" indent="3" pn="section-7-6">
+        <li pn="section-7-6.1">
+          <tt>application/yang-data+cbor; id=sid</tt> -- for use by applications that
+need to be frugal with encoding space and text string processing
+(e.g., applications running on constrained nodes <xref target="RFC7228" format="default" sectionFormat="of" derivedContent="RFC7228"/> or
+applications with particular performance requirements);</li>
+        <li pn="section-7-6.2">
+          <tt>application/yang-data+cbor; id=name</tt> -- for use by applications that
+do not want to engage in SID management and that have ample
+resources to manage text-string-based item identifiers (e.g.,
+applications that directly want to substitute
+<tt>application/yang.data+json</tt> with a more efficient representation
+without any other changes); and</li>
+        <li pn="section-7-6.3">
+          <tt>application/yang-data+cbor</tt> -- for use by more complex applications
+that can benefit from the increased efficiency of SID identifiers
+but also need to integrate databases of YANG modules before SID
+mappings are defined for them.</li>
+      </ul>
+      <t indent="0" pn="section-7-7">All three content-types are based on the same representation
+mechanisms, parts of which are simply not used in the first and second
+cases.</t>
+      <t indent="0" pn="section-7-8">How the use of one of these content-types is selected in a transfer
+protocol is outside the scope of this specification.
+The last paragraph of <xref section="5.2" sectionFormat="of" target="RFC8040" format="default" derivedLink="https://rfc-editor.org/rfc/rfc8040#section-5.2" derivedContent="RFC8040"/> discusses how to
+indicate and request the usage of specific content-types in RESTCONF.
+Similar mechanisms are available in the Constrained Application Protocol (CoAP) <xref target="RFC7252" format="default" sectionFormat="of" derivedContent="RFC7252"/> using the
+Content-Format and Accept Options; <xref target="I-D.ietf-core-comi" format="default" sectionFormat="of" derivedContent="CORE-COMI"/> demonstrates specifics on
+how Content-Format may be used to indicate the <tt>id=sid</tt> case.</t>
+    </section>
+    <section anchor="security-considerations" numbered="true" removeInRFC="false" toc="include" pn="section-8">
+      <name slugifiedName="name-security-considerations">Security Considerations</name>
+      <t indent="0" pn="section-8-1">The security considerations of <xref target="RFC8949" format="default" sectionFormat="of" derivedContent="RFC8949"/> and <xref target="RFC7950" format="default" sectionFormat="of" derivedContent="RFC7950"/> apply.</t>
+      <t indent="0" pn="section-8-2">This document defines an alternative encoding for data modeled in the YANG data modeling language. As such, this encoding does not contribute any new security issues in addition to those identified for the specific protocol or context for which it is used.</t>
+      <t indent="0" pn="section-8-3">To minimize security risks, software on the receiving side <bcp14>SHOULD</bcp14> reject all messages that do not comply to the rules of this document and reply with an appropriate error message to the sender.</t>
+      <t indent="0" pn="section-8-4">For instance, when the <tt>id</tt> parameter to the media type is used, it is
+important to properly reject identifiers of the other type to avoid
+scenarios where different implementations interpret a given content in
+different ways.</t>
+      <t indent="0" pn="section-8-5">When SIDs are in use, the interpretation of encoded data not only
+relies on having the right YANG modules but also on having the right
+SID mapping information.  Management and evolution of that mapping
+information therefore requires the same care as the management and
+evolution of the YANG modules themselves.  The procedures in
+<xref target="I-D.ietf-core-sid" format="default" sectionFormat="of" derivedContent="CORE-SID"/> are being defined with this in mind.</t>
+    </section>
+    <section anchor="iana-considerations" numbered="true" removeInRFC="false" toc="include" pn="section-9">
+      <name slugifiedName="name-iana-considerations">IANA Considerations</name>
+      <section anchor="media-types-registry" numbered="true" removeInRFC="false" toc="include" pn="section-9.1">
+        <name slugifiedName="name-media-types-registry">Media Types Registry</name>
+        <t indent="0" pn="section-9.1-1">IANA has added the following media type to the "<xref section="Media Types" relative="#media-types" sectionFormat="bare" target="IANA.media-types" format="default" derivedLink="https://www.iana.org/assignments/media-types/#media-types" derivedContent="IANA.media-types"/>" registry <xref target="IANA.media-types" format="default" sectionFormat="of" derivedContent="IANA.media-types"/>.</t>
+        <table align="left" pn="table-2">
+          <name slugifiedName="name-media-types-registry-2">Media Types Registry</name>
+          <thead>
+            <tr>
+              <th align="left" colspan="1" rowspan="1">Name</th>
+              <th align="left" colspan="1" rowspan="1">Template</th>
+              <th align="left" colspan="1" rowspan="1">Reference</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td align="left" colspan="1" rowspan="1">yang-data+cbor</td>
+              <td align="left" colspan="1" rowspan="1">application/yang-data+cbor</td>
+              <td align="left" colspan="1" rowspan="1">RFC 9254</td>
+            </tr>
+          </tbody>
+        </table>
+        <dl newline="false" spacing="normal" indent="3" pn="section-9.1-3">
+          <dt pn="section-9.1-3.1">Type name:</dt>
+          <dd pn="section-9.1-3.2">application</dd>
+          <dt pn="section-9.1-3.3">Subtype name:</dt>
+          <dd pn="section-9.1-3.4">yang-data+cbor</dd>
+          <dt pn="section-9.1-3.5">Required parameters:</dt>
+          <dd pn="section-9.1-3.6">N/A</dd>
+          <dt pn="section-9.1-3.7">Optional parameters:</dt>
+          <dd pn="section-9.1-3.8">id (see <xref target="content-type" format="default" sectionFormat="of" derivedContent="Section 7"/> of RFC 9254)</dd>
+          <dt pn="section-9.1-3.9">Encoding considerations:</dt>
+          <dd pn="section-9.1-3.10">binary (CBOR)</dd>
+          <dt pn="section-9.1-3.11">Security considerations:</dt>
+          <dd pn="section-9.1-3.12">see <xref target="security-considerations" format="default" sectionFormat="of" derivedContent="Section 8"/> of RFC 9254</dd>
+          <dt pn="section-9.1-3.13">Interoperability considerations:</dt>
+          <dd pn="section-9.1-3.14">N/A</dd>
+          <dt pn="section-9.1-3.15">Published specification:</dt>
+          <dd pn="section-9.1-3.16">RFC 9254</dd>
+          <dt pn="section-9.1-3.17">Applications that use this media type:</dt>
+          <dd pn="section-9.1-3.18">applications that need a 
+	  concise and efficient representation of YANG-modeled data</dd>
+          <dt pn="section-9.1-3.19">Fragment identifier considerations:</dt>
+          <dd pn="section-9.1-3.20">The syntax and semantics of
+ fragment identifiers specified for "application/yang-data+cbor" is
+ as specified for "application/cbor".  (At publication of this
+ document, there is no fragment identification syntax defined for
+	  "application/cbor".)</dd>
+          <dt pn="section-9.1-3.21">Additional information:</dt>
+          <dd pn="section-9.1-3.22"/>
+          <dt pn="section-9.1-3.23">Magic number(s):</dt>
+          <dd pn="section-9.1-3.24">N/A</dd>
+          <dt pn="section-9.1-3.25">File extension(s):</dt>
+          <dd pn="section-9.1-3.26">N/A</dd>
+          <dt pn="section-9.1-3.27">Macintosh file type code(s):</dt>
+          <dd pn="section-9.1-3.28">N/A</dd>
+          <dt pn="section-9.1-3.29">Person &amp; email address to contact for further information:</dt>
+          <dd pn="section-9.1-3.30">CORE WG mailing list (core@ietf.org)
+	  or IETF Applications and Real-Time Area (art@ietf.org)</dd>
+          <dt pn="section-9.1-3.31">Intended usage:</dt>
+          <dd pn="section-9.1-3.32">COMMON</dd>
+          <dt pn="section-9.1-3.33">Restrictions on usage:</dt>
+          <dd pn="section-9.1-3.34">N/A</dd>
+          <dt pn="section-9.1-3.35">Author:</dt>
+          <dd pn="section-9.1-3.36">CoRE WG</dd>
+          <dt pn="section-9.1-3.37">Change controller:</dt>
+          <dd pn="section-9.1-3.38">IETF</dd>
+        </dl>
+      </section>
+      <section anchor="coap-content-formats-registry" numbered="true" removeInRFC="false" toc="include" pn="section-9.2">
+        <name slugifiedName="name-coap-content-formats-regist">CoAP Content-Formats Registry</name>
+        <t indent="0" pn="section-9.2-1">IANA has added the following Content-Formats to the "<xref section="CoAP Content-Formats" relative="#content-formats" sectionFormat="bare" target="IANA.core-parameters" format="default" derivedLink="https://www.iana.org/assignments/core-parameters/#content-formats" derivedContent="IANA.core-parameters"/>" subregistry,
+within the "<xref section="Constrained RESTful Environments (CoRE) Parameters" relative="#coap-content-format" sectionFormat="bare" target="IANA.core-parameters" format="default" derivedLink="https://www.iana.org/assignments/core-parameters/#coap-content-format" derivedContent="IANA.core-parameters"/>"
+registry <xref target="IANA.core-parameters" format="default" sectionFormat="of" derivedContent="IANA.core-parameters"/>. The registration procedure is "Expert Review" for the 0-255 range and
+"IETF Review" for the 256-9999 range.</t>
+        <table align="left" pn="table-3">
+          <name slugifiedName="name-coap-content-format-registr">CoAP Content-Format Registry</name>
+          <thead>
+            <tr>
+              <th align="left" colspan="1" rowspan="1">Media Type</th>
+              <th align="left" colspan="1" rowspan="1">Encoding</th>
+              <th align="left" colspan="1" rowspan="1">ID</th>
+              <th align="left" colspan="1" rowspan="1">Reference</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td align="left" colspan="1" rowspan="1">application/yang-data+cbor</td>
+              <td align="left" colspan="1" rowspan="1">-</td>
+              <td align="left" colspan="1" rowspan="1">340</td>
+              <td align="left" colspan="1" rowspan="1">RFC 9254</td>
+            </tr>
+            <tr>
+              <td align="left" colspan="1" rowspan="1">application/yang-data+cbor; id=name</td>
+              <td align="left" colspan="1" rowspan="1">-</td>
+              <td align="left" colspan="1" rowspan="1">341</td>
+              <td align="left" colspan="1" rowspan="1">RFC 9254</td>
+            </tr>
+            <tr>
+              <td align="left" colspan="1" rowspan="1">application/yang-data+cbor; id=sid</td>
+              <td align="left" colspan="1" rowspan="1">-</td>
+              <td align="left" colspan="1" rowspan="1">140</td>
+              <td align="left" colspan="1" rowspan="1">RFC 9254</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+      <section anchor="tag-registry" numbered="true" removeInRFC="false" toc="include" pn="section-9.3">
+        <name slugifiedName="name-cbor-tags-registry">CBOR Tags Registry</name>
+        <t indent="0" pn="section-9.3-1">IANA has allocated the following CBOR tag numbers in the "<xref section="CBOR Tags" relative="#tags" sectionFormat="bare" target="IANA.cbor-tags" format="default" derivedLink="https://www.iana.org/assignments/cbor-tags#tags" derivedContent="IANA.cbor-tags"/>" registry <xref target="IANA.cbor-tags" format="default" sectionFormat="of" derivedContent="IANA.cbor-tags"/> defined in  <xref section="9.2" sectionFormat="of" target="RFC8949" format="default" derivedLink="https://rfc-editor.org/rfc/rfc8949#section-9.2" derivedContent="RFC8949"/>.</t>
+        <table anchor="tab-tag-values" align="center" pn="table-4">
+          <name slugifiedName="name-cbor-tags-registry-2">CBOR Tags Registry</name>
+          <thead>
+            <tr>
+              <th align="left" colspan="1" rowspan="1">Tag</th>
+              <th align="left" colspan="1" rowspan="1">Data Item</th>
+              <th align="left" colspan="1" rowspan="1">Semantics</th>
+              <th align="left" colspan="1" rowspan="1">Reference</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td align="left" colspan="1" rowspan="1">43</td>
+              <td align="left" colspan="1" rowspan="1">text string</td>
+              <td align="left" colspan="1" rowspan="1">YANG bits datatype; see <xref target="bits" format="default" sectionFormat="of" derivedContent="Section 6.7"/>.</td>
+              <td align="left" colspan="1" rowspan="1">RFC 9254</td>
+            </tr>
+            <tr>
+              <td align="left" colspan="1" rowspan="1">44</td>
+              <td align="left" colspan="1" rowspan="1">text string</td>
+              <td align="left" colspan="1" rowspan="1">YANG enumeration datatype; see <xref target="enumeration" format="default" sectionFormat="of" derivedContent="Section 6.6"/>.</td>
+              <td align="left" colspan="1" rowspan="1">RFC 9254</td>
+            </tr>
+            <tr>
+              <td align="left" colspan="1" rowspan="1">45</td>
+              <td align="left" colspan="1" rowspan="1">unsigned integer or text string</td>
+              <td align="left" colspan="1" rowspan="1">YANG identityref datatype; see <xref target="identityref" format="default" sectionFormat="of" derivedContent="Section 6.10"/>.</td>
+              <td align="left" colspan="1" rowspan="1">RFC 9254</td>
+            </tr>
+            <tr>
+              <td align="left" colspan="1" rowspan="1">46</td>
+              <td align="left" colspan="1" rowspan="1">unsigned integer or text string or array</td>
+              <td align="left" colspan="1" rowspan="1">YANG instance-identifier datatype; see <xref target="instance-id" format="default" sectionFormat="of" derivedContent="Section 6.13"/>.</td>
+              <td align="left" colspan="1" rowspan="1">RFC 9254</td>
+            </tr>
+            <tr>
+              <td align="left" colspan="1" rowspan="1">47</td>
+              <td align="left" colspan="1" rowspan="1">unsigned integer</td>
+              <td align="left" colspan="1" rowspan="1">YANG Schema Item iDentifier (SID); see <xref target="sid" format="default" sectionFormat="of" derivedContent="Section 3.2"/>.</td>
+              <td align="left" colspan="1" rowspan="1">RFC 9254</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </section>
+  </middle>
+  <back>
+    <displayreference target="I-D.ietf-core-sid" to="CORE-SID"/>
+    <displayreference target="I-D.ietf-core-comi" to="CORE-COMI"/>
+    <references pn="section-10">
+      <name slugifiedName="name-references">References</name>
+      <references pn="section-10.1">
+        <name slugifiedName="name-normative-references">Normative References</name>
+        <reference anchor="IANA.cbor-tags" target="https://www.iana.org/assignments/cbor-tags" quoteTitle="true" derivedAnchor="IANA.cbor-tags">
+          <front>
+            <title>Concise Binary Object Representation (CBOR) Tags</title>
+            <author>
+              <organization showOnFrontPage="true">IANA</organization>
+            </author>
+          </front>
+        </reference>
+        <reference anchor="IANA.core-parameters" target="https://www.iana.org/assignments/core-parameters/" quoteTitle="true" derivedAnchor="IANA.core-parameters">
+          <front>
+            <title>Constrained RESTful Environments (CoRE) Parameters</title>
+            <author>
+              <organization showOnFrontPage="true">IANA</organization>
+            </author>
+          </front>
+        </reference>
+        <reference anchor="IANA.media-types" target="https://www.iana.org/assignments/media-types/" quoteTitle="true" derivedAnchor="IANA.media-types">
+          <front>
+            <title>Media Types</title>
+            <author>
+              <organization showOnFrontPage="true">IANA</organization>
+            </author>
+          </front>
+        </reference>
+        <reference anchor="RFC2119" target="https://www.rfc-editor.org/info/rfc2119" quoteTitle="true" derivedAnchor="RFC2119">
+          <front>
+            <title>Key words for use in RFCs to Indicate Requirement Levels</title>
+            <author initials="S." surname="Bradner" fullname="S. Bradner">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <date year="1997" month="March"/>
+            <abstract>
+              <t indent="0">In many standards track documents several words are used to signify the requirements in the specification.  These words are often capitalized. This document defines these words as they should be interpreted in IETF documents.  This document specifies an Internet Best Current Practices for the Internet Community, and requests discussion and suggestions for improvements.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="BCP" value="14"/>
+          <seriesInfo name="RFC" value="2119"/>
+          <seriesInfo name="DOI" value="10.17487/RFC2119"/>
+        </reference>
+        <reference anchor="RFC5234" target="https://www.rfc-editor.org/info/rfc5234" quoteTitle="true" derivedAnchor="RFC5234">
+          <front>
+            <title>Augmented BNF for Syntax Specifications: ABNF</title>
+            <author initials="D." surname="Crocker" fullname="D. Crocker" role="editor">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <author initials="P." surname="Overell" fullname="P. Overell">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <date year="2008" month="January"/>
+            <abstract>
+              <t indent="0">Internet technical specifications often need to define a formal syntax.  Over the years, a modified version of Backus-Naur Form (BNF), called Augmented BNF (ABNF), has been popular among many Internet specifications.  The current specification documents ABNF. It balances compactness and simplicity with reasonable representational power.  The differences between standard BNF and ABNF involve naming rules, repetition, alternatives, order-independence, and value ranges.  This specification also supplies additional rule definitions and encoding for a core lexical analyzer of the type common to several Internet specifications.  [STANDARDS-TRACK]</t>
+            </abstract>
+          </front>
+          <seriesInfo name="STD" value="68"/>
+          <seriesInfo name="RFC" value="5234"/>
+          <seriesInfo name="DOI" value="10.17487/RFC5234"/>
+        </reference>
+        <reference anchor="RFC7950" target="https://www.rfc-editor.org/info/rfc7950" quoteTitle="true" derivedAnchor="RFC7950">
+          <front>
+            <title>The YANG 1.1 Data Modeling Language</title>
+            <author initials="M." surname="Bjorklund" fullname="M. Bjorklund" role="editor">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <date year="2016" month="August"/>
+            <abstract>
+              <t indent="0">YANG is a data modeling language used to model configuration data, state data, Remote Procedure Calls, and notifications for network management protocols.  This document describes the syntax and semantics of version 1.1 of the YANG language.  YANG version 1.1 is a maintenance release of the YANG language, addressing ambiguities and defects in the original specification.  There are a small number of backward incompatibilities from YANG version 1.  This document also specifies the YANG mappings to the Network Configuration Protocol (NETCONF).</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="7950"/>
+          <seriesInfo name="DOI" value="10.17487/RFC7950"/>
+        </reference>
+        <reference anchor="RFC7951" target="https://www.rfc-editor.org/info/rfc7951" quoteTitle="true" derivedAnchor="RFC7951">
+          <front>
+            <title>JSON Encoding of Data Modeled with YANG</title>
+            <author initials="L." surname="Lhotka" fullname="L. Lhotka">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <date year="2016" month="August"/>
+            <abstract>
+              <t indent="0">This document defines encoding rules for representing configuration data, state data, parameters of Remote Procedure Call (RPC) operations or actions, and notifications defined using YANG as JavaScript Object Notation (JSON) text.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="7951"/>
+          <seriesInfo name="DOI" value="10.17487/RFC7951"/>
+        </reference>
+        <reference anchor="RFC8040" target="https://www.rfc-editor.org/info/rfc8040" quoteTitle="true" derivedAnchor="RFC8040">
+          <front>
+            <title>RESTCONF Protocol</title>
+            <author initials="A." surname="Bierman" fullname="A. Bierman">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <author initials="M." surname="Bjorklund" fullname="M. Bjorklund">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <author initials="K." surname="Watsen" fullname="K. Watsen">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <date year="2017" month="January"/>
+            <abstract>
+              <t indent="0">This document describes an HTTP-based protocol that provides a programmatic interface for accessing data defined in YANG, using the datastore concepts defined in the Network Configuration Protocol (NETCONF).</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="8040"/>
+          <seriesInfo name="DOI" value="10.17487/RFC8040"/>
+        </reference>
+        <reference anchor="RFC8174" target="https://www.rfc-editor.org/info/rfc8174" quoteTitle="true" derivedAnchor="RFC8174">
+          <front>
+            <title>Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words</title>
+            <author initials="B." surname="Leiba" fullname="B. Leiba">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <date year="2017" month="May"/>
+            <abstract>
+              <t indent="0">RFC 2119 specifies common key words that may be used in protocol  specifications.  This document aims to reduce the ambiguity by clarifying that only UPPERCASE usage of the key words have the  defined special meanings.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="BCP" value="14"/>
+          <seriesInfo name="RFC" value="8174"/>
+          <seriesInfo name="DOI" value="10.17487/RFC8174"/>
+        </reference>
+        <reference anchor="RFC8259" target="https://www.rfc-editor.org/info/rfc8259" quoteTitle="true" derivedAnchor="RFC8259">
+          <front>
+            <title>The JavaScript Object Notation (JSON) Data Interchange Format</title>
+            <author initials="T." surname="Bray" fullname="T. Bray" role="editor">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <date year="2017" month="December"/>
+            <abstract>
+              <t indent="0">JavaScript Object Notation (JSON) is a lightweight, text-based, language-independent data interchange format.  It was derived from the ECMAScript Programming Language Standard.  JSON defines a small set of formatting rules for the portable representation of structured data.</t>
+              <t indent="0">This document removes inconsistencies with other specifications of JSON, repairs specification errors, and offers experience-based interoperability guidance.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="STD" value="90"/>
+          <seriesInfo name="RFC" value="8259"/>
+          <seriesInfo name="DOI" value="10.17487/RFC8259"/>
+        </reference>
+        <reference anchor="RFC8610" target="https://www.rfc-editor.org/info/rfc8610" quoteTitle="true" derivedAnchor="RFC8610">
+          <front>
+            <title>Concise Data Definition Language (CDDL): A Notational Convention to Express Concise Binary Object Representation (CBOR) and JSON Data Structures</title>
+            <author initials="H." surname="Birkholz" fullname="H. Birkholz">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <author initials="C." surname="Vigano" fullname="C. Vigano">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <author initials="C." surname="Bormann" fullname="C. Bormann">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <date year="2019" month="June"/>
+            <abstract>
+              <t indent="0">This document proposes a notational convention to express Concise Binary Object Representation (CBOR) data structures (RFC 7049).  Its main goal is to provide an easy and unambiguous way to express structures for protocol messages and data formats that use CBOR or JSON.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="8610"/>
+          <seriesInfo name="DOI" value="10.17487/RFC8610"/>
+        </reference>
+        <reference anchor="RFC8791" target="https://www.rfc-editor.org/info/rfc8791" quoteTitle="true" derivedAnchor="RFC8791">
+          <front>
+            <title>YANG Data Structure Extensions</title>
+            <author initials="A." surname="Bierman" fullname="A. Bierman">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <author initials="M." surname="Björklund" fullname="M. Björklund">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <author initials="K." surname="Watsen" fullname="K. Watsen">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <date year="2020" month="June"/>
+            <abstract>
+              <t indent="0">This document describes YANG mechanisms for defining abstract data structures with YANG.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="8791"/>
+          <seriesInfo name="DOI" value="10.17487/RFC8791"/>
+        </reference>
+        <reference anchor="RFC8949" target="https://www.rfc-editor.org/info/rfc8949" quoteTitle="true" derivedAnchor="RFC8949">
+          <front>
+            <title>Concise Binary Object Representation (CBOR)</title>
+            <author initials="C." surname="Bormann" fullname="C. Bormann">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <author initials="P." surname="Hoffman" fullname="P. Hoffman">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <date year="2020" month="December"/>
+            <abstract>
+              <t indent="0">The Concise Binary Object Representation (CBOR) is a data format whose design goals include the possibility of extremely small code size, fairly small message size, and extensibility without the need for version negotiation. These design goals make it different from earlier binary serializations such as ASN.1 and MessagePack.</t>
+              <t indent="0">This document obsoletes RFC 7049, providing editorial improvements, new details, and errata fixes while keeping full compatibility with the interchange format of RFC 7049.  It does not create a new version of the format.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="STD" value="94"/>
+          <seriesInfo name="RFC" value="8949"/>
+          <seriesInfo name="DOI" value="10.17487/RFC8949"/>
+        </reference>
+      </references>
+      <references pn="section-10.2">
+        <name slugifiedName="name-informative-references">Informative References</name>
+        <reference anchor="I-D.ietf-core-comi" quoteTitle="true" target="https://datatracker.ietf.org/doc/html/draft-ietf-core-comi-11" derivedAnchor="CORE-COMI">
+          <front>
+            <title>CoAP Management Interface (CORECONF)</title>
+            <author initials="M" surname="Veillette" fullname="Michel Veillette" role="editor">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <author initials="P" surname="van der Stok" fullname="Peter van der Stok" role="editor">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <author initials="A" surname="Pelov" fullname="Alexander Pelov">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <author initials="A" surname="Bierman" fullname="Andy Bierman">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <author initials="I" surname="Petrov" fullname="Ivaylo Petrov" role="editor">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <date month="January" day="17" year="2021"/>
+          </front>
+          <seriesInfo name="Internet-Draft" value="draft-ietf-core-comi-11"/>
+          <refcontent>Work in Progress</refcontent>
+        </reference>
+        <reference anchor="I-D.ietf-core-sid" quoteTitle="true" target="https://datatracker.ietf.org/doc/html/draft-ietf-core-sid-18" derivedAnchor="CORE-SID">
+          <front>
+            <title>YANG Schema Item iDentifier (YANG SID)</title>
+            <author initials="M" surname="Veillette" fullname="Michel Veillette" role="editor">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <author initials="A" surname="Pelov" fullname="Alexander Pelov" role="editor">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <author initials="I" surname="Petrov" fullname="Ivaylo Petrov" role="editor">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <author initials="C" surname="Bormann" fullname="Carsten Bormann">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <author initials="M" surname="Richardson" fullname="Michael Richardson">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <date month="November" day="18" year="2021"/>
+          </front>
+          <seriesInfo name="Internet-Draft" value="draft-ietf-core-sid-18"/>
+          <refcontent>Work in Progress</refcontent>
+        </reference>
+        <reference anchor="RFC6241" target="https://www.rfc-editor.org/info/rfc6241" quoteTitle="true" derivedAnchor="RFC6241">
+          <front>
+            <title>Network Configuration Protocol (NETCONF)</title>
+            <author initials="R." surname="Enns" fullname="R. Enns" role="editor">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <author initials="M." surname="Bjorklund" fullname="M. Bjorklund" role="editor">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <author initials="J." surname="Schoenwaelder" fullname="J. Schoenwaelder" role="editor">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <author initials="A." surname="Bierman" fullname="A. Bierman" role="editor">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <date year="2011" month="June"/>
+            <abstract>
+              <t indent="0">The Network Configuration Protocol (NETCONF) defined in this document provides mechanisms to install, manipulate, and delete the configuration of network devices.  It uses an Extensible Markup Language (XML)-based data encoding for the configuration data as well as the protocol messages.  The NETCONF protocol operations are realized as remote procedure calls (RPCs).  This document obsoletes RFC 4741.  [STANDARDS-TRACK]</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="6241"/>
+          <seriesInfo name="DOI" value="10.17487/RFC6241"/>
+        </reference>
+        <reference anchor="RFC6991" target="https://www.rfc-editor.org/info/rfc6991" quoteTitle="true" derivedAnchor="RFC6991">
+          <front>
+            <title>Common YANG Data Types</title>
+            <author initials="J." surname="Schoenwaelder" fullname="J. Schoenwaelder" role="editor">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <date year="2013" month="July"/>
+            <abstract>
+              <t indent="0">This document introduces a collection of common data types to be used with the YANG data modeling language.  This document obsoletes RFC 6021.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="6991"/>
+          <seriesInfo name="DOI" value="10.17487/RFC6991"/>
+        </reference>
+        <reference anchor="RFC7228" target="https://www.rfc-editor.org/info/rfc7228" quoteTitle="true" derivedAnchor="RFC7228">
+          <front>
+            <title>Terminology for Constrained-Node Networks</title>
+            <author initials="C." surname="Bormann" fullname="C. Bormann">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <author initials="M." surname="Ersue" fullname="M. Ersue">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <author initials="A." surname="Keranen" fullname="A. Keranen">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <date year="2014" month="May"/>
+            <abstract>
+              <t indent="0">The Internet Protocol Suite is increasingly used on small devices with severe constraints on power, memory, and processing resources, creating constrained-node networks.  This document provides a number of basic terms that have been useful in the standardization work for constrained-node networks.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="7228"/>
+          <seriesInfo name="DOI" value="10.17487/RFC7228"/>
+        </reference>
+        <reference anchor="RFC7252" target="https://www.rfc-editor.org/info/rfc7252" quoteTitle="true" derivedAnchor="RFC7252">
+          <front>
+            <title>The Constrained Application Protocol (CoAP)</title>
+            <author initials="Z." surname="Shelby" fullname="Z. Shelby">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <author initials="K." surname="Hartke" fullname="K. Hartke">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <author initials="C." surname="Bormann" fullname="C. Bormann">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <date year="2014" month="June"/>
+            <abstract>
+              <t indent="0">The Constrained Application Protocol (CoAP) is a specialized web transfer protocol for use with constrained nodes and constrained (e.g., low-power, lossy) networks.  The nodes often have 8-bit microcontrollers with small amounts of ROM and RAM, while constrained networks such as IPv6 over Low-Power Wireless Personal Area Networks (6LoWPANs) often have high packet error rates and a typical throughput of 10s of kbit/s.  The protocol is designed for machine- to-machine (M2M) applications such as smart energy and building automation.</t>
+              <t indent="0">CoAP provides a request/response interaction model between application endpoints, supports built-in discovery of services and resources, and includes key concepts of the Web such as URIs and Internet media types.  CoAP is designed to easily interface with HTTP for integration with the Web while meeting specialized requirements such as multicast support, very low overhead, and simplicity for constrained environments.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="7252"/>
+          <seriesInfo name="DOI" value="10.17487/RFC7252"/>
+        </reference>
+        <reference anchor="RFC7317" target="https://www.rfc-editor.org/info/rfc7317" quoteTitle="true" derivedAnchor="RFC7317">
+          <front>
+            <title>A YANG Data Model for System Management</title>
+            <author initials="A." surname="Bierman" fullname="A. Bierman">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <author initials="M." surname="Bjorklund" fullname="M. Bjorklund">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <date year="2014" month="August"/>
+            <abstract>
+              <t indent="0">This document defines a YANG data model for the configuration and identification of some common system properties within a device containing a Network Configuration Protocol (NETCONF) server.  This document also includes data node definitions for system identification, time-of-day management, user management, DNS resolver configuration, and some protocol operations for system management.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="7317"/>
+          <seriesInfo name="DOI" value="10.17487/RFC7317"/>
+        </reference>
+        <reference anchor="RFC8343" target="https://www.rfc-editor.org/info/rfc8343" quoteTitle="true" derivedAnchor="RFC8343">
+          <front>
+            <title>A YANG Data Model for Interface Management</title>
+            <author initials="M." surname="Bjorklund" fullname="M. Bjorklund">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <date year="2018" month="March"/>
+            <abstract>
+              <t indent="0">This document defines a YANG data model for the management of network interfaces.  It is expected that interface-type-specific data models augment the generic interfaces data model defined in this document. The data model includes definitions for configuration and system state (status information and counters for the collection of statistics).</t>
+              <t indent="0">The YANG data model in this document conforms to the Network Management Datastore Architecture (NMDA) defined in RFC 8342.</t>
+              <t indent="0">This document obsoletes RFC 7223.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="8343"/>
+          <seriesInfo name="DOI" value="10.17487/RFC8343"/>
+        </reference>
+        <reference anchor="RFC8344" target="https://www.rfc-editor.org/info/rfc8344" quoteTitle="true" derivedAnchor="RFC8344">
+          <front>
+            <title>A YANG Data Model for IP Management</title>
+            <author initials="M." surname="Bjorklund" fullname="M. Bjorklund">
+              <organization showOnFrontPage="true"/>
+            </author>
+            <date year="2018" month="March"/>
+            <abstract>
+              <t indent="0">This document defines a YANG data model for management of IP implementations.  The data model includes configuration and system state.</t>
+              <t indent="0">The YANG data model in this document conforms to the Network Management Datastore Architecture defined in RFC 8342.</t>
+              <t indent="0">This document obsoletes RFC 7277.</t>
+            </abstract>
+          </front>
+          <seriesInfo name="RFC" value="8344"/>
+          <seriesInfo name="DOI" value="10.17487/RFC8344"/>
+        </reference>
+      </references>
+    </references>
+    <section numbered="false" anchor="acknowledgments" removeInRFC="false" toc="include" pn="section-appendix.a">
+      <name slugifiedName="name-acknowledgments">Acknowledgments</name>
+      <t indent="0" pn="section-appendix.a-1">This document has been largely inspired by the extensive work done by <contact fullname="Andy Bierman"/> and <contact fullname="Peter van der Stok"/> on <xref target="I-D.ietf-core-comi" format="default" sectionFormat="of" derivedContent="CORE-COMI"/>. <xref target="RFC7951" format="default" sectionFormat="of" derivedContent="RFC7951"/> has also been a critical input to this work. The authors would like to thank the authors and contributors of these two documents.</t>
+      <t indent="0" pn="section-appendix.a-2">The authors would also like to acknowledge the review, feedback, and
+comments from <contact fullname="Ladislav Lhotka"/> and <contact fullname="Jürgen Schönwälder"/> and from the
+Document Shepherd <contact fullname="Marco Tiloca"/>.
+Extensive comments helped us further improve the document in the IESG
+review process; the authors would like to call out specifically the
+feedback and guidance by the responsible AD <contact fullname="Francesca Palombini"/> and
+the significant improvements suggested by IESG members <contact fullname="Benjamin Kaduk"/>
+and <contact fullname="Rob Wilton"/>.</t>
+    </section>
+    <section anchor="authors-addresses" numbered="false" removeInRFC="false" toc="include" pn="section-appendix.b">
+      <name slugifiedName="name-authors-addresses">Authors' Addresses</name>
+      <author initials="M." surname="Veillette" fullname="Michel Veillette" role="editor">
+        <organization showOnFrontPage="true">Trilliant Networks Inc.</organization>
+        <address>
+          <postal>
+            <street>610 Rue du Luxembourg</street>
+            <city>Granby</city>
+            <region>Quebec</region>
+            <code>J2J 2V2</code>
+            <country>Canada</country>
+          </postal>
+          <email>michel.veillette@trilliantinc.com</email>
+        </address>
+      </author>
+      <author initials="I." surname="Petrov" fullname="Ivaylo Petrov" role="editor">
+        <organization showOnFrontPage="true">Google Switzerland GmbH</organization>
+        <address>
+          <postal>
+            <street>Brandschenkestrasse 110</street>
+            <city>Zurich</city>
+            <code>8002</code>
+            <country>Switzerland</country>
+          </postal>
+          <email>ivaylopetrov@google.com</email>
+        </address>
+      </author>
+      <author initials="A." surname="Pelov" fullname="Alexander Pelov">
+        <organization showOnFrontPage="true">Acklio</organization>
+        <address>
+          <postal>
+            <street>1137A avenue des Champs Blancs</street>
+            <city>Cesson-Sevigne Cedex</city>
+            <code>35510</code>
+            <country>France</country>
+          </postal>
+          <email>a@ackl.io</email>
+        </address>
+      </author>
+      <author initials="C." surname="Bormann" fullname="Carsten Bormann">
+        <organization showOnFrontPage="true">Universität Bremen TZI</organization>
+        <address>
+          <postal>
+            <street>Postfach 330440</street>
+            <city>Bremen</city>
+            <code>D-28359</code>
+            <country>Germany</country>
+          </postal>
+          <phone>+49-421-218-63921</phone>
+          <email>cabo@tzi.org</email>
+        </address>
+      </author>
+      <author initials="M." surname="Richardson" fullname="Michael Richardson">
+        <organization showOnFrontPage="true">Sandelman Software Works</organization>
+        <address>
+          <postal>
+            <country>Canada</country>
+          </postal>
+          <email>mcr+ietf@sandelman.ca</email>
+        </address>
+      </author>
+    </section>
+  </back>
+</rfc>
