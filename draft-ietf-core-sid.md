@@ -82,6 +82,8 @@ normative:
   RFC7951:
   RFC8040:
   RFC8259: json
+  RFC8791: sx
+  RFC8792: break
 informative:
   RFC6020:
   RFC6241:
@@ -815,20 +817,9 @@ some JSON strings that represent overly long identifiers.
 <!-- /^ *[^" ]+"/ -->
 
 ~~~~ yang-sid
-{::include code/ietf-system.sid}
+{::include-fold code/ietf-system.sid}
 ~~~~
 {: #sid-example-pretty title="Example .sid file (ietf-system, with extra line-breaks)"}
-
-For reconstructing the actual JSON file from this figure, all line
-breaks that occur in what would be JSON strings need to be removed,
-including any following blank space (indentation) on the line after
-the line break; in each such case, a single identifier without any
-embedded blank space results.
-This removal can be accomplished with this simple Ruby script:
-
-~~~~ ruby
-{::include code/de-newline.rb}
-~~~~
 
 # SID auto generation {#sid-auto-generation}
 
