@@ -259,13 +259,15 @@ module ietf-sid-file {
 
       leaf status {
         description
-          "The status field contains either the module-revision at
-          which this SID item was permanently allocated, or the
-          string 'unstable'.";
+          "The status field contains information about the stability
+           of the allocation.  For each specific SID value, over time
+           it can only transition from unstable to stable,
+           and possibly from stable to obsolete.";
         type enumeration {
           enum stable {
-            description "This SID allocation has been published in a
-                         stable catalog.";
+            description "This SID allocation has been published as
+                         the stable allocation for the given
+                         namespace and identifier.";
             value 0;
           }
           enum unstable {
