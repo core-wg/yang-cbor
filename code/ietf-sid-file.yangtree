@@ -5,6 +5,7 @@ module: ietf-sid-file
     +-- module-revision?       revision-identifier
     +-- sid-file-version?      sid-file-version-identifier
     +-- description?           string
+    +-- sid-file-status?       enumeration
     +-- dependency-revision* [module-name]
     |  +-- module-name        yang:yang-identifier
     |  +-- module-revision    revision-identifier
@@ -12,7 +13,7 @@ module: ietf-sid-file
     |  +-- entry-point    sid
     |  +-- size           uint64
     +-- item* [namespace identifier]
-       +-- status?       string
+       +-- status?       enumeration
        +-- namespace     enumeration
        +-- identifier    union
        +-- sid           sid
