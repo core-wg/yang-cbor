@@ -170,16 +170,17 @@ module ietf-sid-file {
       type enumeration {
          enum unpublished {
            description
-             "This SID file is unpublished [RFC8407], also called
+             "This .sid file is unpublished [RFC8407], also called
               a work-in-progress or workfile.
               This may be when it accompanies an unpublished YANG
-              module, or when only the SID file itself is unpublished.
+              module, or when only the .sid file itself is
+              unpublished.
               The 'item' list MAY contain entries with a status
               value of 'unstable'.";
          }
          enum published {
            description
-             "This SID file is published, for a published YANG
+             "This .sid file is published, for a published YANG
               module. The 'item' list MUST NOT contain entries with
               a status value of 'unstable'.";
          }
