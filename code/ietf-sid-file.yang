@@ -33,7 +33,7 @@ module ietf-sid-file {
                <mailto:ivaylopetrov@google.com>";
 
   description
-    "Copyright (c) 2021 IETF Trust and the persons identified as
+    "Copyright (c) 2023 IETF Trust and the persons identified as
      authors of the code.  All rights reserved.
 
      Redistribution and use in source and binary forms, with or
@@ -166,33 +166,33 @@ module ietf-sid-file {
         processing, or the result of reported errata.";
     }
 
+    leaf sid-file-status {
+      type enumeration {
+         enum unpublished {
+           description
+             "This SID file is unpublished [RFC8407], also called
+              a work-in-progress or workfile.
+              This may be when it accompanies an unpublished YANG
+              module, or when only the SID file itself is unpublished.
+              The 'item' list MAY contain entries with a status
+              value of 'unstable'.";
+         }
+         enum published {
+           description
+             "This SID file is published, for a published YANG
+              module. The 'item' list MUST NOT contain entries with
+              a status value of 'unstable'.";
+         }
+      }
+      default published;
+    }
+
     leaf description {
       type string;
       description
         "Free-form meta information about the generated file. It
         might include .sid file generation tool and time among
         other things.";
-    }
-
-    leaf sid-file-status {
-      type enumeration {
-         enum unpublished {
-             description
-                "This SID file is unpublished [RFC8407], also called
-                a work-in-progress or workfile.
-                This may be when it accompanies an unpublished YANG
-                module, or when only the SID file itself is unpublished.
-                The 'item' list MAY contain entries with a status
-                value of 'unstable'.";
-         }
-         enum published {
-             description
-                "This SID file is published, for a published YANG
-                module. The 'item' list MUST NOT contain entries with
-                a status value of 'unstable'.";
-         }
-      }
-      default published;
     }
 
     list dependency-revision {
