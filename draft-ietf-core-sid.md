@@ -78,9 +78,9 @@ normative:
   RFC3688:
   RFC6991:
   BCP100:
-  RFC7950:
-  RFC7951:
-  RFC8040:
+  RFC7950: yang
+  RFC7951: yang-json
+  RFC8040: rc
   RFC8259: json
   RFC8791: sx
   RFC8792: break
@@ -139,7 +139,8 @@ The following items are identified using SIDs:
 
 * identities
 
-* data nodes (Note: including those nodes defined by the 'yang-data' extension.)
+* data nodes (Note: including those nodes defined by the
+  'rc:yang-data' {{-rc}} and 'sx:structure' {{-sx}} extensions.)
 
 * remote procedure calls (RPCs) and associated input(s) and output(s)
 
@@ -193,10 +194,6 @@ The following terms are defined in {{RFC7950}}:
 * schema node
 * schema tree
 * submodule
-
-The following term is defined in {{RFC8040}}:
-
-* yang-data extension
 
 This specification also makes use of the following terminology:
 
@@ -491,14 +488,14 @@ It has the following structure:
 
 The following YANG module defines the structure of this file, encoding is
 performed in JSON {{-json}} using the rules defined in {{RFC7951}}.
-It references ietf-yang-types defined in {{RFC6991}} and the structure-ext defined in {{RFC8791}}.
+It references ietf-yang-types defined in {{RFC6991}} and ietf-yang-structure-ext defined in {{RFC8791}}.
 
 RFC Ed.: please update the date of the module and Copyright if needed and remove this note.
 
 ~~~~ yang
 {::include code/ietf-sid-file.yang}
 ~~~~
-{: align="left" sourcecode-markers="true" sourcecode-name="ietf-sid-file@2021-11-16.yang" title="YANG module ietf-sid-file"}
+{: align="left" sourcecode-markers="true" sourcecode-name="ietf-sid-file@2023-02-05.yang" title="YANG module ietf-sid-file"}
 
 # Security Considerations
 
