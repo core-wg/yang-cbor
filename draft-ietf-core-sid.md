@@ -78,9 +78,9 @@ normative:
   RFC3688:
   RFC6991:
   BCP100:
-  RFC7950:
-  RFC7951:
-  RFC8040:
+  RFC7950: yang
+  RFC7951: yang-json
+  RFC8040: rc
   RFC8259: json
   RFC8791: sx
   RFC8792: break
@@ -139,7 +139,8 @@ The following items are identified using SIDs:
 
 * identities
 
-* data nodes (Note: including those nodes defined by the 'yang-data' extension.)
+* data nodes (Note: including those nodes defined by the
+  'rc:yang-data' {{-rc}} and 'sx:structure' {{-sx}} extensions.)
 
 * remote procedure calls (RPCs) and associated input(s) and output(s)
 
@@ -193,10 +194,6 @@ The following terms are defined in {{RFC7950}}:
 * schema node
 * schema tree
 * submodule
-
-The following term is defined in {{RFC8040}}:
-
-* yang-data extension
 
 This specification also makes use of the following terminology:
 
