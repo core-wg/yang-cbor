@@ -124,7 +124,7 @@ module ietf-sid-file {
 
     container sid-file {
       description
-        "A Wrapper container that together with the rc:yang-data
+        "A Wrapper container that together with the sx:structure
         extension marks the YANG data structures inside as not being
         intended to be implemented as part of a configuration
         datastore or as an operational state within the server.";
@@ -229,7 +229,7 @@ module ietf-sid-file {
         - The YANG SID range first available value is entry-point
           and the last available value in the range is
           (entry-point + size - 1).
-        - The YANG SID ranges specified by all assignment-rages
+        - The YANG SID ranges specified by all assignment-ranges
           MUST NOT overlap.";
 
       leaf entry-point {
