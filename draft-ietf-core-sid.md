@@ -488,14 +488,14 @@ It has the following structure:
 
 The following YANG module defines the structure of this file, encoding is
 performed in JSON {{-json}} using the rules defined in {{RFC7951}}.
-It references ietf-yang-types defined in {{RFC6991}} and the structure-ext defined in {{RFC8791}}.
+It references ietf-yang-types defined in {{RFC6991}} and ietf-yang-structure-ext defined in {{RFC8791}}.
 
 RFC Ed.: please update the date of the module and Copyright if needed and remove this note.
 
 ~~~~ yang
 {::include code/ietf-sid-file.yang}
 ~~~~
-{: align="left" sourcecode-markers="true" sourcecode-name="ietf-sid-file@2021-11-16.yang" title="YANG module ietf-sid-file"}
+{: align="left" sourcecode-markers="true" sourcecode-name="ietf-sid-file@2023-02-05.yang" title="YANG module ietf-sid-file"}
 
 # Security Considerations
 
