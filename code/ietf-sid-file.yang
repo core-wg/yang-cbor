@@ -59,7 +59,7 @@ module ietf-sid-file {
      string identifier defined by a YANG module and a
      corresponding numeric value called YANG SID.";
 
-  revision 2023-02-24 {
+  revision 2023-03-01 {
     description
       "Initial revision.";
     reference
@@ -186,6 +186,9 @@ module ietf-sid-file {
          }
       }
       default published;
+      description
+        "Optional leaf that specifies the status of the
+        .sid file.";
     }
 
     leaf description {
@@ -258,31 +261,31 @@ module ietf-sid-file {
         'module-revision'.";
 
       leaf status {
+        type enumeration {
+          enum stable {
+            value 0;
+            description "This SID allocation has been published as
+                         the stable allocation for the given
+                         namespace and identifier.";
+          }
+          enum unstable {
+            value 1;
+            description "This SID allocation has been done during a
+                         development process; it is not yet stable.";
+          }
+          enum obsolete {
+            value 2;
+            description "This SID allocation is no longer in use.
+                         It is recorded to avoid reallocation of
+                         its SID value.";
+          }
+        }
+        default stable;
         description
           "The status field contains information about the stability
            of the allocation.  For each specific SID value, over time
            it can only transition from unstable to stable,
            and possibly from stable to obsolete.";
-        type enumeration {
-          enum stable {
-            description "This SID allocation has been published as
-                         the stable allocation for the given
-                         namespace and identifier.";
-            value 0;
-          }
-          enum unstable {
-            description "This SID allocation has been done during a
-                         development process; it is not yet stable.";
-            value 1;
-          }
-          enum obsolete {
-            description "This SID allocation is no longer in use.
-                         It is recorded to avoid reallocation of
-                         its SID value.";
-            value 2;
-          }
-        }
-        default stable;
       }
 
       leaf namespace {

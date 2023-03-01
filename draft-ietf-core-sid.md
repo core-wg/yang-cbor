@@ -494,7 +494,7 @@ RFC Ed.: please update the date of the module and Copyright if needed and remove
 ~~~~ yang
 {::include code/ietf-sid-file.yang}
 ~~~~
-{: align="left" sourcecode-markers="true" sourcecode-name="ietf-sid-file@2023-02-24.yang" title="YANG module ietf-sid-file"}
+{: align="left" sourcecode-markers="true" sourcecode-name="ietf-sid-file@2023-03-01.yang" title="YANG module ietf-sid-file"}
 
 # Security Considerations
 
@@ -993,7 +993,7 @@ second-level members as indicated with the angle brackets:
     "name": "<module-name>@<module-revision>.sid",
     "description":  ["<description>"],
     "content-schema": {
-      "module": "ietf-sid-file@2023-02-24"
+      "module": "ietf-sid-file@2023-03-01"
     },
     "content-data": {  <replace this object>
       "ietf-sid-file:sid-file" : {
