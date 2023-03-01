@@ -881,52 +881,52 @@ The following activity diagram summarizes the creation of a YANG module and its 
  / \    +------+--------+
                |
                v
-         .-------------.
-        / Standardized  \     yes
-        \ YANG module ? /------------+
-         '-----+-------'             |
-               |  no                 |
-               v                     v
-         .-------------.      +---------------+
-   +--> / Constrained   \ yes | SID range     |
-   |    \ application ? /---->| registration  |<---------+
-   |     '-----+-------'      +------+--------+          |
-   |           |  no                 |                   |
-   |           v                     v                   |
-   |    +---------------+    +---------------+           |
-   +----+ YANG module   |    | SID sub-range |           |
-        | update        |    | assignment    |<----------+
-        +---------------+    +-------+-------+           |
-                                     |                   |
-                                     v                   |
-                             +---------------+    +------+------+
-                             | ".sid" file   |    | Rework YANG |
-                             | generation    |    |    module   |
-                             +-------+-------+    +-------------+
-                                     |                   ^
-                                     v                   |
-                                .----------.  yes        |
-                               /  Work in   \ -----------+
-                               \  progress  /
-                                '----+-----'
-                                     |  no
-                                     v
-                               .-------------.       .-------------.
-                              /      RFC      \ no  /     Open      \ no
-                              \  publication? /---> \ specification?/---+
-                               '------+------'       '------+------'    |
-                                 yes  |                     | yes       |
-                                      |       .------------'            |
-                                      |      /                          |
-                                      v     v                           v
-                              +---------------+               +---------------+
-                              |     IANA      |               | Third party   |
-                              | registration  |               | registration  |
-                              +-------+-------+               +---------+-----+
-                                      |                                 |
-                                      +---------------------------------+
-                                      v
-                                    [DONE]
+        .-------------.
+       / Standardized  \     yes
+       \ YANG module ? /------------+
+        '-----+-------'             |
+              |  no                 |
+              v                     v
+       .-------------.      +---------------+
+ +--> / Constrained   \ yes | SID range     |
+ |    \ application ? /---->| registration  |<--------+
+ |     '-----+-------'      +------+--------+         |
+ |           |  no                 |                  |
+ |           v                     v                  |
+ |    +---------------+    +---------------+          |
+ +----+ YANG module   |    | SID sub-range |          |
+      | update        |    | assignment    |<---------+
+      +---------------+    +-------+-------+          |
+                                   |                  |
+                                   v                  |
+                          +---------------+    +------+------+
+                          | ".sid" file   |    | Rework YANG |
+                          | generation    |    |    module   |
+                          +-------+-------+    +-------------+
+                                  |                   ^
+                                  v                   |
+                            .----------.  yes         |
+                           /  Work in   \ ------------+
+                           \  progress  /
+                            '----+-----'
+                                 |  no
+                                 v
+                         .-------------.       .-------------.
+                        /      RFC      \ no  /     Open      \ no
+                        \  publication? /---> \ specification?/---+
+                         '------+------'       '------+------'    |
+                           yes  |                     | yes       |
+                                |      .-------------'            |
+                                |     /                           |
+                                v    v                            v
+                       +---------------+               +---------------+
+                       |     IANA      |               | Third party   |
+                       | registration  |               | registration  |
+                       +-------+-------+               +----------+----+
+                               |                                  |
+                               +----------------------------------+
+                               v
+                             [DONE]
 ~~~~
 {: #fig-sid-file-creation title='SID Lifecycle' align="left"}
 
