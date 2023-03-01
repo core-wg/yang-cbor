@@ -118,10 +118,9 @@ To enable the implementation of these processes, this document also defines a fi
 [^status]
 
 [^status]:
-    The present version (-19) adds in draft text about objectives,
-    parties, and roles.
-    This attempts to record discussions at side meetings before, at,
-    and after IETF 113.
+    The present version (–20) is intended to address all IESG feedback.
+    It has significantly progressed from –16, which was the original
+    submission to the IESG.
 
 --- middle
 
