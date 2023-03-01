@@ -662,7 +662,7 @@ YANG module.
 
 The ".sid" file MUST NOT be published as part of the RFC: the IANA Registry is authoritative and a link is to be inserted in the RFC.
 
-A published ".sid" file should containly only schema-node allocations with a stable status.
+A published ".sid" file MUST NOT contain schema-node allocations with an unstable status.
 
 ### Initial contents of the registry {#ietf-iana-sid-range-initial-contents}
 
