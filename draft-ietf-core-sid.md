@@ -994,7 +994,7 @@ second-level members as indicated with the angle brackets:
     "name": "<module-name>@<module-revision>.sid",
     "description":  ["<description>"],
     "content-schema": {
-      "module": "ietf-sid-file@2021-11-16"
+      "module": "ietf-sid-file@2023-02-24"
     },
     "content-data": {  <replace this object>
       "ietf-sid-file:sid-file" : {
