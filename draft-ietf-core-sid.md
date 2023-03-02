@@ -450,7 +450,7 @@ Items introduced by a new revision of a YANG module are added to the list of SID
 When this is done development of a new protocol document it may be necessary to make provisional assignments.
 They may get changed, revised or withdrawn during the development of a new standard.
 These provisional assignments are marked with a status of "unstable".
-When the specification is advanced to a final document, then status of
+When the specification is advanced to a final document, then
 the assignment is marked with a status of "stable".
 
 Registration of the ".sid" file associated to a YANG module is optional but
