@@ -448,9 +448,10 @@ example on how this could be achieved, please refer to {{sid-lifecycle-ex}}.
 
 Items introduced by a new revision of a YANG module are added to the list of SIDs already assigned.
 When this is done development of a new protocol document it may be necessary to make provisional assignments.
-They may get changed, revised or withdraw during the development of a new standard.
+They may get changed, revised or withdrawn during the development of a new standard.
 These provisional assignments are marked with a status of "unstable".
-When the specification is advanced to a final document, then status of the assignment is marked with the module-revision (a YYYY-MM-DD) when the assignment is finalized.
+When the specification is advanced to a final document, then status of
+the assignment is marked with a status of "stable".
 
 Registration of the ".sid" file associated to a YANG module is optional but
 recommended  <!-- sic. --> to promote interoperability between devices and to avoid duplicate
