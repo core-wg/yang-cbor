@@ -222,7 +222,7 @@ Additional objectives include:
   entity for the SIDs pertaining to that module.
 * making it easy for YANG developers to obtain SIDs.
 * enabling other developers to define SIDs for a module where the
-  developer of the module is not interesting in assigning the SIDs.
+  developer of the module is not interested in assigning the SIDs.
 * keeping an assignment regime that keeps short (2..4 byte) SIDs
   readily available for the applications that would benefit from them
   while at the same time employing the vast 63-bit SID space to
