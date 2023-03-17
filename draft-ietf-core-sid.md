@@ -449,7 +449,9 @@ example on how this could be achieved, please refer to {{sid-lifecycle-ex}}.
 Items introduced by a new revision of a YANG module are added to the list of SIDs already assigned.
 When this is done during development of a new protocol document, it may be necessary to make provisional assignments.
 They may get changed, revised or withdrawn during the development of a new standard.
-These provisional assignments are marked with a status of "unstable".
+These provisional assignments are marked with a status of "unstable",
+so that they can be removed and the SID number possibly be reassigned
+for a different YANG schema name/path later during development.
 When the specification is advanced to a final document, then
 the assignment is marked with a status of "stable".
 During the period of development, two variants of the SID file should
