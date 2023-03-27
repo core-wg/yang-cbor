@@ -454,9 +454,11 @@ so that they can be removed and the SID number possibly be reassigned
 for a different YANG schema name/path later during development.
 When the specification is advanced to a final document, then
 the assignment is marked with a status of "stable".
-During the period of development, two variants of the SID file should
+During a period of development starting from a published
+specification, two variants of the SID file should
 be made available by the tooling involved in that development: (1) a
-"published" SID file with the existing stable SID assignments only, as
+"published" SID file with the existing stable SID assignments only
+(which the development effort should keep stable), as
 well as (2) an "unpublished" SID file that also contains the unstable
 SID assignments.
 
