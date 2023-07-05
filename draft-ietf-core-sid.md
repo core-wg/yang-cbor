@@ -447,11 +447,20 @@ assignments can then be stored in a ".sid" file. For
 example on how this could be achieved, please refer to {{sid-lifecycle-ex}}.
 
 Items introduced by a new revision of a YANG module are added to the list of SIDs already assigned.
-When this is done development of a new protocol document it may be necessary to make provisional assignments.
+When this is done during development of a new protocol document, it may be necessary to make provisional assignments.
 They may get changed, revised or withdrawn during the development of a new standard.
-These provisional assignments are marked with a status of "unstable".
+These provisional assignments are marked with a status of "unstable",
+so that they can be removed and the SID number possibly be reassigned
+for a different YANG schema name/path later during development.
 When the specification is advanced to a final document, then
 the assignment is marked with a status of "stable".
+During a period of development starting from a published
+specification, two variants of the SID file should
+be made available by the tooling involved in that development: (1) a
+"published" SID file with the existing stable SID assignments only
+(which the development effort should keep stable), as
+well as (2) an "unpublished" SID file that also contains the unstable
+SID assignments.
 
 Registration of the ".sid" file associated to a YANG module is optional but
 recommended  <!-- sic. --> to promote interoperability between devices and to avoid duplicate
