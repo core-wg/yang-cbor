@@ -118,9 +118,8 @@ To enable the implementation of these processes, this document also defines a fi
 [^status]
 
 [^status]:
-    The present version (–20) is intended to address all IESG feedback.
-    It has significantly progressed from –16, which was the original
-    submission to the IESG.
+    The present version (–21) updates the `ietf-system.sid` example to
+    correctly provide SIDs for the RPCs in `ietf-system.yang`.
 
 --- middle
 
