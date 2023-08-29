@@ -1,7 +1,8 @@
 {
-  "ietf-sid-file:sid-file" : {
+  "ietf-sid-file:sid-file": {
     "module-name": "ietf-system",
     "module-revision": "2014-08-06",
+    "description": "Example sid file",
     "dependency-revision": [
       {
         "module-name": "ietf-yang-types",
@@ -20,7 +21,6 @@
         "module-revision": "2014-08-06"
       }
     ],
-    "description": "Example sid file",
     "assignment-range": [
       {
         "entry-point": "1700",
