@@ -110,8 +110,13 @@
       },
       {
         "namespace": "data",
-        "identifier": "/ietf-system:set-current-datetime/current-datetime",
-        "sid": "1716"
+        "identifier": "/ietf-system:set-current-datetime/input",
+        "sid": "1775"
+      },
+      {
+        "namespace": "data",
+        "identifier": "/ietf-system:set-current-datetime/input/current-datetime",
+        "sid": "1776"
       },
       {
         "namespace": "data",
