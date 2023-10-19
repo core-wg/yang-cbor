@@ -800,6 +800,91 @@ need to be renewed or will expire.
 
 None.
 
+## Register Media Type and Content-Format
+
+### Media Type application/yang-sid+json
+
+This document adds the following Media-Type to the "Media Types" registry.
+
+| Name          | Template                  | Reference |
+| yang-sid+json | application/yang-sid+json | RFC XXXX  |
+{: align="left" title="SID File Media-Type Registration"}
+
+// RFC Ed.: please replace RFC XXXX with this RFC number and remove this note.
+
+{: spacing="compact"}
+Type name:
+: application
+
+Subtype name:
+: yang-sid+json
+
+Required parameters:
+: N/A
+
+Optional parameters:
+: N/A
+
+Encoding considerations:
+: binary (UTF-8)
+
+Security considerations:
+: see {{security-considerations}} of RFC XXXX
+
+Published specification:
+: RFC XXXX
+
+Applications that use this media type:
+: applications that need to obtain YANG SIDs to interchange
+  YANG-modeled data in a concise and efficient representation
+
+Fragment identifier considerations:
+: The syntax and semantics of
+      fragment identifiers specified for "application/yang-sid+json" is
+      as specified for "application/json".  (At publication of this
+      document, there is no fragment identification syntax defined for
+      "application/json".)
+
+Additional information:
+: <br>
+  Magic number(s):
+  : N/A
+
+  File extension(s):
+  : .sid
+
+  Macintosh file type code(s):
+  : N/A
+
+Person & email address to contact for further information:
+: CORE WG mailing list (core@ietf.org),
+  or IETF Applications and Real-Time Area (art@ietf.org)
+
+Intended usage:
+: COMMON
+
+Restrictions on usage:
+: none
+
+Author/Change controller:
+: IETF
+
+
+### CoAP Content-Format
+
+This document adds the following Content-Format to the "CoAP Content-Formats",
+within the "Constrained RESTful Environments (CoRE) Parameters"
+registry, where TBD1 comes from the "IETF Review" 256-999 range.
+
+| Content Type              | Content Coding | ID   | Reference |
+| application/yang-sid+json | -              | TBD1 | RFC XXXX  |
+{: align="left" title="SID File Content-format Registration"}
+
+// RFC Ed.: please replace TBDx with assigned IDs, remove the
+requested ranges, and remove this note.\\
+// RFC Ed.: please replace RFC XXXX with this RFC number and remove this note.
+
+
 --- back
 
 # ".sid" file example  {#sid-file-example}
