@@ -883,7 +883,7 @@ generated for YANG modules and not for submodules.
 
 The following activity diagram summarizes the creation of a YANG module and its associated ".sid" file.
 
-~~~~ goat
+~~~~ aasvg
         +---------------+
   o     | Creation of a |
  -+- -->| YANG module   |
@@ -943,7 +943,7 @@ The following activity diagram summarizes the creation of a YANG module and its 
 
 The following Activity diagram summarizes the update of a YANG module and its associated ".sid" file.
 
-~~~~ goat
+~~~~ aasvg
         +---------------+
   o     | Update of the |
  -+- -->| YANG module   |
@@ -980,6 +980,7 @@ The following Activity diagram summarizes the update of a YANG module and its as
                   |              | no                  |
                   +--------------+---------------------+
                                  |
+                                 v
                                [DONE]
 
 ~~~~
