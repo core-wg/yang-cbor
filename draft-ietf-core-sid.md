@@ -883,59 +883,59 @@ generated for YANG modules and not for submodules.
 
 The following activity diagram summarizes the creation of a YANG module and its associated ".sid" file.
 
-~~~~ goat
-        +---------------+
-  o     | Creation of a |
- -+- -->| YANG module   |
- / \    +------+--------+
-               |
-               v
-        .-------------.
-       / Standardized  \     yes
-       \ YANG module ? /------------+
-        '-----+-------'             |
-              |  no                 |
-              v                     v
-       .-------------.      +---------------+
- +--> / Constrained   \ yes | SID range     |
- |    \ application ? /---->| registration  |<--------+
- |     '-----+-------'      +------+--------+         |
- |           |  no                 |                  |
- |           v                     v                  |
- |    +---------------+    +---------------+          |
- +----+ YANG module   |    | SID sub-range |          |
-      | update        |    | assignment    |<---------+
-      +---------------+    +-------+-------+          |
-                                   |                  |
-                                   v                  |
-                          +---------------+    +------+------+
-                          | ".sid" file   |    | Rework YANG |
-                          | generation    |    |    module   |
-                          +-------+-------+    +-------------+
-                                  |                   ^
-                                  v                   |
-                            .----------.  yes         |
-                           /  Work in   \ ------------+
-                           \  progress  /
-                            '----+-----'
-                                 |  no
-                                 v
-                         .-------------.       .-------------.
-                        /      RFC      \ no  /     Open      \ no
-                        \  publication? /---> \ specification?/---+
-                         '------+------'       '------+------'    |
-                           yes  |                     | yes       |
-                                |      .-------------'            |
-                                |     /                           |
-                                v    v                            v
-                       +---------------+               +---------------+
-                       |     IANA      |               | Third party   |
-                       | registration  |               | registration  |
-                       +-------+-------+               +----------+----+
-                               |                                  |
-                               +----------------------------------+
-                               v
-                             [DONE]
+~~~~ aasvg
+       +---------------+
+ o     | Creation of a |
+-+- -->| YANG module   |
+/ \    +------+--------+
+              |
+              v
+       .-------------.
+      / Standardized  \     yes
+      \ YANG module ? /------------+
+       '-----+-------'             |
+             |  no                 |
+             v                     v
+      .-------------.      +---------------+
++--> / Constrained   \ yes | SID range     |
+|    \ application ? /---->| registration  |<--------+
+|     '-----+-------'      +------+--------+         |
+|           |  no                 |                  |
+|           v                     v                  |
+|    +---------------+    +---------------+          |
++----+ YANG module   |    | SID sub-range |          |
+     | update        |    | assignment    |<---------+
+     +---------------+    +-------+-------+          |
+                                  |                  |
+                                  v                  |
+                         +---------------+    +------+------+
+                         | ".sid" file   |    | Rework YANG |
+                         | generation    |    |    module   |
+                         +-------+-------+    +-------------+
+                                 |                   ^
+                                 v                   |
+                           .----------.  yes         |
+                          /  Work in   \ ------------+
+                          \  progress  /
+                           '----+-----'
+                                |  no
+                                v
+                       .-------------.       .-------------.
+                      /      RFC      \ no  /     Open      \ no
+                      \  publication? /---> \ specification?/---+
+                       '------+------'       '------+------'    |
+                         yes  |                     | yes       |
+                              |      .-------------'            |
+                              |     /                           |
+                              v    v                            v
+                    +---------------+               +---------------+
+                    |     IANA      |               | Third party   |
+                    | registration  |               | registration  |
+                    +-------+-------+               +----------+----+
+                            |                                  |
+                            +----------------------------------+
+                            v
+                          [DONE]
 ~~~~
 {: #fig-sid-file-creation title='SID Lifecycle' align="left"}
 
@@ -943,7 +943,7 @@ The following activity diagram summarizes the creation of a YANG module and its 
 
 The following Activity diagram summarizes the update of a YANG module and its associated ".sid" file.
 
-~~~~ goat
+~~~~ aasvg
         +---------------+
   o     | Update of the |
  -+- -->| YANG module   |
@@ -980,6 +980,7 @@ The following Activity diagram summarizes the update of a YANG module and its as
                   |              | no                  |
                   +--------------+---------------------+
                                  |
+                                 v
                                [DONE]
 
 ~~~~
