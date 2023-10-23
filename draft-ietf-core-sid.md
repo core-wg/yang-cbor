@@ -287,8 +287,8 @@ This means that:
 
 These objectives are unattainable in full, because YANG names are not
 necessarily born with a SID assignment, and because entirely autonomous
-entities might decide to assign SIDs for the same YANG name like ships
-in the night.
+entities might decide to assign SIDs for the same YANG name without
+communicating ("like ships in the night").
 Note that as long as this autonomy is maintained, any single observer
 will have the impression that Objective 2 is attained.
 Only when entities that have acted autonomously start communicating, a
