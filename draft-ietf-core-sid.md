@@ -101,6 +101,11 @@ informative:
   I-D.ietf-core-yang-library: yang-library
   I-D.ietf-anima-constrained-voucher: constrained-voucher
   RFC9254: yang-cbor
+  yangcatalog:
+    -: yangcatalog
+    target: https://yangcatalog.org
+    title: YANG Catalog
+    date: false
   PYANG:
     target: https://github.com/mbj4668/pyang
     title: An extensible YANG validator and converter in python
@@ -236,7 +241,8 @@ Additional objectives include:
   communication process.
 
 While IANA ultimately maintains the registries that govern SIDs for
-IETF-defined modules, various support tools such as yangcatalog.org
+IETF-defined modules, various support tools (such as, at the time of
+writing, the YANG Catalog {{-yangcatalog}})
 need to provide the support to enable SID assignment and use for
 modules still in IETF development.  Developers of open-source or
 proprietary YANG modules also need to be able to serve as such
@@ -333,8 +339,8 @@ registration entity:
 
 module repository:
 : An entity that supplies modules to module users.  This can be
-  "official" (e.g., IANA for IETF modules) or unofficial (e.g.,
-  yangcatalog.org).  Not all repositories are in a position to act as
+  "official" (e.g., IANA for IETF modules) or unofficial (e.g., the
+  YANG Catalog {{-yangcatalog}}).  Not all repositories are in a position to act as
   a registry, i.e., as a permanent record for the information they
   supply; these repositories need to recur to module owners as a
   stable source.
