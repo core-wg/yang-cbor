@@ -946,8 +946,8 @@ Note that ".sid" file versions are specific to a YANG module revision. For each
 new YANG module or each new revision of an existing YANG module, the version
 number of the initial ".sid" file should either be 0 or should not be present.
 
-Note also that RPC or action "input" and "output" data nodes MUST always be
-assigned SID even if they don't contain data nodes. The reason for this
+Note also that RPC or action "input" and "output" YANG items MUST always be
+assigned SID even if they don't contain further YANG items. The reason for this
 requirement is that other modules can augment the given module and those SIDs
 might be necessary.
 
