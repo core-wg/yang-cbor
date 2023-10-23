@@ -94,12 +94,18 @@ informative:
   RFC8343:
   RFC8344:
   RFC8366:
+  RFC8407: evolve
   RFC7317:
   RFC8792: break
   I-D.ietf-core-comi: comi
   I-D.ietf-core-yang-library: yang-library
   I-D.ietf-anima-constrained-voucher: constrained-voucher
   RFC9254: yang-cbor
+  yangcatalog:
+    -: yangcatalog
+    target: https://yangcatalog.org
+    title: YANG Catalog
+    date: false
   PYANG:
     target: https://github.com/mbj4668/pyang
     title: An extensible YANG validator and converter in python
@@ -157,7 +163,7 @@ related to discovery such as Constrained YANG Module Library {{-yang-library}}.
 
 SIDs are globally unique integers.  A registration system is used in order to
 guarantee their uniqueness. SIDs are registered in blocks called "SID ranges".
-SIDs are assigned permanently.
+Once considered "stable", SIDs are assigned permanently.
 Items introduced by a new revision of a YANG
 module are added to the list of SIDs already assigned.
 This is discussed in more detail in {{objectives}}.
@@ -233,7 +239,8 @@ Additional objectives include:
   communication process.
 
 While IANA ultimately maintains the registries that govern SIDs for
-IETF-defined modules, various support tools such as yangcatalog.org
+IETF-defined modules, various support tools (such as, at the time of
+writing, the YANG Catalog {{-yangcatalog}})
 need to provide the support to enable SID assignment and use for
 modules still in IETF development.  Developers of open-source or
 proprietary YANG modules also need to be able to serve as such
@@ -278,8 +285,8 @@ This means that:
 
 These objectives are unattainable in full, because YANG names are not
 necessarily born with a SID assignment, and because entirely autonomous
-entities might decide to assign SIDs for the same YANG name like ships
-in the night.
+entities might decide to assign SIDs for the same YANG name without
+communicating ("like ships in the night").
 Note that as long as this autonomy is maintained, any single observer
 will have the impression that Objective 2 is attained.
 Only when entities that have acted autonomously start communicating, a
@@ -287,7 +294,7 @@ deviation is observed.
 
 ## Module evolution, versioning
 
-YANG modules evolve.
+YANG modules evolve (see {{Section 11 of -yang}}, {{Section 4.27 of -evolve}}).
 The technical objectives listed above are states in terms that are
 independent of this evolution.
 
@@ -330,8 +337,8 @@ registration entity:
 
 module repository:
 : An entity that supplies modules to module users.  This can be
-  "official" (e.g., IANA for IETF modules) or unofficial (e.g.,
-  yangcatalog.org).  Not all repositories are in a position to act as
+  "official" (e.g., IANA for IETF modules) or unofficial (e.g., the
+  YANG Catalog {{-yangcatalog}}).  Not all repositories are in a position to act as
   a registry, i.e., as a permanent record for the information they
   supply; these repositories need to recur to module owners as a
   stable source.
