@@ -314,7 +314,7 @@ SIDs are assigned permanently.
 Items introduced by a new revision of a YANG
 module are added to the list of SIDs already assigned.
 
-## Parties and Roles
+## Parties and Roles {#parties-roles}
 
 In the YANG development process, we can discern a number of parties
 that are concerned with a YANG module:
@@ -368,13 +368,14 @@ SID users:
 During the introduction of SIDs, the distribution of the SID roles to
 the existing parties for a YANG module will evolve.
 
-The desirable end state of this evolution is:
+The desirable end state of this evolution is shown in {{roles-parties}}.
 
 | Role               | Party                                |
 | SID assigner       | module developer                     |
 | SID range registry | (as discussed in this specification) |
 | SID repository     | module repository                    |
 | SID user           | module user (naturally)              |
+{: #roles-parties title="Roles and Parties: Desired End State"}
 
 This grouping of roles and parties puts the module developer into a
 position where it can achieve the objectives laid out in this section
@@ -661,16 +662,46 @@ implementations needing stable SID values, early allocation as defined in
 
 ### Publication of the ".sid" file {#publink}
 
-For a YANG module approved for publication as an RFC,
-a ".sid" file SHOULD be included in the Internet-Draft as a source code block.
+During publication of an RFC, IANA contacts the designated expert team
+("the team"), who are responsible for delivering a final SID file for
+each module defined by the RFC.
+For a type-3 developer ({{parties-roles}}), the team
+creates a new SID file from each YANG module, see below.
+For a type-2 developer, the team first obtains the existing draft SID
+file from a stable reference in the approved draft; for a type-1
+developer, the team extracts the SID file from the approved draft.
 
-This ".sid" file is to be extracted by IANA/the expert reviewer and
-put into the YANG SID Registry ({{ietf-sid-registry}}) along with the
-YANG module.
+The team uses a tool to generate a final SID file from each YANG
+module; the final SID file has all SID assignments set to "stable" and
+the SID file status set to "published".
+A published ".sid" file MUST NOT contain SID assignments with an
+unstable status.
 
-The ".sid" file MUST NOT be published as part of the RFC: the IANA Registry is authoritative and a link is to be inserted in the RFC.
+For the cases other than type-3, the team feeds the existing draft SID
+file as an input to the tool so that the changes resulting from
+re-generation are minimal.
+In any case, the team checks the generated file, including for
+validity as a SID file, for consistency with the SID range
+allocations, for full coverage of the YANG items in YANG module, and
+for the best achievable consistency with the existing draft SID file.
 
-A published ".sid" file MUST NOT contain schema-node allocations with an unstable status.
+The designated experts then give the SID file to IANA to publish into
+the YANG SID Registry ({{ietf-sid-registry}}) along with the YANG
+module.
+
+The ".sid" file MUST NOT be published as part of the RFC: the IANA
+Registry is authoritative and a link to it is to be inserted in the RFC.
+(Note that the present RFC is an exception to this rule as the SID
+file also serves as an example for exposition.)
+RFCs that need SIDs assigned to their new modules for use in the text
+of the document, e.g., for examples, need to alert the RFC editor in
+the draft text that this is the case.
+Such RFCs cannot be produced by type-3 developers:
+the SIDs used in the text need to be assigned in the existing draft
+SID file, and the designated expert team needs to check that the
+assignments in the final SID file are consistent with the usage in the
+RFC text or that the approved draft test is changed appropriately.
+
 
 ### Initial contents of the registry {#ietf-iana-sid-range-initial-contents}
 
@@ -751,7 +782,8 @@ draft as an RFC.
 
 During the early use of SIDs, many existing, previously published YANG modules
 will not have SID allocations.  For an allocation to be useful the included
-YANG modules may also need to have SID allocations made.
+YANG modules may also need to have SID allocations made, in a process
+that will generally analogous to that in {{publink}} for the type-3 case.
 
 The Expert Reviewer who performs the (Early) Allocation analysis will need to
 go through the list of included YANG modules and perform SID allocations for
@@ -759,11 +791,7 @@ those modules as well.
 
 * If the document is a published RFC, then the allocation of SIDs for its
   referenced YANG modules is permanent.  The Expert Reviewer provides the
-  generated ".sid" file to IANA for registration.  This process may be
-  time-consuming during a bootstrap period (there are over 100 YANG
-  modules to date,
-  none of which have SID allocations), but should quiet down once needed
-  entries are allocated.
+  generated ".sid" file to IANA for registration.
 * If the document is an unprocessed Internet-Draft adopted in a WG, then an
   Early Allocation is performed for this document as well. Early Allocations
   require approval by an IESG Area Director.  An early allocation which
