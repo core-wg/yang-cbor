@@ -1008,20 +1008,18 @@ The following activity diagram summarizes the creation of a YANG module and its 
                            '----+-----'
                                 |  no
                                 v
-                       .-------------.       .-------------.
-                      /      RFC      \ no  /     Open      \ no
-                      \  publication? /---> \ specification?/---+
-                       '------+------'       '------+------'    |
-                         yes  |                     | yes       |
-                              |      .-------------'            |
-                              |     /                           |
-                              v    v                            v
-                    +---------------+               +---------------+
-                    |     IANA      |               | Third party   |
-                    | registration  |               | registration  |
-                    +-------+-------+               +----------+----+
-                            |                                  |
-                            +----------------------------------+
+                       .-------------.
+                      /      RFC      \ no
+                      \  publication? /--------------+
+                       '------+------'               |
+                         yes  |                      |
+                              v                      v
+                    +---------------+        +---------------+
+                    |     IANA      |        | Third party   |
+                    | registration  |        | registration  |
+                    +-------+-------+        +-------+-------+
+                            |                        |
+                            +------------------------+
                             v
                           [DONE]
 ~~~~
