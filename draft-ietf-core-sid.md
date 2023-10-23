@@ -94,6 +94,7 @@ informative:
   RFC8343:
   RFC8344:
   RFC8366:
+  RFC8407: evolve
   RFC7317:
   RFC8792: break
   I-D.ietf-core-comi: comi
@@ -156,7 +157,7 @@ related to discovery such as Constrained YANG Module Library {{-yang-library}}.
 
 SIDs are globally unique integers.  A registration system is used in order to
 guarantee their uniqueness. SIDs are registered in blocks called "SID ranges".
-SIDs are assigned permanently.
+Once considered "stable", SIDs are assigned permanently.
 Items introduced by a new revision of a YANG
 module are added to the list of SIDs already assigned.
 This is discussed in more detail in {{objectives}}.
@@ -289,7 +290,7 @@ deviation is observed.
 
 ## Module evolution, versioning
 
-YANG modules evolve.
+YANG modules evolve (see {{Section 11 of -yang}}, {{Section 4.27 of -evolve}}).
 The technical objectives listed above are states in terms that are
 independent of this evolution.
 
