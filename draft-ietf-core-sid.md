@@ -106,6 +106,7 @@ informative:
     author:
       - name: Martin Bjorklund
     date: false
+  I-D.bormann-t2trg-deref-id: deref-id
 
 --- abstract
 
@@ -197,14 +198,11 @@ This specification also makes use of the following terminology:
 
 * item:  A schema node, an identity, a module, or a feature defined using the YANG modeling language.
 
-* schema-node path: A schema-node path is a string that identifies a schema node within the schema tree. A path consists of the list of consecutive schema node identifier(s) separated by slashes ("/"). Schema node identifier(s) are always listed from the top-level schema node up to the targeted schema node and could contain namespace information. (e.g. "/ietf-system:system-state/clock/current-datetime")
+* YANG Schema Item iDentifier (YANG SID or simply SID): Unsigned
+  integer used to identify different YANG items (cf. {{Section 3.2 of RFC9254}}).
 
-* Namespace-qualified form - a schema node identifier is prefixed with the name of the module in which the schema node is defined, separated from the schema node identifier by the colon character (":").
-
-* YANG Schema Item iDentifier (YANG SID or simply SID): Unsigned integer used to identify different YANG items.
-
-<!-- TASK: as soon as YANG-CBOR is approved, make one round through -->
-<!-- the terminology and make sure YANG-CBOR and YANG-SID align. -->
+* YANG Name: Text string used to identify different YANG items
+  (cf. {{Section 3.3 of RFC9254}}).
 
 # Objectives
 
@@ -503,7 +501,7 @@ RFC Ed.: please update the date of the module and Copyright if needed and remove
 ~~~~ yang
 {::include code/ietf-sid-file.yang}
 ~~~~
-{: align="left" sourcecode-markers="true" sourcecode-name="ietf-sid-file@2023-03-01.yang" title="YANG module ietf-sid-file"}
+{: align="left" sourcecode-markers="true" sourcecode-name="ietf-sid-file@2023-10-23.yang" title="YANG module ietf-sid-file"}
 
 # Security Considerations
 
@@ -523,6 +521,8 @@ systems such as network management systems.  Such systems need to take
 extra care to make sure that they are only processing SID files from
 authoritative sources, as authoritative as the YANG modules that they
 are using.
+
+The privacy considerations in {{Section 6 of -deref-id}} apply.
 
 # IANA Considerations  {#IANA}
 
@@ -943,8 +943,8 @@ Note that ".sid" file versions are specific to a YANG module revision. For each
 new YANG module or each new revision of an existing YANG module, the version
 number of the initial ".sid" file should either be 0 or should not be present.
 
-Note also that RPC or action "input" and "output" data nodes MUST always be
-assigned SID even if they don't contain data nodes. The reason for this
+Note also that RPC or action "input" and "output" YANG items MUST always be
+assigned SID even if they don't contain further YANG items. The reason for this
 requirement is that other modules can augment the given module and those SIDs
 might be necessary.
 
@@ -1005,20 +1005,18 @@ The following activity diagram summarizes the creation of a YANG module and its 
                            '----+-----'
                                 |  no
                                 v
-                       .-------------.       .-------------.
-                      /      RFC      \ no  /     Open      \ no
-                      \  publication? /---> \ specification?/---+
-                       '------+------'       '------+------'    |
-                         yes  |                     | yes       |
-                              |      .-------------'            |
-                              |     /                           |
-                              v    v                            v
-                    +---------------+               +---------------+
-                    |     IANA      |               | Third party   |
-                    | registration  |               | registration  |
-                    +-------+-------+               +----------+----+
-                            |                                  |
-                            +----------------------------------+
+                       .-------------.
+                      /      RFC      \ no
+                      \  publication? /--------------+
+                       '------+------'               |
+                         yes  |                      |
+                              v                      v
+                    +---------------+        +---------------+
+                    |     IANA      |        | Third party   |
+                    | registration  |        | registration  |
+                    +-------+-------+        +-------+-------+
+                            |                        |
+                            +------------------------+
                             v
                           [DONE]
 ~~~~
@@ -1088,7 +1086,7 @@ second-level members as indicated with the angle brackets:
     "name": "<module-name>@<module-revision>.sid",
     "description":  ["<description>"],
     "content-schema": {
-      "module": "ietf-sid-file@2023-03-01"
+      "module": "ietf-sid-file@2023-10-23"
     },
     "content-data": {  <replace this object>
       "ietf-sid-file:sid-file" : {
