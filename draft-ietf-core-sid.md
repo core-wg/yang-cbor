@@ -198,14 +198,11 @@ This specification also makes use of the following terminology:
 
 * item:  A schema node, an identity, a module, or a feature defined using the YANG modeling language.
 
-* schema-node path: A schema-node path is a string that identifies a schema node within the schema tree. A path consists of the list of consecutive schema node identifier(s) separated by slashes ("/"). Schema node identifier(s) are always listed from the top-level schema node up to the targeted schema node and could contain namespace information. (e.g. "/ietf-system:system-state/clock/current-datetime")
+* YANG Schema Item iDentifier (YANG SID or simply SID): Unsigned
+  integer used to identify different YANG items (cf. {{Section 3.2 of RFC9254}}).
 
-* Namespace-qualified form - a schema node identifier is prefixed with the name of the module in which the schema node is defined, separated from the schema node identifier by the colon character (":").
-
-* YANG Schema Item iDentifier (YANG SID or simply SID): Unsigned integer used to identify different YANG items.
-
-<!-- TASK: as soon as YANG-CBOR is approved, make one round through -->
-<!-- the terminology and make sure YANG-CBOR and YANG-SID align. -->
+* YANG Name: Text string used to identify different YANG items
+  (cf. {{Section 3.3 of RFC9254}}).
 
 # Objectives
 
