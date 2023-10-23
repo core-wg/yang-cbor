@@ -17,6 +17,12 @@ pi:
   sortrefs: 'yes'
   compact: 'yes'
   subcompact: 'no'
+
+venue:
+  group: Constrained RESTful Environments
+  mail: core@ietf.org
+  github: core-wg/yang-cbor
+
 author:
 - role: editor
   ins: M. V. Veillette
@@ -125,8 +131,8 @@ To enable the implementation of these processes, this document also defines a fi
 [^status]
 
 [^status]:
-    The present version (–21) updates the `ietf-system.sid` example to
-    correctly provide SIDs for the RPCs in `ietf-system.yang`.
+    The present version (–22) addresses some designated expert and
+    IESG reviews.
 
 --- middle
 
