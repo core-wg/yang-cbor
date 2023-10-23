@@ -106,6 +106,7 @@ informative:
     author:
       - name: Martin Bjorklund
     date: false
+  I-D.bormann-t2trg-deref-id: deref-id
 
 --- abstract
 
@@ -523,6 +524,8 @@ systems such as network management systems.  Such systems need to take
 extra care to make sure that they are only processing SID files from
 authoritative sources, as authoritative as the YANG modules that they
 are using.
+
+The privacy considerations in {{Section 6 of -deref-id}} apply.
 
 # IANA Considerations  {#IANA}
 
