@@ -358,8 +358,8 @@ that the SID assignment process requires:
 
 {:vspace}
 SID assigner:
-: An entity that assigns SIDs for a module.  Objective 2 requires that
-  there is only one SID assigner for each module.  SID assigners
+: An entity that assigns SIDs for a module.  Objective 2 aims at
+  having only one SID assigner for each module.  SID assigners
   preferably stay the same over a module development process; however
   this specification provides SID files to ensure an organized handover.
 
