@@ -628,9 +628,9 @@ consensus needs to be obtained before allocating a new Mega-Range.
 
 The initial entry in this registry is allocated to IANA:
 
-| Entry Point | Size    | Allocation | Organization name | URL      |
-|-------------+---------+------------|-------------------|----------|
-| 0           | 1000000 | Public     | IANA              | iana.org |
+| Entry Point |    Size | Allocation | Organization name | URL              |
+|-------------|---------|------------|-------------------|------------------|
+|           0 | 1000000 | Public     | IANA              | https://iana.org |
 {: align="left"}
 
 ## Create a new IANA Registry: IETF YANG SID Range Registry (managed by IANA) {#ietf-iana-sid-range-allocation}
