@@ -596,6 +596,9 @@ An organization requesting to manage a YANG SID Range (and thus have an entry in
         * Public Ranges MUST include at least a reference to the YANG module and ".sid" files for that YANG SID Range (e.g., compare {{publink}} for the IETF YANG SID registry).
         * Private Ranges MUST be marked as "Private"
 * A Policy of allocation, which clearly identifies if the YANG SID Range allocations would be Private, Public or Both.
+* Technical capacity to provide or refer to ".sid" files in a way that
+  meets the security objective of data integrity for these files (see
+  also {{security-considerations}}).
 * Technical capacity to ensure the sustained operation of the registry for a period of at least 5 years. If Private Registrations are allowed, the period must be of at least 10 years.
 
 If a size of the allocation beyond 1 000 000 is desired, the
