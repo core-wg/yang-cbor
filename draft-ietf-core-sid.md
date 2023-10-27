@@ -358,8 +358,8 @@ that the SID assignment process requires:
 
 {:vspace}
 SID assigner:
-: An entity that assigns SIDs for a module.  Objective 2 requires that
-  there is only one SID assigner for each module.  SID assigners
+: An entity that assigns SIDs for a module.  Objective 2 aims at
+  having only one SID assigner for each module.  SID assigners
   preferably stay the same over a module development process; however
   this specification provides SID files to ensure an organized handover.
 
@@ -536,7 +536,8 @@ extra care to make sure that they are only processing SID files from
 authoritative sources, as authoritative as the YANG modules that they
 are using.
 
-The privacy considerations in {{Section 6 of -deref-id}} apply.
+The security and privacy considerations in {{Sections 5 and 6 of
+-deref-id}} apply.
 
 # IANA Considerations  {#IANA}
 
@@ -596,6 +597,9 @@ An organization requesting to manage a YANG SID Range (and thus have an entry in
         * Public Ranges MUST include at least a reference to the YANG module and ".sid" files for that YANG SID Range (e.g., compare {{publink}} for the IETF YANG SID registry).
         * Private Ranges MUST be marked as "Private"
 * A Policy of allocation, which clearly identifies if the YANG SID Range allocations would be Private, Public or Both.
+* Technical capacity to provide or refer to ".sid" files in a way that
+  meets the security objective of data integrity for these files (see
+  also {{security-considerations}}).
 * Technical capacity to ensure the sustained operation of the registry for a period of at least 5 years. If Private Registrations are allowed, the period must be of at least 10 years.
 
 If a size of the allocation beyond 1 000 000 is desired, the
@@ -624,9 +628,9 @@ consensus needs to be obtained before allocating a new Mega-Range.
 
 The initial entry in this registry is allocated to IANA:
 
-| Entry Point | Size    | Allocation | Organization name | URL      |
-|-------------+---------+------------|-------------------|----------|
-| 0           | 1000000 | Public     | IANA              | iana.org |
+| Entry Point |    Size | Allocation | Organization name | URL              |
+|-------------|---------|------------|-------------------|------------------|
+|           0 | 1000000 | Public     | IANA              | https://iana.org |
 {: align="left"}
 
 ## Create a new IANA Registry: IETF YANG SID Range Registry (managed by IANA) {#ietf-iana-sid-range-allocation}
