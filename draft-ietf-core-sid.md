@@ -310,7 +310,7 @@ desirable.  This is not only true for new modules, but also for
 emerging new revisions of existing stable modules.
 
 **Objective 3** (MUST):
-: the SID management system is independent from any module versioning.
+: the SID management system is independent of any module versioning.
 
 
 
@@ -474,14 +474,14 @@ well as (2) an "unpublished" SID file that also contains the unstable
 SID assignments.
 
 Registration of the ".sid" file associated to a YANG module is optional but
-recommended  <!-- sic. --> to promote interoperability between devices and to avoid duplicate
+recommended, <!-- sic. --> in order to promote interoperability between devices and to avoid duplicate
 allocation of SIDs to a single YANG module. Different registries might have
 different requirements for the registration and publication of the ".sid"
 files. For a diagram of one of the possibilities, please refer to the activity
 diagram on {{fig-sid-file-creation}} in {{sid-lifecycle-ex}}.
 
 Each time a YANG module or one of its imported module(s) or included
-sub-module(s) is updated, a new ".sid" file MAY be created if the new or
+submodule(s) is updated, a new ".sid" file MAY be created if the new or
 updated items will need SIDs. All the SIDs present in the previous version of
 the ".sid" file MUST be present in the new version as well. The creation of
 this new version of the ".sid" file SHOULD be performed using an automated
@@ -515,7 +515,7 @@ RFC Ed.: please update the date of the module and Copyright if needed and remove
 ~~~~ yang
 {::include code/ietf-sid-file.yang}
 ~~~~
-{: align="left" sourcecode-markers="true" sourcecode-name="ietf-sid-file@2023-10-23.yang" title="YANG module ietf-sid-file"}
+{: align="left" sourcecode-markers="true" sourcecode-name="ietf-sid-file@2023-10-27.yang" title="YANG module ietf-sid-file"}
 
 # Security Considerations
 
@@ -646,7 +646,7 @@ Each entry in this registry must include:
 
 ### Allocation policy {#ietf-iana-sid-range-allocation-policy}
 
-The first million SIDs assigned to IANA is sub-divided as follows:
+The first million SIDs assigned to IANA is subdivided as follows:
 
 * The range of 0 to 999 (size 1000) is subject to "IESG Approval" as defined in {{RFC8126}}; of these, SID value 0 has been reserved for implementations to internally signify the absence of a SID number and does not occur in interchange.
 * The range of 1000 to 59,999 (size 59,000) is designated for YANG modules defined in RFCs.
@@ -813,8 +813,8 @@ those modules as well.
   Early Allocation is performed for this document as well. Early Allocations
   require approval by an IESG Area Director.  An early allocation which
   requires additional allocations will list the other allocations in its
-  description, and will be cross-posted to the any other working group mailing
-  lists.
+  description, and will be cross-posted to the mailing lists of any
+  other working groups concerned.
 * A YANG module which references a module in a document which has not yet been
   adopted by any working group will be unable to perform an Early Allocation
   for that other document until it is adopted by a working group.  As described
@@ -1131,7 +1131,7 @@ second-level members as indicated with the angle brackets:
     "name": "<module-name>@<module-revision>.sid",
     "description":  ["<description>"],
     "content-schema": {
-      "module": "ietf-sid-file@2023-10-23"
+      "module": "ietf-sid-file@2023-10-27"
     },
     "content-data": {  <replace this object>
       "ietf-sid-file:sid-file" : {
