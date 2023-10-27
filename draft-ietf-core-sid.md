@@ -645,20 +645,21 @@ Each entry in this registry must include:
 The first million SIDs assigned to IANA is sub-divided as follows:
 
 * The range of 0 to 999 (size 1000) is subject to "IESG Approval" as defined in {{RFC8126}}; of these, SID value 0 has been reserved for implementations to internally signify the absence of a SID number and does not occur in interchange.
-* The range of 1000 to 59,999 (size 59,000) is designated for YANG modules defined in RFCs.
+* The ranges of 1000 to 59,999 (size 59,000) and 100,000 to 299,999 (size 200,000) are designated for YANG modules defined in RFCs.
     * The IANA policy for additions to this registry is either:
         * "Expert Review" {{RFC8126}} in case the ".sid" file comes from a YANG module from an existing RFC, or
         * "RFC Required" {{RFC8126}} otherwise.
     * The Expert MUST verify that the YANG module for which this allocation is made has an RFC (existing RFC) OR is on track to become RFC (early allocation with a request from the WG chairs as defined by {{BCP100}}).
 * The range of 60,000 to 99,999 (size 40,000) is reserved for experimental YANG modules. This range MUST NOT be used in operational deployments since these SIDs are not globally unique which limit their interoperability. The IANA policy for this range is "Experimental use" {{RFC8126}}.
-* The range of 100,000 to 999,999 (size 900,000) is "Reserved" as defined in {{RFC8126}}.
+* The range of 300,000 to 999,999 (size 900,000) is "Reserved" as defined in {{RFC8126}}.
 
 | Entry Point | Size    | IANA policy              |
 |-------------|---------|--------------------------|
 | 0           | 1,000   | IESG Approval            |
 | 1,000       | 59,000  | RFC Required             |
 | 60,000      | 40,000  | Experimental/Private use |
-| 100,000     | 900,000 | Reserved                 |
+| 100,000     | 200,000 | RFC Required             |
+| 300,000     | 700,000 | Reserved                 |
 {: align="left"}
 
 The size of the SID range allocated for a YANG module is recommended to be a multiple of 50 and to be at least 33% above the current number of YANG items. This headroom allows assignment within the same range of new YANG items introduced by subsequent revisions. The SID range size SHOULD NOT exceed 1000; a larger size may be requested by the authors if this recommendation is considered insufficient. It is important to note that an additional SID range can be allocated to an existing YANG module if the initial range is exhausted; this then just leads to slightly less efficient representation.
