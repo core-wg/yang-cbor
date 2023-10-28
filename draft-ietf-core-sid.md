@@ -131,8 +131,9 @@ To enable the implementation of these processes, this document also defines a fi
 [^status]
 
 [^status]:
-    The present version (–22) addresses some designated expert and
-    IESG reviews.
+    The present version (–23) addresses much of the IESG reviews.
+    It is intended to serve as a stable basis for the remaining
+    discussions with IANA and IESG about the registration process.
 
 --- middle
 
