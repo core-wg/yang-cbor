@@ -83,7 +83,7 @@ contributor:
 normative:
   RFC3688:
   RFC6991:
-  BCP100:
+  BCP100: RFC7120
   RFC7950: yang
   RFC7951: yang-json
   RFC8040: rc
@@ -673,8 +673,8 @@ point to the RFC that the YANG module is defined in.
 
 In case a SID range is required before publishing the RFC due to
 implementations needing stable SID values, early allocation as defined in
-{{BCP100}} can be employed for the "RFC Required" range (Section 2 of
-{{BCP100}}). <!-- XXX xml2rfc bug-->
+{{BCP100}} can be employed for the "RFC Required" range ({{Section 2 of
+BCP100}}).
 
 
 ### Publication of the ".sid" file {#publink}
@@ -830,12 +830,12 @@ A previously SID-allocated YANG module which changes its references to include
 a YANG module for which there is no SID allocation needs to repeat the Early
 Allocation process.
 
-Early Allocations are made with a one-year period, after which they
-need to be renewed or will expire.
+{{BCP100}} defines a time limit for the validity of Early Allocations,
+after which they expire unless they are renewed.  {{BCP100}} also says:
 
-{{BCP100}} also says:
-
-    Note that if a document is submitted for review to the IESG and at
+{:quote cite="https://www.rfc-editor.org/rfc/rfc7120.html#section-3.3"
+quotedfrom="RFC7120 (BCP100), Section 3.3"}
+>   Note that if a document is submitted for review to the IESG and at
     the time of submission some early allocations are valid (not
     expired), these allocations should not be expired while the document
     is under IESG consideration or waiting in the RFC Editor's queue
