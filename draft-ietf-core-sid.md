@@ -927,8 +927,8 @@ registry, where TBD1 comes from the "IETF Review" 256-999 range.
 | application/yang-sid+json | -              | TBD1 | RFC XXXX  |
 {: align="left" title="SID File Content-format Registration"}
 
-// RFC Ed.: please replace TBDx with assigned IDs, remove the
-requested ranges, and remove this note.\\
+// RFC Ed.: please replace TBD1 with the assigned ID, remove the
+requested range, and remove this note.\\
 // RFC Ed.: please replace RFC XXXX with this RFC number and remove this note.
 
 
