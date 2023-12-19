@@ -537,8 +537,14 @@ extra care to make sure that they are only processing SID files from
 authoritative sources, as authoritative as the YANG modules that they
 are using.
 
-The security and privacy considerations in {{Sections 5 and 6 of
--deref-id}} apply.
+SID files are identified with and can employ _dereferenceable
+identifiers_, i.e., identifiers that could lead implementations in
+certain situations to automatically perform a remote access the target
+of which is indicated at least partially by those identifiers.
+This can give an attacker information from and/or control over such
+accesses, which can have security and privacy implications.
+Please also see {{Sections 5 and 6 of -deref-id}}
+for further considerations that may be applicable.
 
 # IANA Considerations  {#IANA}
 
