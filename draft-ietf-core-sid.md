@@ -703,8 +703,13 @@ A published ".sid" file MUST NOT contain SID assignments with an
 unstable status.
 
 For the cases other than type-3 (SID-oblivious), the team feeds the existing draft SID
-file as an input to the tool so that the changes resulting from
+file as an input ("reference SID file") to the tool so that the changes resulting from
 re-generation are minimal.
+For YANG modules that are revisions of previously published modules,
+any existing published SID file needs to serve as reference SID file
+for the tool, either during generation of the revised draft (type-1,
+type-2) or during generation of the final SID file (type-3).
+
 In any case, the team checks the generated file, including for
 validity as a SID file, for consistency with the SID range
 allocations, for full coverage of the YANG items in YANG module, and
