@@ -580,8 +580,8 @@ Each entry in this registry must include:
 * The size of the registered SID block.
   The size SHOULD be one million (1 000 000) SIDs,
   it MAY exceptionally be a multiple of 1 000 000.
+* The policy of SID range allocations: Public, Private or Both.
 * The contact information of the requesting organization including:
-  * The policy of SID range allocations: Public, Private or Both.
   * Organization name
   * URL
 
@@ -758,8 +758,8 @@ record the allocation of SIDs for individual YANG module items.
 Each entry in this registry must include:
 
 * The YANG module name. This module name must be present in the "Name" column of the "YANG Module Names" registry.
-* A link to the associated ".yang" file.  This file link must be present in the "File" column of the "YANG Module Names" registry.
-* The link to the ".sid" file which defines the allocation. The ".sid" file is stored by IANA.
+* A URI for the associated ".yang" file.  This file link must be present in the "File" column of the "YANG Module Names" registry.
+* The URI for the ".sid" file which defines the allocation. The ".sid" file is stored by IANA.
 * The number of actually allocated SIDs in the ".sid" file.
 
 ### Allocation policy
