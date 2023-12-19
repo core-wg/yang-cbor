@@ -690,10 +690,10 @@ BCP100}}).
 During publication of an RFC, IANA contacts the designated expert team
 ("the team"), who are responsible for delivering a final SID file for
 each module defined by the RFC.
-For a type-3 developer ({{parties-roles}}), the team
+For a type-3 developer (SID-oblivious, see {{parties-roles}}), the team
 creates a new SID file from each YANG module, see below.
-For a type-2 developer, the team first obtains the existing draft SID
-file from a stable reference in the approved draft; for a type-1
+For a type-2 (SID-aware) developer, the team first obtains the existing draft SID
+file from a stable reference in the approved draft; for a type-1 (SID-guiding)
 developer, the team extracts the SID file from the approved draft.
 
 The team uses a tool to generate a final SID file from each YANG
@@ -702,7 +702,7 @@ the SID file status set to "published".
 A published ".sid" file MUST NOT contain SID assignments with an
 unstable status.
 
-For the cases other than type-3, the team feeds the existing draft SID
+For the cases other than type-3 (SID-oblivious), the team feeds the existing draft SID
 file as an input to the tool so that the changes resulting from
 re-generation are minimal.
 In any case, the team checks the generated file, including for
@@ -721,7 +721,7 @@ file also serves as an example for exposition.)
 RFCs that need SIDs assigned to their new modules for use in the text
 of the document, e.g., for examples, need to alert the RFC editor in
 the draft text that this is the case.
-Such RFCs cannot be produced by type-3 developers:
+Such RFCs cannot be produced by type-3 (SID-oblivious) developers:
 the SIDs used in the text need to be assigned in the existing draft
 SID file, and the designated expert team needs to check that the
 assignments in the final SID file are consistent with the usage in the
@@ -808,7 +808,7 @@ draft as an RFC.
 During the early use of SIDs, many existing, previously published YANG modules
 will not have SID allocations.  For an allocation to be useful the included
 YANG modules may also need to have SID allocations made, in a process
-that will generally analogous to that in {{publink}} for the type-3 case.
+that will generally analogous to that in {{publink}} for the type-3 (SID-oblivious) case.
 
 The Expert Reviewer who performs the (Early) Allocation analysis will need to
 go through the list of included YANG modules and perform SID allocations for
