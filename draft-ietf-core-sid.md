@@ -89,6 +89,7 @@ normative:
   RFC8040: rc
   RFC8259: json
   RFC8791: sx
+  RFC8792: break
 informative:
   RFC6020:
   RFC6241:
@@ -102,7 +103,6 @@ informative:
   RFC8366:
   RFC8407: evolve
   RFC7317:
-  RFC8792: break
   I-D.ietf-core-comi: comi
   I-D.ietf-core-yang-library: yang-library
   I-D.ietf-anima-constrained-voucher: constrained-voucher
