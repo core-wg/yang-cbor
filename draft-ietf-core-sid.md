@@ -1153,7 +1153,7 @@ second-level members as indicated with the angle brackets:
 # Acknowledgments
 {: numbered="false"}
 
-The authors would like to thank {{{Andy Bierman}}}, {{{Michael Richardson}}},
+The authors would like to thank {{{Andy Bierman}}},
 {{{Abhinav Somaraju}}}, {{{Peter van der Stok}}}, {{{Laurent Toutain}}} and
 {{{Randy Turner}}} for their help during the development of this document and
 their useful comments during the review process.
