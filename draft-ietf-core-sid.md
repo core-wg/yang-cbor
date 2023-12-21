@@ -537,8 +537,14 @@ extra care to make sure that they are only processing SID files from
 authoritative sources, as authoritative as the YANG modules that they
 are using.
 
-The security and privacy considerations in {{Sections 5 and 6 of
--deref-id}} apply.
+SID files are identified with and can employ _dereferenceable
+identifiers_, i.e., identifiers that could lead implementations in
+certain situations to automatically perform a remote access the target
+of which is indicated at least partially by those identifiers.
+This can give an attacker information from and/or control over such
+accesses, which can have security and privacy implications.
+Please also see {{Sections 5 and 6 of -deref-id}}
+for further considerations that may be applicable.
 
 # IANA Considerations  {#IANA}
 
@@ -684,10 +690,10 @@ BCP100}}).
 During publication of an RFC, IANA contacts the designated expert team
 ("the team"), who are responsible for delivering a final SID file for
 each module defined by the RFC.
-For a type-3 developer ({{parties-roles}}), the team
+For a type-3 developer (SID-oblivious, see {{parties-roles}}), the team
 creates a new SID file from each YANG module, see below.
-For a type-2 developer, the team first obtains the existing draft SID
-file from a stable reference in the approved draft; for a type-1
+For a type-2 (SID-aware) developer, the team first obtains the existing draft SID
+file from a stable reference in the approved draft; for a type-1 (SID-guiding)
 developer, the team extracts the SID file from the approved draft.
 
 The team uses a tool to generate a final SID file from each YANG
@@ -696,9 +702,14 @@ the SID file status set to "published".
 A published ".sid" file MUST NOT contain SID assignments with an
 unstable status.
 
-For the cases other than type-3, the team feeds the existing draft SID
-file as an input to the tool so that the changes resulting from
+For the cases other than type-3 (SID-oblivious), the team feeds the existing draft SID
+file as an input ("reference SID file") to the tool so that the changes resulting from
 re-generation are minimal.
+For YANG modules that are revisions of previously published modules,
+any existing published SID file needs to serve as reference SID file
+for the tool, either during generation of the revised draft (type-1,
+type-2) or during generation of the final SID file (type-3).
+
 In any case, the team checks the generated file, including for
 validity as a SID file, for consistency with the SID range
 allocations, for full coverage of the YANG items in YANG module, and
@@ -715,7 +726,7 @@ file also serves as an example for exposition.)
 RFCs that need SIDs assigned to their new modules for use in the text
 of the document, e.g., for examples, need to alert the RFC editor in
 the draft text that this is the case.
-Such RFCs cannot be produced by type-3 developers:
+Such RFCs cannot be produced by type-3 (SID-oblivious) developers:
 the SIDs used in the text need to be assigned in the existing draft
 SID file, and the designated expert team needs to check that the
 assignments in the final SID file are consistent with the usage in the
@@ -802,7 +813,7 @@ draft as an RFC.
 During the early use of SIDs, many existing, previously published YANG modules
 will not have SID allocations.  For an allocation to be useful the included
 YANG modules may also need to have SID allocations made, in a process
-that will generally analogous to that in {{publink}} for the type-3 case.
+that will generally analogous to that in {{publink}} for the type-3 (SID-oblivious) case.
 
 The Expert Reviewer who performs the (Early) Allocation analysis will need to
 go through the list of included YANG modules and perform SID allocations for
