@@ -794,8 +794,9 @@ The allocation policy is Expert review. The Expert MUST ensure that the followin
 ### Recursive Allocation of YANG SID Range at Document Adoption {#recursive-allocation-at-adoption}
 
 Due to the difficulty in changing SID values during IETF document processing,
-it is expected that most documents will ask for SID allocations using Early
-Allocations {{BCP100}}. The details of the Early Allocation should be included
+it is expected that most documents will ask for SID range allocations using Early
+Allocations {{BCP100}}. The details of the Early Allocation to be
+requested, including the timeline envisioned, should be included
 in any Working Group Adoption call. Prior to Working Group Adoption, an internet
 draft author can use the experimental SID range (as per
 {{ietf-iana-sid-range-allocation-policy}}) for their SIDs allocations or
