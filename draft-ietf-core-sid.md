@@ -36,15 +36,15 @@ author:
   phone: "+14503750556"
   email: michel.veillette@trilliant.com
 - role: editor
-  ins: A. P. Pelov
+  ins: A. Pelov
   name: Alexander Pelov
-  org: Acklio
-  street: 1137A avenue des Champs Blancs
+  org: IMT Atlantique 
+  street: 2 rue de la Châtaigneraie 
   code: '35510'
   city: Cesson-Sevigne
   region: Bretagne
   country: France
-  email: a@ackl.io
+  email: alexander.pelov@imt-atlantique.fr
 - role: editor
   name: Ivaylo Petrov
   org: Google Switzerland GmbH
@@ -1153,7 +1153,7 @@ second-level members as indicated with the angle brackets:
 # Acknowledgments
 {: numbered="false"}
 
-The authors would like to thank {{{Andy Bierman}}}, {{{Michael Richardson}}},
+The authors would like to thank {{{Andy Bierman}}},
 {{{Abhinav Somaraju}}}, {{{Peter van der Stok}}}, {{{Laurent Toutain}}} and
 {{{Randy Turner}}} for their help during the development of this document and
 their useful comments during the review process.
