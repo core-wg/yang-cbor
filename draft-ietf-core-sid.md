@@ -126,9 +126,7 @@ To enable the implementation of these processes, this document also defines a fi
 [^status]
 
 [^status]:
-    The present version (–23) addresses much of the IESG reviews.
-    It is intended to serve as a stable basis for the remaining
-    discussions with IANA and IESG about the registration process.
+    The present version (–24) is intended to address the remaining IESG comments.
 
 --- middle
 
@@ -1165,4 +1163,5 @@ The authors would like to thank {{{Andy Bierman}}},
 their useful comments during the review process.
 Special thanks go to the IESG members who supplied very useful
 comments during the IESG processing phase, in particular to
-{{{Benjamin Kaduk}}} and {{{Rob Wilton}}}.
+{{{Benjamin Kaduk}}} and {{{Rob Wilton}}}, and to {{{Francesca Palombini}}} as
+responsible AD.
