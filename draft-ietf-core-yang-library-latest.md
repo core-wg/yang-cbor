@@ -405,12 +405,11 @@ module ietf-constrained-yang-library {
       leaf revision {
         type union {
           type revision-identifier;
-          type string {
-            length 0;
-          }
+          type empty;
         }
         description
-          "The YANG module revision date.";
+          "The YANG module revision date. If the type is empty,
+           module with no revision statement is being identified";
       }
       leaf namespace {
         type inet:uri;
