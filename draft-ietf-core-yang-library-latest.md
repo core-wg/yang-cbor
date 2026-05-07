@@ -383,6 +383,13 @@ module ietf-constrained-yang-library {
       }
 
       uses implementation-parameters;
+
+      leaf sid-file-version {
+        type sid:sid-file-version-identifier; 
+        description
+          "Version of the '.sid' file in active use by the server
+           for given module."
+      }
     }
     list import-only-module {
       key "identifier revision";
