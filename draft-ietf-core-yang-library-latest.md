@@ -533,6 +533,16 @@ module ietf-constrained-yang-library {
          the 'yang-library' tree, except 'yang-library/checksum',
          has changed.";
     }
+
+    leaf unconstrained-library {
+      type inet:uri;
+      description
+        "To minimalize the need of populating the 'location' URI
+         list referencing YANG module and submodule resources,
+         the implementation can instantiate just this leaf with the 
+         resource URI to the YANG Library as defined in RFC8525";
+      reference "RFC8525: YANG Library";
+    }
   }
 
   /*
