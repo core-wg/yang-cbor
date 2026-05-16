@@ -38,8 +38,8 @@ author:
 - role: editor
   ins: A. Pelov
   name: Alexander Pelov
-  org: IMT Atlantique 
-  street: 2 rue de la Châtaigneraie 
+  org: IMT Atlantique
+  street: 2 rue de la Châtaigneraie
   code: '35510'
   city: Cesson-Sevigne
   region: Bretagne

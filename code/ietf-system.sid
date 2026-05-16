@@ -2,6 +2,7 @@
   "ietf-sid-file:sid-file": {
     "module-name": "ietf-system",
     "module-revision": "2014-08-06",
+    "sid-file-version": "1",
     "description": "Example sid file",
     "dependency-revision": [
       {
@@ -407,6 +408,46 @@
         "namespace": "data",
         "identifier": "/ietf-system:system/radius/server/udp/shared-secret",
         "sid": "1774"
+      },
+      {
+        "namespace": "data",
+        "identifier": "/ietf-system:set-current-datetime/output",
+        "status": "unstable",
+        "sid": "1716"
+      },
+      {
+        "namespace": "data",
+        "identifier": "/ietf-system:set-current-datetime/input",
+        "sid": "1775"
+      },
+      {
+        "namespace": "data",
+        "identifier": "/ietf-system:set-current-datetime/input/current-datetime",
+        "sid": "1776"
+      },
+      {
+        "namespace": "data",
+        "identifier": "/ietf-system:system-restart/input",
+        "status": "unstable",
+        "sid": "1777"
+      },
+      {
+        "namespace": "data",
+        "identifier": "/ietf-system:system-restart/output",
+        "status": "unstable",
+        "sid": "1778"
+      },
+      {
+        "namespace": "data",
+        "identifier": "/ietf-system:system-shutdown/input",
+        "status": "unstable",
+        "sid": "1779"
+      },
+      {
+        "namespace": "data",
+        "identifier": "/ietf-system:system-shutdown/output",
+        "status": "unstable",
+        "sid": "1780"
       }
     ]
   }
