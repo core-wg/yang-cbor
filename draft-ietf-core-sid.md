@@ -182,7 +182,7 @@ YANG modules created by other parties allocate SID ranges using the IANA allocat
 
 Among other uses, YANG SIDs are particularly useful to obtain a
 compact encoding for YANG-CBOR {{-yang-cbor}}.
-At the time of writing, a tool for automated ".sid" file generation is
+At the time of writing, a tool for automated ".sids" file generation is
 available as part of the open-source project PYANG {{PYANG}}.
 
 ## Terminology and Notation
@@ -433,7 +433,7 @@ This specification does not further discuss how mediating entities
 such as designated SID assigners or SID repositories could operate;
 instead, it supplies objectives for their operation.
 
-# ".sid" file lifecycle  {#sid-lifecycle}
+# ".sids" file lifecycle  {#sid-lifecycle}
 
 YANG is a language designed to model data accessed using one of the compatible
 protocols (e.g. NETCONF {{RFC6241}}, RESTCONF {{RFC8040}} and CORECONF {{-comi}}). A
@@ -447,7 +447,7 @@ RESTCONF {{RFC8040}} without the need to assign SIDs.
 As needed, authors of YANG modules can assign SIDs to their YANG modules. In
 order to do that, they should first obtain a SID range from a registry and use
 that range to assign or generate SIDs to items of their YANG module. The
-assignments can then be stored in a ".sid" file. For
+assignments can then be stored in a ".sids" file. For
 example on how this could be achieved, please refer to {{sid-lifecycle-ex}}.
 
 Items introduced by a new revision of a YANG module are added to the list of SIDs already assigned.
@@ -466,18 +466,18 @@ be made available by the tooling involved in that development: (1) a
 well as (2) an "unpublished" SID file that also contains the unstable
 SID assignments.
 
-Registration of the ".sid" file associated to a YANG module is optional but
+Registration of the ".sids" file associated to a YANG module is optional but
 recommended, <!-- sic. --> in order to promote interoperability between devices and to avoid duplicate
 allocation of SIDs to a single YANG module. Different registries might have
-different requirements for the registration and publication of the ".sid"
+different requirements for the registration and publication of the ".sids"
 files. For a diagram of one of the possibilities, please refer to the activity
 diagram on {{fig-sid-file-creation}} in {{sid-lifecycle-ex}}.
 
 Each time a YANG module or one of its imported module(s) or included
-submodule(s) is updated, a new ".sid" file MAY be created if the new or
+submodule(s) is updated, a new ".sids" file MAY be created if the new or
 updated items will need SIDs. All the SIDs present in the previous version of
-the ".sid" file MUST be present in the new version as well. The creation of
-this new version of the ".sid" file SHOULD be performed using an automated
+the ".sids" file MUST be present in the new version as well. The creation of
+this new version of the ".sids" file SHOULD be performed using an automated
 tool.
 
 If a new revision requires more SIDs than initially allocated, a new SID range
@@ -487,9 +487,9 @@ These extra SIDs are used for subsequent assignments.
 For an example of this update process, see activity diagram
 {{fig-sid-file-update}} in {{sid-lifecycle-ex}}.
 
-# ".sid" file format  {#sid-file-format}
+# ".sids" file format  {#sid-file-format}
 
-".sid" files are used to persist and publish SIDs assigned to the different
+".sids" files are used to persist and publish SIDs assigned to the different
 YANG items of a specific YANG module.
 
 It has the following structure:
@@ -555,7 +555,7 @@ Reference:    RFC XXXX
 
 // RFC Ed.: please replace XXXX with RFC number and remove this note
 
-## Register ".sid" File Format Module {#iana-module-registration}
+## Register ".sids File Format Module {#iana-module-registration}
 
 This document registers one YANG module in the "YANG Module Names" registry {{RFC6020}}:
 
@@ -593,10 +593,10 @@ An organization requesting to manage a YANG SID Range (and thus have an entry in
     * Entry Point of allocated YANG SID Range
     * Size of allocated YANG SID Range
     * Type: Public or Private
-        * Public Ranges MUST include at least a reference to the YANG module and ".sid" files for that YANG SID Range (e.g., compare {{publink}} for the IETF YANG SID registry).
+        * Public Ranges MUST include at least a reference to the YANG module and ".sids" files for that YANG SID Range (e.g., compare {{publink}} for the IETF YANG SID registry).
         * Private Ranges MUST be marked as "Private"
 * A Policy of allocation, which clearly identifies if the YANG SID Range allocations would be Private, Public or Both.
-* Technical capacity to provide or refer to ".sid" files in a way that
+* Technical capacity to provide or refer to ".sids" files in a way that
   meets the security objective of data integrity for these files (see
   also {{security-considerations}}).
 * Technical capacity to ensure the sustained operation of the registry for a period of at least 5 years. If Private Registrations are allowed, the period must be of at least 10 years.
@@ -650,7 +650,7 @@ The first million SIDs assigned to IANA is subdivided as follows:
 * The range of 0 to 999 (size 1000) is subject to "IESG Approval" as defined in {{RFC8126}}; of these, SID value 0 has been reserved for implementations to internally signify the absence of a SID number and does not occur in interchange.
 * The ranges of 1000 to 59,999 (size 59,000) and 100,000 to 299,999 (size 200,000) are designated for YANG modules defined in RFCs.
     * The IANA policy for additions to this registry is either:
-        * "Expert Review" {{RFC8126}} in case the ".sid" file comes from a YANG module from an existing RFC, or
+        * "Expert Review" {{RFC8126}} in case the ".sids" file comes from a YANG module from an existing RFC, or
         * "RFC Required" {{RFC8126}} otherwise.
     * The Expert MUST verify that the YANG module for which this allocation is made has an RFC (existing RFC) OR is on track to become RFC (early allocation with a request from the WG chairs as defined by {{BCP100}}).
 * The range of 60,000 to 99,999 (size 40,000) is reserved for experimental YANG modules. This range MUST NOT be used in operational deployments since these SIDs are not globally unique which limit their interoperability. The IANA policy for this range is "Experimental use" {{RFC8126}}.
@@ -677,7 +677,7 @@ implementations needing stable SID values, early allocation as defined in
 BCP100}}).
 
 
-### Publication of the ".sid" file {#publink}
+### Publication of the ".sids" file {#publink}
 
 During publication of an RFC, IANA contacts the designated expert team
 ("the team"), who are responsible for delivering a final SID file for
@@ -691,7 +691,7 @@ developer, the team extracts the SID file from the approved draft.
 The team uses a tool to generate a final SID file from each YANG
 module; the final SID file has all SID assignments set to "stable" and
 the SID file status set to "published".
-A published ".sid" file MUST NOT contain SID assignments with an
+A published ".sids" file MUST NOT contain SID assignments with an
 unstable status.
 
 For the cases other than type-3 (SID-oblivious), the team feeds the existing draft SID
@@ -711,7 +711,7 @@ The designated experts then give the SID file to IANA to publish into
 the YANG SID Registry ({{ietf-sid-registry}}) along with the YANG
 module.
 
-The ".sid" file MUST NOT be published as part of the RFC: the IANA
+The ".sids" file MUST NOT be published as part of the RFC: the IANA
 Registry is authoritative and a link to it is to be inserted in the RFC.
 (Note that the present RFC is an exception to this rule as the SID
 file also serves as an example for exposition.)
@@ -762,26 +762,26 @@ Each entry in this registry must include:
 
 * The YANG module name. This module name must be present in the "Name" column of the "YANG Module Names" registry.
 * A URI for the associated ".yang" file.  This file link must be present in the "File" column of the "YANG Module Names" registry.
-* The URI for the ".sid" file which defines the allocation. The ".sid" file is stored by IANA.
-* The number of actually allocated SIDs in the ".sid" file.
+* The URI for the ".sids" file which defines the allocation. The ".sids" file is stored by IANA.
+* The number of actually allocated SIDs in the ".sids" file.
 
 ### Allocation policy
 
 The allocation policy is Expert review. The Expert MUST ensure that the following conditions are met:
 
-* The ".sid" file has a valid structure:
-    * The ".sid" file MUST be a valid JSON file following the structure of the
+* The ".sids" file has a valid structure:
+    * The ".sids" file MUST be a valid JSON file following the structure of the
       module defined in RFCXXXX (RFC Ed: replace XXX with RFC number assigned
       to this draft).
-* The ".sid" file allocates individual SIDs ONLY in the YANG SID Ranges for this
+* The ".sids" file allocates individual SIDs ONLY in the YANG SID Ranges for this
   YANG module (as allocated in the IETF YANG SID Range Registry):
-    * All SIDs in this ".sid" file MUST be within the ranges allocated to this
+    * All SIDs in this ".sids" file MUST be within the ranges allocated to this
       YANG module in the "IETF YANG SID Range Registry".
-* If another ".sid" file has already allocated SIDs for this YANG module (e.g.
+* If another ".sids" file has already allocated SIDs for this YANG module (e.g.
   for older or newer versions of the YANG module), the YANG items are assigned
-  the same SIDs as in the other ".sid" file.
-* If there is an older version of the ".sid" file, all allocated SIDs from that
-  version are still present in the current version of the ".sid" file.
+  the same SIDs as in the other ".sids" file.
+* If there is an older version of the ".sids" file, all allocated SIDs from that
+  version are still present in the current version of the ".sids" file.
 
 ### Recursive Allocation of YANG SID Range at Document Adoption {#recursive-allocation-at-adoption}
 
@@ -796,10 +796,10 @@ other values that do not create ambiguity with other SID uses (for example
 they can use a range that comes from a non-IANA managed "YANG SID Mega-Range"
 registry).
 
-After Working Group Adoption, any modification of a ".sid" file is expected to be
+After Working Group Adoption, any modification of a ".sids" file is expected to be
 discussed on the mailing list of the appropriate Working Groups. Specific
 attention should be paid to implementers' opinion after Working Group Last Call
-if a SID value is to change its meaning. In all cases, a ".sid" file and the SIDs
+if a SID value is to change its meaning. In all cases, a ".sids" file and the SIDs
 associated with it are subject to change before the publication of an internet
 draft as an RFC.
 
@@ -814,7 +814,7 @@ those modules as well.
 
 * If the document is a published RFC, then the allocation of SIDs for its
   referenced YANG modules is permanent.  The Expert Reviewer provides the
-  generated ".sid" file to IANA for registration.
+  generated ".sids" file to IANA for registration.
 * If the document is an unprocessed Internet-Draft adopted in a WG, then an
   Early Allocation is performed for this document as well. Early Allocations
   require approval by an IESG Area Director.  An early allocation which
@@ -894,7 +894,9 @@ Fragment identifier considerations:
       fragment identifiers specified for "application/yang-sid+json" is
       as specified for "application/json".  (At publication of this
       document, there is no fragment identification syntax defined for
-      "application/json".)
+      "application/json".) Usage of .sid file extesion is discouraged
+      becuase it collides with older media type. The recommended
+      file name extension is .sids.
 
 Additional information:
 : <br>
@@ -902,7 +904,7 @@ Additional information:
   : N/A
 
   File extension(s):
-  : .sid
+  : .sid, .sids
 
   Macintosh file type code(s):
   : N/A
@@ -938,9 +940,9 @@ requested range, and remove this note.\\
 
 --- back
 
-# ".sid" file example  {#sid-file-example}
+# ".sids" file example  {#sid-file-example}
 
-The following ".sid" file (ietf-system@2014-08-06.sid) has been generated using the following yang modules:
+The following ".sids" file (ietf-system@2014-08-06.sids) has been generated using the following yang modules:
 
 * ietf-system@2014-08-06.yang (defined in {{RFC7317}})
 
@@ -958,9 +960,9 @@ some JSON strings that represent overly long identifiers.
 <!-- /^ *[^" ]+"/ -->
 
 ~~~~ yang-sid
-{::include-fold code/ietf-system.sid}
+{::include-fold code/ietf-system.sids}
 ~~~~
-{: #sid-example-pretty title="Example .sid file (ietf-system, with extra line-breaks)"}
+{: #sid-example-pretty title="Example .sids file (ietf-system, with extra line-breaks)"}
 
 # SID auto generation {#sid-auto-generation}
 
@@ -982,24 +984,24 @@ If the YANG data type changes in a new revision of a published module,
 such that the resulting CBOR encoding is changed, then implementations will be aided significantly if a new SID is assigned.
 Note that these decisions are generally at the discretion of the YANG module author, who should decide if the benefits of a manual intervention are worth the deviation from automatic assignment.
 
-In case of an update to an existing ".sid" file, an additional step is needed
-that increments the ".sid" file version number. If there was no version number
-in the previous version of the ".sid" file, 0 is assumed as the version number
-of the old version of the ".sid" file and the version number is 1 for the new
-".sid" file. Apart from that, changes of ".sid" files can also be automated using
+In case of an update to an existing ".sids" file, an additional step is needed
+that increments the ".sids" file version number. If there was no version number
+in the previous version of the ".sids" file, 0 is assumed as the version number
+of the old version of the ".sids" file and the version number is 1 for the new
+".sids" file. Apart from that, changes of ".sids" files can also be automated using
 the same method described above, only unassigned YÀNG items are processed at
-step #3. Already existing items in the ".sid" file should not be given new SIDs.
+step #3. Already existing items in the ".sids" file should not be given new SIDs.
 
-Note that ".sid" file versions are specific to a YANG module revision. For each
+Note that ".sids" file versions are specific to a YANG module revision. For each
 new YANG module or each new revision of an existing YANG module, the version
-number of the initial ".sid" file should either be 0 or should not be present.
+number of the initial ".sids" file should either be 0 or should not be present.
 
 Note also that RPC or action "input" and "output" YANG items MUST always be
 assigned SID even if they don't contain further YANG items. The reason for this
 requirement is that other modules can augment the given module and those SIDs
 might be necessary.
 
-# ".sid" file lifecycle {#sid-lifecycle-ex}
+# ".sids" file lifecycle {#sid-lifecycle-ex}
 
 Before assigning SIDs to their YANG modules, YANG module authors must acquire a
 SID range from a "YANG SID Range Registry". If the YANG module is part of an IETF
@@ -1008,16 +1010,16 @@ Registry" as defined in {{ietf-iana-sid-range-allocation}}. For the other YANG
 modules, the authors can acquire a SID range from any "YANG SID Range Registry" of
 their choice.
 
-Once the SID range is acquired, owners can use it to generate ".sid" file/s
+Once the SID range is acquired, owners can use it to generate ".sids" file/s
 for their YANG module/s.  It is recommended to leave some unallocated SIDs
-following the allocated range in each ".sid" file in order to allow better
-evolution of the YANG module in the future.  Generation of ".sid" files should
-be performed using an automated tool.  Note that ".sid" files can only be
+following the allocated range in each ".sids" file in order to allow better
+evolution of the YANG module in the future.  Generation of ".sids" files should
+be performed using an automated tool.  Note that ".sids" files can only be
 generated for YANG modules and not for submodules.
 
-## ".sid" File Creation
+## ".sids" File Creation
 
-The following activity diagram summarizes the creation of a YANG module and its associated ".sid" file.
+The following activity diagram summarizes the creation of a YANG module and its associated ".sids" file.
 
 ~~~~ aasvg
        +---------------+
@@ -1045,7 +1047,7 @@ The following activity diagram summarizes the creation of a YANG module and its 
                                   |                  |
                                   v                  |
                          +---------------+    +------+------+
-                         | ".sid" file   |    | Rework YANG |
+                         | ".sids" file  |    | Rework YANG |
                          | generation    |    |    module   |
                          +-------+-------+    +-------------+
                                  |                   ^
@@ -1073,9 +1075,9 @@ The following activity diagram summarizes the creation of a YANG module and its 
 ~~~~
 {: #fig-sid-file-creation title='SID Lifecycle' align="left"}
 
-## ".sid" File Update
+## ".sids" File Update
 
-The following Activity diagram summarizes the update of a YANG module and its associated ".sid" file.
+The following Activity diagram summarizes the update of a YANG module and its associated ".sids" file.
 
 ~~~~ aasvg
         +---------------+
@@ -1100,10 +1102,10 @@ The following Activity diagram summarizes the update of a YANG module and its as
                   |              |
                   |              v
                   |      +---------------+
-                  |      | ".sid" file   |
+                  |      | ".sids" file  |
                   |      | update based  |
                   |      | on previous   |
-                  |      | ".sid" file   |
+                  |      | ".sids" file  |
                   |      +-------+-------+
                   |              |
                   |              v
@@ -1118,7 +1120,7 @@ The following Activity diagram summarizes the update of a YANG module and its as
                                [DONE]
 
 ~~~~
-{: #fig-sid-file-update title="YANG and \".sid\" file update" align="left"}
+{: #fig-sid-file-update title="YANG and \".sids\" file update" align="left"}
 
 # Keeping a SID File in a YANG Instance Data file
 
@@ -1134,7 +1136,7 @@ second-level members as indicated with the angle brackets:
 ~~~ yang-instance-data
 {
   "ietf-yang-instance-data:instance-data-set": {
-    "name": "<module-name>@<module-revision>.sid",
+    "name": "<module-name>@<module-revision>.sids",
     "description":  ["<description>"],
     "content-schema": {
       "module": "ietf-sid-file@2023-10-27"
