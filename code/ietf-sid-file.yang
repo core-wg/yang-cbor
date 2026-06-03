@@ -97,18 +97,30 @@ module ietf-sid-file {
         '(/[a-zA-Z_][a-zA-Z0-9\-_.]*(:[a-zA-Z_][a-zA-Z0-9\-_.]*)?)*';
     }
     description
-      "A schema-node path is an absolute YANG schema node identifier
-      as defined by the YANG ABNF rule absolute-schema-nodeid,
-      except that module names are used instead of prefixes.
+      "A schema-node path identifier is a string that identifies a
+      node in the schema tree.  A schema node identifier consists of
+      a path of identifiers, separated by slashes ("/").  The first
+      identifier after the leading slash is any top-level extended
+      protocol node.  The leftmost top-level extened protocol node
+      name is always in the namespace-qualified form. Any subsequent
+      extended protocol node name is in the namespace-qualified form
+      if the node is defined in a module other than its parent node,
+	and the simple for is used otherwise.
 
-      This string additionally follows the following rules:
+      Extended procotol nodes are one of container, list, leaf,
+      leaf-list, rpc, action, input, output, notification,
+      descendants of rc:yang-data statements, and sx:structure
+      statement and it's descendants.
 
-       o  The leftmost (top-level) data node name is always in the
-          namespace-qualified form.
-       o  Any subsequent schema node name is in the
-          namespace-qualified form if the node is defined in a module
-          other than its parent node, and the simple form is used
-          otherwise. No predicates are allowed.";
+      The rc:yang-data refers to yang-data extension of YANG module
+      ietf-restconf, the sx:structure refers to structure extension
+      of YANG module ietf-yang-structure-ext.
+
+      Note that neither choice nor case schema nodes are extended
+      protocol nodes.
+
+      This definition is based on RFC 7950 absolute-schema-nodeid
+      ABNF rule.";
     reference
       "RFC 7950, The YANG 1.1 Data Modeling Language;
        Section 6.5: Schema Node Identifier;";
